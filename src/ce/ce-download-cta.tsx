@@ -2,6 +2,7 @@ import { actionButtonClassName } from "layout/action-button";
 import { mediumScreenQuery } from "layout/layout";
 import { css, cx } from "linaria";
 import React, { ReactNode } from "react";
+import { chromeDownloadHref, firefoxDownloadHref } from '../common/extension-download-hrefs';
 
 export function CommunityEditionDonwloadCTA({
   downloadButtons,
@@ -53,21 +54,21 @@ export const ceDownloadButtons: Record<
 > = {
   brave: (
     <CommunityEditionDownloadButton
-      href="https://chrome.google.com/webstore/detail/tally/eajafomhmkipbjmfmhebemolkcicgfmd"
+      href={chromeDownloadHref}
       text={<>Download for Brave</>}
       imageSrc={require("../ce/icon-browser-brave.svg")}
     />
   ),
   chrome: (
     <CommunityEditionDownloadButton
-      href="https://chrome.google.com/webstore/detail/tally/eajafomhmkipbjmfmhebemolkcicgfmd"
+      href={chromeDownloadHref}
       text={<>Download for Chrome</>}
       imageSrc={require("../ce/icon-browser-chrome.svg")}
     />
   ),
   firefox: (
     <CommunityEditionDownloadButton
-      href="https://addons.mozilla.org/en-US/firefox/addon/tally/"
+      href={firefoxDownloadHref}
       text={<>Download for Firefox</>}
       imageSrc={require("../ce/icon-browser-firefox.svg")}
     />

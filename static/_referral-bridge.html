@@ -1,0 +1,8 @@
+<script>
+  function post() {
+    window.tally.send("tally_setClaimReferrer", [localStorage.referrer]);
+  }
+
+  setTimeout(post, 200); // FIXME: ugly hack to run after window.tally is loaded.
+  window.addEventListener("storage", post); // Run if localStorage changes
+</script>

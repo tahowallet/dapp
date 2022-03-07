@@ -1,6 +1,7 @@
-import { green120, textLight } from "layout/colors";
+import { forestBackgroundCssFragment } from "layout/backgrounds";
+import { textLight } from "layout/colors";
 import { quincyRegularFontFamily } from "layout/fonts";
-import { mediumScreenQuery, largeScreenQuery } from "layout/layout";
+import { mediumScreenQuery } from "layout/layout";
 import { css } from "linaria";
 import React from "react";
 
@@ -11,16 +12,8 @@ export function ProductHero() {
         display: flex;
         flex-flow: column;
         padding: 2rem 0;
-        background: no-repeat bottom / max(100vw, 120rem) auto
-            url(${require("../home/forest-background.svg")}),
-          no-repeat top left / contain
-            linear-gradient(
-              to bottom,
-              rgb(255 255 255 / 0) 0,
-              rgb(255 255 255 / 0.12) 48rem,
-              ${green120} 80rem
-            );
-
+        ${forestBackgroundCssFragment}
+        
         ${mediumScreenQuery} {
           padding: 6rem 0 0;
         }

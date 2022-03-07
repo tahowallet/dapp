@@ -13,3 +13,6 @@ export const semanticError = "#D64045";
 
 export const green120 = "#001413";
 export const green80 = "#33514E";
+export const green95 = "#193330";
+
+export const gold20 = "#F6E8D7";
