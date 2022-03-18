@@ -47,7 +47,7 @@ export function ReferralContinueOnDesktop() {
           font: 14px / 1.33 ${segmentFontFamily};
         `}
       >
-        The Tally extension that you need to check if you are eligible and claim
+        The Tally Ho extension that you need to check if you are eligible and claim
         is only available on desktop browsers.
       </p>
     </div>

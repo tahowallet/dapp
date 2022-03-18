@@ -7,15 +7,15 @@ import {
   trophyGold,
 } from "layout/colors";
 import {
-  segmentFontFamily,
   fontSubTitleCssFragment,
   fontTitle32CssFragment,
   fontTitle50CssFragment,
+  segmentFontFamily,
 } from "layout/fonts";
+import { mediumScreenQuery } from "layout/layout";
 import { css } from "linaria";
 import React, { ReactNode } from "react";
 import { hasTally, ReferralCTA } from "referral/referral-cta";
-import { mediumScreenQuery } from "layout/layout";
 
 export function ReferralHowToClaim() {
   return (
@@ -37,7 +37,7 @@ export function ReferralHowToClaim() {
           color: ${textLight};
         `}
       >
-        How to check eligibility &amp; claim
+        How to claim DOGGO
       </h2>
       <div
         className={css`
@@ -57,53 +57,56 @@ export function ReferralHowToClaim() {
         >
           {hasTally ? (
             <Step
-              title="Open Tally"
+              title="Open Tally Ho!"
               imageSrc={require("./step-1-open.svg")}
               body={
                 <>
-                  Open Tally extension by clicking on browser icon or use the
-                  keyboard shortcut
+                  Click on the extension icon or use the shortcut bellow to to
+                  open Tally Ho!
                 </>
               }
             />
           ) : (
             <Step
-              title="Install Tally"
+              title="Install Tally Ho"
               imageSrc={require("./step-1-install.svg")}
               body={
                 <>
-                  Let&rsquo;s start by instaling the extension, you can find the
-                  button bellow
+                  We&rsquo;ve included a link bellow. This is the only way to
+                  see if you&rsquo;re eligible.
                 </>
               }
             />
           )}
           <Step
-            title="Add wallets"
+            title="Add your wallet"
             imageSrc={require("./step-2-add-wallet.svg")}
             body={
               <>
-                Add one or more of your existing wallets. Read-only wallets are
-                a good start to checking
+                Import any wallet you&rsquo;ve used with MetaMask Swaps or
+                popular DeFi dApps like Uniswap.
               </>
             }
           />
           <Step
-            title="Claim your TALLY!"
+            title="Claim your DOGGO!"
             imageSrc={require("./step-3-claim.svg")}
             body={
               <>
-                If you are part of the airdrop, your bonus code will be applied.
+                Your friend&rsquo;s referral code will be automatically applied
+                for a{" "}
+                <strong
+                  className={css`
+                    color: ${textGreen20};
+                  `}
+                >
+                  5% bonus 🙌
+                </strong>
               </>
             }
           />
         </ol>
         <ReferralCTA />
-        <div
-          className={css`
-            border-top: 1px dashed ${green80};
-          `}
-        />
       </div>
     </div>
   );
@@ -183,6 +186,7 @@ function Step({
           className={css`
             font: 18px / 26px ${segmentFontFamily};
             color: ${textGreen40};
+            padding: 0 0.75rem;
           `}
         >
           {body}

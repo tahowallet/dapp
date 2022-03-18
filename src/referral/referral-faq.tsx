@@ -24,7 +24,7 @@ const faqs: Array<{ question: ReactNode; answer: ReactNode }> = [
         <p>
           You can check an unlimited amount of addresses. Fastest way to do so
           is by adding them as read only and upgrading after if you see a claim
-          or would like to use Tally.
+          or would like to use Tally Ho.
         </p>
 
         <p>
@@ -35,19 +35,19 @@ const faqs: Array<{ question: ReactNode; answer: ReactNode }> = [
           </a>{" "}
           for more info on who&rsquo;s in the airdrop).
           <br />
-          Wallets created inside Tally are not part of the drop.
+          Wallets created inside Tally Ho are not part of the drop.
         </p>
       </>
     ),
   },
   { question: <>Who is part of the airdrop?</>, answer: <>TODO</> },
-  { question: <>How can i earn some Tally?</>, answer: <>TODO</> },
+  { question: <>How can i earn some DOGGO?</>, answer: <>TODO</> },
   {
     question: <>Bonus code was not applied, what can i do?</>,
     answer: <>TODO</>,
   },
   {
-    question: <>I created a wallet in Tally, can it be airdropped?</>,
+    question: <>I created a wallet in Tally Ho, can it be airdropped?</>,
     answer: <>TODO</>,
   },
   {
@@ -64,20 +64,18 @@ export function ReferralFaq() {
       className={css`
         width: 100%;
         max-width: 64rem;
-        margin: 0 auto -20vw;
+        margin: 0 auto;
         padding: 2rem 1rem;
 
         ${mediumScreenQuery} {
-          padding: 4rem 2rem;
+          padding: 2rem;
         }
       `}
     >
       <div
         className={css`
-          position: relative;
-          z-index: -1;
-          margin: -52rem 0;
-          padding: 52rem 0;
+          margin: -40rem 0;
+          padding: 40rem 0;
 
           ${mediumScreenQuery} {
             background: no-repeat top center / 40rem auto

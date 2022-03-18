@@ -1,5 +1,5 @@
 import { green120, hunterGreen, textGreen40, textLight } from "layout/colors";
-import { segmentFontFamily, fontTitle50CssFragment } from "layout/fonts";
+import { fontTitle50CssFragment, segmentFontFamily } from "layout/fonts";
 import { ghostButtonCssFragment } from "layout/ghost-button";
 import { mediumScreenQuery } from "layout/layout";
 import { css } from "linaria";
@@ -11,15 +11,19 @@ export function ReferralWhyTally() {
       className={css`
         display: flex;
         flex-flow: column;
-        padding: 0 3rem;
+        padding: 0 1.5rem;
         background: linear-gradient(180deg, ${green120} 25%, ${hunterGreen});
+
+        ${mediumScreenQuery} {
+          padding: 0 3rem;
+        }
       `}
     >
       <div
         className={css`
           display: flex;
           flex-flow: column-reverse;
-          gap: 1rem;
+          gap: 2rem;
           max-width: 64rem;
           margin: 4rem auto;
 
@@ -35,8 +39,12 @@ export function ReferralWhyTally() {
             margin: auto 0;
 
             & p {
-              font: 18px / 26px ${segmentFontFamily};
+              font: 14px / 24px ${segmentFontFamily};
               color: ${textGreen40};
+
+              ${mediumScreenQuery} {
+                font: 18px / 26px ${segmentFontFamily};
+              }
             }
           `}
         >
@@ -47,18 +55,14 @@ export function ReferralWhyTally() {
               color: ${textLight};
             `}
           >
-            Why Tally?
+            Say hello to Tally Ho!
           </h2>
           <p>
-            Tally was founded to blow open the doors of Web3 and bring the
-            community back into the value proposition of storing and
-            facilitating decentralized transactions.
+            Tally Ho! is the first community-owned wallet for web3. Unlike every
+            other wallet, Tally Ho! is owned by a DAO. That means it&rsquo;s
+            designed to enrich the web3 community—not corporate shareholders.
           </p>
-          <p>
-            When Metamask went private in August of 2020, Tally&rsquo;s
-            founder&rsquo;s realized that decentralization was under assault
-            from the very proponents of a more open and fair financial system.
-          </p>
+          <p>If you own DOGGO tokens, you&rsquo;re an owner.</p>
           <div
             className={css`
               text-align: center;
@@ -71,13 +75,13 @@ export function ReferralWhyTally() {
             <a
               className={css`
                 display: inline-block;
-                margin: 4rem 0;
+                margin: 2rem 0;
                 ${ghostButtonCssFragment}
               `}
               href="/"
               target="_blank"
             >
-              Visit the Tally website
+              Learn more
             </a>
           </div>
         </div>

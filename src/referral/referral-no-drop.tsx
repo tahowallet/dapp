@@ -1,17 +1,10 @@
+import { textGreen20, textGreen40, textLight, trophyGold } from "layout/colors";
 import {
-  green120,
-  textGreen20,
-  textGreen40,
-  textLight,
-  trophyGold,
-} from "layout/colors";
-import {
-  segmentFontFamily,
   fontSubTitleCssFragment,
   fontTitle36CssFragment,
   fontTitle50CssFragment,
+  segmentFontFamily,
 } from "layout/fonts";
-import { ghostButtonCssFragment } from "layout/ghost-button";
 import { mediumScreenQuery } from "layout/layout";
 import { css } from "linaria";
 import React, { ReactNode } from "react";
@@ -20,88 +13,116 @@ export function ReferralNoDrop() {
   return (
     <div
       className={css`
-        max-width: 60rem;
+        position: relative;
+        display: grid;
+        grid: auto-flow auto / auto;
+        max-width: 70rem;
         margin: 0 auto;
-        padding: 0 1rem;
+        padding: 2rem 1rem;
 
         ${mediumScreenQuery} {
-          padding: 0 2rem;
+          padding: 8rem 2rem 2rem;
+          grid: auto-flow auto / 1fr 1fr;
         }
       `}
     >
-      <h2
+      <img
+        width="575"
+        height="550"
         className={css`
-          margin: 0;
-          ${fontTitle50CssFragment}
-          color: ${textLight};
-          text-align: center;
-        `}
-      >
-        Don&rsquo;t have a drop
-      </h2>
-      <p
-        className={css`
-          ${fontSubTitleCssFragment}
-          text-align: center;
-          color: ${trophyGold};
-        `}
-      >
-        Don&rsquo;t worry, there are other ways to earn Tally
-      </p>
-      <ul
-        className={css`
-          display: grid;
-          grid: auto-flow auto / auto;
-          gap: 1rem;
-          padding: 0;
+          flex: 1;
+          min-width: 0;
+          width: 100%;
+          height: auto;
+          margin: auto;
 
           ${mediumScreenQuery} {
-            grid: auto / auto-flow 1fr;
+            grid-area: 2 / 2 / 3 / 3;
+          }
+        `}
+        src={require("./referral-no-drop-illo.svg")}
+      />
+      <div
+        className={css`
+          ${mediumScreenQuery} {
+            grid-area: 1 / 1 / 2 / 3;
           }
         `}
       >
-        <Item
-          title="Share bonus link"
-          body={
-            <>
-              You can share your bonus link to receive 5% bonus everytime
-              somebody claims Tally using your bonus link
-            </>
+        <h2
+          className={css`
+            margin: 0;
+            ${fontTitle50CssFragment}
+            color: ${textLight};
+            text-align: center;
+          `}
+        >
+          No DOGGO to claim?
+        </h2>
+        <p
+          className={css`
+            ${fontSubTitleCssFragment}
+            text-align: center;
+            color: ${trophyGold};
+            max-width: 36rem;
+            margin: 1rem auto;
+          `}
+        >
+          Don't worry! There are three ways to earn DOGGO. All from right inside
+          your Tally wallet:
+        </p>
+      </div>
+      <div
+        className={css`
+          display: flex;
+          flex-flow: column;
+
+          ${mediumScreenQuery} {
+            flex-flow: row-reverse;
           }
-          imageSrc={require("./referral-no-drop-item-1-share-link.svg")}
-          ctaHref="#TODO"
-          ctaLabel="Read more"
-        />
-        <Item
-          title="Earn with Vaults"
-          body={
-            <>
-              You can enter one of our Vaults and earn Tally tokens by doing so.
-              The longer you stay the more you make.
-            </>
-          }
-          imageSrc={require("./referral-no-drop-item-2-earn.svg")}
-          ctaHref="#TODO"
-          ctaLabel="Try it out"
-        />
-      </ul>
+        `}
+      >
+        <ul
+          className={css`
+            flex: 1;
+            margin: 0;
+            padding: 0;
+          `}
+        >
+          <Item
+            title="Earn"
+            body={
+              <>
+                Deposit your favorite DeFi tokens into Yearn strategies to earn
+                DOGGO.
+              </>
+            }
+          />
+          <Item
+            title="Swap rewards"
+            body={
+              <>
+                Earn rewards every time you swap tokens with Tally Ho! Rewards
+                are calculated and distributed every week.
+              </>
+            }
+          />
+          <Item
+            title="Refer friends"
+            body={
+              <>
+                Share Tally Ho! with a friend and if they&rsquo;re in the token
+                drop, you both get a 5% bonus.
+              </>
+            }
+          />
+        </ul>
+      </div>
     </div>
   );
 }
 
-function Item({
-  title,
-  body,
-  imageSrc,
-  ctaHref,
-  ctaLabel,
-}: {
-  title: ReactNode;
-  body: ReactNode;
-  imageSrc: string;
-  ctaHref: string;
-  ctaLabel: ReactNode;
-}) {
+function Item({ title, body }: { title: ReactNode; body: ReactNode }) {
   return (
     <li
       className={css`
@@ -110,70 +131,28 @@ function Item({
         display: flex;
         flex-flow: column;
         min-width: 0;
-        text-align: center;
+        margin: 2rem 0;
       `}
     >
-      <div
+      <h3
         className={css`
-          display: flex;
+          margin: 1rem 0;
+          ${fontTitle36CssFragment}
+          color: ${textGreen20};
+        `}
+      >
+        {title}
+      </h3>
+      <p
+        className={css`
           flex: 1;
-          flex-flow: column;
-          padding: 1.5rem 1.5rem 0;
-          background: linear-gradient(
-              to bottom,
-              rgba(51, 81, 78, 0.2) 8rem,
-              ${green120}
-            ),
-            ${green120};
-          box-shadow: 0px 16px 16px rgb(0 20 19 / 4%),
-            0px 6px 8px rgb(0 20 19 / 14%), 0px 2px 4px rgb(0 20 19 / 24%);
-          border-radius: 1rem;
-
-          ${mediumScreenQuery} {
-            padding: 2rem 2rem 0;
-          }
+          margin: 0;
+          font: 18px / 26px ${segmentFontFamily};
+          color: ${textGreen40};
         `}
       >
-        <h3
-          className={css`
-            margin: 1rem 0;
-            ${fontTitle36CssFragment}
-            color: ${textGreen20};
-          `}
-        >
-          {title}
-        </h3>
-        <p
-          className={css`
-            flex: 1;
-            font: 18px / 26px ${segmentFontFamily};
-            color: ${textGreen40};
-          `}
-        >
-          {body}
-        </p>
-        <img src={imageSrc} />
-      </div>
-      <div
-        className={css`
-          display: flex;
-          margin: 2rem 0;
-        `}
-      >
-        <a
-          className={css`
-            display: block;
-            align-self: center;
-            margin: 0 auto;
-
-            ${ghostButtonCssFragment}
-          `}
-          href={ctaHref}
-          target="_blank"
-        >
-          {ctaLabel}
-        </a>
-      </div>
+        {body}
+      </p>
     </li>
   );
 }

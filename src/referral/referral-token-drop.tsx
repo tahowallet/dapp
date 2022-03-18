@@ -1,16 +1,17 @@
 import {
+  green120,
   green80,
   semanticSuccess,
   textGreen40,
   textLight,
 } from "layout/colors";
 import {
-  segmentFontFamily,
+  fontTitle36CssFragment,
   fontTitle50CssFragment,
-  fontTitle58CssFragment,
+  segmentFontFamily,
 } from "layout/fonts";
 import { ghostButtonCssFragment } from "layout/ghost-button";
-import { mediumScreenQuery } from "layout/layout";
+import { mediumScreenQuery, largeScreenQuery } from "layout/layout";
 import { css } from "linaria";
 import React, { ReactNode } from "react";
 
@@ -18,14 +19,14 @@ export function ReferralTokenDrop() {
   return (
     <div
       className={css`
-        max-width: 48rem;
-        margin: 8rem auto;
-        padding: 0 1rem;
-        text-align: center;
+        background: no-repeat top right / min(160%, 60rem) auto
+            url(${require("./token-drop-background.svg")}),
+          ${green120};
 
         ${mediumScreenQuery} {
-          text-align: unset;
-          padding: 0 2rem;
+          background: no-repeat top / 80rem auto
+              url(${require("./token-drop-background.svg")}),
+            ${green120};
         }
       `}
     >
@@ -33,84 +34,91 @@ export function ReferralTokenDrop() {
         className={css`
           display: flex;
           flex-flow: column;
+          max-width: 60rem;
+          margin: 2rem auto 8rem;
+          padding: min(55%, 20rem) 1.5rem 0;
 
           ${mediumScreenQuery} {
-            flex-flow: row;
-            align-items: center;
+            text-align: unset;
+            padding: 6rem 2rem 0;
           }
         `}
       >
         <div
           className={css`
             display: flex;
-            flex: 1;
             flex-flow: column;
-            align-items: center;
+            margin: 0 auto;
 
             ${mediumScreenQuery} {
-              align-items: flex-start;
-            }
-          `}
-        >
-          <img
-            className={css`
-              margin: -2rem -2rem 2rem;
-              width: auto;
-              min-width: 0;
-              max-width: 60vw;
-              height: auto;
-            `}
-            width="322"
-            height="185"
-            src={require("./referral-token-drop-logo.svg")}
-          />
-          <h2
-            className={css`
               margin: 0;
-              ${fontTitle50CssFragment}
-              color: ${textLight};
-            `}
-          >
-            Token drop
-          </h2>
-          <p
-            className={css`
-              font: 18px / 26px ${segmentFontFamily};
-              color: ${textGreen40};
-            `}
-          >
-            We dropped 40,000,000 Tally tokens to 3,000,000 Defi users, that
-            used: **List of things that make you eligible.**
-            <br />
-            Only the first 250,000 users are eligible to claim.
-          </p>
-        </div>
-        <ul
-          className={css`
-            flex: 1;
-            padding: 0;
-            text-align: center;
-
-            ${mediumScreenQuery} {
-              text-align: right;
             }
           `}
         >
-          <Stat value="40,000,000" title="TALLY tokens" />
-          <Stat value="3,000,000" title="Users in token drop" />
-          <Stat value="250,000" title="Users that can claim" />
-        </ul>
+          <div
+            className={css`
+              display: flex;
+              flex: 1;
+              flex-flow: column;
+              align-items: center;
+              max-width: 30rem;
+
+              ${mediumScreenQuery} {
+                align-items: flex-start;
+              }
+            `}
+          >
+            <h2
+              className={css`
+                margin: 0;
+                ${fontTitle50CssFragment}
+                color: ${textLight};
+              `}
+            >
+              Token drop
+            </h2>
+            <p
+              className={css`
+                font: 14px / 24px ${segmentFontFamily};
+                color: ${textGreen40};
+
+                ${mediumScreenQuery} {
+                  font: 18px / 26px ${segmentFontFamily};
+                }
+              `}
+            >
+              We&rsquo;re launching DOGGO with the largest fair launch in
+              history. It&rsquo;s the only way to make sure the DAO stays
+              credibly neutral. Over 3 million Ethereum addresses are eligible
+              to claim DOGGO. If you&rsquo;ve used MetaMask Swaps or popular
+              DeFi apps like UniSwap, you&rsquo;re in the drop.
+              <br />
+              Act fast! While 3 million addresses have been distributed DOGGO,
+              only the first 250,000 will be able to claim.
+            </p>
+            <ul
+              className={css`
+                display: flex;
+                padding: 0;
+              `}
+            >
+              <Stat value="3 Million" title="Eligible addresses" />
+              <Stat value="250,000" title="Users can claim" />
+            </ul>
+
+            <a
+              className={css`
+                display: block;
+                margin: 1rem 0;
+                ${ghostButtonCssFragment}
+              `}
+              href="#TODO"
+            >
+              Who&rsquo;s in the token drop?
+            </a>
+          </div>
+        </div>
       </div>
-      <a
-        className={css`
-          display: inline-block;
-          margin: 1rem 0;
-          ${ghostButtonCssFragment}
-        `}
-        href="#TODO"
-      >
-        Read more
-      </a>
     </div>
   );
 }
@@ -121,16 +129,16 @@ function Stat({ value, title }: { value: ReactNode; title: ReactNode }) {
       className={css`
         position: relative;
         list-style: none;
-        display: flex list-item;
-        flex-flow: column;
+        display: flex;
+        flex-flow: row;
         border-radius: 1.25rem;
 
         &::after {
           content: "";
-          display: inline-block;
-          border-top: 1px solid ${green80};
-          width: 8rem;
-          margin: 1rem 0;
+          display: block;
+          border-left: 1px solid ${green80};
+          height: 100%;
+          margin: 0 2rem;
         }
 
         &:last-child::after {
@@ -140,21 +148,28 @@ function Stat({ value, title }: { value: ReactNode; title: ReactNode }) {
     >
       <div
         className={css`
-          ${fontTitle58CssFragment}
-          letter-spacing: -0.045em;
-          font-feature-settings: "pnum" on, "lnum" on;
-          color: ${semanticSuccess};
+          display: flex;
+          flex-flow: column;
         `}
       >
-        {value}
-      </div>
-      <div
-        className={css`
-          font: 22px / 26px ${segmentFontFamily};
-          color: ${textGreen40};
-        `}
-      >
-        {title}
+        <div
+          className={css`
+            ${fontTitle36CssFragment}
+            letter-spacing: -0.045em;
+            font-feature-settings: "pnum" on, "lnum" on;
+            color: ${semanticSuccess};
+          `}
+        >
+          {value}
+        </div>
+        <div
+          className={css`
+            font: 18px / 26px ${segmentFontFamily};
+            color: ${textGreen40};
+          `}
+        >
+          {title}
+        </div>
       </div>
     </li>
   );

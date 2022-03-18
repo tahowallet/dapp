@@ -1,4 +1,4 @@
-import { textGreen60, trophyGold } from "layout/colors";
+import { green80, textGreen60, trophyGold } from "layout/colors";
 import { fontTitle32CssFragment, segmentFontFamily } from "layout/fonts";
 import { largeScreenQuery } from "layout/layout";
 import { css } from "linaria";
@@ -14,6 +14,8 @@ export function ReferralHowToOpenTally() {
         justify-content: space-between;
         gap: 1rem 2rem;
         margin: 3rem 0;
+        padding-bottom: 2rem;
+        border-bottom: 1px dashed ${green80};
 
         ${largeScreenQuery} {
           flex-flow: row;
@@ -28,7 +30,7 @@ export function ReferralHowToOpenTally() {
           color: ${trophyGold};
         `}
       >
-        Open Tally using keyboard
+        Open Tally Ho using keyboard
       </h3>
       <div
         className={css`

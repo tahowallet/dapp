@@ -14,7 +14,7 @@ export function ReferralGetTally() {
     >
       <CommunityEditionDownloadButton
         href={chromeDownloadHref}
-        text={<>Get Tally for Chrome</>}
+        text={<>Get Tally Ho for Chrome</>}
         imageSrc={require("../ce/icon-browser-chrome.svg")}
       />
     </div>
