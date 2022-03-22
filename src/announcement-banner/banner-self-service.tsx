@@ -2,11 +2,11 @@ import { BannerSnippet } from "announcement-banner/banner-snippet";
 import { BannerPreviewPage } from "announcement-banner/example-page-content";
 import { textLight } from "layout/colors";
 import { quincyRegularFontFamily } from "layout/fonts";
+import { largeScreenQuery } from "layout/layout";
 import { css } from "linaria";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { renderToString } from "react-dom/server";
-import { BannerColorScheme } from "./banner-color-scheme";
-import { mediumScreenQuery, largeScreenQuery } from "layout/layout";
+import { BannerColorScheme } from "./banner-config";
 
 const colorSchemes: BannerColorScheme[] = [
   { background: "#001413", foreground: "#D08E39", name: `Dark` },
@@ -19,6 +19,7 @@ export function BannerSnippetSelfService() {
   const colorScheme = colorSchemes[colorSchemeIndex];
 
   const [inline, setInline] = useState(false);
+  const [referrer, setReferrer] = useState("");
 
   const frameRef = useRef<HTMLIFrameElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -38,6 +39,9 @@ export function BannerSnippetSelfService() {
 
   useLayoutEffect(load);
   useLayoutEffect(fixTextAreaHeight);
+  useLayoutEffect(() => {
+    setTimeout(fixTextAreaHeight);
+  }, []);
 
   useLayoutEffect(() => {
     window.addEventListener("resize", fixTextAreaHeight);
@@ -48,7 +52,9 @@ export function BannerSnippetSelfService() {
 
   const bannerSource =
     `<!-- TALLY BANNER -->` +
-    renderToString(<BannerSnippet colorScheme={colorScheme} inline={inline} />)
+    renderToString(
+      <BannerSnippet config={{ colorScheme, referrer }} inline={inline} />
+    )
       .replace(/<!-- -->/g, ``)
       .replace(/ data-reactroot=""/g, ``)
       .replace(/attr-/g, ``) +
@@ -106,6 +112,15 @@ export function BannerSnippetSelfService() {
           }
         `}
       >
+        <label>
+          Your DAO address:{" "}
+          <input
+            onChange={(event) => {
+              setReferrer(event.currentTarget.value);
+            }}
+          />
+        </label>
+
         <label>
           Color scheme:{" "}
           <select

@@ -1,30 +1,26 @@
 import { Banner } from "announcement-banner/banner";
-import { BannerColorScheme } from "announcement-banner/banner-color-scheme";
+import { BannerConfig } from "announcement-banner/banner-config";
 import React from "react";
 
 export function BannerSnippet({
-  colorScheme,
+  config,
   inline,
 }: {
-  colorScheme: BannerColorScheme;
+  config: BannerConfig;
   inline: boolean;
 }) {
   return inline ? (
-    <Banner colorScheme={colorScheme} />
+    <Banner config={config} />
   ) : (
-    <BannerSnippetHead colorScheme={colorScheme} />
+    <BannerSnippetHead config={config} />
   );
 }
 
-function BannerSnippetHead({
-  colorScheme,
-}: {
-  colorScheme: BannerColorScheme;
-}) {
+function BannerSnippetHead({ config }: { config: BannerConfig }) {
   return (
     <>
       <template id="tally-banner-template">
-        <Banner colorScheme={colorScheme} />
+        <Banner config={config} />
       </template>
       <script
         dangerouslySetInnerHTML={{

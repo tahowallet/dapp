@@ -1,13 +1,13 @@
-import { BannerColorScheme } from "announcement-banner/banner-color-scheme";
+import { BannerConfig } from "announcement-banner/banner-config";
 import React from "react";
 
-export function Banner({ colorScheme }: { colorScheme: BannerColorScheme }) {
+export function Banner({ config }: { config: BannerConfig }) {
   return (
     <div
       style={{
         padding: `1rem 2rem`,
-        backgroundColor: colorScheme.background,
-        color: colorScheme.foreground,
+        backgroundColor: config.colorScheme.background,
+        color: config.colorScheme.foreground,
         textAlign: `center`,
         overflow: `hidden`,
         fontSize: `0.875rem`,
@@ -35,13 +35,20 @@ export function Banner({ colorScheme }: { colorScheme: BannerColorScheme }) {
             : `https://tally.cash`
         }/banner-icon.svg`}
       />
-      We&rsquo;re partnering with Tally Ho! The community-owned Web3 wallet.{" "}
+      We&rsquo;re partnering with Tally Ho! The community-owned Web3 wallet.
+      {config.referrer ? (
+        <> Join through our DAO for a bonus on your token drop.</>
+      ) : null}{" "}
       <a
-        style={{ color: colorScheme.foreground }}
+        style={{ color: config.colorScheme.foreground }}
         target="_blank"
-        href="https://tally.cash"
+        href={
+          config.referrer
+            ? `https://tallyho.org/claim/${config.referrer}`
+            : `https://tallyho.org/`
+        }
       >
-        Try it now!
+        {config.referrer ? <>Claim now</> : <>Try it now</>}
       </a>
     </div>
   );
