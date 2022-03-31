@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ReferralGetTally } from "referral/referral-get-tally";
 import { ReferralHowToOpenTally } from "./referral-how-to-open-tally";
 
@@ -10,8 +10,16 @@ declare global {
   }
 }
 
-export const hasTally = window?.tally?.isTally ?? false;
+export function useHasTally() {
+  const [hasTally, setHasTally] = useState(false);
+
+  useEffect(() => {
+    setHasTally(window?.tally?.isTally ?? false);
+  });
+
+  return hasTally;
+}
 
 export function ReferralCTA() {
-  return hasTally ? <ReferralHowToOpenTally /> : <ReferralGetTally />;
+  return useHasTally() ? <ReferralHowToOpenTally /> : <ReferralGetTally />;
 }

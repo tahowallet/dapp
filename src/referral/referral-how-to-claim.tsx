@@ -15,9 +15,11 @@ import {
 import { mediumScreenQuery } from "layout/layout";
 import { css } from "linaria";
 import React, { ReactNode } from "react";
-import { hasTally, ReferralCTA } from "referral/referral-cta";
+import { ReferralCTA, useHasTally } from "referral/referral-cta";
 
 export function ReferralHowToClaim() {
+  const hasTally = useHasTally();
+
   return (
     <div
       className={css`
