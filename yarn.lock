@@ -2087,6 +2087,21 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
+"@browser-logos/brave@^3.0.13":
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/@browser-logos/brave/-/brave-3.0.13.tgz#e5c761b299c5f212e0376c266d98b102bd2ad952"
+  integrity sha512-Dvd3INXrmtenzdDRl0QFL5UFiK+Rg/225dYzMevczfTdNBzuA5Z6w8OO8btTrQ7BLez6zl9JaicNhVakusKqsg==
+
+"@browser-logos/chrome@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@browser-logos/chrome/-/chrome-2.0.0.tgz#31213afcacbc3e842c7e66ae602b1dd9775b234d"
+  integrity sha512-JDr78z/3x4zTtBgZ0bunFq9D4QhjT5gPBy90rpJQ5VlJugK/7xGFUgwUIkVT5vfU7lTi2F0wB/5XeOPrV67ErA==
+
+"@browser-logos/firefox@^3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@browser-logos/firefox/-/firefox-3.0.9.tgz#3cfee7f8e40cbd60af5ea9faa16e2f8bfbdab199"
+  integrity sha512-meqjnDFsUz0XLqMvda2ymr9FIUo+fdGQzwXkOGbgvPi9A9ZHhJewRWAlhsv7TKVG2g9gUgiITEn5bfrorp6BoQ==
+
 "@bugsnag/browser@^7.6.0":
   version "7.6.0"
   resolved "https://registry.npmjs.org/@bugsnag/browser/-/browser-7.6.0.tgz"

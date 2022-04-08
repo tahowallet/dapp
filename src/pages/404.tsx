@@ -1,10 +1,10 @@
-import { textLight } from "layout/colors";
-import { Layout } from "layout/layout";
+import { textLight } from "parts/layout/colors";
+import { Layout } from "parts/layout/layout";
 import { css } from "linaria";
 import React from "react";
 
 const NotFoundPage = () => (
-  <Layout title="404: Not found">
+  <Layout>
     <div
       className={css`
         display: flex;

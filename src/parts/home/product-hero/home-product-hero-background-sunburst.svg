@@ -1,0 +1,26 @@
+<svg width="1230" height="631" viewBox="0 0 1230 631" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_1467_40009" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1230" height="631">
+    <path
+      d="M0 25.6C0 16.6392 0 12.1587 1.7439 8.73615C3.27787 5.72556 5.72556 3.27787 8.73615 1.7439C12.1587 0 16.6392 0 25.6 0H1204.4C1213.36 0 1217.84 0 1221.26 1.7439C1224.27 3.27787 1226.72 5.72556 1228.26 8.73615C1230 12.1587 1230 16.6392 1230 25.6V605.4C1230 614.361 1230 618.841 1228.26 622.264C1226.72 625.274 1224.27 627.722 1221.26 629.256C1217.84 631 1213.36 631 1204.4 631H25.6C16.6392 631 12.1587 631 8.73615 629.256C5.72556 627.722 3.27787 625.274 1.7439 622.264C0 618.841 0 614.361 0 605.4V25.6Z"
+      fill="#D08E39" />
+  </mask>
+  <g mask="url(#mask0_1467_40009)">
+    <g opacity="0.2">
+      <g filter="url(#filter0_f_1467_40009)">
+        <circle cx="571" cy="553" r="678" fill="#D08E39" />
+      </g>
+      <circle cx="571" cy="553" r="502.117" fill="#D9A561" />
+      <circle cx="571" cy="553" r="363.113" fill="#ECD2B0" />
+      <circle cx="571.001" cy="553" r="215.598" fill="#F6E8D7" />
+      <circle cx="571" cy="553" r="124.82" fill="#FAF8F1" />
+    </g>
+  </g>
+  <defs>
+    <filter id="filter0_f_1467_40009" x="-277" y="-295" width="1696" height="1696" filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+      <feGaussianBlur stdDeviation="85" result="effect1_foregroundBlur_1467_40009" />
+    </filter>
+  </defs>
+</svg>

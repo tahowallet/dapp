@@ -1,8 +1,3 @@
-import React from "react";
-import { Referral } from "referral/referral";
+import { Referral } from "parts/referral/referral";
 
-const Page = () => {
-  return <Referral />;
-};
-
-export default Page;
+export default Referral;
