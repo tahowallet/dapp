@@ -89,7 +89,7 @@ export function ClaimDiscordRole({ account }: { account: FullAccount }) {
                 `https://discord.com/api/oauth2/authorize?${new URLSearchParams(
                   {
                     response_type: "token",
-                    client_id: process.env.GATSBY_DISCORD_APP_ID,
+                    client_id: process.env.GATSBY_DISCORD_APP_ID ?? "",
                     state: oauthStateRef.current,
                     scope: "identify",
                     redirect_uri: new URL(
