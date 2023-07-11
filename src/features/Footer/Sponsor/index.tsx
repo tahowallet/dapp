@@ -1,12 +1,10 @@
 import { Link } from "gatsby";
 import { css } from "linaria";
 import React, { CSSProperties, ReactNode } from "react";
-import {
-    quincyRegularFontFamily,
-  } from "shared/styles/font-families";
+import { quincyRegularFontFamily } from "shared/styles/font-families";
 
 export function Sponsor() {
-    return (
+  return (
     <div
       className={css`
         text-align: center;
@@ -19,21 +17,21 @@ export function Sponsor() {
       `}
     >
       <Link to="https://www.alchemy.com">
-        <img width="170px" height="25px" src={require("./alchemy.svg")} 
-        />
+        <img width="170px" height="25px" src={require("./alchemy.svg")} />
       </Link>
-        <div>
-            <img width="32px" height="30px" src={require("./star-mini.svg")}
-            />
-        </div>       
-        <div className={css`
-        font-family: ${quincyRegularFontFamily};
-        font-size: 24px;
-        font-weight: 700;
-        letter-spacing: .3rem;
-        `}>
-            GOOD HUNTING!
-        </div>
+      <div>
+        <img width="32px" height="30px" src={require("./star-mini.svg")} />
+      </div>
+      <div
+        className={css`
+          font-family: ${quincyRegularFontFamily};
+          font-size: 24px;
+          font-weight: 700;
+          letter-spacing: 0.3rem;
+        `}
+      >
+        GOOD HUNTING!
+      </div>
     </div>
-    );
+  );
 }

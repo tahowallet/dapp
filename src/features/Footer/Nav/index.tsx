@@ -3,11 +3,9 @@ import { css } from "linaria";
 import React, { CSSProperties, ReactNode } from "react";
 import {
   borderDarkTrophyGold,
-  titleDarkHunterGreen
+  titleDarkHunterGreen,
 } from "shared/styles/colors";
-import {
-  segmentFontFamily,
-} from "shared/styles/font-families";
+import { segmentFontFamily } from "shared/styles/font-families";
 
 export function FooterNav() {
   return (
@@ -19,7 +17,7 @@ export function FooterNav() {
           flex-direction: row;
           justify-content: center;
         }
-        
+
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -28,8 +26,7 @@ export function FooterNav() {
       `}
     >
       <Link to="/">
-        <img width="168" height="127" src={require("./logo.svg")} 
-        />
+        <img width="168" height="127" src={require("./logo.svg")} />
       </Link>
       <div
         className={css`
@@ -44,11 +41,16 @@ export function FooterNav() {
       >
         <NavLink to="/security">Security</NavLink>
         <NavLink to="/dao">DAO</NavLink>
-        <NavLink to="https://chrome.google.com/webstore/detail/taho/eajafomhmkipbjmfmhebemolkcicgfmd">Download</NavLink>
+        <NavLink to="https://chrome.google.com/webstore/detail/taho/eajafomhmkipbjmfmhebemolkcicgfmd">
+          Download
+        </NavLink>
         <NavLink blank to="https://gov.taho.xyz/">
           Governance
         </NavLink>
-        <NavLink blank to="https://tahowallet.notion.site/Taho-Knowledge-Base-4d95ed5439c64d6db3d3d27abf1fdae5">
+        <NavLink
+          blank
+          to="https://tahowallet.notion.site/Taho-Knowledge-Base-4d95ed5439c64d6db3d3d27abf1fdae5"
+        >
           FAQ
         </NavLink>
         <NavLink blank to="https://blog.taho.xyz/">

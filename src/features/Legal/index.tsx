@@ -4,7 +4,10 @@ import { css } from "linaria";
 import React, { ReactNode } from "react";
 import { green20, trophyGold } from "shared/styles/color-palette";
 import { bodyDarkGrey80, titleDarkHunterGreen } from "shared/styles/colors";
-import { segmentBoldFontFamily, segmentFontFamily } from "shared/styles/font-families";
+import {
+  segmentBoldFontFamily,
+  segmentFontFamily,
+} from "shared/styles/font-families";
 
 export default function Legal({
   children,
