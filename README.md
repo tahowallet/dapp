@@ -1,6 +1,6 @@
-# tally.cash
+# taho.xyz
 
-The primary website for Tally Ho, the community-owned Web3 wallet.
+The primary website for Taho, the community-owned web3 wallet.
 
 ## Local development
 

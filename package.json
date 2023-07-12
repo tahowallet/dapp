@@ -1,10 +1,10 @@
 {
-  "name": "tally.cash",
+  "name": "taho.xyz",
   "version": "1.0.0",
   "private": true,
-  "description": "tally.cash",
-  "author": "Matt Luongo <mhluongo@gmail.com>",
-  "repository": "git@github.com:thesis/tally.cash.git",
+  "description": "taho.xyz",
+  "author": "Taho <doggos@taho.xyz>",
+  "repository": "git@github.com:tahowallet/taho.xyz",
   "license": "MIT",
   "keywords": [
     "ethereum",
@@ -15,17 +15,28 @@
     "gastby"
   ],
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
+    "develop": "TARGET_ENV='dev' gatsby develop",
+    "start": "TARGET_ENV='dev' gatsby develop",
+    "start:stg": "TARGET_ENV='stg' gatsby develop",
+    "start:prd": "TARGET_ENV='prd' gatsby develop",
+    "build": "TARGET_ENV='dev' gatsby build",
+    "build:stg": "TARGET_ENV='stg' gatsby build",
+    "build:prd": "TARGET_ENV='prd' gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
   },
   "dependencies": {
+    "@browser-logos/brave": "^3.0.13",
+    "@browser-logos/chrome": "^2.0.0",
+    "@browser-logos/firefox": "^3.0.9",
     "@mdx-js/mdx": "v1",
     "@mdx-js/react": "v1",
+    "@typeform/embed-react": "^2.18.0",
     "babel-preset-gatsby": "1",
+    "dayjs": "^1.11.5",
+    "ethers": "^5.6.9",
+    "firebase": "^9.9.0",
     "gatsby": "^2.32.8",
     "gatsby-image": "^2.11.0",
     "gatsby-plugin-linaria": "^3.1.0",
@@ -33,8 +44,10 @@
     "gatsby-plugin-matomo": "^0.11.0",
     "gatsby-plugin-mdx": "2",
     "gatsby-plugin-offline": "^3.10.0",
+    "gatsby-plugin-posthog": "^1.0.1",
     "gatsby-plugin-react-helmet": "^3.10.0",
     "gatsby-plugin-sharp": "^2.14.1",
+    "gatsby-plugin-twitter-pixel": "^2.0.2",
     "gatsby-plugin-typescript": "^2.12.0",
     "gatsby-transformer-sharp": "^2.12.0",
     "linaria": "^2.2.0",
@@ -42,15 +55,19 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "react-query": "^3.39.1",
+    "siwe": "^1.1.6",
+    "ulid": "^2.3.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.27",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
+    "@types/react-helmet": "^6.1.6",
     "netlify-cli": "^3.7.1",
     "prettier": "2.2.1",
-    "typescript": "^4.1.5"
+    "typescript": "^5.1.6"
   }
 }

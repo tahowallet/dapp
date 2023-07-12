@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "target": "esnext",
-    "jsx": "preserve",
-    "lib": ["dom", "esnext"],
-    "strict": true,
-    "noEmit": true,
-    "isolatedModules": true,
+    "declaration": false,
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "noUnusedLocals": false,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "noImplicitOverride": true,
     "baseUrl": "./src"
-  },
-  "exclude": ["node_modules", "public", ".cache"]
+  }
 }
