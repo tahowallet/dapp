@@ -1,8 +1,19 @@
+import { css } from "linaria";
 import React from "react";
+
+const navContainer = css`
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  justify-content: space-between;
+  z-index: 1;
+`;
 
 export default function Nav() {
   return (
-    <div>
+    <div className={navContainer}>
       <div>
         <nav>
           <button>Map</button>
