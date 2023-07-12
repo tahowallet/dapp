@@ -15,13 +15,13 @@
     "gastby"
   ],
   "scripts": {
-    "develop": "TARGET_ENV='dev' gatsby develop",
-    "start": "TARGET_ENV='dev' gatsby develop",
-    "start:stg": "TARGET_ENV='stg' gatsby develop",
-    "start:prd": "TARGET_ENV='prd' gatsby develop",
-    "build": "TARGET_ENV='dev' gatsby build",
-    "build:stg": "TARGET_ENV='stg' gatsby build",
-    "build:prd": "TARGET_ENV='prd' gatsby build",
+    "develop": "TARGET_ENV='dev' NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
+    "start": "TARGET_ENV='dev' NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
+    "start:stg": "TARGET_ENV='stg' NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
+    "start:prd": "TARGET_ENV='prd' NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
+    "build": "TARGET_ENV='dev' NODE_OPTIONS=--openssl-legacy-provider gatsby build",
+    "build:stg": "TARGET_ENV='stg' NODE_OPTIONS=--openssl-legacy-provider gatsby build",
+    "build:prd": "TARGET_ENV='prd' NODE_OPTIONS=--openssl-legacy-provider gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
@@ -47,6 +47,7 @@
     "gatsby-plugin-posthog": "^1.0.1",
     "gatsby-plugin-react-helmet": "^3.10.0",
     "gatsby-plugin-sharp": "^2.14.1",
+    "gatsby-plugin-styled-jsx": "^6.11.0",
     "gatsby-plugin-twitter-pixel": "^2.0.2",
     "gatsby-plugin-typescript": "^2.12.0",
     "gatsby-transformer-sharp": "^2.12.0",
@@ -58,6 +59,7 @@
     "react-helmet": "^6.1.0",
     "react-query": "^3.39.1",
     "siwe": "^1.1.6",
+    "styled-jsx": "^5.1.2",
     "ulid": "^2.3.0"
   },
   "devDependencies": {
