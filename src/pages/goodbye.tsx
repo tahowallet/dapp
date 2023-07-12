@@ -1,6 +1,7 @@
 import { Widget } from "@typeform/embed-react";
 import { css } from "linaria";
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import IconLink from "shared/components/IconLink";
 import { bgGradient } from "shared/styles/bg-gradients";
 import { bodyLightGold5, bodyDarkGreen20 } from "shared/styles/colors";
 import {
@@ -111,79 +112,29 @@ function Goodbye() {
         <p>Follow us for news on improvements and new features.</p>
         <br />
         <div className="social-container">
-          <SocialIcon
+          <IconLink
             href="https://chat.taho.xyz"
             icon={{
               width: `24px`,
               height: `24px`,
-              src: `url(${require("../features/Footer/Nav/social-icons/discord-light.svg")})`,
-              hoverSrc: `url(${require("../features/Footer/Nav/social-icons/discord-hover.svg")})`,
-              activeSrc: `url(${require("../features/Footer/Nav/social-icons/discord-click.svg")})`,
+              src: `url(${require("shared/images/social-icons/discord-light.svg")})`,
+              hoverSrc: `url(${require("shared/images/social-icons/discord-hover.svg")})`,
+              activeSrc: `url(${require("shared/images/social-icons/discord-click.svg")})`,
             }}
           />
-          <SocialIcon
+          <IconLink
             href="https://twitter.com/taho_xyz"
             icon={{
               width: `28px`,
               height: `24px`,
-              src: `url(${require("../features/Footer/Nav/social-icons/twitter-light.svg")})`,
-              hoverSrc: `url(${require("../features/Footer/Nav/social-icons/twitter-hover.svg")})`,
-              activeSrc: `url(${require("../features/Footer/Nav/social-icons/twitter-click.svg")})`,
+              src: `url(${require("shared/images/social-icons/twitter-light.svg")})`,
+              hoverSrc: `url(${require("shared/images/social-icons/twitter-hover.svg")})`,
+              activeSrc: `url(${require("shared/images/social-icons/twitter-click.svg")})`,
             }}
           />
         </div>
       </div>
     </div>
-  );
-}
-
-function SocialIcon({
-  href,
-  icon,
-}: {
-  href: string;
-  icon: {
-    width: string;
-    height: string;
-    src: string;
-    hoverSrc: string;
-    activeSrc: string;
-  };
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      style={
-        {
-          "--icon-width": icon.width,
-          "--icon-height": icon.height,
-          "--icon-src": icon.src,
-          "--icon-active-src": icon.activeSrc,
-          "--icon-hover-src": icon.hoverSrc,
-        } as CSSProperties
-      }
-      className={css`
-        display: block;
-        position: relative;
-        flex: 0 0 auto;
-        margin: 0 1rem;
-        background-repeat: no-repeat;
-        width: 28px;
-        height: 28px;
-        background: no-repeat center / contain var(--icon-src);
-
-        &:hover {
-          background: no-repeat center / contain var(--icon-hover-src);
-        }
-
-        &:active {
-          background: no-repeat center / contain var(--icon-active-src);
-        }
-
-        }
-      `}
-    />
   );
 }
 
