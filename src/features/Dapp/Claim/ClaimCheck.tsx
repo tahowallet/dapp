@@ -17,6 +17,7 @@ const claimHeaderContainer = css`
 `;
 
 const icon = require("shared/images/social-icons/discord.svg");
+const onClick = () => console.log("clicked");
 
 export default function ClaimCheck() {
   return (
@@ -30,42 +31,65 @@ export default function ClaimCheck() {
         <input placeholder="Address / Ens / Uns..." />
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           Primary
-          <Button iconSrc={icon} type="primary">
+          <Button onClick={onClick} iconSrc={icon} type="primary">
             Button
           </Button>
-          <Button iconSrc={icon} type="primary" isDisabled>
+          <Button onClick={onClick} iconSrc={icon} type="primary" isDisabled>
             Button
           </Button>
-          <Button iconSrc={icon} type="primary" size="large">
+          <Button onClick={onClick} iconSrc={icon} type="primary" size="large">
             Button
           </Button>
-          <Button iconSrc={icon} type="primary" size="large" isDisabled>
+          <Button
+            onClick={onClick}
+            iconSrc={icon}
+            type="primary"
+            size="large"
+            isDisabled
+          >
             Button
           </Button>
           Secondary
-          <Button iconSrc={icon} type="secondary">
+          <Button onClick={onClick} iconSrc={icon} type="secondary">
             Button
           </Button>
-          <Button iconSrc={icon} type="secondary" isDisabled>
+          <Button onClick={onClick} iconSrc={icon} type="secondary" isDisabled>
             Button
           </Button>
-          <Button iconSrc={icon} type="secondary" size="large">
+          <Button
+            onClick={onClick}
+            iconSrc={icon}
+            type="secondary"
+            size="large"
+          >
             Button
           </Button>
-          <Button iconSrc={icon} type="secondary" size="large" isDisabled>
+          <Button
+            onClick={onClick}
+            iconSrc={icon}
+            type="secondary"
+            size="large"
+            isDisabled
+          >
             Button
           </Button>
           Tertiary
-          <Button iconSrc={icon} type="tertiary">
+          <Button onClick={onClick} iconSrc={icon} type="tertiary">
             Button
           </Button>
-          <Button iconSrc={icon} type="tertiary" isDisabled>
+          <Button onClick={onClick} iconSrc={icon} type="tertiary" isDisabled>
             Button
           </Button>
-          <Button iconSrc={icon} type="tertiary" size="large">
+          <Button onClick={onClick} iconSrc={icon} type="tertiary" size="large">
             Button
           </Button>
-          <Button iconSrc={icon} type="tertiary" size="large" isDisabled>
+          <Button
+            onClick={onClick}
+            iconSrc={icon}
+            type="tertiary"
+            size="large"
+            isDisabled
+          >
             Button
           </Button>
         </div>

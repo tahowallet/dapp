@@ -15,6 +15,7 @@ type ButtonProps = {
   size?: "medium" | "large";
   isDisabled?: boolean;
   iconSrc?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export default function Button({
@@ -23,10 +24,12 @@ export default function Button({
   size = "medium",
   isDisabled = false,
   iconSrc,
+  onClick,
 }: ButtonProps) {
   return (
     <>
       <button
+        onClick={onClick}
         className={classnames({
           button: true,
           primary: type === "primary",
@@ -156,6 +159,7 @@ export default function Button({
           .disabled,
           .disabled:hover,
           .disabled:active {
+            pointer-events: none;
             background: ${buttonBackgroundGreen60};
             box-shadow: 0 0 0 0 transparent;
             cursor: auto!important;
