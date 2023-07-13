@@ -51,7 +51,7 @@ export default function Button({
             font-style: normal;
             letter-spacing: 0.5px;
             box-sizing: border-box;
-            transition: all 200ms;
+            transition: all 100ms;
           }
 
           .large {
@@ -73,19 +73,8 @@ export default function Button({
           .secondary.medium {
             padding: 10px 18px;
           }
-          .secondary.medium:hover,
-          .secondary.medium:active,
-          .secondary.medium.disabled {
-            padding: 12px 20px;
-          }
-
           .secondary.large {
             padding: 18px 22px;
-          }
-          .secondary.large:hover,
-          .secondary.large:active,
-          .secondary.large.disabled {
-            padding: 20px 24px;
           }
 
           .primary {
@@ -112,7 +101,7 @@ export default function Button({
             color: ${buttonLabelHunterGreen};
             background: ${buttonBackgroundGold80};
             box-shadow: 0 0 0 0 transparent;
-            border: 0;
+            border-color: ${buttonBackgroundGold80};
           }
           .primary:hover .icon,
           .primary:active .icon,
@@ -122,10 +111,12 @@ export default function Button({
           }
           .primary:active,
           .secondary:active {
-            background: ${buttonBackgroundGold120}
+            background: ${buttonBackgroundGold120};
+            border-color: ${buttonBackgroundGold120};
+
           }
           .secondary.disabled {
-            border: 0;
+            border-color: ${buttonBackgroundGreen60};
             color: ${buttonLabelHunterGreen};
           }
           .secondary.disabled .icon {
