@@ -47,6 +47,7 @@ export default function Button({
         {`
           .button {
             display: flex;
+            width: fit-content;
             align-items: center;
             justify-content: center;
             border: 0;
