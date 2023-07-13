@@ -14,6 +14,7 @@ type ButtonProps = {
   type?: "primary" | "secondary" | "tertiary";
   size?: "medium" | "large";
   isDisabled?: boolean;
+  isInactive?: boolean;
   iconSrc?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
@@ -23,6 +24,7 @@ export default function Button({
   type = "primary",
   size = "medium",
   isDisabled = false,
+  isInactive = false,
   iconSrc,
   onClick,
 }: ButtonProps) {
@@ -38,6 +40,7 @@ export default function Button({
           medium: size === "medium",
           large: size === "large",
           disabled: isDisabled,
+          inactive: isInactive,
         })}
       >
         {children}
@@ -162,6 +165,14 @@ export default function Button({
             pointer-events: none;
             background: ${buttonBackgroundGreen60};
             box-shadow: 0 0 0 0 transparent;
+            cursor: auto!important;
+          }
+
+          .inactive,
+          .inactive:hover,
+          .inactive:active {
+            pointer-events: none;
+            opacity: 0.5;
             cursor: auto!important;
           }
 
