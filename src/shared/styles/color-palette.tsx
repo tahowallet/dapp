@@ -22,6 +22,7 @@ export const grey80 = "rgb(70 70 68)";
 export const grey70 = "rgb(228 238 238 / 70%)";
 export const grey60 = "rgb(115 114 111)";
 export const grey40 = "rgb(160 159 155)";
+export const grey30 = "rgb(228 238 238 / 30%)";
 export const grey20 = "rgb(205 203 198)";
 export const semanticError = "rgb(236 49 55)";
 export const semanticSuccess = "rgb(33 197 128)";

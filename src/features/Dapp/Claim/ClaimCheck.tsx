@@ -7,6 +7,7 @@ import {
   bodyGrey70,
   bodySemanticSuccess,
   inputBackgroundGreen100,
+  inputBorderGrey30,
   inputTextGreen5,
 } from "shared/styles/colors";
 
@@ -46,6 +47,7 @@ const claimInputContainer = css`
   display: flex;
   padding: 20px 24px;
   border-radius: 80px;
+  border: 1px solid ${inputBorderGrey30};
   background: ${inputBackgroundGreen100};
 `;
 const claimInput = css`

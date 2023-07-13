@@ -20,6 +20,7 @@ import {
   green100,
   grey70,
   grey100,
+  grey30,
 } from "shared/styles/color-palette";
 
 /* Colors organized by usage (to reduce mistakes and improve refactorings) */
@@ -75,4 +76,5 @@ export const borderDarkGold80 = gold80;
 export const borderDarkGreen20 = green20;
 
 export const inputTextGreen5 = green5;
+export const inputBorderGrey30 = grey30;
 export const inputBackgroundGreen100 = green100;
