@@ -13,9 +13,13 @@ import {
   offWhite,
   semanticSuccess,
   trophyGold,
+  green5,
   green80,
   green40,
   green60,
+  green100,
+  grey70,
+  grey100,
 } from "shared/styles/color-palette";
 
 /* Colors organized by usage (to reduce mistakes and improve refactorings) */
@@ -38,6 +42,11 @@ export const linkDarkTrophyGold = trophyGold;
 
 export const bodyLightGold5 = gold5;
 export const bodyLightOffWhite = offWhite;
+
+export const bodyGrey70 = grey70;
+export const bodyGrey100 = grey100;
+
+export const bodySemanticSuccess = semanticSuccess;
 
 export const buttonLabelHunterGreen = hunterGreen;
 export const buttonLabelLightOffWhite = offWhite;
@@ -64,3 +73,6 @@ export const borderDarkGold120 = gold120;
 export const borderDarkGrey80 = grey80;
 export const borderDarkGold80 = gold80;
 export const borderDarkGreen20 = green20;
+
+export const inputTextGreen5 = green5;
+export const inputBackgroundGreen100 = green100;
