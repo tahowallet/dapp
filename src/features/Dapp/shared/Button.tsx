@@ -22,6 +22,7 @@ export default function Button({
   type = "primary",
   size = "medium",
   isDisabled = false,
+  iconSrc,
 }: ButtonProps) {
   return (
     <>
@@ -37,18 +38,22 @@ export default function Button({
         })}
       >
         {children}
+        {iconSrc && <span className="icon" />}
       </button>
       <style>
         {`
           .button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border: 0;
             cursor: pointer;
-            transition: background 100ms, box-shadow 100ms;
             font-style: normal;
             letter-spacing: 0.5px;
             box-sizing: border-box;
+            transition: all 200ms;
           }
-          
+
           .large {
             font: ${buttonLabelQuincy24};
             font-size: 23px;
@@ -88,10 +93,16 @@ export default function Button({
             background: ${buttonBackgroundTrophyGold};
             box-shadow: 0px 7px 5px 0px rgba(13, 35, 33, 0.50), 0px 18px 20px 0px rgba(13, 35, 33, 0.50), 0px 4px 6px 0px rgba(232, 150, 34, 0.40), 0px 4px 4px 0px rgba(13, 35, 33, 0.45);
           }
+          .primary .icon {
+            background-color: ${buttonLabelHunterGreen};
+          }
           .secondary {
             color: ${buttonBackgroundTrophyGold};
             background: transparent;
             border: 2px solid ${buttonBackgroundTrophyGold};
+          }
+          .secondary .icon {
+            background-color: ${buttonBackgroundTrophyGold};
           }
 
           .primary:hover,
@@ -103,6 +114,12 @@ export default function Button({
             box-shadow: 0 0 0 0 transparent;
             border: 0;
           }
+          .primary:hover .icon,
+          .primary:active .icon,
+          .secondary:hover .icon,
+          .secondary:active .icon {
+            background-color: ${buttonLabelHunterGreen};
+          }
           .primary:active,
           .secondary:active {
             background: ${buttonBackgroundGold120}
@@ -111,23 +128,38 @@ export default function Button({
             border: 0;
             color: ${buttonLabelHunterGreen};
           }
+          .secondary.disabled .icon {
+            background-color: ${buttonLabelHunterGreen};
+          }
 
           .tertiary {
             background: transparent;
             color: ${buttonBackgroundTrophyGold};
             padding: 4px 0;
           }
+          .tertiary .icon {
+            background-color: ${buttonBackgroundTrophyGold};
+          }
           .tertiary:hover {
             color: ${buttonBackgroundGold80}
           }
+          .tertiary:hover .icon {
+            background-color: ${buttonBackgroundGold80};
+          }
           .tertiary:active {
             color: ${buttonBackgroundGold120}
+          }
+          .tertiary:active .icon {
+            background-color: ${buttonBackgroundGold120};
           }
           .tertiary.disabled,
           .tertiary.disabled:hover,
           .tertiary.disabled:active {
             color: ${buttonBackgroundGreen60};
             background: transparent;
+          }
+          .tertiary.disabled .icon {
+            background-color: ${buttonBackgroundGreen60};
           }
 
           .disabled,
@@ -136,6 +168,22 @@ export default function Button({
             background: ${buttonBackgroundGreen60};
             box-shadow: 0 0 0 0 transparent;
             cursor: auto!important;
+          }
+
+          .icon {
+            -webkit-mask-image: url(${iconSrc});
+            mask-image: url(${iconSrc});
+            -webkit-mask-size: cover;
+            mask-size: cover;
+            margin-left: 8px;
+          }
+          .medium .icon {
+            width: 16px;
+            height: 16px;
+          }
+          .large .icon {
+            width: 24px;
+            height: 24px;
           }
         `}
       </style>
