@@ -32,6 +32,7 @@ export const showcaseQuincyBold48 = quincyBold48;
 
 export const buttonLabelQuincy24 = quincyBold24;
 export const buttonLabelQuincy18 = quincyBold18;
+export const buttonLabelSegment18 = segment18;
 export const pillLabelSegment14 = segment14;
 
 export const textLabelQuincy18 = quincyBold18;
