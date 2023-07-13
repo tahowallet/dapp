@@ -62,7 +62,7 @@ export default function Button({
             font: ${buttonLabelQuincy24};
             font-size: 23px;
             font-weight: 700;
-            padding: 20px 24px;
+            padding: 20px 32px;
             border-radius: 56px;
           }
           .medium {
@@ -70,15 +70,15 @@ export default function Button({
             font-size: 18px;
             font-weight: 600;
             line-height: 24px;
-            padding: 12px 20px;
+            padding: 12px 28px;
             border-radius: 28px;
           }
 
-          .secondary.medium {
-            padding: 10px 18px;
-          }
           .secondary.large {
-            padding: 18px 22px;
+            padding: 18px 30px;
+          }
+          .secondary.medium {
+            padding: 10px 26px;
           }
 
           .primary {
@@ -117,7 +117,6 @@ export default function Button({
           .secondary:active {
             background: ${buttonBackgroundGold120};
             border-color: ${buttonBackgroundGold120};
-
           }
           .secondary.disabled {
             border-color: ${buttonBackgroundGreen60};
