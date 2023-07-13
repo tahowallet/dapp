@@ -13,7 +13,7 @@ const footerContainer = css`
   z-index: 1;
 `;
 
-export function Footer() {
+export default function Footer() {
   return (
     <footer className={footerContainer}>
       <IconLink

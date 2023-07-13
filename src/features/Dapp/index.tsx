@@ -1,7 +1,7 @@
 import React from "react";
-import { Footer } from "./Footer";
 import Nav from "./Nav";
 import Claim from "./Claim";
+import Footer from "./Footer";
 
 export default function Dapp() {
   return (
