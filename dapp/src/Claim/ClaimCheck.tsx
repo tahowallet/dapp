@@ -8,7 +8,7 @@ export default function ClaimCheck() {
         <div className="header_container">
           <div className="season">Season 1</div>
           <h1 className="header">Check if you are eligible</h1>
-          <div className="subHeader">
+          <div className="subheader">
             Check if you are eligible to claim TAHO tokens
           </div>
         </div>
@@ -44,6 +44,8 @@ export default function ClaimCheck() {
         .header {
           font-family: "QuincyCF-Regular";
           font-size: 52px;
+          line-height: 42px;
+          letter-spacing: 1px;
         }
         .subheader {
           color: var(--grey70);
@@ -67,10 +69,10 @@ export default function ClaimCheck() {
           background: transparent;
           color: var(--green5);
         }
-        .input&::placeholder {
+        .input::placeholder {
           color: var(--green5);
         }
-        .input&:focus {
+        .input:focus {
           outline: none;
         }
       `}</style>
