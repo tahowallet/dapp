@@ -1,52 +1,44 @@
-import React, { CSSProperties } from "react"
+import React from "react"
 
 export default function IconLink({
   href,
-  icon
+  icon,
 }: {
   href: string
   icon: {
     width: string
     height: string
     src: string
-    hoverSrc: string
-    activeSrc: string
   }
 }) {
   return (
     <>
-      <a
-        href={href}
-        target="_blank"
-        className="link"
-        style={
-          {
-            "--icon-width": icon.width,
-            "--icon-height": icon.height,
-            "--icon-src": icon.src,
-            "--icon-active-src": icon.activeSrc,
-            "--icon-hover-src": icon.hoverSrc
-          } as CSSProperties
-        }
-        rel="noreferrer"
-      />
+      <a href={href} target="_blank" className="link" rel="noreferrer">
+        <div className="link_icon" />
+      </a>
       <style jsx>{`
         .link {
           display: block;
-          position: relative;
           flex: 0 0 auto;
           margin: 0 1rem;
-          background-repeat: no-repeat;
-          width: 28px;
-          height: 28px;
-          background: no-repeat center / contain var(--icon-src);
-        }
-        .link:hover {
-          background: no-repeat center / contain var(--icon-hover-src);
         }
 
-        .link:active {
-          background: no-repeat center / contain var(--icon-active-src);
+        .link_icon {
+          width: ${icon.width};
+          height: ${icon.height ?? icon.width};
+          -webkit-mask-image: url(${icon.src});
+          mask-image: url(${icon.src});
+          -webkit-mask-size: cover;
+          mask-size: cover;
+          background-color: var(--offWhite);
+        }
+
+        .link:hover .link_icon {
+          background-color: var(--offWhite); // TODO
+        }
+
+        .link_icon:active .link_icon {
+          background-color: var(--offWhite); // TODO
         }
       `}</style>
     </>

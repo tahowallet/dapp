@@ -1,6 +1,9 @@
 import React from "react"
 import IconLink from "../shared/IconLink"
 import Link from "../shared/Link"
+import discordIcon from "../shared/assets/icons/discord.svg"
+import twitterIcon from "../shared/assets/icons/twitter.svg"
+import githubIcon from "../shared/assets/icons/github.svg"
 
 const ICON_SIZE = "18px"
 
@@ -21,9 +24,7 @@ export default function Footer() {
         icon={{
           width: ICON_SIZE,
           height: ICON_SIZE,
-          src: `url(${require("../../../src/shared/images/social-icons/discord.svg")})`,
-          hoverSrc: `url(${require("../../../src/shared/images/social-icons/discord-hover.svg")})`,
-          activeSrc: `url(${require("../../../src/shared/images/social-icons/discord-click.svg")})`
+          src: discordIcon,
         }}
       />
       <IconLink
@@ -31,9 +32,7 @@ export default function Footer() {
         icon={{
           width: ICON_SIZE,
           height: ICON_SIZE,
-          src: `url(${require("../../../src/shared/images/social-icons/twitter.svg")})`,
-          hoverSrc: `url(${require("../../../src/shared/images/social-icons/twitter-hover.svg")})`,
-          activeSrc: `url(${require("../../../src/shared/images/social-icons/twitter-click.svg")})`
+          src: twitterIcon,
         }}
       />
       <IconLink
@@ -41,9 +40,7 @@ export default function Footer() {
         icon={{
           width: ICON_SIZE,
           height: ICON_SIZE,
-          src: `url(${require("../../../src/shared/images/social-icons/github.svg")})`,
-          hoverSrc: `url(${require("../../../src/shared/images/social-icons/github-hover.svg")})`,
-          activeSrc: `url(${require("../../../src/shared/images/social-icons/github-click.svg")})`
+          src: githubIcon,
         }}
       />
       <Link to="/rulebook">Rulebook</Link>
