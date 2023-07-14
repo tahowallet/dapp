@@ -1,23 +1,15 @@
-import React from "react";
-import classnames from "classnames";
-import {
-  buttonBackgroundGold120,
-  buttonBackgroundGold80,
-  buttonBackgroundGreen60,
-  buttonBackgroundTrophyGold,
-  buttonLabelHunterGreen,
-} from "shared/styles/colors";
-import { buttonLabelQuincy24, buttonLabelSegment18 } from "shared/styles/fonts";
+import React from "react"
+import classnames from "classnames"
 
 type ButtonProps = {
-  children: string;
-  type?: "primary" | "secondary" | "tertiary";
-  size?: "medium" | "large";
-  isDisabled?: boolean;
-  isInactive?: boolean;
-  iconSrc?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-};
+  children: string
+  type?: "primary" | "secondary" | "tertiary"
+  size?: "medium" | "large"
+  isDisabled?: boolean
+  isInactive?: boolean
+  iconSrc?: string
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+}
 
 export default function Button({
   children,
@@ -31,6 +23,7 @@ export default function Button({
   return (
     <>
       <button
+        type="button"
         onClick={onClick}
         className={classnames({
           button: true,
@@ -46,7 +39,7 @@ export default function Button({
         {children}
         {iconSrc && <span className="icon" />}
       </button>
-      <style>
+      <style jsx>
         {`
           .button {
             display: flex;
@@ -62,14 +55,14 @@ export default function Button({
           }
 
           .large {
-            font: ${buttonLabelQuincy24};
+            font-family: "QuincyCF-Regular";
             font-size: 23px;
             font-weight: 700;
             padding: 20px 32px;
             border-radius: 56px;
           }
           .medium {
-            font: ${buttonLabelSegment18};
+            font-family: "Segment-Regular";
             font-size: 18px;
             font-weight: 600;
             line-height: 24px;
@@ -85,87 +78,90 @@ export default function Button({
           }
 
           .primary {
-            color: ${buttonLabelHunterGreen};
-            background: ${buttonBackgroundTrophyGold};
-            box-shadow: 0px 7px 5px 0px rgba(13, 35, 33, 0.50), 0px 18px 20px 0px rgba(13, 35, 33, 0.50), 0px 4px 6px 0px rgba(232, 150, 34, 0.40), 0px 4px 4px 0px rgba(13, 35, 33, 0.45);
+            color: var(--hunter-green);
+            background: var(--trophy-gold);
+            box-shadow: 0px 7px 5px 0px rgba(13, 35, 33, 0.5),
+              0px 18px 20px 0px rgba(13, 35, 33, 0.5),
+              0px 4px 6px 0px rgba(232, 150, 34, 0.4),
+              0px 4px 4px 0px rgba(13, 35, 33, 0.45);
           }
           .primary .icon {
-            background-color: ${buttonLabelHunterGreen};
+            background-color: var(--hunter-green);
           }
           .secondary {
-            color: ${buttonBackgroundTrophyGold};
+            color: var(--trophy-gold);
             background: transparent;
-            border: 2px solid ${buttonBackgroundTrophyGold};
+            border: 2px solid var(--trophy-gold);
           }
           .secondary .icon {
-            background-color: ${buttonBackgroundTrophyGold};
+            background-color: var(--trophy-gold);
           }
 
           .primary:hover,
           .primary:active,
           .secondary:hover,
           .secondary:active {
-            color: ${buttonLabelHunterGreen};
-            background: ${buttonBackgroundGold80};
+            color: var(--hunter-green);
+            background: var(--gold80);
             box-shadow: 0 0 0 0 transparent;
-            border-color: ${buttonBackgroundGold80};
+            border-color: var(--gold80);
           }
           .primary:hover .icon,
           .primary:active .icon,
           .secondary:hover .icon,
           .secondary:active .icon {
-            background-color: ${buttonLabelHunterGreen};
+            background-color: var(--hunter-green);
           }
           .primary:active,
           .secondary:active {
-            background: ${buttonBackgroundGold120};
-            border-color: ${buttonBackgroundGold120};
+            background: var(--gold120);
+            border-color: var(--gold120);
           }
           .secondary.disabled {
-            border-color: ${buttonBackgroundGreen60};
-            color: ${buttonLabelHunterGreen};
+            border-color: var(--green60);
+            color: var(--hunter-green);
           }
           .secondary.disabled .icon {
-            background-color: ${buttonLabelHunterGreen};
+            background-color: var(--hunter-green);
           }
 
           .tertiary {
             background: transparent;
-            color: ${buttonBackgroundTrophyGold};
+            color: var(--trophy-gold);
             padding: 4px 0;
           }
           .tertiary .icon {
-            background-color: ${buttonBackgroundTrophyGold};
+            background-color: var(--trophy-gold);
           }
           .tertiary:hover {
-            color: ${buttonBackgroundGold80}
+            color: var(--gold80);
           }
           .tertiary:hover .icon {
-            background-color: ${buttonBackgroundGold80};
+            background-color: var(--gold80);
           }
           .tertiary:active {
-            color: ${buttonBackgroundGold120}
+            color: var(--gold120);
           }
           .tertiary:active .icon {
-            background-color: ${buttonBackgroundGold120};
+            background-color: var(--gold120);
           }
           .tertiary.disabled,
           .tertiary.disabled:hover,
           .tertiary.disabled:active {
-            color: ${buttonBackgroundGreen60};
+            color: var(--green60);
             background: transparent;
           }
           .tertiary.disabled .icon {
-            background-color: ${buttonBackgroundGreen60};
+            background-color: var(--green60);
           }
 
           .disabled,
           .disabled:hover,
           .disabled:active {
             pointer-events: none;
-            background: ${buttonBackgroundGreen60};
+            background: var(--green60);
             box-shadow: 0 0 0 0 transparent;
-            cursor: auto!important;
+            cursor: auto !important;
           }
 
           .inactive,
@@ -173,7 +169,7 @@ export default function Button({
           .inactive:active {
             pointer-events: none;
             opacity: 0.5;
-            cursor: auto!important;
+            cursor: auto !important;
           }
 
           .icon {
@@ -194,5 +190,5 @@ export default function Button({
         `}
       </style>
     </>
-  );
+  )
 }
