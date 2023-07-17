@@ -1,5 +1,7 @@
 import React, { useCallback, useRef, useState } from "react"
 import { Layer, Rect, Stage } from "react-konva"
+import rafSchd from "raf-schd"
+
 import Background from "./Background"
 import Zones from "./MapZones"
 import { MAP_BOX } from "./constants"
@@ -51,60 +53,54 @@ export default function InteractiveMap() {
     if (!stage) return () => {}
 
     let acc = 0
-    let skipUpdate = false
-    const handler: KonvaEventListener<KonvaStage, WheelEvent> = (
-      konvaEvent
-    ) => {
-      const event = konvaEvent.evt
 
-      acc += event.deltaY
+    const handleZoom = rafSchd((delta: number) => {
+      const zoom = stage.scaleX()
+      const zoomFactor = 0.001
+      const { minScale } = settingsRef.current
 
-      if (!skipUpdate) {
-        requestAnimationFrame(() => {
-          const zoom = stage.scaleX()
-          const zoomFactor = 0.001
-          const { minScale } = settingsRef.current
+      const newScale = limitToBounds(
+        zoom + delta * -zoomFactor,
+        minScale,
+        Math.max(0.45, minScale)
+      )
 
-          const newScale = limitToBounds(
-            zoom + acc * -zoomFactor,
-            minScale,
-            Math.max(0.45, minScale)
-          )
+      const stagePos = stage.absolutePosition()
+      const pointer = stage.getPointerPosition()
 
-          const stagePos = stage.absolutePosition()
-          const pointer = stage.getPointerPosition()
+      if (pointer && newScale !== zoom) {
+        // Get current mouse position in the canvas
+        const pointerCanvasPos = {
+          x: -(pointer.x - stagePos.x) / zoom,
+          y: -(pointer.y - stagePos.y) / zoom,
+        }
 
-          if (pointer && newScale !== zoom) {
-            // Get current mouse position in the canvas
-            const pointerCanvasPos = {
-              x: -(pointer.x - stagePos.x) / zoom,
-              y: -(pointer.y - stagePos.y) / zoom,
-            }
+        const maxX = MAP_BOX.width - stage.width() / newScale
+        const maxY = MAP_BOX.height - stage.height() / newScale
 
-            const maxX = MAP_BOX.width - stage.width() / newScale
-            const maxY = MAP_BOX.height - stage.height() / newScale
+        // Add back pointer position to retrieve "same canvas position" offset
+        const targetX = pointerCanvasPos.x * newScale + pointer.x
+        const targetY = pointerCanvasPos.y * newScale + pointer.y
 
-            // Add back pointer position to retrieve "same canvas position" offset
-            const targetX = pointerCanvasPos.x * newScale + pointer.x
-            const targetY = pointerCanvasPos.y * newScale + pointer.y
+        stage.scale({ x: newScale, y: newScale })
 
-            stage.scale({ x: newScale, y: newScale })
-
-            // Force bounds while zooming in/out
-            stage.absolutePosition({
-              x: limitToBounds(targetX, -maxX * newScale, 0),
-              y: limitToBounds(targetY, -maxY * newScale, 0),
-            })
-
-            // Manually update the stage scale and queue a state update
-            setZoomLevel(newScale)
-          }
-          acc = 0
-          skipUpdate = false
+        // Force bounds while zooming in/out
+        stage.absolutePosition({
+          x: limitToBounds(targetX, -maxX * newScale, 0),
+          y: limitToBounds(targetY, -maxY * newScale, 0),
         })
-      }
 
-      skipUpdate = true
+        // Manually update the stage scale and queue a state update
+        setZoomLevel(newScale)
+      }
+      acc = 0
+    })
+
+    const handler: KonvaEventListener<KonvaStage, WheelEvent> = ({
+      evt: domEvent,
+    }) => {
+      acc += domEvent.deltaY
+      handleZoom(acc)
     }
 
     stage.on("wheel", handler)
@@ -128,10 +124,10 @@ export default function InteractiveMap() {
     position: Vector2d
   ) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const node = this
-    const scale = node.scaleX()
-    const width = node.width()
-    const height = node.height()
+    const stage = this
+    const scale = stage.scaleX()
+    const width = stage.width()
+    const height = stage.height()
 
     const maxX = MAP_BOX.width - width / scale
     const maxY = MAP_BOX.height - height / scale
