@@ -23,30 +23,32 @@ export default function InteractiveMap() {
   )
   const mapRef = useRef<KonvaStage | null>(null)
 
-  const resetZoom = () => {
-    const box = {
-      width: stageBounds.width,
-      height: stageBounds.height,
+  const stageFns = useValueRef(() => {
+    const resetZoom = () => {
+      const box = {
+        width: stageBounds.width,
+        height: stageBounds.height,
+      }
+
+      const minZoom = getMinimumScale(MAP_BOX, box)
+      settingsRef.current.minScale = minZoom
+
+      setZoomLevel(minZoom)
+      stageFns.current.centerMap(minZoom)
     }
 
-    const minZoom = getMinimumScale(MAP_BOX, box)
-    settingsRef.current.minScale = minZoom
-
-    setZoomLevel(minZoom)
-    stageFns.current.centerMap(minZoom)
-  }
-
-  const centerMap = (scale: number) => {
-    const mapNode = mapRef.current
-    if (mapNode) {
-      mapNode.absolutePosition({
-        x: -Math.abs((MAP_BOX.width * scale - stageBounds.width) / 2),
-        y: -Math.abs((MAP_BOX.height * scale - stageBounds.height) / 2),
-      })
+    const centerMap = (scale: number) => {
+      const mapNode = mapRef.current
+      if (mapNode) {
+        mapNode.absolutePosition({
+          x: -Math.abs((MAP_BOX.width * scale - stageBounds.width) / 2),
+          y: -Math.abs((MAP_BOX.height * scale - stageBounds.height) / 2),
+        })
+      }
     }
-  }
 
-  const stageFns = useValueRef({ centerMap, resetZoom })
+    return { centerMap, resetZoom }
+  })
 
   useBeforeFirstPaint(() => {
     const stage = mapRef.current
