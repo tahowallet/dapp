@@ -24,9 +24,6 @@ export default function Modal({ children }: ModalProps) {
             display: flex;
             align-items: center;
             justify-content: center;
-
-            //TODO: temp background to see the blur effect, remove later when map will be ready
-            background: url("https://www.wowpatterns.com/assets/files/resource_images/vibrant-ditsy-floral-pattern-with-bright-colorful-flowers-pattern.jpg");
           }
 
           .modal_container {
