@@ -1,16 +1,16 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
-import { bodyDarkGreen60, bodyDarkGreen80 } from "shared/styles/colors";
-import { bodyNormalSegment24, bodySmallSegment18 } from "shared/styles/fonts";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
+import { bodyDarkGreen60, bodyDarkGreen80 } from "shared/styles/colors"
+import { bodyNormalSegment24, bodySmallSegment18 } from "shared/styles/fonts"
 
 export function AfterSignStep({
   title,
   subTitle,
   children,
 }: {
-  title: ReactNode;
-  subTitle: ReactNode;
-  children: ReactNode;
+  title: ReactNode
+  subTitle: ReactNode
+  children: ReactNode
 }) {
   return (
     <div
@@ -52,5 +52,5 @@ export function AfterSignStep({
       </div>
       {children}
     </div>
-  );
+  )
 }

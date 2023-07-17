@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const customerIoSnippet = `
   var _cio = _cio || [];
@@ -15,15 +15,15 @@ const customerIoSnippet = `
     s.parentNode.insertBefore(t, s);
   })();
   window._cio = _cio;
-`;
+`
 
 export default function HTML(props: {
-  htmlAttributes: unknown;
-  headComponents: unknown[];
-  bodyAttributes: unknown;
-  preBodyComponents: unknown[];
-  body: string;
-  postBodyComponents: unknown[];
+  htmlAttributes: unknown
+  headComponents: unknown[]
+  bodyAttributes: unknown
+  preBodyComponents: unknown[]
+  body: string
+  postBodyComponents: unknown[]
 }) {
   return (
     <html {...props.htmlAttributes}>
@@ -39,7 +39,7 @@ export default function HTML(props: {
       <body {...props.bodyAttributes}>
         {props.preBodyComponents}
         <div
-          key={`body`}
+          key="body"
           id="___gatsby"
           dangerouslySetInnerHTML={{ __html: props.body }}
         />
@@ -49,5 +49,5 @@ export default function HTML(props: {
         {props.postBodyComponents}
       </body>
     </html>
-  );
+  )
 }

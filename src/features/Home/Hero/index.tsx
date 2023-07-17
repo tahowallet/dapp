@@ -1,18 +1,18 @@
-import { Link } from "gatsby";
-import { css } from "linaria";
-import React from "react";
+import { Link } from "gatsby"
+import { css } from "linaria"
+import React from "react"
 import {
   bodyDarkGrey80,
   buttonBackgroundSemanticSuccess,
   buttonLabelHunterGreen,
   sectionBackgroundGold20,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyNormalSegment24,
   buttonLabelQuincy18,
   labelLetterSpacing,
   titleQuincy80,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
@@ -20,8 +20,8 @@ import {
   sectionInlinePadding,
   sectionWideWidth,
   subtitleBlockMargin,
-} from "shared/styles/lengths";
-import { buttonShadow } from "shared/styles/shadows";
+} from "shared/styles/lengths"
+import { buttonShadow } from "shared/styles/shadows"
 
 export function HomeProductHero() {
   return (
@@ -76,20 +76,17 @@ export function HomeProductHero() {
             Taho is the first community-owned web3 wallet
           </p>
           <Link
-            className={
-              "matomo_download " +
-              css`
-                display: inline-block;
-                padding: ${buttonBlockPadding} ${buttonInlinePadding};
-                border-radius: ${buttonBorderRadius};
-                font: ${buttonLabelQuincy18};
-                letter-spacing: ${labelLetterSpacing};
-                box-shadow: ${buttonShadow};
-                background: ${buttonBackgroundSemanticSuccess};
-                color: ${buttonLabelHunterGreen};
-                margin: 1rem 0;
-              `
-            }
+            className={`matomo_download ${css`
+              display: inline-block;
+              padding: ${buttonBlockPadding} ${buttonInlinePadding};
+              border-radius: ${buttonBorderRadius};
+              font: ${buttonLabelQuincy18};
+              letter-spacing: ${labelLetterSpacing};
+              box-shadow: ${buttonShadow};
+              background: ${buttonBackgroundSemanticSuccess};
+              color: ${buttonLabelHunterGreen};
+              margin: 1rem 0;
+            `}`}
             to="https://chrome.google.com/webstore/detail/taho/eajafomhmkipbjmfmhebemolkcicgfmd"
           >
             Download Now
@@ -97,5 +94,5 @@ export function HomeProductHero() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,16 +1,16 @@
-import { SignatureListSlice } from "features/Manifesto/api";
-import { css } from "linaria";
-import React from "react";
+import { SignatureListSlice } from "features/Manifesto/api"
+import { css } from "linaria"
+import React from "react"
 import {
   bodyDarkGreen120,
   bodyDarkGreen40,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodySmallSegment18,
   h3Quincy36,
   showcaseQuincyBold48,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 
 export function SignatureListHeader({ data }: { data: SignatureListSlice }) {
   return (
@@ -55,5 +55,5 @@ export function SignatureListHeader({ data }: { data: SignatureListSlice }) {
         </span>
       </div>
     </div>
-  );
+  )
 }

@@ -1,3 +1,3 @@
-import Dapp from "features/Dapp";
+import Dapp from "features/Dapp"
 
-export default Dapp;
+export default Dapp

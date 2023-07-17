@@ -1,11 +1,11 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
-import { titleDarkHunterGreen } from "shared/styles/colors";
-import { h3Quincy36 } from "shared/styles/fonts";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
+import { titleDarkHunterGreen } from "shared/styles/colors"
+import { h3Quincy36 } from "shared/styles/fonts"
 import {
   sectionBodyNarrowWidth,
   sectionBodyWideWidth,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 export function CTAText({ children }: { children: ReactNode }) {
   return (
@@ -20,5 +20,5 @@ export function CTAText({ children }: { children: ReactNode }) {
     >
       {children}
     </h3>
-  );
+  )
 }

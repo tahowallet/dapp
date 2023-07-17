@@ -5,6 +5,7 @@
   "description": "taho.xyz",
   "author": "Taho <doggos@taho.xyz>",
   "repository": "git@github.com:tahowallet/taho.xyz",
+  "prettier": "@thesis/prettier-config",
   "license": "MIT",
   "keywords": [
     "ethereum",
@@ -24,7 +25,9 @@
     "build:prd": "TARGET_ENV='prd' gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
+    "format": "prettier --write \"!dapp\" \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "lint:eslint": "eslint src",
+    "lint:fix:eslint": "eslint src --fix"
   },
   "dependencies": {
     "@browser-logos/brave": "^3.0.13",
@@ -61,13 +64,17 @@
     "ulid": "^2.3.0"
   },
   "devDependencies": {
+    "@thesis-co/eslint-config": "^0.4.0",
+    "@thesis/prettier-config": "github:thesis/prettier-config",
+    "eslint-import-resolver-typescript": "^3.5.5",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.27",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
     "@types/react-helmet": "^6.1.6",
-    "eslint": "^7.28.0",
-    "@thesis-co/eslint-config": "^0.4.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.44.0",
     "netlify-cli": "^3.7.1",
     "prettier": "2.2.1",
     "typescript": "^5.1.6"

@@ -1,6 +1,6 @@
 require("dotenv").config({
   path: `.env.${process.env.TARGET_ENV ?? "dev"}`,
-});
+})
 
 module.exports = {
   siteMetadata: {
@@ -58,4 +58,4 @@ module.exports = {
       },
     },
   ],
-};
+}

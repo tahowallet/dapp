@@ -1,4 +1,3 @@
-import { Vector2d } from "konva/lib/types"
 import React from "react"
 import { Image } from "react-konva"
 import useImage from "use-image"

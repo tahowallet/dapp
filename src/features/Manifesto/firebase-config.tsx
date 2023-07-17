@@ -5,4 +5,4 @@ export const firebaseConfig = {
   storageBucket: process.env.GATSBY_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.GATSBY_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.GATSBY_FIREBASE_APP_I,
-};
+}

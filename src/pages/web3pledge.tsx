@@ -1,3 +1,3 @@
-import { Manifesto } from "features/Manifesto";
+import { Manifesto } from "features/Manifesto"
 
-export default Manifesto;
+export default Manifesto

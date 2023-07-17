@@ -1,15 +1,15 @@
-import { DaoGetInvolved } from "features/Dao/GetInvolved";
-import { DaoHero } from "features/Dao/Hero";
-import { DaoTestimonials } from "features/Dao/Testimonials";
-import { DaoTimeline } from "features/Dao/Timeline";
-import { DaoValues } from "features/Dao/Values";
-import { Footer, footerSeparatorBackground } from "features/Footer";
-import { Header } from "features/Header";
-import { Subscribe } from "features/Subscribe";
-import { css } from "linaria";
-import React from "react";
-import SEO from "shared/seo";
-import { sectionBackgroundOffWhite } from "shared/styles/colors";
+import { DaoGetInvolved } from "features/Dao/GetInvolved"
+import { DaoHero } from "features/Dao/Hero"
+import { DaoTestimonials } from "features/Dao/Testimonials"
+import { DaoTimeline } from "features/Dao/Timeline"
+import { DaoValues } from "features/Dao/Values"
+import { Footer, footerSeparatorBackground } from "features/Footer"
+import { Header } from "features/Header"
+import { Subscribe } from "features/Subscribe"
+import { css } from "linaria"
+import React from "react"
+import SEO from "shared/seo"
+import { sectionBackgroundOffWhite } from "shared/styles/colors"
 
 export function Dao() {
   return (
@@ -48,5 +48,5 @@ export function Dao() {
 
       <Footer />
     </>
-  );
+  )
 }

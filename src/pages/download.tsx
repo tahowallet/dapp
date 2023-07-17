@@ -1,3 +1,3 @@
-import { Download } from "features/Download";
+import { Download } from "features/Download"
 
-export default Download;
+export default Download

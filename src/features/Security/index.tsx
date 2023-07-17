@@ -1,17 +1,17 @@
-import { DownloadCta } from "features/Download/Cta";
-import { DownloadHeader } from "features/Download/Header";
-import { Footer, footerSeparatorBackground } from "features/Footer";
-import { Header } from "features/Header";
-import { SecurityAudits } from "features/Security/Audits";
-import { SecurityFeatures } from "features/Security/Features";
-import { css } from "linaria";
-import React from "react";
-import SEO from "shared/seo";
+import { DownloadCta } from "features/Download/Cta"
+import { DownloadHeader } from "features/Download/Header"
+import { Footer, footerSeparatorBackground } from "features/Footer"
+import { Header } from "features/Header"
+import { SecurityAudits } from "features/Security/Audits"
+import { SecurityFeatures } from "features/Security/Features"
+import { css } from "linaria"
+import React from "react"
+import SEO from "shared/seo"
 import {
   sectionBackgroundGold5,
   sectionBackgroundOffWhite,
-} from "shared/styles/colors";
-import { sectionInlinePadding, sectionWideWidth } from "shared/styles/lengths";
+} from "shared/styles/colors"
+import { sectionInlinePadding, sectionWideWidth } from "shared/styles/lengths"
 
 export function Security() {
   return (
@@ -51,5 +51,5 @@ export function Security() {
         <Footer />
       </div>
     </>
-  );
+  )
 }

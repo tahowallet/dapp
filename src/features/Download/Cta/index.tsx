@@ -1,10 +1,10 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyDarkGrey80,
   buttonBackgroundSemanticSuccess,
-} from "shared/styles/colors";
-import { bodyNormalSegment24, buttonLabelQuincy18 } from "shared/styles/fonts";
+} from "shared/styles/colors"
+import { bodyNormalSegment24, buttonLabelQuincy18 } from "shared/styles/fonts"
 import {
   pillBlockPadding,
   pillBorderRadius,
@@ -12,27 +12,24 @@ import {
   sectionWideWidth,
   sectionNarrowWidth,
   sectionInlinePadding,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 const chromeDownloadHref =
-  "https://chrome.google.com/webstore/detail/taho/eajafomhmkipbjmfmhebemolkcicgfmd";
-const firefoxDownloadHref = "/tally_ho_pre_release_channel-0.13.1-fx.xpi";
+  "https://chrome.google.com/webstore/detail/taho/eajafomhmkipbjmfmhebemolkcicgfmd"
+const firefoxDownloadHref = "/tally_ho_pre_release_channel-0.13.1-fx.xpi"
 
 export function DownloadCta() {
   return (
     <div
-      className={
-        "matomo_download " +
-        css`
-          padding: 3rem 0;
-          display: flex;
-          flex-flow: row wrap;
-          justify-content: space-evenly;
-          max-width: ${sectionNarrowWidth};
-          margin: 0 auto;
-          padding: 0 ${sectionInlinePadding};
-        `
-      }
+      className={`matomo_download ${css`
+        padding: 3rem 0;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-evenly;
+        max-width: ${sectionNarrowWidth};
+        margin: 0 auto;
+        padding: 0 ${sectionInlinePadding};
+      `}`}
     >
       <Option
         name="Chrome"
@@ -58,7 +55,7 @@ export function DownloadCta() {
         ]}
       />
     </div>
-  );
+  )
 }
 
 function Option({
@@ -67,16 +64,16 @@ function Option({
   href,
   twtrTrackPidParams,
 }: {
-  name: ReactNode;
-  logoSrc: string;
-  href: string;
+  name: ReactNode
+  logoSrc: string
+  href: string
   twtrTrackPidParams: [
     string,
     {
-      tw_sale_amount: number;
-      tw_order_quantity: number;
+      tw_sale_amount: number
+      tw_order_quantity: number
     }
-  ];
+  ]
 }) {
   return (
     <a
@@ -92,9 +89,10 @@ function Option({
           typeof window !== "undefined" &&
           typeof window.twttr !== "undefined"
         ) {
-          window.twttr.conversion.trackPid(...twtrTrackPidParams);
+          window.twttr.conversion.trackPid(...twtrTrackPidParams)
         }
       }}
+      rel="noreferrer"
     >
       <img
         className={css`
@@ -120,5 +118,5 @@ function Option({
         {name}
       </div>
     </a>
-  );
+  )
 }

@@ -1,21 +1,21 @@
-import { DownloadCta } from "features/Download/Cta";
-import { Footer } from "features/Footer";
-import { Header } from "features/Header";
-import { css } from "linaria";
-import React from "react";
-import SEO from "shared/seo";
+import { DownloadCta } from "features/Download/Cta"
+import { Footer } from "features/Footer"
+import { Header } from "features/Header"
+import { css } from "linaria"
+import React from "react"
+import SEO from "shared/seo"
 import {
   bodyDarkGold120,
   cardBackgroundGold20,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
-import { h1Quincy72, h3Quincy36 } from "shared/styles/fonts";
+} from "shared/styles/colors"
+import { h1Quincy72, h3Quincy36 } from "shared/styles/fonts"
 import {
   sectionInlinePadding,
   sectionWideWidth,
   subtitleBlockMargin,
   sectionBodyNarrowWidth,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 export function Download() {
   return (
@@ -68,5 +68,5 @@ export function Download() {
       <DownloadCta />
       <Footer />
     </>
-  );
+  )
 }

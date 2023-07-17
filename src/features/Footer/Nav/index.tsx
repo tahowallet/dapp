@@ -1,11 +1,11 @@
-import { Link } from "gatsby";
-import { css } from "linaria";
-import React, { CSSProperties, ReactNode } from "react";
+import { Link } from "gatsby"
+import { css } from "linaria"
+import React, { CSSProperties, ReactNode } from "react"
 import {
   borderDarkTrophyGold,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
-import { segmentFontFamily } from "shared/styles/font-families";
+} from "shared/styles/colors"
+import { segmentFontFamily } from "shared/styles/font-families"
 
 export function FooterNav() {
   return (
@@ -62,18 +62,18 @@ export function FooterNav() {
         <SocialLink
           href="https://chat.taho.xyz"
           icon={{
-            width: `24px`,
-            height: `24px`,
+            width: "24px",
+            height: "24px",
             src: `url(${require("shared/images/social-icons/discord.svg")})`,
             hoverSrc: `url(${require("shared/images/social-icons/discord-hover.svg")})`,
             activeSrc: `url(${require("shared/images/social-icons/discord-click.svg")})`,
-          }}  
+          }}
         />
         <SocialLink
           href="https://twitter.com/taho_xyz"
           icon={{
-            width: `28px`,
-            height: `24px`,
+            width: "28px",
+            height: "24px",
             src: `url(${require("shared/images/social-icons/twitter.svg")})`,
             hoverSrc: `url(${require("shared/images/social-icons/twitter-hover.svg")})`,
             activeSrc: `url(${require("shared/images/social-icons/twitter-click.svg")})`,
@@ -82,8 +82,8 @@ export function FooterNav() {
         <SocialLink
           href="https://github.com/tahowallet/extension"
           icon={{
-            width: `28px`,
-            height: `28px`,
+            width: "28px",
+            height: "28px",
             src: `url(${require("shared/images/social-icons/github.svg")})`,
             hoverSrc: `url(${require("shared/images/social-icons/github-hover.svg")})`,
             activeSrc: `url(${require("shared/images/social-icons/github-click.svg")})`,
@@ -91,7 +91,7 @@ export function FooterNav() {
         />
       </div>
     </div>
-  );
+  )
 }
 
 function NavLink({
@@ -99,9 +99,9 @@ function NavLink({
   to,
   blank,
 }: {
-  children: ReactNode;
-  to: string;
-  blank?: boolean;
+  children: ReactNode
+  to: string
+  blank?: boolean
 }) {
   return (
     <Link
@@ -129,25 +129,25 @@ function NavLink({
       `}
       activeClassName="active"
       to={to}
-      target={blank ? `_blank` : ``}
+      target={blank ? "_blank" : ""}
     >
       {children}
     </Link>
-  );
+  )
 }
 
 function SocialLink({
   href,
   icon,
 }: {
-  href: string;
+  href: string
   icon: {
-    width: string;
-    height: string;
-    src: string;
-    hoverSrc: string;
-    activeSrc: string;
-  };
+    width: string
+    height: string
+    src: string
+    hoverSrc: string
+    activeSrc: string
+  }
 }) {
   return (
     <a
@@ -202,6 +202,7 @@ function SocialLink({
           }
         }
       `}
+      rel="noreferrer"
     />
-  );
+  )
 }

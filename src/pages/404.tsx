@@ -1,38 +1,36 @@
-import { css } from "linaria";
-import React from "react";
-import { Header } from "features/Header";
-import { DownloadCta } from "features/Download/Cta";
-import { DownloadHeader } from "features/Download/Header";
-import { Footer, footerSeparatorBackground } from "features/Footer";
-import SEO from "shared/seo";
+import { css } from "linaria"
+import React from "react"
+import { Header } from "features/Header"
+import { DownloadCta } from "features/Download/Cta"
+import { DownloadHeader } from "features/Download/Header"
+import { Footer, footerSeparatorBackground } from "features/Footer"
+import SEO from "shared/seo"
 
-import { bodyLightGold5 } from "shared/styles/colors";
 import {
+  bodyLightGold5,
   sectionBackgroundGold5,
   sectionBackgroundOffWhite,
-} from "shared/styles/colors";
-import { sectionInlinePadding, sectionWideWidth } from "shared/styles/lengths";
-import {
   bodyDarkGold120,
   buttonBackgroundSemanticSuccess,
   buttonLabelHunterGreen,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
+import { sectionInlinePadding, sectionWideWidth } from "shared/styles/lengths"
 import {
   bodyNormalSegment24,
   buttonLabelQuincy18,
   h1Quincy72,
   h2Quincy48,
-} from "shared/styles/fonts";
-import { tileLightGradient } from "shared/styles/gradients";
+} from "shared/styles/fonts"
+import { tileLightGradient } from "shared/styles/gradients"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
   buttonInlinePadding,
   subtitleBlockMargin,
   tileBorderRadius,
-} from "shared/styles/lengths";
-import { buttonShadow, tileBoxShadow } from "shared/styles/shadows";
+} from "shared/styles/lengths"
+import { buttonShadow, tileBoxShadow } from "shared/styles/shadows"
 
 export function NotFoundPage() {
   return (
@@ -86,7 +84,7 @@ export function NotFoundPage() {
         <Footer />
       </div>
     </>
-  );
+  )
 }
 
-export default NotFoundPage;
+export default NotFoundPage

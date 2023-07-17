@@ -1,16 +1,16 @@
-import { css } from "linaria";
-import React from "react";
+import { css } from "linaria"
+import React from "react"
 import {
   bodyDarkGrey80,
   buttonBackgroundSemanticSuccess,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyNormalSegment24,
   buttonLabelQuincy18,
   h1Quincy72,
   labelLetterSpacing,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
@@ -18,8 +18,8 @@ import {
   sectionInlinePadding,
   sectionWideWidth,
   subtitleBlockMargin,
-} from "shared/styles/lengths";
-import { buttonShadow } from "shared/styles/shadows";
+} from "shared/styles/lengths"
+import { buttonShadow } from "shared/styles/shadows"
 
 export function DaoHero() {
   return (
@@ -75,11 +75,12 @@ export function DaoHero() {
             `}
             href="https://chat.taho.xyz"
             target="_blank"
+            rel="noreferrer"
           >
             Join Discord
           </a>
         </div>
       </div>
     </div>
-  );
+  )
 }

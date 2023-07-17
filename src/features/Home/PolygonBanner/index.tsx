@@ -1,8 +1,8 @@
-import { css } from "linaria";
-import React from "react";
-import { bodyDarkGreen120, cardBackgroundGold60 } from "shared/styles/colors";
-import { bodySmallSegment18 } from "shared/styles/fonts";
-import { sectionInlinePadding } from "shared/styles/lengths";
+import { css } from "linaria"
+import React from "react"
+import { bodyDarkGreen120, cardBackgroundGold60 } from "shared/styles/colors"
+import { bodySmallSegment18 } from "shared/styles/fonts"
+import { sectionInlinePadding } from "shared/styles/lengths"
 
 export function HomeBanner() {
   return (
@@ -30,5 +30,5 @@ export function HomeBanner() {
         </a>
       </div>
     </div>
-  );
+  )
 }

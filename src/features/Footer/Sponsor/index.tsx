@@ -1,7 +1,7 @@
-import { Link } from "gatsby";
-import { css } from "linaria";
-import React, { CSSProperties, ReactNode } from "react";
-import { quincyRegularFontFamily } from "shared/styles/font-families";
+import { Link } from "gatsby"
+import { css } from "linaria"
+import React, { CSSProperties, ReactNode } from "react"
+import { quincyRegularFontFamily } from "shared/styles/font-families"
 
 export function Sponsor() {
   return (
@@ -33,5 +33,5 @@ export function Sponsor() {
         GOOD HUNTING!
       </div>
     </div>
-  );
+  )
 }

@@ -1,3 +1,3 @@
-import { Dao } from "features/Dao";
+import { Dao } from "features/Dao"
 
-export default Dao;
+export default Dao

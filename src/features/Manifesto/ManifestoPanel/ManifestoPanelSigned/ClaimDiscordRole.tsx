@@ -1,52 +1,52 @@
-import { FirebaseError } from "@firebase/util";
-import { AfterSignStep } from "features/Manifesto/ManifestoPanel/ManifestoPanelSigned/AfterSignStep";
-import { DiscordLogo } from "features/Manifesto/ManifestoPanel/ManifestoPanelSigned/DiscordLogo";
-import { Message } from "features/Manifesto/ManifestoPanel/Message";
-import { FullAccount } from "features/Manifesto/types";
-import { Link } from "gatsby";
-import { css } from "linaria";
-import React, { useEffect, useRef, useState } from "react";
-import { useMutation } from "react-query";
+import { FirebaseError } from "@firebase/util"
+import { AfterSignStep } from "features/Manifesto/ManifestoPanel/ManifestoPanelSigned/AfterSignStep"
+import { DiscordLogo } from "features/Manifesto/ManifestoPanel/ManifestoPanelSigned/DiscordLogo"
+import { Message } from "features/Manifesto/ManifestoPanel/Message"
+import { FullAccount } from "features/Manifesto/types"
+import { Link } from "gatsby"
+import { css } from "linaria"
+import React, { useEffect, useRef, useState } from "react"
+import { useMutation } from "react-query"
 import {
   bodyDarkGreen40,
   bodyDarkGreen60,
   borderDarkTrophyGold,
   buttonLabelLightOffWhite,
   linkDarkTrophyGold,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodySmallSegment18,
   buttonLabelQuincy18,
   labelLetterSpacing,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
   buttonInlinePadding,
-} from "shared/styles/lengths";
-import { buttonShadow } from "shared/styles/shadows";
-import { claimDiscordRole } from "../../api";
-import { getDiscordLoginBroadcastChannel } from "./discord-login";
+} from "shared/styles/lengths"
+import { buttonShadow } from "shared/styles/shadows"
+import { claimDiscordRole } from "../../api"
+import { getDiscordLoginBroadcastChannel } from "./discord-login"
 
 export function ClaimDiscordRole({ account }: { account: FullAccount }) {
-  const [discordToken, setDiscordToken] = useState("");
-  const oauthStateRef = useRef("");
+  const [discordToken, setDiscordToken] = useState("")
+  const oauthStateRef = useRef("")
 
   useEffect(() => {
     const onDiscordLogin = (event: MessageEvent<string>): void => {
-      const data = new URLSearchParams(event.data);
-      if (data.get("state") !== oauthStateRef.current) return;
-      const token = data.get("access_token") ?? "";
-      setDiscordToken(token);
-      if (token) mutate({ discordToken: token });
-    };
+      const data = new URLSearchParams(event.data)
+      if (data.get("state") !== oauthStateRef.current) return
+      const token = data.get("access_token") ?? ""
+      setDiscordToken(token)
+      if (token) mutate({ discordToken: token })
+    }
 
-    const channel = getDiscordLoginBroadcastChannel();
-    channel.addEventListener("message", onDiscordLogin);
+    const channel = getDiscordLoginBroadcastChannel()
+    channel.addEventListener("message", onDiscordLogin)
     return () => {
-      channel.removeEventListener("message", onDiscordLogin);
-    };
-  }, []);
+      channel.removeEventListener("message", onDiscordLogin)
+    }
+  }, [mutate])
 
   const {
     mutate,
@@ -55,7 +55,7 @@ export function ClaimDiscordRole({ account }: { account: FullAccount }) {
     data,
   } = useMutation(async ({ discordToken }: { discordToken: string }) =>
     claimDiscordRole({ token: account.token, discordToken })
-  );
+  )
 
   return (
     <AfterSignStep
@@ -84,7 +84,7 @@ export function ClaimDiscordRole({ account }: { account: FullAccount }) {
               cursor: pointer;
             `}
             onClick={() => {
-              oauthStateRef.current = (Math.random() * 1e9).toFixed();
+              oauthStateRef.current = (Math.random() * 1e9).toFixed()
               window.open(
                 `https://discord.com/api/oauth2/authorize?${new URLSearchParams(
                   {
@@ -100,14 +100,14 @@ export function ClaimDiscordRole({ account }: { account: FullAccount }) {
                 ).toString()}`,
                 "discord-login",
                 [
-                  `toolbar=no`,
-                  `menubar=no`,
-                  `width=850`,
-                  `height=700`,
+                  "toolbar=no",
+                  "menubar=no",
+                  "width=850",
+                  "height=700",
                   `top=${(window.innerHeight / 2 - 400).toFixed()}`,
                   `left=${(window.innerWidth / 2 - 300).toFixed()}`,
                 ].join(",")
-              );
+              )
             }}
           >
             Sign-In with Discord
@@ -183,5 +183,5 @@ export function ClaimDiscordRole({ account }: { account: FullAccount }) {
         </Message>
       )}
     </AfterSignStep>
-  );
+  )
 }

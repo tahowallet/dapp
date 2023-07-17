@@ -1,20 +1,16 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyDarkHunterGreen,
   linkDarkTrophyGold,
   titleDarkGreen80,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
-import {
-  bodySmallSegment18,
-  h1Quincy72,
-  h3Quincy36,
-} from "shared/styles/fonts";
+} from "shared/styles/colors"
+import { bodySmallSegment18, h1Quincy72, h3Quincy36 } from "shared/styles/fonts"
 import {
   sectionBodyWideWidth,
   sectionInlinePadding,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 export function ManifestoBody() {
   return (
@@ -73,12 +69,14 @@ export function ManifestoBody() {
         <a
           href="https://theintercept.com/2022/06/29/crypto-coinbase-tracer-ice/"
           target="_blank"
+          rel="noreferrer"
         >
           Who&rsquo;s monitoring my activity?
         </a>{" "}
         <a
           href="https://www.forbes.com/sites/stevenehrlich/2022/03/03/iranian-venezuela-users-abruptly-dropped-from-major-crypto-platforms-as-russian-sanctions-grow/?sh=5e32c6a670b0"
           target="_blank"
+          rel="noreferrer"
         >
           Can they censor me, block me from accessing my assets, or dictate
           which protocols or networks I connect to?
@@ -86,6 +84,7 @@ export function ManifestoBody() {
         <a
           href="https://twitter.com/tomhschmidt/status/1387680567492104192?lang=en"
           target="_blank"
+          rel="noreferrer"
         >
           Who&rsquo;s getting rich here?
         </a>
@@ -96,7 +95,7 @@ export function ManifestoBody() {
         Now imagine a community-owned wallet that actually embodies and protects
         Web3 values—a wallet that&rsquo;s available to anyone, anywhere on
         Earth, that can finance itself,{" "}
-        <a href="https://taho.xyz/dao/" target="_blank">
+        <a href="https://taho.xyz/dao/" target="_blank" rel="noreferrer">
           that&rsquo;s governed by a DAO
         </a>
         , and that&rsquo;s accountable to you, not some faceless corporation.
@@ -177,7 +176,7 @@ export function ManifestoBody() {
         the first step in becoming a verified member of our community.
       </p>
     </div>
-  );
+  )
 }
 
 function Value({
@@ -185,9 +184,9 @@ function Value({
   body,
   iconSrc,
 }: {
-  title: ReactNode;
-  body: ReactNode;
-  iconSrc: string;
+  title: ReactNode
+  body: ReactNode
+  iconSrc: string
 }) {
   return (
     <li
@@ -223,5 +222,5 @@ function Value({
         </p>
       </div>
     </li>
-  );
+  )
 }

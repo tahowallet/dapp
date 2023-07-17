@@ -1,5 +1,5 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyDarkGreen120,
   bodyDarkGrey60,
@@ -7,20 +7,20 @@ import {
   cardBackgroundGreen20,
   sectionBackgroundOffWhite,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyNormalSegment24,
   bodySmallSegment18,
   h1Quincy72,
   h2Quincy48,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   sectionBodyWideWidth,
   sectionInlinePadding,
   sectionNarrowWidth,
   subtitleBlockMargin,
   sectionWideWidth,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 export function DaoGetInvolved() {
   return (
@@ -102,7 +102,7 @@ export function DaoGetInvolved() {
         </Option>
       </div>
     </div>
-  );
+  )
 }
 
 function Option({
@@ -111,10 +111,10 @@ function Option({
   title,
   children,
 }: {
-  href: string;
-  iconSrc: string;
-  title: ReactNode;
-  children: ReactNode;
+  href: string
+  iconSrc: string
+  title: ReactNode
+  children: ReactNode
 }) {
   return (
     <a
@@ -137,6 +137,7 @@ function Option({
       `}
       href={href}
       target="_blank"
+      rel="noreferrer"
     >
       <img src={iconSrc} />
       <h2
@@ -158,5 +159,5 @@ function Option({
         {children}
       </p>
     </a>
-  );
+  )
 }

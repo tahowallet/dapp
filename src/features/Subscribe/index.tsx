@@ -1,5 +1,5 @@
-import { css } from "linaria";
-import React, { useState } from "react";
+import { css } from "linaria"
+import React, { useState } from "react"
 import {
   bodyDarkGreen80,
   bodyDarkGreen95,
@@ -7,14 +7,14 @@ import {
   cardBackgroundGreen20,
   sectionBackgroundOffWhite,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyExtraSmallSegment14,
   bodyNormalSegment24,
   buttonLabelQuincy18,
   h1Quincy72,
   labelLetterSpacing,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
@@ -23,11 +23,11 @@ import {
   sectionInlinePadding,
   sectionWideWidth,
   subtitleBlockMargin,
-} from "shared/styles/lengths";
-import { buttonShadow } from "shared/styles/shadows";
+} from "shared/styles/lengths"
+import { buttonShadow } from "shared/styles/shadows"
 
 export function Subscribe() {
-  const [submittedEmail, setSubmittedEmail] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("")
 
   return (
     <div
@@ -71,18 +71,18 @@ export function Subscribe() {
         </div>
         <form
           onSubmit={(event) => {
-            event.preventDefault();
+            event.preventDefault()
             const emailInput = event.currentTarget.elements.namedItem(
               "email"
-            ) as HTMLInputElement;
+            ) as HTMLInputElement
 
-            const email = emailInput.value;
-            (window as any)._cio.identify({
+            const email = emailInput.value
+            ;(window as any)._cio.identify({
               id: email,
-              email: email,
+              email,
               created_at: Math.floor(new Date().getTime() / 1000),
-            });
-            setSubmittedEmail(email);
+            })
+            setSubmittedEmail(email)
           }}
         >
           <div
@@ -158,5 +158,5 @@ export function Subscribe() {
         </form>
       </div>
     </div>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyDarkGold120,
   bodyDarkGrey60,
   bodyDarkGrey80,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyLargeSegment32,
   bodyNormalSegment24,
@@ -13,8 +13,8 @@ import {
   h2Quincy48,
   h3Quincy36,
   pillLabelSegment14,
-} from "shared/styles/fonts";
-import { tileLightGradient } from "shared/styles/gradients";
+} from "shared/styles/fonts"
+import { tileLightGradient } from "shared/styles/gradients"
 import {
   pillBlockPadding,
   pillBorderRadius,
@@ -23,8 +23,8 @@ import {
   sectionWideWidth,
   subtitleBlockMargin,
   tileBorderRadius,
-} from "shared/styles/lengths";
-import { tileBoxShadow } from "shared/styles/shadows";
+} from "shared/styles/lengths"
+import { tileBoxShadow } from "shared/styles/shadows"
 
 export function HomeFeatures() {
   return (
@@ -220,15 +220,15 @@ export function HomeFeatures() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function Feature({
   title,
   children,
 }: {
-  title: ReactNode;
-  children: ReactNode;
+  title: ReactNode
+  children: ReactNode
 }) {
   return (
     <>
@@ -249,7 +249,7 @@ function Feature({
         {children}
       </p>
     </>
-  );
+  )
 }
 
 function ComingSoon({ children }: { children: ReactNode }) {
@@ -283,5 +283,5 @@ function ComingSoon({ children }: { children: ReactNode }) {
         {children}
       </h3>
     </div>
-  );
+  )
 }

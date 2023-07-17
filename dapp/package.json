@@ -8,7 +8,9 @@
     "start": "webpack serve --mode=development",
     "build": "webpack build --mode=production",
     "lint:eslint": "eslint .",
-    "lint:fix:eslint": "eslint . --fix"
+    "lint:fix:eslint": "eslint . --fix",
+    "lint:config": "prettier -c '**/*.@(json|yaml|toml)'",
+    "lint:config:fix": "prettier -w '**/*.@(json|yaml|toml)'"
   },
   "dependencies": {
     "@thirdweb-dev/react": "^3.14.13",

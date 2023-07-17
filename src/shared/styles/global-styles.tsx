@@ -1,5 +1,5 @@
-import { css } from "linaria";
-import { sectionBackgroundGold5 } from "shared/styles/colors";
+import { css } from "linaria"
+import { sectionBackgroundGold5 } from "shared/styles/colors"
 
 css`
   :global() {
@@ -48,4 +48,4 @@ css`
       font-style: normal;
     }
   }
-`;
+`

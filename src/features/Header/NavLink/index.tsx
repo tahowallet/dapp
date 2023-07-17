@@ -1,17 +1,17 @@
-import { Link } from "gatsby";
-import { css } from "linaria";
-import React, { ReactNode } from "react";
-import { borderDarkTrophyGold, linkDarkTrophyGold } from "shared/styles/colors";
-import { segmentFontFamily } from "shared/styles/font-families";
+import { Link } from "gatsby"
+import { css } from "linaria"
+import React, { ReactNode } from "react"
+import { borderDarkTrophyGold, linkDarkTrophyGold } from "shared/styles/colors"
+import { segmentFontFamily } from "shared/styles/font-families"
 
 export function NavLink({
   children,
   to,
   blank,
 }: {
-  children: ReactNode;
-  to: string;
-  blank?: boolean;
+  children: ReactNode
+  to: string
+  blank?: boolean
 }) {
   return (
     <Link
@@ -52,10 +52,10 @@ export function NavLink({
       `}
       activeClassName="active"
       to={to}
-      target={blank ? `_blank` : ``}
+      target={blank ? "_blank" : ""}
     >
       {children}
-      {blank ? ` ↗︎︎︎` : null}
+      {blank ? " ↗︎︎︎" : null}
     </Link>
-  );
+  )
 }
