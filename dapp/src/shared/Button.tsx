@@ -7,6 +7,7 @@ type ButtonProps = {
   size?: "medium" | "large"
   isDisabled?: boolean
   isInactive?: boolean
+  iconPosition?: "left" | "right"
   iconSrc?: string
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -17,6 +18,7 @@ export default function Button({
   size = "medium",
   isDisabled = false,
   isInactive = false,
+  iconPosition = "right",
   iconSrc,
   onClick,
 }: ButtonProps) {
@@ -32,6 +34,7 @@ export default function Button({
           tertiary: type === "tertiary",
           medium: size === "medium",
           large: size === "large",
+          reversed: iconPosition === "left",
           disabled: isDisabled,
           inactive: isInactive,
         })}
@@ -52,6 +55,7 @@ export default function Button({
             letter-spacing: 0.5px;
             box-sizing: border-box;
             transition: all 100ms;
+            gap: 8px;
           }
 
           .large {
@@ -177,7 +181,6 @@ export default function Button({
             mask-image: url(${iconSrc});
             -webkit-mask-size: cover;
             mask-size: cover;
-            margin-left: 8px;
           }
           .medium .icon {
             width: 16px;
@@ -186,6 +189,10 @@ export default function Button({
           .large .icon {
             width: 24px;
             height: 24px;
+          }
+
+          .reversed {
+            flex-direction: row-reverse;
           }
         `}
       </style>

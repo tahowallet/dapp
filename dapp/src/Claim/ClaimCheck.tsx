@@ -19,7 +19,12 @@ export default function ClaimCheck() {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             Primary
-            <Button onClick={onClick} iconSrc={icon} type="primary">
+            <Button
+              onClick={onClick}
+              iconPosition="left"
+              iconSrc={icon}
+              type="primary"
+            >
               Button
             </Button>
             <Button onClick={onClick} iconSrc={icon} type="primary" isDisabled>
