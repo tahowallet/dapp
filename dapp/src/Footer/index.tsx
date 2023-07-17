@@ -23,7 +23,7 @@ export default function Footer() {
           height: ICON_SIZE,
           src: `url(${require("../../../src/shared/images/social-icons/discord.svg")})`,
           hoverSrc: `url(${require("../../../src/shared/images/social-icons/discord-hover.svg")})`,
-          activeSrc: `url(${require("../../../src/shared/images/social-icons/discord-click.svg")})`
+          activeSrc: `url(${require("../../../src/shared/images/social-icons/discord-click.svg")})`,
         }}
       />
       <IconLink
@@ -33,7 +33,7 @@ export default function Footer() {
           height: ICON_SIZE,
           src: `url(${require("../../../src/shared/images/social-icons/twitter.svg")})`,
           hoverSrc: `url(${require("../../../src/shared/images/social-icons/twitter-hover.svg")})`,
-          activeSrc: `url(${require("../../../src/shared/images/social-icons/twitter-click.svg")})`
+          activeSrc: `url(${require("../../../src/shared/images/social-icons/twitter-click.svg")})`,
         }}
       />
       <IconLink
@@ -43,7 +43,7 @@ export default function Footer() {
           height: ICON_SIZE,
           src: `url(${require("../../../src/shared/images/social-icons/github.svg")})`,
           hoverSrc: `url(${require("../../../src/shared/images/social-icons/github-hover.svg")})`,
-          activeSrc: `url(${require("../../../src/shared/images/social-icons/github-click.svg")})`
+          activeSrc: `url(${require("../../../src/shared/images/social-icons/github-click.svg")})`,
         }}
       />
       <Link to="/rulebook">Rulebook</Link>

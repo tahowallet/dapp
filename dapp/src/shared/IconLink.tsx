@@ -2,7 +2,7 @@ import React, { CSSProperties } from "react"
 
 export default function IconLink({
   href,
-  icon
+  icon,
 }: {
   href: string
   icon: {
@@ -25,7 +25,7 @@ export default function IconLink({
             "--icon-height": icon.height,
             "--icon-src": icon.src,
             "--icon-active-src": icon.activeSrc,
-            "--icon-hover-src": icon.hoverSrc
+            "--icon-hover-src": icon.hoverSrc,
           } as CSSProperties
         }
         rel="noreferrer"
