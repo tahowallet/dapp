@@ -11,7 +11,7 @@ import {
   useOnResize,
   useValueRef,
 } from "./utils"
-import { KonvaNode, KonvaStage, Vector2d } from "./types"
+import { KonvaNode, KonvaStage, KonvaEventListener, Vector2d } from "./types"
 
 export default function InteractiveMap() {
   const settingsRef = useRef({ minScale: 0 })
@@ -47,27 +47,58 @@ export default function InteractiveMap() {
   const stageFns = useValueRef({ centerMap, resetZoom })
 
   useBeforeFirstPaint(() => {
-    const node = mapRef.current
-    if (!node) return () => {}
-
-    const container = node.container()
+    const stage = mapRef.current
+    if (!stage) return () => {}
 
     let acc = 0
     let skipUpdate = false
-    const handler = (evtg: WheelEvent) => {
-      const zoom = node.scaleX()
+    const handler: KonvaEventListener<KonvaStage, WheelEvent> = (
+      konvaEvent
+    ) => {
+      const event = konvaEvent.evt
 
-      acc += evtg.deltaY
+      acc += event.deltaY
 
       if (!skipUpdate) {
         requestAnimationFrame(() => {
+          const zoom = stage.scaleX()
           const zoomFactor = 0.001
+          const { minScale } = settingsRef.current
+
           const newScale = limitToBounds(
             zoom + acc * -zoomFactor,
-            settingsRef.current.minScale,
-            0.35
+            minScale,
+            Math.max(0.45, minScale)
           )
-          setZoomLevel(newScale)
+
+          const stagePos = stage.absolutePosition()
+          const pointer = stage.getPointerPosition()
+
+          if (pointer && newScale !== zoom) {
+            // Get current mouse position in the canvas
+            const pointerCanvasPos = {
+              x: -(pointer.x - stagePos.x) / zoom,
+              y: -(pointer.y - stagePos.y) / zoom,
+            }
+
+            const maxX = MAP_BOX.width - stage.width() / newScale
+            const maxY = MAP_BOX.height - stage.height() / newScale
+
+            // Add back pointer position to retrieve "same canvas position" offset
+            const targetX = pointerCanvasPos.x * newScale + pointer.x
+            const targetY = pointerCanvasPos.y * newScale + pointer.y
+
+            stage.scale({ x: newScale, y: newScale })
+
+            // Force bounds while zooming in/out
+            stage.absolutePosition({
+              x: limitToBounds(targetX, -maxX * newScale, 0),
+              y: limitToBounds(targetY, -maxY * newScale, 0),
+            })
+
+            // Manually update the stage scale and queue a state update
+            setZoomLevel(newScale)
+          }
           acc = 0
           skipUpdate = false
         })
@@ -76,8 +107,8 @@ export default function InteractiveMap() {
       skipUpdate = true
     }
 
-    container.addEventListener("wheel", handler, { passive: false })
-    return () => container.removeEventListener("wheel", handler)
+    stage.on("wheel", handler)
+    return () => stage.off("wheel", handler)
   })
 
   useOnResize(() => {
