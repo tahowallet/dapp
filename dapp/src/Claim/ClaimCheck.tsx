@@ -52,6 +52,7 @@ export default function ClaimCheck() {
               Button
             </Button>
             <Button
+              iconPosition="left"
               onClick={onClick}
               iconSrc={icon}
               type="secondary"
@@ -77,7 +78,12 @@ export default function ClaimCheck() {
               Button
             </Button>
             Tertiary
-            <Button onClick={onClick} iconSrc={icon} type="tertiary">
+            <Button
+              iconPosition="left"
+              onClick={onClick}
+              iconSrc={icon}
+              type="tertiary"
+            >
               Button
             </Button>
             <Button onClick={onClick} iconSrc={icon} type="tertiary" isDisabled>

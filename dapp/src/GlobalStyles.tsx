@@ -17,6 +17,14 @@ export default function GlobalStyles() {
         }
 
         :root {
+          --primary-p1-100: #0d2321;
+
+          --primary-p2-120: #b57017;
+          --primary-p2-100: #ed9a26;
+          --primary-p2-80: #f0ac55;
+
+          --secondary-s1-40: rgba(228, 238, 238, 0.4);
+
           --hunter-green: #002825;
           --green120: #00211e;
           --green95: #013834;
