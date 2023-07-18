@@ -13,7 +13,7 @@ export default function Nav(): JSX.Element {
       <div>Taho logo</div>
       <div>
         <button type="button">
-          <img />
+          <span>Connect img</span>
           Connect Taho wallet
         </button>
       </div>

@@ -16,6 +16,18 @@ export default function GlobalStyles() {
           margin: unset;
         }
 
+        :root {
+          --primary-p1-100: #0d2321;
+
+          --primary-p2-120: #b57017;
+          --primary-p2-100: #ed9a26;
+          --primary-p2-80: #f0ac55;
+
+          --secondary-s1-40: rgba(228, 238, 238, 0.4);
+
+          --offWhite: #fefefc;
+        }
+
         a {
           color: inherit;
           text-decoration: inherit;
