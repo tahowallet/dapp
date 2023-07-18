@@ -8,11 +8,12 @@ import path from "path"
 
 const config: Configuration = {
   entry: ["./src/index.tsx"],
+  devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
     clean: true,
-    chunkLoading: false,
+    // chunkLoading: false,
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
@@ -28,8 +29,8 @@ const config: Configuration = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|svg|jpg|gif|woff2)$/,
-        use: "file-loader",
+        test: /\.(png|webp|svg|jpg|gif|woff2)$/,
+        type: "asset/resource",
       },
     ],
   },
