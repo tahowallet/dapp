@@ -28,7 +28,7 @@ export default function ClaimCheck() {
           font-size: 18px;
           line-height: 24px;
           font-style: normal;
-          color: var(--grey100);
+          color: var(--secondary-s1-100);
         }
         .header_container {
           display: flex;
@@ -39,7 +39,7 @@ export default function ClaimCheck() {
         .season {
           text-transform: uppercase;
           font-weight: 600;
-          color: var(--semanticSuccess);
+          color: var(--semantic-success);
         }
         .header {
           font-family: "QuincyCF-Regular";
@@ -48,7 +48,7 @@ export default function ClaimCheck() {
           letter-spacing: 1px;
         }
         .subheader {
-          color: var(--grey70);
+          color: var(--secondary-s1-70);
           font-weight: 500;
         }
         .input_container {
@@ -56,8 +56,8 @@ export default function ClaimCheck() {
           display: flex;
           padding: 20px 24px;
           border-radius: 80px;
-          border: 1px solid var(--grey30);
-          background: var(--green100);
+          border: 1px solid var(--secondary-s1-30);
+          background: var(--primary-p1-100);
         }
         .input {
           flex-grow: 1;
@@ -67,10 +67,10 @@ export default function ClaimCheck() {
           font-weight: 600;
           line-height: 24px;
           background: transparent;
-          color: var(--green5);
+          color: var(--green-5);
         }
         .input::placeholder {
-          color: var(--green5);
+          color: var(--green-5);
         }
         .input:focus {
           outline: none;

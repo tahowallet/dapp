@@ -44,9 +44,6 @@ export const buttonLabelLightOffWhite = offWhite;
 
 export const buttonBackgroundSemanticSuccess = semanticSuccess;
 export const buttonBackgroundTrophyGold = trophyGold;
-export const buttonBackgroundGold120 = gold120;
-export const buttonBackgroundGold80 = gold80;
-export const buttonBackgroundGreen60 = green60;
 
 export const sectionBackgroundGold5 = gold5;
 export const sectionBackgroundGold20 = gold20;
