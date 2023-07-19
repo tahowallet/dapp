@@ -29,7 +29,7 @@ export default function GlobalStyles() {
           --secondary-s1-40: rgba(228, 238, 238, 0.4);
           --secondary-s1-30: rgba(228, 238, 238, 0.3);
 
-          --off-white: #fefefc;
+          --off-white: #f7f9f9;
 
           --green-5: #d6eae9;
 
@@ -80,6 +80,7 @@ export default function GlobalStyles() {
           font-style: normal;
           font-weight: 500;
           line-height: 24px;
+          color: var(--off-white);
         }
         .column_center {
           display: flex;

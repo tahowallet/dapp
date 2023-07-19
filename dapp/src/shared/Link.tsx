@@ -5,6 +5,6 @@ type LinkProps = {
   to: string
 }
 
-export default function LinkStub({ children: _, to: __ }: LinkProps) {
-  return null
+export default function LinkStub({ children, to }: LinkProps) {
+  return <a href={to}>{children}</a>
 }

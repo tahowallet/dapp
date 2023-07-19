@@ -20,7 +20,6 @@ export default function IconLink({
         .link {
           display: block;
           flex: 0 0 auto;
-          margin: 0 1rem;
         }
 
         .link_icon {
