@@ -1,21 +1,21 @@
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import { listSignatures, SignatureListSlice } from "features/Manifesto/api";
-import { css, cx } from "linaria";
-import React, { useState } from "react";
-import { useQuery } from "react-query";
-import { green40, hunterGreen, offWhite } from "shared/styles/color-palette";
-import { bodySmallSegment18 } from "shared/styles/fonts";
-import { sectionNarrowWidth } from "shared/styles/lengths";
-import { SignatureListHeader } from "./SignatureListHeader";
-import { SignatureListPage } from "./SignatureListPage";
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import { listSignatures, SignatureListSlice } from "features/Manifesto/api"
+import { css, cx } from "linaria"
+import React, { useState } from "react"
+import { useQuery } from "react-query"
+import { green40, hunterGreen, offWhite } from "shared/styles/color-palette"
+import { bodySmallSegment18 } from "shared/styles/fonts"
+import { sectionNarrowWidth } from "shared/styles/lengths"
+import { SignatureListHeader } from "./SignatureListHeader"
+import { SignatureListPage } from "./SignatureListPage"
 
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTime)
 
-const pageSize = 10;
+const pageSize = 10
 
 export function SignatureList() {
-  const { data, isLoading, error } = useSignatureListPage(null);
+  const { data, isLoading, error } = useSignatureListPage(null)
 
   return (
     <>
@@ -34,33 +34,33 @@ export function SignatureList() {
         </div>
       )}
     </>
-  );
+  )
 }
 
 interface SignaturePage {
-  number: number;
-  before: number;
+  number: number
+  before: number
 }
 
 function SignatureListPageList({
   firstPageData,
 }: {
-  firstPageData: SignatureListSlice;
+  firstPageData: SignatureListSlice
 }) {
-  const { totalCount } = firstPageData;
+  const { totalCount } = firstPageData
 
   const allPages = Array.from({ length: Math.ceil(totalCount / pageSize) }).map(
     (unused, index): SignaturePage => ({
       number: index + 1,
       before: totalCount - index * pageSize,
     })
-  );
+  )
 
-  if (allPages.length === 0) throw new Error(`unexpected empty list`);
+  if (allPages.length === 0) throw new Error("unexpected empty list")
 
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [currentPageNumber, setCurrentPageNumber] = useState(1)
 
-  const currentPage = allPages[currentPageNumber - 1] ?? allPages[0];
+  const currentPage = allPages[currentPageNumber - 1] ?? allPages[0]
 
   return (
     <>
@@ -73,7 +73,7 @@ function SignatureListPageList({
         />
       )}
     </>
-  );
+  )
 }
 
 function SignaturePaginationPanel({
@@ -81,9 +81,9 @@ function SignaturePaginationPanel({
   currentPage,
   setCurrentPageNumber,
 }: {
-  allPages: SignaturePage[];
-  currentPage: SignaturePage;
-  setCurrentPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  allPages: SignaturePage[]
+  currentPage: SignaturePage
+  setCurrentPageNumber: React.Dispatch<React.SetStateAction<number>>
 }) {
   return (
     <div
@@ -141,22 +141,22 @@ function SignaturePaginationPanel({
         )
       )}
     </div>
-  );
+  )
 }
 
 function ellipsizePages(
   allPages: SignaturePage[],
   currentPage: SignaturePage
 ): Array<SignaturePage | "ellipsis"> {
-  const fullLimit = 7;
+  const fullLimit = 7
 
-  const sidePages = 5;
-  const sideLimit = 4;
+  const sidePages = 5
+  const sideLimit = 4
 
-  const middlePagesPerSide = 1;
+  const middlePagesPerSide = 1
 
-  const firstPage = allPages[0];
-  const lastPage = allPages[allPages.length - 1];
+  const firstPage = allPages[0]
+  const lastPage = allPages[allPages.length - 1]
 
   return allPages.length <= fullLimit
     ? allPages
@@ -177,16 +177,16 @@ function ellipsizePages(
         ),
         "ellipsis",
         lastPage,
-      ];
+      ]
 }
 
 export function useSignatureListPage(before: number | null) {
   return useQuery(
     ["signatures", before],
     async () => {
-      const { data } = await listSignatures({ before, limit: pageSize });
-      return data;
+      const { data } = await listSignatures({ before, limit: pageSize })
+      return data
     },
     { retry: false, refetchOnWindowFocus: false, cacheTime: 3600 * 1000 }
-  );
+  )
 }

@@ -1,21 +1,21 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyLightOffWhite,
   cardBackgroundGold5,
   sectionBackgroundTrophyGold,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyNormalSegment24,
   h1Quincy72,
   h3Quincy36,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   sectionInlinePadding,
   sectionWideWidth,
   subtitleBlockMargin,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 export function DaoValues() {
   return (
@@ -66,7 +66,7 @@ export function DaoValues() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function CommunityValue({ children }: { children: ReactNode }) {
@@ -86,5 +86,5 @@ function CommunityValue({ children }: { children: ReactNode }) {
     >
       {children}
     </div>
-  );
+  )
 }

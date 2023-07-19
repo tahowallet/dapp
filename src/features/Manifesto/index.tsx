@@ -1,21 +1,18 @@
-import { Footer } from "features/Footer";
-import { Header } from "features/Header";
-import { SignatureList } from "features/Manifesto/SignatureList";
-import { css } from "linaria";
-import React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import SEO from "shared/seo";
-import { sectionBackgroundOffWhite } from "shared/styles/colors";
-import {
-  sectionInlinePadding,
-  sectionNarrowWidth,
-} from "shared/styles/lengths";
-import { tileBoxShadow } from "shared/styles/shadows";
-import { ManifestoBody } from "./ManifestoBody";
-import { ManifestoHeaderCta } from "./ManifestoHeaderCta";
-import { ManifestoPanel } from "./ManifestoPanel";
+import { Footer } from "features/Footer"
+import { Header } from "features/Header"
+import { SignatureList } from "features/Manifesto/SignatureList"
+import { css } from "linaria"
+import React from "react"
+import { QueryClient, QueryClientProvider } from "react-query"
+import SEO from "shared/seo"
+import { sectionBackgroundOffWhite } from "shared/styles/colors"
+import { sectionInlinePadding, sectionNarrowWidth } from "shared/styles/lengths"
+import { tileBoxShadow } from "shared/styles/shadows"
+import { ManifestoBody } from "./ManifestoBody"
+import { ManifestoHeaderCta } from "./ManifestoHeaderCta"
+import { ManifestoPanel } from "./ManifestoPanel"
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 export function Manifesto() {
   return (
@@ -28,9 +25,7 @@ export function Manifesto() {
       >
         <SEO
           title="Taho Community Pledge"
-          description={
-            "Sign to join our community & be eligible for future surprises"
-          }
+          description="Sign to join our community & be eligible for future surprises"
           metaImage="https://taho.xyz/web3pledge-cover.png"
         />
 
@@ -112,5 +107,5 @@ export function Manifesto() {
         <Footer />
       </div>
     </QueryClientProvider>
-  );
+  )
 }

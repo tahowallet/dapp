@@ -1,6 +1,6 @@
-import { css } from "linaria";
-import React from "react";
-import { bodyNormalSegment24 } from "shared/styles/fonts";
+import { css } from "linaria"
+import React from "react"
+import { bodyNormalSegment24 } from "shared/styles/fonts"
 
 export function TwitterLogo() {
   return (
@@ -16,5 +16,5 @@ export function TwitterLogo() {
       <img width="24" height="24" src={require("./icon-twitter.svg")} alt="" />
       Twitter
     </div>
-  );
+  )
 }

@@ -1,20 +1,20 @@
-import { Footer } from "features/Footer";
-import { Header } from "features/Header";
-import { css } from "linaria";
-import React, { ReactNode } from "react";
-import { green20, trophyGold } from "shared/styles/color-palette";
-import { bodyDarkGrey80, titleDarkHunterGreen } from "shared/styles/colors";
+import { Footer } from "features/Footer"
+import { Header } from "features/Header"
+import { css } from "linaria"
+import React, { ReactNode } from "react"
+import { green20, trophyGold } from "shared/styles/color-palette"
+import { bodyDarkGrey80, titleDarkHunterGreen } from "shared/styles/colors"
 import {
   segmentBoldFontFamily,
   segmentFontFamily,
-} from "shared/styles/font-families";
+} from "shared/styles/font-families"
 
 export default function Legal({
   children,
   title,
 }: {
-  children: ReactNode;
-  title: string;
+  children: ReactNode
+  title: string
 }) {
   return (
     <>
@@ -88,5 +88,5 @@ export default function Legal({
       </div>
       <Footer />
     </>
-  );
+  )
 }

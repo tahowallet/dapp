@@ -1,16 +1,16 @@
-import dayjs from "dayjs";
-import { css } from "linaria";
-import React from "react";
-import { green20 } from "shared/styles/color-palette";
-import { bodyDarkGreen60, bodyDarkHunterGreen } from "shared/styles/colors";
-import { bodySmallSegment18 } from "shared/styles/fonts";
-import { AddressDisplay } from "./AddressDisplay";
-import { useSignatureListPage } from "./index";
+import dayjs from "dayjs"
+import { css } from "linaria"
+import React from "react"
+import { green20 } from "shared/styles/color-palette"
+import { bodyDarkGreen60, bodyDarkHunterGreen } from "shared/styles/colors"
+import { bodySmallSegment18 } from "shared/styles/fonts"
+import { AddressDisplay } from "./AddressDisplay"
+import { useSignatureListPage } from "./index"
 
 export function SignatureListPage({ before }: { before: number | null }) {
-  const { data, isLoading, error } = useSignatureListPage(before);
+  const { data, isLoading, error } = useSignatureListPage(before)
 
-  if (!data) return null;
+  if (!data) return null
 
   return (
     <div>
@@ -71,5 +71,5 @@ export function SignatureListPage({ before }: { before: number | null }) {
         </div>
       ))}
     </div>
-  );
+  )
 }

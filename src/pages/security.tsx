@@ -1,3 +1,3 @@
-import { Security } from "features/Security";
+import { Security } from "features/Security"
 
-export default Security;
+export default Security

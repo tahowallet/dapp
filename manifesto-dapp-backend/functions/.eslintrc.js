@@ -24,4 +24,4 @@ module.exports = {
     quotes: ["error", "double"],
     "import/no-unresolved": 0,
   },
-};
+}

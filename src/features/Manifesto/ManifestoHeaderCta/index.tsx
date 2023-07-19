@@ -1,5 +1,5 @@
-import { css } from "linaria";
-import React from "react";
+import { css } from "linaria"
+import React from "react"
 import {
   bodyDarkGreen120,
   bodyDarkGreen40,
@@ -7,20 +7,20 @@ import {
   buttonLabelHunterGreen,
   cardBackgroundOffWhite,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodySmallSegment18,
   buttonLabelQuincy18,
   h4Quincy24,
   showcaseQuincyBold48,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
   buttonInlinePadding,
-} from "shared/styles/lengths";
-import { buttonShadow, tileBoxShadow } from "shared/styles/shadows";
-import { SignatureCount } from "./SignatureCount";
+} from "shared/styles/lengths"
+import { buttonShadow, tileBoxShadow } from "shared/styles/shadows"
+import { SignatureCount } from "./SignatureCount"
 
 export function ManifestoHeaderCta() {
   return (
@@ -114,5 +114,5 @@ export function ManifestoHeaderCta() {
         </a>
       </div>
     </div>
-  );
+  )
 }

@@ -1,13 +1,13 @@
-import { Widget } from "@typeform/embed-react";
-import { css } from "linaria";
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
-import IconLink from "shared/components/IconLink";
-import { bgGradient } from "shared/styles/bg-gradients";
-import { bodyLightGold5, bodyDarkGreen20 } from "shared/styles/colors";
+import { Widget } from "@typeform/embed-react"
+import { css } from "linaria"
+import React, { CSSProperties, useEffect, useRef, useState } from "react"
+import IconLink from "shared/components/IconLink"
+import { bgGradient } from "shared/styles/bg-gradients"
+import { bodyLightGold5, bodyDarkGreen20 } from "shared/styles/colors"
 import {
   segmentFontFamily,
   quincyTextFontFamily,
-} from "shared/styles/font-families";
+} from "shared/styles/font-families"
 
 css`
   :global() {
@@ -74,27 +74,27 @@ css`
       background: #082C29;
     }
   }
-`;
+`
 
 function Goodbye() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [height, setMaxHeight] = useState<string | undefined>();
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [height, setMaxHeight] = useState<string | undefined>()
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search)
 
     if (window.posthog !== undefined) {
-      window.posthog.capture("Uninstall", { distinct_id: params.get("uuid") });
+      window.posthog.capture("Uninstall", { distinct_id: params.get("uuid") })
     }
 
-    document.title = "Goodbye";
-  }, []);
+    document.title = "Goodbye"
+  }, [])
 
   useEffect(() => {
     if (containerRef.current) {
-      setMaxHeight(`${containerRef.current.scrollHeight}px`);
+      setMaxHeight(`${containerRef.current.scrollHeight}px`)
     }
-  }, [containerRef?.current?.scrollHeight]);
+  }, [containerRef?.current?.scrollHeight])
 
   return (
     <div ref={containerRef} className="container">
@@ -115,8 +115,8 @@ function Goodbye() {
           <IconLink
             href="https://chat.taho.xyz"
             icon={{
-              width: `24px`,
-              height: `24px`,
+              width: "24px",
+              height: "24px",
               src: `url(${require("shared/images/social-icons/discord-light.svg")})`,
               hoverSrc: `url(${require("shared/images/social-icons/discord-hover.svg")})`,
               activeSrc: `url(${require("shared/images/social-icons/discord-click.svg")})`,
@@ -125,8 +125,8 @@ function Goodbye() {
           <IconLink
             href="https://twitter.com/taho_xyz"
             icon={{
-              width: `28px`,
-              height: `24px`,
+              width: "28px",
+              height: "24px",
               src: `url(${require("shared/images/social-icons/twitter-light.svg")})`,
               hoverSrc: `url(${require("shared/images/social-icons/twitter-hover.svg")})`,
               activeSrc: `url(${require("shared/images/social-icons/twitter-click.svg")})`,
@@ -135,7 +135,7 @@ function Goodbye() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Goodbye;
+export default Goodbye

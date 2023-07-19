@@ -1,18 +1,18 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyDarkGold120,
   bodyDarkGrey80,
   borderDarkGold120,
   sectionBackgroundGold5,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyNormalSegment24,
   bodySmallSegment18,
   buttonLabelQuincy18,
   h1Quincy72,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
@@ -20,7 +20,7 @@ import {
   sectionInlinePadding,
   sectionWideWidth,
   subtitleBlockMargin,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 export function DaoTimeline() {
   return (
@@ -126,7 +126,7 @@ export function DaoTimeline() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function Event({
@@ -134,9 +134,9 @@ function Event({
   children,
   href,
 }: {
-  date: ReactNode;
-  children: ReactNode;
-  href?: string;
+  date: ReactNode
+  children: ReactNode
+  href?: string
 }) {
   return (
     <tr>
@@ -177,11 +177,12 @@ function Event({
             `}
             href={href}
             target="_blank"
+            rel="noreferrer"
           >
             Read more
           </a>
         )}
       </td>
     </tr>
-  );
+  )
 }

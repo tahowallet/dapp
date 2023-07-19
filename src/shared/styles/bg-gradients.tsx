@@ -84,4 +84,4 @@ export const bgGradient = `
     );
     opacity: 0.45;
   }
-`;
+`

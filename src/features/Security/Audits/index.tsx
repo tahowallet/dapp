@@ -1,21 +1,21 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyDarkGold120,
   bodyDarkGrey80,
   borderDarkGold120,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyNormalSegment24,
   bodySmallSegment18,
   h1Quincy72,
   h3Quincy36,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   sectionBodyNarrowWidth,
   subtitleBlockMargin,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 export function SecurityAudits() {
   return (
@@ -98,7 +98,7 @@ export function SecurityAudits() {
         </table>
       </div>
     </div>
-  );
+  )
 }
 
 function Audit({
@@ -107,10 +107,10 @@ function Audit({
   detail,
   href,
 }: {
-  auditor: ReactNode;
-  date: ReactNode;
-  detail: ReactNode;
-  href: string;
+  auditor: ReactNode
+  date: ReactNode
+  detail: ReactNode
+  href: string
 }) {
   return (
     <tr>
@@ -150,8 +150,9 @@ function Audit({
           `}
           href={href}
           target="_blank"
+          rel="noreferrer"
         />
       </td>
     </tr>
-  );
+  )
 }

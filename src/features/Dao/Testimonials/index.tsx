@@ -1,14 +1,14 @@
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyDarkGold120,
   borderDarkGold80,
   sectionBackgroundGold5,
   sectionBackgroundOffWhite,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
-import { bodyNormalSegment24, quoteQuincy32 } from "shared/styles/fonts";
-import { sectionInlinePadding, sectionWideWidth } from "shared/styles/lengths";
+} from "shared/styles/colors"
+import { bodyNormalSegment24, quoteQuincy32 } from "shared/styles/fonts"
+import { sectionInlinePadding, sectionWideWidth } from "shared/styles/lengths"
 
 export function DaoTestimonials() {
   return (
@@ -50,7 +50,7 @@ export function DaoTestimonials() {
         </Testimonial>
       </div>
     </div>
-  );
+  )
 }
 
 function Testimonial({
@@ -59,10 +59,10 @@ function Testimonial({
   authorHeadline,
   authorSupport,
 }: {
-  children: ReactNode;
-  authorIconSrc: string;
-  authorHeadline: ReactNode;
-  authorSupport?: ReactNode;
+  children: ReactNode
+  authorIconSrc: string
+  authorHeadline: ReactNode
+  authorSupport?: ReactNode
 }) {
   return (
     <div
@@ -118,5 +118,5 @@ function Testimonial({
         </div>
       </div>
     </div>
-  );
+  )
 }

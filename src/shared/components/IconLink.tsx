@@ -1,18 +1,18 @@
-import { css } from "linaria";
-import React, { CSSProperties } from "react";
+import { css } from "linaria"
+import React, { CSSProperties } from "react"
 
 export default function IconLink({
   href,
   icon,
 }: {
-  href: string;
+  href: string
   icon: {
-    width: string;
-    height: string;
-    src: string;
-    hoverSrc: string;
-    activeSrc: string;
-  };
+    width: string
+    height: string
+    src: string
+    hoverSrc: string
+    activeSrc: string
+  }
 }) {
   return (
     <a
@@ -45,6 +45,7 @@ export default function IconLink({
           background: no-repeat center / contain var(--icon-active-src);
         }
       `}
+      rel="noreferrer"
     />
-  );
+  )
 }

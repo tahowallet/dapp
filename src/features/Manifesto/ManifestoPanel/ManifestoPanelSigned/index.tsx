@@ -1,37 +1,37 @@
-import { ManifestoPanelLayout } from "features/Manifesto/ManifestoPanel/ManifestoPanelLayout";
-import { openTwitterTweetIntent } from "features/Manifesto/ManifestoPanel/ManifestoPanelSigned/twitter";
-import { FullAccount, SiweToken } from "features/Manifesto/types";
-import { css } from "linaria";
-import React, { useState } from "react";
+import { ManifestoPanelLayout } from "features/Manifesto/ManifestoPanel/ManifestoPanelLayout"
+import { openTwitterTweetIntent } from "features/Manifesto/ManifestoPanel/ManifestoPanelSigned/twitter"
+import { FullAccount, SiweToken } from "features/Manifesto/types"
+import { css } from "linaria"
+import React, { useState } from "react"
 import {
   bodyDarkGreen40,
   bodyDarkGreen60,
   bodyLightOffWhite,
-} from "shared/styles/colors";
-import { quincy36 } from "shared/styles/font-palette";
+} from "shared/styles/colors"
+import { quincy36 } from "shared/styles/font-palette"
 import {
   bodySmallSegment18,
   buttonLabelQuincy18,
   labelLetterSpacing,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
   buttonInlinePadding,
-} from "shared/styles/lengths";
-import { buttonShadow } from "shared/styles/shadows";
-import { AfterSignStep } from "./AfterSignStep";
-import { ClaimDiscordRole } from "./ClaimDiscordRole";
-import { TwitterLogo } from "./TwitterLogo";
+} from "shared/styles/lengths"
+import { buttonShadow } from "shared/styles/shadows"
+import { AfterSignStep } from "./AfterSignStep"
+import { ClaimDiscordRole } from "./ClaimDiscordRole"
+import { TwitterLogo } from "./TwitterLogo"
 
 export function ManifestoPanelSigned({
   account,
   signedMessage,
 }: {
-  account: FullAccount;
-  signedMessage: SiweToken;
+  account: FullAccount
+  signedMessage: SiweToken
 }) {
-  const [hasTweeted, setHasTweeted] = useState(false);
+  const [hasTweeted, setHasTweeted] = useState(false)
 
   if (!hasTweeted) {
     return (
@@ -79,7 +79,7 @@ export function ManifestoPanelSigned({
           </div>
           <TwitterShareButton
             onShareBegin={() => {
-              setHasTweeted(true);
+              setHasTweeted(true)
             }}
             account={account}
             signedMessage={signedMessage}
@@ -96,13 +96,13 @@ export function ManifestoPanelSigned({
             margin: 0 0 3rem;
           `}
           onClick={() => {
-            setHasTweeted(true);
+            setHasTweeted(true)
           }}
         >
           skip step
         </button>
       </ManifestoPanelLayout>
-    );
+    )
   }
 
   return (
@@ -199,7 +199,7 @@ export function ManifestoPanelSigned({
         address.
       </p>
     </ManifestoPanelLayout>
-  );
+  )
 }
 
 function TwitterShareButton({
@@ -207,9 +207,9 @@ function TwitterShareButton({
   account,
   signedMessage,
 }: {
-  onShareBegin?: () => void;
-  account: FullAccount;
-  signedMessage: SiweToken;
+  onShareBegin?: () => void
+  account: FullAccount
+  signedMessage: SiweToken
 }) {
   return (
     <button
@@ -227,16 +227,16 @@ function TwitterShareButton({
       onClick={() => {
         openTwitterTweetIntent({
           text: [
-            `I’m in. 👋 @taho_xyz #defendWeb3`,
+            "I’m in. 👋 @taho_xyz #defendWeb3",
             `signed: ${signedMessage.signature}`,
-            ``,
-            `https://twitter.com/taho_xyz/status/1561739484600774656`,
-          ].join(`\n`),
-        });
-        onShareBegin();
+            "",
+            "https://twitter.com/taho_xyz/status/1561739484600774656",
+          ].join("\n"),
+        })
+        onShareBegin()
       }}
     >
       Share on Twitter
     </button>
-  );
+  )
 }

@@ -1,58 +1,58 @@
-import { ethers } from "ethers";
-import { ManifestoPanelLayout } from "features/Manifesto/ManifestoPanel/ManifestoPanelLayout";
-import { css } from "linaria";
-import React, { ReactNode } from "react";
+import { ethers } from "ethers"
+import { ManifestoPanelLayout } from "features/Manifesto/ManifestoPanel/ManifestoPanelLayout"
+import { css } from "linaria"
+import React, { ReactNode } from "react"
 import {
   bodyDarkGreen60,
   buttonBackgroundSemanticSuccess,
   buttonLabelHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodySmallSegment18,
   buttonLabelQuincy18,
   textLabelQuincy18,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
   buttonInlinePadding,
-} from "shared/styles/lengths";
-import { buttonShadow } from "shared/styles/shadows";
-import { useEthereumAccount } from "../../hooks/useEthereumAccount";
-import { useManifestoSign } from "../../hooks/useManifestoSign";
-import { useSIWE } from "../../hooks/useSIWE";
-import { useUserData } from "../../hooks/useUserData";
-import { CTAText } from "../CTAText";
-import { ManifestoPanelSigned } from "../ManifestoPanelSigned";
-import { Message } from "../Message";
+} from "shared/styles/lengths"
+import { buttonShadow } from "shared/styles/shadows"
+import { useEthereumAccount } from "../../hooks/useEthereumAccount"
+import { useManifestoSign } from "../../hooks/useManifestoSign"
+import { useSIWE } from "../../hooks/useSIWE"
+import { useUserData } from "../../hooks/useUserData"
+import { CTAText } from "../CTAText"
+import { ManifestoPanelSigned } from "../ManifestoPanelSigned"
+import { Message } from "../Message"
 
 export function ManifestoPanelWithTally({
   ethereum,
 }: {
-  ethereum: ethers.providers.ExternalProvider;
+  ethereum: ethers.providers.ExternalProvider
 }) {
   const {
     connectWallet,
     account,
     accountError,
     accountIsLoading,
-  } = useEthereumAccount();
+  } = useEthereumAccount()
   const {
     signInWithEthereum,
     siweAccount,
     tokenError,
     tokenIsLoading,
-  } = useSIWE();
-  const { fullAccount, userError, userIsLoading } = useUserData(siweAccount);
+  } = useSIWE()
+  const { fullAccount, userError, userIsLoading } = useUserData(siweAccount)
   const {
     signManifesto,
     signedMessage: sessionSignedMessage,
     signatureError,
     signatureIsLoading,
-  } = useManifestoSign();
+  } = useManifestoSign()
 
   const signedMessage =
-    fullAccount?.data?.signedMessage ?? sessionSignedMessage ?? null;
+    fullAccount?.data?.signedMessage ?? sessionSignedMessage ?? null
 
   if (!signedMessage || !fullAccount) {
     return (
@@ -87,7 +87,7 @@ export function ManifestoPanelWithTally({
             ) : (
               <StepButton
                 onClick={() => {
-                  connectWallet({ ethereum });
+                  connectWallet({ ethereum })
                 }}
               >
                 Connect with Taho!
@@ -109,8 +109,8 @@ export function ManifestoPanelWithTally({
               <StepButton
                 disabled={!account || tokenIsLoading}
                 onClick={() => {
-                  if (!account) throw new Error();
-                  signInWithEthereum();
+                  if (!account) throw new Error()
+                  signInWithEthereum()
                 }}
               >
                 Sign-In with Ethereum
@@ -136,8 +136,8 @@ export function ManifestoPanelWithTally({
               <StepButton
                 disabled={!fullAccount || signatureIsLoading}
                 onClick={() => {
-                  if (!fullAccount) return;
-                  signManifesto({ account: fullAccount });
+                  if (!fullAccount) return
+                  signManifesto({ account: fullAccount })
                 }}
               >
                 Sign Pledge
@@ -160,12 +160,12 @@ export function ManifestoPanelWithTally({
           gasless transaction
         </p>
       </ManifestoPanelLayout>
-    );
+    )
   }
 
   return (
     <ManifestoPanelSigned account={fullAccount} signedMessage={signedMessage} />
-  );
+  )
 }
 
 function StepContainer({ children }: { children: ReactNode }) {
@@ -185,7 +185,7 @@ function StepContainer({ children }: { children: ReactNode }) {
     >
       {children}
     </div>
-  );
+  )
 }
 
 function Step({
@@ -193,9 +193,9 @@ function Step({
   isDone,
   children,
 }: {
-  index: number;
-  isDone: boolean;
-  children: ReactNode;
+  index: number
+  isDone: boolean
+  children: ReactNode
 }) {
   return (
     <div
@@ -217,7 +217,7 @@ function Step({
       </span>
       {children}
     </div>
-  );
+  )
 }
 
 function StepButton({
@@ -225,9 +225,9 @@ function StepButton({
   disabled,
   onClick,
 }: {
-  onClick: () => void;
-  children: ReactNode;
-  disabled?: boolean;
+  onClick: () => void
+  children: ReactNode
+  disabled?: boolean
 }) {
   return (
     <button
@@ -253,5 +253,5 @@ function StepButton({
     >
       {children}
     </button>
-  );
+  )
 }

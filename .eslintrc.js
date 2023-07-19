@@ -4,4 +4,9 @@ module.exports = {
   env: {
     browser: true,
   },
-};
+  settings: {
+    "import/resolver": {
+      typescript: true,
+    },
+  },
+}

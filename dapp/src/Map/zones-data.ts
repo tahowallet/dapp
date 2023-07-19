@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loss-of-precision */
 const zones = [
   {
     id: 1,
@@ -196,9 +197,8 @@ const zones = [
 const offsetX = 624.62 - zones[0].x
 const offsetY = 605 - zones[0].y
 
-export default zones.map((zone) => {
-  zone.x += offsetX
-  zone.y += offsetY
-
-  return zone
-})
+export default zones.map((zone) => ({
+  ...zone,
+  x: zone.x + offsetX,
+  y: zone.y + offsetY,
+}))

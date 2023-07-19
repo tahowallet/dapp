@@ -1,25 +1,25 @@
-import { Link } from "gatsby";
-import { css } from "linaria";
-import React from "react";
-import { semanticSuccess30 } from "shared/styles/color-palette";
+import { Link } from "gatsby"
+import { css } from "linaria"
+import React from "react"
+import { semanticSuccess30 } from "shared/styles/color-palette"
 import {
   buttonBackgroundSemanticSuccess,
   buttonLabelHunterGreen,
   sectionBackgroundGold20,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   buttonLabelQuincy18,
   h2Quincy48,
   labelLetterSpacing,
-} from "shared/styles/fonts";
+} from "shared/styles/fonts"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
   buttonInlinePadding,
   sectionInlinePadding,
   sectionWideWidth,
-} from "shared/styles/lengths";
-import { buttonShadow } from "shared/styles/shadows";
+} from "shared/styles/lengths"
+import { buttonShadow } from "shared/styles/shadows"
 
 export function HomeCommunityPledge() {
   return (
@@ -77,5 +77,5 @@ export function HomeCommunityPledge() {
         </div>
       </div>
     </div>
-  );
+  )
 }

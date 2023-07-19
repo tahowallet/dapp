@@ -1,26 +1,26 @@
-import { css } from "linaria";
-import React, { CSSProperties, ReactNode } from "react";
+import { css } from "linaria"
+import React, { CSSProperties, ReactNode } from "react"
 import {
   bodyDarkGold120,
   buttonBackgroundSemanticSuccess,
   buttonLabelHunterGreen,
   titleDarkHunterGreen,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
 import {
   bodyNormalSegment24,
   buttonLabelQuincy18,
   h1Quincy72,
   h2Quincy48,
-} from "shared/styles/fonts";
-import { tileLightGradient } from "shared/styles/gradients";
+} from "shared/styles/fonts"
+import { tileLightGradient } from "shared/styles/gradients"
 import {
   buttonBlockPadding,
   buttonBorderRadius,
   buttonInlinePadding,
   subtitleBlockMargin,
   tileBorderRadius,
-} from "shared/styles/lengths";
-import { buttonShadow, tileBoxShadow } from "shared/styles/shadows";
+} from "shared/styles/lengths"
+import { buttonShadow, tileBoxShadow } from "shared/styles/shadows"
 
 export function SecurityFeatures() {
   return (
@@ -123,7 +123,7 @@ export function SecurityFeatures() {
         </Feature>
       </div>
     </div>
-  );
+  )
 }
 
 export function Feature({
@@ -132,10 +132,10 @@ export function Feature({
   cta,
   children,
 }: {
-  iconSrc: string;
-  title: ReactNode;
-  cta?: ReactNode;
-  children: ReactNode;
+  iconSrc: string
+  title: ReactNode
+  cta?: ReactNode
+  children: ReactNode
 }) {
   return (
     <div
@@ -170,7 +170,7 @@ export function Feature({
       </p>
       {cta}
     </div>
-  );
+  )
 }
 
 function Cta({ href, children }: { href: string; children: ReactNode }) {
@@ -192,8 +192,9 @@ function Cta({ href, children }: { href: string; children: ReactNode }) {
       `}
       href={href}
       target="_blank"
+      rel="noreferrer"
     >
       {children}
     </a>
-  );
+  )
 }

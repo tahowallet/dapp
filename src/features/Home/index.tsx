@@ -1,21 +1,21 @@
-import { DownloadCta } from "features/Download/Cta";
-import { DownloadHeader } from "features/Download/Header";
-import { Footer, footerSeparatorBackground } from "features/Footer";
-import { Header } from "features/Header";
-import { HomeCommunityPledge } from "features/Home/CommunityPledge";
-import { HomeFeatures } from "features/Home/Features";
-import { HomeProductHero } from "features/Home/Hero";
-import { HomeBanner } from "./PolygonBanner";
-import { HomeTryIt } from "features/Home/TryIt";
-import { Subscribe } from "features/Subscribe";
-import { css } from "linaria";
-import React from "react";
-import SEO from "shared/seo";
+import { DownloadCta } from "features/Download/Cta"
+import { DownloadHeader } from "features/Download/Header"
+import { Footer, footerSeparatorBackground } from "features/Footer"
+import { Header } from "features/Header"
+import { HomeCommunityPledge } from "features/Home/CommunityPledge"
+import { HomeFeatures } from "features/Home/Features"
+import { HomeProductHero } from "features/Home/Hero"
+import { HomeTryIt } from "features/Home/TryIt"
+import { Subscribe } from "features/Subscribe"
+import { css } from "linaria"
+import React from "react"
+import SEO from "shared/seo"
 import {
   sectionBackgroundGold20,
   sectionBackgroundGold5,
   sectionBackgroundOffWhite,
-} from "shared/styles/colors";
+} from "shared/styles/colors"
+import { HomeBanner } from "./PolygonBanner"
 
 export function Home() {
   return (
@@ -89,5 +89,5 @@ export function Home() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }

@@ -1,13 +1,14 @@
-import { FooterNav } from "features/Footer/Nav";
-import { Sponsor } from "./Sponsor";
-import { Link } from "gatsby";
-import { css } from "linaria";
-import React from "react";
-import { green60 } from "shared/styles/color-palette";
-import { sectionBackgroundGold5 } from "shared/styles/colors";
-import { quincyRegularFontFamily } from "shared/styles/font-families";
+import { FooterNav } from "features/Footer/Nav"
+import { Link } from "gatsby"
+import { css } from "linaria"
+import React from "react"
+import { green60 } from "shared/styles/color-palette"
+import { sectionBackgroundGold5 } from "shared/styles/colors"
+import { quincyRegularFontFamily } from "shared/styles/font-families"
+import { Sponsor } from "./Sponsor"
 
-export const footerSeparatorBackground = `bottom -1px center / 100% auto no-repeat url("~features/Footer/separator.svg")`;
+export const footerSeparatorBackground =
+  'bottom -1px center / 100% auto no-repeat url("~features/Footer/separator.svg")'
 
 export function Footer() {
   return (
@@ -38,5 +39,5 @@ export function Footer() {
         </Link>
       </div>
     </div>
-  );
+  )
 }

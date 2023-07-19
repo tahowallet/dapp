@@ -1,12 +1,12 @@
-import { css } from "linaria";
-import React from "react";
-import { bodyDarkGrey60, titleDarkHunterGreen } from "shared/styles/colors";
-import { bodyNormalSegment24, titleQuincy80 } from "shared/styles/fonts";
+import { css } from "linaria"
+import React from "react"
+import { bodyDarkGrey60, titleDarkHunterGreen } from "shared/styles/colors"
+import { bodyNormalSegment24, titleQuincy80 } from "shared/styles/fonts"
 import {
   sectionInlinePadding,
   sectionWideWidth,
   subtitleBlockMargin,
-} from "shared/styles/lengths";
+} from "shared/styles/lengths"
 
 export function DownloadHeader() {
   return (
@@ -36,5 +36,5 @@ export function DownloadHeader() {
         A loyal friend for your favorite browser.
       </p>
     </div>
-  );
+  )
 }
