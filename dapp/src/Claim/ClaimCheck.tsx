@@ -54,7 +54,7 @@ export default function ClaimCheck() {
         .input_container {
           width: 696px;
           display: flex;
-          padding: 20px 24px;
+          padding: 20px 24px 20px 43px;
           border-radius: 80px;
           border: 1px solid var(--secondary-s1-30);
           background: var(--primary-p1-100);
