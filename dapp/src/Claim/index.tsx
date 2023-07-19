@@ -1,11 +1,12 @@
 import React from "react"
 import Modal from "../shared/Modal"
 import ClaimCheck from "./ClaimCheck"
+import ClaimCheckSuccess from "./ClaimCheckSuccess"
 
 export default function Claim() {
   return (
     <Modal>
-      <ClaimCheck />
+      <ClaimCheckSuccess />
     </Modal>
   )
 }

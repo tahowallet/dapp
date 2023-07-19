@@ -1,23 +1,33 @@
 import React from "react"
+import ClaimHeader from "./ClaimHeader"
+import ClaimAmount from "./ClaimAmount"
 
 export default function ClaimCheckSuccess() {
   return (
-    <div>
-      <div>
-        <div>Season 1</div>
-        <h1>Congratulation!</h1>
-        <div>
-          <span>0x123...456</span> is eligible to claim:
-        </div>
+    <>
+      <div className="success_container">
+        <ClaimHeader
+          season="Season 1"
+          header="Congratulation!"
+          subheader={
+            <>
+              <span style={{ color: "var(--semantic-info" }}>berrry.eth</span>{" "}
+              is eligible to claim:
+            </>
+          }
+        />
+        <ClaimAmount amount={327000} hasBackground size="small" />
       </div>
-      <div>
-        <div>TAHO img</div>
-        <span>327,000</span>
-        <div>
-          <span>TAHO</span>
-          <div>lock img</div>
-        </div>
-      </div>
-    </div>
+      <style jsx>
+        {`
+          .success_container {
+            display: flex;
+            flex-direction: column;
+            padding: 40px 148px;
+            gap: 40px;
+          }
+        `}
+      </style>
+    </>
   )
 }

@@ -2,14 +2,14 @@ import React from "react"
 
 export default function IconLink({
   href,
-  icon,
+  iconWidth,
+  iconHeight,
+  iconSrc,
 }: {
   href: string
-  icon: {
-    width: string
-    height: string
-    src: string
-  }
+  iconWidth: string
+  iconHeight: string
+  iconSrc: string
 }) {
   return (
     <>
@@ -24,21 +24,21 @@ export default function IconLink({
         }
 
         .link_icon {
-          width: ${icon.width};
-          height: ${icon.height ?? icon.width};
-          -webkit-mask-image: url(${icon.src});
-          mask-image: url(${icon.src});
+          width: ${iconWidth};
+          height: ${iconHeight ?? iconWidth};
+          -webkit-mask-image: url(${iconSrc});
+          mask-image: url(${iconSrc});
           -webkit-mask-size: cover;
           mask-size: cover;
-          background-color: var(--offWhite);
+          background-color: var(--off-white);
         }
 
         .link:hover .link_icon {
-          background-color: var(--offWhite); // TODO
+          background-color: var(--off-white); // TODO
         }
 
         .link_icon:active .link_icon {
-          background-color: var(--offWhite); // TODO
+          background-color: var(--off-white); // TODO
         }
       `}</style>
     </>

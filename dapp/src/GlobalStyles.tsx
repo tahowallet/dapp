@@ -28,11 +28,13 @@ export default function GlobalStyles() {
           --secondary-s1-40: rgba(228, 238, 238, 0.4);
           --secondary-s1-30: rgba(228, 238, 238, 0.3);
 
-          --offWhite: #fefefc;
+          --off-white: #fefefc;
 
           --green-5: #d6eae9;
 
           --semantic-success: #20c580;
+          --semantic-attention: #f2b824;
+          --semantic-info: #3cc5ee;
         }
 
         a {

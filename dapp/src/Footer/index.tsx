@@ -21,27 +21,21 @@ export default function Footer() {
       `}</style>
       <IconLink
         href="https://chat.taho.xyz"
-        icon={{
-          width: ICON_SIZE,
-          height: ICON_SIZE,
-          src: discordIcon,
-        }}
+        iconWidth={ICON_SIZE}
+        iconHeight={ICON_SIZE}
+        iconSrc={discordIcon}
       />
       <IconLink
         href="https://twitter.com/taho_xyz"
-        icon={{
-          width: ICON_SIZE,
-          height: ICON_SIZE,
-          src: twitterIcon,
-        }}
+        iconWidth={ICON_SIZE}
+        iconHeight={ICON_SIZE}
+        iconSrc={twitterIcon}
       />
       <IconLink
         href="https://github.com/tahowallet/extension"
-        icon={{
-          width: ICON_SIZE,
-          height: ICON_SIZE,
-          src: githubIcon,
-        }}
+        iconWidth={ICON_SIZE}
+        iconHeight={ICON_SIZE}
+        iconSrc={githubIcon}
       />
       <Link to="/rulebook">Rulebook</Link>
     </footer>
