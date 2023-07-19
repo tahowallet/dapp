@@ -1,112 +1,20 @@
 import React from "react"
 import Button from "../shared/Button"
-import icon from "../shared/assets/icons/discord.svg"
-
-const onClick = () => console.log("clicked")
 
 export default function ClaimCheck() {
   return (
     <>
       <div className="check_container">
         <div className="header_container">
-          <div>Season 1</div>
-          <h1>Check if you are eligible</h1>
-          <div>Check if you are eligible to claim TAHO tokens</div>
-        </div>
-        <div>
-          <input placeholder="Address / Ens / Uns..." />
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            Primary
-            <Button
-              onClick={onClick}
-              iconPosition="left"
-              iconSrc={icon}
-              type="primary"
-            >
-              Button
-            </Button>
-            <Button onClick={onClick} iconSrc={icon} type="primary" isDisabled>
-              Button
-            </Button>
-            <Button
-              onClick={onClick}
-              iconSrc={icon}
-              type="primary"
-              size="large"
-            >
-              Button
-            </Button>
-            <Button
-              onClick={onClick}
-              iconSrc={icon}
-              type="primary"
-              size="large"
-              isDisabled
-            >
-              Button
-            </Button>
-            Secondary
-            <Button onClick={onClick} iconSrc={icon} type="secondary">
-              Button
-            </Button>
-            <Button
-              iconPosition="left"
-              onClick={onClick}
-              iconSrc={icon}
-              type="secondary"
-              isDisabled
-            >
-              Button
-            </Button>
-            <Button
-              onClick={onClick}
-              iconSrc={icon}
-              type="secondary"
-              size="large"
-            >
-              Button
-            </Button>
-            <Button
-              onClick={onClick}
-              iconSrc={icon}
-              type="secondary"
-              size="large"
-              isDisabled
-            >
-              Button
-            </Button>
-            Tertiary
-            <Button
-              iconPosition="left"
-              onClick={onClick}
-              iconSrc={icon}
-              type="tertiary"
-            >
-              Button
-            </Button>
-            <Button onClick={onClick} iconSrc={icon} type="tertiary" isDisabled>
-              Button
-            </Button>
-            <Button
-              onClick={onClick}
-              iconSrc={icon}
-              type="tertiary"
-              size="large"
-            >
-              Button
-            </Button>
-            <Button
-              onClick={onClick}
-              iconSrc={icon}
-              type="tertiary"
-              size="large"
-              isDisabled
-            >
-              Button
-            </Button>
+          <div className="season">Season 1</div>
+          <h1 className="header">Check if you are eligible</h1>
+          <div className="subheader">
+            Check if you are eligible to claim TAHO tokens
           </div>
+        </div>
+        <div className="input_container">
+          <input className="input" placeholder="Address / Ens / Uns..." />
+          <Button size="large">Check eligibility</Button>
         </div>
       </div>
       <style jsx>{`
@@ -116,12 +24,56 @@ export default function ClaimCheck() {
           flex-direction: column;
           align-items: center;
           gap: 40px;
+          font-family: "Segment-Regular";
+          font-size: 18px;
+          line-height: 24px;
+          font-style: normal;
+          color: var(--secondary-s1-100);
         }
-
         .header_container {
           display: flex;
           flex-direction: column;
           align-items: center;
+          gap: 16px;
+        }
+        .season {
+          text-transform: uppercase;
+          font-weight: 600;
+          color: var(--semantic-success);
+        }
+        .header {
+          font-family: "QuincyCF-Regular";
+          font-size: 52px;
+          line-height: 42px;
+          letter-spacing: 1px;
+        }
+        .subheader {
+          color: var(--secondary-s1-70);
+          font-weight: 500;
+        }
+        .input_container {
+          width: 696px;
+          display: flex;
+          padding: 20px 24px;
+          border-radius: 80px;
+          border: 1px solid var(--secondary-s1-30);
+          background: var(--primary-p1-100);
+        }
+        .input {
+          flex-grow: 1;
+          border: 0;
+          font-family: "Segment-Regular";
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 24px;
+          background: transparent;
+          color: var(--green-5);
+        }
+        .input::placeholder {
+          color: var(--green-5);
+        }
+        .input:focus {
+          outline: none;
         }
       `}</style>
     </>

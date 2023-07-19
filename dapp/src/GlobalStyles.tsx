@@ -23,9 +23,16 @@ export default function GlobalStyles() {
           --primary-p2-100: #ed9a26;
           --primary-p2-80: #f0ac55;
 
+          --secondary-s1-100: #e4eeee;
+          --secondary-s1-70: rgba(228, 238, 238, 0.7);
           --secondary-s1-40: rgba(228, 238, 238, 0.4);
+          --secondary-s1-30: rgba(228, 238, 238, 0.3);
 
           --offWhite: #fefefc;
+
+          --green-5: #d6eae9;
+
+          --semantic-success: #20c580;
         }
 
         a {
