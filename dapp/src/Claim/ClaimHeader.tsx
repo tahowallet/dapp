@@ -1,9 +1,9 @@
 import React from "react"
 
 type ClaimHeaderProps = {
-  season: string | React.ReactNode
   header: string | React.ReactNode
-  subheader: string | React.ReactNode
+  season?: string | React.ReactNode
+  subheader?: string | React.ReactNode
 }
 
 export default function ClaimHeader({
@@ -14,9 +14,9 @@ export default function ClaimHeader({
   return (
     <>
       <div className="header_container">
-        <div className="season">{season}</div>
-        <h1 className="header">{header}</h1>
-        <div className="subheader">{subheader}</div>
+        {season && <div className="season">{season}</div>}
+        {header && <h1 className="header">{header}</h1>}
+        {subheader && <div className="subheader">{subheader}</div>}
       </div>
       <style jsx>{`
         .header_container {
@@ -24,11 +24,6 @@ export default function ClaimHeader({
           flex-direction: column;
           align-items: center;
           gap: 16px;
-          font-family: "Segment-Regular";
-          font-style: normal;
-          line-height: 24px;
-          font-size: 18px;
-          font-weight: 500;
         }
         .season {
           text-transform: uppercase;

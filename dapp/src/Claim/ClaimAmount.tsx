@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import React from "react"
 import Icon from "../shared/Icon"
-import lockIcon from "../shared/assets/icons/lock.svg"
+import lockIcon from "../shared/assets/icons/s/lock.svg"
 import coinIcon from "../shared/assets/taho-coin.svg"
 
 type ClaimAmountProps = {
@@ -32,12 +32,9 @@ export default function ClaimAmount({
         {`
           .amount_container {
             display: flex;
+            flex: 1 0 auto;
+            min-width: 0;
             align-items: center;
-            font-family: "Segment-Regular";
-            font-size: 18px;
-            line-height: 24px;
-            font-style: normal;
-            font-weight: 500;
             letter-spacing: 1px;
             color: var(--secondary-s1-100);
           }
@@ -47,7 +44,6 @@ export default function ClaimAmount({
             border-radius: 88px;
             background: var(--primary-p1-100);
           }
-
           .amount_value {
             font-family: "QuincyCF-Regular";
             font-size: 52px;
@@ -62,6 +58,7 @@ export default function ClaimAmount({
             width: 74px;
             height: 74px;
             flex-shrink: 0;
+            flex-grow: 0;
             background-image: url(${coinIcon});
             background-size: cover;
           }

@@ -23,10 +23,6 @@ export default function ClaimCheck() {
           flex-direction: column;
           align-items: center;
           gap: 40px;
-          font-family: "Segment-Regular";
-          font-size: 18px;
-          line-height: 24px;
-          font-style: normal;
           color: var(--secondary-s1-100);
         }
         .input_container {

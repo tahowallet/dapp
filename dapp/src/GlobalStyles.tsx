@@ -25,6 +25,7 @@ export default function GlobalStyles() {
 
           --secondary-s1-100: #e4eeee;
           --secondary-s1-70: rgba(228, 238, 238, 0.7);
+          --secondary-s1-60: rgba(228, 238, 238, 0.6);
           --secondary-s1-40: rgba(228, 238, 238, 0.4);
           --secondary-s1-30: rgba(228, 238, 238, 0.3);
 
@@ -35,6 +36,8 @@ export default function GlobalStyles() {
           --semantic-success: #20c580;
           --semantic-attention: #f2b824;
           --semantic-info: #3cc5ee;
+
+          --trading-in: #11bea9;
         }
 
         a {
@@ -72,6 +75,16 @@ export default function GlobalStyles() {
         html,
         body {
           height: 100%;
+          font-family: "Segment-Regular";
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 24px;
+        }
+        .column_center {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
       `}
     </style>
