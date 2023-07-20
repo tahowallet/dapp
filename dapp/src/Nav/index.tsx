@@ -54,7 +54,7 @@ export default function Nav(): JSX.Element {
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: var(--navigation);
+            z-index: var(--z-navigation);
             filter: drop-shadow(0px 14px 16px rgba(7, 17, 17, 0.24));
             --logo-size: 112px;
           }
