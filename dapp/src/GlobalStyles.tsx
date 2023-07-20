@@ -23,9 +23,11 @@ export default function GlobalStyles() {
           --primary-p2-100: #ed9a26;
           --primary-p2-80: #f0ac55;
 
-          --secondary-s1-100: #e4eeee;
+          --secondary-s1-100: rgb(228, 238, 238);
+          --secondary-s1-80: rgba(228, 238, 238, 0.8);
           --secondary-s1-70: rgba(228, 238, 238, 0.7);
           --secondary-s1-60: rgba(228, 238, 238, 0.6);
+          --secondary-s1-50: rgba(228, 238, 238, 0.5);
           --secondary-s1-40: rgba(228, 238, 238, 0.4);
           --secondary-s1-30: rgba(228, 238, 238, 0.3);
 
@@ -38,6 +40,12 @@ export default function GlobalStyles() {
           --semantic-info: #3cc5ee;
 
           --trading-in: #11bea9;
+
+          --serif: "QuincyCF-Regular", serif;
+          --sans: "Segment", sans-serif;
+
+          /* z-index */
+          --navigation: 100;
         }
 
         a {
@@ -59,6 +67,21 @@ export default function GlobalStyles() {
           font-style: normal;
         }
 
+        @font-face {
+          font-family: "Segment";
+          src: url(${SegmentRegular}) format("woff2");
+          font-weight: normal;
+          font-style: normal;
+        }
+
+        @font-face {
+          font-family: "Segment";
+          src: url(${SegmentBold}) format("woff2");
+          font-weight: bold;
+          font-style: normal;
+        }
+
+        // TODO: remove this after replacing all Segment-Regular with Segment
         @font-face {
           font-family: "Segment-Regular";
           src: url(${SegmentRegular}) format("woff2");
