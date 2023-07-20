@@ -1,11 +1,11 @@
 import React from "react"
-// need to import fonts through asset loader
-/* eslint-disable import/no-relative-packages */
-import QuincyCF from "../../src/shared/fonts/quincy-cf/quincy-cf.woff2"
-import QuincyCFText from "../../src/shared/fonts/quincy-cf-text/quincy-cf-text.woff2"
-import SegmentRegular from "../../src/shared/fonts/segment-regular/segment-regular.woff2"
-import SegmentBold from "../../src/shared/fonts/segment-bold/segment-bold.woff2"
-/* eslint-enable import/no-relative-packages */
+import QuincyCFMedium from "./shared/fonts/quincy-cf.woff2"
+import QuincyCF from "./shared/fonts/quincy-cf-text.woff2"
+import QuincyCFBold from "./shared/fonts/quincy-cf-bold.woff2"
+import SegmentRegular from "./shared/fonts/segment-regular.woff2"
+import SegmentMedium from "./shared/fonts/segment-medium.woff2"
+import SegmentSemiBold from "./shared/fonts/segment-semibold.woff2"
+import SegmentBold from "./shared/fonts/segment-bold.woff2"
 
 export default function GlobalStyles() {
   return (
@@ -41,7 +41,7 @@ export default function GlobalStyles() {
 
           --trading-in: #11bea9;
 
-          --serif: "QuincyCF-Regular", serif;
+          --serif: "QuincyCF", serif;
           --sans: "Segment", sans-serif;
 
           /* z-index */
@@ -56,51 +56,57 @@ export default function GlobalStyles() {
         }
 
         @font-face {
-          font-family: "QuincyCF-Regular";
+          font-family: "QuincyCF";
+          src: url(${QuincyCFMedium}) format("woff2");
+          font-weight: 500;
+          font-style: normal;
+        }
+
+        @font-face {
+          font-family: "QuincyCF";
           src: url(${QuincyCF}) format("woff2");
-          font-weight: normal;
+          font-weight: 400;
           font-style: normal;
         }
 
         @font-face {
-          font-family: "QuincyCF-Text";
-          src: url(${QuincyCFText}) format("woff2");
-          font-weight: normal;
+          font-family: "QuincyCF";
+          src: url(${QuincyCFBold}) format("woff2");
+          font-weight: 700;
           font-style: normal;
         }
 
         @font-face {
           font-family: "Segment";
           src: url(${SegmentRegular}) format("woff2");
-          font-weight: normal;
+          font-weight: 400;
           font-style: normal;
         }
 
         @font-face {
           font-family: "Segment";
-          src: url(${SegmentBold}) format("woff2");
-          font-weight: bold;
-          font-style: normal;
-        }
-
-        // TODO: remove this after replacing all Segment-Regular with Segment
-        @font-face {
-          font-family: "Segment-Regular";
-          src: url(${SegmentRegular}) format("woff2");
-          font-weight: normal;
+          src: url(${SegmentMedium}) format("woff2");
+          font-weight: 500;
           font-style: normal;
         }
 
         @font-face {
-          font-family: "Segment-Bold";
-          src: url(${SegmentBold}) format("woff2");
-          font-weight: normal;
+          font-family: "Segment";
+          src: url(${SegmentSemiBold}) format("woff2");
+          font-weight: 600;
           font-style: normal;
         }
+        @font-face {
+          font-family: "Segment";
+          src: url(${SegmentBold}) format("woff2");
+          font-weight: 700;
+          font-style: normal;
+        }
+
         html,
         body {
           height: 100%;
-          font-family: "Segment-Regular";
+          font-family: "Segment";
           font-size: 18px;
           font-style: normal;
           font-weight: 500;
@@ -116,4 +122,3 @@ export default function GlobalStyles() {
     </style>
   )
 }
-/* eslint-enable global-require */
