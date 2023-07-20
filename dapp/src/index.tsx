@@ -7,13 +7,13 @@ import Footer from "./Footer"
 import Nav from "./Nav"
 import Claim from "./Claim"
 import GlobalStyles from "./GlobalStyles"
-import InteractiveMap from "./Map"
+import MapComponent from "./Map"
 
 function DApp() {
   return (
     <ThirdwebProvider>
       <GlobalStyles />
-      <InteractiveMap />
+      <MapComponent />
       <Router>
         <Nav />
         <Switch>
