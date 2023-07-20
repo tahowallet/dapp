@@ -45,7 +45,11 @@ export function getMinimumScale(content: Dimensions, container: Dimensions) {
 export function useValueRef<T>(value: T) {
   const val = typeof value === "function" ? value() : value
   const ref = useRef<T extends () => infer P ? P : T>(val)
-  ref.current = val
+
+  useLayoutEffect(() => {
+    ref.current = val
+  })
+
   return ref
 }
 
