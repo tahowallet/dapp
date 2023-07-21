@@ -1,10 +1,12 @@
 import React from "react"
-import ClaimHeader from "./ClaimHeader"
-import ClaimAmount from "./ClaimAmount"
+import { useHistory } from "react-router-dom"
+import Modal from "../shared/Modal"
+import ClaimHeader from "./shared/ClaimHeader"
+import ClaimAmount from "./shared/ClaimAmount"
 import iconConnected from "../shared/assets/icons/s/connected.svg"
 import Button from "../shared/Button"
 import { Rule } from "./types"
-import ClaimCheckRules from "./ClaimCheckRules"
+import ClaimCheckRules from "./shared/ClaimCheckRules"
 
 const listMock: Rule[] = [
   {
@@ -33,8 +35,10 @@ const listMock: Rule[] = [
 ]
 
 export default function ClaimCheckSuccess() {
+  const location = useHistory()
+
   return (
-    <>
+    <Modal>
       <div className="success_container">
         <ClaimHeader
           season="Season 1"
@@ -61,7 +65,11 @@ export default function ClaimCheckSuccess() {
           >
             Connected
           </Button>
-          <Button type="primary" size="large">
+          <Button
+            onClick={() => location.replace("/claim/claiming")}
+            type="primary"
+            size="large"
+          >
             Start claiming process
           </Button>
         </div>
@@ -81,6 +89,6 @@ export default function ClaimCheckSuccess() {
           }
         `}
       </style>
-    </>
+    </Modal>
   )
 }

@@ -1,8 +1,9 @@
 import React from "react"
-import ClaimHeader from "./ClaimHeader"
+import ClaimHeader from "./shared/ClaimHeader"
 import Button from "../shared/Button"
-import ClaimCheckRules from "./ClaimCheckRules"
+import ClaimCheckRules from "./shared/ClaimCheckRules"
 import { Rule } from "./types"
+import Modal from "../shared/Modal"
 
 const listMock: Rule[] = [
   {
@@ -28,7 +29,7 @@ const listMock: Rule[] = [
 ]
 export default function ClaimCheckFail() {
   return (
-    <>
+    <Modal>
       <div className="fail_container column_center">
         <ClaimHeader
           season="Season 1"
@@ -51,6 +52,6 @@ export default function ClaimCheckFail() {
           gap: 40px;
         }
       `}</style>
-    </>
+    </Modal>
   )
 }

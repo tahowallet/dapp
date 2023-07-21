@@ -1,9 +1,9 @@
 import React from "react"
 import classNames from "classnames"
-import Icon from "../shared/Icon"
-import { Rule } from "./types"
-import iconNorifCorrect from "../shared/assets/icons/s/notif-correct.svg"
-import iconNorifWrong from "../shared/assets/icons/s/notif-wrong.svg"
+import Icon from "../../shared/Icon"
+import { Rule } from "../types"
+import iconNorifCorrect from "../../shared/assets/icons/s/notif-correct.svg"
+import iconNorifWrong from "../../shared/assets/icons/s/notif-wrong.svg"
 
 export default function ClaimCheckRules({ rules = [] }: { rules: Rule[] }) {
   return (
