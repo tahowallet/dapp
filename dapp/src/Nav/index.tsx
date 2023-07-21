@@ -11,6 +11,20 @@ export default function Nav(): JSX.Element {
   return (
     <div className="nav_container">
       <div className="nav_wrapper">
+        <svg className="nav_bg">
+          <defs>
+            <mask id="bg_mask">
+              <rect width="100%" height="100px" fill="#fff" />
+              <circle cx="50%" cy="50%" r="80" fill="#000" />
+            </mask>
+          </defs>
+          <rect
+            width="100%"
+            height="100%"
+            fill="var(--primary-p1-100)"
+            mask="url(#bg_mask)"
+          />
+        </svg>
         <div className="lhs_container">
           <nav>
             <button
@@ -46,6 +60,16 @@ export default function Nav(): JSX.Element {
       </div>
       <style jsx>
         {`
+          .nav_bg {
+            pointer-events: none;
+            z-index: -1;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            inset: 0;
+            border-radius: 48px;
+          }
+
           .nav_container {
             position: absolute;
             top: 42px;
@@ -57,6 +81,7 @@ export default function Nav(): JSX.Element {
             z-index: var(--z-navigation);
             filter: drop-shadow(0px 14px 16px rgba(7, 17, 17, 0.24));
             --logo-size: 112px;
+            user-select: none;
           }
 
           .logo_container {
@@ -85,23 +110,6 @@ export default function Nav(): JSX.Element {
             border-radius: 48px;
             padding: 16px 28px;
             max-height: 72px;
-          }
-
-          .nav_wrapper::before {
-            display: block;
-            position: absolute;
-            content: "";
-            z-index: -1;
-            inset: 0;
-            background: var(--primary-p1-100);
-            border-radius: 48px;
-            --mask-size: calc(var(--logo-size) / 2 + 24px);
-            mask-image: radial-gradient(
-              circle at center,
-              transparent var(--mask-size),
-              black var(--mask-size)
-            );
-            mask-repeat: no-repeat;
           }
 
           .lhs_container {
