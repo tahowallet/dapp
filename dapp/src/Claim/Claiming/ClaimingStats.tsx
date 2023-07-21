@@ -4,8 +4,8 @@ import Modal from "../../shared/Modal"
 
 export default function ClaimingStats() {
   return (
-    <Modal>
-      <div className="stats">
+    <Modal type="freeform">
+      <div className="stats column_center">
         <h5>You can claim</h5>
         <ClaimAmount amount={37000} />
         <span>Criteria breakdown</span>
@@ -22,7 +22,7 @@ export default function ClaimingStats() {
       </div>
       <style jsx>{`
         .stats {
-          display: flex;
+          padding: 24px;
         }
       `}</style>
     </Modal>

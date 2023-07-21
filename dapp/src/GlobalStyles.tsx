@@ -113,6 +113,14 @@ export default function GlobalStyles() {
           line-height: 24px;
           color: var(--off-white);
         }
+        h1 {
+          font-family: Quincy CF;
+          font-size: 42px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 46px;
+          letter-spacing: 1px;
+        }
         .column_center {
           display: flex;
           flex-direction: column;

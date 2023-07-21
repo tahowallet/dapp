@@ -6,13 +6,19 @@ type ModalProps = {
   /**
    * Modal covers only the map, overlay covers the whole screen
    */
-  type?: "overlay" | "modal"
+  type?: "overlay" | "modal" | "freeform"
+  style?: React.CSSProperties
 }
 
-export default function Modal({ children, type = "modal" }: ModalProps) {
+export default function Modal({ children, type = "modal", style }: ModalProps) {
   return (
-    <div className={classNames("modal_overlay", { [type]: true })}>
-      <div className="modal_container">
+    <div
+      className={classNames({
+        modal_overlay: type !== "freeform",
+        [type]: true,
+      })}
+    >
+      <div className="modal_container" style={style}>
         {children}
         <div className="modal_shadow" />
       </div>
