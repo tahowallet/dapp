@@ -55,9 +55,6 @@ export default function ClaimCheck() {
         .input::placeholder {
           color: var(--green-5);
         }
-        .input:focus {
-          outline: none;
-        }
       `}</style>
     </Modal>
   )
