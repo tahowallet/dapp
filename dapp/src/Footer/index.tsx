@@ -38,7 +38,7 @@ export default function Footer() {
           display: flex;
           align-items: center;
           gap: 32px;
-          z-index: 1;
+          z-index: var(--z-navigation);
           padding: 63px 41px 0;
           height: 114px;
           width: 100%;

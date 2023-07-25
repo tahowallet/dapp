@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react"
-import { Layer, Rect, Stage } from "react-konva"
+import { Layer, Stage } from "react-konva"
 import rafSchd from "raf-schd"
 
 import Background from "./Background"
@@ -22,6 +22,8 @@ export default function InteractiveMap() {
     getWindowDimensions()
   )
   const mapRef = useRef<KonvaStage | null>(null)
+
+  const [overlay] = useState(!false)
 
   const stageFns = useValueRef(() => {
     const resetZoom = () => {
@@ -143,34 +145,18 @@ export default function InteractiveMap() {
   [])
 
   return (
-    <div className="map_container">
-      <style jsx>
-        {`
-          .map_container {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-          }
-        `}
-      </style>
-      <Stage
-        ref={mapRef}
-        draggable
-        dragBoundFunc={restrictDragBounds}
-        scale={{ x: zoomLevel, y: zoomLevel }}
-        width={stageBounds.width}
-        height={stageBounds.height}
-      >
-        <Layer listening={false}>
-          <Background />
-        </Layer>
-        <Layer>
-          <Rect width={MAP_BOX.width} height={MAP_BOX.height} fill="#0003" />
-        </Layer>
-        <Layer>
-          <Zones />
-        </Layer>
-      </Stage>
-    </div>
+    <Stage
+      ref={mapRef}
+      draggable
+      dragBoundFunc={restrictDragBounds}
+      scale={{ x: zoomLevel, y: zoomLevel }}
+      width={stageBounds.width}
+      height={stageBounds.height}
+    >
+      <Layer>
+        <Background overlay={overlay} />
+        <Zones />
+      </Layer>
+    </Stage>
   )
 }
