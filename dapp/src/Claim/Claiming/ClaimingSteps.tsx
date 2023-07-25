@@ -74,6 +74,7 @@ export default function ClaimingSteps({
       </div>
       <style jsx>{`
         .claiming_steps {
+          margin-left: 20px;
           width: 100%;
           justify-content: space-between;
           color: var(--secondary-s1-80);

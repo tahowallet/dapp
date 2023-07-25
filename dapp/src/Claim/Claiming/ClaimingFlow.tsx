@@ -11,7 +11,7 @@ export default function ClaimingFlow() {
 
   return (
     <Modal type="freeform">
-      <div className="flow">
+      <div className="flow column">
         <Switch>
           <Route path={`${path}/pledge`}>
             <ClaimingSteps currentStep="Community Pledge" />
@@ -32,8 +32,10 @@ export default function ClaimingFlow() {
       </div>
       <style jsx>{`
         .flow {
+          box-sizing: border-box;
           padding: 48px;
-          width: 720px;
+          gap: 40px;
+          width: 816px;
         }
       `}</style>
     </Modal>

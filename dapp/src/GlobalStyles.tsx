@@ -106,7 +106,7 @@ export default function GlobalStyles() {
         html,
         body {
           height: 100%;
-          font-family: "Segment";
+          font-family: var(--sans);
           font-size: 18px;
           font-style: normal;
           font-weight: 500;
@@ -114,7 +114,7 @@ export default function GlobalStyles() {
           color: var(--off-white);
         }
         h1 {
-          font-family: Quincy CF;
+          font-family: var(--serif);
           font-size: 42px;
           font-style: normal;
           font-weight: 500;
@@ -125,6 +125,10 @@ export default function GlobalStyles() {
           display: flex;
           flex-direction: column;
           align-items: center;
+        }
+        .column {
+          display: flex;
+          flex-direction: column;
         }
         .row {
           display: flex;
