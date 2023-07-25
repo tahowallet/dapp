@@ -4,6 +4,7 @@ import Modal from "../../shared/Modal"
 import ClaimingSignPledge from "./ClaimingSignPledge"
 import ClaimingDelegate from "./ClaimingDelegate"
 import ClaimingSignTx from "./ClaimingSignTx"
+import ClaimingSteps from "./ClaimingSteps"
 
 export default function ClaimingFlow() {
   const { path } = useRouteMatch()
@@ -13,12 +14,15 @@ export default function ClaimingFlow() {
       <div className="flow">
         <Switch>
           <Route path={`${path}/pledge`}>
+            <ClaimingSteps />
             <ClaimingSignPledge />
           </Route>
           <Route path={`${path}/delegate`}>
+            <ClaimingSteps />
             <ClaimingDelegate />
           </Route>
           <Route path={`${path}/sign`}>
+            <ClaimingSteps />
             <ClaimingSignTx />
           </Route>
           <Route exact path={path}>
