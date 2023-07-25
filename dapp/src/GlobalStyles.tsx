@@ -126,6 +126,9 @@ export default function GlobalStyles() {
           flex-direction: column;
           align-items: center;
         }
+        .row {
+          display: flex;
+        }
       `}
     </style>
   )

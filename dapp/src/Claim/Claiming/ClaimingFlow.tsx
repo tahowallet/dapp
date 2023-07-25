@@ -14,15 +14,15 @@ export default function ClaimingFlow() {
       <div className="flow">
         <Switch>
           <Route path={`${path}/pledge`}>
-            <ClaimingSteps />
+            <ClaimingSteps currentStep="Community Pledge" />
             <ClaimingSignPledge />
           </Route>
           <Route path={`${path}/delegate`}>
-            <ClaimingSteps />
+            <ClaimingSteps currentStep="Delegate" />
             <ClaimingDelegate />
           </Route>
           <Route path={`${path}/sign`}>
-            <ClaimingSteps />
+            <ClaimingSteps currentStep="Claim" />
             <ClaimingSignTx />
           </Route>
           <Route exact path={path}>
