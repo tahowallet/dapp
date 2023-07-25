@@ -74,17 +74,6 @@ export default function ClaimingSignPledge() {
         {`
           .pledge_container {
             gap: 48px;
-            color: var(--secondary-s1-60);
-          }
-          .pledge_container h1 {
-            color: var(--secondary-s1-100);
-          }
-          .pledge_container h3 {
-            color: var(--secondary-s1-80);
-            font-size: 22px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 32px;
           }
           .pledge_description {
             gap: 16px;

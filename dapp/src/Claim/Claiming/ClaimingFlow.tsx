@@ -38,6 +38,21 @@ export default function ClaimingFlow() {
           width: 816px;
         }
       `}</style>
+      <style jsx global>{`
+        .flow {
+          color: var(--secondary-s1-60);
+        }
+        .flow h1 {
+          color: var(--secondary-s1-100);
+        }
+        .flow h3 {
+          color: var(--secondary-s1-80);
+          font-size: 22px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 32px;
+        }
+      `}</style>
     </Modal>
   )
 }
