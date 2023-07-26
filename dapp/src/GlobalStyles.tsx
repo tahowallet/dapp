@@ -1,11 +1,11 @@
 import React from "react"
-// need to import fonts through asset loader
-/* eslint-disable import/no-relative-packages */
-import QuincyCF from "../../src/shared/fonts/quincy-cf/quincy-cf.woff2"
-import QuincyCFText from "../../src/shared/fonts/quincy-cf-text/quincy-cf-text.woff2"
-import SegmentRegular from "../../src/shared/fonts/segment-regular/segment-regular.woff2"
-import SegmentBold from "../../src/shared/fonts/segment-bold/segment-bold.woff2"
-/* eslint-enable import/no-relative-packages */
+import QuincyCFMedium from "./shared/fonts/quincy-cf.woff2"
+import QuincyCF from "./shared/fonts/quincy-cf-text.woff2"
+import QuincyCFBold from "./shared/fonts/quincy-cf-bold.woff2"
+import SegmentRegular from "./shared/fonts/segment-regular.woff2"
+import SegmentMedium from "./shared/fonts/segment-medium.woff2"
+import SegmentSemiBold from "./shared/fonts/segment-semibold.woff2"
+import SegmentBold from "./shared/fonts/segment-bold.woff2"
 
 export default function GlobalStyles() {
   return (
@@ -23,9 +23,11 @@ export default function GlobalStyles() {
           --primary-p2-100: #ed9a26;
           --primary-p2-80: #f0ac55;
 
-          --secondary-s1-100: #e4eeee;
+          --secondary-s1-100: rgb(228, 238, 238);
+          --secondary-s1-80: rgba(228, 238, 238, 0.8);
           --secondary-s1-70: rgba(228, 238, 238, 0.7);
           --secondary-s1-60: rgba(228, 238, 238, 0.6);
+          --secondary-s1-50: rgba(228, 238, 238, 0.5);
           --secondary-s1-40: rgba(228, 238, 238, 0.4);
           --secondary-s1-30: rgba(228, 238, 238, 0.3);
 
@@ -38,6 +40,14 @@ export default function GlobalStyles() {
           --semantic-info: #3cc5ee;
 
           --trading-in: #11bea9;
+
+          --serif: "QuincyCF", serif;
+          --sans: "Segment", sans-serif;
+
+          /* z-index */
+          --z-navigation: 500;
+          --z-modal: 300;
+          --z-overlay: 600;
         }
 
         a {
@@ -46,36 +56,57 @@ export default function GlobalStyles() {
         }
 
         @font-face {
-          font-family: "QuincyCF-Regular";
+          font-family: "QuincyCF";
+          src: url(${QuincyCFMedium}) format("woff2");
+          font-weight: 500;
+          font-style: normal;
+        }
+
+        @font-face {
+          font-family: "QuincyCF";
           src: url(${QuincyCF}) format("woff2");
-          font-weight: normal;
+          font-weight: 400;
           font-style: normal;
         }
 
         @font-face {
-          font-family: "QuincyCF-Text";
-          src: url(${QuincyCFText}) format("woff2");
-          font-weight: normal;
+          font-family: "QuincyCF";
+          src: url(${QuincyCFBold}) format("woff2");
+          font-weight: 700;
           font-style: normal;
         }
 
         @font-face {
-          font-family: "Segment-Regular";
+          font-family: "Segment";
           src: url(${SegmentRegular}) format("woff2");
-          font-weight: normal;
+          font-weight: 400;
           font-style: normal;
         }
 
         @font-face {
-          font-family: "Segment-Bold";
-          src: url(${SegmentBold}) format("woff2");
-          font-weight: normal;
+          font-family: "Segment";
+          src: url(${SegmentMedium}) format("woff2");
+          font-weight: 500;
           font-style: normal;
         }
+
+        @font-face {
+          font-family: "Segment";
+          src: url(${SegmentSemiBold}) format("woff2");
+          font-weight: 600;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "Segment";
+          src: url(${SegmentBold}) format("woff2");
+          font-weight: 700;
+          font-style: normal;
+        }
+
         html,
         body {
           height: 100%;
-          font-family: "Segment-Regular";
+          font-family: "Segment";
           font-size: 18px;
           font-style: normal;
           font-weight: 500;
@@ -91,4 +122,3 @@ export default function GlobalStyles() {
     </style>
   )
 }
-/* eslint-enable global-require */

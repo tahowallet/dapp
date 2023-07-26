@@ -101,6 +101,7 @@ export default function InteractiveMap() {
     const handler: KonvaEventListener<KonvaStage, WheelEvent> = ({
       evt: domEvent,
     }) => {
+      domEvent.preventDefault()
       acc += domEvent.deltaY
       handleZoom(acc)
     }

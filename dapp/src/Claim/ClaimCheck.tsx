@@ -36,9 +36,9 @@ export default function ClaimCheck() {
         .input {
           flex-grow: 1;
           border: 0;
-          font-family: "Segment-Regular";
+          font-family: "Segment";
           font-size: 18px;
-          font-weight: 600;
+          font-weight: 500;
           line-height: 24px;
           background: transparent;
           color: var(--green-5);

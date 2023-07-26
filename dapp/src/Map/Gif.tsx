@@ -1,8 +1,8 @@
-// @ts-nocheck
 import React, { useEffect, useMemo, useRef } from "react"
 import { Image } from "react-konva"
 import "gifler"
 import { isBrowser } from "../shared/utils"
+import { KonvaImage } from "./types"
 
 type GifProps = {
   src: string
@@ -11,19 +11,19 @@ type GifProps = {
 }
 
 export default function Gif(props: GifProps) {
-  const { src, x, y } = props
-  const imageRef = useRef(null)
+  const { src, x = 0, y = 0 } = props
+  const imageRef = useRef<KonvaImage | null>(null)
   const canvas = useMemo(() => document.createElement("canvas"), [])
 
   useEffect(() => {
-    let anim
+    let anim: Gifler.Animator
     if (isBrowser) {
       window.gifler(src).get((a) => {
         anim = a
         anim.animateInCanvas(canvas)
         anim.onDrawFrame = (ctx, frame) => {
           ctx.drawImage(frame.buffer, frame.x, frame.y)
-          imageRef.current?.getLayer().draw()
+          imageRef.current?.getLayer()?.draw()
         }
       })
     }

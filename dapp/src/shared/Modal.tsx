@@ -1,12 +1,17 @@
+import classNames from "classnames"
 import React from "react"
 
 type ModalProps = {
   children: React.ReactNode
+  /**
+   * Modal covers only the map, overlay covers the whole screen
+   */
+  type?: "overlay" | "modal"
 }
 
-export default function Modal({ children }: ModalProps) {
+export default function Modal({ children, type = "modal" }: ModalProps) {
   return (
-    <div className="modal_overlay">
+    <div className={classNames("modal_overlay", { [type]: true })}>
       <div className="modal_container">
         {children}
         <div className="modal_shadow" />
@@ -24,6 +29,14 @@ export default function Modal({ children }: ModalProps) {
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+
+          .modal {
+            z-index: var(--z-modal);
+          }
+
+          .overlay {
+            z-index: var(--z-overlay);
           }
 
           .modal_container {

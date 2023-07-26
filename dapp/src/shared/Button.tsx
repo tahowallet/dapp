@@ -59,14 +59,14 @@ export default function Button({
           }
 
           .large {
-            font-family: "QuincyCF-Regular";
+            font-family: "QuincyCF";
             font-size: 23px;
             font-weight: 700;
             padding: 20px 32px;
             border-radius: 56px;
           }
           .medium {
-            font-family: "Segment-Regular";
+            font-family: "Segment";
             font-size: 18px;
             font-weight: 600;
             line-height: 24px;

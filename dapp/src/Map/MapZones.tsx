@@ -7,6 +7,7 @@ export default function MapZones() {
     <>
       {zones.map((zone) => (
         <Zone
+          id={zone.id.toString()}
           key={zone.id}
           width={zone.w}
           height={zone.h}
