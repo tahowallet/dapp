@@ -1,8 +1,8 @@
 import classNames from "classnames"
 import React from "react"
-import Icon from "../shared/Icon"
-import lockIcon from "../shared/assets/icons/s/lock.svg"
-import coinIcon from "../shared/assets/taho-coin.svg"
+import Icon from "../../shared/Icon"
+import lockIcon from "../../shared/assets/icons/s/lock.svg"
+import coinIcon from "../../shared/assets/taho-coin.svg"
 
 type ClaimAmountProps = {
   amount: number
@@ -45,7 +45,7 @@ export default function ClaimAmount({
             background: var(--primary-p1-100);
           }
           .amount_value {
-            font-family: "QuincyCF-Regular";
+            font-family: "QuincyCF";
             font-size: 52px;
             line-height: 42px;
             margin: 0 11px 0 35px;

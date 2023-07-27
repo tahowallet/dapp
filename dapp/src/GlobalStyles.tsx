@@ -30,6 +30,7 @@ export default function GlobalStyles() {
           --secondary-s1-50: rgba(228, 238, 238, 0.5);
           --secondary-s1-40: rgba(228, 238, 238, 0.4);
           --secondary-s1-30: rgba(228, 238, 238, 0.3);
+          --secondary-s1-10: rgba(228, 238, 238, 0.1);
 
           --off-white: #f7f9f9;
 
@@ -106,17 +107,35 @@ export default function GlobalStyles() {
         html,
         body {
           height: 100%;
-          font-family: "Segment";
+          font-family: var(--sans);
           font-size: 18px;
           font-style: normal;
           font-weight: 500;
           line-height: 24px;
           color: var(--off-white);
         }
+        input:focus {
+          outline: none;
+        }
+        h1 {
+          font-family: var(--serif);
+          font-size: 42px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 46px;
+          letter-spacing: 1px;
+        }
         .column_center {
           display: flex;
           flex-direction: column;
           align-items: center;
+        }
+        .column {
+          display: flex;
+          flex-direction: column;
+        }
+        .row {
+          display: flex;
         }
       `}
     </style>

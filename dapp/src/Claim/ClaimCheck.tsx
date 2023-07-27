@@ -1,10 +1,14 @@
 import React from "react"
+import { useHistory } from "react-router-dom"
 import Button from "../shared/Button"
-import ClaimHeader from "./ClaimHeader"
+import ClaimHeader from "./shared/ClaimHeader"
+import Modal from "../shared/Modal"
 
 export default function ClaimCheck() {
+  const location = useHistory()
+
   return (
-    <>
+    <Modal>
       <div className="check_container">
         <ClaimHeader
           season="Season 1"
@@ -13,7 +17,12 @@ export default function ClaimCheck() {
         />
         <div className="input_container">
           <input className="input" placeholder="Address / Ens / Uns..." />
-          <Button size="large">Check eligibility</Button>
+          <Button
+            size="large"
+            onClick={() => location.replace("/claim/success")}
+          >
+            Check eligibility
+          </Button>
         </div>
       </div>
       <style jsx>{`
@@ -46,10 +55,7 @@ export default function ClaimCheck() {
         .input::placeholder {
           color: var(--green-5);
         }
-        .input:focus {
-          outline: none;
-        }
       `}</style>
-    </>
+    </Modal>
   )
 }

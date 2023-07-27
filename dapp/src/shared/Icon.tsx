@@ -1,6 +1,8 @@
+import classNames from "classnames"
 import React from "react"
 
 type IconProps = {
+  type?: "mask" | "image"
   src: string
   width?: string
   height?: string
@@ -8,6 +10,7 @@ type IconProps = {
 }
 
 export default function Icon({
+  type = "mask",
   width = "16px",
   height,
   src,
@@ -15,11 +18,20 @@ export default function Icon({
 }: IconProps) {
   return (
     <>
-      <div className="icon" />
+      <div
+        className={classNames("icon", {
+          [type]: true,
+        })}
+      />
       <style jsx>{`
         .icon {
           width: ${width};
           height: ${height ?? width};
+        }
+        .icon.image {
+          background-image: url(${src});
+        }
+        .icon.mask {
           -webkit-mask-image: url(${src});
           mask-image: url(${src});
           -webkit-mask-size: cover;
