@@ -3,6 +3,7 @@ import InteractiveMap from "./InteractiveMap"
 import { MapContext } from "./MapContext"
 import { useValueRef } from "./utils"
 import Modal from "../shared/Modal"
+import { MapZoneCutout, MapZoneBackgroundCutout } from "./MapCutout"
 
 const MemoizedInteractiveMap = React.memo(InteractiveMap)
 
@@ -10,8 +11,8 @@ export default function MapWrapper() {
   const [zoneData, setZoneData] = useState<null | string>(null)
 
   const contextRef = useValueRef(() => ({
-    onZoneClick: (id) => {
-      setZoneData(id)
+    onZoneClick: (id: string) => {
+      setZoneData(String(id))
     },
   }))
 
@@ -58,6 +59,12 @@ export default function MapWrapper() {
           <div className="modal_overlay" />
           <Modal>
             <div className="modal_content">
+              <div className="zone_header_bg">
+                <MapZoneBackgroundCutout zoneId={zoneData} />
+              </div>
+              <div className="zone_thumb">
+                <MapZoneCutout zoneId={zoneData} />
+              </div>
               <button type="button" onClick={() => setZoneData(null)}>
                 Modal, {zoneData}
               </button>
@@ -65,6 +72,21 @@ export default function MapWrapper() {
           </Modal>
         </>
       )}
+      <style jsx>{`
+        .zone_thumb {
+          position: absolute;
+          right: 0;
+          transform: translateY(-25%) translateX(25%);
+        }
+
+        .zone_header_bg {
+          position: absolute;
+          z-index: -1;
+          top: 0;
+          left: 0;
+          right: 0;
+        }
+      `}</style>
     </div>
   )
 }
