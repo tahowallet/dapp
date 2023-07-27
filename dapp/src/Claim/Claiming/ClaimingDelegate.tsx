@@ -79,7 +79,7 @@ function DelegateItem({
           </div>
         </div>
         <div className="delegate_description">{description}</div>
-        <div className="deletage_read">Read full pitch</div>
+        <div className="delegate_read">Read full pitch</div>
       </div>
       <style jsx>{`
         .delegate_item {
@@ -135,7 +135,7 @@ function DelegateItem({
         .delegate_item.selected .delegate_selected {
           opacity: 1;
         }
-        .deletage_read {
+        .delegate_read {
           position: absolute;
           bottom: 0;
           width: 100%;
@@ -149,7 +149,7 @@ function DelegateItem({
           opacity: 0;
           transition: opacity 0.1s ease-in;
         }
-        .delegate_item:hover .deletage_read {
+        .delegate_item:hover .delegate_read {
           opacity: 1;
         }
       `}</style>
