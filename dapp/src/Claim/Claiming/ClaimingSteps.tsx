@@ -17,6 +17,30 @@ const CLAIMING_STEPS = [
 
 type ClaimingStep = (typeof CLAIMING_STEPS)[number]
 
+const STEP_INDICATOR: {
+  [key in ClaimingStatus]: {
+    src: string
+    color: string
+  }
+} = {
+  done: {
+    src: iconNotifCorrect,
+    color: "var(--secondary-s1-60)",
+  },
+  current: {
+    src: iconStatusCurrent,
+    color: "var(--trading-in)",
+  },
+  upcoming: {
+    src: iconStatusUpcoming,
+    color: "var(--secondary-s1-80)",
+  },
+  optional: {
+    src: iconStatusOptional,
+    color: "var(--secondary-s1-80)",
+  },
+}
+
 function getStatus(
   step: ClaimingStep,
   currentStep: ClaimingStep
@@ -33,21 +57,6 @@ function getStatus(
   return "upcoming"
 }
 
-function ClaimingStepIndicator({ status }: { status: ClaimingStatus }) {
-  switch (status) {
-    case "done":
-      return <Icon src={iconNotifCorrect} color="var(--secondary-s1-60)" />
-    case "current":
-      return <Icon src={iconStatusCurrent} color="var(--trading-in)" />
-    case "upcoming":
-      return <Icon src={iconStatusUpcoming} color="var(--secondary-s1-80)" />
-    case "optional":
-      return <Icon src={iconStatusOptional} color="var(--secondary-s1-80)" />
-    default:
-      return null
-  }
-}
-
 export default function ClaimingSteps({
   currentStep,
 }: {
@@ -56,21 +65,27 @@ export default function ClaimingSteps({
   return (
     <>
       <div className="claiming_steps row">
-        {CLAIMING_STEPS.map((step) => (
-          <React.Fragment key={step}>
-            <div
-              className={classNames({
-                claiming_steps_item: true,
-                column_center: true,
-                [getStatus(step, currentStep)]: true,
-              })}
-            >
-              <ClaimingStepIndicator status={getStatus(step, currentStep)} />
-              <span>{step}</span>
-            </div>
-            {step !== "Region" && <div className="divider" />}
-          </React.Fragment>
-        ))}
+        {CLAIMING_STEPS.map((step) => {
+          const status = getStatus(step, currentStep)
+          return (
+            <React.Fragment key={step}>
+              <div
+                className={classNames({
+                  claiming_steps_item: true,
+                  column_center: true,
+                  [getStatus(step, currentStep)]: true,
+                })}
+              >
+                <Icon
+                  src={STEP_INDICATOR[status].src}
+                  color={STEP_INDICATOR[status].color}
+                />
+                <span>{step}</span>
+              </div>
+              {step !== "Region" && <div className="divider" />}
+            </React.Fragment>
+          )
+        })}
       </div>
       <style jsx>{`
         .claiming_steps {
