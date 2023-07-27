@@ -20,8 +20,7 @@ export default function Icon({
     <>
       <div
         className={classNames("icon", {
-          mask: type === "mask",
-          image: type === "image",
+          [type]: true,
         })}
       />
       <style jsx>{`
