@@ -1,13 +1,26 @@
 import React from "react"
-import { useHistory } from "react-router-dom"
-
 import logoIcon from "../shared/assets/nav_logo.svg"
 import walletIcon from "../shared/assets/icons/wallet.svg"
 import Icon from "../shared/Icon"
+import NavItem from "./NavItem"
+
+const NAV_ITEMS = [
+  {
+    path: "/",
+    title: "Map",
+    exact: true,
+  },
+  {
+    path: "/referrals",
+    title: "Referrals",
+  },
+  {
+    path: "/claim",
+    title: "Claim",
+  },
+]
 
 export default function Nav(): JSX.Element {
-  const location = useHistory()
-
   return (
     <div className="nav_container">
       <div className="nav_wrapper">
@@ -26,26 +39,10 @@ export default function Nav(): JSX.Element {
           />
         </svg>
         <div className="lhs_container">
-          <nav>
-            <button
-              onClick={() => location.replace("/")}
-              className="link active"
-              role="link"
-              type="button"
-            >
-              Map
-            </button>
-            <button className="link" role="link" type="button">
-              Referrals
-            </button>
-            <button
-              onClick={() => location.replace("/claim")}
-              className="link"
-              role="link"
-              type="button"
-            >
-              Claim
-            </button>
+          <nav className="row">
+            {NAV_ITEMS.map(({ path, title, exact }) => (
+              <NavItem key={path} path={path} title={title} exact={exact} />
+            ))}
           </nav>
         </div>
         <div className="logo_container">
@@ -120,9 +117,7 @@ export default function Nav(): JSX.Element {
           }
 
           nav {
-            display: flex;
-            flex-direction: row;
-            gap: 36px;
+            gap: 48px;
           }
 
           .rhs_container {
@@ -144,26 +139,6 @@ export default function Nav(): JSX.Element {
             gap: 8px;
             padding: 12px 8px;
             cursor: pointer;
-          }
-
-          .link {
-            padding: 4px 8px;
-            appearance: none;
-            font-family: var(--sans);
-            background: none;
-            border: none;
-            line-height: 24px;
-            outline: none;
-            color: var(--secondary-s1-50);
-          }
-
-          .link:hover,
-          .link:focus {
-            color: var(--secondary-s1-80);
-          }
-
-          .link.active {
-            color: var(--off-white);
           }
         `}
       </style>
