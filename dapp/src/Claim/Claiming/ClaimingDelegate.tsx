@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom"
 import classNames from "classnames"
 import Button from "../../shared/Button"
 import Icon from "../../shared/Icon"
-import iconNorifCorrect from "../../shared/assets/icons/s/notif-correct.svg"
+import iconNotifCorrect from "../../shared/assets/icons/s/notif-correct.svg"
 import iconSearch from "../../shared/assets/icons/m/search.svg"
 
 type Delegate = {
@@ -65,7 +65,7 @@ function DelegateItem({
       >
         <div className="delegate_selected">
           <Icon
-            src={iconNorifCorrect}
+            src={iconNotifCorrect}
             color={isSelected ? "var(--trading-in)" : "var(--secondary-s1-40)"}
           />
         </div>
