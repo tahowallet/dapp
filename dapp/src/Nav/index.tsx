@@ -1,4 +1,7 @@
 import React from "react"
+
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
+import { truncateAddress } from "../shared/utils"
 import logoIcon from "../shared/assets/nav_logo.svg"
 import walletIcon from "../shared/assets/icons/wallet.svg"
 import Icon from "../shared/Icon"
@@ -21,6 +24,8 @@ const NAV_ITEMS = [
 ]
 
 export default function Nav(): JSX.Element {
+  const address = useAddress()
+
   return (
     <div className="nav_container">
       <div className="nav_wrapper">
@@ -49,10 +54,17 @@ export default function Nav(): JSX.Element {
           <div className="logo" />
         </div>
         <div className="rhs_container">
-          <button className="connect_wallet_btn" type="button">
-            <Icon src={walletIcon} width="24px" color="currentColor" />
-            Connect Taho wallet
-          </button>
+          <div role="button" className="connect_wallet_btn">
+            <ConnectWallet className="connect_wallet_third_web" />
+            {address ? (
+              truncateAddress(address)
+            ) : (
+              <>
+                <Icon src={walletIcon} width="24px" color="currentColor" />
+                Connect Taho wallet
+              </>
+            )}
+          </div>
         </div>
       </div>
       <style jsx>
@@ -128,6 +140,7 @@ export default function Nav(): JSX.Element {
           }
 
           .connect_wallet_btn {
+            position: relative;
             color: var(--primary-p2-100);
             font-family: var(--sans);
             line-height: 24px;
@@ -139,6 +152,18 @@ export default function Nav(): JSX.Element {
             gap: 8px;
             padding: 12px 8px;
             cursor: pointer;
+          }
+        `}
+      </style>
+      <style jsx global>
+        {`
+          .connect_wallet_third_web {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0 !important;
           }
         `}
       </style>
