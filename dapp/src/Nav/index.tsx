@@ -1,11 +1,11 @@
 import React from "react"
 
 import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
-import { truncateAddress } from "../shared/utils"
+import Button from "../shared/Button"
 import logoIcon from "../shared/assets/nav_logo.svg"
 import walletIcon from "../shared/assets/icons/wallet.svg"
-import Icon from "../shared/Icon"
 import NavItem from "./NavItem"
+import AccountInfo from "./AccountInfo"
 
 const NAV_ITEMS = [
   {
@@ -43,7 +43,7 @@ export default function Nav(): JSX.Element {
             mask="url(#bg_mask)"
           />
         </svg>
-        <div className="lhs_container">
+        <div className="lhs_container row">
           <nav className="row">
             {NAV_ITEMS.map(({ path, title, exact }) => (
               <NavItem key={path} path={path} title={title} exact={exact} />
@@ -53,18 +53,25 @@ export default function Nav(): JSX.Element {
         <div className="logo_container">
           <div className="logo" />
         </div>
-        <div className="rhs_container">
-          <div role="button" className="connect_wallet_btn">
-            <ConnectWallet className="connect_wallet_third_web" />
-            {address ? (
-              truncateAddress(address)
-            ) : (
-              <>
-                <Icon src={walletIcon} width="24px" color="currentColor" />
+        <div className="rhs_container row">
+          {address ? (
+            <AccountInfo
+              address={address}
+              region={{ name: "KryptoKeep", id: 1 }}
+            />
+          ) : (
+            <div className="connect_wallet_btn">
+              <ConnectWallet className="connect_wallet_third_web" />
+              <Button
+                type="tertiary"
+                iconPosition="left"
+                iconSrc={walletIcon}
+                iconSize="large"
+              >
                 Connect Taho wallet
-              </>
-            )}
-          </div>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       <style jsx>
@@ -123,8 +130,6 @@ export default function Nav(): JSX.Element {
 
           .lhs_container {
             margin-right: auto;
-            display: flex;
-            flex-direction: row;
             align-items: center;
           }
 
@@ -134,24 +139,11 @@ export default function Nav(): JSX.Element {
 
           .rhs_container {
             margin-left: auto;
-            display: flex;
-            flex-direction: row;
             align-items: center;
           }
 
           .connect_wallet_btn {
             position: relative;
-            color: var(--primary-p2-100);
-            font-family: var(--sans);
-            line-height: 24px;
-            appearance: none;
-            background: none;
-            outline: none;
-            display: flex;
-            border: none;
-            gap: 8px;
-            padding: 12px 8px;
-            cursor: pointer;
           }
         `}
       </style>

@@ -26,7 +26,7 @@ export default function NavItem({
           .link {
             position: relative;
             color: var(--secondary-s1-50);
-            font-family: Segment;
+            font-family: var(--sans);
             font-size: 18px;
             font-style: normal;
             font-weight: 500;
