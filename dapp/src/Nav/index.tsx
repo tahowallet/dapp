@@ -55,17 +55,17 @@ export default function Nav(): JSX.Element {
           <div className="logo" />
         </div>
         <div className="rhs_container">
-          <div role="button" className="connect_wallet_btn">
+          <button type="button" className="connect_wallet_btn">
             <ConnectWallet className="connect_wallet_third_web" />
             {address ? (
               truncateAddress(address)
             ) : (
               <>
                 <Icon src={walletIcon} width="24px" color="currentColor" />
-                Connect Taho wallet
+                Connect Wallet
               </>
             )}
-          </div>
+          </button>
         </div>
       </div>
       <style jsx>
@@ -185,6 +185,7 @@ export default function Nav(): JSX.Element {
             left: 0;
             right: 0;
             bottom: 0;
+            z-index: 1;
             opacity: 0 !important;
           }
         `}
