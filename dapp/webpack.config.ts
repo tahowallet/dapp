@@ -43,6 +43,7 @@ const config: Configuration = {
     new HtmlWebpackPlugin({
       template: "./src/public/index.html",
       favicon: "./src/public/favicon.svg",
+      inject: true,
     }),
     new ForkTsCheckerPlugin({
       typescript: {
