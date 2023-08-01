@@ -26,7 +26,7 @@ export default function AccountInfo({
           {zone && (
             <div className="region_icon">
               <svg viewBox={`0 0 ${zone.w} ${zone.h}`}>
-                <path d={zone.path} fill="var(--semantic-attention)" />
+                <path d={zone.path} fill="#f4d03f" />
               </svg>
             </div>
           )}
@@ -53,16 +53,16 @@ export default function AccountInfo({
           .region_container {
             align-items: center;
             margin-right: 25px;
-            gap: 8px;
+            gap: 6px;
           }
 
           .region_icon {
-            width: 24px;
-            height: 24px;
+            width: 16px;
+            height: 100%;
           }
 
           .region_label {
-            color: var(--semantic-attention);
+            color: #f4d03f;
           }
 
           .account_label {
@@ -85,6 +85,10 @@ export default function AccountInfo({
             cursor: pointer;
             display: flex;
             align-items: center;
+          }
+
+          button:hover .account_label {
+            color: var(--primary-p2-100);
           }
         `}
       </style>

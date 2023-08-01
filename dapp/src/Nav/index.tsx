@@ -54,24 +54,19 @@ export default function Nav(): JSX.Element {
           <div className="logo" />
         </div>
         <div className="rhs_container row">
-          {address ? (
-            <AccountInfo
-              address={address}
-              region={{ name: "KryptoKeep", id: 1 }}
-            />
-          ) : (
-            <div className="connect_wallet_btn">
-              <ConnectWallet className="connect_wallet_third_web" />
-              <Button
-                type="tertiary"
-                iconPosition="left"
-                iconSrc={walletIcon}
-                iconSize="large"
-              >
+          <div className="connect_wallet_btn">
+            <ConnectWallet className="connect_wallet_third_web" />
+            {address ? (
+              <AccountInfo
+                address={address}
+                region={{ name: "KryptoKeep", id: 1 }}
+              />
+            ) : (
+              <Button type="tertiary" iconPosition="left" iconSrc={walletIcon}>
                 Connect Taho wallet
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       <style jsx>
@@ -144,6 +139,7 @@ export default function Nav(): JSX.Element {
 
           .connect_wallet_btn {
             position: relative;
+            padding: 12px 8px;
           }
         `}
       </style>
