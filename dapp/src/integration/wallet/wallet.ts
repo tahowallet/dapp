@@ -6,7 +6,7 @@ import {
   createAsyncLocalStorage,
 } from "@thirdweb-dev/wallets"
 import TahoConnector from "./connector"
-import { TAHO_NAME, TAHO_ID, TAHO_META } from "./consts"
+import { TAHO_ID, TAHO_META } from "./consts"
 
 export default class TahoWallet extends AbstractClientWallet {
   connector?: Connector
@@ -19,9 +19,8 @@ export default class TahoWallet extends AbstractClientWallet {
 
   static override meta = TAHO_META
 
-  // eslint-disable-next-line class-methods-use-this
   public get walletName() {
-    return TAHO_NAME
+    return this.getMeta().name
   }
 
   constructor(options: WalletOptions) {
@@ -31,7 +30,7 @@ export default class TahoWallet extends AbstractClientWallet {
       walletId: TAHO_ID,
     })
 
-    this.isInjected = !!globalThis.window.ethereum?.isTaho ?? false
+    this.isInjected = !!globalThis.window.ethereum?.isTaho
   }
 
   async initializeConnector() {
