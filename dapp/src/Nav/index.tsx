@@ -55,7 +55,7 @@ export default function Nav(): JSX.Element {
           <div className="logo" />
         </div>
         <div className="rhs_container">
-          <button type="button" className="connect_wallet_btn">
+          <div role="button" className="connect_wallet_btn">
             <ConnectWallet className="connect_wallet_third_web" />
             {address ? (
               truncateAddress(address)
@@ -65,7 +65,7 @@ export default function Nav(): JSX.Element {
                 Connect Wallet
               </>
             )}
-          </button>
+          </div>
         </div>
       </div>
       <style jsx>
