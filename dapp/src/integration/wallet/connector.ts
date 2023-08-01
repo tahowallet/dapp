@@ -8,6 +8,7 @@ import {
 } from "@thirdweb-dev/wallets"
 import { Ethereum } from "@thirdweb-dev/wallets/dist/declarations/src/evm/connectors/injected/types"
 import { providers, utils } from "ethers"
+import { TAHO_NAME } from "./consts"
 
 type TahoConnectorConstructorArg = {
   chains?: Chain[]
@@ -40,7 +41,7 @@ export default class TahoConnector extends WagmiConnector<
 
   constructor(arg: TahoConnectorConstructorArg) {
     const defaultOptions = {
-      name: "Taho",
+      name: TAHO_NAME,
       shimDisconnect: true,
       getProvider() {
         function getReady(ethereum?: Ethereum): Ethereum | undefined {
@@ -88,9 +89,7 @@ export default class TahoConnector extends WagmiConnector<
         method: "eth_requestAccounts",
       })
 
-      const firstAccountAddress = utils.getAddress(
-        accountAddresses[0] as string
-      )
+      const firstAccountAddress = utils.getAddress(accountAddresses[0])
 
       let connectedChainId = await this.getChainId()
       let isUnsupported = this.isChainUnsupported(connectedChainId)
@@ -131,6 +130,15 @@ export default class TahoConnector extends WagmiConnector<
     }
   }
 
+  async setupListeners(): Promise<void> {
+    const provider = await this.getProvider()
+    if (provider.on) {
+      provider.on("accountsChanged", this.onAccountsChanged.bind(this))
+      provider.on("chainChanged", this.onChainChanged.bind(this))
+      provider.on("disconnect", this.onDisconnect.bind(this))
+    }
+  }
+
   async disconnect(): Promise<void> {
     const provider = await this.getProvider()
 
@@ -138,6 +146,8 @@ export default class TahoConnector extends WagmiConnector<
       return
     }
 
+    // FIXME: Doesn't work because these are not the same functions as the ones added in setupListeners
+    // let's investigate how this is handled in Thirdweb's connectors without using bind
     provider.removeListener("accountsChanged", this.onAccountsChanged)
     provider.removeListener("chainChanged", this.onChainChanged)
     provider.removeListener("disconnect", this.onDisconnect)
@@ -154,7 +164,7 @@ export default class TahoConnector extends WagmiConnector<
     const accounts = await provider.request({
       method: "eth_accounts",
     })
-    return utils.getAddress(accounts[0] as string)
+    return utils.getAddress(accounts[0])
   }
 
   async getChainId(): Promise<number> {
@@ -223,7 +233,7 @@ export default class TahoConnector extends WagmiConnector<
       this.emit("disconnect")
     } else {
       this.emit("change", {
-        account: utils.getAddress(accounts[0] as string),
+        account: utils.getAddress(accounts[0]),
       })
     }
   }
@@ -243,17 +253,12 @@ export default class TahoConnector extends WagmiConnector<
     }
   }
 
-  async setupListeners(): Promise<void> {
-    const provider = await this.getProvider()
-    if (provider.on) {
-      provider.on("accountsChanged", this.onAccountsChanged)
-      provider.on("chainChanged", this.onChainChanged)
-      provider.on("disconnect", this.onDisconnect)
-    }
-  }
-
   // eslint-disable-next-line class-methods-use-this
   protected isUserRejectedRequestError(error: unknown) {
     return (error as ProviderRpcError).code === 4001
+  }
+
+  protected override isChainUnsupported(chainId: number) {
+    return !this.chains.some((x) => x.chainId === chainId)
   }
 }
