@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { Image as KonvaImage } from "react-konva"
 import useImage from "use-image"
 
-import zones from "./zones-data"
+import { zones } from "./constants"
 import Zone from "./Zone"
 import { createCutoutFromPath } from "./utils"
 import backgroundImg from "../public/dapp_map_bg.webp"

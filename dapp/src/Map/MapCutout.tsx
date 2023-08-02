@@ -1,10 +1,9 @@
 import React from "react"
-import * as zones from "./zones-data"
-import { MAP_BOX } from "./constants"
+import { MAP_BOX, zones } from "./constants"
 import backgroundImg from "../public/dapp_map_bg.webp"
 
 export function MapZoneCutout({ zoneId }: { zoneId: string }) {
-  const pathData = zones.default.find((z) => z.id.toString() === zoneId)
+  const pathData = zones.find((z) => z.id.toString() === zoneId)
   if (!pathData) {
     return null
   }
@@ -55,7 +54,7 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
 }
 
 export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
-  const pathData = zones.default.find((z) => z.id.toString() === zoneId)
+  const pathData = zones.find((z) => z.id.toString() === zoneId)
   if (!pathData) {
     return null
   }

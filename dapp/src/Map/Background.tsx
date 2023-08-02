@@ -4,10 +4,9 @@ import { Easings } from "konva/lib/Tween"
 import useImage from "use-image"
 
 import backgroundImg from "../public/dapp_map_bg.webp"
-import zonesData from "./zones-data"
 import { createBackgroundMask } from "./utils"
 import { KonvaRect } from "./types"
-import { MAP_BOX } from "./constants"
+import { MAP_BOX, zones } from "./constants"
 
 export default function Background({ overlay }: { overlay: boolean }) {
   const [mapImage] = useImage(backgroundImg)
@@ -29,7 +28,7 @@ export default function Background({ overlay }: { overlay: boolean }) {
       return undefined
     }
 
-    return createBackgroundMask(zonesData, mapImage)
+    return createBackgroundMask(zones, mapImage)
   }, [mapImage])
 
   return (
