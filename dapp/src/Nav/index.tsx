@@ -62,7 +62,12 @@ export default function Nav(): JSX.Element {
                 region={{ name: "KryptoKeep", id: 1 }}
               />
             ) : (
-              <Button type="tertiary" iconPosition="left" iconSrc={walletIcon}>
+              <Button
+                type="tertiary"
+                iconPosition="left"
+                iconSize="large"
+                iconSrc={walletIcon}
+              >
                 Connect Taho wallet
               </Button>
             )}
