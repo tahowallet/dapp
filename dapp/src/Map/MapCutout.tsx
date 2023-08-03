@@ -1,6 +1,7 @@
 import React from "react"
 import { MAP_BOX, zones } from "./constants"
 import backgroundImg from "../public/dapp_map_bg.webp"
+import { limitToBounds } from "./utils"
 
 export function MapZoneCutout({ zoneId }: { zoneId: string }) {
   const pathData = zones.find((z) => z.id.toString() === zoneId)
@@ -10,12 +11,12 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
 
   return (
     <svg
-      height={200}
       viewBox={`0 0 ${Math.ceil(pathData.w * 0.25)} ${Math.ceil(
         pathData.h * 0.25
       )}`}
       preserveAspectRatio="xMinYMin slice"
       style={{
+        ...(pathData.w / pathData.h > 1 ? { width: 200 } : { height: 200 }),
         filter:
           "drop-shadow(0px 2px 4px rgba(7, 17, 17, 0.34)) drop-shadow(0px 6px 8px rgba(7, 17, 17, 0.24)) drop-shadow(0px 16px 16px rgba(7, 17, 17, 0.30))",
       }}
@@ -59,6 +60,24 @@ export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
     return null
   }
 
+  /**
+   * For the x offset we want to push the zone to the right side of the modal
+   */
+  const targetXOffset = limitToBounds(
+    pathData.x - pathData.w + 755,
+    MAP_BOX.width * 0.2,
+    MAP_BOX.width * 0.75 - pathData.w
+  )
+
+  /**
+   * The y offset is a bit more complicated because we want to center the
+   * cutout vertically, but also make sure it doesn't go off the top or bottom
+   */
+  const targetYOffset = limitToBounds(
+    pathData.y + pathData.h * 0.2,
+    MAP_BOX.height * 0.2,
+    MAP_BOX.height * 0.9
+  )
   return (
     <svg height={200} width="100%">
       <defs>
@@ -79,7 +98,7 @@ export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
       </defs>
       <g mask="url(#zone_background_mask)" style={{ maskMode: "alpha" }}>
         <image
-          transform={`scale(0.25) translate(-${pathData.x}, -${pathData.y})`}
+          transform={`scale(0.25) translate(-${targetXOffset}, -${targetYOffset})`}
           width={MAP_BOX.width}
           height={MAP_BOX.height}
           href={backgroundImg}
