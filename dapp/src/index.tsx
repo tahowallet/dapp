@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react"
+import React, { useLayoutEffect, useState } from "react"
 import { ThirdwebProvider } from "@thirdweb-dev/react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
@@ -12,7 +12,7 @@ import MapComponent from "./Map"
 import backgroundImg from "./public/dapp_map_bg.webp"
 
 function DApp() {
-  const [assetsLoaded, setAssetsLoaded] = React.useState(false)
+  const [assetsLoaded, setAssetsLoaded] = useState(false)
 
   useLayoutEffect(() => {
     const assets = [backgroundImg]
