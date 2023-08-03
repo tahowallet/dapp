@@ -137,6 +137,11 @@ export default function GlobalStyles() {
         .row {
           display: flex;
         }
+        .ellipsis {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       `}
     </style>
   )
