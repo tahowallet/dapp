@@ -3,10 +3,11 @@ import { Group, Image as KonvaImage, Rect } from "react-konva"
 import { Easings } from "konva/lib/Tween"
 import useImage from "use-image"
 
-import backgroundImg from "../public/dapp_map_bg.webp"
-import { createBackgroundMask, usePrevious } from "./utils"
+import { createBackgroundMask, useBeforeFirstPaint, usePrevious } from "./utils"
 import { KonvaGroup } from "./types"
 import { MAP_BOX, zones } from "./constants"
+
+import backgroundImg from "../public/dapp_map_bg.webp"
 
 type OverlayType = "dark" | "subtle" | "none"
 
@@ -57,12 +58,25 @@ export default function Background({ overlay }: { overlay: OverlayType }) {
   const [mapImage] = useImage(backgroundImg)
   const overlayRef = useRef<KonvaGroup | null>(null)
   const [currentOverlay, setCurrentOverlay] = useState<JSX.Element | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   const previousOverlay = usePrevious(overlay)
 
+  useBeforeFirstPaint(() => {
+    setIsMounted(true)
+    const layer = overlayRef.current
+
+    if (layer) {
+      const maxOpacity = overlay === "dark" ? 1 : 0.4
+
+      layer.opacity(maxOpacity)
+      setCurrentOverlay(getOverlay(overlay))
+    }
+  })
+
   useLayoutEffect(() => {
     const layer = overlayRef.current
-    if (!layer || overlay === previousOverlay) return
+    if (!layer || overlay === previousOverlay || !isMounted) return
 
     if (overlay === "none") {
       layer.to({ opacity: 0, duration: 0.5, easing: Easings.EaseIn })
@@ -80,7 +94,7 @@ export default function Background({ overlay }: { overlay: OverlayType }) {
 
       setCurrentOverlay(getOverlay(overlay))
     }
-  }, [overlay, previousOverlay])
+  }, [isMounted, overlay, previousOverlay])
 
   const mask = useMemo(() => {
     if (!mapImage) {

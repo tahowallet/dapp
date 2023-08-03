@@ -50,7 +50,7 @@ export default function InteractiveMap() {
   )
   const mapRef = useRef<KonvaStage | null>(null)
 
-  const [overlay, setOverlay] = useState<"dark" | "subtle" | "none">("dark")
+  const [overlay, setOverlay] = useState<"dark" | "subtle" | "none">("subtle")
 
   const stageFns = useValueRef(() => {
     const resetZoom = () => {
