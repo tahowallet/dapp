@@ -15,6 +15,33 @@ import {
 } from "./utils"
 import { KonvaNode, KonvaStage, KonvaEventListener, Vector2d } from "./types"
 
+function TestControls({
+  setOverlay,
+}: {
+  setOverlay: (overlay: "dark" | "subtle" | "none") => void
+}) {
+  return (
+    <div className="column">
+      <style jsx>{`
+        div {
+          position: absolute;
+          top: 50%;
+          z-index: 2;
+        }
+      `}</style>
+      <button type="button" onClick={() => setOverlay("dark")}>
+        Set dark overlay
+      </button>
+      <button type="button" onClick={() => setOverlay("subtle")}>
+        Set subtle overlay
+      </button>
+      <button type="button" onClick={() => setOverlay("none")}>
+        Turn off overlay
+      </button>
+    </div>
+  )
+}
+
 export default function InteractiveMap() {
   const settingsRef = useRef({ minScale: 0 })
   const [zoomLevel, setZoomLevel] = useState(1)
@@ -23,7 +50,7 @@ export default function InteractiveMap() {
   )
   const mapRef = useRef<KonvaStage | null>(null)
 
-  const [overlay] = useState(!false)
+  const [overlay, setOverlay] = useState<"dark" | "subtle" | "none">("dark")
 
   const stageFns = useValueRef(() => {
     const resetZoom = () => {
@@ -145,18 +172,21 @@ export default function InteractiveMap() {
   [])
 
   return (
-    <Stage
-      ref={mapRef}
-      draggable
-      dragBoundFunc={restrictDragBounds}
-      scale={{ x: zoomLevel, y: zoomLevel }}
-      width={stageBounds.width}
-      height={stageBounds.height}
-    >
-      <Layer>
-        <Background overlay={overlay} />
-        <Zones />
-      </Layer>
-    </Stage>
+    <>
+      <TestControls setOverlay={setOverlay} />
+      <Stage
+        ref={mapRef}
+        draggable
+        dragBoundFunc={restrictDragBounds}
+        scale={{ x: zoomLevel, y: zoomLevel }}
+        width={stageBounds.width}
+        height={stageBounds.height}
+      >
+        <Layer>
+          <Background overlay={overlay} />
+          <Zones />
+        </Layer>
+      </Stage>
+    </>
   )
 }

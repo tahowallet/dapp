@@ -81,6 +81,19 @@ export function useOnResize<T extends VoidFn>(callback: T): void {
   })
 }
 
+/**
+ * Returns a lagging value of the previous render
+ */
+export function usePrevious<T>(value: T) {
+  const ref = useRef<T>()
+
+  useLayoutEffect(() => {
+    ref.current = value
+  })
+
+  return ref.current
+}
+
 export function queueMicrotask<T extends VoidFn>(callback: T) {
   return Promise.resolve().then(callback)
 }
