@@ -25,6 +25,7 @@ export default function Zone(props: ZoneProps) {
   return (
     <>
       {!isSelected && (
+        // This path is used to create the overlay effect
         <Path
           x={x}
           y={y}
