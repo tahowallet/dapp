@@ -44,6 +44,7 @@ const config: Configuration = {
       template: "./src/public/index.html",
       favicon: "./src/public/favicon.svg",
       inject: true,
+      publicPath: "/",
     }),
     new ForkTsCheckerPlugin({
       typescript: {
