@@ -68,7 +68,7 @@ export default function Nav(): JSX.Element {
                 iconSize="large"
                 iconSrc={walletIcon}
               >
-                Connect Taho wallet
+                Connect wallet
               </Button>
             )}
           </div>

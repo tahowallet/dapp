@@ -67,7 +67,7 @@ export default function AccountInfo({
 
           .account_label {
             color: var(--secondary-s1-80);
-            max-width: 130px;
+            max-width: 150px;
           }
 
           .avatar {
@@ -78,6 +78,8 @@ export default function AccountInfo({
             background-size: cover;
             border-radius: 50%;
             transform: scaleX(-1);
+            border: 2px solid var(--primary-p1-100);
+            transition: border-color 0.25s ease;
           }
 
           button {
@@ -89,6 +91,10 @@ export default function AccountInfo({
 
           button:hover .account_label {
             color: var(--primary-p2-100);
+          }
+
+          button:hover .avatar {
+            border-color: var(--primary-p2-100);
           }
         `}
       </style>
