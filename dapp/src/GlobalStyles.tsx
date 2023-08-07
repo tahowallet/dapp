@@ -17,7 +17,9 @@ export default function GlobalStyles() {
         }
 
         :root {
+          --primary-p1-120: #071111;
           --primary-p1-100: #0d2321;
+          --primary-p1-80: #063f3d;
 
           --primary-p2-120: #b57017;
           --primary-p2-100: #ed9a26;
@@ -42,8 +44,12 @@ export default function GlobalStyles() {
 
           --trading-in: #11bea9;
 
+          /* Typography */
           --serif: "QuincyCF", serif;
           --sans: "Segment", sans-serif;
+
+          --text-label: 500 16px/24px var(--sans);
+          --text-body: 500 18/24px var(--sans);
 
           /* z-index */
           --z-map: 0;
