@@ -1,5 +1,6 @@
 import "webpack-dev-server"
 import { Configuration } from "webpack"
+import { merge } from "webpack-merge"
 import Dotenv from "dotenv-webpack"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin"
@@ -13,7 +14,6 @@ const config: Configuration = {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
     clean: true,
-    // chunkLoading: false,
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
@@ -72,4 +72,22 @@ const config: Configuration = {
   },
 }
 
-export default config
+export default (
+  _webpackEnv: Record<string, string | boolean>,
+  argv: {
+    mode: "development" | "production"
+    [otherWebpackOption: string]: unknown
+  }
+) => {
+  const { mode } = argv
+
+  const overrides: Record<string, Configuration> = {
+    production: {
+      output: {
+        chunkLoading: false,
+      },
+    },
+  }
+
+  return merge(config, overrides[mode] || {})
+}

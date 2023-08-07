@@ -23,18 +23,33 @@ export default function Zone(props: ZoneProps) {
   }
 
   return (
-    <Path
-      x={x}
-      y={y}
-      data={path}
-      width={width}
-      height={height}
-      fill={isSelected ? "#fff2" : "#0000"}
-      stroke={isHovered ? "#fff" : "#fff9"}
-      strokeWidth={3}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={handleZoneClick}
-    />
+    <>
+      {!isSelected && (
+        // This path is used to create the overlay effect
+        <Path
+          x={x}
+          y={y}
+          data={path}
+          width={width}
+          height={height}
+          fill="#1F3D3B"
+          opacity={0.4}
+          listening={false}
+          globalCompositeOperation="hard-light"
+        />
+      )}
+      <Path
+        x={x}
+        y={y}
+        data={path}
+        width={width}
+        height={height}
+        stroke={isHovered ? "#fff" : "#fff"}
+        strokeWidth={4}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handleZoneClick}
+      />
+    </>
   )
 }

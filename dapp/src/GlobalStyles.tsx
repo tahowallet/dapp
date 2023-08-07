@@ -46,8 +46,9 @@ export default function GlobalStyles() {
           --sans: "Segment", sans-serif;
 
           /* z-index */
-          --z-navigation: 500;
+          --z-map: 0;
           --z-modal: 300;
+          --z-navigation: 500;
           --z-overlay: 600;
         }
 

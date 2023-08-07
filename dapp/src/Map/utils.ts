@@ -1,5 +1,7 @@
 import { useLayoutEffect, useRef } from "react"
-import { Dimensions } from "./types"
+import assert from "assert"
+
+import { Dimensions, ZoneRenderData } from "./types"
 
 type VoidFn = () => unknown
 
@@ -79,6 +81,78 @@ export function useOnResize<T extends VoidFn>(callback: T): void {
   })
 }
 
+/**
+ * Returns a lagging value of the previous render
+ */
+export function usePrevious<T>(value: T) {
+  const ref = useRef<T>()
+
+  useLayoutEffect(() => {
+    ref.current = value
+  })
+
+  return ref.current
+}
+
 export function queueMicrotask<T extends VoidFn>(callback: T) {
   return Promise.resolve().then(callback)
+}
+
+export function createCutoutFromPath(
+  zoneData: ZoneRenderData,
+  image: HTMLImageElement
+) {
+  const { x, y, w, h, path } = zoneData
+  const canvas = document.createElement("canvas")
+
+  canvas.width = image.width
+  canvas.height = image.height
+
+  const ctx = canvas.getContext("2d")
+
+  assert(ctx)
+
+  ctx.translate(x, y)
+  ctx.clip(new Path2D(path))
+  ctx.translate(-x, -y)
+  ctx.drawImage(image, 0, 0)
+
+  const crop = document.createElement("canvas")
+  crop.width = w
+  crop.height = h
+
+  const cropCtx = crop.getContext("2d")
+
+  assert(cropCtx)
+
+  cropCtx.drawImage(canvas, -x, -y)
+
+  return crop
+}
+
+export function createBackgroundMask(
+  zones: ZoneRenderData[],
+  bgImage: HTMLImageElement
+) {
+  const canvas = document.createElement("canvas")
+  canvas.width = bgImage.width
+  canvas.height = bgImage.height
+  const ctx = canvas.getContext("2d")
+
+  assert(ctx)
+
+  zones.forEach(({ x, y, path }) => {
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.fillStyle = "#000"
+    ctx.strokeStyle = "#000"
+    ctx.lineWidth = 3
+    ctx.fill(new Path2D(path))
+    ctx.stroke(new Path2D(path))
+    ctx.restore()
+  })
+  ctx.globalCompositeOperation = "source-out"
+
+  ctx.drawImage(bgImage, 0, 0)
+  return canvas
 }
