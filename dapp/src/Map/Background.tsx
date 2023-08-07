@@ -9,7 +9,7 @@ import { MAP_BOX, zones } from "./constants"
 
 import backgroundImg from "../public/dapp_map_bg.webp"
 
-type OverlayType = "dark" | "subtle" | "none"
+export type OverlayType = "dark" | "subtle" | "none"
 
 const getOverlay = (overlay: OverlayType) => {
   if (overlay === "dark") {

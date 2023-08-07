@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react"
 import { Layer, Stage } from "react-konva"
 import rafSchd from "raf-schd"
 
-import Background from "./Background"
+import Background, { OverlayType } from "./Background"
 import Zones from "./MapZones"
 import { MAP_BOX } from "./constants"
 import {
@@ -18,7 +18,7 @@ import { KonvaNode, KonvaStage, KonvaEventListener, Vector2d } from "./types"
 function TestControls({
   setOverlay,
 }: {
-  setOverlay: (overlay: "dark" | "subtle" | "none") => void
+  setOverlay: (overlay: OverlayType) => void
 }) {
   return (
     <div className="column">
@@ -50,7 +50,7 @@ export default function InteractiveMap() {
   )
   const mapRef = useRef<KonvaStage | null>(null)
 
-  const [overlay, setOverlay] = useState<"dark" | "subtle" | "none">("subtle")
+  const [overlay, setOverlay] = useState<OverlayType>("subtle")
 
   const stageFns = useValueRef(() => {
     const resetZoom = () => {

@@ -1,13 +1,10 @@
 import React from "react"
-import { MAP_BOX, zones } from "./constants"
+import { MAP_BOX, getZoneData } from "./constants"
 import backgroundImg from "../public/dapp_map_bg.webp"
 import { limitToBounds } from "./utils"
 
 export function MapZoneCutout({ zoneId }: { zoneId: string }) {
-  const pathData = zones.find((z) => z.id.toString() === zoneId)
-  if (!pathData) {
-    return null
-  }
+  const pathData = getZoneData(zoneId)
 
   return (
     <svg
@@ -55,10 +52,7 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
 }
 
 export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
-  const pathData = zones.find((z) => z.id.toString() === zoneId)
-  if (!pathData) {
-    return null
-  }
+  const pathData = getZoneData(zoneId)
 
   /**
    * For the x offset we want to push the zone to the right side of the modal
