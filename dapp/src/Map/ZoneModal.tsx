@@ -11,20 +11,21 @@ export default function ZoneModal({
 }) {
   return (
     <>
-      <div className="modal_overlay" />
-      <Modal>
-        <div className="modal_content">
-          <div className="zone_header_bg">
-            <MapZoneBackgroundCutout zoneId={zoneData} />
+      <Modal.Container type="fullscreen">
+        <Modal.Content>
+          <div className="modal_content">
+            <div className="zone_header_bg">
+              <MapZoneBackgroundCutout zoneId={zoneData} />
+            </div>
+            <div className="zone_thumb">
+              <MapZoneCutout zoneId={zoneData} />
+            </div>
+            <button type="button" onClick={onClose}>
+              Modal, {zoneData}
+            </button>
           </div>
-          <div className="zone_thumb">
-            <MapZoneCutout zoneId={zoneData} />
-          </div>
-          <button type="button" onClick={onClose}>
-            Modal, {zoneData}
-          </button>
-        </div>
-      </Modal>
+        </Modal.Content>
+      </Modal.Container>
       <style jsx>{`
         .zone_thumb {
           position: absolute;

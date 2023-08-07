@@ -10,7 +10,7 @@ export default function ClaimingFlow() {
   const { path } = useRouteMatch()
 
   return (
-    <Modal type="freeform">
+    <Modal.Content>
       <div className="flow column">
         <Switch>
           <Route path={`${path}/pledge`}>
@@ -53,6 +53,6 @@ export default function ClaimingFlow() {
           line-height: 32px;
         }
       `}</style>
-    </Modal>
+    </Modal.Content>
   )
 }

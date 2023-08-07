@@ -47,9 +47,11 @@ export default function GlobalStyles() {
 
           /* z-index */
           --z-map: 0;
-          --z-modal: 300;
           --z-navigation: 500;
-          --z-overlay: 600;
+
+          /* Modals */
+          --z-modal-map: 1;
+          --z-modal-overlay: 600;
         }
 
         a {
