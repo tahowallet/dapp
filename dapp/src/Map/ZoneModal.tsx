@@ -1,5 +1,5 @@
 import React from "react"
-import Modal from "../shared/Modal"
+import Modal from "../shared/components/Modal"
 import { MapZoneCutout, MapZoneBackgroundCutout } from "./MapCutout"
 
 export default function ZoneModal({

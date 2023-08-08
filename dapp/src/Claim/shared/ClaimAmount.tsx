@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import React from "react"
-import Icon from "../../shared/Icon"
+import Icon from "../../shared/components/Icon"
 import lockIcon from "../../shared/assets/icons/s/lock.svg"
 import coinIcon from "../../shared/assets/taho-coin.svg"
 

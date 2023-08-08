@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import classNames from "classnames"
-import Button from "../../shared/Button"
-import Icon from "../../shared/Icon"
+import Button from "../../shared/components/Button"
+import Icon from "../../shared/components/Icon"
 import iconNotifCorrect from "../../shared/assets/icons/s/notif-correct.svg"
 import iconSearch from "../../shared/assets/icons/m/search.svg"
 

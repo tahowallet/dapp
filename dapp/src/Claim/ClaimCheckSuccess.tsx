@@ -1,10 +1,10 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Modal from "../shared/Modal"
+import Modal from "../shared/components/Modal"
 import ClaimHeader from "./shared/ClaimHeader"
 import ClaimAmount from "./shared/ClaimAmount"
 import iconConnected from "../shared/assets/icons/s/connected.svg"
-import Button from "../shared/Button"
+import Button from "../shared/components/Button"
 import { Rule } from "./types"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 

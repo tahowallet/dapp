@@ -1,7 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Icon from "../../shared/Icon"
-import Button from "../../shared/Button"
+import Icon from "../../shared/components/Icon"
+import Button from "../../shared/components/Button"
 import lockIcon from "../../shared/assets/icons/s/lock.svg"
 import correctIcon from "../../shared/assets/icons/m/notif-correct.svg"
 
