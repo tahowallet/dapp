@@ -13,8 +13,11 @@
     "lint:config:fix": "prettier -w '**/*.@(json|yaml|toml)'"
   },
   "dependencies": {
-    "@thirdweb-dev/react": "^3.14.13",
-    "@thirdweb-dev/sdk": "^3.10.33",
+    "@web3-onboard/core": "^2.21.0",
+    "@web3-onboard/react": "^2.8.11",
+    "@web3-onboard/taho": "^2.0.5",
+    "@web3-onboard/trezor": "^2.4.2",
+    "@web3-onboard/walletconnect": "^2.4.4",
     "classnames": "^2.3.2",
     "ethers": "^5",
     "gifler": "^0.1.0",
