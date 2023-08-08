@@ -1,26 +1,25 @@
-import React, { ReactElement } from "react"
+import React from "react"
 
-import { truncateAddress } from "../shared/utils"
-import portrait from "../shared/assets/portrait.png"
-import zones from "../Map/zones-data"
+import { zones } from "../Map/constants"
+import { useAccount } from "../shared/hooks"
+import AccountDropdown from "./AccountDropdown"
+
+const regionMock = { name: "KryptoKeep", id: "1" }
 
 export default function AccountInfo({
-  address,
-  name,
-  avatar,
-  region,
   handleClick,
 }: {
-  address: string
-  name?: string
-  avatar?: string
-  region?: { name: string; id: number }
   handleClick?: () => void
-}): ReactElement {
+}) {
+  const { isConnected, name, avatar } = useAccount()
+  const region = regionMock // TODO: use region for given account
   const zone = region ? zones.find(({ id }) => region?.id === id) : undefined
+
+  if (!isConnected) return null
 
   return (
     <div className="account_container row">
+      <AccountDropdown />
       {region && (
         <div className="region_container row">
           {zone && (
@@ -34,14 +33,13 @@ export default function AccountInfo({
         </div>
       )}
       <button type="button" onClick={handleClick}>
-        <span className="account_label ellipsis">
-          {name ?? truncateAddress(address)}
-        </span>
+        <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
       </button>
       <style jsx>
         {`
           .account_container {
+            position: relative;
             align-items: center;
 
             font-family: var(--sans);
@@ -74,7 +72,7 @@ export default function AccountInfo({
             width: 42px;
             height: 42px;
             margin-left: 8px;
-            background: url("${avatar ?? portrait}");
+            background: url("${avatar}");
             background-size: cover;
             border-radius: 50%;
             transform: scaleX(-1);
