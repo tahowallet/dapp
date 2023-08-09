@@ -1,8 +1,9 @@
 [build]
-  environment = { NODE_VERSION = "14.15.3" }
-  command = "yarn build:prd"
+# environment = { NODE_VERSION = "14.15.3" }
+  base = "dapp"
+  command = "yarn build"
   functions = "functions"
-  publish = "./public/"
+  publish = "./dist/"
 
 [[redirects]]
   from = "/community-edition"
