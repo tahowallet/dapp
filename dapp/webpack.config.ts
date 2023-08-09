@@ -1,5 +1,5 @@
 import "webpack-dev-server"
-import { Configuration } from "webpack"
+import { Configuration, ProvidePlugin } from "webpack"
 import { merge } from "webpack-merge"
 import Dotenv from "dotenv-webpack"
 import HtmlWebpackPlugin from "html-webpack-plugin"
@@ -19,6 +19,8 @@ const config: Configuration = {
     extensions: [".tsx", ".ts", ".js"],
     alias: {
       "@": path.resolve(__dirname, "src"),
+      buffer: "buffer",
+      crypto: "crypto-browserify",
     },
   },
   module: {
@@ -54,6 +56,9 @@ const config: Configuration = {
         },
         mode: "write-references",
       },
+    }),
+    new ProvidePlugin({
+      Buffer: ["buffer", "Buffer"],
     }),
   ],
   devServer: {
