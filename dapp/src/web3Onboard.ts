@@ -1,18 +1,19 @@
 import tahoWalletModule from "@web3-onboard/taho"
-// import trezorModule from "@web3-onboard/trezor"
-// import walletConnectModule from "@web3-onboard/walletconnect"
+import trezorModule from "@web3-onboard/trezor"
+import walletConnectModule from "@web3-onboard/walletconnect"
 import { init } from "@web3-onboard/react"
 
 const wallets = [
   tahoWalletModule(),
-  // trezorModule({
-  //   email: "<EMAIL_CONTACT>",
-  //   appUrl: "<APP_URL>",
-  // }),
-  // walletConnectModule({
-  //   projectId: "<PROJECT_ID>",
-  //   requiredChains: [42161],
-  // }),
+  trezorModule({
+    // TODO: use proper email and url
+    email: "doggos@taho.xyz",
+    appUrl: "https://taho.xyz",
+  }),
+  walletConnectModule({
+    projectId: process.env.WALLET_CONNECT_ID ?? "",
+    requiredChains: [42161],
+  }),
 ]
 const chains = [
   {
