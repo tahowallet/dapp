@@ -47,9 +47,17 @@ export default function GlobalStyles() {
 
           /* z-index */
           --z-map: 0;
-          --z-modal: 300;
-          --z-navigation: 500;
-          --z-overlay: 600;
+          --z-modal: 100;
+          --z-navigation: 110;
+          --z-overlay: 120;
+
+          /* wallet connect overrides */
+          --onboard-warning-100: var(--secondary-s1-100);
+          --onboard-warning-400: var(--secondary-s1-40);
+          --onboard-connect-content-width: 500px;
+          --onboard-modal-z-index: 200;
+          --onboard-account-select-modal-z-index: 210;
+          --wcm-z-index: 210 !important;
         }
 
         a {
