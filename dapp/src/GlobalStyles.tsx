@@ -117,11 +117,28 @@ export default function GlobalStyles() {
         body {
           height: 100%;
           font-family: var(--sans);
-          font-size: 18px;
           font-style: normal;
           font-weight: 500;
           line-height: 24px;
           color: var(--off-white);
+
+          // TODO: web3onboard modal takes root font size to adjust UI sizes
+          // but some UI (for example loaders) look bad with 18px font size
+          font-size: 16px;
+        }
+
+        p,
+        span,
+        div,
+        input,
+        button,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          font-size: 18px;
         }
         input:focus {
           outline: none;
