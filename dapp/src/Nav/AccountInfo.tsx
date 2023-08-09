@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react"
 
+import { getZoneData } from "../Map/constants"
 import { truncateAddress } from "../shared/utils"
 import portrait from "../shared/assets/portrait.png"
-import zones from "../Map/zones-data"
 
 export default function AccountInfo({
   address,
@@ -17,7 +17,7 @@ export default function AccountInfo({
   region?: { name: string; id: number }
   handleClick?: () => void
 }): ReactElement {
-  const zone = region ? zones.find(({ id }) => region?.id === id) : undefined
+  const zone = region ? getZoneData(region.id.toString()) : undefined
 
   return (
     <div className="account_container row">
