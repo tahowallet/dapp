@@ -44,8 +44,15 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
         href="#cutout_path"
         transform="scale(0.25)"
         fill="transparent"
-        stroke="white"
-        strokeWidth="6"
+        stroke={pathData.color}
+        strokeWidth="10"
+      />
+      <use
+        href="#cutout_path"
+        transform="scale(0.25)"
+        fill={pathData.color}
+        opacity={0.7}
+        style={{ mixBlendMode: "color" }}
       />
     </svg>
   )

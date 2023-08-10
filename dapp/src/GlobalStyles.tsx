@@ -20,6 +20,7 @@ export default function GlobalStyles() {
           --primary-p1-120: #071111;
           --primary-p1-100: #0d2321;
           --primary-p1-80: #063f3d;
+          --primary-p1-40: #0d232166;
 
           --primary-p2-120: #b57017;
           --primary-p2-100: #ed9a26;
@@ -32,6 +33,7 @@ export default function GlobalStyles() {
           --secondary-s1-50: rgba(228, 238, 238, 0.5);
           --secondary-s1-40: rgba(228, 238, 238, 0.4);
           --secondary-s1-30: rgba(228, 238, 238, 0.3);
+          --secondary-s1-20: rgba(228, 238, 238, 0.2);
           --secondary-s1-10: rgba(228, 238, 238, 0.1);
 
           --off-white: #f7f9f9;
@@ -48,6 +50,7 @@ export default function GlobalStyles() {
           --serif: "QuincyCF", serif;
           --sans: "Segment", sans-serif;
 
+          --text-h1: 500 42px/110% var(--serif);
           --text-label: 500 16px/24px var(--sans);
           --text-body: 500 18/24px var(--sans);
 
@@ -130,9 +133,16 @@ export default function GlobalStyles() {
           font-family: var(--serif);
           font-size: 42px;
           font-style: normal;
-          font-weight: 500;
+          font-weight: 700;
           line-height: 46px;
           letter-spacing: 1px;
+        }
+        h3 {
+          font-family: var(--sans);
+          font-size: 22px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 32px;
         }
         .column_center {
           display: flex;
