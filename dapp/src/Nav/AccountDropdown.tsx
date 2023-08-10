@@ -1,14 +1,26 @@
 import React from "react"
-import { useAccount, useConnect } from "../shared/hooks"
+import { ethers } from "ethers"
+import { useAccount, useConnect, useSendTransaction } from "../shared/hooks"
 import Button from "../shared/components/Button"
 
 export default function AccountDropdown() {
-  const { name } = useAccount()
+  const { name, address } = useAccount()
   const { disconnect } = useConnect()
+  const { send, isReady } = useSendTransaction()
+
   return (
     <>
       <div className="account_dropdown_container column">
         <div>{name}</div>
+        <Button
+          type="tertiary"
+          onClick={() =>
+            send({ to: address, value: ethers.utils.parseEther("0.001") })
+          }
+          isDisabled={!isReady}
+        >
+          Send
+        </Button>
         <Button type="tertiary" onClick={() => disconnect()}>
           Disconnect
         </Button>
