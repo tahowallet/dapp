@@ -38,7 +38,7 @@ export default function ClaimCheckSuccess() {
   const location = useHistory()
 
   return (
-    <Modal.Container>
+    <Modal.Container type="map-only">
       <Modal.Content>
         <div className="success_container">
           <ClaimHeader

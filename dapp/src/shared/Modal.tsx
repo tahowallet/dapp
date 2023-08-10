@@ -9,7 +9,7 @@ type ModalProps = {
    * - Fullscreen: modal has a dark overlay that covers the whole screen,
    *   including navigation
    * - Freeform: no styling applied
-   * @default "map-only"
+   * @default "freeform"
    */
   type?: "fullscreen" | "freeform" | "map-only"
 }
@@ -17,7 +17,7 @@ type ModalProps = {
 /**
  * Modal container, renders at root level
  */
-function Container({ children, type = "map-only" }: ModalProps) {
+function Container({ children, type = "freeform" }: ModalProps) {
   return (
     <Portal>
       <div

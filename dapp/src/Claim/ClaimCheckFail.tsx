@@ -29,7 +29,7 @@ const listMock: Rule[] = [
 ]
 export default function ClaimCheckFail() {
   return (
-    <Modal.Container>
+    <Modal.Container type="map-only">
       <Modal.Content>
         <div className="fail_container column_center">
           <ClaimHeader

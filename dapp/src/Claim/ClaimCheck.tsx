@@ -8,7 +8,7 @@ export default function ClaimCheck() {
   const location = useHistory()
 
   return (
-    <Modal.Container>
+    <Modal.Container type="map-only">
       <Modal.Content>
         <div className="check_container">
           <ClaimHeader

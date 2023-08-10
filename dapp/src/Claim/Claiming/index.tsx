@@ -5,7 +5,7 @@ import Modal from "../../shared/Modal"
 
 export default function Claiming() {
   return (
-    <Modal.Container type="freeform">
+    <Modal.Container>
       <div className="steps_container">
         <ClaimingFlow />
         <ClaimingStats />
