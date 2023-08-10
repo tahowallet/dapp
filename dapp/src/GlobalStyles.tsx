@@ -58,6 +58,8 @@ export default function GlobalStyles() {
           --onboard-modal-z-index: 200;
           --onboard-account-select-modal-z-index: 210;
           --wcm-z-index: 210 !important;
+          --onboard-primary-500: var(--primary-p2-100);
+          --onboard-primary-300: var(--primary-p2-80);
         }
 
         a {

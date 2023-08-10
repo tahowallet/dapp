@@ -21,6 +21,7 @@ const chains = [
     token: "ETH",
     label: "Arbitrum One",
     rpcUrl: "https://1rpc.io/arb",
+    publicRpcUrl: "https://1rpc.io/arb",
   },
 ]
 // TODO: decide what metadata should look like
@@ -36,6 +37,26 @@ const web3Onboard = init({
   appMetadata,
   connect: {
     autoConnectLastWallet: true,
+    removeIDontHaveAWalletInfoLink: true,
+    removeWhereIsMyWalletWarning: true,
+  },
+  accountCenter: {
+    desktop: {
+      enabled: false,
+    },
+    mobile: {
+      enabled: false,
+    },
+  },
+  notify: {
+    desktop: {
+      enabled: false,
+      transactionHandler: () => {},
+    },
+    mobile: {
+      enabled: false,
+      transactionHandler: () => {},
+    },
   },
   theme: {
     "--w3o-background-color": "#002825",
