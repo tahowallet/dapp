@@ -1,6 +1,8 @@
 import classNames from "classnames"
 import React from "react"
+
 import Portal from "./Portal"
+import { noop } from "./utils"
 
 type ModalProps = {
   children: React.ReactNode
@@ -12,12 +14,17 @@ type ModalProps = {
    * @default "freeform"
    */
   type?: "fullscreen" | "freeform" | "map-only"
+  onClickOutside?: () => void
 }
 
 /**
  * Modal container, renders at root level
  */
-function Container({ children, type = "freeform" }: ModalProps) {
+function Container({
+  children,
+  type = "freeform",
+  onClickOutside = noop,
+}: ModalProps) {
   return (
     <Portal>
       <div
@@ -26,14 +33,25 @@ function Container({ children, type = "freeform" }: ModalProps) {
           [type]: true,
         })}
       >
-        {type !== "freeform" && (
-          <div
-            className={classNames("modal_background", {
-              overlay_light: type === "map-only",
-              overlay_dark: type === "fullscreen",
-            })}
-          />
-        )}
+        <div
+          role="button"
+          tabIndex={-1}
+          onKeyUp={(e) => {
+            if (e.target === e.currentTarget && e.key === "Escape") {
+              onClickOutside()
+            }
+          }}
+          aria-label="Close modal"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              onClickOutside()
+            }
+          }}
+          className={classNames("modal_background", {
+            overlay_light: type === "map-only",
+            overlay_dark: type === "fullscreen",
+          })}
+        />
         {children}
         <style jsx>
           {`

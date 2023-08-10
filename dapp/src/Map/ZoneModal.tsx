@@ -29,7 +29,7 @@ export default function ZoneModal({
 
   return (
     <>
-      <Modal.Container type="fullscreen">
+      <Modal.Container type="fullscreen" onClickOutside={onClose}>
         <Modal.Content>
           <div className="modal_content">
             <header className="column">
@@ -90,9 +90,7 @@ export default function ZoneModal({
               </Button>
             </div>
             <TabPanel tabs={["Rewards", "Stake", "Leaderboard", "Council"]} />
-            <button type="button" onClick={onClose}>
-              Modal, {zoneId}
-            </button>
+            <span>#{zoneId}</span>
           </div>
         </Modal.Content>
       </Modal.Container>
