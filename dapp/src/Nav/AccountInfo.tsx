@@ -1,16 +1,16 @@
 import React, { useState } from "react"
 
-import { zones } from "../Map/constants"
+import { getZoneData } from "../Map/constants"
 import { useAccount } from "../shared/hooks"
 import AccountDropdown from "./AccountDropdown"
 
-const regionMock = { name: "KryptoKeep", id: "1" }
+const regionMock = { name: "KryptoKeep", id: "4" }
 
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const { isConnected, name, avatar } = useAccount()
   const region = regionMock // TODO: use region for given account
-  const zone = region ? zones.find(({ id }) => region?.id === id) : undefined
+  const zone = region ? getZoneData(region.id.toString()) : undefined
 
   if (!isConnected) return null
 
