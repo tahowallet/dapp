@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { zones } from "../Map/constants"
 import { useAccount } from "../shared/hooks"
@@ -6,11 +6,8 @@ import AccountDropdown from "./AccountDropdown"
 
 const regionMock = { name: "KryptoKeep", id: "1" }
 
-export default function AccountInfo({
-  handleClick,
-}: {
-  handleClick?: () => void
-}) {
+export default function AccountInfo() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const { isConnected, name, avatar } = useAccount()
   const region = regionMock // TODO: use region for given account
   const zone = region ? zones.find(({ id }) => region?.id === id) : undefined
@@ -19,7 +16,7 @@ export default function AccountInfo({
 
   return (
     <div className="account_container row">
-      <AccountDropdown />
+      {isDropdownOpen && <AccountDropdown />}
       {region && (
         <div className="region_container row">
           {zone && (
@@ -32,7 +29,7 @@ export default function AccountInfo({
           <span className="region_label">{region.name}</span>
         </div>
       )}
-      <button type="button" onClick={handleClick}>
+      <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
         <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
       </button>
@@ -66,6 +63,7 @@ export default function AccountInfo({
           .account_label {
             color: var(--secondary-s1-80);
             max-width: 150px;
+            transition: color 250ms ease;
           }
 
           .avatar {
@@ -77,7 +75,7 @@ export default function AccountInfo({
             border-radius: 50%;
             transform: scaleX(-1);
             border: 2px solid var(--primary-p1-100);
-            transition: border-color 0.25s ease;
+            transition: border-color 250ms ease;
           }
 
           button {
