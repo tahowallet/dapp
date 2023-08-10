@@ -17,6 +17,7 @@ type ButtonProps = {
    * @default "right"
    */
   iconPosition?: "left" | "right"
+  iconSize?: "medium" | "large"
   iconSrc?: string
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -28,6 +29,7 @@ export default function Button({
   isDisabled = false,
   isInactive = false,
   iconPosition = "right",
+  iconSize = "medium",
   iconSrc,
   onClick,
 }: ButtonProps) {
@@ -49,7 +51,13 @@ export default function Button({
         })}
       >
         {children}
-        {iconSrc && <span className="icon" />}
+        {iconSrc && (
+          <span
+            className={classnames("icon", {
+              icon_large: iconSize === "large" || size === "large",
+            })}
+          />
+        )}
       </button>
       <style jsx>
         {`
@@ -192,12 +200,10 @@ export default function Button({
             mask-image: url(${iconSrc});
             -webkit-mask-size: cover;
             mask-size: cover;
-          }
-          .medium .icon {
             width: 16px;
             height: 16px;
           }
-          .large .icon {
+          .icon_large {
             width: 24px;
             height: 24px;
           }

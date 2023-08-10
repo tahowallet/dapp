@@ -1,14 +1,29 @@
 import React from "react"
-import { useHistory } from "react-router-dom"
 
 import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
-import { truncateAddress } from "../shared/utils"
+import Button from "../shared/Button"
 import logoIcon from "../shared/assets/nav_logo.svg"
 import walletIcon from "../shared/assets/icons/wallet.svg"
-import Icon from "../shared/Icon"
+import NavItem from "./NavItem"
+import AccountInfo from "./AccountInfo"
+
+const NAV_ITEMS = [
+  {
+    path: "/",
+    title: "Map",
+    exact: true,
+  },
+  {
+    path: "/referrals",
+    title: "Referrals",
+  },
+  {
+    path: "/claim",
+    title: "Claim",
+  },
+]
 
 export default function Nav(): JSX.Element {
-  const location = useHistory()
   const address = useAddress()
 
   return (
@@ -28,42 +43,33 @@ export default function Nav(): JSX.Element {
             mask="url(#bg_mask)"
           />
         </svg>
-        <div className="lhs_container">
-          <nav>
-            <button
-              onClick={() => location.replace("/")}
-              className="link active"
-              role="link"
-              type="button"
-            >
-              Map
-            </button>
-            <button className="link" role="link" type="button">
-              Referrals
-            </button>
-            <button
-              onClick={() => location.replace("/claim")}
-              className="link"
-              role="link"
-              type="button"
-            >
-              Claim
-            </button>
+        <div className="lhs_container row">
+          <nav className="row">
+            {NAV_ITEMS.map(({ path, title, exact }) => (
+              <NavItem key={path} path={path} title={title} exact={exact} />
+            ))}
           </nav>
         </div>
         <div className="logo_container">
           <div className="logo" />
         </div>
-        <div className="rhs_container">
-          <div role="button" className="connect_wallet_btn">
+        <div className="rhs_container row">
+          <div className="connect_wallet_btn">
             <ConnectWallet className="connect_wallet_third_web" />
             {address ? (
-              truncateAddress(address)
+              <AccountInfo
+                address={address}
+                region={{ name: "KryptoKeep", id: 1 }}
+              />
             ) : (
-              <>
-                <Icon src={walletIcon} width="24px" color="currentColor" />
-                Connect Taho wallet
-              </>
+              <Button
+                type="tertiary"
+                iconPosition="left"
+                iconSize="large"
+                iconSrc={walletIcon}
+              >
+                Connect wallet
+              </Button>
             )}
           </div>
         </div>
@@ -124,56 +130,21 @@ export default function Nav(): JSX.Element {
 
           .lhs_container {
             margin-right: auto;
-            display: flex;
-            flex-direction: row;
             align-items: center;
           }
 
           nav {
-            display: flex;
-            flex-direction: row;
-            gap: 36px;
+            gap: 48px;
           }
 
           .rhs_container {
             margin-left: auto;
-            display: flex;
-            flex-direction: row;
             align-items: center;
           }
 
           .connect_wallet_btn {
             position: relative;
-            color: var(--primary-p2-100);
-            font-family: var(--sans);
-            line-height: 24px;
-            appearance: none;
-            background: none;
-            outline: none;
-            display: flex;
-            border: none;
-            gap: 8px;
             padding: 12px 8px;
-            cursor: pointer;
-          }
-          .link {
-            padding: 4px 8px;
-            appearance: none;
-            font-family: var(--sans);
-            background: none;
-            border: none;
-            line-height: 24px;
-            outline: none;
-            color: var(--secondary-s1-50);
-          }
-
-          .link:hover,
-          .link:focus {
-            color: var(--secondary-s1-80);
-          }
-
-          .link.active {
-            color: var(--off-white);
           }
         `}
       </style>
