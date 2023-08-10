@@ -5,6 +5,7 @@ import { getZoneData } from "./constants"
 import Modal from "../shared/Modal"
 import Icon from "../shared/Icon"
 import Button from "../shared/Button"
+import TabPanel from "../shared/TabPanel"
 
 import iconCommunity from "../shared/assets/icons/people.svg"
 import iconStar from "../shared/assets/icons/star.svg"
@@ -88,7 +89,7 @@ export default function ZoneModal({
                 Connect Wallet
               </Button>
             </div>
-            {/* TODO: ADD TAB PANEL */}
+            <TabPanel tabs={["Rewards", "Stake", "Leaderboard", "Council"]} />
             <button type="button" onClick={onClose}>
               Modal, {zoneId}
             </button>
