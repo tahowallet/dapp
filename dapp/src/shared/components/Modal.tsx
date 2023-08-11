@@ -1,8 +1,8 @@
 import classNames from "classnames"
 import React from "react"
 
-import Portal from "./Portal"
-import { noop } from "./utils"
+import Portal from "../Portal"
+import { noop } from "../utils"
 
 type ModalProps = {
   children: React.ReactNode

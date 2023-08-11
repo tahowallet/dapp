@@ -1,6 +1,6 @@
 import React from "react"
-import IconLink from "../shared/IconLink"
-import Link from "../shared/Link"
+import IconLink from "../shared/components/IconLink"
+import Link from "../shared/components/Link"
 import ClaimProgressBar from "./ClaimProgressBar"
 
 import discordIcon from "../shared/assets/icons/discord.svg"

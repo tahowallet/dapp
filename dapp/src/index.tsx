@@ -1,17 +1,18 @@
 import React from "react"
-import { ThirdwebProvider } from "@thirdweb-dev/react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { Web3OnboardProvider } from "@web3-onboard/react"
 
 import Footer from "./Footer"
 import Nav from "./Nav"
 import Claim from "./Claim"
 import GlobalStyles from "./GlobalStyles"
 import MapComponent from "./Map"
+import web3Onboard from "./web3Onboard"
 
 function DApp() {
   return (
-    <ThirdwebProvider>
+    <Web3OnboardProvider web3Onboard={web3Onboard}>
       <GlobalStyles />
       <MapComponent />
       <Router>
@@ -23,7 +24,7 @@ function DApp() {
         </Switch>
         <Footer />
       </Router>
-    </ThirdwebProvider>
+    </Web3OnboardProvider>
   )
 }
 

@@ -1,6 +1,6 @@
 import React from "react"
 import classNames from "classnames"
-import Icon from "../../shared/Icon"
+import Icon from "../../shared/components/Icon"
 import iconNotifCorrect from "../../shared/assets/icons/s/notif-correct.svg"
 import iconStatusCurrent from "../../shared/assets/icons/s/status-current.svg"
 import iconStatusUpcoming from "../../shared/assets/icons/s/status-upcoming.svg"

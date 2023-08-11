@@ -1,11 +1,11 @@
 import React from "react"
 
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
-import Button from "../shared/Button"
+import Button from "../shared/components/Button"
 import logoIcon from "../shared/assets/nav_logo.svg"
 import walletIcon from "../shared/assets/icons/wallet.svg"
 import NavItem from "./NavItem"
 import AccountInfo from "./AccountInfo"
+import { useConnect } from "../shared/hooks"
 
 const NAV_ITEMS = [
   {
@@ -24,7 +24,7 @@ const NAV_ITEMS = [
 ]
 
 export default function Nav(): JSX.Element {
-  const address = useAddress()
+  const { isConnected, connect } = useConnect()
 
   return (
     <div className="nav_container">
@@ -55,18 +55,15 @@ export default function Nav(): JSX.Element {
         </div>
         <div className="rhs_container row">
           <div className="connect_wallet_btn">
-            <ConnectWallet className="connect_wallet_third_web" />
-            {address ? (
-              <AccountInfo
-                address={address}
-                region={{ name: "KryptoKeep", id: 1 }}
-              />
+            {isConnected ? (
+              <AccountInfo />
             ) : (
               <Button
                 type="tertiary"
                 iconPosition="left"
                 iconSize="large"
                 iconSrc={walletIcon}
+                onClick={() => connect()}
               >
                 Connect wallet
               </Button>
@@ -145,18 +142,6 @@ export default function Nav(): JSX.Element {
           .connect_wallet_btn {
             position: relative;
             padding: 12px 8px;
-          }
-        `}
-      </style>
-      <style jsx global>
-        {`
-          .connect_wallet_third_web {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0 !important;
           }
         `}
       </style>

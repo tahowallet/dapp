@@ -1,26 +1,22 @@
-import React, { ReactElement } from "react"
+import React, { useState } from "react"
 
 import { getZoneData } from "../Map/constants"
-import { truncateAddress } from "../shared/utils"
-import portrait from "../shared/assets/portrait.png"
+import { useAccount } from "../shared/hooks"
+import AccountDropdown from "./AccountDropdown"
 
-export default function AccountInfo({
-  address,
-  name,
-  avatar,
-  region,
-  handleClick,
-}: {
-  address: string
-  name?: string
-  avatar?: string
-  region?: { name: string; id: number }
-  handleClick?: () => void
-}): ReactElement {
+const regionMock = { name: "KryptoKeep", id: "4" }
+
+export default function AccountInfo() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const { isConnected, name, avatar } = useAccount()
+  const region = regionMock // TODO: use region for given account
   const zone = region ? getZoneData(region.id.toString()) : undefined
+
+  if (!isConnected) return null
 
   return (
     <div className="account_container row">
+      {isDropdownOpen && <AccountDropdown />}
       {region && (
         <div className="region_container row">
           {zone && (
@@ -33,15 +29,14 @@ export default function AccountInfo({
           <span className="region_label">{region.name}</span>
         </div>
       )}
-      <button type="button" onClick={handleClick}>
-        <span className="account_label ellipsis">
-          {name ?? truncateAddress(address)}
-        </span>
+      <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
+        <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
       </button>
       <style jsx>
         {`
           .account_container {
+            position: relative;
             align-items: center;
 
             font-family: var(--sans);
@@ -68,18 +63,19 @@ export default function AccountInfo({
           .account_label {
             color: var(--secondary-s1-80);
             max-width: 150px;
+            transition: color 250ms ease;
           }
 
           .avatar {
             width: 42px;
             height: 42px;
             margin-left: 8px;
-            background: url("${avatar ?? portrait}");
+            background: url("${avatar}");
             background-size: cover;
             border-radius: 50%;
             transform: scaleX(-1);
             border: 2px solid var(--primary-p1-100);
-            transition: border-color 0.25s ease;
+            transition: border-color 250ms ease;
           }
 
           button {

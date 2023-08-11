@@ -1,5 +1,5 @@
 import "webpack-dev-server"
-import { Configuration } from "webpack"
+import { Configuration, ProvidePlugin } from "webpack"
 import { merge } from "webpack-merge"
 import Dotenv from "dotenv-webpack"
 import HtmlWebpackPlugin from "html-webpack-plugin"
@@ -19,7 +19,22 @@ const config: Configuration = {
     extensions: [".tsx", ".ts", ".js"],
     alias: {
       "@": path.resolve(__dirname, "src"),
+      buffer: "buffer",
+      crypto: "crypto-browserify",
+      assert: "assert",
+      http: "stream-http",
+      https: "https-browserify",
+      os: "os-browserify/browser",
+      process: "process/browser",
+      stream: "stream-browserify",
+      util: "util",
     },
+    fallback: {
+      path: require.resolve("path-browserify"),
+    },
+  },
+  experiments: {
+    asyncWebAssembly: true,
   },
   module: {
     rules: [
@@ -54,6 +69,10 @@ const config: Configuration = {
         },
         mode: "write-references",
       },
+    }),
+    new ProvidePlugin({
+      process: "process/browser",
+      Buffer: ["buffer", "Buffer"],
     }),
   ],
   devServer: {

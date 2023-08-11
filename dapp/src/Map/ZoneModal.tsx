@@ -2,9 +2,9 @@ import React from "react"
 
 import { MapZoneCutout, MapZoneBackgroundCutout } from "./MapCutout"
 import { getZoneData } from "./constants"
-import Modal from "../shared/Modal"
-import Icon from "../shared/Icon"
-import Button from "../shared/Button"
+import Modal from "../shared/components/Modal"
+import Icon from "../shared/components/Icon"
+import Button from "../shared/components/Button"
 import TabPanel from "../shared/TabPanel"
 
 import iconCommunity from "../shared/assets/icons/people.svg"
