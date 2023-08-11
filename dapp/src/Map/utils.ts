@@ -102,7 +102,9 @@ export function createCutoutFromPath(
   zoneData: ZoneRenderData,
   image: HTMLImageElement
 ) {
-  const { x, y, w, h, path } = zoneData
+  const { x, y, w, h, paths } = zoneData
+  const path = paths[0].data
+
   const canvas = document.createElement("canvas")
 
   canvas.width = image.width
@@ -141,14 +143,14 @@ export function createBackgroundMask(
 
   assert(ctx)
 
-  zones.forEach(({ x, y, path }) => {
+  zones.forEach(({ x, y, paths }) => {
     ctx.save()
     ctx.translate(x, y)
     ctx.fillStyle = "#000"
     ctx.strokeStyle = "#000"
     ctx.lineWidth = 3
-    ctx.fill(new Path2D(path))
-    ctx.stroke(new Path2D(path))
+    ctx.fill(new Path2D(paths[0].data))
+    ctx.stroke(new Path2D(paths[0].data))
     ctx.restore()
   })
   ctx.globalCompositeOperation = "source-out"

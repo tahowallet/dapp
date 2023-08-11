@@ -21,7 +21,7 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
       <defs>
         <path
           id="cutout_path"
-          d={pathData.path}
+          d={pathData.paths[0].data}
           width={pathData.w}
           height={pathData.h}
         />
