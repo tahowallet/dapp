@@ -47,9 +47,19 @@ export default function GlobalStyles() {
 
           /* z-index */
           --z-map: 0;
-          --z-modal: 300;
-          --z-navigation: 500;
-          --z-overlay: 600;
+          --z-modal: 100;
+          --z-navigation: 110;
+          --z-overlay: 120;
+
+          /* wallet connect overrides */
+          --onboard-warning-100: var(--secondary-s1-100);
+          --onboard-warning-400: var(--secondary-s1-40);
+          --onboard-connect-content-width: 500px;
+          --onboard-modal-z-index: 200;
+          --onboard-account-select-modal-z-index: 210;
+          --wcm-z-index: 210 !important;
+          --onboard-primary-500: var(--primary-p2-100);
+          --onboard-primary-300: var(--primary-p2-80);
         }
 
         a {
@@ -109,11 +119,28 @@ export default function GlobalStyles() {
         body {
           height: 100%;
           font-family: var(--sans);
-          font-size: 18px;
           font-style: normal;
           font-weight: 500;
           line-height: 24px;
           color: var(--off-white);
+
+          // TODO: web3onboard modal takes root font size to adjust UI sizes
+          // but some UI (for example loaders) look bad with 18px font size
+          font-size: 16px;
+        }
+
+        p,
+        span,
+        div,
+        input,
+        button,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          font-size: 18px;
         }
         input:focus {
           outline: none;

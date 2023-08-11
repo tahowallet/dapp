@@ -1,6 +1,6 @@
 import React from "react"
 import ClaimAmount from "../shared/ClaimAmount"
-import Modal from "../../shared/Modal"
+import Modal from "../../shared/components/Modal"
 
 export default function ClaimingStats() {
   return (
