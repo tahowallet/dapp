@@ -1,11 +1,12 @@
 import React from "react"
-import IconLink from "../shared/components/IconLink"
-import Link from "../shared/components/Link"
-import ClaimProgressBar from "./ClaimProgressBar"
+import IconLink from "@components/IconLink"
+import Link from "@components/Link"
 
-import discordIcon from "../shared/assets/icons/discord.svg"
-import twitterIcon from "../shared/assets/icons/twitter.svg"
-import githubIcon from "../shared/assets/icons/github.svg"
+import discordIcon from "@assets/icons/discord.svg"
+import twitterIcon from "@assets/icons/twitter.svg"
+import githubIcon from "@assets/icons/github.svg"
+
+import ClaimProgressBar from "./ClaimProgressBar"
 
 const ICON_SIZE = "18px"
 

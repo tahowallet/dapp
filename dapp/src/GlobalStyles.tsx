@@ -1,11 +1,11 @@
 import React from "react"
-import QuincyCFMedium from "./shared/fonts/quincy-cf.woff2"
-import QuincyCF from "./shared/fonts/quincy-cf-text.woff2"
-import QuincyCFBold from "./shared/fonts/quincy-cf-bold.woff2"
-import SegmentRegular from "./shared/fonts/segment-regular.woff2"
-import SegmentMedium from "./shared/fonts/segment-medium.woff2"
-import SegmentSemiBold from "./shared/fonts/segment-semibold.woff2"
-import SegmentBold from "./shared/fonts/segment-bold.woff2"
+import QuincyCFMedium from "@assets/fonts/quincy-cf.woff2"
+import QuincyCF from "@assets/fonts/quincy-cf-text.woff2"
+import QuincyCFBold from "@assets/fonts/quincy-cf-bold.woff2"
+import SegmentRegular from "@assets/fonts/segment-regular.woff2"
+import SegmentMedium from "@assets/fonts/segment-medium.woff2"
+import SegmentSemiBold from "@assets/fonts/segment-semibold.woff2"
+import SegmentBold from "@assets/fonts/segment-bold.woff2"
 
 export default function GlobalStyles() {
   return (

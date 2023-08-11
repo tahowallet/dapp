@@ -18,7 +18,9 @@ const config: Configuration = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@components": path.resolve(__dirname, "src/shared/components"),
+      "@assets": path.resolve(__dirname, "src/shared/assets"),
+      "@shared": path.resolve(__dirname, "src/shared"),
       buffer: "buffer",
       crypto: "crypto-browserify",
       assert: "assert",

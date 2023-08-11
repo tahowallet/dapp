@@ -1,8 +1,8 @@
 import classNames from "classnames"
 import React from "react"
-import Icon from "../../shared/components/Icon"
-import lockIcon from "../../shared/assets/icons/s/lock.svg"
-import coinIcon from "../../shared/assets/taho-coin.svg"
+import Icon from "@components/Icon"
+import lockIcon from "@assets/icons/s/lock.svg"
+import coinIcon from "@assets/taho-coin.svg"
 
 type ClaimAmountProps = {
   amount: number

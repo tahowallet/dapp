@@ -1,9 +1,9 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Icon from "../../shared/components/Icon"
-import Button from "../../shared/components/Button"
-import lockIcon from "../../shared/assets/icons/s/lock.svg"
-import correctIcon from "../../shared/assets/icons/m/notif-correct.svg"
+import Icon from "@components/Icon"
+import Button from "@components/Button"
+import lockIcon from "@assets/icons/s/lock.svg"
+import correctIcon from "@assets/icons/m/notif-correct.svg"
 
 export default function ClaimingSignTx() {
   const location = useHistory()

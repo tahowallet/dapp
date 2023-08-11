@@ -1,7 +1,7 @@
 import React from "react"
+import Modal from "@components/Modal"
 import ClaimingStats from "./ClaimingStats"
 import ClaimingFlow from "./ClaimingFlow"
-import Modal from "../../shared/components/Modal"
 
 export default function Claiming() {
   return (

@@ -1,12 +1,13 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Modal from "../shared/components/Modal"
+import Modal from "@components/Modal"
+import Button from "@components/Button"
+import iconConnected from "@assets/icons/s/connected.svg"
+
 import ClaimHeader from "./shared/ClaimHeader"
 import ClaimAmount from "./shared/ClaimAmount"
-import iconConnected from "../shared/assets/icons/s/connected.svg"
-import Button from "../shared/components/Button"
-import { Rule } from "./types"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
+import { Rule } from "./types"
 
 const listMock: Rule[] = [
   {

@@ -1,15 +1,16 @@
 import React from "react"
 
+import Modal from "@components/Modal"
+import Icon from "@components/Icon"
+import Button from "@components/Button"
+import TabPanel from "@components/TabPanel"
+
+import iconCommunity from "@assets/icons/people.svg"
+import iconStar from "@assets/icons/star.svg"
+import walletIcon from "@assets/icons/wallet.svg"
+
 import { MapZoneCutout, MapZoneBackgroundCutout } from "./MapCutout"
 import { getZoneData } from "./constants"
-import Modal from "../shared/components/Modal"
-import Icon from "../shared/components/Icon"
-import Button from "../shared/components/Button"
-import TabPanel from "../shared/TabPanel"
-
-import iconCommunity from "../shared/assets/icons/people.svg"
-import iconStar from "../shared/assets/icons/star.svg"
-import walletIcon from "../shared/assets/icons/wallet.svg"
 
 function PrevBtnIcon({
   onClick,

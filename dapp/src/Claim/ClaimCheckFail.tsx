@@ -1,9 +1,9 @@
 import React from "react"
+import Button from "@components/Button"
+import Modal from "@components/Modal"
 import ClaimHeader from "./shared/ClaimHeader"
-import Button from "../shared/components/Button"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 import { Rule } from "./types"
-import Modal from "../shared/components/Modal"
 
 const listMock: Rule[] = [
   {

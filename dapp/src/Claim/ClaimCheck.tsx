@@ -1,8 +1,10 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Button from "../shared/components/Button"
+
+import Button from "@components/Button"
+import Modal from "@components/Modal"
+
 import ClaimHeader from "./shared/ClaimHeader"
-import Modal from "../shared/components/Modal"
 
 export default function ClaimCheck() {
   const location = useHistory()

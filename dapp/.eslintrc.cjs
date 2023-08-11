@@ -1,8 +1,17 @@
 module.exports = {
   root: true,
   extends: ["@thesis-co"],
-  settings: { "import/core-modules": ["styled-jsx/css"] },
+  settings: {
+    "import/core-modules": ["styled-jsx/css"],
+    "import/resolver": {
+      typescript: {
+        alwaysTryTypes: true,
+      },
+    },
+  },
   rules: {
+    // these will be caught during build
+    "import/no-unresolved": "error",
     "react/default-props-match-prop-types": [
       2,
       { allowRequiredDefaults: true },
@@ -15,4 +24,5 @@ module.exports = {
       },
     ],
   },
+  ignorePatterns: ["dist"],
 }

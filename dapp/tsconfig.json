@@ -10,6 +10,11 @@
     "resolveJsonModule": true,
     "noEmit": true,
     "noImplicitOverride": true,
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["shared/components/*"],
+      "@assets/*": ["shared/assets/*"],
+      "@shared/*": ["shared/*"]
+    }
   }
 }
