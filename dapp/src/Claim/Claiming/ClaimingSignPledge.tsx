@@ -13,7 +13,7 @@ export default function ClaimingSignPledge() {
     <>
       <div className="pledge_container column">
         <div className="pledge_description column">
-          <h1>Sign the Taho Community Pledge</h1>
+          <h1>Taho Community Pledge</h1>
           <p>
             Below are the values baked into every line of Tally Ho&apos;s
             codebase. Our community pledge is that you can expect every update
