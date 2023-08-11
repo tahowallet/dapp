@@ -21,7 +21,20 @@ const config: Configuration = {
       "@": path.resolve(__dirname, "src"),
       buffer: "buffer",
       crypto: "crypto-browserify",
+      assert: "assert",
+      http: "stream-http",
+      https: "https-browserify",
+      os: "os-browserify/browser",
+      process: "process/browser",
+      stream: "stream-browserify",
+      util: "util",
     },
+    fallback: {
+      path: require.resolve("path-browserify"),
+    },
+  },
+  experiments: {
+    asyncWebAssembly: true,
   },
   module: {
     rules: [
@@ -58,6 +71,7 @@ const config: Configuration = {
       },
     }),
     new ProvidePlugin({
+      process: "process/browser",
       Buffer: ["buffer", "Buffer"],
     }),
   ],
