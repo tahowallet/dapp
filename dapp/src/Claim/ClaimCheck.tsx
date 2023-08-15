@@ -1,11 +1,25 @@
-import React from "react"
-import { useHistory } from "react-router-dom"
+import React, { useState } from "react"
 import Button from "../shared/components/Button"
 import ClaimHeader from "./shared/ClaimHeader"
 import Modal from "../shared/components/Modal"
+import { useNameToAddressResolution } from "../shared/hooks"
 
 export default function ClaimCheck() {
-  const location = useHistory()
+  const [input, setInput] = useState("")
+  const [, setAddress] = useState<string | null>(null)
+  const resolveNameToAddress = useNameToAddressResolution()
+
+  const setResolvedAddresss = async () => {
+    if (!input.length) {
+      setAddress(null)
+    } else {
+      const resolved = await resolveNameToAddress(input)
+      if (resolved) {
+        setAddress(resolved)
+        setInput(resolved)
+      }
+    }
+  }
 
   return (
     <Modal>
@@ -16,11 +30,13 @@ export default function ClaimCheck() {
           subheader="Check if you are eligible to claim TAHO tokens"
         />
         <div className="input_container">
-          <input className="input" placeholder="Address / Ens / Uns..." />
-          <Button
-            size="large"
-            onClick={() => location.replace("/claim/success")}
-          >
+          <input
+            className="input"
+            placeholder="Address / Ens / Uns..."
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+          />
+          <Button size="large" onClick={setResolvedAddresss}>
             Check eligibility
           </Button>
         </div>
