@@ -39,6 +39,7 @@ export default function GlobalStyles() {
           --semantic-success: #20c580;
           --semantic-attention: #f2b824;
           --semantic-info: #3cc5ee;
+          --semantic-error: #ff6666;
 
           --trading-in: #11bea9;
 
@@ -169,6 +170,12 @@ export default function GlobalStyles() {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+        .hidden {
+          display: none;
+        }
+        .invisible {
+          visibility: hidden;
         }
       `}
     </style>
