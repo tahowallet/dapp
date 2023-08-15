@@ -24,6 +24,15 @@ export default function ClaimCheck() {
     setDebouncedInput(value)
   }
 
+  const onSubmit = () => {
+    if (address) {
+      console.log("For:", input, "- resolved:", address)
+    } else {
+      setWasTouched(true)
+      setHasError(true)
+    }
+  }
+
   const setResolvedAddresss = useCallback(
     async (value: string) => {
       setIsLoading(true)
@@ -76,7 +85,7 @@ export default function ClaimCheck() {
             </div>
             <Button
               size="large"
-              onClick={() => console.log(address)}
+              onClick={onSubmit}
               isDisabled={
                 hasError || isLoading || (!input.length && wasTouched)
               }
