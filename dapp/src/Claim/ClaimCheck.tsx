@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import classNames from "classnames"
+import { useDebounce } from "../shared/hooks/helpers"
 import Button from "../shared/components/Button"
 import ClaimHeader from "./shared/ClaimHeader"
 import Modal from "../shared/components/Modal"
@@ -8,34 +9,47 @@ import Spinner from "../shared/components/Spinner"
 
 export default function ClaimCheck() {
   const [input, setInput] = useState("")
+  const [debouncedInput, setDebouncedInput] = useDebounce("", 500)
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [wasTouched, setWasTouched] = useState(false)
-  const [, setAddress] = useState<string | null>(null)
+  const [address, setAddress] = useState<string | null>(null)
   const resolveNameToAddress = useNameToAddressResolution()
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
     setHasError(false)
     setWasTouched(true)
-    setInput(event.target.value)
+    setInput(value)
+    setDebouncedInput(value)
   }
 
-  const setResolvedAddresss = async () => {
-    setHasError(false)
-    setIsLoading(true)
-    if (!input.length) {
-      setAddress(null)
-      setHasError(true)
-    } else {
-      const resolved = await resolveNameToAddress(input)
-      if (resolved) {
-        setAddress(resolved)
-      } else {
+  const setResolvedAddresss = useCallback(
+    async (value: string) => {
+      setIsLoading(true)
+      if (!value.length) {
         setHasError(true)
+        setAddress(null)
+      } else {
+        const resolved = await resolveNameToAddress(value)
+        if (resolved) {
+          setHasError(false)
+          setAddress(resolved)
+        } else {
+          setHasError(true)
+          setAddress(null)
+        }
       }
+      setIsLoading(false)
+    },
+    [resolveNameToAddress]
+  )
+
+  useEffect(() => {
+    if (debouncedInput.length) {
+      setResolvedAddresss(debouncedInput)
     }
-    setIsLoading(false)
-  }
+  }, [debouncedInput, setResolvedAddresss])
 
   return (
     <Modal>
@@ -62,8 +76,10 @@ export default function ClaimCheck() {
             </div>
             <Button
               size="large"
-              onClick={setResolvedAddresss}
-              isDisabled={hasError || (!input.length && wasTouched)}
+              onClick={() => console.log(address)}
+              isDisabled={
+                hasError || isLoading || (!input.length && wasTouched)
+              }
             >
               Check eligibility
             </Button>
