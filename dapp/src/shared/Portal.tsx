@@ -1,11 +1,11 @@
-import React, { useRef } from "react"
+import React, { useLayoutEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 
 export default function Portal({ children }: { children: React.ReactNode }) {
-  const [_, setMounted] = React.useState(false)
+  const [_, setMounted] = useState(false)
   const containerRef = useRef<HTMLDivElement | null>(null)
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const container = document.createElement("div")
 
     containerRef.current = container

@@ -11,13 +11,7 @@ import iconCommunity from "../shared/assets/icons/people.svg"
 import iconStar from "../shared/assets/icons/star.svg"
 import walletIcon from "../shared/assets/icons/wallet.svg"
 
-function PrevBtnIcon({
-  onClick,
-  style = {},
-}: {
-  onClick?: () => void
-  style: React.CSSProperties
-}) {
+function PrevBtnIcon({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width={80}
@@ -79,13 +73,7 @@ function PrevBtnIcon({
   )
 }
 
-function NextBtnIcon({
-  onClick,
-  style = {},
-}: {
-  onClick?: () => void
-  style: React.CSSProperties
-}) {
+function NextBtnIcon({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width={80}

@@ -6,10 +6,13 @@ export default function TabPanel({ tabs }: { tabs: string[] }) {
   return (
     <div>
       <ul>
-        {tabs.map((e, i) => (
-          <li key={e} className={classnames(activeTab === i && "active")}>
-            <button type="button" onClick={() => setActiveTab(i)}>
-              {e}
+        {tabs.map((tabLabel, index) => (
+          <li
+            key={tabLabel}
+            className={classnames(activeTab === index && "active")}
+          >
+            <button type="button" onClick={() => setActiveTab(index)}>
+              {tabLabel}
             </button>
           </li>
         ))}
