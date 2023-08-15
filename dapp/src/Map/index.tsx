@@ -4,7 +4,6 @@ import ZoneModal from "./ZoneModal"
 import { MapContext } from "./MapContext"
 import { useValueRef } from "./utils"
 import backgroundImg from "../public/dapp_map_bg.webp"
-import { zones } from "./constants"
 
 const MemoizedInteractiveMap = React.memo(InteractiveMap)
 
@@ -27,9 +26,6 @@ export default function MapWrapper() {
   }, [])
 
   const [zoneData, setZoneData] = useState<null | string>(null)
-
-  const prevZone = zones.findIndex((z) => z.id === zoneData) - 1
-  const nextZone = zones.findIndex((z) => z.id === zoneData) + 1
 
   const contextRef = useValueRef(() => ({
     onZoneClick: (id: string) => {
@@ -57,20 +53,7 @@ export default function MapWrapper() {
         <MemoizedInteractiveMap />
       </MapContext.Provider>
       {zoneData && (
-        <ZoneModal
-          zoneData={zoneData}
-          onClose={() => setZoneData(null)}
-          onNext={() =>
-            setZoneData(
-              nextZone === zones.length ? zones[0].id : zones[nextZone].id
-            )
-          }
-          onPrev={() =>
-            setZoneData(
-              prevZone === -1 ? zones[zones.length - 1].id : zones[prevZone].id
-            )
-          }
-        />
+        <ZoneModal zoneData={zoneData} onClose={() => setZoneData(null)} />
       )}
     </div>
   )
