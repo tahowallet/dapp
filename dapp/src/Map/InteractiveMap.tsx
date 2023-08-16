@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from "react"
 import { Layer, Stage } from "react-konva"
+import type Konva from "konva"
 import rafSchd from "raf-schd"
 
 import Background, { OverlayType } from "./Background"
@@ -13,7 +14,6 @@ import {
   useOnResize,
   useValueRef,
 } from "./utils"
-import { KonvaNode, KonvaStage, KonvaEventListener, Vector2d } from "./types"
 
 function TestControls({
   setOverlay,
@@ -48,7 +48,7 @@ export default function InteractiveMap() {
   const [stageBounds, setStageDimensions] = useState(() =>
     getWindowDimensions()
   )
-  const mapRef = useRef<KonvaStage | null>(null)
+  const mapRef = useRef<Konva.Stage | null>(null)
 
   const [overlay, setOverlay] = useState<OverlayType>("subtle")
 
@@ -127,7 +127,7 @@ export default function InteractiveMap() {
       acc = 0
     })
 
-    const handler: KonvaEventListener<KonvaStage, WheelEvent> = ({
+    const handler: Konva.KonvaEventListener<Konva.Stage, WheelEvent> = ({
       evt: domEvent,
     }) => {
       domEvent.preventDefault()
@@ -152,8 +152,8 @@ export default function InteractiveMap() {
   useBeforeFirstPaint(() => stageFns.current.resetZoom())
 
   const restrictDragBounds = useCallback(function restrictDragging(
-    this: KonvaNode,
-    position: Vector2d
+    this: Konva.Node,
+    position: Konva.Vector2d
   ) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const stage = this

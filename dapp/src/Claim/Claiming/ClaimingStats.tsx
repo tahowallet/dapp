@@ -4,7 +4,7 @@ import Modal from "../../shared/components/Modal"
 
 export default function ClaimingStats() {
   return (
-    <Modal type="freeform">
+    <Modal.Content>
       <div className="stats column_center">
         <h5>You can claim</h5>
         <ClaimAmount amount={37000} />
@@ -25,6 +25,6 @@ export default function ClaimingStats() {
           padding: 24px;
         }
       `}</style>
-    </Modal>
+    </Modal.Content>
   )
 }

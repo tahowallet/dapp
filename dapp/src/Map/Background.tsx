@@ -1,10 +1,10 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from "react"
 import { Group, Image as KonvaImage, Rect } from "react-konva"
+import type Konva from "konva"
 import { Easings } from "konva/lib/Tween"
 import useImage from "use-image"
 
 import { createBackgroundMask, useBeforeFirstPaint, usePrevious } from "./utils"
-import { KonvaGroup } from "./types"
 import { MAP_BOX, zones } from "./constants"
 
 import backgroundImg from "../public/dapp_map_bg.webp"
@@ -56,7 +56,7 @@ const getOverlay = (overlay: OverlayType) => {
 
 export default function Background({ overlay }: { overlay: OverlayType }) {
   const [mapImage] = useImage(backgroundImg)
-  const overlayRef = useRef<KonvaGroup | null>(null)
+  const overlayRef = useRef<Konva.Group | null>(null)
   const [currentOverlay, setCurrentOverlay] = useState<JSX.Element | null>(null)
   const [isMounted, setIsMounted] = useState(false)
 

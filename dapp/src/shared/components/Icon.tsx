@@ -32,10 +32,9 @@ export default function Icon({
           background-image: url(${src});
         }
         .icon.mask {
-          -webkit-mask-image: url(${src});
           mask-image: url(${src});
-          -webkit-mask-size: cover;
           mask-size: cover;
+          mask-position: center;
           background-color: ${color};
         }
       `}</style>

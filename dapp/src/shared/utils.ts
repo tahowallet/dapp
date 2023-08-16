@@ -10,3 +10,5 @@ export function isProbablyEVMAddress(str: string): boolean {
   }
   return false
 }
+
+export function noop() {}

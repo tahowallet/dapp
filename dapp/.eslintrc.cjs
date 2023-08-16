@@ -8,6 +8,7 @@ module.exports = {
       { allowRequiredDefaults: true },
     ],
     "react/require-default-props": [0],
+    "react/prop-types": [0],
     "react/no-unknown-property": [
       2,
       {
@@ -15,4 +16,5 @@ module.exports = {
       },
     ],
   },
+  ignorePatterns: ["dist"],
 }

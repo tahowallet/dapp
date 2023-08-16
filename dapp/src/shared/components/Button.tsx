@@ -3,10 +3,19 @@ import classnames from "classnames"
 
 type ButtonProps = {
   children: string
+  /**
+   * @default "primary"
+   */
   type?: "primary" | "secondary" | "tertiary"
+  /**
+   * @default "medium"
+   */
   size?: "medium" | "large"
   isDisabled?: boolean
   isInactive?: boolean
+  /**
+   * @default "right"
+   */
   iconPosition?: "left" | "right"
   iconSize?: "medium" | "large"
   iconSrc?: string
