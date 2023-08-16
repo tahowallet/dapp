@@ -2,28 +2,31 @@ import React from "react"
 import { NavLink } from "react-router-dom"
 import crossIcon from "../shared/assets/icons/cross.svg"
 
-export default function NavItem({
-  path,
-  title,
-  exact = false,
-}: {
-  path: string
-  title: string
-  exact?: boolean
-}): JSX.Element {
-  return (
+const CustomLink = React.forwardRef(
+  (
+    {
+      navigate,
+      children,
+      ...props
+    }: { navigate: () => void } & React.HTMLProps<HTMLAnchorElement>,
+    ref: React.ForwardedRef<HTMLAnchorElement>
+  ) => (
+    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     <>
-      <NavLink
-        className="link"
-        activeClassName="active"
-        to={path}
-        exact={exact}
+      <a
+        ref={ref}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...props}
+        onClick={(e) => {
+          e.preventDefault()
+          navigate()
+        }}
       >
-        {title}
-      </NavLink>
-      <style jsx global>
+        {children}
+      </a>
+      <style jsx>
         {`
-          .link {
+          a.link {
             position: relative;
             color: var(--secondary-s1-50);
             font-family: var(--sans);
@@ -33,16 +36,16 @@ export default function NavItem({
             line-height: 24px;
           }
 
-          .link:hover,
-          .link:focus {
+          a.link:hover,
+          a.link:focus {
             color: var(--secondary-s1-80);
           }
 
-          .link.active {
+          a.link.active {
             color: var(--secondary-s1-100);
           }
 
-          .active:after {
+          a.active:after {
             content: url(${crossIcon});
             width: 26px;
             position: absolute;
@@ -54,5 +57,28 @@ export default function NavItem({
         `}
       </style>
     </>
+    /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+  )
+)
+
+export default function NavItem({
+  path,
+  title,
+  exact = false,
+}: {
+  path: string
+  title: string
+  exact?: boolean
+}): JSX.Element {
+  return (
+    <NavLink
+      className="link"
+      activeClassName="active"
+      component={CustomLink}
+      to={path}
+      exact={exact}
+    >
+      {title}
+    </NavLink>
   )
 }
