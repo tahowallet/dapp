@@ -1,12 +1,20 @@
 import { useConnectWallet, useSetChain } from "@web3-onboard/react"
-import { useCallback } from "react"
+import { useCallback, useMemo } from "react"
 import { ethers } from "ethers"
-import { truncateAddress } from "./utils"
-import portrait from "./assets/portrait.png"
+import { truncateAddress } from "../utils"
+import portrait from "../assets/portrait.png"
 
-export function useAccount() {
+export function useWallet() {
   const [{ wallet }] = useConnectWallet()
   const [{ connectedChain }] = useSetChain()
+
+  const arbitrumProvider = useMemo(
+    () =>
+      wallet?.provider
+        ? new ethers.providers.Web3Provider(wallet.provider)
+        : null,
+    [wallet?.provider]
+  )
 
   const account = wallet?.accounts[0]
 
@@ -14,7 +22,7 @@ export function useAccount() {
     return {
       isConnected: false,
       address: "",
-      name: "",
+      truncatedAddress: "",
       avatar: portrait,
       provider: null,
       connectedChain: null,
@@ -23,13 +31,10 @@ export function useAccount() {
 
   return {
     isConnected: true,
-    address: account?.address,
-    name:
-      account.ens?.name ??
-      account.uns?.name ??
-      truncateAddress(account.address),
+    address: account.address,
+    truncatedAddress: truncateAddress(account.address),
     avatar: account.ens?.avatar ?? portrait,
-    provider: wallet.provider,
+    provider: arbitrumProvider,
     connectedChain,
   }
 }
@@ -45,11 +50,9 @@ export function useConnect() {
 }
 
 export function useSendTransaction() {
-  const { address, provider: walletProvider } = useAccount()
+  const { address, provider } = useWallet()
 
-  if (!walletProvider) return { isReady: false, send: async () => {} }
-
-  const provider = new ethers.providers.Web3Provider(walletProvider)
+  if (!provider) return { isReady: false, send: async () => {} }
 
   const signer = provider.getSigner()
 
