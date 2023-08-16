@@ -1,7 +1,6 @@
-import { ethers } from "ethers"
-import { useMemo, useCallback } from "react"
-import { ETHEREUM } from "../../web3Onboard"
+import { useCallback, useContext } from "react"
 import { isProbablyEVMAddress } from "../utils"
+import { EthereumProviderContext } from "./contexts"
 
 type UNSResponse = { meta: { owner: string } }
 type UNSReverseResponse = { data: { id: string }[] }
@@ -76,10 +75,7 @@ export function useUNS() {
 }
 
 export function useENS() {
-  const ethereumProvider = useMemo(
-    () => new ethers.providers.JsonRpcProvider(ETHEREUM.publicRpcUrl),
-    []
-  )
+  const ethereumProvider = useContext(EthereumProviderContext)
 
   const resolveENS = useCallback(
     (name: string) => {
