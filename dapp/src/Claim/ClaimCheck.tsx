@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import classNames from "classnames"
+import { Redirect, useHistory } from "react-router-dom"
 import { useDebounce } from "../shared/hooks/helpers"
 import Button from "../shared/components/Button"
 import ClaimHeader from "./shared/ClaimHeader"
 import Modal from "../shared/components/Modal"
 import { useNameToAddressResolution } from "../shared/hooks"
 import Spinner from "../shared/components/Spinner"
+import { ClaimContext, ClaimState } from "./hooks"
 
-export default function ClaimCheck() {
+export default function ClaimCheck({
+  setClaimingAccount,
+}: {
+  setClaimingAccount: React.Dispatch<React.SetStateAction<ClaimState>>
+}) {
+  const history = useHistory()
   const [input, setInput] = useState("")
   const [debouncedInput, setDebouncedInput] = useDebounce("", 500)
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [wasTouched, setWasTouched] = useState(false)
   const [address, setAddress] = useState<string | null>(null)
+  const { userDetails } = useContext(ClaimContext)
   const resolveNameToAddress = useNameToAddressResolution()
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +34,14 @@ export default function ClaimCheck() {
 
   const onSubmit = () => {
     if (address) {
-      console.log("For:", input, "- resolved:", address)
+      setClaimingAccount({
+        userDetails: {
+          isConnected: false,
+          name: input,
+          address,
+        },
+      })
+      history.push("/claim/success")
     } else {
       setWasTouched(true)
       setHasError(true)
@@ -56,6 +71,10 @@ export default function ClaimCheck() {
       setResolvedAddresss(debouncedInput)
     }
   }, [debouncedInput, resolveNameToAddress])
+
+  if (userDetails.isConnected) {
+    return <Redirect to="/claim/success" />
+  }
 
   return (
     <Modal.Container type="map-only">

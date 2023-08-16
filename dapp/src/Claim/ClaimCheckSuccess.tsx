@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useHistory } from "react-router-dom"
 import Modal from "../shared/components/Modal"
 import ClaimHeader from "./shared/ClaimHeader"
@@ -7,6 +7,7 @@ import iconConnected from "../shared/assets/icons/s/connected.svg"
 import Button from "../shared/components/Button"
 import { Rule } from "./types"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
+import { ClaimContext } from "./hooks"
 
 const listMock: Rule[] = [
   {
@@ -36,6 +37,9 @@ const listMock: Rule[] = [
 
 export default function ClaimCheckSuccess() {
   const location = useHistory()
+  const {
+    userDetails: { name, isConnected },
+  } = useContext(ClaimContext)
 
   return (
     <Modal.Container type="map-only">
@@ -47,7 +51,7 @@ export default function ClaimCheckSuccess() {
             subheader={
               <>
                 <span style={{ color: "var(--semantic-info)" }}>
-                  berrry.eth
+                  {name || "Unknown user"}
                 </span>{" "}
                 is eligible to claim:
               </>
@@ -62,7 +66,7 @@ export default function ClaimCheckSuccess() {
             <Button
               type="primary"
               size="large"
-              isDisabled
+              isDisabled={isConnected}
               iconSrc={iconConnected}
               iconPosition="left"
             >
@@ -70,6 +74,7 @@ export default function ClaimCheckSuccess() {
             </Button>
             <Button
               onClick={() => location.replace("/claim/claiming")}
+              isDisabled={!isConnected}
               type="primary"
               size="large"
             >
