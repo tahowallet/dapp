@@ -1,7 +1,14 @@
 import React from "react"
 import classNames from "classnames"
 
-export default function Spinner(props: { size?: "small" | "medium" }) {
+type SpinnerProps = {
+  /**
+   * @default "medium"
+   */
+  size?: "small" | "medium"
+}
+
+export default function Spinner(props: SpinnerProps) {
   const { size = "medium" } = props
 
   return (
