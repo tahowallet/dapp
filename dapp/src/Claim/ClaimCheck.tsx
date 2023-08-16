@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import classNames from "classnames"
 import { useDebounce } from "../shared/hooks/helpers"
 import Button from "../shared/components/Button"
@@ -33,8 +33,8 @@ export default function ClaimCheck() {
     }
   }
 
-  const setResolvedAddresss = useCallback(
-    async (value: string) => {
+  useEffect(() => {
+    const setResolvedAddresss = async (value: string) => {
       setIsLoading(true)
       if (!value.length) {
         setHasError(true)
@@ -50,15 +50,12 @@ export default function ClaimCheck() {
         }
       }
       setIsLoading(false)
-    },
-    [resolveNameToAddress]
-  )
+    }
 
-  useEffect(() => {
     if (debouncedInput.length) {
       setResolvedAddresss(debouncedInput)
     }
-  }, [debouncedInput, setResolvedAddresss])
+  }, [debouncedInput, resolveNameToAddress])
 
   return (
     <Modal.Container type="map-only">
