@@ -44,8 +44,15 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
         href="#cutout_path"
         transform="scale(0.25)"
         fill="transparent"
-        stroke="white"
-        strokeWidth="6"
+        stroke={pathData.color}
+        strokeWidth="10"
+      />
+      <use
+        href="#cutout_path"
+        transform="scale(0.25)"
+        fill={pathData.color}
+        opacity={0.7}
+        style={{ mixBlendMode: "color" }}
       />
     </svg>
   )
@@ -60,7 +67,7 @@ export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
   const targetXOffset = limitToBounds(
     pathData.x - pathData.w + 755,
     MAP_BOX.width * 0.2,
-    MAP_BOX.width * 0.75 - pathData.w
+    MAP_BOX.width * 0.75 - pathData.w - 755
   )
 
   /**
@@ -90,12 +97,29 @@ export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
           <rect width="100%" height="100%" fill="url(#zone_watermark)" />
         </mask>
       </defs>
+      <defs>
+        <radialGradient
+          id="radial_overlay"
+          cx={0}
+          cy={0}
+          r={1}
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="matrix(-228.50083 132.84654 -502.688 -864.64143 689.5 9.5)"
+        >
+          <stop stopColor={pathData.color} stopOpacity={0.38} />
+          <stop offset={1} stopColor={pathData.color} stopOpacity={0.42} />
+        </radialGradient>
+      </defs>
       <g mask="url(#zone_background_mask)" style={{ maskMode: "alpha" }}>
         <image
           transform={`scale(0.25) translate(-${targetXOffset}, -${targetYOffset})`}
           width={MAP_BOX.width}
           height={MAP_BOX.height}
           href={backgroundImg}
+        />
+        <path
+          d="M0 16C0 7.163 7.163 0 16 0h723c8.837 0 16 7.163 16 16v187H0V16z"
+          fill="url(#radial_overlay)"
         />
       </g>
     </svg>

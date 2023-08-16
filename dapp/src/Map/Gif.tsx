@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef } from "react"
 import { Image } from "react-konva"
+import type Konva from "konva"
 import "gifler"
 import { isBrowser } from "../shared/utils"
-import { KonvaImage } from "./types"
 
 type GifProps = {
   src: string
@@ -12,7 +12,7 @@ type GifProps = {
 
 export default function Gif(props: GifProps) {
   const { src, x = 0, y = 0 } = props
-  const imageRef = useRef<KonvaImage | null>(null)
+  const imageRef = useRef<Konva.Image | null>(null)
   const canvas = useMemo(() => document.createElement("canvas"), [])
 
   useEffect(() => {

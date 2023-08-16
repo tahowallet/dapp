@@ -1,6 +1,6 @@
 import React from "react"
 import { NavLink } from "react-router-dom"
-import starIcon from "../shared/assets/icons/star.svg"
+import crossIcon from "../shared/assets/icons/cross.svg"
 
 export default function NavItem({
   path,
@@ -43,7 +43,7 @@ export default function NavItem({
           }
 
           .active:after {
-            content: url(${starIcon});
+            content: url(${crossIcon});
             width: 26px;
             position: absolute;
             bottom: -42px;

@@ -29,29 +29,33 @@ const listMock: Rule[] = [
 ]
 export default function ClaimCheckFail() {
   return (
-    <Modal>
-      <div className="fail_container column_center">
-        <ClaimHeader
-          season="Season 1"
-          header="Not eligible"
-          subheader={
-            <>
-              <span style={{ color: "var(--semantic-info)" }}>berrry.eth</span>{" "}
-              is not eligible to claim:
-            </>
+    <Modal.Container type="map-only">
+      <Modal.Content>
+        <div className="fail_container column_center">
+          <ClaimHeader
+            season="Season 1"
+            header="Not eligible"
+            subheader={
+              <>
+                <span style={{ color: "var(--semantic-info)" }}>
+                  berrry.eth
+                </span>{" "}
+                is not eligible to claim:
+              </>
+            }
+          />
+          <ClaimCheckRules rules={listMock} />
+          <Button type="primary" size="large">
+            Try another address
+          </Button>
+        </div>
+        <style jsx>{`
+          .fail_container {
+            padding: 40px 148px;
+            gap: 40px;
           }
-        />
-        <ClaimCheckRules rules={listMock} />
-        <Button type="primary" size="large">
-          Try another address
-        </Button>
-      </div>
-      <style jsx>{`
-        .fail_container {
-          padding: 40px 148px;
-          gap: 40px;
-        }
-      `}</style>
-    </Modal>
+        `}</style>
+      </Modal.Content>
+    </Modal.Container>
   )
 }
