@@ -2,7 +2,10 @@ import React from "react"
 import { NavLink } from "react-router-dom"
 import crossIcon from "../shared/assets/icons/cross.svg"
 
-const CustomLink = React.forwardRef(
+/**
+ * This Link is specific to the NavItem component
+ */
+const NavItemLink = React.forwardRef(
   (
     {
       navigate,
@@ -11,10 +14,12 @@ const CustomLink = React.forwardRef(
     }: { navigate: () => void } & React.HTMLProps<HTMLAnchorElement>,
     ref: React.ForwardedRef<HTMLAnchorElement>
   ) => (
+    // on-click handler is also handling keyboard events on this link. this is not an static element
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     <>
       <a
         ref={ref}
+        // need to pass down props from react router
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         onClick={(e) => {
@@ -74,7 +79,7 @@ export default function NavItem({
     <NavLink
       className="link"
       activeClassName="active"
-      component={CustomLink}
+      component={NavItemLink}
       to={path}
       exact={exact}
     >
