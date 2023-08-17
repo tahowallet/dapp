@@ -9,5 +9,5 @@ export type ZoneRenderData = {
   w: number
   x: number
   y: number
-  path: string
+  paths: { data: string }[]
 }

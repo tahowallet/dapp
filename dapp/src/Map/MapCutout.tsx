@@ -6,6 +6,7 @@ import { limitToBounds } from "./utils"
 export function MapZoneCutout({ zoneId }: { zoneId: string }) {
   const pathData = getZoneData(zoneId)
 
+  const pathCutoutXref = `cutout_${zoneId}_path`
   return (
     <svg
       viewBox={`0 0 ${Math.ceil(pathData.w * 0.25)} ${Math.ceil(
@@ -20,14 +21,14 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
     >
       <defs>
         <path
-          id="cutout_path"
-          d={pathData.path}
+          id={pathCutoutXref}
+          d={pathData.paths[0].data}
           width={pathData.w}
           height={pathData.h}
         />
-        <mask id="cutout">
+        <mask id={`cutout_${zoneId}`}>
           <use
-            href="#cutout_path"
+            href={`#${pathCutoutXref}`}
             fill="#fff"
             transform={`translate(${pathData.x}, ${pathData.y})`}
           />
@@ -38,17 +39,17 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
         width={MAP_BOX.width}
         height={MAP_BOX.height}
         href={backgroundImg}
-        mask="url(#cutout)"
+        mask={`url(#cutout_${zoneId})`}
       />
       <use
-        href="#cutout_path"
+        href={`#${pathCutoutXref}`}
         transform="scale(0.25)"
         fill="transparent"
         stroke={pathData.color}
         strokeWidth="10"
       />
       <use
-        href="#cutout_path"
+        href={`#${pathCutoutXref}`}
         transform="scale(0.25)"
         fill={pathData.color}
         opacity={0.7}

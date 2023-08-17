@@ -1,7 +1,13 @@
-import React from "react"
+import React, { useMemo, useState } from "react"
 
+import {
+  useSpring,
+  animated,
+  easings,
+  useTransition as useSpringTransition,
+} from "@react-spring/web"
 import { MapZoneCutout, MapZoneBackgroundCutout } from "./MapCutout"
-import { getZoneData } from "./constants"
+import { getZoneData, zones } from "./constants"
 import Modal from "../shared/components/Modal"
 import Icon from "../shared/components/Icon"
 import Button from "../shared/components/Button"
@@ -11,7 +17,143 @@ import iconCommunity from "../shared/assets/icons/people.svg"
 import iconStar from "../shared/assets/icons/star.svg"
 import walletIcon from "../shared/assets/icons/wallet.svg"
 
-function PrevBtnIcon({ onClick, style }: React.SVGProps<SVGSVGElement>) {
+const mockData = {
+  details:
+    "KryptoKeep is the meeting place of explorers that have tried out the Keep Network",
+  pop: 34_350,
+  xpfn: "NFT Collector",
+} as const
+
+function ZoneModalContent({ zoneId }: { zoneId: string }) {
+  const data = { ...mockData, ...getZoneData(zoneId) }
+
+  return (
+    <Modal.Content>
+      <div className="modal_content">
+        <header className="column">
+          <div className="zone_header_bg">
+            <MapZoneBackgroundCutout zoneId={zoneId} />
+          </div>
+          <div className="zone_thumb">
+            <MapZoneCutout zoneId={zoneId} />
+          </div>
+          <h1>{data.name}</h1>
+          <div className="zone_details_header column">
+            <div className="tags row">
+              <div className="tag column">
+                <span
+                  style={{ color: "var(--semantic-info)" }}
+                  className="tag_label row"
+                >
+                  <Icon
+                    src={iconCommunity}
+                    height="24px"
+                    width="24px"
+                    color="currentColor"
+                  />
+                  Population
+                </span>
+                <span>{data.pop}</span>
+              </div>
+              <div className="tag column">
+                <span
+                  style={{ color: "var(--semantic-success)" }}
+                  className="tag_label row"
+                >
+                  <Icon
+                    src={iconStar}
+                    height="18px"
+                    width="18px"
+                    color="currentColor"
+                  />
+                  XP Function
+                </span>
+                <span>{data.xpfn}</span>
+              </div>
+            </div>
+            <p className="zone_description">{data.details}</p>
+          </div>
+        </header>
+        <div className="connect_hint row">
+          <p className="connect_hint_label">
+            Before joining a region, you need to connect your Taho Wallet
+          </p>
+          <Button
+            iconSrc={walletIcon}
+            type="primary"
+            size="large"
+            iconPosition="left"
+          >
+            Connect Wallet
+          </Button>
+        </div>
+        <TabPanel tabs={["Rewards", "Stake", "Leaderboard", "Council"]} />
+        <span>#{zoneId}</span>
+      </div>
+      <style jsx>
+        {`
+          .modal_content {
+            max-width: 755px;
+            padding: 36px 42px;
+          }
+          header {
+            user-select: none;
+            margin-bottom: 24px;
+            gap: 32px;
+          }
+
+          .zone_details_header {
+            max-width: 385px;
+            gap: 16px;
+          }
+
+          .zone_header_bg {
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            border-radius: 16px;
+            overflow: hidden;
+          }
+
+          .tags {
+            gap: 24px;
+          }
+          .tag_label {
+            align-items: center;
+            gap: 4px;
+          }
+          .zone_thumb {
+            position: absolute;
+            right: 0;
+            transform: translateY(-60px) translateX(-24px);
+          }
+
+          .zone_description {
+            color: var(--secondary-s1-70);
+          }
+
+          .connect_hint {
+            padding: 36px 24px;
+            background-color: var(--primary-p1-40);
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 36px;
+            border-radius: 8px;
+          }
+
+          .connect_hint_label {
+            color: var(--secondary-s1-80);
+            max-width: 288px;
+          }
+        `}
+      </style>
+    </Modal.Content>
+  )
+}
+
+function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width={80}
@@ -73,7 +215,7 @@ function PrevBtnIcon({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-function NextBtnIcon({ onClick, style }: React.SVGProps<SVGSVGElement>) {
+function NextBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width={80}
@@ -124,186 +266,78 @@ function NextBtnIcon({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-const mockData = {
-  details:
-    "KryptoKeep is the meeting place of explorers that have tried out the Keep Network",
-  pop: 34_350,
-  xpfn: "NFT Collector",
-} as const
-
 export default function ZoneModal({
-  zoneData: zoneId,
+  zoneData,
   onClose,
-  onNext,
-  onPrev,
 }: {
   zoneData: string
   onClose: () => void
-  onPrev: () => void
-  onNext: () => void
 }) {
-  const data = { ...mockData, ...getZoneData(zoneId) }
+  const [zoneId, setZoneId] = useState(zoneData)
+  const [prevZone, nextZone] = useMemo(() => {
+    const index = zones.findIndex((zone) => zone.id === zoneId)
+
+    const prev =
+      index - 1 < 0 ? zones[zones.length - 1].id : zones[index - 1].id
+    const next = index + 1 === zones.length ? zones[0].id : zones[index + 1].id
+    return [prev, next]
+  }, [zoneId])
+
+  const [props] = useSpring(
+    () => ({
+      from: {
+        transform: "translate3d(0,38.5%,0) scale(0.8)",
+        opacity: 0,
+      },
+      to: {
+        transform: "translate3d(0,0,0) scale(1)",
+        opacity: 1,
+        position: "relative",
+      },
+      config: { duration: 300, easing: easings.easeInOutCubic },
+    }),
+    []
+  )
+
+  const transitions = useSpringTransition(zoneId, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    exitBeforeEnter: true,
+    config: { duration: 200, easing: easings.easeOutQuad },
+  })
 
   return (
-    <>
-      <Modal.Container type="fullscreen" onClickOutside={onClose}>
-        <Modal.Content>
-          <PrevBtnIcon
-            style={{
-              position: "absolute",
-              top: "68px",
-              left: -80,
-              zIndex: 1,
-              transform: "translateX(-100%)",
-            }}
-            onClick={onPrev}
-          />
-          <NextBtnIcon
-            style={{
-              position: "absolute",
-              top: "68px",
-              right: -80,
-              zIndex: 1,
-              transform: "translateX(100%)",
-            }}
-            onClick={onNext}
-          />
-          <div className="modal_content">
-            <header className="column">
-              <div className="zone_header_bg">
-                <MapZoneBackgroundCutout zoneId={zoneId} />
-              </div>
-              <div className="zone_thumb">
-                <MapZoneCutout zoneId={zoneId} />
-              </div>
-              <h1>{data.name}</h1>
-              <div className="zone_details_header column">
-                <div className="tags row">
-                  <div className="tag column">
-                    <span
-                      style={{ color: "var(--semantic-info)" }}
-                      className="tag_label row"
-                    >
-                      <Icon
-                        src={iconCommunity}
-                        height="24px"
-                        width="24px"
-                        color="currentColor"
-                      />
-                      Population
-                    </span>
-                    <span>{data.pop}</span>
-                  </div>
-                  <div className="tag column">
-                    <span
-                      style={{ color: "var(--semantic-success)" }}
-                      className="tag_label row"
-                    >
-                      <Icon
-                        src={iconStar}
-                        height="18px"
-                        width="18px"
-                        color="currentColor"
-                      />
-                      XP Function
-                    </span>
-                    <span>{data.xpfn}</span>
-                  </div>
-                </div>
-                <p className="zone_description">{data.details}</p>
-              </div>
-            </header>
-            <div className="connect_hint row">
-              <p className="connect_hint_label">
-                Before joining a region, you need to connect your Taho Wallet
-              </p>
-              <Button
-                iconSrc={walletIcon}
-                type="primary"
-                size="large"
-                iconPosition="left"
-              >
-                Connect Wallet
-              </Button>
-            </div>
-            <TabPanel tabs={["Rewards", "Stake", "Leaderboard", "Council"]} />
-            <span>#{zoneId}</span>
-          </div>
-        </Modal.Content>
-      </Modal.Container>
-      <style jsx>{`
-        .connect_hint {
-          padding: 36px 24px;
-          background-color: var(--primary-p1-40);
-          justify-content: space-between;
-          gap: 24px;
-          margin-bottom: 36px;
-          border-radius: 8px;
-        }
-        .connect_hint_label {
-          color: var(--secondary-s1-80);
-          max-width: 288px;
-        }
-        header {
-          user-select: none;
-          margin-bottom: 24px;
-          gap: 32px;
-        }
-        .tags {
-          gap: 24px;
-        }
-        .zone_description {
-          color: var(--secondary-s1-70);
-        }
-        .tag_label {
-          align-items: center;
-          gap: 4px;
-        }
-        .zone_thumb {
-          position: absolute;
-          right: 0;
-          transform: translateY(-60px) translateX(-24px);
-        }
-
-        .zone_details_header {
-          max-width: 385px;
-          gap: 16px;
-        }
-
-        .zone_header_bg {
-          position: absolute;
-          z-index: -1;
-          top: 0;
-          left: 0;
-          right: 0;
-          border-radius: 16px;
-          overflow: hidden;
-        }
-
-        .modal_content {
-          max-width: 755px;
-          padding: 36px 42px;
-        }
-
-        .modal_overlay {
-          background: var(--primary-p1-100);
-          inset: 0;
-          position: absolute;
-          z-index: 1;
-          opacity: 0;
-          animation: toggleOverlay 0.3s ease-out forwards;
-        }
-
-        @keyframes toggleOverlay {
-          from {
-            opacity: 0;
-          }
-
-          to {
-            opacity: 0.8;
-          }
-        }
-      `}</style>
-    </>
+    <Modal.Container type="fullscreen" onClickOutside={onClose}>
+      <animated.div style={{ position: "relative" }}>
+        <PrevBtn
+          style={{
+            position: "absolute",
+            top: "68px",
+            left: -80,
+            zIndex: 1,
+            transform: "translateX(-100%)",
+          }}
+          onClick={() => setZoneId(prevZone)}
+        />
+        <NextBtn
+          style={{
+            position: "absolute",
+            top: "68px",
+            right: -80,
+            zIndex: 1,
+            transform: "translateX(100%)",
+          }}
+          onClick={() => setZoneId(nextZone)}
+        />
+        <animated.div style={props}>
+          {transitions((style, item) => (
+            <animated.div style={{ ...style }}>
+              <ZoneModalContent zoneId={item} />
+            </animated.div>
+          ))}
+        </animated.div>
+      </animated.div>
+    </Modal.Container>
   )
 }
