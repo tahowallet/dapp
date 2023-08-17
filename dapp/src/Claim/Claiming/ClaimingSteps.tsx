@@ -8,12 +8,7 @@ import iconStatusOptional from "../../shared/assets/icons/s/status-optional.svg"
 
 type ClaimingStatus = "done" | "current" | "upcoming" | "optional"
 
-const CLAIMING_STEPS = [
-  "Community Pledge",
-  "Delegate",
-  "Claim",
-  "Region",
-] as const
+const CLAIMING_STEPS = ["Community Pledge", "Claim", "Region"] as const
 
 type ClaimingStep = (typeof CLAIMING_STEPS)[number]
 
@@ -89,8 +84,7 @@ export default function ClaimingSteps({
       </div>
       <style jsx>{`
         .claiming_steps {
-          margin-left: 20px;
-          width: 100%;
+          margin: 0 20px;
           justify-content: space-between;
           color: var(--secondary-s1-80);
         }

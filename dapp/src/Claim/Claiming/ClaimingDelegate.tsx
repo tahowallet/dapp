@@ -1,3 +1,7 @@
+/**
+ * TODO: this page is removed from the Claim flow but we might want to add some components back
+ * in a different place
+ */
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import classNames from "classnames"
