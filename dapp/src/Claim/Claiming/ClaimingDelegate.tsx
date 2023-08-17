@@ -202,7 +202,7 @@ export default function ClaimingDelegate() {
 
         <div className="button_container row">
           <Button
-            onClick={() => location.replace("/claim/claiming/sign")}
+            onClick={() => location.push("/claim/claiming/sign")}
             type="primary"
             size="large"
           >

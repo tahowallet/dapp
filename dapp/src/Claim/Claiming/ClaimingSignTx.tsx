@@ -59,7 +59,7 @@ export default function ClaimingSignTx() {
 
         <div className="button_container row">
           <Button
-            onClick={() => location.replace("/claim/finish")}
+            onClick={() => location.push("/claim/finish")}
             iconSrc={correctIcon}
             iconPosition="left"
             type="primary"
@@ -68,7 +68,7 @@ export default function ClaimingSignTx() {
             Delegate
           </Button>
           <Button
-            onClick={() => location.replace("/claim/finish")}
+            onClick={() => location.push("/claim/finish")}
             type="primary"
             size="large"
           >
