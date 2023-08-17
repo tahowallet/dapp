@@ -6,6 +6,10 @@ export type ClaimState = {
     name: string
     address: string
   }
+  claimDetails: {
+    isEligible: boolean
+    amount: number
+  }
 }
 
 export const DEFAULT_CLAIM_STATE: ClaimState = {
@@ -13,6 +17,10 @@ export const DEFAULT_CLAIM_STATE: ClaimState = {
     isConnected: false,
     name: "",
     address: "",
+  },
+  claimDetails: {
+    isEligible: false,
+    amount: 0,
   },
 }
 

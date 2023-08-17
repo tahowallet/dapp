@@ -7,7 +7,7 @@ import ClaimHeader from "./shared/ClaimHeader"
 import Modal from "../shared/components/Modal"
 import { useNameToAddressResolution } from "../shared/hooks"
 import Spinner from "../shared/components/Spinner"
-import { ClaimContext, ClaimState } from "./hooks"
+import { ClaimContext, ClaimState, DEFAULT_CLAIM_STATE } from "./hooks"
 
 export default function ClaimCheck({
   setClaimingAccount,
@@ -35,13 +35,14 @@ export default function ClaimCheck({
   const onSubmit = () => {
     if (address) {
       setClaimingAccount({
+        ...DEFAULT_CLAIM_STATE,
         userDetails: {
           isConnected: false,
           name: input,
           address,
         },
       })
-      history.push("/claim/success")
+      history.push("/claim/result")
     } else {
       setWasTouched(true)
       setHasError(true)
@@ -73,7 +74,7 @@ export default function ClaimCheck({
   }, [debouncedInput, resolveNameToAddress])
 
   if (userDetails.isConnected) {
-    return <Redirect to="/claim/success" />
+    return <Redirect to="/claim/result" />
   }
 
   return (
