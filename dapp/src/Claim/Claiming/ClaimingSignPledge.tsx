@@ -5,7 +5,6 @@ import Icon from "../../shared/components/Icon"
 import earthIcon from "../../shared/assets/icons/earth.svg"
 import communityIcon from "../../shared/assets/icons/community.svg"
 import rulerIcon from "../../shared/assets/icons/ruler.svg"
-import gaslessIcon from "../../shared/assets/icons/gasless.svg"
 
 export default function ClaimingSignPledge() {
   const location = useHistory()
@@ -14,7 +13,7 @@ export default function ClaimingSignPledge() {
     <>
       <div className="pledge_container column">
         <div className="pledge_description column">
-          <h1>Sign the Taho Community Pledge</h1>
+          <h1>Taho Community Pledge</h1>
           <p>
             Below are the values baked into every line of Tally Ho&apos;s
             codebase. Our community pledge is that you can expect every update
@@ -53,20 +52,13 @@ export default function ClaimingSignPledge() {
         </div>
         <div className="signing_container column">
           <div className="button_container row">
-            <Button type="primary" size="large" isDisabled>
-              1. Sign in with Ethereum
-            </Button>
             <Button
               onClick={() => location.replace("/claim/claiming/delegate")}
               type="primary"
               size="large"
             >
-              2. Sign Pledge
+              Continue
             </Button>
-          </div>
-          <div className="buttons_info row">
-            <Icon src={gaslessIcon} width="30px" type="image" />
-            gasless transactions
           </div>
         </div>
       </div>
@@ -89,9 +81,6 @@ export default function ClaimingSignPledge() {
           }
           .values_item {
             gap: 28px;
-          }
-          .buttons_info {
-            gap: 8px;
           }
         `}
       </style>

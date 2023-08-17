@@ -3,6 +3,23 @@ import trezorModule from "@web3-onboard/trezor"
 import walletConnectModule from "@web3-onboard/walletconnect"
 import { init } from "@web3-onboard/react"
 
+// TODO: decide what rpc providers we want to use and if/how we want to handle being rate limited
+export const ARBITRUM = {
+  id: "0xa4b1",
+  token: "ETH",
+  label: "Arbitrum One",
+  rpcUrl: "https://1rpc.io/arb",
+  publicRpcUrl: "https://1rpc.io/arb",
+}
+
+export const ETHEREUM = {
+  id: "0x1",
+  token: "ETH",
+  label: "Ethereum",
+  rpcUrl: "https://1rpc.io/eth",
+  publicRpcUrl: "https://1rpc.io/eth",
+}
+
 const wallets = [
   tahoWalletModule(),
   trezorModule({
@@ -15,15 +32,7 @@ const wallets = [
     requiredChains: [42161],
   }),
 ]
-const chains = [
-  {
-    id: "0xa4b1",
-    token: "ETH",
-    label: "Arbitrum One",
-    rpcUrl: "https://1rpc.io/arb",
-    publicRpcUrl: "https://1rpc.io/arb",
-  },
-]
+const chains = [ARBITRUM]
 // TODO: decide what metadata should look like
 const appMetadata = {
   name: "Taho Dapp",
