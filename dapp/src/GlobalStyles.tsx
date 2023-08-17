@@ -20,6 +20,7 @@ export default function GlobalStyles() {
           --primary-p1-120: #071111;
           --primary-p1-100: #0d2321;
           --primary-p1-80: #063f3d;
+          --primary-p1-60: #315a5a;
           --primary-p1-40: #0d232166;
 
           --primary-p2-120: #b57017;
@@ -46,6 +47,7 @@ export default function GlobalStyles() {
           --semantic-error: #ff6666;
 
           --trading-in: #11bea9;
+          --trading-out: #ff679d;
 
           /* Typography */
           --serif: "QuincyCF", serif;

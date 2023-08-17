@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from "react"
-
 import {
   useSpring,
   animated,
   easings,
   useTransition as useSpringTransition,
 } from "@react-spring/web"
+
 import { MapZoneCutout, MapZoneBackgroundCutout } from "./MapCutout"
 import { getZoneData, zones } from "./constants"
 import Modal from "../shared/components/Modal"
@@ -23,6 +23,14 @@ const mockData = {
   pop: 34_350,
   xpfn: "NFT Collector",
 } as const
+
+function Staking() {
+  return "staking"
+}
+
+function Leaderboard() {
+  return "leaderboard"
+}
 
 function ZoneModalContent({ zoneId }: { zoneId: string }) {
   const data = { ...mockData, ...getZoneData(zoneId) }
@@ -87,7 +95,21 @@ function ZoneModalContent({ zoneId }: { zoneId: string }) {
             Connect Wallet
           </Button>
         </div>
-        <TabPanel tabs={["Rewards", "Stake", "Leaderboard", "Council"]} />
+        <TabPanel
+          tabs={[
+            {
+              label: "Rewards",
+              component: null, // TODO: <Rewards />
+            },
+            { label: "Stake", component: <Staking /> },
+            { label: "Leaderboard", component: <Leaderboard /> },
+            {
+              label: "Council",
+              component: null,
+              // TODO: <Council />
+            },
+          ]}
+        />
         <span>#{zoneId}</span>
       </div>
       <style jsx>
