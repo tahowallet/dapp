@@ -1,5 +1,5 @@
 import React from "react"
-import ClaimAmount from "../shared/ClaimAmount"
+import ClaimAmount from "../../shared/components/TahoAmount"
 import Modal from "../../shared/components/Modal"
 
 export default function ClaimingStats() {

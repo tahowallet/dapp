@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
 
+import Referrals from "./Referrals"
 import Footer from "./Footer"
 import Nav from "./Nav"
 import Claim from "./Claim"
@@ -20,6 +21,9 @@ function DApp() {
         <Switch>
           <Route path="/claim">
             <Claim />
+          </Route>
+          <Route path="/referrals">
+            <Referrals />
           </Route>
         </Switch>
         <Footer />

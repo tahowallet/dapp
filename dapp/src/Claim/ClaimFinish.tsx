@@ -1,7 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 import ClaimHeader from "./shared/ClaimHeader"
-import ClaimAmount from "./shared/ClaimAmount"
+import ClaimAmount from "../shared/components/TahoAmount"
 import Button from "../shared/components/Button"
 import Modal from "../shared/components/Modal"
 
