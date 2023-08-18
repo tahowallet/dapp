@@ -12,3 +12,7 @@ export function isProbablyEVMAddress(str: string): boolean {
 }
 
 export function noop() {}
+
+export function inRange(value: number, min: number, max: number): boolean {
+  return value >= min && value <= max
+}
