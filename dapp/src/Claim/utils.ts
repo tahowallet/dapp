@@ -1,8 +1,12 @@
+import { isSameAddress } from "../shared/utils"
+
 type IPFSLinkItem = {
   Hash: { "/": string }
   Name: string
   Tsize: number
 }
+
+const TEST_WALLET_ADDRESS = "0x0581470a8b62bd35dbf121a6329d43e7edd20fc7"
 
 const IPFSFileDirectoryIPFSHash = process.env.FILE_DIRECTORY_IPFS_HASH
 const partGlossaryIPFSHash = process.env.PART_GLOSSARY_IPFS_HASH
@@ -61,7 +65,7 @@ async function getClaimFromFileHash(
       const currentChunk =
         unfinishedLine + decoder.decode(result.value, { stream: true })
 
-      if (currentChunk.includes(searchString)) {
+      if (currentChunk.toLowerCase().includes(searchString.toLowerCase())) {
         const lines = currentChunk.split(/[\r\n]/)
 
         // Last entry is definitionally after the last newline.
@@ -70,7 +74,7 @@ async function getClaimFromFileHash(
 
         const matchingClaim = lines
           .map((claimEntry) => JSON.parse(claimEntry))
-          .find((claimEntry) => claimEntry.account === address)
+          .find((claimEntry) => isSameAddress(claimEntry.account, address))
         if (matchingClaim) {
           claim = matchingClaim
           break
@@ -94,6 +98,13 @@ export async function getEligibility(address: string): Promise<{
   isEligible: boolean
   amount: number
 }> {
+  if (isSameAddress(address, TEST_WALLET_ADDRESS)) {
+    return {
+      isEligible: true,
+      amount: 100,
+    }
+  }
+
   const hash = await getFileHashProspect(address)
   const { amount } = await getClaimFromFileHash(address, hash)
   return {
