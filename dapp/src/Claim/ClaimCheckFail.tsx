@@ -3,32 +3,9 @@ import { Redirect, useHistory } from "react-router-dom"
 import ClaimHeader from "./shared/ClaimHeader"
 import Button from "../shared/components/Button"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
-import { Rule } from "./types"
 import Modal from "../shared/components/Modal"
 import { ClaimContext } from "./hooks"
 
-const listMock: Rule[] = [
-  {
-    success: false,
-    label: "Signed the pledge before 12/03/2023",
-  },
-  {
-    success: false,
-    label: "Participated in NFT",
-  },
-  {
-    success: false,
-    label: "Used referral link",
-  },
-  {
-    success: false,
-    label: "Joined 9 community calls",
-  },
-  {
-    success: false,
-    label: "Bridged to Optimism",
-  },
-]
 export default function ClaimCheckFail({
   resetClaiming,
 }: {
@@ -57,7 +34,7 @@ export default function ClaimCheckFail({
               </>
             }
           />
-          <ClaimCheckRules rules={listMock} />
+          <ClaimCheckRules />
           <Button
             type="primary"
             size="large"

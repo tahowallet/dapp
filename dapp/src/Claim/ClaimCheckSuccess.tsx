@@ -5,36 +5,9 @@ import ClaimHeader from "./shared/ClaimHeader"
 import ClaimAmount from "./shared/ClaimAmount"
 import iconConnected from "../shared/assets/icons/s/connected.svg"
 import Button from "../shared/components/Button"
-import { Rule } from "./types"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 import { ClaimContext } from "./hooks"
 import { useConnect } from "../shared/hooks"
-
-const listMock: Rule[] = [
-  {
-    success: true,
-    label: "Signed the pledge before 12/03/2023",
-    amount: 140000,
-  },
-  {
-    success: true,
-    label: "Participated in NFT",
-    amount: 33000,
-  },
-  {
-    success: true,
-    label: "Used referral link",
-    amount: 21000,
-  },
-  {
-    success: false,
-    label: "Joined 9 community calls",
-  },
-  {
-    success: false,
-    label: "Bridged to Optimism",
-  },
-]
 
 export default function ClaimCheckSuccess() {
   const location = useHistory()
@@ -63,7 +36,7 @@ export default function ClaimCheckSuccess() {
           />
           <div className="column_center">
             <ClaimAmount amount={327000} hasBackground size="large" />
-            <ClaimCheckRules rules={listMock} />
+            <ClaimCheckRules />
           </div>
 
           <div className="button_container">
