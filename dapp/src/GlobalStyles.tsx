@@ -40,6 +40,7 @@ export default function GlobalStyles() {
           --off-white: #f7f9f9;
 
           --green-5: #d6eae9;
+          --green-40: #588382;
 
           --semantic-success: #20c580;
           --semantic-attention: #f2b824;
@@ -54,8 +55,11 @@ export default function GlobalStyles() {
           --sans: "Segment", sans-serif;
 
           --text-h1: 500 42px/110% var(--serif);
+          --text-h5: 400 16px/150% var(--sans);
           --text-label: 500 16px/24px var(--sans);
+          --text-label-alt: 500 12px/16px var(--sans);
           --text-body: 500 18/24px var(--sans);
+          --text-body-s: 500 14px/20px var(--sans);
 
           /* z-index */
           --z-map: 0;
