@@ -7,8 +7,19 @@ import eyeIcon from "../shared/assets/icons/m/eye.svg"
 import lightIcon from "../shared/assets/icons/m/light.svg"
 import twitterIcon from "../shared/assets/icons/twitter.svg"
 import copyIcon from "../shared/assets/icons/s/copy.svg"
+import { useConnect, useWallet } from "../shared/hooks"
 
 export default function Referrals() {
+  const { isConnected, connect } = useConnect()
+  const { address, truncatedAddress } = useWallet()
+
+  const link = `taho.xyz/referral/${address}`
+  const truncatedLink = `taho.xyz/referral/${truncatedAddress || "0xABC...XYZ"}`
+
+  const copyToClipboard = () => {
+    navigator?.clipboard?.writeText(link)
+  }
+
   return (
     <Modal.Container type="map-only">
       <Modal.Content>
@@ -23,28 +34,36 @@ export default function Referrals() {
 
           <div className="referrals_link column">
             <div className="referrals_link_text">
-              Your bonus link:{" "}
-              <span className="link">taho.xyz/referral/0xabc...abc</span>
+              Your bonus link:
+              <span className="link"> {truncatedLink}</span>
             </div>
             <div className="referrals_link_buttons row">
-              <Button
-                type="twitter"
-                size="medium"
-                iconSrc={twitterIcon}
-                iconPosition="left"
-                onClick={() => {}}
-              >
-                Share on Twitter
-              </Button>
-              <Button
-                type="primary"
-                size="medium"
-                iconSrc={copyIcon}
-                iconPosition="left"
-                onClick={() => {}}
-              >
-                Copy link
-              </Button>
+              {isConnected ? (
+                <>
+                  <Button
+                    type="twitter"
+                    size="medium"
+                    iconSrc={twitterIcon}
+                    iconPosition="left"
+                    onClick={() => {}}
+                  >
+                    Share on Twitter
+                  </Button>
+                  <Button
+                    type="primary"
+                    size="medium"
+                    iconSrc={copyIcon}
+                    iconPosition="left"
+                    onClick={copyToClipboard}
+                  >
+                    Copy link
+                  </Button>
+                </>
+              ) : (
+                <Button type="primary" size="medium" onClick={() => connect()}>
+                  Connect wallet
+                </Button>
+              )}
             </div>
           </div>
           <div className="referrals_link_subtext row">
