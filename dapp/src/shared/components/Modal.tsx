@@ -14,6 +14,11 @@ type ModalProps = {
    * @default "freeform"
    */
   type?: "fullscreen" | "freeform" | "map-only"
+  /**
+   * Whether to render an overlay behind the modal
+   * @default false
+   * */
+  hasOverlay?: boolean
   onClickOutside?: () => void
 }
 
@@ -23,6 +28,7 @@ type ModalProps = {
 function Container({
   children,
   type = "freeform",
+  hasOverlay = false,
   onClickOutside = noop,
 }: ModalProps) {
   return (
@@ -48,8 +54,8 @@ function Container({
             }
           }}
           className={classNames("modal_background", {
-            overlay_light: type === "map-only",
-            overlay_dark: type === "fullscreen",
+            overlay_light: hasOverlay,
+            overlay_dark: hasOverlay && type === "fullscreen",
           })}
         />
         {children}

@@ -5,7 +5,7 @@ import Modal from "../../shared/components/Modal"
 
 export default function Claiming() {
   return (
-    <Modal.Container>
+    <Modal.Container type="map-only" hasOverlay>
       <div className="steps_container">
         <ClaimingFlow />
         <ClaimingStats />
