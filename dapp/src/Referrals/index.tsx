@@ -4,10 +4,11 @@ import Button from "../shared/components/Button"
 import Icon from "../shared/components/Icon"
 import Modal from "../shared/components/Modal"
 import eyeIcon from "../shared/assets/icons/m/eye.svg"
-import lightIcon from "../shared/assets/icons/m/light.svg"
 import twitterIcon from "../shared/assets/icons/twitter.svg"
 import copyIcon from "../shared/assets/icons/s/copy.svg"
 import { useConnect, useWallet } from "../shared/hooks"
+import ReferralsTips from "./ReferralsTips"
+import ReferralsLeaderboard from "./ReferralsLeaderboard"
 
 export default function Referrals() {
   const { isConnected, connect } = useConnect()
@@ -76,20 +77,7 @@ export default function Referrals() {
               Total bonus received so far
             </div>
             <TahoAmount amount={0} size="small" hasBackground />
-            <div className="referrals_tip_container">
-              <div className="referrals_tip row">
-                <Icon
-                  src={lightIcon}
-                  width="24px"
-                  color="var(--primary-p2-100)"
-                />
-                Tips on how to get the most out of your link
-              </div>
-              <p>
-                Share the link during TIME-TIME <br />
-                Share it directly to people you know have a claim
-              </p>
-            </div>
+            {isConnected ? <ReferralsLeaderboard /> : <ReferralsTips />}
           </div>
         </div>
         <style jsx>{`
@@ -145,19 +133,6 @@ export default function Referrals() {
             color: var(--secondary-s1-60);
             text-align: center;
             margin-bottom: 16px;
-          }
-          .referrals_tip {
-            color: var(--secondary-s1-60);
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 8px;
-          }
-          .referrals_tip_container {
-            margin-top: 24px;
-          }
-          .referrals_tip_container p {
-            padding-left: 28px;
-            color: var(--secondary-s1-80);
           }
           .referrals_background {
             position: absolute;
