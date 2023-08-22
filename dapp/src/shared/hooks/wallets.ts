@@ -33,15 +33,14 @@ export function useWallet(): WalletState {
   const account = wallet?.accounts[0]
 
   useEffect(() => {
-    const resolveName = async (address: string) => {
-      const resolvedName = await resolveAddressToName(address)
+    const resolveName = async () => {
+      const resolvedName = account
+        ? await resolveAddressToName(account.address)
+        : null
       setName(resolvedName ?? "")
     }
-    if (!account) {
-      setName("")
-    } else {
-      resolveName(account.address)
-    }
+
+    resolveName()
   }, [account, resolveAddressToName])
 
   const walletState = useMemo<WalletState>(() => {
