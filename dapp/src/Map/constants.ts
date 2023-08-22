@@ -7,6 +7,8 @@ export const MAP_BOX = {
 
 export const zones = [zone4, zone7, zone9, zone19, zone22]
 
+export const ZONES_COUNT = zones.length
+
 export function getZoneData(zoneId: string): (typeof zones)[number] {
   const pathData = zones.find((zone) => zone.id === zoneId)
 

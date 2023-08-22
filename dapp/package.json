@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@react-spring/konva": "^9.7.3",
+    "@react-spring/web": "^9.7.3",
     "@web3-onboard/core": "^2.21.0",
     "@web3-onboard/react": "^2.8.11",
     "@web3-onboard/taho": "^2.0.5",

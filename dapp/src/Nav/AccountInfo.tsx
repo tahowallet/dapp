@@ -22,7 +22,7 @@ export default function AccountInfo() {
           {zone && (
             <div className="region_icon">
               <svg viewBox={`0 0 ${zone.w} ${zone.h}`}>
-                <path d={zone.path} fill="#f4d03f" />
+                <path d={zone.paths[0].data} fill="#f4d03f" />
               </svg>
             </div>
           )}

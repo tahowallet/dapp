@@ -66,6 +66,7 @@ function Container({
               display: flex;
               align-items: center;
               justify-content: center;
+              overflow: hidden;
               z-index: var(--z-modal-map);
             }
 
@@ -74,20 +75,32 @@ function Container({
               inset: 0;
               // negative z-index here positions relative to the parent's z-index
               z-index: -1;
+              animation: fade_in 0.2s ease-in-out;
             }
 
             .overlay_dark {
+              --target-opacity: 0.8;
               background: var(--primary-p1-100);
-              opacity: 0.8;
+              opacity: var(--target-opacity);
             }
 
             .overlay_light {
-              opacity: 0.7;
+              --target-opacity: 0.7;
+              opacity: var(--target-opacity);
               background: var(--primary-p1-100);
             }
 
             .fullscreen {
               z-index: var(--z-modal-overlay);
+            }
+
+            @keyframes fade_in {
+              from {
+                opacity: 0;
+              }
+              to {
+                opacity: var(--target-opacity);
+              }
             }
           `}
         </style>
@@ -119,6 +132,7 @@ function Content({
           align-items: center;
           backdrop-filter: blur(26px);
           color: #e4eeee;
+          max-height: 90vh;
           background: radial-gradient(
               57.41% 54.95% at 64.58% 47.64%,
               rgba(27, 97, 94, 0) 0%,

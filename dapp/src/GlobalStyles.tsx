@@ -20,6 +20,7 @@ export default function GlobalStyles() {
           --primary-p1-120: #071111;
           --primary-p1-100: #0d2321;
           --primary-p1-80: #063f3d;
+          --primary-p1-60: #315a5a;
           --primary-p1-40: #0d232166;
 
           --primary-p2-120: #b57017;
@@ -39,6 +40,7 @@ export default function GlobalStyles() {
           --off-white: #f7f9f9;
 
           --green-5: #d6eae9;
+          --green-40: #588382;
 
           --semantic-success: #20c580;
           --semantic-attention: #f2b824;
@@ -46,14 +48,18 @@ export default function GlobalStyles() {
           --semantic-error: #ff6666;
 
           --trading-in: #11bea9;
+          --trading-out: #ff679d;
 
           /* Typography */
           --serif: "QuincyCF", serif;
           --sans: "Segment", sans-serif;
 
           --text-h1: 500 42px/110% var(--serif);
+          --text-h5: 400 16px/150% var(--sans);
           --text-label: 500 16px/24px var(--sans);
+          --text-label-alt: 500 12px/16px var(--sans);
           --text-body: 500 18/24px var(--sans);
+          --text-body-s: 500 14px/20px var(--sans);
 
           /* z-index */
           --z-map: 0;
