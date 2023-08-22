@@ -6,6 +6,8 @@ import { useLocalStorage } from "./helpers"
 type UNSResponse = { meta: { owner: string } }
 type UNSReverseResponse = { data: { id: string }[] }
 
+const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 7 // 1 week
+
 const isValidUNSDomainName = (s: string): boolean => {
   const trimmedString = s.trim()
 
@@ -49,6 +51,7 @@ function useNamesCache() {
         [address]: {
           ...(cachedNames[address] ?? {}),
           [type]: name,
+          lastUpdate: Date.now(),
         },
       })
       setCache(newCache)
@@ -127,8 +130,11 @@ export function useAddressToNameResolution() {
   const [cachedNames, setCachedName] = useNamesCache()
 
   const resolveName = useCallback(
-    async (address: string) => {
-      if (cachedNames[address]) {
+    async (address: string): Promise<string | null> => {
+      if (
+        cachedNames[address] &&
+        cachedNames[address].lastUpdate + MAX_CACHE_AGE < Date.now()
+      ) {
         return cachedNames[address].ens ?? cachedNames[address].uns ?? null
       }
 
