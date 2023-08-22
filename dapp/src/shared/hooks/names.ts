@@ -1,7 +1,7 @@
-import { ethers } from "ethers"
-import { useMemo, useCallback } from "react"
-import { ETHEREUM } from "../../web3Onboard"
+import { useCallback, useContext } from "react"
 import { isProbablyEVMAddress } from "../utils"
+import { EthereumProviderContext } from "./contexts"
+import { useLocalStorage } from "./helpers"
 
 type UNSResponse = { meta: { owner: string } }
 type UNSReverseResponse = { data: { id: string }[] }
@@ -33,6 +33,31 @@ const isValidUNSDomainName = (s: string): boolean => {
 }
 
 const isValidENSDomainName = (s: string): boolean => s.endsWith(".eth")
+
+function useNamesCache() {
+  const [cache, setCache] = useLocalStorage(
+    "taho.cachedNames",
+    JSON.stringify({})
+  )
+
+  const cachedNames = JSON.parse(cache)
+
+  const setCachedNames = useCallback(
+    (type: "ens" | "uns", address: string, name: string) => {
+      const newCache = JSON.stringify({
+        ...cachedNames,
+        [address]: {
+          ...(cachedNames[address] ?? {}),
+          [type]: name,
+        },
+      })
+      setCache(newCache)
+    },
+    [cachedNames, setCache]
+  )
+
+  return [cachedNames, setCachedNames]
+}
 
 export function useUNS() {
   const resolveUNS = useCallback(async (name: string) => {
@@ -76,10 +101,7 @@ export function useUNS() {
 }
 
 export function useENS() {
-  const ethereumProvider = useMemo(
-    () => new ethers.providers.JsonRpcProvider(ETHEREUM.publicRpcUrl),
-    []
-  )
+  const ethereumProvider = useContext(EthereumProviderContext)
 
   const resolveENS = useCallback(
     (name: string) => {
@@ -102,25 +124,31 @@ export function useENS() {
 export function useAddressToNameResolution() {
   const { resolveAddressToUNS } = useUNS()
   const { resolveAddressToENS } = useENS()
+  const [cachedNames, setCachedName] = useNamesCache()
 
   const resolveName = useCallback(
     async (address: string) => {
+      if (cachedNames[address]) {
+        return cachedNames[address].ens ?? cachedNames[address].uns ?? null
+      }
+
+      const resolveENSPromise = resolveAddressToENS(address).then((ensName) => {
+        setCachedName("ens", address, ensName)
+        return ensName
+      })
+      const resolveUNSPromise = resolveAddressToUNS(address).then((unsName) => {
+        setCachedName("uns", address, unsName)
+        return unsName
+      })
+
       const resolved = await Promise.any<string | null>([
-        resolveAddressToENS(address),
-        // As we care about ENS addresses more than UNS let's wait a bit longer
-        new Promise((resolve) => {
-          const unsName = resolveAddressToUNS(address)
-          setTimeout(() => resolve(unsName), 5000)
-        }),
-        // If address doesn't have a name at all then let's not bother waiting
-        new Promise((resolve) => {
-          setTimeout(() => resolve(address), 10000)
-        }),
+        resolveENSPromise,
+        resolveUNSPromise,
       ])
 
-      return resolved ?? address
+      return resolved
     },
-    [resolveAddressToENS, resolveAddressToUNS]
+    [resolveAddressToENS, resolveAddressToUNS, cachedNames, setCachedName]
   )
 
   return resolveName

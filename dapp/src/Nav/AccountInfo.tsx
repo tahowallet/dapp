@@ -8,7 +8,7 @@ const regionMock = { name: "KryptoKeep", id: "4" }
 
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const { isConnected, truncatedAddress, avatar } = useWallet()
+  const { isConnected, truncatedAddress, name, avatar } = useWallet()
   const region = regionMock // TODO: use region for given account
   const zone = region ? getZoneData(region.id.toString()) : undefined
 
@@ -30,7 +30,9 @@ export default function AccountInfo() {
         </div>
       )}
       <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
-        <span className="account_label ellipsis">{truncatedAddress}</span>
+        <span className="account_label ellipsis">
+          {name || truncatedAddress}
+        </span>
         <div className="avatar" />
       </button>
       <style jsx>

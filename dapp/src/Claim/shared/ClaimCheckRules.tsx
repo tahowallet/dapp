@@ -11,6 +11,7 @@ export default function ClaimCheckRules({ rules = [] }: { rules: Rule[] }) {
       <ul className="rules_list">
         {rules.map(({ success, label = "", amount = 0 }) => (
           <li
+            key={label}
             className={classNames("rules_item", {
               fail: !success,
             })}

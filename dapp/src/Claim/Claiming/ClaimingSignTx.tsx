@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom"
 import Icon from "../../shared/components/Icon"
 import Button from "../../shared/components/Button"
 import lockIcon from "../../shared/assets/icons/s/lock.svg"
-import correctIcon from "../../shared/assets/icons/m/notif-correct.svg"
 
 export default function ClaimingSignTx() {
   const location = useHistory()
@@ -59,20 +58,11 @@ export default function ClaimingSignTx() {
 
         <div className="button_container row">
           <Button
-            onClick={() => location.replace("/claim/finish")}
-            iconSrc={correctIcon}
-            iconPosition="left"
+            onClick={() => location.push("/claim/finish")}
             type="primary"
             size="large"
           >
-            Delegate
-          </Button>
-          <Button
-            onClick={() => location.replace("/claim/finish")}
-            type="primary"
-            size="large"
-          >
-            2. Claim TAHO
+            Claim TAHO
           </Button>
         </div>
       </div>

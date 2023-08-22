@@ -17,7 +17,7 @@ export default function ClaimFinish() {
           <div className="button_container column_center">
             <div>Shall we start the game?</div>
             <Button
-              onClick={() => location.replace("/")}
+              onClick={() => location.push("/")}
               type="primary"
               size="large"
             >
