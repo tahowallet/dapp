@@ -1,23 +1,27 @@
 import React, { useState } from "react"
 import classnames from "classnames"
 
-export default function TabPanel({ tabs }: { tabs: string[] }) {
+export default function TabPanel({
+  tabs,
+}: {
+  tabs: { label: string; component: React.ReactNode }[]
+}) {
   const [activeTab, setActiveTab] = useState(0)
   return (
     <div>
       <ul>
-        {tabs.map((tabLabel, index) => (
+        {tabs.map(({ label }, index) => (
           <li
-            key={tabLabel}
+            key={label}
             className={classnames(activeTab === index && "active")}
           >
             <button type="button" onClick={() => setActiveTab(index)}>
-              {tabLabel}
+              {label}
             </button>
           </li>
         ))}
       </ul>
-      <div className="content" />
+      <div className="content">{tabs[activeTab]?.component}</div>
       <style jsx>{`
         ul {
           display: flex;
@@ -44,8 +48,7 @@ export default function TabPanel({ tabs }: { tabs: string[] }) {
         }
 
         .content {
-          // FIXME: placeholder
-          height: 200px;
+          min-height: 200px;
         }
       `}</style>
     </div>
