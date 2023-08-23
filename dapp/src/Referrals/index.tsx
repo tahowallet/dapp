@@ -22,7 +22,7 @@ export default function Referrals() {
   }
 
   return (
-    <Modal.Container type="map-only">
+    <Modal.Container type="map-without-overlay">
       <Modal.Content>
         <div className="referrals_container column_center">
           <div className="referrals_header">

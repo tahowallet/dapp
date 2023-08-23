@@ -48,7 +48,7 @@ export default function ClaimCheckSuccess() {
   }
 
   return (
-    <Modal.Container type="map-only" hasOverlay>
+    <Modal.Container type="map-with-overlay">
       <Modal.Content>
         <div className="success_container">
           <ClaimHeader

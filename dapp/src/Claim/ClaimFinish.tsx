@@ -9,7 +9,7 @@ export default function ClaimFinish() {
   const location = useHistory()
 
   return (
-    <Modal.Container type="map-only">
+    <Modal.Container type="map-without-overlay">
       <Modal.Content>
         <div className="finish_container column_center">
           <ClaimHeader header="You have landed" subheader="You just claimed:" />

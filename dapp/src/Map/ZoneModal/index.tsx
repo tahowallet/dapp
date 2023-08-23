@@ -166,7 +166,7 @@ export default function ZoneModal({
   })
 
   return (
-    <Modal.Container type="fullscreen" hasOverlay onClickOutside={onClose}>
+    <Modal.Container type="fullscreen" onClickOutside={onClose}>
       <animated.div style={{ position: "relative" }}>
         <PrevBtn
           style={{
