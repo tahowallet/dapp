@@ -5,9 +5,9 @@ import { useDebounce } from "../shared/hooks/helpers"
 import Button from "../shared/components/Button"
 import ClaimHeader from "./shared/ClaimHeader"
 import Modal from "../shared/components/Modal"
-import { useNameToAddressResolution } from "../shared/hooks"
 import Spinner from "../shared/components/Spinner"
-import { ClaimContext, ClaimState } from "./hooks"
+import { ClaimContext, ClaimState, DEFAULT_CLAIM_STATE } from "./hooks"
+import { resolveNameToAddress } from "../shared/utils"
 
 export default function ClaimCheck({
   setClaimingAccount,
@@ -22,7 +22,6 @@ export default function ClaimCheck({
   const [wasTouched, setWasTouched] = useState(false)
   const [address, setAddress] = useState<string | null>(null)
   const { userDetails } = useContext(ClaimContext)
-  const resolveNameToAddress = useNameToAddressResolution()
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -35,13 +34,14 @@ export default function ClaimCheck({
   const onSubmit = () => {
     if (address) {
       setClaimingAccount({
+        ...DEFAULT_CLAIM_STATE,
         userDetails: {
           isConnected: false,
           name: input,
           address,
         },
       })
-      history.push("/claim/success")
+      history.push("/claim/result")
     } else {
       setWasTouched(true)
       setHasError(true)
@@ -70,10 +70,10 @@ export default function ClaimCheck({
     if (debouncedInput.length) {
       setResolvedAddresss(debouncedInput)
     }
-  }, [debouncedInput, resolveNameToAddress])
+  }, [debouncedInput])
 
   if (userDetails.isConnected) {
-    return <Redirect to="/claim/success" />
+    return <Redirect to="/claim/result" />
   }
 
   return (
