@@ -44,7 +44,7 @@ export default function ClaimCheckFail({
   }
 
   return (
-    <Modal.Container type="map-only">
+    <Modal.Container type="map-with-overlay">
       <Modal.Content>
         <div className="fail_container column_center">
           <ClaimHeader

@@ -1,20 +1,20 @@
 import classNames from "classnames"
 import React from "react"
-import Icon from "../../shared/components/Icon"
-import lockIcon from "../../shared/assets/icons/s/lock.svg"
-import coinIcon from "../../shared/assets/taho-coin.svg"
+import Icon from "./Icon"
+import lockIcon from "../assets/icons/s/lock.svg"
+import coinIcon from "../assets/taho-coin.svg"
 
-type ClaimAmountProps = {
+type TahoAmountProps = {
   amount: number
   hasBackground?: boolean
   size?: "small" | "large"
 }
 
-export default function ClaimAmount({
+export default function TahoAmount({
   amount = 0,
   hasBackground = false,
   size = "small",
-}: ClaimAmountProps) {
+}: TahoAmountProps) {
   return (
     <>
       <div

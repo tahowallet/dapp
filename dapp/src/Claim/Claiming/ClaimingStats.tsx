@@ -1,6 +1,6 @@
 import React from "react"
+import TahoAmount from "../../shared/components/TahoAmount"
 import { getZoneData } from "../../Map/constants"
-import ClaimAmount from "../shared/ClaimAmount"
 import Modal from "../../shared/components/Modal"
 import Icon from "../../shared/components/Icon"
 import infoIcon from "../../shared/assets/icons/m/info.svg"
@@ -13,7 +13,7 @@ export default function ClaimingStats() {
     <Modal.Content>
       <div className="stats column">
         <div className="stats_header">You can claim</div>
-        <ClaimAmount amount={37000} />
+        <TahoAmount amount={37000} />
         <span>Criteria breakdown</span>
         <div className="line" />
         <div className="stats_header">Community Pledge</div>

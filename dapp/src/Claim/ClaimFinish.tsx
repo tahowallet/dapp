@@ -1,7 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 import ClaimHeader from "./shared/ClaimHeader"
-import ClaimAmount from "./shared/ClaimAmount"
+import ClaimAmount from "../shared/components/TahoAmount"
 import Button from "../shared/components/Button"
 import Modal from "../shared/components/Modal"
 
@@ -9,7 +9,7 @@ export default function ClaimFinish() {
   const location = useHistory()
 
   return (
-    <Modal.Container type="map-only">
+    <Modal.Container type="map-without-overlay">
       <Modal.Content>
         <div className="finish_container column_center">
           <ClaimHeader header="You have landed" subheader="You just claimed:" />

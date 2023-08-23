@@ -77,7 +77,7 @@ export default function ClaimCheck({
   }
 
   return (
-    <Modal.Container type="map-only">
+    <Modal.Container type="map-without-overlay">
       <Modal.Content>
         <div className="check_container">
           <ClaimHeader

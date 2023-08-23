@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
+import Referrals from "./Referrals"
 import {
   EthereumProviderContext,
   ethereumProvider,
@@ -24,6 +25,9 @@ function DApp() {
           <Switch>
             <Route path="/claim">
               <Claim />
+            </Route>
+            <Route path="/referrals">
+              <Referrals />
             </Route>
           </Switch>
           <Footer />
