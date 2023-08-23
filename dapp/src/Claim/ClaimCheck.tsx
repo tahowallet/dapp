@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import classNames from "classnames"
+import { Redirect, useHistory } from "react-router-dom"
 import { useDebounce } from "../shared/hooks/helpers"
 import Button from "../shared/components/Button"
 import ClaimHeader from "./shared/ClaimHeader"
 import Modal from "../shared/components/Modal"
-import { useNameToAddressResolution } from "../shared/hooks"
 import Spinner from "../shared/components/Spinner"
+import { ClaimContext, ClaimState, DEFAULT_CLAIM_STATE } from "./hooks"
+import { resolveNameToAddress } from "../shared/utils"
 
-export default function ClaimCheck() {
+export default function ClaimCheck({
+  setClaimingAccount,
+}: {
+  setClaimingAccount: React.Dispatch<React.SetStateAction<ClaimState>>
+}) {
+  const history = useHistory()
   const [input, setInput] = useState("")
   const [debouncedInput, setDebouncedInput] = useDebounce("", 500)
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [wasTouched, setWasTouched] = useState(false)
   const [address, setAddress] = useState<string | null>(null)
-  const resolveNameToAddress = useNameToAddressResolution()
+  const { userDetails } = useContext(ClaimContext)
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -26,7 +33,15 @@ export default function ClaimCheck() {
 
   const onSubmit = () => {
     if (address) {
-      console.log("For:", input, "- resolved:", address)
+      setClaimingAccount({
+        ...DEFAULT_CLAIM_STATE,
+        userDetails: {
+          isConnected: false,
+          name: input,
+          address,
+        },
+      })
+      history.push("/claim/result")
     } else {
       setWasTouched(true)
       setHasError(true)
@@ -55,7 +70,11 @@ export default function ClaimCheck() {
     if (debouncedInput.length) {
       setResolvedAddresss(debouncedInput)
     }
-  }, [debouncedInput, resolveNameToAddress])
+  }, [debouncedInput])
+
+  if (userDetails.isConnected) {
+    return <Redirect to="/claim/result" />
+  }
 
   return (
     <Modal.Container type="map-only">

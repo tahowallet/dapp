@@ -53,7 +53,7 @@ export default function ClaimingSignPledge() {
         <div className="signing_container column">
           <div className="button_container row">
             <Button
-              onClick={() => location.replace("/claim/claiming/delegate")}
+              onClick={() => location.push("/claim/claiming/sign")}
               type="primary"
               size="large"
             >

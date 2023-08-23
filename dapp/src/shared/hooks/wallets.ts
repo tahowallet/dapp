@@ -1,12 +1,24 @@
 import { useConnectWallet, useSetChain } from "@web3-onboard/react"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers } from "ethers"
-import { truncateAddress } from "../utils"
+import { ConnectedChain } from "@web3-onboard/core"
+import { resolveAddressToName, truncateAddress } from "../utils"
 import portrait from "../assets/portrait.png"
 
-export function useWallet() {
+type WalletState = {
+  isConnected: boolean
+  address: string
+  name: string
+  truncatedAddress: string
+  avatar: string
+  provider: null | ethers.providers.Web3Provider
+  connectedChain: null | ConnectedChain
+}
+
+export function useWallet(): WalletState {
   const [{ wallet }] = useConnectWallet()
   const [{ connectedChain }] = useSetChain()
+  const [name, setName] = useState("")
 
   const arbitrumProvider = useMemo(
     () =>
@@ -18,25 +30,42 @@ export function useWallet() {
 
   const account = wallet?.accounts[0]
 
-  if (!account) {
-    return {
-      isConnected: false,
-      address: "",
-      truncatedAddress: "",
-      avatar: portrait,
-      provider: null,
-      connectedChain: null,
+  const walletState = useMemo<WalletState>(() => {
+    if (!account) {
+      return {
+        isConnected: false,
+        address: "",
+        name,
+        truncatedAddress: "",
+        avatar: portrait,
+        provider: null,
+        connectedChain: null,
+      }
     }
-  }
 
-  return {
-    isConnected: true,
-    address: account.address,
-    truncatedAddress: truncateAddress(account.address),
-    avatar: account.ens?.avatar ?? portrait,
-    provider: arbitrumProvider,
-    connectedChain,
-  }
+    return {
+      isConnected: true,
+      address: account.address,
+      name,
+      truncatedAddress: truncateAddress(account.address),
+      avatar: account.ens?.avatar?.url ?? portrait,
+      provider: arbitrumProvider,
+      connectedChain,
+    }
+  }, [account, name, arbitrumProvider, connectedChain])
+
+  useEffect(() => {
+    const resolveName = async () => {
+      const resolvedName = walletState.address
+        ? await resolveAddressToName(walletState.address)
+        : null
+      setName(resolvedName ?? "")
+    }
+
+    resolveName()
+  }, [walletState.address])
+
+  return walletState
 }
 
 export function useConnect() {

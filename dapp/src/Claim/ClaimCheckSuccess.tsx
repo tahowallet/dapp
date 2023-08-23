@@ -1,5 +1,5 @@
-import React from "react"
-import { useHistory } from "react-router-dom"
+import React, { useContext } from "react"
+import { Redirect, useHistory } from "react-router-dom"
 import Modal from "../shared/components/Modal"
 import ClaimHeader from "./shared/ClaimHeader"
 import ClaimAmount from "../shared/components/TahoAmount"
@@ -7,6 +7,8 @@ import iconConnected from "../shared/assets/icons/s/connected.svg"
 import Button from "../shared/components/Button"
 import { Rule } from "./types"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
+import { ClaimContext } from "./hooks"
+import { useConnect } from "../shared/hooks"
 
 const listMock: Rule[] = [
   {
@@ -36,6 +38,14 @@ const listMock: Rule[] = [
 
 export default function ClaimCheckSuccess() {
   const location = useHistory()
+  const { connect } = useConnect()
+  const {
+    userDetails: { name, isConnected },
+  } = useContext(ClaimContext)
+
+  if (!isConnected && !name) {
+    return <Redirect to="/claim" />
+  }
 
   return (
     <Modal.Container type="map-only" hasOverlay>
@@ -46,10 +56,8 @@ export default function ClaimCheckSuccess() {
             header="Congratulation!"
             subheader={
               <>
-                <span style={{ color: "var(--semantic-info)" }}>
-                  berrry.eth
-                </span>{" "}
-                is eligible to claim:
+                <span style={{ color: "var(--semantic-info)" }}>{name}</span> is
+                eligible to claim:
               </>
             }
           />
@@ -62,14 +70,16 @@ export default function ClaimCheckSuccess() {
             <Button
               type="primary"
               size="large"
-              isDisabled
-              iconSrc={iconConnected}
+              isDisabled={isConnected}
+              iconSrc={isConnected ? iconConnected : undefined}
               iconPosition="left"
+              onClick={() => connect()}
             >
-              Connected
+              {isConnected ? "Connected" : "Connect wallet"}
             </Button>
             <Button
-              onClick={() => location.replace("/claim/claiming")}
+              onClick={() => location.push("/claim/claiming")}
+              isDisabled={!isConnected}
               type="primary"
               size="large"
             >
@@ -86,9 +96,10 @@ export default function ClaimCheckSuccess() {
               gap: 40px;
             }
             .button_container {
-              margin: 0 -31px;
+              width: 555px;
               display: flex;
-              gap: 24px;
+              align-items: center;
+              justify-content: space-between;
             }
           `}
         </style>

@@ -1,7 +1,13 @@
-export const isBrowser = typeof window !== "undefined"
-
 export function truncateAddress(address: string): string {
   return `${address.slice(0, 6)}…${address.slice(-5)}`.toLowerCase()
+}
+
+export function normalizeAddress(address: string): string {
+  return address.toLowerCase()
+}
+
+export function isSameAddress(a: string, b: string): boolean {
+  return normalizeAddress(a) === normalizeAddress(b)
 }
 
 export function isProbablyEVMAddress(str: string): boolean {
@@ -9,10 +15,4 @@ export function isProbablyEVMAddress(str: string): boolean {
     return true
   }
   return false
-}
-
-export function noop() {}
-
-export function inRange(value: number, min: number, max: number): boolean {
-  return value >= min && value <= max
 }

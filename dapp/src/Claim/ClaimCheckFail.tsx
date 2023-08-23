@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
+import { Redirect, useHistory } from "react-router-dom"
 import ClaimHeader from "./shared/ClaimHeader"
 import Button from "../shared/components/Button"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 import { Rule } from "./types"
 import Modal from "../shared/components/Modal"
+import { ClaimContext } from "./hooks"
 
 const listMock: Rule[] = [
   {
@@ -27,7 +29,20 @@ const listMock: Rule[] = [
     label: "Bridged to Optimism",
   },
 ]
-export default function ClaimCheckFail() {
+export default function ClaimCheckFail({
+  resetClaiming,
+}: {
+  resetClaiming: () => void
+}) {
+  const history = useHistory()
+  const {
+    userDetails: { name, isConnected },
+  } = useContext(ClaimContext)
+
+  if (!isConnected && !name) {
+    return <Redirect to="/claim" />
+  }
+
   return (
     <Modal.Container type="map-only" hasOverlay>
       <Modal.Content>
@@ -37,15 +52,20 @@ export default function ClaimCheckFail() {
             header="Not eligible"
             subheader={
               <>
-                <span style={{ color: "var(--semantic-info)" }}>
-                  berrry.eth
-                </span>{" "}
-                is not eligible to claim:
+                <span style={{ color: "var(--semantic-info)" }}>{name}</span> is
+                not eligible to claim:
               </>
             }
           />
           <ClaimCheckRules rules={listMock} />
-          <Button type="primary" size="large">
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => {
+              resetClaiming()
+              history.push("/claim")
+            }}
+          >
             Try another address
           </Button>
         </div>

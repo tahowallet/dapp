@@ -1,2 +1,2 @@
-export * from "./names"
 export * from "./wallets"
+export * from "./helpers"
