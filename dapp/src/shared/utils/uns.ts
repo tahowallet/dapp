@@ -1,3 +1,4 @@
+import { fetchJson } from "ethers/lib/utils"
 import { wait } from "./misc"
 
 export type UNSResponse = { meta: { owner: string } }
@@ -34,41 +35,37 @@ export const resolveUNS = async (name: string) => {
     throw new Error("Invalid UNS domain name")
   }
 
-  const response = await fetch(
-    `https://resolve.unstoppabledomains.com/domains/${name}`,
-    {
-      method: "GET",
-      headers: new Headers({
-        Authorization: `Bearer ${process.env.UNS_API_KEY}`,
-      }),
-    }
-  )
+  const response: UNSResponse = await fetchJson({
+    url: `https://resolve.unstoppabledomains.com/domains/${name}`,
+    headers: {
+      Authorization: `Bearer ${process.env.UNS_API_KEY}`,
+    },
+  })
 
   const {
     meta: { owner },
-  }: UNSResponse = await response.json()
+  } = response
 
   return owner
 }
 
 export const resolveAddressToUNS = async (address: string) => {
-  const response = await fetch(
-    `https://resolve.unstoppabledomains.com/domains/?owners=${address}&sortBy=id&sortDirection=ASC`,
-    {
-      headers: new Headers({
-        Authorization: `Bearer ${process.env.UNS_API_KEY}`,
-      }),
-    }
-  )
+  const response: UNSReverseResponse = await fetchJson({
+    url: `https://resolve.unstoppabledomains.com/domains/?owners=${address}&sortBy=id&sortDirection=ASC`,
+    headers: {
+      Authorization: `Bearer ${process.env.UNS_API_KEY}`,
+    },
+  })
 
-  const { data }: UNSReverseResponse = await response.json()
+  const { data }: UNSReverseResponse = response
+
   const name = data[0]?.id ?? null
 
   if (!name) {
     throw new Error("Invalid UNS domain name")
   }
 
-  // UNS tend to resolve faster than ENS, so to prefer ENS names let's wait a bit
+  // FIXME: UNS tend to resolve faster than ENS, so to prefer ENS names let's wait a bit
   await wait(10000)
 
   return name
