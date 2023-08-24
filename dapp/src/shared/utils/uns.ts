@@ -40,9 +40,6 @@ export const resolveUNS = async (name: string) => {
     headers: {
       Authorization: `Bearer ${process.env.UNS_API_KEY}`,
     },
-    fetchOptions: {
-      mode: "no-cors",
-    },
   })
 
   const {
@@ -57,9 +54,6 @@ export const resolveAddressToUNS = async (address: string) => {
     url: `https://resolve.unstoppabledomains.com/domains/?owners=${address}&sortBy=id&sortDirection=ASC`,
     headers: {
       Authorization: `Bearer ${process.env.UNS_API_KEY}`,
-    },
-    fetchOptions: {
-      mode: "no-cors",
     },
   })
 
