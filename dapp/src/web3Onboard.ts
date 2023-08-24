@@ -3,25 +3,22 @@ import trezorModule from "@web3-onboard/trezor"
 import walletConnectModule from "@web3-onboard/walletconnect"
 import { init } from "@web3-onboard/react"
 
-// provided by webpack
-// eslint-disable-next-line prefer-destructuring
-const ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL
-
 // TODO: decide what rpc providers we want to use and if/how we want to handle being rate limited
 export const ARBITRUM = {
   id: "0xa4b1",
   token: "ETH",
   label: "Arbitrum One",
-  rpcUrl: ARBITRUM_RPC_URL,
-  publicRpcUrl: ARBITRUM_RPC_URL,
+  rpcUrl:
+    process.env.USE_ARBITRUM_FORK === "true"
+      ? process.env.LOCALHOST_RPC_URL
+      : process.env.ARBITRUM_RPC_URL,
 }
 
 export const ETHEREUM = {
   id: "0x1",
   token: "ETH",
   label: "Ethereum",
-  rpcUrl: "https://1rpc.io/eth",
-  publicRpcUrl: "https://1rpc.io/eth",
+  rpcUrl: process.env.ETHEREUM_RPC_URL,
 }
 
 const wallets = [
