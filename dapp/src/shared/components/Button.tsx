@@ -6,7 +6,7 @@ type ButtonProps = {
   /**
    * @default "primary"
    */
-  type?: "primary" | "secondary" | "tertiary"
+  type?: "primary" | "secondary" | "tertiary" | "twitter"
   /**
    * @default "medium"
    */
@@ -43,6 +43,7 @@ export default function Button({
           primary: type === "primary",
           secondary: type === "secondary",
           tertiary: type === "tertiary",
+          twitter: type === "twitter",
           medium: size === "medium",
           large: size === "large",
           reversed: iconPosition === "left",
@@ -136,6 +137,32 @@ export default function Button({
           }
           .secondary:active .icon {
             background-color: var(--primary-p2-120);
+          }
+
+          .twitter {
+            color: var(--primary-p1-100);
+            border-radius: 56px;
+            background: linear-gradient(180deg, #60aefe 0%, #3a90e9 100%);
+            box-shadow: 0px 7px 5px 0px rgba(13, 35, 33, 0.5),
+              0px 18px 20px 0px rgba(13, 35, 33, 0.5),
+              0px 4px 6px 0px rgba(58, 144, 233, 0.4),
+              0px 4px 4px 0px rgba(13, 35, 33, 0.45);
+          }
+          .twitter .icon {
+            background-color: var(--primary-p1-100);
+          }
+          .twitter:hover {
+            background: linear-gradient(180deg, #8ac4ff 0%, #4a9ff8 100%);
+          }
+          .twitter:active {
+            background: linear-gradient(180deg, #60aefe 0%, #3a90e9 100%);
+          }
+
+          .tertiary.disabled,
+          .tertiary.disabled:hover,
+          .tertiary.disabled:active {
+            background: linear-gradient(180deg, #60aefe 0%, #3a90e9 100%);
+            opacity: 0.6;
           }
 
           .tertiary {

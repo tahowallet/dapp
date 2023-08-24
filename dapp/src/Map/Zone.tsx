@@ -2,9 +2,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useLayoutEffect, useMemo, useRef, useState } from "react"
 import type Konva from "konva"
+import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
 
 import { useMapContext } from "./MapContext"
+import { ZONES_COUNT } from "./constants"
 
 type ZoneProps = {
   id: string
@@ -36,6 +38,7 @@ export default function Zone({
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
   const mapContext = useMapContext()
+  const groupRef = useRef<Konva.Group>(null)
   const pathRef = useRef<Konva.Path>(null)
   const textRef = useRef<Konva.Text>(null)
   const imageLayerRef = useRef<Konva.Image>(null)
@@ -48,15 +51,19 @@ export default function Zone({
 
   useLayoutEffect(() => {
     const pathNode = pathRef.current
+    const group = groupRef.current
     const stage = pathRef.current?.getStage()
-    if (!stage || !pathNode) return () => {}
+    if (!stage || !pathNode || !group) return () => {}
+    const defaultZ = group.zIndex()
 
     const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
       if (evt.type === "mouseenter") {
         stage.container().style.cursor = "pointer"
+        group.zIndex(ZONES_COUNT)
         setIsHovered(true)
       } else if (evt.type === "mouseleave") {
         stage.container().style.cursor = "default"
+        group.zIndex(defaultZ)
         setIsHovered(false)
       }
     }
@@ -177,7 +184,7 @@ export default function Zone({
   }, [isHovered])
 
   return (
-    <>
+    <Group ref={groupRef}>
       {/* @ts-expect-error FIXME: @react-spring-types */}
       <animated.Image
         ref={imageLayerRef}
@@ -226,6 +233,6 @@ export default function Zone({
         onClick={handleZoneClick}
         {...pathProps}
       />
-    </>
+    </Group>
   )
 }

@@ -2,9 +2,8 @@ import { useConnectWallet, useSetChain } from "@web3-onboard/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers } from "ethers"
 import { ConnectedChain } from "@web3-onboard/core"
-import { truncateAddress } from "../utils"
+import { resolveAddressToName, truncateAddress } from "../utils"
 import portrait from "../assets/portrait.png"
-import { useAddressToNameResolution } from "./names"
 
 type WalletState = {
   isConnected: boolean
@@ -19,7 +18,6 @@ type WalletState = {
 export function useWallet(): WalletState {
   const [{ wallet }] = useConnectWallet()
   const [{ connectedChain }] = useSetChain()
-  const resolveAddressToName = useAddressToNameResolution()
   const [name, setName] = useState("")
 
   const arbitrumProvider = useMemo(
@@ -31,18 +29,6 @@ export function useWallet(): WalletState {
   )
 
   const account = wallet?.accounts[0]
-
-  useEffect(() => {
-    const resolveName = async (address: string) => {
-      const resolvedName = await resolveAddressToName(address)
-      setName(resolvedName ?? "")
-    }
-    if (!account) {
-      setName("")
-    } else {
-      resolveName(account.address)
-    }
-  }, [account, resolveAddressToName])
 
   const walletState = useMemo<WalletState>(() => {
     if (!account) {
@@ -67,6 +53,17 @@ export function useWallet(): WalletState {
       connectedChain,
     }
   }, [account, name, arbitrumProvider, connectedChain])
+
+  useEffect(() => {
+    const resolveName = async () => {
+      const resolvedName = walletState.address
+        ? await resolveAddressToName(walletState.address)
+        : null
+      setName(resolvedName ?? "")
+    }
+
+    resolveName()
+  }, [walletState.address])
 
   return walletState
 }

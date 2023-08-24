@@ -5,8 +5,9 @@
   "version": "1.0.0",
   "prettier": "@thesis/prettier-config",
   "scripts": {
-    "start": "webpack serve --mode=development",
-    "build": "webpack build --mode=production",
+    "start": "yarn write-types && webpack serve --mode=development",
+    "build": "yarn write-types && webpack build --mode=production",
+    "write-types": "node scripts/write-taho-types.mjs",
     "lint:eslint": "eslint .",
     "lint:fix:eslint": "eslint . --fix",
     "lint:config": "prettier -c '**/*.@(json|yaml|toml)'",
@@ -14,6 +15,7 @@
   },
   "dependencies": {
     "@react-spring/konva": "^9.7.3",
+    "@react-spring/web": "^9.7.3",
     "@web3-onboard/core": "^2.21.0",
     "@web3-onboard/react": "^2.8.11",
     "@web3-onboard/taho": "^2.0.5",

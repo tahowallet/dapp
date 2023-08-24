@@ -34,7 +34,7 @@ export default function MapZones() {
           y={zone.y}
           labelX={zone.labelX}
           labelY={zone.labelY}
-          path={zone.path}
+          path={zone.paths[0].data}
         />
       ))}
     </>

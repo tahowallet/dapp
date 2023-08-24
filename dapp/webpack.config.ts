@@ -1,11 +1,12 @@
 import "webpack-dev-server"
-import { Configuration, ProvidePlugin } from "webpack"
+import { Configuration, DefinePlugin, ProvidePlugin } from "webpack"
 import { merge } from "webpack-merge"
 import Dotenv from "dotenv-webpack"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin"
 import "dotenv-defaults/config"
 import path from "path"
+import fs from "fs/promises"
 
 const config: Configuration = {
   entry: ["./src/index.tsx"],
@@ -79,6 +80,12 @@ const config: Configuration = {
     static: {
       directory: path.join(__dirname, "public"),
     },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+    },
     historyApiFallback: true,
     compress: true,
     port: 9000,
@@ -91,7 +98,7 @@ const config: Configuration = {
   },
 }
 
-export default (
+export default async (
   _webpackEnv: Record<string, string | boolean>,
   argv: {
     mode: "development" | "production"
@@ -100,7 +107,26 @@ export default (
 ) => {
   const { mode } = argv
 
+  const deploymentInfo: { name: string; expectedAddress: string }[] =
+    JSON.parse(
+      await fs
+        .readFile(path.resolve(__dirname, "./deployment-info.json"), "utf-8")
+        .catch(() => "[]")
+    )
+
   const overrides: Record<string, Configuration> = {
+    all: {
+      plugins: [
+        new DefinePlugin(
+          Object.fromEntries(
+            deploymentInfo.map(({ name, expectedAddress }) => [
+              `CONTRACT_${name}`,
+              `"${expectedAddress}"`,
+            ])
+          )
+        ),
+      ],
+    },
     production: {
       output: {
         chunkLoading: false,
@@ -108,5 +134,5 @@ export default (
     },
   }
 
-  return merge(config, overrides[mode] || {})
+  return merge(config, overrides.all, overrides[mode] || {})
 }

@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import Modal from "../shared/components/Modal"
 import ClaimHeader from "./shared/ClaimHeader"
-import ClaimAmount from "./shared/ClaimAmount"
+import ClaimAmount from "../shared/components/TahoAmount"
 import iconConnected from "../shared/assets/icons/s/connected.svg"
 import Button from "../shared/components/Button"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
@@ -21,7 +21,7 @@ export default function ClaimCheckSuccess() {
   }
 
   return (
-    <Modal.Container type="map-only">
+    <Modal.Container type="map-with-overlay">
       <Modal.Content>
         <div className="success_container">
           <ClaimHeader

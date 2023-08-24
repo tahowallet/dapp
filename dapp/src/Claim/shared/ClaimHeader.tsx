@@ -31,10 +31,8 @@ export default function ClaimHeader({
           color: var(--semantic-success);
         }
         .header {
-          font-family: "QuincyCF";
-          font-weight: 500;
+          font: var(--text-h1);
           font-size: 52px;
-          line-height: 42px;
           letter-spacing: 1px;
           color: var(--secondary-s1-100);
         }
