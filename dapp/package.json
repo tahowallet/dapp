@@ -5,8 +5,9 @@
   "version": "1.0.0",
   "prettier": "@thesis/prettier-config",
   "scripts": {
-    "start": "webpack serve --mode=development",
-    "build": "webpack build --mode=production",
+    "start": "yarn write-types && webpack serve --mode=development",
+    "build": "yarn write-types && webpack build --mode=production",
+    "write-types": "node scripts/write-taho-types.mjs",
     "lint:eslint": "eslint .",
     "lint:fix:eslint": "eslint . --fix",
     "lint:config": "prettier -c '**/*.@(json|yaml|toml)'",
