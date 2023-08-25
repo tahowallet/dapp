@@ -6,7 +6,7 @@ import { getZoneData } from "../constants"
 import Modal from "../../shared/components/Modal"
 import Icon from "../../shared/components/Icon"
 import Button from "../../shared/components/Button"
-import TabPanel from "../../shared/TabPanel"
+import TabPanel from "../../shared/components/TabPanel"
 import Staking from "./Staking"
 import Leaderboard from "./Leaderboard"
 
