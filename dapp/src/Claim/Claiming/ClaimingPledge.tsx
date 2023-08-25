@@ -6,7 +6,7 @@ import earthIcon from "../../shared/assets/icons/earth.svg"
 import communityIcon from "../../shared/assets/icons/community.svg"
 import rulerIcon from "../../shared/assets/icons/ruler.svg"
 
-export default function ClaimingSignPledge() {
+export default function ClaimingPledge() {
   const location = useHistory()
 
   return (
