@@ -7,7 +7,7 @@ import Claiming from "./Claiming"
 import ClaimFinish from "./ClaimFinish"
 import { useConnect, useWallet } from "../shared/hooks"
 import { ClaimState, ClaimContext, DEFAULT_CLAIM_STATE } from "./hooks"
-import { getEligibility } from "./utils"
+import { getEligibility } from "../shared/utils"
 
 export default function Claim() {
   const { path } = useRouteMatch()
@@ -36,15 +36,18 @@ export default function Claim() {
   useEffect(() => {
     if (claimingAccount.userDetails.address) {
       const eligible = async () => {
-        const { isEligible, amount } = await getEligibility(
+        const { amount, proof, index } = await getEligibility(
           claimingAccount.userDetails.address
         )
 
         setClaimingAccount((prevState) => ({
           ...prevState,
           claimDetails: {
-            isEligible,
-            amount,
+            isEligible: amount > 0,
+            amount: Number(amount),
+            rawAmount: amount,
+            proof,
+            index,
           },
         }))
       }

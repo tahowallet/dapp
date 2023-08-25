@@ -3,7 +3,7 @@ import { formatUnits } from "ethers/lib/utils"
 import Button from "../../shared/components/Button"
 import SharedInput from "../../shared/components/Input"
 import { useWallet } from "../../shared/hooks"
-import { getBalance } from "../../shared/utils/erc20"
+import { getBalance } from "../../shared/contracts/erc20"
 
 export default function Staking() {
   const [stakeAmount, setStakeAmount] = useState("")
@@ -15,7 +15,7 @@ export default function Staking() {
       return
     }
 
-    getBalance(provider, CONTRACT_Taho, address).then((balance) =>
+    getBalance(provider, address).then((balance) =>
       // FIXME: This is just for testing
       // eslint-disable-next-line no-console
       console.log(formatUnits(balance, 18))
