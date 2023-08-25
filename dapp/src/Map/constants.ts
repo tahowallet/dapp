@@ -1,3 +1,4 @@
+import { nodePropertiesByZoneId } from "../shared/contracts/nodes"
 import { zone19, zone22, zone4, zone7, zone9 } from "./zones-data"
 
 export const MAP_BOX = {
@@ -5,7 +6,10 @@ export const MAP_BOX = {
   height: 3944,
 }
 
-export const zones = [zone4, zone7, zone9, zone19, zone22]
+export const zones = [zone4, zone7, zone9, zone19, zone22].map((zone) => ({
+  ...zone,
+  contract: nodePropertiesByZoneId[zone.id],
+}))
 
 export const ZONES_COUNT = zones.length
 

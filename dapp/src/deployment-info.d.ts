@@ -29,6 +29,8 @@ declare const CONTRACT_TAHOETHHuntingGroundDeployer: string
 
 declare const CONTRACT_GameParameters: string
 
+declare const CONTRACT_NodeMap: string
+
 declare const CONTRACT_DeFiNodeVeTaho: string
 
 declare const CONTRACT_CreatorsNodeVeTaho: string

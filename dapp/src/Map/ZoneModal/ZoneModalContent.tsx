@@ -90,7 +90,7 @@ export default function ZoneModalContent({ zoneId }: { zoneId: string }) {
               label: "Rewards",
               component: null, // TODO: <Rewards />
             },
-            { label: "Stake", component: <Staking /> },
+            { label: "Stake", component: <Staking zoneId={zoneId} /> },
             { label: "Leaderboard", component: <Leaderboard /> },
             {
               label: "Council",
