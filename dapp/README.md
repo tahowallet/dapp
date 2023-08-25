@@ -47,10 +47,10 @@ Instruction based on [the system tests readme](https://github.com/tahowallet/con
   - `nvm use`
   - `yarn install`
   - `yarn build`
-- Provide `.env` variables
+- Provide [`.envrc`](https://github.com/tahowallet/contracts/blob/main/system-tests/.envrc.SAMPLE) variables, make sure you have [Direnv](https://direnv.net/) installed
   ```bash
-  TAHO_DEPLOYER_PRIVATE_KEY="..." # mnemonic or first private key from `test test ... junk`
-  FORKING_URL="https://arb-mainnet.g.alchemy.com/v2/..."
+  export FORKING_URL="https://arb-mainnet.g.alchemy.com/v2/..."
+  export TAHO_DEPLOYER_PRIVATE_KEY="..." # mnemonic or first private key from `test test ... junk`
   ```
 - Open first terminal and run `yarn run test:fork_mainnet`
 - Open second terminal and run `yarn run deploy_taho`
