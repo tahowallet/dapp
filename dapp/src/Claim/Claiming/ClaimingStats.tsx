@@ -1,10 +1,12 @@
 import React from "react"
+import ClaimCheckRules from "../shared/ClaimCheckRules"
 import TahoAmount from "../../shared/components/TahoAmount"
 import { getZoneData } from "../../Map/constants"
 import Modal from "../../shared/components/Modal"
 import Icon from "../../shared/components/Icon"
 import infoIcon from "../../shared/assets/icons/m/info.svg"
 import { MapZoneCutout } from "../../Map/MapCutout"
+import Accordion from "../../shared/components/Accordion"
 
 const MOCK_ZONE = { population: "12,345", ...getZoneData("4") }
 
@@ -14,7 +16,9 @@ export default function ClaimingStats() {
       <div className="stats column">
         <div className="stats_header">You can claim</div>
         <TahoAmount amount={37000} />
-        <span>Criteria breakdown</span>
+        <Accordion title="Criteria breakdown">
+          <ClaimCheckRules type="small" />
+        </Accordion>
         <div className="line" />
         <div className="stats_header">Community Pledge</div>
         <span>-</span>
