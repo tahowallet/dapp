@@ -1,6 +1,6 @@
 export type Eligibility = {
   account: string
   amount: bigint
-  index: string | null
+  index: bigint | null
   proof: string[] | null
 }

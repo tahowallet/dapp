@@ -36,18 +36,15 @@ export default function Claim() {
   useEffect(() => {
     if (claimingAccount.userDetails.address) {
       const eligible = async () => {
-        const { amount, proof, index } = await getEligibility(
+        const eligibility = await getEligibility(
           claimingAccount.userDetails.address
         )
 
         setClaimingAccount((prevState) => ({
           ...prevState,
           claimDetails: {
-            isEligible: amount > 0,
-            amount: Number(amount),
-            rawAmount: amount,
-            proof,
-            index,
+            isEligible: eligibility.amount > 0,
+            eligibility,
           },
         }))
       }

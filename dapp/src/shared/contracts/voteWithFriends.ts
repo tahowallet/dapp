@@ -1,4 +1,5 @@
-import { providers } from "ethers"
+import { PopulatedTransaction, providers } from "ethers"
+import { Eligibility } from "../types"
 import {
   TahoDeployer__factory,
   VoteWithFriends__factory,
@@ -15,14 +16,14 @@ async function getVoteWithFriendsContract(provider: providers.Provider) {
   return VoteWithFriends__factory.connect(voteWithFriendsAddress, provider)
 }
 
-export async function claim(provider: providers.Provider, account: string) {
+export async function claim(
+  provider: providers.Provider,
+  account: string,
+  eligibility: Eligibility
+): Promise<PopulatedTransaction | null> {
+  if (eligibility.index === null || eligibility.proof === null) return null
+
   const voteWithFriends = await getVoteWithFriendsContract(provider)
-  // TODO
-  const eligibility = {
-    index: account,
-    amount: 100,
-    proof: ["0x0"],
-  }
 
   return voteWithFriends.populateTransaction.claim(
     eligibility.index,
@@ -35,16 +36,12 @@ export async function claim(provider: providers.Provider, account: string) {
 export async function claimWithCommunityCode(
   provider: providers.Provider,
   account: string,
-  //   elibibility: {}
+  eligibility: Eligibility,
   referralAccount: string
-) {
+): Promise<PopulatedTransaction | null> {
+  if (eligibility.index === null || eligibility.proof === null) return null
+
   const voteWithFriends = await getVoteWithFriendsContract(provider)
-  // TODO
-  const eligibility = {
-    index: account,
-    amount: 100,
-    proof: ["0000"],
-  }
 
   return voteWithFriends.populateTransaction.claimWithCommunityCode(
     eligibility.index,
@@ -57,10 +54,11 @@ export async function claimWithCommunityCode(
 
 export async function hasAlreadyClaimed(
   provider: providers.Provider,
-  account: string
-) {
-  const voteWithFriends = await getVoteWithFriendsContract(provider)
-  const eligibilityIndex = account // TODO
+  eligibility: Eligibility
+): Promise<boolean> {
+  if (eligibility.index === null || eligibility.proof === null) return false
 
-  return voteWithFriends.isClaimed(eligibilityIndex)
+  const voteWithFriends = await getVoteWithFriendsContract(provider)
+
+  return voteWithFriends.isClaimed(eligibility.index)
 }

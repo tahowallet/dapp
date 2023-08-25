@@ -104,7 +104,7 @@ export async function getEligibility(address: string): Promise<Eligibility> {
   if (isSameAddress(address, TEST_WALLET_ADDRESS)) {
     return {
       account: address,
-      index: "0x38",
+      index: BigInt("0x38"),
       amount: 100n,
       proof: TEST_WALLET_PROOF_MOCK,
     }
