@@ -1,17 +1,18 @@
 import classNames from "classnames"
 import React from "react"
+import { parseTahoAmount } from "../utils"
 import Icon from "./Icon"
 import lockIcon from "../assets/icons/s/lock.svg"
 import coinIcon from "../assets/taho-coin.svg"
 
 type TahoAmountProps = {
-  amount: number
+  amount: bigint
   hasBackground?: boolean
   size?: "small" | "large"
 }
 
 export default function TahoAmount({
-  amount = 0,
+  amount = 0n,
   hasBackground = false,
   size = "small",
 }: TahoAmountProps) {
@@ -24,7 +25,9 @@ export default function TahoAmount({
         })}
       >
         <div className="taho_coin" />
-        <span className="amount_value">{amount.toLocaleString()}</span>
+        <span className="amount_value">
+          {parseTahoAmount(amount).toLocaleString()}
+        </span>
         <span>TAHO</span>
         <Icon src={lockIcon} color="var(--semantic-attention)" />
       </div>
@@ -34,6 +37,7 @@ export default function TahoAmount({
             display: flex;
             flex: 1 0 auto;
             min-width: 0;
+            width: 100%;
             align-items: center;
             letter-spacing: 1px;
             color: var(--secondary-s1-100);
@@ -49,6 +53,8 @@ export default function TahoAmount({
             font-size: 52px;
             line-height: 42px;
             margin: 0 11px 0 35px;
+            text-align: right;
+            flex-grow: 1;
           }
           .small .amount_value {
             font-size: 42px;

@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import Modal from "../shared/components/Modal"
 import ClaimHeader from "./shared/ClaimHeader"
-import ClaimAmount from "../shared/components/TahoAmount"
+import TahoAmount from "../shared/components/TahoAmount"
 import iconConnected from "../shared/assets/icons/s/connected.svg"
 import Button from "../shared/components/Button"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
@@ -14,6 +14,7 @@ export default function ClaimCheckSuccess() {
   const { connect } = useConnect()
   const {
     userDetails: { name, isConnected },
+    claimDetails: { eligibility },
   } = useContext(ClaimContext)
 
   if (!isConnected && !name) {
@@ -23,7 +24,7 @@ export default function ClaimCheckSuccess() {
   return (
     <Modal.Container type="map-with-overlay">
       <Modal.Content>
-        <div className="success_container">
+        <div className="success_container column_center">
           <ClaimHeader
             season="Season 1"
             header="Congratulation!"
@@ -34,8 +35,12 @@ export default function ClaimCheckSuccess() {
               </>
             }
           />
-          <div className="column_center">
-            <ClaimAmount amount={327000} hasBackground size="large" />
+          <div className="success_amount_container column_center">
+            <TahoAmount
+              amount={eligibility.amount}
+              hasBackground
+              size="large"
+            />
             <ClaimCheckRules />
           </div>
 
@@ -67,6 +72,9 @@ export default function ClaimCheckSuccess() {
               flex-direction: column;
               padding: 40px 148px;
               gap: 40px;
+            }
+            .success_amount_container {
+              width: 432px;
             }
             .button_container {
               width: 555px;

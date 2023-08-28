@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import ClaimCheckRules from "../shared/ClaimCheckRules"
 import TahoAmount from "../../shared/components/TahoAmount"
 import { getZoneData } from "../../Map/constants"
@@ -7,15 +7,20 @@ import Icon from "../../shared/components/Icon"
 import infoIcon from "../../shared/assets/icons/m/info.svg"
 import { MapZoneCutout } from "../../Map/MapCutout"
 import Accordion from "../../shared/components/Accordion"
+import { ClaimContext } from "../hooks"
 
 const MOCK_ZONE = { population: "12,345", ...getZoneData("4") }
 
 export default function ClaimingStats() {
+  const {
+    claimDetails: { eligibility },
+  } = useContext(ClaimContext)
+
   return (
     <Modal.Content>
       <div className="stats column">
         <div className="stats_header">You can claim</div>
-        <TahoAmount amount={37000} />
+        <TahoAmount amount={eligibility.amount} />
         <Accordion title="Criteria breakdown">
           <ClaimCheckRules type="small" />
         </Accordion>

@@ -113,3 +113,7 @@ export async function getEligibility(address: string): Promise<Eligibility> {
   const hash = await getFileHashProspect(address)
   return getClaimFromFileHash(address, hash)
 }
+
+export function parseTahoAmount(amount: bigint): number {
+  return Number(amount) / 10 ** 18
+}
