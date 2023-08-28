@@ -48,8 +48,7 @@ function Container({
             }
           }}
           className={classNames("modal_background", {
-            overlay_light: type === "map-with-overlay",
-            overlay_dark: type === "fullscreen",
+            overlay: type === "map-with-overlay" || type === "fullscreen",
           })}
         />
         {children}
@@ -78,16 +77,10 @@ function Container({
               animation: fade_in 0.2s ease-in-out;
             }
 
-            .overlay_dark {
+            .overlay {
               --target-opacity: 0.8;
               background: var(--primary-p1-100);
               opacity: var(--target-opacity);
-            }
-
-            .overlay_light {
-              --target-opacity: 0.7;
-              opacity: var(--target-opacity);
-              background: var(--primary-p1-100);
             }
 
             .fullscreen {
