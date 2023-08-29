@@ -9,6 +9,7 @@ export type ClaimState = {
   }
   claimDetails: {
     isEligible: boolean
+    hasClaimed: boolean
     eligibility: Eligibility
   }
 }
@@ -21,6 +22,7 @@ export const DEFAULT_CLAIM_STATE: ClaimState = {
   },
   claimDetails: {
     isEligible: false,
+    hasClaimed: false,
     eligibility: {
       account: "",
       amount: 0n,

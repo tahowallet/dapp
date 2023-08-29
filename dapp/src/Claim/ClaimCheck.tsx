@@ -6,14 +6,11 @@ import Button from "../shared/components/Button"
 import ClaimHeader from "./shared/ClaimHeader"
 import Modal from "../shared/components/Modal"
 import Spinner from "../shared/components/Spinner"
-import { ClaimContext, ClaimState, DEFAULT_CLAIM_STATE } from "./hooks"
+import { ClaimContext, DEFAULT_CLAIM_STATE } from "./hooks"
 import { resolveNameToAddress } from "../shared/utils"
+import { ClaimProps } from "./types"
 
-export default function ClaimCheck({
-  setClaimingAccount,
-}: {
-  setClaimingAccount: React.Dispatch<React.SetStateAction<ClaimState>>
-}) {
+export default function ClaimCheck({ setClaimingAccount }: ClaimProps) {
   const history = useHistory()
   const [input, setInput] = useState("")
   const [debouncedInput, setDebouncedInput] = useDebounce("", 500)

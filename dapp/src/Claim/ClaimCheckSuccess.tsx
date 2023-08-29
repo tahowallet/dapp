@@ -10,7 +10,7 @@ import { ClaimContext } from "./hooks"
 import { useConnect } from "../shared/hooks"
 
 export default function ClaimCheckSuccess() {
-  const location = useHistory()
+  const history = useHistory()
   const { connect } = useConnect()
   const {
     userDetails: { name, isConnected },
@@ -35,15 +35,8 @@ export default function ClaimCheckSuccess() {
               </>
             }
           />
-          <div className="success_amount_container column_center">
-            <TahoAmount
-              amount={eligibility.amount}
-              hasBackground
-              size="large"
-            />
-            <ClaimCheckRules />
-          </div>
-
+          <TahoAmount amount={eligibility.amount} hasBackground size="large" />
+          <ClaimCheckRules />
           <div className="button_container">
             <Button
               type="primary"
@@ -56,7 +49,7 @@ export default function ClaimCheckSuccess() {
               {isConnected ? "Connected" : "Connect wallet"}
             </Button>
             <Button
-              onClick={() => location.push("/claim/claiming")}
+              onClick={() => history.push("/claim/claiming")}
               isDisabled={!isConnected}
               type="primary"
               size="large"
@@ -72,9 +65,6 @@ export default function ClaimCheckSuccess() {
               flex-direction: column;
               padding: 40px 148px;
               gap: 40px;
-            }
-            .success_amount_container {
-              width: 432px;
             }
             .button_container {
               width: 555px;

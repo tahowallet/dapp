@@ -37,7 +37,7 @@ export default function TahoAmount({
             display: flex;
             flex: 1 0 auto;
             min-width: 0;
-            width: 100%;
+            width: 432px;
             align-items: center;
             letter-spacing: 1px;
             color: var(--secondary-s1-100);
@@ -55,6 +55,9 @@ export default function TahoAmount({
             margin: 0 11px 0 35px;
             text-align: right;
             flex-grow: 1;
+          }
+          .small {
+            width: 100%;
           }
           .small .amount_value {
             font-size: 42px;

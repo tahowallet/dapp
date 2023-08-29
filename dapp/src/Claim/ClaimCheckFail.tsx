@@ -4,18 +4,25 @@ import ClaimHeader from "./shared/ClaimHeader"
 import Button from "../shared/components/Button"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 import Modal from "../shared/components/Modal"
-import { ClaimContext } from "./hooks"
+import { ClaimContext, DEFAULT_CLAIM_STATE } from "./hooks"
+import { useConnect } from "../shared/hooks"
+import { ClaimProps } from "./types"
 
-export default function ClaimCheckFail({
-  resetClaiming,
-}: {
-  resetClaiming: () => void
-}) {
+export default function ClaimCheckFail({ setClaimingAccount }: ClaimProps) {
   const history = useHistory()
+  const { disconnect } = useConnect()
+
   const {
     userDetails: { name, isConnected },
   } = useContext(ClaimContext)
 
+  const resetClaimingAccount = () => {
+    // disconnecting wallet because if it was connected then current
+    // account wasn't eligible anyway and keeping it connected would
+    // just confuse the user why they need to connect again to claim
+    disconnect()
+    setClaimingAccount(DEFAULT_CLAIM_STATE)
+  }
   if (!isConnected && !name) {
     return <Redirect to="/claim" />
   }
@@ -39,7 +46,7 @@ export default function ClaimCheckFail({
             type="primary"
             size="large"
             onClick={() => {
-              resetClaiming()
+              resetClaimingAccount()
               history.push("/claim")
             }}
           >
