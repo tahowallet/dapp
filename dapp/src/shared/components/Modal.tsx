@@ -2,9 +2,9 @@ import classNames from "classnames"
 import React from "react"
 
 import Portal from "./Portal"
-import { noop } from "../utils"
+import { filterUndefinedProps, noop } from "../utils"
 
-type ModalProps = {
+export type ModalProps = {
   children: React.ReactNode
   /**
    * - map-with-overlay: modal has a light overlay covering the map, navigation is accessible
@@ -14,7 +14,28 @@ type ModalProps = {
    * @default "freeform"
    */
   type?: "fullscreen" | "freeform" | "map-with-overlay" | "map-without-overlay"
+  /**
+   * @default "none"
+   */
+  overlay?: "light" | "dark" | "none"
+  /**
+   * @default "map"
+   */
+  positioning?: "map" | "fullscreen"
   onClickOutside?: () => void
+}
+
+const getVariantProps = (variant?: string) => {
+  switch (variant) {
+    case "fullscreen":
+      return { overlay: "dark", positioning: "fullscreen" }
+    case "map-with-overlay":
+      return { overlay: "light", positioning: "map" }
+    case "map-without-overlay":
+      return { overlay: "none", positioning: "map" }
+    default:
+      return {}
+  }
 }
 
 /**
@@ -24,13 +45,22 @@ function Container({
   children,
   type = "freeform",
   onClickOutside = noop,
+  ...rest
 }: ModalProps) {
+  const { overlay = "none", positioning = "map" } = {
+    ...getVariantProps(type),
+    // overrides
+    ...filterUndefinedProps({
+      overlay: rest.overlay,
+      positioning: rest.positioning,
+    }),
+  }
   return (
     <Portal>
       <div
-        className={classNames({
-          modal_overlay: type !== "freeform",
-          [type]: true,
+        className={classNames("modal_container", {
+          modal_layout: type !== "freeform",
+          [positioning]: true,
         })}
       >
         <div
@@ -48,14 +78,14 @@ function Container({
             }
           }}
           className={classNames("modal_background", {
-            overlay_light: type === "map-with-overlay",
-            overlay_dark: type === "fullscreen",
+            overlay_light: overlay === "light",
+            overlay_dark: overlay === "dark",
           })}
         />
         {children}
         <style jsx>
           {`
-            .modal_overlay {
+            .modal_container {
               position: absolute;
               top: 0;
               left: 0;
@@ -63,11 +93,13 @@ function Container({
               right: 0;
               width: 100vw;
               height: 100vh;
+            }
+
+            .modal_layout {
               display: flex;
               align-items: center;
               justify-content: center;
               overflow: hidden;
-              z-index: var(--z-modal-map);
             }
 
             .modal_background {
@@ -90,6 +122,10 @@ function Container({
               background: var(--primary-p1-100);
             }
 
+            // positioning
+            .map {
+              z-index: var(--z-modal-map);
+            }
             .fullscreen {
               z-index: var(--z-modal-overlay);
             }
