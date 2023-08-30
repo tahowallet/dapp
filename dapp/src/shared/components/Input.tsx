@@ -34,7 +34,7 @@ export default function SharedInput({
         <input
           type="text"
           value={value}
-          placeholder=""
+          placeholder=" "
           disabled={disabled}
           onChange={(e) => {
             const newValue = validate(e.target.value)
