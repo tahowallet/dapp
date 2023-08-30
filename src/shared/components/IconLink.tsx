@@ -1,51 +1,45 @@
-import { css } from "linaria"
-import React, { CSSProperties } from "react"
+import React from "react"
 
 export default function IconLink({
   href,
-  icon,
+  iconWidth,
+  iconHeight,
+  iconSrc,
 }: {
   href: string
-  icon: {
-    width: string
-    height: string
-    src: string
-    hoverSrc: string
-    activeSrc: string
-  }
+  iconWidth: string
+  iconHeight: string
+  iconSrc: string
 }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      style={
-        {
-          "--icon-width": icon.width,
-          "--icon-height": icon.height,
-          "--icon-src": icon.src,
-          "--icon-active-src": icon.activeSrc,
-          "--icon-hover-src": icon.hoverSrc,
-        } as CSSProperties
-      }
-      className={css`
-        display: block;
-        position: relative;
-        flex: 0 0 auto;
-        margin: 0 1rem;
-        background-repeat: no-repeat;
-        width: 28px;
-        height: 28px;
-        background: no-repeat center / contain var(--icon-src);
-
-        &:hover {
-          background: no-repeat center / contain var(--icon-hover-src);
+    <>
+      <a href={href} target="_blank" className="link" rel="noreferrer">
+        <div className="link_icon" />
+      </a>
+      <style jsx>{`
+        .link {
+          display: block;
+          flex: 0 0 auto;
         }
 
-        &:active {
-          background: no-repeat center / contain var(--icon-active-src);
+        .link_icon {
+          width: ${iconWidth};
+          height: ${iconHeight ?? iconWidth};
+          -webkit-mask-image: url(${iconSrc});
+          mask-image: url(${iconSrc});
+          -webkit-mask-size: cover;
+          mask-size: cover;
+          background-color: var(--off-white);
         }
-      `}
-      rel="noreferrer"
-    />
+
+        .link:hover .link_icon {
+          background-color: var(--off-white); // TODO
+        }
+
+        .link_icon:active .link_icon {
+          background-color: var(--off-white); // TODO
+        }
+      `}</style>
+    </>
   )
 }
