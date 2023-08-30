@@ -72,7 +72,8 @@ export default function Button({
             font-style: normal;
             letter-spacing: 0.5px;
             box-sizing: border-box;
-            transition: all 50ms;
+            // FIXME: gradients do not support transitions
+            transition: all 300ms ease-out;
             gap: 8px;
           }
 
