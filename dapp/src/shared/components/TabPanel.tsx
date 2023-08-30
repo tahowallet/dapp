@@ -3,10 +3,12 @@ import classnames from "classnames"
 
 export default function TabPanel({
   tabs,
+  initialActive = 0,
 }: {
   tabs: { label: string; component: React.ReactNode }[]
+  initialActive?: number
 }) {
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState(initialActive)
   return (
     <div>
       <ul>
