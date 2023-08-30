@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 
+import { useWallet } from "shared/hooks"
 import { getZoneData } from "../Map/constants"
-import { useWallet } from "../shared/hooks"
 import AccountDropdown from "./AccountDropdown"
 
 const regionMock = { name: "KryptoKeep", id: "4" }

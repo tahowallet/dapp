@@ -1,6 +1,6 @@
 import React from "react"
 import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom"
-import Modal from "../../shared/components/Modal"
+import Modal from "shared/components/Modal"
 import ClaimingPledge from "./ClaimingPledge"
 import ClaimingSignTx from "./ClaimingSignTx"
 import ClaimingSteps from "./ClaimingSteps"

@@ -1,6 +1,6 @@
 import React from "react"
 import { NavLink } from "react-router-dom"
-import crossIcon from "../shared/assets/icons/cross.svg"
+import crossIcon from "shared/assets/icons/cross.svg"
 
 /**
  * This Link is specific to the NavItem component

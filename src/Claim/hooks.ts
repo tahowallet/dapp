@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import { Eligibility } from "../shared/types"
+import { Eligibility } from "shared/types"
 
 export type ClaimState = {
   userDetails: {

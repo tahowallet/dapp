@@ -2,13 +2,13 @@ import React, { useState } from "react"
 import classNames from "classnames"
 import { keccak256 } from "ethers/lib/utils"
 
-import Icon from "../../shared/components/Icon"
-import iconSearch from "../../shared/assets/icons/m/search.svg"
-import crossIcon from "../../shared/assets/icons/plus.svg"
+import Icon from "shared/components/Icon"
+import iconSearch from "shared/assets/icons/m/search.svg"
+import crossIcon from "shared/assets/icons/plus.svg"
 
-import SharedInput from "../../shared/components/Input"
+import SharedInput from "shared/components/Input"
 
-import { truncateAddress } from "../../shared/utils"
+import { truncateAddress } from "shared/utils"
 
 const mockData = new Array(10)
   .fill({ address: "0", xp: 240e3 })

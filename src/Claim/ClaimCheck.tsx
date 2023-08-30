@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react"
 import classNames from "classnames"
 import { Redirect, useHistory } from "react-router-dom"
-import { useDebounce } from "../shared/hooks/helpers"
-import Button from "../shared/components/Button"
+import { useDebounce } from "shared/hooks/helpers"
+import Button from "shared/components/Button"
+import Modal from "shared/components/Modal"
+import Spinner from "shared/components/Spinner"
+import { resolveNameToAddress } from "shared/utils"
 import ClaimHeader from "./shared/ClaimHeader"
-import Modal from "../shared/components/Modal"
-import Spinner from "../shared/components/Spinner"
 import { ClaimContext, DEFAULT_CLAIM_STATE } from "./hooks"
 import { ClaimProps } from "./types"
-import { resolveNameToAddress } from "../shared/utils"
 
 export default function ClaimCheck({ setClaimingAccount }: ClaimProps) {
   const history = useHistory()

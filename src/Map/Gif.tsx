@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from "react"
 import { Image } from "react-konva"
 import type Konva from "konva"
 import "gifler"
-import { isBrowser } from "../shared/utils"
+import { isBrowser } from "shared/utils"
 
 type GifProps = {
   src: string

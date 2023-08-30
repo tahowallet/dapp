@@ -17,6 +17,7 @@ const config: Configuration = {
     clean: true,
   },
   resolve: {
+    modules: [path.resolve(__dirname, "src"), "node_modules"],
     extensions: [".tsx", ".ts", ".js"],
     preferAbsolute: true,
     alias: {

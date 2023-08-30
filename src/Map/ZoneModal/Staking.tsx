@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { formatUnits } from "ethers/lib/utils"
-import Button from "../../shared/components/Button"
-import SharedInput from "../../shared/components/Input"
-import { useWallet } from "../../shared/hooks"
-import { getBalance } from "../../shared/contracts/erc20"
+import Button from "shared/components/Button"
+import SharedInput from "shared/components/Input"
+import { useWallet } from "shared/hooks"
+import { getBalance } from "shared/contracts/erc20"
 
 export default function Staking() {
   const [stakeAmount, setStakeAmount] = useState("")

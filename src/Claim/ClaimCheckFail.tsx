@@ -1,11 +1,11 @@
 import React, { useContext } from "react"
 import { Redirect, useHistory } from "react-router-dom"
+import Button from "shared/components/Button"
+import Modal from "shared/components/Modal"
+import { useConnect } from "shared/hooks"
 import ClaimHeader from "./shared/ClaimHeader"
-import Button from "../shared/components/Button"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
-import Modal from "../shared/components/Modal"
 import { ClaimContext, DEFAULT_CLAIM_STATE } from "./hooks"
-import { useConnect } from "../shared/hooks"
 import { ClaimProps } from "./types"
 
 export default function ClaimCheckFail({ setClaimingAccount }: ClaimProps) {

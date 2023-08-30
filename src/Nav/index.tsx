@@ -1,11 +1,11 @@
 import React from "react"
 
-import Button from "../shared/components/Button"
-import logoIcon from "../shared/assets/nav_logo.svg"
-import walletIcon from "../shared/assets/icons/wallet.svg"
+import Button from "shared/components/Button"
+import logoIcon from "shared/assets/nav_logo.svg"
+import walletIcon from "shared/assets/icons/wallet.svg"
+import { useConnect } from "shared/hooks"
 import NavItem from "./NavItem"
 import AccountInfo from "./AccountInfo"
-import { useConnect } from "../shared/hooks"
 
 const NAV_ITEMS = [
   {

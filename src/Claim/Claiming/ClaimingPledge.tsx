@@ -1,10 +1,10 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Button from "../../shared/components/Button"
-import Icon from "../../shared/components/Icon"
-import earthIcon from "../../shared/assets/icons/earth.svg"
-import communityIcon from "../../shared/assets/icons/community.svg"
-import rulerIcon from "../../shared/assets/icons/ruler.svg"
+import Button from "shared/components/Button"
+import Icon from "shared/components/Icon"
+import earthIcon from "shared/assets/icons/earth.svg"
+import communityIcon from "shared/assets/icons/community.svg"
+import rulerIcon from "shared/assets/icons/ruler.svg"
 
 export default function ClaimingPledge() {
   const location = useHistory()

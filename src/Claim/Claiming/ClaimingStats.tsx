@@ -1,12 +1,12 @@
 import React, { useContext } from "react"
+import TahoAmount from "shared/components/TahoAmount"
+import Modal from "shared/components/Modal"
+import Icon from "shared/components/Icon"
+import infoIcon from "shared/assets/icons/m/info.svg"
+import Accordion from "shared/components/Accordion"
 import ClaimCheckRules from "../shared/ClaimCheckRules"
-import TahoAmount from "../../shared/components/TahoAmount"
-import { getZoneData } from "../../Map/constants"
-import Modal from "../../shared/components/Modal"
-import Icon from "../../shared/components/Icon"
-import infoIcon from "../../shared/assets/icons/m/info.svg"
 import { MapZoneCutout } from "../../Map/MapCutout"
-import Accordion from "../../shared/components/Accordion"
+import { getZoneData } from "../../Map/constants"
 import { ClaimContext } from "../hooks"
 
 const MOCK_ZONE = { population: "12,345", ...getZoneData("4") }

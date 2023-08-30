@@ -8,7 +8,7 @@ import {
 
 import { zones } from "../constants"
 
-import Modal from "../../shared/components/Modal"
+import Modal from "shared/components/Modal"
 import ZoneModalContent from "./ZoneModalContent"
 
 function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {

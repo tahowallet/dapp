@@ -1,7 +1,7 @@
 import React from "react"
 import { ethers } from "ethers"
-import { useWallet, useConnect, useSendTransaction } from "../shared/hooks"
-import Button from "../shared/components/Button"
+import { useWallet, useConnect, useSendTransaction } from "shared/hooks"
+import Button from "shared/components/Button"
 
 export default function AccountDropdown() {
   const { address, truncatedAddress } = useWallet()

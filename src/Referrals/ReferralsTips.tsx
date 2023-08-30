@@ -1,6 +1,6 @@
 import React from "react"
-import lightIcon from "../shared/assets/icons/m/light.svg"
-import Icon from "../shared/components/Icon"
+import lightIcon from "shared/assets/icons/m/light.svg"
+import Icon from "shared/components/Icon"
 
 export default function ReferralsTips() {
   return (

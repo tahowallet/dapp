@@ -3,16 +3,16 @@ import React from "react"
 import { MapZoneCutout, MapZoneBackgroundCutout } from "../MapCutout"
 import { getZoneData } from "../constants"
 
-import Modal from "../../shared/components/Modal"
-import Icon from "../../shared/components/Icon"
-import Button from "../../shared/components/Button"
-import TabPanel from "../../shared/components/TabPanel"
+import Modal from "shared/components/Modal"
+import Icon from "shared/components/Icon"
+import Button from "shared/components/Button"
+import TabPanel from "shared/components/TabPanel"
 import Staking from "./Staking"
 import Leaderboard from "./Leaderboard"
 
-import iconCommunity from "../../shared/assets/icons/people.svg"
-import iconStar from "../../shared/assets/icons/star.svg"
-import walletIcon from "../../shared/assets/icons/wallet.svg"
+import iconCommunity from "shared/assets/icons/people.svg"
+import iconStar from "shared/assets/icons/star.svg"
+import walletIcon from "shared/assets/icons/wallet.svg"
 
 export const mockData = {
   details:

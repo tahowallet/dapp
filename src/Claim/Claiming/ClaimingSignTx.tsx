@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react"
 import { Redirect } from "react-router-dom"
 import { ClaimContext } from "../hooks"
-import { claim } from "../../shared/contracts"
-import Icon from "../../shared/components/Icon"
-import Button from "../../shared/components/Button"
-import lockIcon from "../../shared/assets/icons/s/lock.svg"
-import { useSendTransaction, useWallet } from "../../shared/hooks"
+import { claim } from "shared/contracts"
+import Icon from "shared/components/Icon"
+import Button from "shared/components/Button"
+import lockIcon from "shared/assets/icons/s/lock.svg"
+import { useSendTransaction, useWallet } from "shared/hooks"
 
 export default function ClaimingSignTx() {
   const { provider, address } = useWallet()

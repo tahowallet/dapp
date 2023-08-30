@@ -3,6 +3,11 @@ module.exports = {
   extends: ["@thesis-co"],
   settings: {
     "import/core-modules": ["styled-jsx/css"],
+    "import/resolver": {
+      node: {
+        paths: ["src"],
+      },
+    },
   },
   env: {
     browser: true,

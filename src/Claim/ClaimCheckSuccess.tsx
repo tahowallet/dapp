@@ -1,13 +1,13 @@
 import React, { useContext } from "react"
 import { Redirect, useHistory } from "react-router-dom"
-import Modal from "../shared/components/Modal"
-import ClaimHeader from "./shared/ClaimHeader"
-import TahoAmount from "../shared/components/TahoAmount"
-import iconConnected from "../shared/assets/icons/s/connected.svg"
-import Button from "../shared/components/Button"
+import Modal from "shared/components/Modal"
+import TahoAmount from "shared/components/TahoAmount"
+import iconConnected from "shared/assets/icons/s/connected.svg"
+import Button from "shared/components/Button"
+import { useConnect } from "shared/hooks"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 import { ClaimContext } from "./hooks"
-import { useConnect } from "../shared/hooks"
+import ClaimHeader from "./shared/ClaimHeader"
 
 export default function ClaimCheckSuccess() {
   const history = useHistory()

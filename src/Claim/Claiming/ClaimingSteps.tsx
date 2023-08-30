@@ -1,10 +1,10 @@
 import React from "react"
 import classNames from "classnames"
-import Icon from "../../shared/components/Icon"
-import iconNotifCorrect from "../../shared/assets/icons/s/notif-correct.svg"
-import iconStatusCurrent from "../../shared/assets/icons/s/status-current.svg"
-import iconStatusUpcoming from "../../shared/assets/icons/s/status-upcoming.svg"
-import iconStatusOptional from "../../shared/assets/icons/s/status-optional.svg"
+import Icon from "shared/components/Icon"
+import iconNotifCorrect from "shared/assets/icons/s/notif-correct.svg"
+import iconStatusCurrent from "shared/assets/icons/s/status-current.svg"
+import iconStatusUpcoming from "shared/assets/icons/s/status-upcoming.svg"
+import iconStatusOptional from "shared/assets/icons/s/status-optional.svg"
 
 type ClaimingStatus = "done" | "current" | "upcoming" | "optional"
 

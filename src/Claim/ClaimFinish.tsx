@@ -1,9 +1,9 @@
 import React, { useContext } from "react"
 import { useHistory } from "react-router-dom"
+import TahoAmount from "shared/components/TahoAmount"
+import Button from "shared/components/Button"
+import Modal from "shared/components/Modal"
 import ClaimHeader from "./shared/ClaimHeader"
-import TahoAmount from "../shared/components/TahoAmount"
-import Button from "../shared/components/Button"
-import Modal from "../shared/components/Modal"
 import { ClaimContext } from "./hooks"
 
 export default function ClaimFinish() {
