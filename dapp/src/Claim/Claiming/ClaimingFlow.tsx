@@ -1,7 +1,7 @@
 import React from "react"
 import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom"
 import Modal from "../../shared/components/Modal"
-import ClaimingSignPledge from "./ClaimingSignPledge"
+import ClaimingPledge from "./ClaimingPledge"
 import ClaimingSignTx from "./ClaimingSignTx"
 import ClaimingSteps from "./ClaimingSteps"
 
@@ -14,7 +14,7 @@ export default function ClaimingFlow() {
         <Switch>
           <Route path={`${path}/pledge`}>
             <ClaimingSteps currentStep="Community Pledge" />
-            <ClaimingSignPledge />
+            <ClaimingPledge />
           </Route>
           <Route path={`${path}/sign`}>
             <ClaimingSteps currentStep="Claim" />

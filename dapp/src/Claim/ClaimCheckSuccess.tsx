@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import Modal from "../shared/components/Modal"
 import ClaimHeader from "./shared/ClaimHeader"
-import ClaimAmount from "../shared/components/TahoAmount"
+import TahoAmount from "../shared/components/TahoAmount"
 import iconConnected from "../shared/assets/icons/s/connected.svg"
 import Button from "../shared/components/Button"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
@@ -10,10 +10,11 @@ import { ClaimContext } from "./hooks"
 import { useConnect } from "../shared/hooks"
 
 export default function ClaimCheckSuccess() {
-  const location = useHistory()
+  const history = useHistory()
   const { connect } = useConnect()
   const {
     userDetails: { name, isConnected },
+    claimDetails: { eligibility },
   } = useContext(ClaimContext)
 
   if (!isConnected && !name) {
@@ -23,7 +24,7 @@ export default function ClaimCheckSuccess() {
   return (
     <Modal.Container type="map-with-overlay">
       <Modal.Content>
-        <div className="success_container">
+        <div className="success_container column_center">
           <ClaimHeader
             season="Season 1"
             header="Congratulation!"
@@ -34,11 +35,8 @@ export default function ClaimCheckSuccess() {
               </>
             }
           />
-          <div className="column_center">
-            <ClaimAmount amount={327000} hasBackground size="large" />
-            <ClaimCheckRules />
-          </div>
-
+          <TahoAmount amount={eligibility.amount} hasBackground size="large" />
+          <ClaimCheckRules />
           <div className="button_container">
             <Button
               type="primary"
@@ -51,7 +49,7 @@ export default function ClaimCheckSuccess() {
               {isConnected ? "Connected" : "Connect wallet"}
             </Button>
             <Button
-              onClick={() => location.push("/claim/claiming")}
+              onClick={() => history.push("/claim/claiming")}
               isDisabled={!isConnected}
               type="primary"
               size="large"

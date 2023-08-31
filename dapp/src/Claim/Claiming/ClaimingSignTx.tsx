@@ -1,11 +1,35 @@
-import React from "react"
-import { useHistory } from "react-router-dom"
+import React, { useContext, useState } from "react"
+import { Redirect } from "react-router-dom"
+import { ClaimContext } from "../hooks"
+import { claim } from "../../shared/contracts"
 import Icon from "../../shared/components/Icon"
 import Button from "../../shared/components/Button"
 import lockIcon from "../../shared/assets/icons/s/lock.svg"
+import { useSendTransaction, useWallet } from "../../shared/hooks"
 
 export default function ClaimingSignTx() {
-  const location = useHistory()
+  const { provider, address } = useWallet()
+  const { send, isReady } = useSendTransaction()
+  const [hasSigned, setHasSigned] = useState(false)
+
+  const {
+    claimDetails: { isEligible, eligibility },
+  } = useContext(ClaimContext)
+
+  const signClaim = async () => {
+    if (isEligible && provider && address) {
+      const claimTx = await claim(provider, address, eligibility)
+      const receipt = await send(claimTx)
+
+      if (receipt) {
+        setHasSigned(true)
+      }
+    }
+  }
+
+  if (hasSigned) {
+    return <Redirect to="/claim/finish" />
+  }
 
   return (
     <>
@@ -58,9 +82,10 @@ export default function ClaimingSignTx() {
 
         <div className="button_container row">
           <Button
-            onClick={() => location.push("/claim/finish")}
+            onClick={signClaim}
             type="primary"
             size="large"
+            isDisabled={!isReady}
           >
             Claim TAHO
           </Button>

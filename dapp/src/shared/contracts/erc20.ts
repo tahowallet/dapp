@@ -42,10 +42,9 @@ export const ERC20_ABI = Object.values<Fragment>(ERC20_FUNCTIONS).concat(
  */
 export async function getBalance(
   provider: providers.Provider,
-  tokenAddress: string,
   account: string
 ): Promise<bigint> {
-  const token = new Contract(tokenAddress, ERC20_ABI, provider)
+  const token = new Contract(CONTRACT_Taho, ERC20_ABI, provider)
 
   return BigInt((await token.balanceOf(account)).toString())
 }

@@ -1,4 +1,5 @@
 import { createContext } from "react"
+import { Eligibility } from "../shared/types"
 
 export type ClaimState = {
   userDetails: {
@@ -8,7 +9,8 @@ export type ClaimState = {
   }
   claimDetails: {
     isEligible: boolean
-    amount: number
+    hasClaimed: boolean
+    eligibility: Eligibility
   }
 }
 
@@ -20,7 +22,13 @@ export const DEFAULT_CLAIM_STATE: ClaimState = {
   },
   claimDetails: {
     isEligible: false,
-    amount: 0,
+    hasClaimed: false,
+    eligibility: {
+      account: "",
+      amount: 0n,
+      proof: null,
+      index: null,
+    },
   },
 }
 

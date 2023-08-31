@@ -86,13 +86,22 @@ export function useSendTransaction() {
   const signer = provider.getSigner()
 
   const send = async (
-    txDetails: Partial<ethers.providers.TransactionRequest>
-  ) =>
-    signer.sendTransaction({
-      from: address,
-      nonce: await provider.getTransactionCount(address, "latest"),
-      ...txDetails,
-    })
+    txDetails: Partial<ethers.providers.TransactionRequest> | null
+  ): Promise<ethers.providers.TransactionReceipt | null> => {
+    if (!txDetails) return null
+
+    try {
+      const transaction = await signer.sendTransaction({
+        from: address,
+        nonce: await provider.getTransactionCount(address, "latest"),
+        ...txDetails,
+      })
+      const receipt = await transaction.wait()
+      return receipt
+    } catch (e) {
+      return null
+    }
+  }
 
   return { isReady: true, send }
 }

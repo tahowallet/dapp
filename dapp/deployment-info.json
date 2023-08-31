@@ -1,94 +1,102 @@
 [
   {
     "name": "TahoDeployer",
-    "expectedAddress": "0xeAdd07E7180630300e1D2e05fecf292474301012"
+    "expectedAddress": "0x1391e6e4aEa2954C2490E04919d59129D658BE29"
   },
   {
     "name": "Taho",
-    "expectedAddress": "0x8D83A17354eeA79cDB9b1A0798F4f50aCE9a3812"
+    "expectedAddress": "0x20C16c71eE7cDd338f3A2a07e5b636914e0b5030"
   },
   {
     "name": "TimelockDeployer",
-    "expectedAddress": "0xae23bcCE1c5Ea4d4C484b6A0C99A4719D1b73aE7"
+    "expectedAddress": "0x819A1d8165950Be3df4d96B1e33bFb613c28D050"
   },
   {
     "name": "TahoGovernorBravoDelegate",
-    "expectedAddress": "0xE28d32046d4fbDde2066B3199153053E1Ae27B49"
+    "expectedAddress": "0x8Cf0232aB45B87e097568E3C0B334d3FB484C290"
   },
   {
     "name": "TahoGovernorBravoDelegator",
-    "expectedAddress": "0xAA02578C1F9006766063af3c16aa1036e0ee9F4d"
+    "expectedAddress": "0x6A3a3094846B71ABA37A13109648fa22b03f04bB"
   },
   {
     "name": "ApprovalTarget",
-    "expectedAddress": "0x144Bd5F8b08cb75aa1DE2b4398445D6eBb8Af607"
+    "expectedAddress": "0x5578b62461FC9B6FEB9cDebfa93dC28aA17c7553"
   },
   {
     "name": "VoteWithFriendsDeployer",
-    "expectedAddress": "0x2ffEBfbe0091e6af124A9d6d332158ea9cd5773C"
+    "expectedAddress": "0x6D827f13433d9c88efE6A741659c49E7263fE714"
   },
   {
-    "name": "BalancerDeployer",
-    "expectedAddress": "0xc0780ee17a806BFcf61d593438B726b59291f977"
+    "name": "BalancerPoolDeployer",
+    "expectedAddress": "0x0650c4aE181497E54E700cBf26AeE8A9b15d7F0F"
+  },
+  {
+    "name": "BalancerPoolAgentDeployer",
+    "expectedAddress": "0x25D0C080F32B764A3092c99A608A58F26Bb6dCd6"
   },
   {
     "name": "MerkleFactoryDeployer",
-    "expectedAddress": "0x036be3Fe1c2Bb719c5FB9Fb54898f216B18853eC"
+    "expectedAddress": "0x2dA6fC5Bf82f2d7F5BfAe2603D859c7d204E3D48"
   },
   {
     "name": "TreasuryVesterDeployer",
-    "expectedAddress": "0xc3bc1F1689665Ee668c896acF9090286FEa20b7E"
+    "expectedAddress": "0xecBC31A6407845e6b9AB55D23b6060Ac1d100084"
   },
   {
     "name": "HuntingGroundRegistry",
-    "expectedAddress": "0x196c7328e1F7E86BdcA96Cc4384fd392221677e9"
+    "expectedAddress": "0x9Af917c0133D1300243872Bd66418F7c4a1168a7"
   },
   {
     "name": "TAHOETHHuntingGroundDeployer",
-    "expectedAddress": "0x07318733e7BdE8A7D014c88cb18A1660fBc5CF86"
+    "expectedAddress": "0x6061fE33D1530B955B401e3c69170C7c78890958"
   },
   {
     "name": "GameParameters",
-    "expectedAddress": "0xB32A2532f117E32a5af24908DA5144a828b14c91"
+    "expectedAddress": "0xC6c383D6a0d15aEeE5c0f2FC7045D65b7CB129a6"
+  },
+  {
+    "name": "NodeMap",
+    "expectedAddress": "0x4429B43414A045C542E32e87EBBF8Ccc2E58bD5b"
   },
   {
     "name": "DeFiNodeVeTaho",
-    "expectedAddress": "0xD5AD51C15a42fec17773E411c9eDE960B2250dcf"
+    "expectedAddress": "0xA4EDad85B584cC68Bb71Da60A0989F3bDb3A0d21"
   },
   {
     "name": "CreatorsNodeVeTaho",
-    "expectedAddress": "0x7feD870032753d9E77db59eF407E556b5A8667fF"
+    "expectedAddress": "0xcD2fCFcDA9b7031818dB4fc3236576ca1ccDBd56"
   },
   {
     "name": "SocialNodeVeTaho",
-    "expectedAddress": "0x9C890C2f8F92209C81cd3BE365Efe2b591BDC741"
+    "expectedAddress": "0x8D9bd113BE3DAC996335662f85EB81b0dF4E6E4e"
   },
   {
     "name": "EducateNodeVeTaho",
-    "expectedAddress": "0xc915348bF302E645E5A8C37e23f5B2C61B1CbA92"
+    "expectedAddress": "0xa45e074A57cB6032d4eBf746a6D4965036cF84f0"
   },
   {
     "name": "VampireNodeVeTaho",
-    "expectedAddress": "0x4D58804a9B12F3e85379fD6AA891D420f3E72991"
+    "expectedAddress": "0x0F606bfc178554658F01ff13A35260A0CCe92116"
   },
   {
     "name": "DeFiNodeDeployer",
-    "expectedAddress": "0x22B919459051BcBa1995EEB316b9838703cc2f84"
+    "expectedAddress": "0x64c22eA288D403e95d3c0E9D98f8aaB874A6b89c"
   },
   {
     "name": "CreatorsNodeDeployer",
-    "expectedAddress": "0x9DC2Ec7a2f95315daD267cC0AC0095BE32D921e1"
+    "expectedAddress": "0x3AD316997bf3A8836Fa53B180bACA2Ab60b0eBD2"
   },
   {
     "name": "SocialNodeDeployer",
-    "expectedAddress": "0xdAA7e4f4a85CB3fe65309F3Afd2F49Bfd1F33E30"
+    "expectedAddress": "0x0ca0bE8CfA8Db7f6dDB48c8650f8635741100279"
   },
   {
     "name": "EducateNodeDeployer",
-    "expectedAddress": "0x37f72E225324B2885592dAaeD2ea9aeB21b63cB6"
+    "expectedAddress": "0x763f940944C895cA2FF37ea69298F8574B094fFE"
   },
   {
     "name": "VampireNodeDeployer",
-    "expectedAddress": "0x4E9b83bd2519f2e49945b2F8b9DEaBc925e162D5"
+    "expectedAddress": "0x7bbB46aAC150Af8288aeC4b87Cab664E32f60CAe"
   }
 ]

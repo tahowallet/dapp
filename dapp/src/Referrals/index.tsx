@@ -76,7 +76,7 @@ export default function Referrals() {
             <div className="referrals_tip_header">
               Total bonus received so far
             </div>
-            <TahoAmount amount={0} size="small" hasBackground />
+            <TahoAmount amount={0n} size="small" hasBackground />
             {isConnected ? <ReferralsLeaderboard /> : <ReferralsTips />}
           </div>
         </div>

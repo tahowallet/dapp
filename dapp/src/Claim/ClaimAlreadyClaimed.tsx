@@ -1,12 +1,12 @@
 import React, { useContext } from "react"
 import { useHistory } from "react-router-dom"
-import ClaimHeader from "./shared/ClaimHeader"
-import TahoAmount from "../shared/components/TahoAmount"
 import Button from "../shared/components/Button"
 import Modal from "../shared/components/Modal"
+import TahoAmount from "../shared/components/TahoAmount"
 import { ClaimContext } from "./hooks"
+import ClaimHeader from "./shared/ClaimHeader"
 
-export default function ClaimFinish() {
+export default function ClaimAlreadyClaimed() {
   const location = useHistory()
   const {
     claimDetails: { eligibility },
@@ -15,22 +15,21 @@ export default function ClaimFinish() {
   return (
     <Modal.Container type="map-without-overlay">
       <Modal.Content>
-        <div className="finish_container column_center">
-          <ClaimHeader header="You have landed" subheader="You just claimed:" />
+        <div className="claimed_container column_center">
+          <ClaimHeader header="Already claimed" />
           <TahoAmount amount={eligibility.amount} hasBackground size="large" />
           <div className="button_container column_center">
-            <div>Shall we start the game?</div>
             <Button
-              onClick={() => location.push("/")}
+              onClick={() => location.push("/referrals")}
               type="primary"
               size="large"
             >
-              Go to map & choose region
+              Take me to Referrals
             </Button>
           </div>
         </div>
         <style jsx>{`
-          .finish_container {
+          .claimed_container {
             padding: 48px;
             width: 720px;
             gap: 48px;

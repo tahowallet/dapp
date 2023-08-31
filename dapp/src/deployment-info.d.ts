@@ -17,7 +17,9 @@ declare const CONTRACT_ApprovalTarget: string
 
 declare const CONTRACT_VoteWithFriendsDeployer: string
 
-declare const CONTRACT_BalancerDeployer: string
+declare const CONTRACT_BalancerPoolDeployer: string
+
+declare const CONTRACT_BalancerPoolAgentDeployer: string
 
 declare const CONTRACT_MerkleFactoryDeployer: string
 
@@ -28,6 +30,8 @@ declare const CONTRACT_HuntingGroundRegistry: string
 declare const CONTRACT_TAHOETHHuntingGroundDeployer: string
 
 declare const CONTRACT_GameParameters: string
+
+declare const CONTRACT_NodeMap: string
 
 declare const CONTRACT_DeFiNodeVeTaho: string
 
