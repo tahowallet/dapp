@@ -1,19 +1,17 @@
-import { PopulatedTransaction, providers } from "ethers"
+import { Contract, PopulatedTransaction, providers } from "ethers"
 import { Eligibility } from "../types"
-import {
-  TahoDeployer__factory,
-  VoteWithFriends__factory,
-} from "../../../typechain"
+import { tahoDeployerAbi, voteWithFriendsAbi } from "./abi"
 
 async function getVoteWithFriendsContract(provider: providers.Provider) {
-  const tahoDeployer = TahoDeployer__factory.connect(
+  const tahoDeployer = new Contract(
     CONTRACT_TahoDeployer,
+    tahoDeployerAbi,
     provider
   )
 
   const voteWithFriendsAddress = await tahoDeployer.VOTE_WITH_FRIENDS()
 
-  return VoteWithFriends__factory.connect(voteWithFriendsAddress, provider)
+  return new Contract(voteWithFriendsAddress, voteWithFriendsAbi, provider)
 }
 
 export async function claim(

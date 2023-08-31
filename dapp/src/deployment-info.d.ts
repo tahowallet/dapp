@@ -17,7 +17,9 @@ declare const CONTRACT_ApprovalTarget: string
 
 declare const CONTRACT_VoteWithFriendsDeployer: string
 
-declare const CONTRACT_BalancerDeployer: string
+declare const CONTRACT_BalancerPoolDeployer: string
+
+declare const CONTRACT_BalancerPoolAgentDeployer: string
 
 declare const CONTRACT_MerkleFactoryDeployer: string
 
