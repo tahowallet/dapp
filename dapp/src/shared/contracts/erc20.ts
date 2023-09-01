@@ -1,4 +1,4 @@
-import { Contract, providers } from "ethers"
+import { Contract, PopulatedTransaction, providers } from "ethers"
 import { EventFragment, Fragment, FunctionFragment } from "ethers/lib/utils"
 
 // TODO: Would be nice to improve this with typechain data from contracts
@@ -37,6 +37,10 @@ export const ERC20_ABI = Object.values<Fragment>(ERC20_FUNCTIONS).concat(
   Object.values(ERC20_EVENTS)
 )
 
+function getTokenContract(provider: providers.Provider): Contract {
+  return new Contract(CONTRACT_Taho, ERC20_ABI, provider)
+}
+
 /*
  * Get an account's balance from an ERC20-compliant contract.
  */
@@ -44,7 +48,27 @@ export async function getBalance(
   provider: providers.Provider,
   account: string
 ): Promise<bigint> {
-  const token = new Contract(CONTRACT_Taho, ERC20_ABI, provider)
+  const token = await getTokenContract(provider)
 
   return BigInt((await token.balanceOf(account)).toString())
+}
+
+export async function allowance(
+  provider: providers.Provider,
+  account: string,
+  address: string
+): Promise<bigint> {
+  const token = await getTokenContract(provider)
+
+  return BigInt((await token.allowance(account, address)).toString())
+}
+
+export async function approve(
+  provider: providers.Provider,
+  address: string,
+  amount: bigint
+): Promise<PopulatedTransaction> {
+  const token = await getTokenContract(provider)
+
+  return token.populateTransaction.approve(address, amount)
 }

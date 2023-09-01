@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
+import LiquidityPool from "./LiquidityPool"
 import Referrals from "./Referrals"
 import {
   EthereumProviderContext,
@@ -28,6 +29,10 @@ function DApp() {
             </Route>
             <Route path="/referrals">
               <Referrals />
+            </Route>
+            {/* TODO should be removed or defined later */}
+            <Route path="/lp">
+              <LiquidityPool />
             </Route>
           </Switch>
           <Footer />

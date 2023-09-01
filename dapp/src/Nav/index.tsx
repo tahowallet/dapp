@@ -21,6 +21,11 @@ const NAV_ITEMS = [
     path: "/claim",
     title: "Claim",
   },
+  // TODO should be removed or defined later
+  {
+    path: "/lp",
+    title: "LP",
+  },
 ]
 
 export default function Nav(): JSX.Element {
