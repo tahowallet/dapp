@@ -56,7 +56,6 @@ const config: Configuration = {
     new Dotenv({
       defaults: true,
       systemvars: true,
-      safe: true,
     }),
     new HtmlWebpackPlugin({
       template: "./src/public/index.html",
