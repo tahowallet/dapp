@@ -1,25 +1,21 @@
-import React, { useContext } from "react"
-import { Redirect, useHistory } from "react-router-dom"
+import React from "react"
+import { useHistory } from "react-router-dom"
 import Modal from "shared/components/Modal"
 import TahoAmount from "shared/components/TahoAmount"
 import iconConnected from "shared/assets/icons/s/connected.svg"
 import Button from "shared/components/Button"
 import { useConnect } from "shared/hooks"
+import { useSelector, selectClaimingUser, selectEligibility } from "redux-state"
+import { selectIsWalletConnected } from "redux-state/slices/wallet"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
-import { ClaimContext } from "./hooks"
 import ClaimHeader from "./shared/ClaimHeader"
 
 export default function ClaimCheckSuccess() {
   const history = useHistory()
+  const isConnected = useSelector(selectIsWalletConnected)
   const { connect } = useConnect()
-  const {
-    userDetails: { name, isConnected },
-    claimDetails: { eligibility },
-  } = useContext(ClaimContext)
-
-  if (!isConnected && !name) {
-    return <Redirect to="/claim" />
-  }
+  const { name } = useSelector(selectClaimingUser)
+  const eligibility = useSelector(selectEligibility)
 
   return (
     <Modal.Container type="map-with-overlay">

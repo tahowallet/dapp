@@ -1,24 +1,38 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import classNames from "classnames"
-import { Redirect, useHistory } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { useDebounce } from "shared/hooks/helpers"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import Spinner from "shared/components/Spinner"
 import { resolveNameToAddress } from "shared/utils"
+import {
+  useDispatch,
+  useSelector,
+  setClaimingUser,
+  selectUseConnectedWalletToClaim,
+  selectIsWalletConnected,
+  selectWalletAddress,
+  selectWalletName,
+} from "redux-state"
 import ClaimHeader from "./shared/ClaimHeader"
-import { ClaimContext, DEFAULT_CLAIM_STATE } from "./hooks"
-import { ClaimProps } from "./types"
 
-export default function ClaimCheck({ setClaimingAccount }: ClaimProps) {
-  const history = useHistory()
+export default function ClaimCheck() {
+  const dispatch = useDispatch()
+  const isConnected = useSelector(selectIsWalletConnected)
+  const useConnectedWallet = useSelector(selectUseConnectedWalletToClaim)
+
+  const connectedAddress = useSelector(selectWalletAddress)
+  const connectedName = useSelector(selectWalletName)
+
+  const [shouldRedirect, setShouldRedirect] = useState(false)
+
   const [input, setInput] = useState("")
   const [debouncedInput, setDebouncedInput] = useDebounce("", 500)
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [wasTouched, setWasTouched] = useState(false)
   const [address, setAddress] = useState<string | null>(null)
-  const { userDetails } = useContext(ClaimContext)
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -30,15 +44,8 @@ export default function ClaimCheck({ setClaimingAccount }: ClaimProps) {
 
   const onSubmit = () => {
     if (address) {
-      setClaimingAccount({
-        ...DEFAULT_CLAIM_STATE,
-        userDetails: {
-          isConnected: false,
-          name: input,
-          address,
-        },
-      })
-      history.push("/claim/result")
+      dispatch(setClaimingUser({ name: input, address }))
+      setShouldRedirect(true)
     } else {
       setWasTouched(true)
       setHasError(true)
@@ -69,7 +76,27 @@ export default function ClaimCheck({ setClaimingAccount }: ClaimProps) {
     }
   }, [debouncedInput])
 
-  if (userDetails.isConnected) {
+  useEffect(() => {
+    if (
+      isConnected &&
+      useConnectedWallet &&
+      connectedAddress &&
+      connectedName
+    ) {
+      dispatch(
+        setClaimingUser({ address: connectedAddress, name: connectedName })
+      )
+      setShouldRedirect(true)
+    }
+  }, [
+    isConnected,
+    useConnectedWallet,
+    connectedAddress,
+    connectedName,
+    dispatch,
+  ])
+
+  if (shouldRedirect) {
     return <Redirect to="/claim/result" />
   }
 

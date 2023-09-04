@@ -1,16 +1,14 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useHistory } from "react-router-dom"
 import TahoAmount from "shared/components/TahoAmount"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
+import { useSelector, selectEligibility } from "redux-state"
 import ClaimHeader from "./shared/ClaimHeader"
-import { ClaimContext } from "./hooks"
 
 export default function ClaimFinish() {
   const location = useHistory()
-  const {
-    claimDetails: { eligibility },
-  } = useContext(ClaimContext)
+  const eligibility = useSelector(selectEligibility)
 
   return (
     <Modal.Container type="map-without-overlay">
