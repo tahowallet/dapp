@@ -57,7 +57,7 @@ export async function getBalance(
   return BigInt((await token.balanceOf(account)).toString())
 }
 
-export async function allowance(
+export async function getAllowance(
   provider: providers.Provider,
   tokenAddress: string,
   account: string,
@@ -68,7 +68,7 @@ export async function allowance(
   return BigInt((await token.allowance(account, address)).toString())
 }
 
-export async function approve(
+export async function setAllowance(
   provider: providers.Provider,
   tokenAddress: string,
   address: string,

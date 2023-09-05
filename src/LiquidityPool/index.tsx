@@ -8,8 +8,8 @@ import {
 import { LiquidityPoolRequest } from "../shared/types"
 import AmountInput from "../shared/components/AmountInput"
 import {
-  allowance,
-  approve,
+  getAllowance,
+  setAllowance,
   getBalance,
   getBalancerPoolAddress,
   getBalancerPoolAgentAddress,
@@ -80,7 +80,7 @@ export default function LiquidityPool() {
         provider
       )
 
-      const allowanceValue = await allowance(
+      const allowanceValue = await getAllowance(
         provider,
         CONTRACT_Taho,
         address,
@@ -88,7 +88,7 @@ export default function LiquidityPool() {
       )
 
       if (allowanceValue < targetTahoAmount) {
-        const allowanceTx = await approve(
+        const allowanceTx = await setAllowance(
           provider,
           CONTRACT_Taho,
           balancerPoolAgentAddress,
