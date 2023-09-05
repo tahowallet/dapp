@@ -15,7 +15,7 @@ export default function Staking() {
       return
     }
 
-    getBalance(provider, address).then((balance) =>
+    getBalance(provider, CONTRACT_Taho, address).then((balance) =>
       // FIXME: This is just for testing
       // eslint-disable-next-line no-console
       console.log(formatUnits(balance, 18))

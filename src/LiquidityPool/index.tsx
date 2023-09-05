@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react"
-import { hexlify } from "ethers/lib/utils"
-import { isValidInputAmount, userAmountToBigInt } from "../shared/utils"
+import { encodeUserData } from "shared/utils/pool"
+import {
+  ETH_ADDRESS,
+  isValidInputAmount,
+  userAmountToBigInt,
+} from "../shared/utils"
 import { LiquidityPoolRequest } from "../shared/types"
 import AmountInput from "../shared/components/AmountInput"
 import {
   allowance,
   approve,
   getBalance,
+  getBalancerPoolAddress,
   getBalancerPoolAgentAddress,
   joinPool,
+  totalSupply,
 } from "../shared/contracts"
 import { useSendTransaction, useWallet } from "../shared/hooks"
 import Button from "../shared/components/Button"
@@ -16,33 +22,59 @@ import Modal from "../shared/components/Modal"
 
 export default function LiquidityPool() {
   const { provider, address } = useWallet()
-  const { send } = useSendTransaction()
+  const { send, isReady } = useSendTransaction()
 
-  const [balance, setBalance] = useState(0n)
+  const [tahoBalance, setTahoBalance] = useState(0n)
   const [tahoAmount, setTahoAmount] = useState("")
+  const [ethBalance, setEthBalance] = useState(0n)
+  const [ethAmount, setEthAmount] = useState("")
 
   useEffect(() => {
     if (!provider || !address) {
       return
     }
 
-    getBalance(provider, address).then((result) => setBalance(result))
+    getBalance(provider, CONTRACT_Taho, address).then((result) =>
+      setTahoBalance(result)
+    )
+    provider.getBalance(address).then((result) => {
+      setEthBalance(result.toBigInt())
+    })
   }, [address, provider])
 
-  const signJoinPool = async (joinRequest: LiquidityPoolRequest) => {
+  const signJoinPool = async (
+    joinRequest: LiquidityPoolRequest,
+    overrides?: { value: bigint }
+  ) => {
     if (provider && address) {
-      const joinPoolTx = await joinPool(provider, address, joinRequest)
-      await send(joinPoolTx)
+      const joinPoolTx = await joinPool(
+        provider,
+        address,
+        joinRequest,
+        overrides
+      )
+      const receipt = await send(joinPoolTx)
+
+      if (receipt) {
+        // TODO remove when designs be ready
+        // eslint-disable-next-line no-console
+        console.log(receipt)
+        setTahoAmount("")
+        setEthAmount("")
+      }
     }
   }
 
-  const joinPoolWithSingleToken = async () => {
+  const joinTahoPool = async () => {
     try {
       if (!provider || !address) {
         throw new Error("No provider or address")
       }
 
-      const targetAmount = userAmountToBigInt(BigInt(parseFloat(tahoAmount)))
+      const targetTahoAmount = userAmountToBigInt(
+        BigInt(parseFloat(tahoAmount))
+      )
+      const targetEthAmount = userAmountToBigInt(BigInt(parseFloat(ethAmount)))
 
       const balancerPoolAgentAddress = await getBalancerPoolAgentAddress(
         provider
@@ -50,26 +82,40 @@ export default function LiquidityPool() {
 
       const allowanceValue = await allowance(
         provider,
+        CONTRACT_Taho,
         address,
         balancerPoolAgentAddress
       )
 
-      if (allowanceValue < targetAmount) {
+      if (allowanceValue < targetTahoAmount) {
         const allowanceTx = await approve(
           provider,
+          CONTRACT_Taho,
           balancerPoolAgentAddress,
-          targetAmount
+          targetTahoAmount
         )
         await send(allowanceTx)
       }
 
-      await signJoinPool({
-        assets: [CONTRACT_Taho],
-        maxAmountsIn: [targetAmount],
-        userData: hexlify(targetAmount),
-        fromInternalBalance: false,
-      })
+      const maxAmountsIn = [targetTahoAmount, targetEthAmount]
+
+      const poolAddress = await getBalancerPoolAddress(provider)
+      const lpTokenSupply = await totalSupply(provider, poolAddress)
+      const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
+
+      await signJoinPool(
+        {
+          assets: [CONTRACT_Taho, ETH_ADDRESS],
+          maxAmountsIn,
+          userData,
+          fromInternalBalance: false,
+        },
+        {
+          value: targetEthAmount,
+        }
+      )
     } catch (err) {
+      // TODO Add error handing
       // eslint-disable-next-line no-console
       console.error(err)
     }
@@ -79,31 +125,49 @@ export default function LiquidityPool() {
     <Modal.Container type="map-without-overlay">
       <Modal.Content>
         <div className="content column_center">
-          <div className="lp_container column">
-            <span>TAHO</span>
-            <AmountInput
-              label="Amount"
-              amount={tahoAmount}
-              maxAmount={balance}
-              onChange={setTahoAmount}
-            />
-            <Button
-              type="primary"
-              size="medium"
-              onClick={joinPoolWithSingleToken}
-              isDisabled={isValidInputAmount(tahoAmount)}
-            >
-              Join Pool
-            </Button>
+          <div className="lp_container row">
+            <div className="token column">
+              <span>TAHO</span>
+              <AmountInput
+                label="Amount"
+                amount={tahoAmount}
+                maxAmount={tahoBalance}
+                onChange={setTahoAmount}
+              />
+            </div>
+            <div className="token column">
+              <span>ETH</span>
+              <AmountInput
+                label="Amount"
+                amount={ethAmount}
+                maxAmount={ethBalance}
+                onChange={setEthAmount}
+              />
+            </div>
           </div>
+          <Button
+            type="primary"
+            size="medium"
+            onClick={joinTahoPool}
+            isDisabled={
+              isValidInputAmount(tahoAmount) ||
+              isValidInputAmount(ethAmount) ||
+              !isReady
+            }
+          >
+            Join Pool
+          </Button>
         </div>
         <style jsx>{`
           .content {
             width: 812px;
             margin: 20px;
-            hight: 250px;
+            height: 250px;
           }
           .lp_container {
+            gap: 16px;
+          }
+          .token {
             gap: 8px;
             align-items: center;
           }

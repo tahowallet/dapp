@@ -37,8 +37,11 @@ export const ERC20_ABI = Object.values<Fragment>(ERC20_FUNCTIONS).concat(
   Object.values(ERC20_EVENTS)
 )
 
-function getTokenContract(provider: providers.Provider): Contract {
-  return new Contract(CONTRACT_Taho, ERC20_ABI, provider)
+function getTokenContract(
+  provider: providers.Provider,
+  tokenAddress: string
+): Contract {
+  return new Contract(tokenAddress, ERC20_ABI, provider)
 }
 
 /*
@@ -46,29 +49,41 @@ function getTokenContract(provider: providers.Provider): Contract {
  */
 export async function getBalance(
   provider: providers.Provider,
+  tokenAddress: string,
   account: string
 ): Promise<bigint> {
-  const token = await getTokenContract(provider)
+  const token = await getTokenContract(provider, tokenAddress)
 
   return BigInt((await token.balanceOf(account)).toString())
 }
 
 export async function allowance(
   provider: providers.Provider,
+  tokenAddress: string,
   account: string,
   address: string
 ): Promise<bigint> {
-  const token = await getTokenContract(provider)
+  const token = await getTokenContract(provider, tokenAddress)
 
   return BigInt((await token.allowance(account, address)).toString())
 }
 
 export async function approve(
   provider: providers.Provider,
+  tokenAddress: string,
   address: string,
   amount: bigint
 ): Promise<PopulatedTransaction> {
-  const token = await getTokenContract(provider)
+  const token = await getTokenContract(provider, tokenAddress)
 
   return token.populateTransaction.approve(address, amount)
+}
+
+export async function totalSupply(
+  provider: providers.Provider,
+  tokenAddress: string
+): Promise<bigint> {
+  const token = await getTokenContract(provider, tokenAddress)
+
+  return BigInt((await token.totalSupply()).toString())
 }

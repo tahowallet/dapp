@@ -31,6 +31,9 @@ export default function AmountInput({
         ) {
           return { error: "Insufficient balance" }
         }
+        if (parsed < 0) {
+          return { error: "Incorrect value" }
+        }
 
         return { value: parsed }
       }}

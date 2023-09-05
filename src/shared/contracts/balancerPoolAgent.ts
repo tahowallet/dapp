@@ -2,6 +2,16 @@ import { Contract, PopulatedTransaction, providers } from "ethers"
 import { LiquidityPoolRequest } from "../types"
 import { balancerPoolAgentAbi, tahoDeployerAbi } from "./abi"
 
+export function getBalancerPoolAddress(provider: providers.Provider): string {
+  const tahoDeployer = new Contract(
+    CONTRACT_TahoDeployer,
+    tahoDeployerAbi,
+    provider
+  )
+
+  return tahoDeployer.BALANCER_POOL()
+}
+
 export function getBalancerPoolAgentAddress(
   provider: providers.Provider
 ): string {
@@ -25,9 +35,14 @@ async function getBalancerPoolAgentContract(
 export async function joinPool(
   provider: providers.Provider,
   recipient: string,
-  joinRequest: LiquidityPoolRequest
+  joinRequest: LiquidityPoolRequest,
+  overrides?: { value: bigint }
 ): Promise<PopulatedTransaction> {
   const balancerPoolAgent = await getBalancerPoolAgentContract(provider)
 
-  return balancerPoolAgent.populateTransaction.joinPool(recipient, joinRequest)
+  return balancerPoolAgent.populateTransaction.joinPool(
+    recipient,
+    joinRequest,
+    overrides
+  )
 }
