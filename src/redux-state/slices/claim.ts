@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { ethers } from "ethers"
 import { hasAlreadyClaimed } from "shared/contracts"
-import { Eligibility } from "shared/types"
+import { ClaimJourneyStatus, Eligibility } from "shared/types"
 import { getEligibility, truncateAddress } from "shared/utils"
 
 export type ClaimState = {
   isLoading: boolean // TODO: add loading effect to the UI
+  currentStep: ClaimJourneyStatus
   name: string
   address: string
   hasClaimed: boolean
@@ -15,6 +16,7 @@ export type ClaimState = {
 
 const initialState: ClaimState = {
   isLoading: false,
+  currentStep: "region", // TODO: change to "not-started" when ready
   name: "",
   address: "",
   hasClaimed: false,
@@ -60,10 +62,17 @@ const claimSlice = createSlice({
     ) => {
       immerState.useConnectedWallet = useConnectedWallet
     },
+    setClaimJourneyStep: (
+      immerState,
+      { payload: { step } }: { payload: { step: ClaimJourneyStatus } }
+    ) => {
+      immerState.currentStep = step
+    },
     resetClaiming: (immerState) => {
       immerState.name = ""
       immerState.address = ""
       immerState.hasClaimed = false
+      // immerState.currentStep = "not-started"
       immerState.eligibility = {
         account: "",
         amount: 0n,
@@ -79,6 +88,7 @@ export const {
   setEligibility,
   setHasClaimed,
   setUseConnectedWalletToClaim,
+  setClaimJourneyStep,
   resetClaiming,
 } = claimSlice.actions
 
@@ -95,6 +105,9 @@ export const selectEligibility = (state: { claim: ClaimState }) =>
 
 export const selectUseConnectedWalletToClaim = (state: { claim: ClaimState }) =>
   state.claim.useConnectedWallet
+
+export const selectClaimJourneyStep = (state: { claim: ClaimState }) =>
+  state.claim.currentStep
 
 export default claimSlice.reducer
 

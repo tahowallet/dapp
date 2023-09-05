@@ -1,11 +1,20 @@
 import React, { useState } from "react"
 import { useSelector, selectWalletAvatar, selectWalletName } from "redux-state"
+import classnames from "classnames"
 import { getZoneData } from "../Map/constants"
 import AccountDropdown from "./AccountDropdown"
 
+type AccountInfoProps = {
+  hideRegion?: boolean
+  disabled?: boolean
+}
+
 const regionMock = { name: "KryptoKeep", id: "4" }
 
-export default function AccountInfo() {
+export default function AccountInfo({
+  hideRegion = false,
+  disabled = false,
+}: AccountInfoProps = {}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const name = useSelector(selectWalletName)
   const avatar = useSelector(selectWalletAvatar)
@@ -17,7 +26,7 @@ export default function AccountInfo() {
   return (
     <div className="account_container row">
       {isDropdownOpen && <AccountDropdown />}
-      {region && (
+      {!hideRegion && region && (
         <div className="region_container row">
           {zone && (
             <div className="region_icon">
@@ -29,7 +38,13 @@ export default function AccountInfo() {
           <span className="region_label">{region.name}</span>
         </div>
       )}
-      <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
+      <button
+        className={classnames("account_button", {
+          disabled,
+        })}
+        type="button"
+        onClick={() => setIsDropdownOpen((prev) => !prev)}
+      >
         <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
       </button>
@@ -78,18 +93,22 @@ export default function AccountInfo() {
             transition: border-color 250ms ease;
           }
 
-          button {
+          .account_button {
             all: unset;
-            cursor: pointer;
             display: flex;
+            pointer-events: all;
             align-items: center;
+            cursor: pointer;
+          }
+          .account_button.disabled {
+            pointer-events: none;
           }
 
-          button:hover .account_label {
+          .account_button:hover .account_label {
             color: var(--primary-p2-100);
           }
 
-          button:hover .avatar {
+          .account_button:hover .avatar {
             border-color: var(--primary-p2-100);
           }
         `}
