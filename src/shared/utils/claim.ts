@@ -53,14 +53,9 @@ async function getFileHashProspect(targetAddress: string): Promise<string> {
 async function getClaimFromFileHash(
   address: string,
   hash: string
-): Promise<Eligibility> {
+): Promise<Eligibility | null> {
   const res = await fetch(`${IPFSHTTPGatewayPrefix}${hash}`)
-  let claim: Eligibility = {
-    account: address,
-    amount: 0n,
-    index: null,
-    proof: null,
-  }
+  let claim = null
   const reader = res?.body?.getReader()
   let result
   const decoder = new TextDecoder()
@@ -84,6 +79,7 @@ async function getClaimFromFileHash(
         const matchingClaim: Eligibility | undefined = lines
           .map((claimEntry) => JSON.parse(claimEntry))
           .find((claimEntry) => isSameAddress(claimEntry.account, address))
+
         if (matchingClaim) {
           claim = matchingClaim
           break
@@ -99,8 +95,9 @@ async function getClaimFromFileHash(
   return claim
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export async function getEligibility(address: string): Promise<Eligibility> {
+export async function getEligibility(
+  address: string
+): Promise<Eligibility | null> {
   if (isSameAddress(address, TEST_WALLET_ADDRESS)) {
     return {
       account: address,

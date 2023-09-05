@@ -13,10 +13,8 @@ export default function ClaimingSignTx() {
   const [hasSigned, setHasSigned] = useState(false)
   const eligibility = useSelector(selectEligibility)
 
-  const isEligible = eligibility.amount > 0
-
   const signClaim = async () => {
-    if (isEligible && isReady) {
+    if (eligibility && isReady) {
       const receipt = await send<Eligibility>(claim, eligibility)
 
       if (receipt) {

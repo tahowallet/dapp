@@ -58,7 +58,7 @@ export default function ClaimCheckSuccess() {
               </>
             }
           />
-          <TahoAmount amount={eligibility.amount} hasBackground size="large" />
+          <TahoAmount amount={eligibility?.amount} hasBackground size="large" />
           <ClaimCheckRules />
           <div className="button_container">
             <Button

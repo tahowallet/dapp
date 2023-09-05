@@ -38,12 +38,12 @@ export default function ClaimCheckResult() {
     return <ClaimAlreadyClaimed />
   }
 
-  if (address && eligibility.amount > 0n) {
-    return <ClaimCheckSuccess />
+  if (address && !eligibility) {
+    return <ClaimCheckFail />
   }
 
-  if (address && eligibility.amount === 0n) {
-    return <ClaimCheckFail />
+  if (address && eligibility && eligibility.amount > 0n) {
+    return <ClaimCheckSuccess />
   }
 
   return <Redirect to="/claim" />

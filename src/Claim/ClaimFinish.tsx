@@ -15,7 +15,7 @@ export default function ClaimFinish() {
       <Modal.Content>
         <div className="finish_container column_center">
           <ClaimHeader header="You have landed" subheader="You just claimed:" />
-          <TahoAmount amount={eligibility.amount} hasBackground size="large" />
+          <TahoAmount amount={eligibility?.amount} hasBackground size="large" />
           <div className="button_container column_center">
             <div>Shall we start the game?</div>
             <Button
