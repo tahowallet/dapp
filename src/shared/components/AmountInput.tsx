@@ -14,29 +14,33 @@ export default function AmountInput({
   maxAmount: bigint
   onChange: (value: string) => void
 }) {
+  const handleValidate = (
+    value: string
+  ): { value: unknown } | { error: string } => {
+    const parsed = parseFloat(value)
+
+    if (Number.isNaN(+value)) {
+      return { error: "Invalid format" }
+    }
+    if (
+      !Number.isNaN(parsed) &&
+      userAmountToBigInt(BigInt(parsed)) > maxAmount
+    ) {
+      return { error: "Insufficient balance" }
+    }
+    if (parsed < 0) {
+      return { error: "Incorrect value" }
+    }
+
+    return { value: parsed }
+  }
+
   return (
     <SharedInput
       label={label}
       value={amount}
       onChange={onChange}
-      validate={(value) => {
-        const parsed = parseFloat(value)
-
-        if (Number.isNaN(+value)) {
-          return { error: "Invalid format" }
-        }
-        if (
-          !Number.isNaN(parsed) &&
-          userAmountToBigInt(BigInt(parsed)) > maxAmount
-        ) {
-          return { error: "Insufficient balance" }
-        }
-        if (parsed < 0) {
-          return { error: "Incorrect value" }
-        }
-
-        return { value: parsed }
-      }}
+      validate={handleValidate}
       rightComponent={
         <Button
           type="tertiary"
