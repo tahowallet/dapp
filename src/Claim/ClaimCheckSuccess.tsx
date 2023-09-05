@@ -5,17 +5,44 @@ import TahoAmount from "shared/components/TahoAmount"
 import iconConnected from "shared/assets/icons/s/connected.svg"
 import Button from "shared/components/Button"
 import { useConnect } from "shared/hooks"
-import { useSelector, selectClaimingUser, selectEligibility } from "redux-state"
-import { selectIsWalletConnected } from "redux-state/slices/wallet"
+import {
+  useSelector,
+  selectClaimingUser,
+  selectEligibility,
+  useDispatch,
+  setUseConnectedWalletToClaim,
+  resetClaiming,
+} from "redux-state"
+import {
+  selectIsWalletConnected,
+  selectWalletAddress,
+} from "redux-state/slices/wallet"
+import { isSameAddress } from "shared/utils"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 import ClaimHeader from "./shared/ClaimHeader"
 
 export default function ClaimCheckSuccess() {
   const history = useHistory()
+  const dispatch = useDispatch()
   const isConnected = useSelector(selectIsWalletConnected)
   const { connect } = useConnect()
-  const { name } = useSelector(selectClaimingUser)
+  const { name: claimingName, address: claimingAddress } =
+    useSelector(selectClaimingUser)
+  const connectedAddress = useSelector(selectWalletAddress)
   const eligibility = useSelector(selectEligibility)
+
+  const isCorrectUserConnected =
+    isConnected && isSameAddress(connectedAddress, claimingAddress)
+
+  const connectWallet = () => {
+    if (isConnected) {
+      // TODO: reconnection to the correct wallet needs to be polished and new UI needs to be implemented
+      dispatch(resetClaiming())
+      dispatch(setUseConnectedWalletToClaim({ useConnectedWallet: true }))
+    } else {
+      connect()
+    }
+  }
 
   return (
     <Modal.Container type="map-with-overlay">
@@ -26,8 +53,10 @@ export default function ClaimCheckSuccess() {
             header="Congratulation!"
             subheader={
               <>
-                <span style={{ color: "var(--semantic-info)" }}>{name}</span> is
-                eligible to claim:
+                <span style={{ color: "var(--semantic-info)" }}>
+                  {claimingName}
+                </span>{" "}
+                is eligible to claim:
               </>
             }
           />
@@ -37,16 +66,16 @@ export default function ClaimCheckSuccess() {
             <Button
               type="primary"
               size="large"
-              isDisabled={isConnected}
-              iconSrc={isConnected ? iconConnected : undefined}
+              isDisabled={isCorrectUserConnected}
+              iconSrc={isCorrectUserConnected ? iconConnected : undefined}
               iconPosition="left"
-              onClick={() => connect()}
+              onClick={connectWallet}
             >
-              {isConnected ? "Connected" : "Connect wallet"}
+              {isCorrectUserConnected ? "Connected" : "Connect wallet"}
             </Button>
             <Button
               onClick={() => history.push("/claim/claiming")}
-              isDisabled={!isConnected}
+              isDisabled={!isCorrectUserConnected}
               type="primary"
               size="large"
             >

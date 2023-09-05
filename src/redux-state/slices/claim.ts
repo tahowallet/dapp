@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { ethers } from "ethers"
 import { hasAlreadyClaimed } from "shared/contracts"
 import { Eligibility } from "shared/types"
-import { getEligibility } from "shared/utils"
+import { getEligibility, truncateAddress } from "shared/utils"
 
 export type ClaimState = {
   isLoading: boolean // TODO: add loading effect to the UI
@@ -31,15 +31,34 @@ const claimSlice = createSlice({
   name: "claim",
   initialState,
   reducers: {
-    setClaimingUser: (immerState, { payload: { name, address } }) => {
-      immerState.name = name
-      immerState.address = address
+    setClaimingUser: (
+      immerState,
+      {
+        payload: { name, address },
+      }: { payload: { name?: string; address?: string } }
+    ) => {
+      immerState.name = name || immerState.name
+      immerState.address = address || immerState.address
     },
-    setEligibility: (immerState, { payload: { eligibility } }) => {
+    setEligibility: (
+      immerState,
+      { payload: { eligibility } }: { payload: { eligibility: Eligibility } }
+    ) => {
       immerState.eligibility = eligibility
     },
-    setHasClaimed: (immerState, { payload: { hasClaimed } }) => {
+    setHasClaimed: (
+      immerState,
+      { payload: { hasClaimed } }: { payload: { hasClaimed: boolean } }
+    ) => {
       immerState.hasClaimed = hasClaimed
+    },
+    setUseConnectedWalletToClaim: (
+      immerState,
+      {
+        payload: { useConnectedWallet },
+      }: { payload: { useConnectedWallet: boolean } }
+    ) => {
+      immerState.useConnectedWallet = useConnectedWallet
     },
     resetClaiming: (immerState) => {
       immerState.name = ""
@@ -55,11 +74,16 @@ const claimSlice = createSlice({
   },
 })
 
-export const { setClaimingUser, setEligibility, setHasClaimed, resetClaiming } =
-  claimSlice.actions
+export const {
+  setClaimingUser,
+  setEligibility,
+  setHasClaimed,
+  setUseConnectedWalletToClaim,
+  resetClaiming,
+} = claimSlice.actions
 
 export const selectClaimingUser = (state: { claim: ClaimState }) => ({
-  name: state.claim.name,
+  name: state.claim.name || truncateAddress(state.claim.address),
   address: state.claim.address,
 })
 

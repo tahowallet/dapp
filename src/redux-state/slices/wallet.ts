@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import portrait from "shared/assets/portrait.png"
 import { resolveAddressToName, truncateAddress } from "shared/utils"
+import { ClaimState, resetClaiming, setClaimingUser } from "./claim"
 
 export type WalletState = {
   isConnected: boolean
@@ -20,7 +21,7 @@ const walletSlice = createSlice({
   name: "wallet",
   initialState,
   reducers: {
-    setConnectedWallet: (
+    updateConnectedWallet: (
       immerState,
       {
         payload,
@@ -31,7 +32,7 @@ const walletSlice = createSlice({
       immerState.name = payload.name || immerState.name || ""
       immerState.avatar = payload.avatar || immerState.avatar || portrait
     },
-    setDisconnectedWallet: (immerState) => {
+    updateDisconnectedWallet: (immerState) => {
       immerState.isConnected = false
       immerState.address = ""
       immerState.name = ""
@@ -40,7 +41,8 @@ const walletSlice = createSlice({
   },
 })
 
-export const { setConnectedWallet, setDisconnectedWallet } = walletSlice.actions
+export const { updateConnectedWallet, updateDisconnectedWallet } =
+  walletSlice.actions
 
 export default walletSlice.reducer
 
@@ -61,16 +63,63 @@ export const selectIsWalletConnected = (state: { wallet: WalletState }) =>
 
 export const fetchWalletName = createAsyncThunk(
   "wallet/fetchWalletName",
-  async ({ address }: { address: string }, { dispatch }) => {
+  async ({ address }: { address: string }, { dispatch, getState }) => {
+    const {
+      claim: { useConnectedWallet },
+    } = getState() as { claim: ClaimState }
+
     const resolvedName = await resolveAddressToName(address)
 
     if (resolvedName) {
       dispatch(
-        setConnectedWallet({
+        updateConnectedWallet({
           address,
           name: resolvedName,
         })
       )
+
+      if (useConnectedWallet) {
+        dispatch(setClaimingUser({ name: resolvedName, address }))
+      }
+    }
+  }
+)
+
+export const connectWalletGlobally = createAsyncThunk(
+  "wallet/connectWalletGlobally",
+  async (
+    { address, avatar }: { address: string; avatar?: string },
+    { dispatch, getState }
+  ) => {
+    const {
+      claim: { useConnectedWallet },
+    } = getState() as { claim: ClaimState }
+
+    dispatch(
+      updateConnectedWallet({
+        address,
+        avatar,
+      })
+    )
+    await dispatch(fetchWalletName({ address }))
+
+    if (useConnectedWallet) {
+      dispatch(setClaimingUser({ address }))
+    }
+  }
+)
+
+export const disconnectWalletGlobally = createAsyncThunk(
+  "wallet/disconnectWalletGlobally",
+  async (_, { dispatch, getState }) => {
+    const {
+      claim: { useConnectedWallet },
+    } = getState() as { claim: ClaimState }
+
+    dispatch(updateDisconnectedWallet())
+
+    if (useConnectedWallet) {
+      dispatch(resetClaiming())
     }
   }
 )

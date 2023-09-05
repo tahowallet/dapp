@@ -7,6 +7,7 @@ import {
   useSelector,
   selectClaimingUser,
   resetClaiming,
+  setUseConnectedWalletToClaim,
 } from "redux-state"
 import ClaimHeader from "./shared/ClaimHeader"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
@@ -17,6 +18,7 @@ export default function ClaimCheckFail() {
   const { name } = useSelector(selectClaimingUser)
 
   const reset = () => {
+    dispatch(setUseConnectedWalletToClaim({ useConnectedWallet: false }))
     dispatch(resetClaiming())
     history.push("/claim")
   }

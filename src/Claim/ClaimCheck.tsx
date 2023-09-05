@@ -5,7 +5,7 @@ import { useDebounce } from "shared/hooks/helpers"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import Spinner from "shared/components/Spinner"
-import { resolveNameToAddress } from "shared/utils"
+import { isProbablyEVMAddress, resolveNameToAddress } from "shared/utils"
 import {
   useDispatch,
   useSelector,
@@ -14,6 +14,7 @@ import {
   selectIsWalletConnected,
   selectWalletAddress,
   selectWalletName,
+  resetClaiming,
 } from "redux-state"
 import ClaimHeader from "./shared/ClaimHeader"
 
@@ -44,7 +45,12 @@ export default function ClaimCheck() {
 
   const onSubmit = () => {
     if (address) {
-      dispatch(setClaimingUser({ name: input, address }))
+      dispatch(
+        setClaimingUser({
+          name: isProbablyEVMAddress(input) ? undefined : input,
+          address,
+        })
+      )
       setShouldRedirect(true)
     } else {
       setWasTouched(true)
@@ -87,6 +93,8 @@ export default function ClaimCheck() {
         setClaimingUser({ address: connectedAddress, name: connectedName })
       )
       setShouldRedirect(true)
+    } else if (!isConnected && useConnectedWallet) {
+      dispatch(resetClaiming())
     }
   }, [
     isConnected,

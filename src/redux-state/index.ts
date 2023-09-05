@@ -4,8 +4,7 @@ import {
   useSelector as useReduxSelector,
 } from "react-redux"
 import { encodeJSON } from "shared/utils"
-import claimReducer from "./slices/claim"
-import walletReducer from "./slices/wallet"
+import mainReducer from "./reducers"
 
 const devToolsSanitizer = (input: unknown) => {
   switch (typeof input) {
@@ -33,10 +32,7 @@ const store = configureStore({
     actionSanitizer: devToolsSanitizer,
     stateSanitizer: devToolsSanitizer,
   },
-  reducer: {
-    claim: claimReducer,
-    wallet: walletReducer,
-  },
+  reducer: mainReducer,
 })
 
 export default store

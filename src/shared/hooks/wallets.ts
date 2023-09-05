@@ -4,10 +4,9 @@ import { ethers } from "ethers"
 import {
   useDispatch,
   useSelector,
-  fetchWalletName,
   selectWalletAddress,
-  setConnectedWallet,
-  setDisconnectedWallet,
+  connectWalletGlobally,
+  disconnectWalletGlobally,
 } from "redux-state"
 
 export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
@@ -34,15 +33,9 @@ export function useWallet() {
 
   useEffect(() => {
     if (address) {
-      dispatch(
-        setConnectedWallet({
-          address,
-          avatar,
-        })
-      )
-      dispatch(fetchWalletName({ address }))
+      dispatch(connectWalletGlobally({ address, avatar }))
     } else {
-      dispatch(setDisconnectedWallet())
+      dispatch(disconnectWalletGlobally())
     }
   }, [address, avatar, dispatch])
 }
