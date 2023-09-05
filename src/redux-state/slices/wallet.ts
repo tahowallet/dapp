@@ -27,9 +27,9 @@ const walletSlice = createSlice({
       }: { payload: { address: string; name?: string; avatar?: string } }
     ) => {
       immerState.isConnected = true
-      immerState.address = payload.address ?? immerState.address
-      immerState.name = payload.name ?? immerState.name ?? ""
-      immerState.avatar = payload.avatar ?? immerState.avatar ?? portrait
+      immerState.address = payload.address || immerState.address
+      immerState.name = payload.name || immerState.name || ""
+      immerState.avatar = payload.avatar || immerState.avatar || portrait
     },
     setDisconnectedWallet: (immerState) => {
       immerState.isConnected = false
@@ -51,7 +51,7 @@ export const selectWalletTruncatedAddress = (state: { wallet: WalletState }) =>
   truncateAddress(state.wallet.address)
 
 export const selectWalletName = (state: { wallet: WalletState }) =>
-  state.wallet.name ?? truncateAddress(state.wallet.address)
+  state.wallet.name || truncateAddress(state.wallet.address)
 
 export const selectWalletAvatar = (state: { wallet: WalletState }) =>
   state.wallet.avatar
