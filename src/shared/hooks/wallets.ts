@@ -1,24 +1,16 @@
-import { useConnectWallet, useSetChain } from "@web3-onboard/react"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useConnectWallet } from "@web3-onboard/react"
+import { useCallback, useEffect, useMemo } from "react"
 import { ethers } from "ethers"
-import { ConnectedChain } from "@web3-onboard/core"
-import { resolveAddressToName, truncateAddress } from "../utils"
-import portrait from "../assets/portrait.png"
+import {
+  useDispatch,
+  useSelector,
+  selectWalletAddress,
+  connectWalletGlobally,
+  disconnectWalletGlobally,
+} from "redux-state"
 
-type WalletState = {
-  isConnected: boolean
-  address: string
-  name: string
-  truncatedAddress: string
-  avatar: string
-  provider: null | ethers.providers.Web3Provider
-  connectedChain: null | ConnectedChain
-}
-
-export function useWallet(): WalletState {
+export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   const [{ wallet }] = useConnectWallet()
-  const [{ connectedChain }] = useSetChain()
-  const [name, setName] = useState("")
 
   const arbitrumProvider = useMemo(
     () =>
@@ -28,44 +20,24 @@ export function useWallet(): WalletState {
     [wallet?.provider]
   )
 
+  return arbitrumProvider
+}
+
+export function useWallet() {
+  const [{ wallet }] = useConnectWallet()
+  const dispatch = useDispatch()
+
   const account = wallet?.accounts[0]
-
-  const walletState = useMemo<WalletState>(() => {
-    if (!account) {
-      return {
-        isConnected: false,
-        address: "",
-        name,
-        truncatedAddress: "",
-        avatar: portrait,
-        provider: null,
-        connectedChain: null,
-      }
-    }
-
-    return {
-      isConnected: true,
-      address: account.address,
-      name,
-      truncatedAddress: truncateAddress(account.address),
-      avatar: account.ens?.avatar?.url ?? portrait,
-      provider: arbitrumProvider,
-      connectedChain,
-    }
-  }, [account, name, arbitrumProvider, connectedChain])
+  const address = account?.address ?? ""
+  const avatar = account?.ens?.avatar?.url ?? ""
 
   useEffect(() => {
-    const resolveName = async () => {
-      const resolvedName = walletState.address
-        ? await resolveAddressToName(walletState.address)
-        : null
-      setName(resolvedName ?? "")
+    if (address) {
+      dispatch(connectWalletGlobally({ address, avatar }))
+    } else {
+      dispatch(disconnectWalletGlobally())
     }
-
-    resolveName()
-  }, [walletState.address])
-
-  return walletState
+  }, [address, avatar, dispatch])
 }
 
 export function useConnect() {
@@ -79,15 +51,23 @@ export function useConnect() {
 }
 
 export function useSendTransaction() {
-  const { address, provider } = useWallet()
+  const provider = useArbitrumProvider()
+  const address = useSelector(selectWalletAddress)
 
   if (!provider) return { isReady: false, send: async () => {} }
 
   const signer = provider.getSigner()
 
-  const send = async (
-    txDetails: Partial<ethers.providers.TransactionRequest> | null
+  const send = async <T>(
+    transactionBuilder: (
+      provider: ethers.providers.Provider,
+      address: string,
+      data: T
+    ) => Promise<Partial<ethers.providers.TransactionRequest> | null>,
+    data: T
   ): Promise<ethers.providers.TransactionReceipt | null> => {
+    const txDetails = await transactionBuilder(provider, address, data)
+
     if (!txDetails) return null
 
     try {

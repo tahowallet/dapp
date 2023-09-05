@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-
-import { useWallet } from "shared/hooks"
+import { useSelector, selectWalletAvatar, selectWalletName } from "redux-state"
 import { getZoneData } from "../Map/constants"
 import AccountDropdown from "./AccountDropdown"
 
@@ -8,11 +7,12 @@ const regionMock = { name: "KryptoKeep", id: "4" }
 
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const { isConnected, truncatedAddress, name, avatar } = useWallet()
+  const name = useSelector(selectWalletName)
+  const avatar = useSelector(selectWalletAvatar)
   const region = regionMock // TODO: use region for given account
   const zone = region ? getZoneData(region.id.toString()) : undefined
 
-  if (!isConnected) return null
+  if (!name) return null
 
   return (
     <div className="account_container row">
@@ -30,9 +30,7 @@ export default function AccountInfo() {
         </div>
       )}
       <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
-        <span className="account_label ellipsis">
-          {name || truncatedAddress}
-        </span>
+        <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
       </button>
       <style jsx>
