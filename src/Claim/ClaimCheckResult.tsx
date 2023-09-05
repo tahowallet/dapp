@@ -27,11 +27,7 @@ export default function ClaimCheckResult() {
   }, [dispatch])
 
   useEffect(() => {
-    const fetch = async () => {
-      if (provider) await dispatch(fetchHasClaimed(provider))
-    }
-
-    fetch()
+    if (provider) dispatch(fetchHasClaimed(provider))
   }, [dispatch, provider])
 
   if (hasClaimed) {
