@@ -30,16 +30,19 @@ export default function LiquidityPool() {
   const [ethAmount, setEthAmount] = useState("")
 
   useEffect(() => {
-    if (!provider || !address) {
-      return
+    const fetchBalances = async () => {
+      if (!provider || !address) {
+        return
+      }
+
+      const newTahoBalance = await getBalance(provider, CONTRACT_Taho, address)
+      setTahoBalance(newTahoBalance)
+
+      const newEthBalance = (await provider.getBalance(address)).toBigInt()
+      setEthBalance(newEthBalance)
     }
 
-    getBalance(provider, CONTRACT_Taho, address).then((result) =>
-      setTahoBalance(result)
-    )
-    provider.getBalance(address).then((result) => {
-      setEthBalance(result.toBigInt())
-    })
+    fetchBalances()
   }, [address, provider])
 
   const signJoinPool = async (
