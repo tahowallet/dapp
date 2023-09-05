@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import portrait from "shared/assets/portrait.png"
-import { resolveAddressToName, truncateAddress } from "shared/utils"
+import { resolveAddressToName } from "shared/utils"
 import { ClaimState, resetClaiming, setClaimingUser } from "./claim"
 
 export type WalletState = {
@@ -45,21 +45,6 @@ export const { updateConnectedWallet, updateDisconnectedWallet } =
   walletSlice.actions
 
 export default walletSlice.reducer
-
-export const selectWalletAddress = (state: { wallet: WalletState }) =>
-  state.wallet.address
-
-export const selectWalletTruncatedAddress = (state: { wallet: WalletState }) =>
-  truncateAddress(state.wallet.address)
-
-export const selectWalletName = (state: { wallet: WalletState }) =>
-  state.wallet.name || truncateAddress(state.wallet.address)
-
-export const selectWalletAvatar = (state: { wallet: WalletState }) =>
-  state.wallet.avatar
-
-export const selectIsWalletConnected = (state: { wallet: WalletState }) =>
-  state.wallet.isConnected
 
 export const fetchWalletName = createAsyncThunk(
   "wallet/fetchWalletName",

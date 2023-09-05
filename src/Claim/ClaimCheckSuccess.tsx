@@ -12,11 +12,9 @@ import {
   useDispatch,
   setUseConnectedWalletToClaim,
   resetClaiming,
-} from "redux-state"
-import {
   selectIsWalletConnected,
   selectWalletAddress,
-} from "redux-state/slices/wallet"
+} from "redux-state"
 import { isSameAddress } from "shared/utils"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 import ClaimHeader from "./shared/ClaimHeader"

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { ethers } from "ethers"
 import { hasAlreadyClaimed } from "shared/contracts"
 import { Eligibility } from "shared/types"
-import { getEligibility, truncateAddress } from "shared/utils"
+import { getEligibility } from "shared/utils"
 
 export type ClaimState = {
   isLoading: boolean // TODO: add loading effect to the UI
@@ -81,20 +81,6 @@ export const {
   setUseConnectedWalletToClaim,
   resetClaiming,
 } = claimSlice.actions
-
-export const selectClaimingUser = (state: { claim: ClaimState }) => ({
-  name: state.claim.name || truncateAddress(state.claim.address),
-  address: state.claim.address,
-})
-
-export const selectHasClaimed = (state: { claim: ClaimState }) =>
-  state.claim.hasClaimed
-
-export const selectEligibility = (state: { claim: ClaimState }) =>
-  state.claim.eligibility
-
-export const selectUseConnectedWalletToClaim = (state: { claim: ClaimState }) =>
-  state.claim.useConnectedWallet
 
 export default claimSlice.reducer
 
