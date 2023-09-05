@@ -15,9 +15,9 @@ export default function ClaimingPledge() {
         <div className="pledge_description column">
           <h1>Taho Community Pledge</h1>
           <p>
-            Below are the values baked into every line of Tally Ho&apos;s
-            codebase. Our community pledge is that you can expect every update
-            in years and decades to be built around these values:
+            Below are the values baked into every line of Taho&apos;s codebase.
+            Our community pledge is that you can expect every update in years
+            and decades to be built around these values:
           </p>
         </div>
         <div className="values_list column">
