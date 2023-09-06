@@ -23,9 +23,6 @@ export default function ClaimingStats() {
           <ClaimCheckRules type="small" />
         </Accordion>
         <div className="line" />
-        <div className="stats_header">Community Pledge</div>
-        <span>-</span>
-        <div className="line" />
         <div className="stats_header">Delegate voting power</div>
         <span>-</span>
         <div className="line" />
