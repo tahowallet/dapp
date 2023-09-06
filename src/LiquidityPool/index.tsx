@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { encodeUserData } from "shared/utils/pool"
-import { selectWalletAddress, useSelector } from "redux-state"
+import {
+  selectIsWalletConnected,
+  selectWalletAddress,
+  useSelector,
+} from "redux-state"
 import {
   ETH_ADDRESS,
   isValidInputAmount,
@@ -25,7 +29,9 @@ export default function LiquidityPool() {
   const address = useSelector(selectWalletAddress)
 
   const provider = useArbitrumProvider()
-  const { send, isReady } = useSendTransaction()
+  const { send: sendJoinPool } = useSendTransaction(joinPool)
+  const { send: sendSetAllowance } = useSendTransaction(setAllowance)
+  const isConnected = useSelector(selectIsWalletConnected)
 
   const [tahoBalance, setTahoBalance] = useState(0n)
   const [tahoAmount, setTahoAmount] = useState("")
@@ -53,7 +59,7 @@ export default function LiquidityPool() {
     overrides?: { value: bigint }
   ) => {
     if (provider && address) {
-      const receipt = await send(joinPool, { joinRequest, overrides })
+      const receipt = await sendJoinPool({ joinRequest, overrides })
 
       if (receipt) {
         // TODO remove when designs be ready
@@ -84,8 +90,7 @@ export default function LiquidityPool() {
       })
 
       if (allowanceValue < targetTahoAmount) {
-        await send(
-          setAllowance,
+        await sendSetAllowance(
           { address: balancerPoolAgentAddress, amount: targetTahoAmount },
           CONTRACT_Taho
         )
@@ -146,7 +151,7 @@ export default function LiquidityPool() {
             isDisabled={
               isValidInputAmount(tahoAmount) ||
               isValidInputAmount(ethAmount) ||
-              !isReady
+              !isConnected
             }
           >
             Join Pool
