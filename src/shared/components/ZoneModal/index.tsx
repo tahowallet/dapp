@@ -6,9 +6,8 @@ import {
   useTransition as useSpringTransition,
 } from "@react-spring/web"
 
-import { zones } from "../constants"
-
 import Modal from "shared/components/Modal"
+import { zones } from "Map/constants"
 import ZoneModalContent from "./ZoneModalContent"
 
 function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
@@ -127,9 +126,11 @@ function NextBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
 export default function ZoneModal({
   zoneData,
   onClose,
+  children,
 }: {
   zoneData: string
   onClose: () => void
+  children: React.ReactNode
 }) {
   const [zoneId, setZoneId] = useState(zoneData)
   const [prevZone, nextZone] = useMemo(() => {
@@ -191,7 +192,7 @@ export default function ZoneModal({
         <animated.div style={props}>
           {transitions((style, item) => (
             <animated.div style={{ ...style }}>
-              <ZoneModalContent zoneId={item} />
+              <ZoneModalContent zoneId={item}>{children}</ZoneModalContent>
             </animated.div>
           ))}
         </animated.div>

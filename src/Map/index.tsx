@@ -1,9 +1,10 @@
 import React, { useLayoutEffect, useState } from "react"
+import ZoneModal from "shared/components/ZoneModal"
 import InteractiveMap from "./InteractiveMap"
-import ZoneModal from "./ZoneModal"
 import { MapContext } from "./MapContext"
 import { useValueRef } from "./utils"
 import backgroundImg from "../public/dapp_map_bg.webp"
+import ZoneDetails from "./ZoneDetails"
 
 const MemoizedInteractiveMap = React.memo(InteractiveMap)
 
@@ -53,7 +54,9 @@ export default function MapWrapper() {
         <MemoizedInteractiveMap />
       </MapContext.Provider>
       {zoneData && (
-        <ZoneModal zoneData={zoneData} onClose={() => setZoneData(null)} />
+        <ZoneModal zoneData={zoneData} onClose={() => setZoneData(null)}>
+          <ZoneDetails />
+        </ZoneModal>
       )}
     </div>
   )
