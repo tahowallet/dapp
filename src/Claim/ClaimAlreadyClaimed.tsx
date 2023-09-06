@@ -15,7 +15,7 @@ export default function ClaimAlreadyClaimed() {
       <Modal.Content>
         <div className="claimed_container column_center">
           <ClaimHeader header="Already claimed" />
-          <TahoAmount amount={eligibility.amount} hasBackground size="large" />
+          <TahoAmount amount={eligibility?.amount} hasBackground size="large" />
           <div className="button_container column_center">
             <Button
               onClick={() => location.push("/referrals")}

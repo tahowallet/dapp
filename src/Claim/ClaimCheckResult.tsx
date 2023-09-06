@@ -27,23 +27,19 @@ export default function ClaimCheckResult() {
   }, [dispatch])
 
   useEffect(() => {
-    const fetch = async () => {
-      if (provider) await dispatch(fetchHasClaimed(provider))
-    }
-
-    fetch()
+    if (provider) dispatch(fetchHasClaimed(provider))
   }, [dispatch, provider])
 
   if (hasClaimed) {
     return <ClaimAlreadyClaimed />
   }
 
-  if (address && eligibility.amount > 0n) {
-    return <ClaimCheckSuccess />
+  if (address && !eligibility) {
+    return <ClaimCheckFail />
   }
 
-  if (address && eligibility.amount === 0n) {
-    return <ClaimCheckFail />
+  if (address && eligibility && eligibility.amount > 0n) {
+    return <ClaimCheckSuccess />
   }
 
   return <Redirect to="/claim" />

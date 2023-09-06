@@ -83,18 +83,17 @@ export default function ClaimCheck() {
   }, [debouncedInput])
 
   useEffect(() => {
-    if (
-      isConnected &&
-      useConnectedWallet &&
-      connectedAddress &&
-      connectedName
-    ) {
-      dispatch(
-        setClaimingUser({ address: connectedAddress, name: connectedName })
-      )
-      setShouldRedirect(true)
-    } else if (!isConnected && useConnectedWallet) {
-      dispatch(resetClaiming())
+    if (useConnectedWallet) {
+      if (!isConnected) {
+        dispatch(resetClaiming())
+      }
+
+      if (connectedAddress && connectedName) {
+        dispatch(
+          setClaimingUser({ address: connectedAddress, name: connectedName })
+        )
+        setShouldRedirect(true)
+      }
     }
   }, [
     isConnected,

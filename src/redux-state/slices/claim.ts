@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { ethers } from "ethers"
 import { hasAlreadyClaimed } from "shared/contracts"
 import { Eligibility } from "shared/types"
-import { getEligibility, truncateAddress } from "shared/utils"
+import { getEligibility } from "shared/utils"
 
 export type ClaimState = {
   isLoading: boolean // TODO: add loading effect to the UI
@@ -10,7 +10,7 @@ export type ClaimState = {
   address: string
   hasClaimed: boolean
   useConnectedWallet: boolean
-  eligibility: Eligibility
+  eligibility: Eligibility | null
 }
 
 const initialState: ClaimState = {
@@ -19,12 +19,7 @@ const initialState: ClaimState = {
   address: "",
   hasClaimed: false,
   useConnectedWallet: true,
-  eligibility: {
-    account: "",
-    amount: 0n,
-    proof: null,
-    index: null,
-  },
+  eligibility: null,
 }
 
 const claimSlice = createSlice({
@@ -42,7 +37,9 @@ const claimSlice = createSlice({
     },
     setEligibility: (
       immerState,
-      { payload: { eligibility } }: { payload: { eligibility: Eligibility } }
+      {
+        payload: { eligibility },
+      }: { payload: { eligibility: Eligibility | null } }
     ) => {
       immerState.eligibility = eligibility
     },
@@ -64,12 +61,7 @@ const claimSlice = createSlice({
       immerState.name = ""
       immerState.address = ""
       immerState.hasClaimed = false
-      immerState.eligibility = {
-        account: "",
-        amount: 0n,
-        proof: null,
-        index: null,
-      }
+      immerState.eligibility = null
     },
   },
 })
@@ -81,20 +73,6 @@ export const {
   setUseConnectedWalletToClaim,
   resetClaiming,
 } = claimSlice.actions
-
-export const selectClaimingUser = (state: { claim: ClaimState }) => ({
-  name: state.claim.name || truncateAddress(state.claim.address),
-  address: state.claim.address,
-})
-
-export const selectHasClaimed = (state: { claim: ClaimState }) =>
-  state.claim.hasClaimed
-
-export const selectEligibility = (state: { claim: ClaimState }) =>
-  state.claim.eligibility
-
-export const selectUseConnectedWalletToClaim = (state: { claim: ClaimState }) =>
-  state.claim.useConnectedWallet
 
 export default claimSlice.reducer
 
@@ -122,7 +100,9 @@ export const fetchHasClaimed = createAsyncThunk(
       claim: { eligibility },
     } = getState() as { claim: ClaimState }
 
-    const hasClaimed = await hasAlreadyClaimed(provider, eligibility)
+    const hasClaimed = eligibility
+      ? await hasAlreadyClaimed(provider, eligibility)
+      : false
 
     dispatch(setHasClaimed({ hasClaimed }))
   }

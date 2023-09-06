@@ -12,11 +12,9 @@ import {
   useDispatch,
   setUseConnectedWalletToClaim,
   resetClaiming,
-} from "redux-state"
-import {
   selectIsWalletConnected,
   selectWalletAddress,
-} from "redux-state/slices/wallet"
+} from "redux-state"
 import { isSameAddress } from "shared/utils"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
 import ClaimHeader from "./shared/ClaimHeader"
@@ -60,7 +58,7 @@ export default function ClaimCheckSuccess() {
               </>
             }
           />
-          <TahoAmount amount={eligibility.amount} hasBackground size="large" />
+          <TahoAmount amount={eligibility?.amount} hasBackground size="large" />
           <ClaimCheckRules />
           <div className="button_container">
             <Button

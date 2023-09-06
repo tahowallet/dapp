@@ -6,7 +6,7 @@ import lockIcon from "../assets/icons/s/lock.svg"
 import coinIcon from "../assets/taho-coin.svg"
 
 type TahoAmountProps = {
-  amount: bigint
+  amount?: bigint
   hasBackground?: boolean
   size?: "small" | "large"
 }

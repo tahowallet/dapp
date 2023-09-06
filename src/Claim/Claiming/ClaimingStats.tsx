@@ -18,7 +18,7 @@ export default function ClaimingStats() {
     <Modal.Content>
       <div className="stats column">
         <div className="stats_header">You can claim</div>
-        <TahoAmount amount={eligibility.amount} />
+        <TahoAmount amount={eligibility?.amount ?? 0n} />
         <Accordion title="Criteria breakdown">
           <ClaimCheckRules type="small" />
         </Accordion>
