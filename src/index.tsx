@@ -2,9 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
-import { Provider } from "react-redux"
+import { Provider, useSelector } from "react-redux"
 import { useWallet } from "shared/hooks"
 import LiquidityPool from "LiquidityPool"
+import { selectMapMode } from "redux-state/selectors/map"
 import Referrals from "./Referrals"
 import {
   EthereumProviderContext,
@@ -19,14 +20,16 @@ import web3Onboard from "./web3Onboard"
 import reduxStore from "./redux-state"
 
 function DApp() {
+  const mapMode = useSelector(selectMapMode)
+
   useWallet()
 
   return (
     <>
       <GlobalStyles />
-      <MapComponent />
       <Router>
-        <Nav />
+        <MapComponent />
+        {mapMode === "default" && <Nav />}
         <Switch>
           <Route path="/claim">
             <Claim />

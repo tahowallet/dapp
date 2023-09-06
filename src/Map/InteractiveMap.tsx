@@ -3,6 +3,9 @@ import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
 import rafSchd from "raf-schd"
 
+import { useDispatch, useSelector } from "react-redux"
+import { selectMapOverlay } from "redux-state/selectors/map"
+import { setMapOverlay } from "redux-state/slices/map"
 import Background, { OverlayType } from "./Background"
 import Zones from "./MapZones"
 import { MAP_BOX } from "./constants"
@@ -50,7 +53,8 @@ export default function InteractiveMap() {
   )
   const mapRef = useRef<Konva.Stage | null>(null)
 
-  const [overlay, setOverlay] = useState<OverlayType>("subtle")
+  const overlay = useSelector(selectMapOverlay)
+  const dispatch = useDispatch()
 
   const stageFns = useValueRef(() => {
     const resetZoom = () => {
@@ -173,7 +177,7 @@ export default function InteractiveMap() {
 
   return (
     <>
-      <TestControls setOverlay={setOverlay} />
+      <TestControls setOverlay={(value) => dispatch(setMapOverlay(value))} />
       <Stage
         ref={mapRef}
         draggable

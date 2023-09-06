@@ -5,9 +5,12 @@ import Icon from "shared/components/Icon"
 import earthIcon from "shared/assets/icons/earth.svg"
 import communityIcon from "shared/assets/icons/community.svg"
 import rulerIcon from "shared/assets/icons/ruler.svg"
+import { setMapMode, setMapOverlay } from "redux-state/slices/map"
+import { useDispatch } from "react-redux"
 
 export default function ClaimingPledge() {
   const location = useHistory()
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -53,7 +56,11 @@ export default function ClaimingPledge() {
         <div className="signing_container column">
           <div className="button_container row">
             <Button
-              onClick={() => location.push("/claim/claiming/sign")}
+              onClick={() => {
+                dispatch(setMapMode("join-region"))
+                dispatch(setMapOverlay("dark"))
+                location.push("/claim/claiming/region")
+              }}
               type="primary"
               size="large"
             >
