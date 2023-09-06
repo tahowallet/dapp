@@ -64,9 +64,14 @@ export function useSendTransaction() {
       address: string,
       data: T
     ) => Promise<Partial<ethers.providers.TransactionRequest> | null>,
-    data: T
+    data: T,
+    contractAddress?: string
   ): Promise<ethers.providers.TransactionReceipt | null> => {
-    const txDetails = await transactionBuilder(provider, address, data)
+    const txDetails = await transactionBuilder(
+      provider,
+      contractAddress || address,
+      data
+    )
 
     if (!txDetails) return null
 

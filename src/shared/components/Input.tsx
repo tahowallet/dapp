@@ -6,6 +6,7 @@ export default function SharedInput({
   validate = (value) => ({ value }),
   label,
   value: propsValue,
+  placeholder = " ",
   disabled = false,
   rightComponent = null,
   style = {},
@@ -13,6 +14,7 @@ export default function SharedInput({
   label: string
   disabled?: boolean
   value: string
+  placeholder?: string
   onChange?: (value: string) => void
   validate?: (value: string) => { value: unknown } | { error: string }
   rightComponent?: React.ReactNode
@@ -34,7 +36,7 @@ export default function SharedInput({
         <input
           type="text"
           value={value}
-          placeholder=""
+          placeholder={placeholder}
           disabled={disabled}
           onChange={(e) => {
             const newValue = validate(e.target.value)
