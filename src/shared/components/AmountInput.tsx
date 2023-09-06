@@ -22,10 +22,7 @@ export default function AmountInput({
     if (Number.isNaN(+value)) {
       return { error: "Invalid format" }
     }
-    if (
-      !Number.isNaN(parsed) &&
-      userAmountToBigInt(BigInt(parsed)) > maxAmount
-    ) {
+    if (!Number.isNaN(parsed) && userAmountToBigInt(parsed) > maxAmount) {
       return { error: "Insufficient balance" }
     }
     if (parsed < 0) {

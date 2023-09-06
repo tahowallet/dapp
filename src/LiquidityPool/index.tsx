@@ -74,10 +74,8 @@ export default function LiquidityPool() {
         throw new Error("No provider or address")
       }
 
-      const targetTahoAmount = userAmountToBigInt(
-        BigInt(parseFloat(tahoAmount))
-      )
-      const targetEthAmount = userAmountToBigInt(BigInt(parseFloat(ethAmount)))
+      const targetTahoAmount = userAmountToBigInt(+tahoAmount)
+      const targetEthAmount = userAmountToBigInt(+ethAmount)
 
       const balancerPoolAgentAddress = await getBalancerPoolAgentAddress(
         provider
