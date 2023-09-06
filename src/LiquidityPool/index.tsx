@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { encodeUserData } from "shared/utils/pool"
+import { selectWalletAddress, useSelector } from "redux-state"
 import {
   ETH_ADDRESS,
   isValidInputAmount,
@@ -16,12 +17,14 @@ import {
   joinPool,
   totalSupply,
 } from "../shared/contracts"
-import { useSendTransaction, useWallet } from "../shared/hooks"
+import { useArbitrumProvider, useSendTransaction } from "../shared/hooks"
 import Button from "../shared/components/Button"
 import Modal from "../shared/components/Modal"
 
 export default function LiquidityPool() {
-  const { provider, address } = useWallet()
+  const address = useSelector(selectWalletAddress)
+
+  const provider = useArbitrumProvider()
   const { send, isReady } = useSendTransaction()
 
   const [tahoBalance, setTahoBalance] = useState(0n)
@@ -50,13 +53,7 @@ export default function LiquidityPool() {
     overrides?: { value: bigint }
   ) => {
     if (provider && address) {
-      const joinPoolTx = await joinPool(
-        provider,
-        address,
-        joinRequest,
-        overrides
-      )
-      const receipt = await send(joinPoolTx)
+      const receipt = await send(joinPool, { joinRequest, overrides })
 
       if (receipt) {
         // TODO remove when designs be ready
@@ -81,21 +78,17 @@ export default function LiquidityPool() {
         provider
       )
 
-      const allowanceValue = await getAllowance(
-        provider,
-        CONTRACT_Taho,
-        address,
-        balancerPoolAgentAddress
-      )
+      const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
+        account: address,
+        address: balancerPoolAgentAddress,
+      })
 
       if (allowanceValue < targetTahoAmount) {
-        const allowanceTx = await setAllowance(
-          provider,
-          CONTRACT_Taho,
-          balancerPoolAgentAddress,
-          targetTahoAmount
+        await send(
+          setAllowance,
+          { address: balancerPoolAgentAddress, amount: targetTahoAmount },
+          CONTRACT_Taho
         )
-        await send(allowanceTx)
       }
 
       const maxAmountsIn = [targetTahoAmount, targetEthAmount]

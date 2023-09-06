@@ -45,3 +45,12 @@ export function isValidInputAmount(amount: string): boolean {
     parseFloat(amount) <= 0
   )
 }
+
+export function encodeJSON(input: unknown): string {
+  return JSON.stringify(input, (_, value) => {
+    if (typeof value === "bigint") {
+      return { B_I_G_I_N_T: value.toString() }
+    }
+    return value
+  })
+}

@@ -1,30 +1,26 @@
-import React, { useContext } from "react"
-import { Redirect, useHistory } from "react-router-dom"
+import React from "react"
+import { useHistory } from "react-router-dom"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
-import { useConnect } from "shared/hooks"
+import {
+  useDispatch,
+  useSelector,
+  selectClaimingUser,
+  resetClaiming,
+  setUseConnectedWalletToClaim,
+} from "redux-state"
 import ClaimHeader from "./shared/ClaimHeader"
 import ClaimCheckRules from "./shared/ClaimCheckRules"
-import { ClaimContext, DEFAULT_CLAIM_STATE } from "./hooks"
-import { ClaimProps } from "./types"
 
-export default function ClaimCheckFail({ setClaimingAccount }: ClaimProps) {
+export default function ClaimCheckFail() {
   const history = useHistory()
-  const { disconnect } = useConnect()
+  const dispatch = useDispatch()
+  const { name } = useSelector(selectClaimingUser)
 
-  const {
-    userDetails: { name, isConnected },
-  } = useContext(ClaimContext)
-
-  const resetClaimingAccount = () => {
-    // disconnecting wallet because if it was connected then current
-    // account wasn't eligible anyway and keeping it connected would
-    // just confuse the user why they need to connect again to claim
-    disconnect()
-    setClaimingAccount(DEFAULT_CLAIM_STATE)
-  }
-  if (!isConnected && !name) {
-    return <Redirect to="/claim" />
+  const reset = () => {
+    dispatch(setUseConnectedWalletToClaim({ useConnectedWallet: false }))
+    dispatch(resetClaiming())
+    history.push("/claim")
   }
 
   return (
@@ -42,14 +38,7 @@ export default function ClaimCheckFail({ setClaimingAccount }: ClaimProps) {
             }
           />
           <ClaimCheckRules />
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => {
-              resetClaimingAccount()
-              history.push("/claim")
-            }}
-          >
+          <Button type="primary" size="large" onClick={reset}>
             Try another address
           </Button>
         </div>

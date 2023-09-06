@@ -35,8 +35,10 @@ async function getBalancerPoolAgentContract(
 export async function joinPool(
   provider: providers.Provider,
   recipient: string,
-  joinRequest: LiquidityPoolRequest,
-  overrides?: { value: bigint }
+  {
+    joinRequest,
+    overrides,
+  }: { joinRequest: LiquidityPoolRequest; overrides?: { value: bigint } }
 ): Promise<PopulatedTransaction> {
   const balancerPoolAgent = await getBalancerPoolAgentContract(provider)
 

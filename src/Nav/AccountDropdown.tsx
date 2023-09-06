@@ -1,26 +1,16 @@
 import React from "react"
-import { ethers } from "ethers"
-import { useWallet, useConnect, useSendTransaction } from "shared/hooks"
+import { useConnect } from "shared/hooks"
 import Button from "shared/components/Button"
+import { useSelector, selectWalletName } from "redux-state"
 
 export default function AccountDropdown() {
-  const { address, truncatedAddress } = useWallet()
+  const accountName = useSelector(selectWalletName)
   const { disconnect } = useConnect()
-  const { send, isReady } = useSendTransaction()
 
   return (
     <>
       <div className="account_dropdown_container column">
-        <div>{truncatedAddress}</div>
-        <Button
-          type="tertiary"
-          onClick={() =>
-            send({ to: address, value: ethers.utils.parseEther("0.001") })
-          }
-          isDisabled={!isReady}
-        >
-          Send
-        </Button>
+        <div>{accountName}</div>
         <Button type="tertiary" onClick={() => disconnect()}>
           Disconnect
         </Button>

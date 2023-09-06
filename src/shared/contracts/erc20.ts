@@ -60,8 +60,7 @@ export async function getBalance(
 export async function getAllowance(
   provider: providers.Provider,
   tokenAddress: string,
-  account: string,
-  address: string
+  { account, address }: { account: string; address: string }
 ): Promise<bigint> {
   const token = await getTokenContract(provider, tokenAddress)
 
@@ -71,8 +70,7 @@ export async function getAllowance(
 export async function setAllowance(
   provider: providers.Provider,
   tokenAddress: string,
-  address: string,
-  amount: bigint
+  { address, amount }: { address: string; amount: bigint }
 ): Promise<PopulatedTransaction> {
   const token = await getTokenContract(provider, tokenAddress)
 

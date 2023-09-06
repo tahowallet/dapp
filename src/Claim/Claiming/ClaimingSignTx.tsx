@@ -1,25 +1,23 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
-import { ClaimContext } from "../hooks"
 import { claim } from "shared/contracts"
 import Icon from "shared/components/Icon"
 import Button from "shared/components/Button"
 import lockIcon from "shared/assets/icons/s/lock.svg"
-import { useSendTransaction, useWallet } from "shared/hooks"
+import { useSendTransaction } from "shared/hooks"
+import { useSelector, selectEligibility } from "redux-state"
+import { Eligibility } from "shared/types"
 
 export default function ClaimingSignTx() {
-  const { provider, address } = useWallet()
   const { send, isReady } = useSendTransaction()
   const [hasSigned, setHasSigned] = useState(false)
+  const eligibility = useSelector(selectEligibility)
 
-  const {
-    claimDetails: { isEligible, eligibility },
-  } = useContext(ClaimContext)
+  const isEligible = eligibility.amount > 0
 
   const signClaim = async () => {
-    if (isEligible && provider && address) {
-      const claimTx = await claim(provider, address, eligibility)
-      const receipt = await send(claimTx)
+    if (isEligible && isReady) {
+      const receipt = await send<Eligibility>(claim, eligibility)
 
       if (receipt) {
         setHasSigned(true)

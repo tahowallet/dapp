@@ -1,5 +1,5 @@
 import React from "react"
-import { useConnect, useWallet } from "shared/hooks"
+import { useConnect } from "shared/hooks"
 import TahoAmount from "shared/components/TahoAmount"
 import Button from "shared/components/Button"
 import Icon from "shared/components/Icon"
@@ -7,12 +7,18 @@ import Modal from "shared/components/Modal"
 import eyeIcon from "shared/assets/icons/m/eye.svg"
 import twitterIcon from "shared/assets/icons/twitter.svg"
 import copyIcon from "shared/assets/icons/s/copy.svg"
+import {
+  useSelector,
+  selectWalletAddress,
+  selectWalletTruncatedAddress,
+} from "redux-state"
 import ReferralsTips from "./ReferralsTips"
 import ReferralsLeaderboard from "./ReferralsLeaderboard"
 
 export default function Referrals() {
   const { isConnected, connect } = useConnect()
-  const { address, truncatedAddress } = useWallet()
+  const address = useSelector(selectWalletAddress)
+  const truncatedAddress = useSelector(selectWalletTruncatedAddress)
 
   const link = `taho.xyz/referral/${address}`
   const truncatedLink = `taho.xyz/referral/${truncatedAddress || "0xABC...XYZ"}`

@@ -1,20 +1,18 @@
-import React, { useContext } from "react"
+import React from "react"
 import TahoAmount from "shared/components/TahoAmount"
 import Modal from "shared/components/Modal"
 import Icon from "shared/components/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
+import { useSelector, selectEligibility } from "redux-state"
 import ClaimCheckRules from "../shared/ClaimCheckRules"
 import { MapZoneCutout } from "../../Map/MapCutout"
 import { getZoneData } from "../../Map/constants"
-import { ClaimContext } from "../hooks"
 
 const MOCK_ZONE = { population: "12,345", ...getZoneData("4") }
 
 export default function ClaimingStats() {
-  const {
-    claimDetails: { eligibility },
-  } = useContext(ClaimContext)
+  const eligibility = useSelector(selectEligibility)
 
   return (
     <Modal.Content>
@@ -24,9 +22,6 @@ export default function ClaimingStats() {
         <Accordion title="Criteria breakdown">
           <ClaimCheckRules type="small" />
         </Accordion>
-        <div className="line" />
-        <div className="stats_header">Community Pledge</div>
-        <span>-</span>
         <div className="line" />
         <div className="stats_header">Delegate voting power</div>
         <span>-</span>
