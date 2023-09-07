@@ -29,8 +29,10 @@ export default function LiquidityPool() {
   const address = useSelector(selectWalletAddress)
 
   const provider = useArbitrumProvider()
-  const { send: sendJoinPool } = useSendTransaction(joinPool)
-  const { send: sendSetAllowance } = useSendTransaction(setAllowance)
+  const { send: sendJoinPool, isReady: isJoinPoolReady } =
+    useSendTransaction(joinPool)
+  const { send: sendSetAllowance, isReady: isSetAllowanceReady } =
+    useSendTransaction(setAllowance)
   const isConnected = useSelector(selectIsWalletConnected)
 
   const [tahoBalance, setTahoBalance] = useState(0n)
@@ -58,7 +60,7 @@ export default function LiquidityPool() {
     joinRequest: LiquidityPoolRequest,
     overrides?: { value: bigint }
   ) => {
-    if (provider && address) {
+    if (isJoinPoolReady && address) {
       const receipt = await sendJoinPool({ joinRequest, overrides })
 
       if (receipt) {
@@ -73,7 +75,7 @@ export default function LiquidityPool() {
 
   const joinTahoPool = async () => {
     try {
-      if (!provider || !address) {
+      if (!provider || !address || !isSetAllowanceReady) {
         throw new Error("No provider or address")
       }
 

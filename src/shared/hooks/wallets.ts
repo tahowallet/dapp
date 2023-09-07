@@ -56,15 +56,28 @@ export function useSendTransaction<T>(
     provider: ethers.providers.Provider,
     address: string,
     data: T
-  ) => Promise<Partial<ethers.providers.TransactionRequest> | null>
-) {
+  ) => Promise<ethers.providers.TransactionRequest | null>
+):
+  | {
+      status: TransactionProgressStatus
+      isReady: false
+      send: null
+    }
+  | {
+      status: TransactionProgressStatus
+      isReady: true
+      send: (
+        data: T,
+        contractAddress?: string
+      ) => Promise<ethers.providers.TransactionReceipt | null>
+    } {
   const provider = useArbitrumProvider()
   const address = useSelector(selectWalletAddress)
   const [status, setStatus] = useState<TransactionProgressStatus>(
     TransactionProgressStatus.Idle
   )
 
-  if (!provider) return { isReady: false, send: async () => {}, status }
+  if (!provider) return { isReady: false, send: null, status }
 
   const signer = provider.getSigner()
 

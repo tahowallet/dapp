@@ -1,19 +1,12 @@
 import React from "react"
-import { TransactionProgressStatus } from "shared/types"
 import Modal from "../Modal"
-import TransactionProgress from "./TransactionProgress"
-
-type TransactionUI = {
-  id: string
-  title?: string
-  buttonLabel?: string
-  status: TransactionProgressStatus
-  sendTransaction: () => Promise<void>
-}
+import TransactionProgress, {
+  TransactionProgressProps,
+} from "./TransactionProgress"
 
 type TransactionsModalProps = {
   title?: string
-  transactions?: TransactionUI[]
+  transactions?: ({ id: string } & TransactionProgressProps)[]
 }
 
 export default function TransactionsModal({

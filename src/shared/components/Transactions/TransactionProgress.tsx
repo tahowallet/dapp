@@ -6,7 +6,7 @@ import Button from "../Button"
 import Ripple from "../Loaders/Ripple"
 import Icon from "../Icon"
 
-type TransactionProgressProps = {
+export type TransactionProgressProps = {
   title?: string
   buttonLabel: string
   disabled?: boolean

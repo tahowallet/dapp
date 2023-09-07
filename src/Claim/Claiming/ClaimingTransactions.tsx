@@ -10,14 +10,17 @@ import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 export default function ClaimingTransactions() {
   const [shouldRedirect, setShouldRedirect] = useState(false)
   const eligibility = useSelector(selectEligibility)
-  const { send: sendClaim, status: statusClaim } =
-    useSendTransaction<Eligibility>(claim)
+  const {
+    send: sendClaim,
+    isReady: isClaimReady,
+    status: statusClaim,
+  } = useSendTransaction<Eligibility>(claim)
 
   const signClaim = useCallback(async () => {
-    if (eligibility) {
+    if (eligibility && isClaimReady) {
       await sendClaim(eligibility)
     }
-  }, [eligibility, sendClaim])
+  }, [eligibility, sendClaim, isClaimReady])
 
   useEffect(() => {
     if (statusClaim === TransactionProgressStatus.Done) {
