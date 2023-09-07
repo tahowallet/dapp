@@ -3,10 +3,9 @@ import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
 import rafSchd from "raf-schd"
 
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { selectMapOverlay } from "redux-state/selectors/map"
-import { setMapOverlay } from "redux-state/slices/map"
-import Background, { OverlayType } from "./Background"
+import Background from "./Background"
 import Zones from "./MapZones"
 import { MAP_BOX } from "./constants"
 import {
@@ -18,33 +17,6 @@ import {
   useValueRef,
 } from "./utils"
 
-function TestControls({
-  setOverlay,
-}: {
-  setOverlay: (overlay: OverlayType) => void
-}) {
-  return (
-    <div className="column">
-      <style jsx>{`
-        div {
-          position: absolute;
-          top: 50%;
-          z-index: 2;
-        }
-      `}</style>
-      <button type="button" onClick={() => setOverlay("dark")}>
-        Set dark overlay
-      </button>
-      <button type="button" onClick={() => setOverlay("subtle")}>
-        Set subtle overlay
-      </button>
-      <button type="button" onClick={() => setOverlay("none")}>
-        Turn off overlay
-      </button>
-    </div>
-  )
-}
-
 export default function InteractiveMap() {
   const settingsRef = useRef({ minScale: 0 })
   const [zoomLevel, setZoomLevel] = useState(1)
@@ -54,7 +26,6 @@ export default function InteractiveMap() {
   const mapRef = useRef<Konva.Stage | null>(null)
 
   const overlay = useSelector(selectMapOverlay)
-  const dispatch = useDispatch()
 
   const stageFns = useValueRef(() => {
     const resetZoom = () => {
@@ -176,21 +147,18 @@ export default function InteractiveMap() {
   [])
 
   return (
-    <>
-      <TestControls setOverlay={(value) => dispatch(setMapOverlay(value))} />
-      <Stage
-        ref={mapRef}
-        draggable
-        dragBoundFunc={restrictDragBounds}
-        scale={{ x: zoomLevel, y: zoomLevel }}
-        width={stageBounds.width}
-        height={stageBounds.height}
-      >
-        <Layer>
-          <Background overlay={overlay} />
-          <Zones />
-        </Layer>
-      </Stage>
-    </>
+    <Stage
+      ref={mapRef}
+      draggable
+      dragBoundFunc={restrictDragBounds}
+      scale={{ x: zoomLevel, y: zoomLevel }}
+      width={stageBounds.width}
+      height={stageBounds.height}
+    >
+      <Layer>
+        <Background overlay={overlay} />
+        <Zones />
+      </Layer>
+    </Stage>
   )
 }
