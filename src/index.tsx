@@ -6,6 +6,7 @@ import { Provider, useSelector } from "react-redux"
 import { useWallet } from "shared/hooks"
 import LiquidityPool from "LiquidityPool"
 import { selectMapMode } from "redux-state/selectors/map"
+import TestingPanel from "testing/components/TestingPanel"
 import Referrals from "./Referrals"
 import {
   EthereumProviderContext,
@@ -29,6 +30,7 @@ function DApp() {
       <GlobalStyles />
       <Router>
         <MapComponent />
+        <TestingPanel />
         {mapMode === "default" && <Nav />}
         <Switch>
           <Route path="/claim">
