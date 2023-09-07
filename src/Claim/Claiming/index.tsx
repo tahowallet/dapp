@@ -1,9 +1,17 @@
 import React from "react"
+import Modal from "shared/components/Modal"
+import { useSelector } from "react-redux"
+import { selectMapMode } from "redux-state/selectors/map"
 import ClaimingStats from "./ClaimingStats"
 import ClaimingFlow from "./ClaimingFlow"
-import Modal from "shared/components/Modal"
 
 export default function Claiming() {
+  const mapMode = useSelector(selectMapMode)
+
+  if (mapMode === "join-region") {
+    return null
+  }
+
   return (
     <Modal.Container type="map-with-overlay">
       <div className="steps_container column">

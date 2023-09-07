@@ -3,13 +3,13 @@ import React, { MutableRefObject, useContext } from "react"
 export const MapContext = React.createContext<MutableRefObject<MapContextType>>(
   {
     current: {
-      onZoneClick: () => {},
+      onRegionClick: () => {},
     },
   }
 )
 
 export type MapContextType = {
-  onZoneClick: (id: string) => void
+  onRegionClick: (id: string) => void
 }
 
 export function useMapContext() {

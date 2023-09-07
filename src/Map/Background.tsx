@@ -5,7 +5,7 @@ import { Easings } from "konva/lib/Tween"
 import useImage from "use-image"
 
 import { createBackgroundMask, useBeforeFirstPaint, usePrevious } from "./utils"
-import { MAP_BOX, zones } from "./constants"
+import { MAP_BOX, regions } from "./constants"
 
 import backgroundImg from "../public/dapp_map_bg.webp"
 
@@ -101,7 +101,7 @@ export default function Background({ overlay }: { overlay: OverlayType }) {
       return undefined
     }
 
-    return createBackgroundMask(zones, mapImage)
+    return createBackgroundMask(regions, mapImage)
   }, [mapImage])
 
   return (

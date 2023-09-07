@@ -6,9 +6,9 @@ import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
 
 import { useMapContext } from "./MapContext"
-import { ZONES_COUNT } from "./constants"
+import { REGIONS_COUNT } from "./constants"
 
-type ZoneProps = {
+type RegionProps = {
   id: string
   imageLayer: HTMLCanvasElement
   path: string
@@ -22,7 +22,7 @@ type ZoneProps = {
   labelY: number
 }
 
-export default function Zone({
+export default function Region({
   path,
   width,
   height,
@@ -34,7 +34,7 @@ export default function Zone({
   imageLayer,
   labelX,
   labelY,
-}: ZoneProps) {
+}: RegionProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
   const mapContext = useMapContext()
@@ -44,9 +44,9 @@ export default function Zone({
   const imageLayerRef = useRef<Konva.Image>(null)
   const overlayRef = useRef<Konva.Path>(null)
 
-  const handleZoneClick = () => {
+  const handleRegionClick = () => {
     setIsSelected((prev) => !prev)
-    mapContext.current.onZoneClick(id)
+    mapContext.current.onRegionClick(id)
   }
 
   useLayoutEffect(() => {
@@ -59,7 +59,7 @@ export default function Zone({
     const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
       if (evt.type === "mouseenter") {
         stage.container().style.cursor = "pointer"
-        group.zIndex(ZONES_COUNT)
+        group.zIndex(REGIONS_COUNT)
         setIsHovered(true)
       } else if (evt.type === "mouseleave") {
         stage.container().style.cursor = "default"
@@ -230,7 +230,7 @@ export default function Zone({
         data={path}
         width={width}
         height={height}
-        onClick={handleZoneClick}
+        onClick={handleRegionClick}
         {...pathProps}
       />
     </Group>

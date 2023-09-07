@@ -1,10 +1,13 @@
-import React, { useLayoutEffect, useState } from "react"
-import ZoneModal from "shared/components/ZoneModal"
+import React, { useCallback, useLayoutEffect, useState } from "react"
+import { selectMapMode } from "redux-state/selectors/map"
+import { useSelector } from "react-redux"
+import RegionModal from "shared/components/RegionModal"
 import InteractiveMap from "./InteractiveMap"
 import { MapContext } from "./MapContext"
 import { useValueRef } from "./utils"
 import backgroundImg from "../public/dapp_map_bg.webp"
-import ZoneDetails from "./ZoneDetails"
+import JoinRegion from "./JoinRegion"
+import RegionDetails from "./RegionDetails"
 
 const MemoizedInteractiveMap = React.memo(InteractiveMap)
 
@@ -26,13 +29,17 @@ export default function MapWrapper() {
     })
   }, [])
 
-  const [zoneData, setZoneData] = useState<null | string>(null)
+  const [regionData, setRegionData] = useState<null | string>(null)
 
   const contextRef = useValueRef(() => ({
-    onZoneClick: (id: string) => {
-      setZoneData(String(id))
+    onRegionClick: (id: string) => {
+      setRegionData(String(id))
     },
   }))
+
+  const mapMode = useSelector(selectMapMode)
+
+  const handleClose = useCallback(() => setRegionData(null), [])
 
   if (!assetsLoaded) {
     return null
@@ -53,10 +60,14 @@ export default function MapWrapper() {
       <MapContext.Provider value={contextRef}>
         <MemoizedInteractiveMap />
       </MapContext.Provider>
-      {zoneData && (
-        <ZoneModal zoneData={zoneData} onClose={() => setZoneData(null)}>
-          <ZoneDetails />
-        </ZoneModal>
+      {regionData && (
+        <RegionModal regionData={regionData} onClose={handleClose}>
+          {mapMode === "default" ? (
+            <RegionDetails />
+          ) : (
+            <JoinRegion onClose={handleClose} />
+          )}
+        </RegionModal>
       )}
     </div>
   )

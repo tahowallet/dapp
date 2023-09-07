@@ -5,10 +5,9 @@ import {
   easings,
   useTransition as useSpringTransition,
 } from "@react-spring/web"
-
 import Modal from "shared/components/Modal"
-import { zones } from "Map/constants"
-import ZoneModalContent from "./ZoneModalContent"
+import { regions } from "Map/constants"
+import RegionModalContent from "./RegionModalContent"
 
 function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   return (
@@ -123,24 +122,25 @@ function NextBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-export default function ZoneModal({
-  zoneData,
+export default function RegionModal({
+  regionData,
   onClose,
   children,
 }: {
-  zoneData: string
+  regionData: string
   onClose: () => void
   children: React.ReactNode
 }) {
-  const [zoneId, setZoneId] = useState(zoneData)
-  const [prevZone, nextZone] = useMemo(() => {
-    const index = zones.findIndex((zone) => zone.id === zoneId)
+  const [regionId, setRegionId] = useState(regionData)
+  const [prevRegion, nextRegion] = useMemo(() => {
+    const index = regions.findIndex((region) => region.id === regionId)
 
     const prev =
-      index - 1 < 0 ? zones[zones.length - 1].id : zones[index - 1].id
-    const next = index + 1 === zones.length ? zones[0].id : zones[index + 1].id
+      index - 1 < 0 ? regions[regions.length - 1].id : regions[index - 1].id
+    const next =
+      index + 1 === regions.length ? regions[0].id : regions[index + 1].id
     return [prev, next]
-  }, [zoneId])
+  }, [regionId])
 
   const [props] = useSpring(
     () => ({
@@ -158,7 +158,7 @@ export default function ZoneModal({
     []
   )
 
-  const transitions = useSpringTransition(zoneId, {
+  const transitions = useSpringTransition(regionId, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
@@ -177,7 +177,7 @@ export default function ZoneModal({
             zIndex: 1,
             transform: "translateX(-100%)",
           }}
-          onClick={() => setZoneId(prevZone)}
+          onClick={() => setRegionId(prevRegion)}
         />
         <NextBtn
           style={{
@@ -187,12 +187,14 @@ export default function ZoneModal({
             zIndex: 1,
             transform: "translateX(100%)",
           }}
-          onClick={() => setZoneId(nextZone)}
+          onClick={() => setRegionId(nextRegion)}
         />
         <animated.div style={props}>
           {transitions((style, item) => (
             <animated.div style={{ ...style }}>
-              <ZoneModalContent zoneId={item}>{children}</ZoneModalContent>
+              <RegionModalContent regionId={item}>
+                {children}
+              </RegionModalContent>
             </animated.div>
           ))}
         </animated.div>
