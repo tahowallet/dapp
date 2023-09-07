@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { OverlayType } from "Map/Background"
 
+type MapModeType = "default" | "join-region"
+
 export type MapState = {
-  mode: "default" | "join-region"
+  mode: MapModeType
   overlay: OverlayType
 }
 
@@ -15,10 +17,7 @@ const mapSlice = createSlice({
   name: "map",
   initialState,
   reducers: {
-    setMapMode: (
-      immerState,
-      { payload: mode }: { payload: "default" | "join-region" }
-    ) => {
+    setMapMode: (immerState, { payload: mode }: { payload: MapModeType }) => {
       immerState.mode = mode
     },
     setMapOverlay: (
