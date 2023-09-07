@@ -54,7 +54,7 @@ const statusToElementProps = [
 
 function TransactionStep({ status, title }: TransactionStepProps) {
   return (
-    <div className={classNames("step", { status })}>
+    <div className={classNames("step row_center", { [status]: true })}>
       {status !== "done" && <Ripple disabled={status === "not-started"} />}
       {status === "done" && (
         <Icon src={iconNotifCorrect} color="var(--trading-in)" />
@@ -62,7 +62,15 @@ function TransactionStep({ status, title }: TransactionStepProps) {
       <span>{title}</span>
       <style jsx>{`
         .step {
+          color: var(--secondary-s1-100);
+          gap: 8px;
+          transition: 100ms color, 100ms opacity;
+        }
+        .step.done {
           color: var(--trading-in);
+        }
+        .step.not-started {
+          opacity: 0.5;
         }
       `}</style>
     </div>
@@ -83,13 +91,13 @@ export default function TransactionProgress({
   const isDone = status === TransactionProgressStatus.Done
 
   return (
-    <div>
+    <div className="progress_container column">
       {title && <h5>{title}</h5>}
 
       {isUninitialized && (
         <Button
           type="primary"
-          size="medium"
+          size="large"
           isDisabled={disabled}
           onClick={sendTransaction}
         >
@@ -107,6 +115,17 @@ export default function TransactionProgress({
         ))}
 
       {isDone && <TransactionStep key="done" status="done" title="Done" />}
+      <style jsx>{`
+        .progress_container {
+          gap: 16px;
+        }
+        .progress_container h5 {
+          font-size: 22px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 32px;
+        }
+      `}</style>
     </div>
   )
 }

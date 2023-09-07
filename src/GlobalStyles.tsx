@@ -190,6 +190,10 @@ export default function GlobalStyles() {
         .row {
           display: flex;
         }
+        .row_center {
+          display: flex;
+          align-items: center;
+        }
         .ellipsis {
           white-space: nowrap;
           overflow: hidden;
