@@ -4,8 +4,11 @@ import Icon from "shared/components/Icon"
 
 import iconCommunity from "shared/assets/icons/people.svg"
 import iconStar from "shared/assets/icons/star.svg"
-import { getZoneData } from "../../../Map/constants"
-import { MapZoneCutout, MapZoneBackgroundCutout } from "../../../Map/MapCutout"
+import { getRegionData } from "../../../Map/constants"
+import {
+  MapRegionCutout,
+  MapRegionBackgroundCutout,
+} from "../../../Map/MapCutout"
 
 export const mockData = {
   details:
@@ -14,19 +17,19 @@ export const mockData = {
   xpfn: "NFT Collector",
 } as const
 
-export default function ZoneHeader({ zoneId }: { zoneId: string }) {
-  const data = { ...mockData, ...getZoneData(zoneId) }
+export default function RegionHeader({ regionId }: { regionId: string }) {
+  const data = { ...mockData, ...getRegionData(regionId) }
 
   return (
     <header className="column">
-      <div className="zone_header_bg">
-        <MapZoneBackgroundCutout zoneId={zoneId} />
+      <div className="region_header_bg">
+        <MapRegionBackgroundCutout regionId={regionId} />
       </div>
-      <div className="zone_thumb">
-        <MapZoneCutout zoneId={zoneId} />
+      <div className="region_thumb">
+        <MapRegionCutout regionId={regionId} />
       </div>
       <h1>{data.name}</h1>
-      <div className="zone_details_header column">
+      <div className="region_details_header column">
         <div className="tags row">
           <div className="tag column">
             <span
@@ -59,7 +62,7 @@ export default function ZoneHeader({ zoneId }: { zoneId: string }) {
             <span>{data.xpfn}</span>
           </div>
         </div>
-        <p className="zone_description">{data.details}</p>
+        <p className="region_description">{data.details}</p>
       </div>
       <style jsx>
         {`
@@ -69,12 +72,12 @@ export default function ZoneHeader({ zoneId }: { zoneId: string }) {
             gap: 32px;
           }
 
-          .zone_details_header {
+          .region_details_header {
             max-width: 385px;
             gap: 16px;
           }
 
-          .zone_header_bg {
+          .region_header_bg {
             position: absolute;
             z-index: -1;
             top: 0;
@@ -91,13 +94,13 @@ export default function ZoneHeader({ zoneId }: { zoneId: string }) {
             align-items: center;
             gap: 4px;
           }
-          .zone_thumb {
+          .region_thumb {
             position: absolute;
             right: 0;
             transform: translateY(-60px) translateX(-24px);
           }
 
-          .zone_description {
+          .region_description {
             color: var(--secondary-s1-70);
           }
         `}

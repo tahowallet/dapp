@@ -1,32 +1,34 @@
 import React, { useState } from "react"
 import { useSelector, selectWalletAvatar, selectWalletName } from "redux-state"
-import { getZoneData } from "../Map/constants"
+import { getRegionData } from "../Map/constants"
 import AccountDropdown from "./AccountDropdown"
 
+// TODO: use region for given account
 const regionMock = { name: "KryptoKeep", id: "4" }
 
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const name = useSelector(selectWalletName)
   const avatar = useSelector(selectWalletAvatar)
-  const region = regionMock // TODO: use region for given account
-  const zone = region ? getZoneData(region.id.toString()) : undefined
+  const region = regionMock
+    ? getRegionData(regionMock.id.toString())
+    : undefined
 
   if (!name) return null
 
   return (
     <div className="account_container row">
       {isDropdownOpen && <AccountDropdown />}
-      {region && (
+      {regionMock && (
         <div className="region_container row">
-          {zone && (
+          {region && (
             <div className="region_icon">
-              <svg viewBox={`0 0 ${zone.w} ${zone.h}`}>
-                <path d={zone.paths[0].data} fill="#f4d03f" />
+              <svg viewBox={`0 0 ${region.w} ${region.h}`}>
+                <path d={region.paths[0].data} fill="#f4d03f" />
               </svg>
             </div>
           )}
-          <span className="region_label">{region.name}</span>
+          <span className="region_label">{regionMock.name}</span>
         </div>
       )}
       <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
