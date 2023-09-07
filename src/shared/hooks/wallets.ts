@@ -104,9 +104,7 @@ export function useSendTransaction<T>(
         ...txDetails,
       })
 
-      // TODO: can we differentiate between broadcasting and mining?
-      // setStatus(TransactionProgressStatus.Broadcasting)
-      setStatus(TransactionProgressStatus.Mining)
+      setStatus(TransactionProgressStatus.Sending)
 
       const receipt = await transaction.wait()
 

@@ -37,21 +37,18 @@ const statusToElementProps = [
   {
     id: "signing",
     getLabel: (status: TransactionProgressStatus): string =>
-      status < TransactionProgressStatus.Broadcasting
+      status <= TransactionProgressStatus.Signing
         ? "Waiting for signature"
         : "Signed",
-    getStatus: (status: TransactionProgressStatus): TransactionUIStatus =>
-      status < TransactionProgressStatus.Broadcasting ? "in-progress" : "done",
+    getStatus: createGetStatusFunction(TransactionProgressStatus.Signing),
   },
   {
-    id: "broadcasting",
-    getLabel: (): string => "Broadcasting",
-    getStatus: createGetStatusFunction(TransactionProgressStatus.Broadcasting),
-  },
-  {
-    id: "mining",
-    getLabel: (): string => "Mining",
-    getStatus: createGetStatusFunction(TransactionProgressStatus.Mining),
+    id: "sending",
+    getLabel: (status: TransactionProgressStatus): string =>
+      status <= TransactionProgressStatus.Sending
+        ? "Sending transaction"
+        : "Sent",
+    getStatus: createGetStatusFunction(TransactionProgressStatus.Sending),
   },
 ]
 

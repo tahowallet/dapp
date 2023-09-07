@@ -2,7 +2,6 @@
 export enum TransactionProgressStatus {
   Idle,
   Signing,
-  Broadcasting,
-  Mining,
+  Sending,
   Done,
 }
