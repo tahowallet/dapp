@@ -1,18 +1,18 @@
 import React from "react"
 import Modal from "shared/components/Modal"
-import ZoneHeader from "./ZoneHeader"
+import RegionHeader from "./RegionHeader"
 
-export default function ZoneModalContent({
-  zoneId,
+export default function RegionModalContent({
+  regionId,
   children,
 }: {
-  zoneId: string
+  regionId: string
   children: React.ReactNode
 }) {
   return (
     <Modal.Content>
       <div className="modal_content">
-        <ZoneHeader zoneId={zoneId} />
+        <RegionHeader regionId={regionId} />
         {children}
       </div>
       <style jsx>

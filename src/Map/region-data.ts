@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
-export const zone1 = {
+export const region1 = {
   id: "1",
   name: "Unknown",
   h: 761,
@@ -18,7 +18,7 @@ export const zone1 = {
   labelY: 0,
 }
 
-export const zone2 = {
+export const region2 = {
   id: "2",
   name: "Unknown",
   h: 693,
@@ -37,7 +37,7 @@ export const zone2 = {
   labelY: 0,
 }
 
-export const zone3 = {
+export const region3 = {
   id: "3",
   name: "Unknown",
   h: 519.2423095703125,
@@ -56,7 +56,7 @@ export const zone3 = {
   labelY: 0,
 }
 
-export const zone4 = {
+export const region4 = {
   id: "4",
   h: 590.5,
   w: 1120.2529296875,
@@ -75,7 +75,7 @@ export const zone4 = {
   labelY: 216.5,
 }
 
-export const zone5 = {
+export const region5 = {
   id: "5",
   name: "Unknown",
   h: 658.1906127929688,
@@ -94,7 +94,7 @@ export const zone5 = {
   labelY: 0,
 }
 
-export const zone6 = {
+export const region6 = {
   id: "6",
   name: "Unknown",
   h: 639.0697021484375,
@@ -113,7 +113,7 @@ export const zone6 = {
   labelY: 0,
 }
 
-export const zone7 = {
+export const region7 = {
   id: "7",
   h: 868.7020263671875,
   w: 1184.9512939453125,
@@ -132,7 +132,7 @@ export const zone7 = {
   labelY: 400,
 }
 
-export const zone8 = {
+export const region8 = {
   id: "8",
   name: "Unknown",
   h: 803.0932006835938,
@@ -151,7 +151,7 @@ export const zone8 = {
   labelY: 0,
 }
 
-export const zone9 = {
+export const region9 = {
   id: "9",
   h: 792,
   w: 1335,
@@ -170,7 +170,7 @@ export const zone9 = {
   labelY: 350,
 }
 
-export const zone10 = {
+export const region10 = {
   id: "10",
   name: "Unknown",
   h: 1051,
@@ -193,7 +193,7 @@ export const zone10 = {
   labelY: 0,
 }
 
-export const zone11 = {
+export const region11 = {
   id: "11",
   name: "Unknown",
   h: 876.7557373046875,
@@ -212,7 +212,7 @@ export const zone11 = {
   labelY: 0,
 }
 
-export const zone12 = {
+export const region12 = {
   id: "12",
   name: "Unknown",
   h: 881.1550903320312,
@@ -231,7 +231,7 @@ export const zone12 = {
   labelY: 0,
 }
 
-export const zone13 = {
+export const region13 = {
   id: "13",
   name: "Unknown",
   h: 754.7785034179688,
@@ -250,7 +250,7 @@ export const zone13 = {
   labelY: 0,
 }
 
-export const zone14 = {
+export const region14 = {
   id: "14",
   name: "Unknown",
   h: 987.5093383789062,
@@ -269,7 +269,7 @@ export const zone14 = {
   labelY: 0,
 }
 
-export const zone15 = {
+export const region15 = {
   id: "15",
   name: "Unknown",
   h: 827,
@@ -288,7 +288,7 @@ export const zone15 = {
   labelY: 0,
 }
 
-export const zone16 = {
+export const region16 = {
   id: "16",
   name: "Unknown",
   h: 937,
@@ -315,7 +315,7 @@ export const zone16 = {
   labelY: 0,
 }
 
-export const zone17 = {
+export const region17 = {
   id: "17",
   name: "Unknown",
   h: 1107.990234375,
@@ -334,7 +334,7 @@ export const zone17 = {
   labelY: 0,
 }
 
-export const zone18 = {
+export const region18 = {
   id: "21",
   name: "Unknown",
   h: 737,
@@ -352,7 +352,7 @@ export const zone18 = {
   labelY: 0,
 }
 
-export const zone19 = {
+export const region19 = {
   id: "19",
   h: 878,
   w: 974,
@@ -371,7 +371,7 @@ export const zone19 = {
   labelY: 409,
 }
 
-export const zone20 = {
+export const region20 = {
   id: "20",
   name: "Unknown",
   h: 822.8822021484375,
@@ -390,7 +390,7 @@ export const zone20 = {
   labelY: 0,
 }
 
-export const zone21 = {
+export const region21 = {
   id: "18",
   name: "Unknown",
   h: 803.45,
@@ -408,7 +408,7 @@ export const zone21 = {
   labelY: 0,
 }
 
-export const zone22 = {
+export const region22 = {
   id: "22",
   h: 898,
   w: 978,
@@ -427,7 +427,7 @@ export const zone22 = {
   labelY: 388,
 }
 
-export const zone23 = {
+export const region23 = {
   id: "23",
   name: "Unknown",
   h: 772,
@@ -446,7 +446,7 @@ export const zone23 = {
   labelY: 0,
 }
 
-export const zone24 = {
+export const region24 = {
   id: "24",
   name: "Unknown",
   h: 692.6273803710938,
@@ -473,7 +473,7 @@ export const zone24 = {
   labelY: 0,
 }
 
-export const zone25 = {
+export const region25 = {
   id: "25",
   name: "Unknown",
   h: 468,
@@ -492,7 +492,7 @@ export const zone25 = {
   labelY: 0,
 }
 
-export const zone26 = {
+export const region26 = {
   id: "26",
   name: "Unknown",
   h: 304,
@@ -511,7 +511,7 @@ export const zone26 = {
   labelY: 0,
 }
 
-export const zone27 = {
+export const region27 = {
   id: "27",
   name: "Unknown",
   h: 473,

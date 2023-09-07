@@ -3,7 +3,7 @@ export type Dimensions = {
   height: number
 }
 
-export type ZoneRenderData = {
+export type RegionRenderData = {
   id: string
   h: number
   w: number

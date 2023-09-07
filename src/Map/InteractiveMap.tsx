@@ -6,7 +6,7 @@ import rafSchd from "raf-schd"
 import { useSelector } from "react-redux"
 import { selectMapOverlay } from "redux-state/selectors/map"
 import Background from "./Background"
-import Zones from "./MapZones"
+import Regions from "./MapRegions"
 import { MAP_BOX } from "./constants"
 import {
   getWindowDimensions,
@@ -157,7 +157,7 @@ export default function InteractiveMap() {
     >
       <Layer>
         <Background overlay={overlay} />
-        <Zones />
+        <Regions />
       </Layer>
     </Stage>
   )

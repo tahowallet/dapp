@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react"
 import assert from "assert"
 
-import { Dimensions, ZoneRenderData } from "./types"
+import { Dimensions, RegionRenderData } from "./types"
 
 type VoidFn = () => unknown
 
@@ -99,10 +99,10 @@ export function queueMicrotask<T extends VoidFn>(callback: T) {
 }
 
 export function createCutoutFromPath(
-  zoneData: ZoneRenderData,
+  regionData: RegionRenderData,
   image: HTMLImageElement
 ) {
-  const { x, y, w, h, paths } = zoneData
+  const { x, y, w, h, paths } = regionData
   const path = paths[0].data
 
   const canvas = document.createElement("canvas")
@@ -133,7 +133,7 @@ export function createCutoutFromPath(
 }
 
 export function createBackgroundMask(
-  zones: ZoneRenderData[],
+  regions: RegionRenderData[],
   bgImage: HTMLImageElement
 ) {
   const canvas = document.createElement("canvas")
@@ -143,7 +143,7 @@ export function createBackgroundMask(
 
   assert(ctx)
 
-  zones.forEach(({ x, y, paths }) => {
+  regions.forEach(({ x, y, paths }) => {
     ctx.save()
     ctx.translate(x, y)
     ctx.fillStyle = "#000"

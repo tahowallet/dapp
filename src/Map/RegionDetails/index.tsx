@@ -5,7 +5,7 @@ import walletIcon from "shared/assets/icons/wallet.svg"
 import Leaderboard from "./Leaderboard"
 import Staking from "./Staking"
 
-export default function ZoneDetails() {
+export default function RegionDetails() {
   return (
     <>
       <div className="connect_hint row">

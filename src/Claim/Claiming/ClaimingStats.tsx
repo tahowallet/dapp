@@ -6,10 +6,10 @@ import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
 import { useSelector, selectEligibility } from "redux-state"
 import ClaimCheckRules from "../shared/ClaimCheckRules"
-import { MapZoneCutout } from "../../Map/MapCutout"
-import { getZoneData } from "../../Map/constants"
+import { MapRegionCutout } from "../../Map/MapCutout"
+import { getRegionData } from "../../Map/constants"
 
-const MOCK_ZONE = { population: "12,345", ...getZoneData("4") }
+const MOCK_REGION = { population: "12,345", ...getRegionData("4") }
 
 export default function ClaimingStats() {
   const eligibility = useSelector(selectEligibility)
@@ -31,11 +31,11 @@ export default function ClaimingStats() {
           <Icon color="var(--secondary-s1-80)" src={infoIcon} />)
         </div>
         <div className="stats_card column">
-          <div className="stats_card_title">{MOCK_ZONE.name}</div>
+          <div className="stats_card_title">{MOCK_REGION.name}</div>
           <div className="stats_card_label">population</div>
-          <div className="stats_card_value">{MOCK_ZONE.population}</div>
-          <div className="stats_card_zone">
-            <MapZoneCutout zoneId={MOCK_ZONE.id} />
+          <div className="stats_card_value">{MOCK_REGION.population}</div>
+          <div className="stats_card_region">
+            <MapRegionCutout regionId={MOCK_REGION.id} />
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@ export default function ClaimingStats() {
         .stats_card_title {
           font: var(--text-h1);
           font-size: 24px;
-          color: ${MOCK_ZONE.color};
+          color: ${MOCK_REGION.color};
         }
         .stats_card_label {
           color: var(--secondary-s1-60);
@@ -91,7 +91,7 @@ export default function ClaimingStats() {
           font-size: 18px;
           color: var(--secondary-s1-100);
         }
-        .stats_card_zone {
+        .stats_card_region {
           position: absolute;
           right: 0;
           bottom: -20%;

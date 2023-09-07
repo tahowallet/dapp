@@ -1,12 +1,12 @@
 import React from "react"
-import { MAP_BOX, getZoneData } from "./constants"
+import { MAP_BOX, getRegionData } from "./constants"
 import backgroundImg from "../public/dapp_map_bg.webp"
 import { limitToBounds } from "./utils"
 
-export function MapZoneCutout({ zoneId }: { zoneId: string }) {
-  const pathData = getZoneData(zoneId)
+export function MapRegionCutout({ regionId }: { regionId: string }) {
+  const pathData = getRegionData(regionId)
 
-  const pathCutoutXref = `cutout_${zoneId}_path`
+  const pathCutoutXref = `cutout_${regionId}_path`
   return (
     <svg
       viewBox={`0 0 ${Math.ceil(pathData.w * 0.25)} ${Math.ceil(
@@ -26,7 +26,7 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
           width={pathData.w}
           height={pathData.h}
         />
-        <mask id={`cutout_${zoneId}`}>
+        <mask id={`cutout_${regionId}`}>
           <use
             href={`#${pathCutoutXref}`}
             fill="#fff"
@@ -39,7 +39,7 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
         width={MAP_BOX.width}
         height={MAP_BOX.height}
         href={backgroundImg}
-        mask={`url(#cutout_${zoneId})`}
+        mask={`url(#cutout_${regionId})`}
       />
       <use
         href={`#${pathCutoutXref}`}
@@ -59,11 +59,11 @@ export function MapZoneCutout({ zoneId }: { zoneId: string }) {
   )
 }
 
-export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
-  const pathData = getZoneData(zoneId)
+export function MapRegionBackgroundCutout({ regionId }: { regionId: string }) {
+  const pathData = getRegionData(regionId)
 
   /**
-   * For the x offset we want to push the zone to the right side of the modal
+   * For the x offset we want to push the region to the right side of the modal
    */
   const targetXOffset = limitToBounds(
     pathData.x - pathData.w + 755,
@@ -84,7 +84,7 @@ export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
     <svg height={200} width="100%">
       <defs>
         <radialGradient
-          id="zone_watermark"
+          id="region_watermark"
           cx="0"
           cy="0"
           r="1"
@@ -94,8 +94,8 @@ export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
           <stop stopColor="#D9D9D9" />
           <stop offset="1" stopColor="#D9D9D9" stopOpacity="0" />
         </radialGradient>
-        <mask id="zone_background_mask">
-          <rect width="100%" height="100%" fill="url(#zone_watermark)" />
+        <mask id="region_background_mask">
+          <rect width="100%" height="100%" fill="url(#region_watermark)" />
         </mask>
       </defs>
       <defs>
@@ -111,7 +111,7 @@ export function MapZoneBackgroundCutout({ zoneId }: { zoneId: string }) {
           <stop offset={1} stopColor={pathData.color} stopOpacity={0.42} />
         </radialGradient>
       </defs>
-      <g mask="url(#zone_background_mask)" style={{ maskMode: "alpha" }}>
+      <g mask="url(#region_background_mask)" style={{ maskMode: "alpha" }}>
         <image
           transform={`scale(0.25) translate(-${targetXOffset}, -${targetYOffset})`}
           width={MAP_BOX.width}
