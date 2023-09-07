@@ -12,7 +12,7 @@ const initialState: MapState = {
 }
 
 const mapSlice = createSlice({
-  name: "claim",
+  name: "map",
   initialState,
   reducers: {
     setMapMode: (
