@@ -1,7 +1,7 @@
 import { Contract, PopulatedTransaction, providers } from "ethers"
 import { erc20Abi } from "./abi"
 
-function getTokenContract(
+export function getTokenContract(
   provider: providers.Provider,
   tokenAddress: string
 ): Contract {
@@ -24,21 +24,21 @@ export async function getBalance(
 export async function getAllowance(
   provider: providers.Provider,
   tokenAddress: string,
-  { account, address }: { account: string; address: string }
+  { account, contractAddress }: { account: string; contractAddress: string }
 ): Promise<bigint> {
   const token = getTokenContract(provider, tokenAddress)
 
-  return BigInt((await token.allowance(account, address)).toString())
+  return BigInt((await token.allowance(account, contractAddress)).toString())
 }
 
 export async function setAllowance(
   provider: providers.Provider,
   tokenAddress: string,
-  { address, amount }: { address: string; amount: bigint }
+  { account, amount }: { account: string; amount: bigint }
 ): Promise<PopulatedTransaction> {
   const token = getTokenContract(provider, tokenAddress)
 
-  return token.populateTransaction.approve(address, amount)
+  return token.populateTransaction.approve(account, amount)
 }
 
 export async function totalSupply(

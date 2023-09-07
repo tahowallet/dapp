@@ -88,12 +88,12 @@ export default function LiquidityPool() {
 
       const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
         account: address,
-        address: balancerPoolAgentAddress,
+        contractAddress: balancerPoolAgentAddress,
       })
 
       if (allowanceValue < targetTahoAmount) {
         await sendSetAllowance(
-          { address: balancerPoolAgentAddress, amount: targetTahoAmount },
+          { account: balancerPoolAgentAddress, amount: targetTahoAmount },
           CONTRACT_Taho
         )
       }
