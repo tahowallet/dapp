@@ -1,16 +1,33 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Redirect } from "react-router-dom"
-import { StakingData, claim, stake } from "shared/contracts"
+import {
+  StakingData,
+  claim,
+  getAllowance,
+  getRegionVeTokenAddress,
+  setAllowance,
+  stake,
+  unstake,
+} from "shared/contracts"
 
-import { useSendTransaction } from "shared/hooks"
-import { useSelector, selectEligibility, selectStakingData } from "redux-state"
+import { useArbitrumProvider, useSendTransaction } from "shared/hooks"
+import {
+  useSelector,
+  selectEligibility,
+  selectStakingData,
+  selectWalletAddress,
+} from "redux-state"
 import { Eligibility, TransactionProgressStatus } from "shared/types"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 
+const MOCK_STAKE_AMOUNT = 1n
+
 export default function ClaimingTransactions() {
   const [shouldRedirect, setShouldRedirect] = useState(false)
+  const provider = useArbitrumProvider()
+  const account = useSelector(selectWalletAddress)
   const eligibility = useSelector(selectEligibility)
-  const { stakeAmount, regionAddress } = useSelector(selectStakingData)
+  const { /* stakeAmount */ regionAddress } = useSelector(selectStakingData)
   const {
     send: sendClaim,
     isReady: isClaimReady,
@@ -23,25 +40,66 @@ export default function ClaimingTransactions() {
     status: statusStake,
   } = useSendTransaction<StakingData>(stake)
 
-  const signClaim = useCallback(async () => {
+  const {
+    send: sendUnstake,
+    isReady: isUnstakeReady,
+    status: statusUnstake,
+  } = useSendTransaction(unstake)
+
+  const { send: sendSetAllowance, isReady: isSetAllowanceReady } =
+    useSendTransaction(setAllowance)
+
+  const signClaim = async () => {
     if (eligibility && isClaimReady) {
       await sendClaim(eligibility)
     }
-  }, [eligibility, sendClaim, isClaimReady])
+  }
 
-  const signStake = useCallback(async () => {
-    if (
-      statusClaim === TransactionProgressStatus.Done &&
-      isStakeReady &&
-      stakeAmount &&
-      regionAddress
-    ) {
+  const signStake = async () => {
+    if (isStakeReady && regionAddress && provider && isSetAllowanceReady) {
+      const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
+        account,
+        contractAddress: regionAddress,
+      })
+
+      if (allowanceValue < MOCK_STAKE_AMOUNT) {
+        await sendSetAllowance(
+          { account: regionAddress, amount: MOCK_STAKE_AMOUNT },
+          CONTRACT_Taho
+        )
+      }
+
       await sendStake({
-        amount: stakeAmount,
+        amount: MOCK_STAKE_AMOUNT, // stakeAmount,
         regionContractAddress: regionAddress,
       })
     }
-  }, [statusClaim, sendStake, isStakeReady, stakeAmount, regionAddress])
+  }
+
+  const signUnstake = async () => {
+    if (isUnstakeReady && regionAddress && provider && isSetAllowanceReady) {
+      const veTokenAddress = await getRegionVeTokenAddress(
+        provider,
+        regionAddress
+      )
+      const allowanceValue = await getAllowance(provider, veTokenAddress, {
+        account,
+        contractAddress: regionAddress,
+      })
+
+      if (allowanceValue < MOCK_STAKE_AMOUNT) {
+        await sendSetAllowance(
+          { account: regionAddress, amount: MOCK_STAKE_AMOUNT },
+          veTokenAddress
+        )
+      }
+
+      await sendUnstake({
+        amount: MOCK_STAKE_AMOUNT, // stakeAmount,
+        regionContractAddress: regionAddress,
+      })
+    }
+  }
 
   useEffect(() => {
     if (statusClaim === TransactionProgressStatus.Done) {
@@ -67,9 +125,15 @@ export default function ClaimingTransactions() {
           id: "stake",
           title: "2. Approve & stake $TAHO",
           buttonLabel: "Stake",
-          disabled: statusClaim !== TransactionProgressStatus.Done,
           status: statusStake,
           sendTransaction: signStake,
+        },
+        {
+          id: "unstake",
+          title: "3. Approve & unstake $TAHO",
+          buttonLabel: "Unstake",
+          status: statusUnstake,
+          sendTransaction: signUnstake,
         },
         // {
         //   id: "representative",

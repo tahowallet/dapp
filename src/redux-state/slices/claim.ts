@@ -63,27 +63,28 @@ const claimSlice = createSlice({
     ) => {
       immerState.useConnectedWallet = useConnectedWallet
     },
-    setRegionAddress: (
+    setRegionAddressToClaim: (
       immerState,
-      { payload: { regionAddress } }: { payload: { regionAddress: string } }
+      {
+        payload: { regionAddress },
+      }: { payload: { regionAddress: string | null } }
     ) => {
       immerState.regionAddress = regionAddress
     },
-    setRepresentativeAddress: (
+    setRepresentativeAddressToClaim: (
       immerState,
       {
         payload: { representativeAddress },
-      }: { payload: { representativeAddress: string } }
+      }: { payload: { representativeAddress: string | null } }
     ) => {
       immerState.representativeAddress = representativeAddress
     },
-    setStakeAmount: (
+    setStakeAmountToClaim: (
       immerState,
-      { payload: { stakeAmount } }: { payload: { stakeAmount: bigint } }
+      { payload: { stakeAmount } }: { payload: { stakeAmount: bigint | null } }
     ) => {
       immerState.stakeAmount = stakeAmount
     },
-
     resetClaiming: (immerState) => {
       immerState.name = ""
       immerState.address = ""
@@ -101,6 +102,9 @@ export const {
   setEligibility,
   setHasClaimed,
   setUseConnectedWalletToClaim,
+  setRegionAddressToClaim,
+  setRepresentativeAddressToClaim,
+  setStakeAmountToClaim,
   resetClaiming,
 } = claimSlice.actions
 

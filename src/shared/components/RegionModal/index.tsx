@@ -123,15 +123,15 @@ function NextBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function RegionModal({
-  regionData,
+  regionId: initialRegionId,
   onClose,
   children,
 }: {
-  regionData: string
+  regionId: string
   onClose: () => void
   children: React.ReactNode
 }) {
-  const [regionId, setRegionId] = useState(regionData)
+  const [regionId, setRegionId] = useState(initialRegionId)
   const [prevRegion, nextRegion] = useMemo(() => {
     const index = regions.findIndex((region) => region.id === regionId)
 

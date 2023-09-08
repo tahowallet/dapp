@@ -1,8 +1,23 @@
 import { RegionContractData } from "shared/types/map"
-import { providers } from "ethers"
+import { Contract, providers } from "ethers"
 import { getTahoDeployerContract } from "./game"
+import { nodeAbi } from "./abi"
 
-// eslint-disable-next-line import/prefer-default-export
+export function getRegionContract(
+  provider: providers.Provider,
+  regionContractAddress: string
+): Contract {
+  return new Contract(regionContractAddress, nodeAbi, provider)
+}
+
+export function getRegionVeTokenAddress(
+  provider: providers.Provider,
+  regionContractAddress: string
+): Promise<string> {
+  const regionTokenContract = getRegionContract(provider, regionContractAddress)
+  return regionTokenContract.veTaho()
+}
+
 export async function getRegionAddresses(
   provider: providers.Provider,
   { regions }: { regions: { id: string; data: RegionContractData }[] }

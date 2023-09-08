@@ -7,12 +7,6 @@ declare const CONTRACT_TahoDeployer: string
 
 declare const CONTRACT_Taho: string
 
-declare const CONTRACT_TimelockDeployer: string
-
-declare const CONTRACT_TahoGovernorBravoDelegate: string
-
-declare const CONTRACT_TahoGovernorBravoDelegator: string
-
 declare const CONTRACT_ApprovalTarget: string
 
 declare const CONTRACT_VoteWithFriendsDeployer: string
