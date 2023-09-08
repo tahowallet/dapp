@@ -1,5 +1,5 @@
 import { useConnectWallet } from "@web3-onboard/react"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers } from "ethers"
 import {
   useDispatch,
@@ -8,6 +8,7 @@ import {
   connectWalletGlobally,
   disconnectWalletGlobally,
 } from "redux-state"
+import { TransactionProgressStatus } from "shared/types"
 
 export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   const [{ wallet }] = useConnectWallet()
@@ -50,20 +51,37 @@ export function useConnect() {
   return { isConnected: !!wallet, connect, disconnect: disconnectBound }
 }
 
-export function useSendTransaction() {
+export function useSendTransaction<T>(
+  transactionBuilder: (
+    provider: ethers.providers.Provider,
+    address: string,
+    data: T
+  ) => Promise<ethers.providers.TransactionRequest | null>
+):
+  | {
+      status: TransactionProgressStatus
+      isReady: false
+      send: null
+    }
+  | {
+      status: TransactionProgressStatus
+      isReady: true
+      send: (
+        data: T,
+        contractAddress?: string
+      ) => Promise<ethers.providers.TransactionReceipt | null>
+    } {
   const provider = useArbitrumProvider()
   const address = useSelector(selectWalletAddress)
+  const [status, setStatus] = useState<TransactionProgressStatus>(
+    TransactionProgressStatus.Idle
+  )
 
-  if (!provider) return { isReady: false, send: async () => {} }
+  if (!provider) return { isReady: false, send: null, status }
 
   const signer = provider.getSigner()
 
-  const send = async <T>(
-    transactionBuilder: (
-      provider: ethers.providers.Provider,
-      address: string,
-      data: T
-    ) => Promise<Partial<ethers.providers.TransactionRequest> | null>,
+  const send = async (
     data: T,
     contractAddress?: string
   ): Promise<ethers.providers.TransactionReceipt | null> => {
@@ -73,20 +91,31 @@ export function useSendTransaction() {
       data
     )
 
-    if (!txDetails) return null
+    if (!txDetails) {
+      setStatus(TransactionProgressStatus.Idle)
+      return null
+    }
 
     try {
+      setStatus(TransactionProgressStatus.Signing)
       const transaction = await signer.sendTransaction({
         from: address,
         nonce: await provider.getTransactionCount(address, "latest"),
         ...txDetails,
       })
+
+      setStatus(TransactionProgressStatus.Sending)
+
       const receipt = await transaction.wait()
+
+      setStatus(TransactionProgressStatus.Done)
+
       return receipt
     } catch (e) {
+      setStatus(TransactionProgressStatus.Idle)
       return null
     }
   }
 
-  return { isReady: true, send }
+  return { isReady: true, send, status }
 }

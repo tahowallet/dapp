@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom"
 import { useDebounce } from "shared/hooks/helpers"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
-import Spinner from "shared/components/Spinner"
+import Spinner from "shared/components/Loaders/Spinner"
 import { isProbablyEVMAddress, resolveNameToAddress } from "shared/utils"
 import {
   useDispatch,

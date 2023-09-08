@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { encodeUserData } from "shared/utils/pool"
-import { selectWalletAddress, useSelector } from "redux-state"
+import {
+  selectIsWalletConnected,
+  selectWalletAddress,
+  useSelector,
+} from "redux-state"
 import {
   ETH_ADDRESS,
   isValidInputAmount,
@@ -25,7 +29,11 @@ export default function LiquidityPool() {
   const address = useSelector(selectWalletAddress)
 
   const provider = useArbitrumProvider()
-  const { send, isReady } = useSendTransaction()
+  const { send: sendJoinPool, isReady: isJoinPoolReady } =
+    useSendTransaction(joinPool)
+  const { send: sendSetAllowance, isReady: isSetAllowanceReady } =
+    useSendTransaction(setAllowance)
+  const isConnected = useSelector(selectIsWalletConnected)
 
   const [tahoBalance, setTahoBalance] = useState(0n)
   const [tahoAmount, setTahoAmount] = useState("")
@@ -52,8 +60,8 @@ export default function LiquidityPool() {
     joinRequest: LiquidityPoolRequest,
     overrides?: { value: bigint }
   ) => {
-    if (provider && address) {
-      const receipt = await send(joinPool, { joinRequest, overrides })
+    if (isJoinPoolReady && address) {
+      const receipt = await sendJoinPool({ joinRequest, overrides })
 
       if (receipt) {
         // TODO remove when designs be ready
@@ -67,7 +75,7 @@ export default function LiquidityPool() {
 
   const joinTahoPool = async () => {
     try {
-      if (!provider || !address) {
+      if (!provider || !address || !isSetAllowanceReady) {
         throw new Error("No provider or address")
       }
 
@@ -84,8 +92,7 @@ export default function LiquidityPool() {
       })
 
       if (allowanceValue < targetTahoAmount) {
-        await send(
-          setAllowance,
+        await sendSetAllowance(
           { address: balancerPoolAgentAddress, amount: targetTahoAmount },
           CONTRACT_Taho
         )
@@ -146,7 +153,7 @@ export default function LiquidityPool() {
             isDisabled={
               isValidInputAmount(tahoAmount) ||
               isValidInputAmount(ethAmount) ||
-              !isReady
+              !isConnected
             }
           >
             Join Pool

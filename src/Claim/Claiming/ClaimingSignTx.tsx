@@ -1,31 +1,11 @@
 import React, { useState } from "react"
-import { Redirect } from "react-router-dom"
-import { claim } from "shared/contracts"
 import Icon from "shared/components/Icon"
 import Button from "shared/components/Button"
 import lockIcon from "shared/assets/icons/s/lock.svg"
-import { useSendTransaction } from "shared/hooks"
-import { useSelector, selectEligibility } from "redux-state"
-import { Eligibility } from "shared/types"
+import ClaimingTransactions from "./ClaimingTransactions"
 
 export default function ClaimingSignTx() {
-  const { send, isReady } = useSendTransaction()
-  const [hasSigned, setHasSigned] = useState(false)
-  const eligibility = useSelector(selectEligibility)
-
-  const signClaim = async () => {
-    if (eligibility && isReady) {
-      const receipt = await send<Eligibility>(claim, eligibility)
-
-      if (receipt) {
-        setHasSigned(true)
-      }
-    }
-  }
-
-  if (hasSigned) {
-    return <Redirect to="/claim/finish" />
-  }
+  const [isTxModalOpen, setIsTxModalOpen] = useState(false)
 
   return (
     <>
@@ -78,15 +58,15 @@ export default function ClaimingSignTx() {
 
         <div className="button_container row">
           <Button
-            onClick={signClaim}
+            onClick={() => setIsTxModalOpen(true)}
             type="primary"
             size="large"
-            isDisabled={!isReady}
           >
             Claim TAHO
           </Button>
         </div>
       </div>
+      {isTxModalOpen && <ClaimingTransactions />}
       <style jsx>{`
         .sign_container {
           gap: 48px;
