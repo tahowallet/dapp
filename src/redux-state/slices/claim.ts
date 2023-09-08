@@ -11,15 +11,21 @@ export type ClaimState = {
   hasClaimed: boolean
   useConnectedWallet: boolean
   eligibility: Eligibility | null
+  stakeAmount: bigint | null
+  regionAddress: string | null
+  representativeAddress: string | null
 }
 
 const initialState: ClaimState = {
-  isLoading: false,
+  isLoading: false, // TODO: implement loading effect
   name: "",
   address: "",
   hasClaimed: false,
   useConnectedWallet: true,
   eligibility: null,
+  stakeAmount: null,
+  regionAddress: null,
+  representativeAddress: null,
 }
 
 const claimSlice = createSlice({
@@ -57,11 +63,35 @@ const claimSlice = createSlice({
     ) => {
       immerState.useConnectedWallet = useConnectedWallet
     },
+    setRegionAddress: (
+      immerState,
+      { payload: { regionAddress } }: { payload: { regionAddress: string } }
+    ) => {
+      immerState.regionAddress = regionAddress
+    },
+    setRepresentativeAddress: (
+      immerState,
+      {
+        payload: { representativeAddress },
+      }: { payload: { representativeAddress: string } }
+    ) => {
+      immerState.representativeAddress = representativeAddress
+    },
+    setStakeAmount: (
+      immerState,
+      { payload: { stakeAmount } }: { payload: { stakeAmount: bigint } }
+    ) => {
+      immerState.stakeAmount = stakeAmount
+    },
+
     resetClaiming: (immerState) => {
       immerState.name = ""
       immerState.address = ""
       immerState.hasClaimed = false
       immerState.eligibility = null
+      immerState.stakeAmount = null
+      immerState.regionAddress = null
+      immerState.representativeAddress = null
     },
   },
 })

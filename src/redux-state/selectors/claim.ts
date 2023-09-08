@@ -12,3 +12,11 @@ export const selectEligibility = (state: RootState) => state.claim.eligibility
 
 export const selectUseConnectedWalletToClaim = (state: RootState) =>
   state.claim.useConnectedWallet
+
+export const selectStakingData = (state: RootState) => ({
+  stakeAmount: state.claim.stakeAmount,
+  regionAddress: state.claim.regionAddress,
+})
+
+export const selectRepresentativeAddress = (state: RootState) =>
+  state.claim.representativeAddress

@@ -2,6 +2,8 @@ import { Contract, providers } from "ethers"
 import { getAllowance, setAllowance } from "./erc20"
 import { nodeAbi } from "./abi"
 
+export type StakingData = { regionContractAddress: string; amount: bigint }
+
 export function getNodeContract(
   provider: providers.Provider,
   nodeContractAddress: string
@@ -12,8 +14,7 @@ export function getNodeContract(
 export async function stake(
   provider: providers.Provider,
   account: string,
-  regionContractAddress: string,
-  amount: bigint
+  { regionContractAddress, amount }: StakingData
 ) {
   const regionTokenContract = getNodeContract(provider, regionContractAddress)
 
@@ -32,8 +33,7 @@ export async function stake(
 export async function unstake(
   provider: providers.Provider,
   account: string,
-  regionContractAddress: string,
-  amount: bigint
+  { regionContractAddress, amount }: StakingData
 ) {
   const regionTokenContract = getNodeContract(provider, regionContractAddress)
   const veTokenAddress = (await regionTokenContract.veTaho()) as string
