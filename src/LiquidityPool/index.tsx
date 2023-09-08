@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { encodeUserData } from "shared/utils/pool"
+import { encodeUserData, sortTokens } from "shared/utils/pool"
 import {
   selectIsWalletConnected,
   selectWalletAddress,
@@ -98,7 +98,12 @@ export default function LiquidityPool() {
         )
       }
 
-      const maxAmountsIn = [targetTahoAmount, targetEthAmount]
+      const [token1, token2] = sortTokens(
+        { address: CONTRACT_Taho, amount: targetTahoAmount },
+        { address: ETH_ADDRESS, amount: targetEthAmount }
+      )
+
+      const maxAmountsIn = [token1.amount, token2.amount]
 
       const poolAddress = await getBalancerPoolAddress(provider)
       const lpTokenSupply = await totalSupply(provider, poolAddress)
@@ -106,7 +111,7 @@ export default function LiquidityPool() {
 
       await signJoinPool(
         {
-          assets: [CONTRACT_Taho, ETH_ADDRESS],
+          assets: [token1.address, token2.address],
           maxAmountsIn,
           userData,
           fromInternalBalance: false,

@@ -25,3 +25,15 @@ export async function encodeUserData(
     [0, maxAmountsIn]
   )
 }
+
+/*
+  Sorts two tokens in ascending order by address, returning them as a sorted array.
+
+  See: https://github.com/balancer/balancer-v2-monorepo/blob/227683919a7031615c0bc7f144666cdf3883d212/pkg/vault/contracts/balances/TwoTokenPoolsBalance.sol#L397
+*/
+export function sortTokens(
+  tokenX: { address: string; amount: bigint },
+  tokenY: { address: string; amount: bigint }
+): { address: string; amount: bigint }[] {
+  return tokenX.address < tokenY.address ? [tokenX, tokenY] : [tokenY, tokenX]
+}
