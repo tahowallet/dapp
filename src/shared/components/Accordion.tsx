@@ -6,9 +6,16 @@ import Icon from "./Icon"
 type AccordionProps = {
   title: string
   children: React.ReactNode
+  icon?: string
+  iconColor?: string
 }
 
-export default function Accordion({ children, title }: AccordionProps) {
+export default function Accordion({
+  children,
+  title,
+  icon,
+  iconColor,
+}: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggle = () => setIsOpen(!isOpen)
@@ -25,7 +32,12 @@ export default function Accordion({ children, title }: AccordionProps) {
         })}
       >
         <div className="accordion_title row">
-          {title}
+          <div className="title row">
+            {icon && (
+              <Icon src={icon} color={iconColor || "var(--secondary-s1-80)"} />
+            )}
+            {title}
+          </div>
           <div className="accordion_icon">
             <Icon src={arrowIcon} color="var(--secondary-s1-80)" />
           </div>
@@ -50,6 +62,10 @@ export default function Accordion({ children, title }: AccordionProps) {
           .accordion_title {
             justify-content: space-between;
             align-items: center;
+          }
+          .title {
+            align-items: center;
+            gap: 8px;
           }
           .accordion_content {
             max-height: 0;

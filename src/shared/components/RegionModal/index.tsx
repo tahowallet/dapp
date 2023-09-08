@@ -192,7 +192,7 @@ export default function RegionModal({
         <animated.div style={props}>
           {transitions((style, item) => (
             <animated.div style={{ ...style }}>
-              <RegionModalContent regionId={item}>
+              <RegionModalContent regionId={item} onClose={onClose}>
                 {children}
               </RegionModalContent>
             </animated.div>

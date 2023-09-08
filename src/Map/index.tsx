@@ -1,5 +1,5 @@
 import React, { useCallback, useLayoutEffect, useState } from "react"
-import { selectMapMode } from "redux-state/selectors/map"
+import { selectIsDefaultMapMode } from "redux-state/selectors/map"
 import { useSelector } from "react-redux"
 import RegionModal from "shared/components/RegionModal"
 import InteractiveMap from "./InteractiveMap"
@@ -37,7 +37,7 @@ export default function MapWrapper() {
     },
   }))
 
-  const mapMode = useSelector(selectMapMode)
+  const isDefaultMapMode = useSelector(selectIsDefaultMapMode)
 
   const handleClose = useCallback(() => setRegionData(null), [])
 
@@ -62,11 +62,7 @@ export default function MapWrapper() {
       </MapContext.Provider>
       {regionData && (
         <RegionModal regionData={regionData} onClose={handleClose}>
-          {mapMode === "default" ? (
-            <RegionDetails />
-          ) : (
-            <JoinRegion onClose={handleClose} />
-          )}
+          {isDefaultMapMode ? <RegionDetails /> : <JoinRegion />}
         </RegionModal>
       )}
     </div>

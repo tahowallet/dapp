@@ -23,11 +23,15 @@ export default function GlobalStyles() {
           --primary-p1-60: #315a5a;
           --primary-p1-40: #0d232166;
 
+          --primary-p1-100-60: rgb(13, 35, 33, 0.6);
+          --primary-p1-100-40: rgb(13, 35, 33, 0.4);
+
           --primary-p2-120: #b57017;
           --primary-p2-100: #ed9a26;
           --primary-p2-80: #f0ac55;
 
           --secondary-s1-100: rgb(228, 238, 238);
+          --secondary-s1-90: rgb(228, 238, 238, 0.9);
           --secondary-s1-80: rgba(228, 238, 238, 0.8);
           --secondary-s1-70: rgba(228, 238, 238, 0.7);
           --secondary-s1-60: rgba(228, 238, 238, 0.6);
@@ -189,6 +193,10 @@ export default function GlobalStyles() {
         }
         .row {
           display: flex;
+        }
+        .row_center {
+          display: flex;
+          align-items: center;
         }
         .ellipsis {
           white-space: nowrap;
