@@ -5,7 +5,7 @@ import Icon from "shared/components/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
 import { useSelector, selectEligibility } from "redux-state"
-import { MapRegionCutout } from "ui/Map/MapCutout"
+import { RegionCutout } from "shared/components/RegionCutout"
 import { getRegionData } from "shared/constants"
 import ClaimCheckRules from "../components/ClaimCheckRules"
 
@@ -35,7 +35,7 @@ export default function ClaimingStats() {
           <div className="stats_card_label">population</div>
           <div className="stats_card_value">{MOCK_REGION.population}</div>
           <div className="stats_card_region">
-            <MapRegionCutout regionId={MOCK_REGION.id} />
+            <RegionCutout regionId={MOCK_REGION.id} />
           </div>
         </div>
       </div>
