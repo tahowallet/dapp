@@ -13,10 +13,6 @@ import Nav from "ui/Nav"
 import Claim from "ui/Claim"
 import GlobalStyles from "ui/GlobalStyles"
 import MapComponent from "ui/Map"
-import {
-  EthereumProviderContext,
-  ethereumProvider,
-} from "shared/hooks/contexts"
 import web3Onboard from "shared/utils/web3Onboard"
 import reduxStore from "./redux-state"
 
@@ -53,11 +49,9 @@ function DApp() {
 function DAppProviders() {
   return (
     <Provider store={reduxStore}>
-      <EthereumProviderContext.Provider value={ethereumProvider}>
-        <Web3OnboardProvider web3Onboard={web3Onboard}>
-          <DApp />
-        </Web3OnboardProvider>
-      </EthereumProviderContext.Provider>
+      <Web3OnboardProvider web3Onboard={web3Onboard}>
+        <DApp />
+      </Web3OnboardProvider>
     </Provider>
   )
 }
