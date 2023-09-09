@@ -1,6 +1,6 @@
 import React from "react"
+import backgroundImg from "public/dapp_map_bg.webp"
 import { MAP_BOX, getRegionData } from "./constants"
-import backgroundImg from "../public/dapp_map_bg.webp"
 import { limitToBounds } from "./utils"
 
 export function MapRegionCutout({ regionId }: { regionId: string }) {

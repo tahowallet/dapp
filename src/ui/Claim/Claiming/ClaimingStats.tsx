@@ -5,9 +5,9 @@ import Icon from "shared/components/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
 import { useSelector, selectEligibility } from "redux-state"
+import { MapRegionCutout } from "ui/Map/MapCutout"
+import { getRegionData } from "ui/Map/constants"
 import ClaimCheckRules from "../shared/ClaimCheckRules"
-import { MapRegionCutout } from "../../Map/MapCutout"
-import { getRegionData } from "../../Map/constants"
 
 const MOCK_REGION = { population: "12,345", ...getRegionData("4") }
 

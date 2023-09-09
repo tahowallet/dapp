@@ -9,9 +9,9 @@ import {
   ETH_ADDRESS,
   isValidInputAmount,
   userAmountToBigInt,
-} from "../shared/utils"
-import { LiquidityPoolRequest } from "../shared/types"
-import AmountInput from "../shared/components/AmountInput"
+} from "shared/utils"
+import { LiquidityPoolRequest } from "shared/types"
+import AmountInput from "shared/components/AmountInput"
 import {
   getAllowance,
   setAllowance,
@@ -20,10 +20,10 @@ import {
   getBalancerPoolAgentAddress,
   joinPool,
   totalSupply,
-} from "../shared/contracts"
-import { useArbitrumProvider, useSendTransaction } from "../shared/hooks"
-import Button from "../shared/components/Button"
-import Modal from "../shared/components/Modal"
+} from "shared/contracts"
+import { useArbitrumProvider, useSendTransaction } from "shared/hooks"
+import Button from "shared/components/Button"
+import Modal from "shared/components/Modal"
 
 export default function LiquidityPool() {
   const address = useSelector(selectWalletAddress)

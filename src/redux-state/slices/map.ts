@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { OverlayType } from "Map/Background"
+import { OverlayType } from "ui/Map/Background"
 import { RegionContractData } from "shared/types/map"
 
 // TODO: names and ids may change

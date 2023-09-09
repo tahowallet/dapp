@@ -1,10 +1,10 @@
 import React, { useMemo } from "react"
 import useImage from "use-image"
 
+import backgroundImg from "public/dapp_map_bg.webp"
 import { regions } from "./constants"
 import Region from "./Region"
 import { createCutoutFromPath } from "./utils"
-import backgroundImg from "../public/dapp_map_bg.webp"
 
 export default function MapRegions() {
   const [bg] = useImage(backgroundImg)

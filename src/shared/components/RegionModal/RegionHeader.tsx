@@ -4,11 +4,8 @@ import Icon from "shared/components/Icon"
 
 import iconCommunity from "shared/assets/icons/people.svg"
 import iconStar from "shared/assets/icons/star.svg"
-import { getRegionData } from "../../../Map/constants"
-import {
-  MapRegionCutout,
-  MapRegionBackgroundCutout,
-} from "../../../Map/MapCutout"
+import { getRegionData } from "ui/Map/constants"
+import { MapRegionCutout, MapRegionBackgroundCutout } from "ui/Map/MapCutout"
 
 export const mockData = {
   details:

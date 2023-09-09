@@ -4,10 +4,9 @@ import type Konva from "konva"
 import { Easings } from "konva/lib/Tween"
 import useImage from "use-image"
 
+import backgroundImg from "public/dapp_map_bg.webp"
 import { createBackgroundMask, useBeforeFirstPaint, usePrevious } from "./utils"
 import { MAP_BOX, regions } from "./constants"
-
-import backgroundImg from "../public/dapp_map_bg.webp"
 
 export type OverlayType = "dark" | "subtle" | "none"
 
