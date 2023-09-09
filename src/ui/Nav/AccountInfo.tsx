@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useSelector, selectWalletAvatar, selectWalletName } from "redux-state"
-import { getRegionData } from "../../shared/constants"
+import { getRegionData } from "shared/constants"
 import AccountDropdown from "./AccountDropdown"
 
 // TODO: use region for given account

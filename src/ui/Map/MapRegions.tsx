@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import useImage from "use-image"
 
 import backgroundImg from "public/dapp_map_bg.webp"
-import { regions } from "../../shared/constants"
+import { regions } from "shared/constants"
 import Region from "./Region"
 import { createCutoutFromPath } from "./utils"
 

@@ -5,9 +5,9 @@ import rafSchd from "raf-schd"
 
 import { useSelector } from "react-redux"
 import { selectMapOverlay } from "redux-state/selectors/map"
+import { MAP_BOX } from "shared/constants"
 import Background from "./Background"
 import Regions from "./MapRegions"
-import { MAP_BOX } from "../../shared/constants"
 import {
   getWindowDimensions,
   getMinimumScale,
