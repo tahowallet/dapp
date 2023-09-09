@@ -17,7 +17,7 @@ import {
   EthereumProviderContext,
   ethereumProvider,
 } from "shared/hooks/contexts"
-import web3Onboard from "./web3Onboard"
+import web3Onboard from "shared/utils/web3Onboard"
 import reduxStore from "./redux-state"
 
 function DApp() {
