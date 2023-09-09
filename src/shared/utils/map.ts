@@ -1,9 +1,18 @@
-import { useLayoutEffect, useRef } from "react"
 import assert from "assert"
 
-import { Dimensions, RegionRenderData } from "./types"
+type Dimensions = {
+  width: number
+  height: number
+}
 
-type VoidFn = () => unknown
+type RegionRenderData = {
+  id: string
+  h: number
+  w: number
+  x: number
+  y: number
+  paths: { data: string }[]
+}
 
 export function limitToBounds(val: number, min: number, max: number) {
   if (val < min) return min
@@ -39,63 +48,6 @@ export function getMinimumScale(content: Dimensions, container: Dimensions) {
   const minWidth = Math.min(content.width, container.width)
   const maxWidth = Math.max(content.width, container.width)
   return minWidth / maxWidth
-}
-
-/**
- * Returns a ref that holds updated values & references
- */
-export function useValueRef<T>(value: T) {
-  const val = typeof value === "function" ? value() : value
-  const ref = useRef<T extends () => infer P ? P : T>(val)
-
-  useLayoutEffect(() => {
-    ref.current = val
-  })
-
-  return ref
-}
-
-/**
- * Runs a callback on mount, as a layout effect
- */
-export function useBeforeFirstPaint<T extends VoidFn>(callback: T) {
-  const callbackRef = useRef(callback)
-
-  useLayoutEffect(() => {
-    const result = callbackRef.current()
-
-    return () => {
-      if (typeof result === "function") result()
-    }
-  }, [])
-}
-
-/**
- * Subscribes an event listener to the window resize event
- */
-export function useOnResize<T extends VoidFn>(callback: T): void {
-  useBeforeFirstPaint(() => {
-    window.addEventListener("resize", callback)
-
-    return () => window.removeEventListener("resize", callback)
-  })
-}
-
-/**
- * Returns a lagging value of the previous render
- */
-export function usePrevious<T>(value: T) {
-  const ref = useRef<T>()
-
-  useLayoutEffect(() => {
-    ref.current = value
-  })
-
-  return ref.current
-}
-
-export function queueMicrotask<T extends VoidFn>(callback: T) {
-  return Promise.resolve().then(callback)
 }
 
 export function createCutoutFromPath(

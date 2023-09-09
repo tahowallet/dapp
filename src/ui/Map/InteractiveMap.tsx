@@ -6,16 +6,14 @@ import rafSchd from "raf-schd"
 import { useSelector } from "react-redux"
 import { selectMapOverlay } from "redux-state/selectors/map"
 import { MAP_BOX } from "shared/constants"
-import Background from "./Background"
-import Regions from "./MapRegions"
+import { useValueRef, useBeforeFirstPaint, useOnResize } from "shared/hooks"
 import {
   getWindowDimensions,
   getMinimumScale,
   limitToBounds,
-  useBeforeFirstPaint,
-  useOnResize,
-  useValueRef,
-} from "./utils"
+} from "shared/utils"
+import Background from "./Background"
+import Regions from "./MapRegions"
 
 export default function InteractiveMap() {
   const settingsRef = useRef({ minScale: 0 })

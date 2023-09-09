@@ -3,8 +3,8 @@ import useImage from "use-image"
 
 import backgroundImg from "public/dapp_map_bg.webp"
 import { regions } from "shared/constants"
+import { createCutoutFromPath } from "shared/utils"
 import Region from "./Region"
-import { createCutoutFromPath } from "./utils"
 
 export default function MapRegions() {
   const [bg] = useImage(backgroundImg)
