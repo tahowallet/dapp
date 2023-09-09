@@ -1,4 +1,4 @@
-import { region19, region22, region4, region7, region9 } from "./region-data"
+import { region19, region22, region4, region7, region9 } from "./regions-data"
 
 export const MAP_BOX = {
   width: 6085,

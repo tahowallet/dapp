@@ -6,7 +6,7 @@ import useImage from "use-image"
 
 import backgroundImg from "public/dapp_map_bg.webp"
 import { createBackgroundMask, useBeforeFirstPaint, usePrevious } from "./utils"
-import { MAP_BOX, regions } from "./constants"
+import { MAP_BOX, regions } from "../../shared/constants"
 
 export type OverlayType = "dark" | "subtle" | "none"
 

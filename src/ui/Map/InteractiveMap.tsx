@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import { selectMapOverlay } from "redux-state/selectors/map"
 import Background from "./Background"
 import Regions from "./MapRegions"
-import { MAP_BOX } from "./constants"
+import { MAP_BOX } from "../../shared/constants"
 import {
   getWindowDimensions,
   getMinimumScale,
