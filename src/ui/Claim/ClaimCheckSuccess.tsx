@@ -16,8 +16,8 @@ import {
   selectWalletAddress,
 } from "redux-state"
 import { isSameAddress } from "shared/utils"
-import ClaimCheckRules from "./shared/ClaimCheckRules"
-import ClaimHeader from "./shared/ClaimHeader"
+import ClaimCheckRules from "./components/ClaimCheckRules"
+import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimCheckSuccess() {
   const history = useHistory()

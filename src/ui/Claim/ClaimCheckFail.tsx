@@ -9,8 +9,8 @@ import {
   resetClaiming,
   setUseConnectedWalletToClaim,
 } from "redux-state"
-import ClaimHeader from "./shared/ClaimHeader"
-import ClaimCheckRules from "./shared/ClaimCheckRules"
+import ClaimHeader from "./components/ClaimHeader"
+import ClaimCheckRules from "./components/ClaimCheckRules"
 
 export default function ClaimCheckFail() {
   const history = useHistory()

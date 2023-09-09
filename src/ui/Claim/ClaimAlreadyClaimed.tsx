@@ -4,7 +4,7 @@ import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import TahoAmount from "shared/components/TahoAmount"
 import { useSelector, selectEligibility } from "redux-state"
-import ClaimHeader from "./shared/ClaimHeader"
+import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimAlreadyClaimed() {
   const location = useHistory()

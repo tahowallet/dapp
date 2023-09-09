@@ -7,7 +7,7 @@ import Accordion from "shared/components/Accordion"
 import { useSelector, selectEligibility } from "redux-state"
 import { MapRegionCutout } from "ui/Map/MapCutout"
 import { getRegionData } from "ui/Map/constants"
-import ClaimCheckRules from "../shared/ClaimCheckRules"
+import ClaimCheckRules from "../components/ClaimCheckRules"
 
 const MOCK_REGION = { population: "12,345", ...getRegionData("4") }
 

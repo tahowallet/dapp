@@ -1,7 +1,7 @@
 import React from "react"
 import { Route, Switch, useRouteMatch } from "react-router-dom"
 import ClaimCheck from "./ClaimCheck"
-import Claiming from "./Claiming"
+import Claiming from "./subpages"
 import ClaimFinish from "./ClaimFinish"
 import ClaimAlreadyClaimed from "./ClaimAlreadyClaimed"
 import ClaimCheckResult from "./ClaimCheckResult"

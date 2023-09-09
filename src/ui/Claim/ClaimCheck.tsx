@@ -16,7 +16,7 @@ import {
   selectWalletName,
   resetClaiming,
 } from "redux-state"
-import ClaimHeader from "./shared/ClaimHeader"
+import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimCheck() {
   const dispatch = useDispatch()
