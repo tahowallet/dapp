@@ -9,6 +9,7 @@ import {
   resetClaiming,
   setUseConnectedWalletToClaim,
 } from "redux-state"
+import { ROUTES } from "shared/constants"
 import ClaimHeader from "./components/ClaimHeader"
 import ClaimCheckRules from "./components/ClaimCheckRules"
 
@@ -20,7 +21,7 @@ export default function ClaimCheckFail() {
   const reset = () => {
     dispatch(setUseConnectedWalletToClaim({ useConnectedWallet: false }))
     dispatch(resetClaiming())
-    history.push("/claim")
+    history.push(ROUTES.CLAIM.HOME)
   }
 
   return (

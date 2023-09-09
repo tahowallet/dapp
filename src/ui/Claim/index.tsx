@@ -1,5 +1,6 @@
 import React from "react"
-import { Route, Switch, useRouteMatch } from "react-router-dom"
+import { Route, Switch } from "react-router-dom"
+import { ROUTES } from "shared/constants"
 import ClaimCheck from "./ClaimCheck"
 import Claiming from "./subpages"
 import ClaimFinish from "./ClaimFinish"
@@ -7,23 +8,21 @@ import ClaimAlreadyClaimed from "./ClaimAlreadyClaimed"
 import ClaimCheckResult from "./ClaimCheckResult"
 
 export default function Claim() {
-  const { path } = useRouteMatch()
-
   return (
     <Switch>
-      <Route path={`${path}/result`}>
+      <Route path={ROUTES.CLAIM.RESULT}>
         <ClaimCheckResult />
       </Route>
-      <Route path={`${path}/claiming`}>
+      <Route path={ROUTES.CLAIM.DETAILS}>
         <Claiming />
       </Route>
-      <Route path={`${path}/finish`}>
+      <Route path={ROUTES.CLAIM.FINISH}>
         <ClaimFinish />
       </Route>
-      <Route path={`${path}/claimed`}>
+      <Route path={ROUTES.CLAIM.ALREADY_CLAIMED}>
         <ClaimAlreadyClaimed />
       </Route>
-      <Route exact path={path}>
+      <Route exact path={ROUTES.CLAIM.HOME}>
         <ClaimCheck />
       </Route>
     </Switch>

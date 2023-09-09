@@ -4,6 +4,7 @@ import TahoAmount from "shared/components/TahoAmount"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import { useSelector, selectEligibility } from "redux-state"
+import { ROUTES } from "shared/constants"
 import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimFinish() {
@@ -19,7 +20,7 @@ export default function ClaimFinish() {
           <div className="button_container column_center">
             <div>Shall we start the game?</div>
             <Button
-              onClick={() => location.push("/")}
+              onClick={() => location.push(ROUTES.HOME)}
               type="primary"
               size="large"
             >

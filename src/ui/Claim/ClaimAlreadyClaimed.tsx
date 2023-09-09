@@ -4,6 +4,7 @@ import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import TahoAmount from "shared/components/TahoAmount"
 import { useSelector, selectEligibility } from "redux-state"
+import { ROUTES } from "shared/constants"
 import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimAlreadyClaimed() {
@@ -18,7 +19,7 @@ export default function ClaimAlreadyClaimed() {
           <TahoAmount amount={eligibility?.amount} hasBackground size="large" />
           <div className="button_container column_center">
             <Button
-              onClick={() => location.push("/referrals")}
+              onClick={() => location.push(ROUTES.REFERRALS)}
               type="primary"
               size="large"
             >

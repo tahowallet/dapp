@@ -9,6 +9,7 @@ import Button from "shared/components/Button"
 import Icon from "shared/components/Icon"
 import iconNotifCorrect from "shared/assets/icons/s/notif-correct.svg"
 import iconSearch from "shared/assets/icons/m/search.svg"
+import { ROUTES } from "shared/constants"
 
 type Delegate = {
   name: string
@@ -206,7 +207,7 @@ export default function ClaimingDelegate() {
 
         <div className="button_container row">
           <Button
-            onClick={() => location.push("/claim/claiming/sign")}
+            onClick={() => location.push(ROUTES.CLAIM.DETAILS_SIGN)}
             type="primary"
             size="large"
           >

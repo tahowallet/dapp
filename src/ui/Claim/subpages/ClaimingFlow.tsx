@@ -1,26 +1,25 @@
 import React from "react"
-import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom"
+import { Redirect, Route, Switch } from "react-router-dom"
 import Modal from "shared/components/Modal"
+import { ROUTES } from "shared/constants"
 import ClaimingPledge from "./ClaimingPledge"
 import ClaimingSignTx from "./ClaimingSignTx"
 
 export default function ClaimingFlow() {
-  const { path } = useRouteMatch()
-
   return (
     <Modal.Content>
       <div className="flow column">
         <Switch>
-          <Route path={`${path}/pledge`}>
+          <Route path={ROUTES.CLAIM.DETAILS_PLEDGE}>
             {/* <ClaimingSteps currentStep="Community Pledge" /> */}
             <ClaimingPledge />
           </Route>
-          <Route path={`${path}/sign`}>
+          <Route path={ROUTES.CLAIM.DETAILS_SIGN}>
             {/* <ClaimingSteps currentStep="Claim" /> */}
             <ClaimingSignTx />
           </Route>
-          <Route exact path={path}>
-            <Redirect to={`${path}/pledge`} />
+          <Route exact path={ROUTES.CLAIM.DETAILS}>
+            <Redirect to={ROUTES.CLAIM.DETAILS_PLEDGE} />
           </Route>
         </Switch>
       </div>

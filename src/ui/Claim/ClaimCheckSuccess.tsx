@@ -16,6 +16,7 @@ import {
   selectWalletAddress,
 } from "redux-state"
 import { isSameAddress } from "shared/utils"
+import { ROUTES } from "shared/constants"
 import ClaimCheckRules from "./components/ClaimCheckRules"
 import ClaimHeader from "./components/ClaimHeader"
 
@@ -72,7 +73,7 @@ export default function ClaimCheckSuccess() {
               {isCorrectUserConnected ? "Connected" : "Connect wallet"}
             </Button>
             <Button
-              onClick={() => history.push("/claim/claiming")}
+              onClick={() => history.push(ROUTES.CLAIM.DETAILS)}
               isDisabled={!isCorrectUserConnected}
               type="primary"
               size="large"

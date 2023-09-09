@@ -19,6 +19,7 @@ import {
 } from "redux-state"
 import { Eligibility, TransactionProgressStatus } from "shared/types"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
+import { ROUTES } from "shared/constants"
 
 const MOCK_STAKE_AMOUNT = 1n
 
@@ -108,7 +109,7 @@ export default function ClaimingTransactions() {
   }, [statusClaim])
 
   if (shouldRedirect) {
-    return <Redirect to="/claim/finish" />
+    return <Redirect to={ROUTES.CLAIM.FINISH} />
   }
 
   return (

@@ -16,6 +16,7 @@ import {
   selectWalletName,
   resetClaiming,
 } from "redux-state"
+import { ROUTES } from "shared/constants"
 import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimCheck() {
@@ -104,7 +105,7 @@ export default function ClaimCheck() {
   ])
 
   if (shouldRedirect) {
-    return <Redirect to="/claim/result" />
+    return <Redirect to={ROUTES.CLAIM.RESULT} />
   }
 
   return (

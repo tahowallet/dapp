@@ -10,6 +10,7 @@ import {
 } from "redux-state"
 import { RootState } from "redux-state/reducers"
 import Button from "shared/components/Button"
+import { ROUTES } from "shared/constants"
 
 export default function JoinRegion({
   onClose,
@@ -34,7 +35,7 @@ export default function JoinRegion({
           dispatch(
             setRegionAddressToClaim({ regionAddress: regionAddress ?? null })
           )
-          location.push("/claim/claiming/sign")
+          location.push(ROUTES.CLAIM.DETAILS_SIGN)
         }}
         type="primary"
         size="large"

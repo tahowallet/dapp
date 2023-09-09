@@ -14,6 +14,7 @@ import Claim from "ui/Claim"
 import GlobalStyles from "ui/GlobalStyles"
 import MapComponent from "ui/Map"
 import web3Onboard from "shared/utils/web3Onboard"
+import { ROUTES } from "shared/constants"
 import reduxStore from "./redux-state"
 
 function DApp() {
@@ -30,14 +31,14 @@ function DApp() {
         <TestingPanel />
         {mapMode === "default" && <Nav />}
         <Switch>
-          <Route path="/claim">
+          <Route path={ROUTES.CLAIM.HOME}>
             <Claim />
           </Route>
-          <Route path="/referrals">
+          <Route path={ROUTES.REFERRALS}>
             <Referrals />
           </Route>
           {/* TODO should be removed or defined later */}
-          <Route path="/lp">
+          <Route path={ROUTES.LP}>
             <LiquidityPool />
           </Route>
         </Switch>

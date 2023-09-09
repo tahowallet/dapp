@@ -7,6 +7,7 @@ import communityIcon from "shared/assets/icons/community.svg"
 import rulerIcon from "shared/assets/icons/ruler.svg"
 import { setMapMode, setMapOverlay } from "redux-state/slices/map"
 import { useDispatch } from "react-redux"
+import { ROUTES } from "shared/constants"
 
 export default function ClaimingPledge() {
   const location = useHistory()
@@ -59,7 +60,7 @@ export default function ClaimingPledge() {
               onClick={() => {
                 dispatch(setMapMode("join-region"))
                 dispatch(setMapOverlay("dark"))
-                location.push("/claim/claiming/region")
+                location.push(ROUTES.CLAIM.DETAILS_REGION)
               }}
               type="primary"
               size="large"

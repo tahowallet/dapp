@@ -10,6 +10,7 @@ import {
 } from "redux-state"
 import { useArbitrumProvider } from "shared/hooks"
 import { Redirect } from "react-router-dom"
+import { ROUTES } from "shared/constants"
 import ClaimAlreadyClaimed from "./ClaimAlreadyClaimed"
 import ClaimCheckFail from "./ClaimCheckFail"
 import ClaimCheckSuccess from "./ClaimCheckSuccess"
@@ -42,5 +43,5 @@ export default function ClaimCheckResult() {
     return <ClaimCheckSuccess />
   }
 
-  return <Redirect to="/claim" />
+  return <Redirect to={ROUTES.CLAIM.HOME} />
 }

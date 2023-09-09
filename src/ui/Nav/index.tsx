@@ -4,26 +4,27 @@ import Button from "shared/components/Button"
 import logoIcon from "shared/assets/nav_logo.svg"
 import walletIcon from "shared/assets/icons/wallet.svg"
 import { useConnect } from "shared/hooks"
+import { ROUTES } from "shared/constants"
 import NavItem from "./NavItem"
 import AccountInfo from "./AccountInfo"
 
 const NAV_ITEMS = [
   {
-    path: "/",
+    path: ROUTES.HOME,
     title: "Map",
     exact: true,
   },
   {
-    path: "/referrals",
+    path: ROUTES.REFERRALS,
     title: "Referrals",
   },
   {
-    path: "/claim",
+    path: ROUTES.CLAIM.HOME,
     title: "Claim",
   },
   // TODO should be removed or defined later
   {
-    path: "/lp",
+    path: ROUTES.LP,
     title: "LP",
   },
 ]
