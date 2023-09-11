@@ -59,12 +59,16 @@ export default function MapWrapper() {
       </style>
       <MapContext.Provider value={contextRef}>
         <MemoizedInteractiveMap />
+        {regionData && (
+          <RegionModal regionData={regionData} onClose={handleClose}>
+            {isDefaultMapMode ? (
+              <RegionDetails />
+            ) : (
+              <JoinRegion regionId={regionData} />
+            )}
+          </RegionModal>
+        )}
       </MapContext.Provider>
-      {regionData && (
-        <RegionModal regionData={regionData} onClose={handleClose}>
-          {isDefaultMapMode ? <RegionDetails /> : <JoinRegion />}
-        </RegionModal>
-      )}
     </div>
   )
 }

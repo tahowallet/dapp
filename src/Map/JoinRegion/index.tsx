@@ -3,6 +3,7 @@ import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import starIcon from "shared/assets/icons/star.svg"
+import RegionIcon from "shared/components/RegionIcon"
 
 const EPOCH = {
   number: "1",
@@ -22,7 +23,7 @@ const REGION_ACTIONS_MOCK = [
   },
 ]
 
-export default function JoinRegion() {
+export default function JoinRegion({ regionId }: { regionId: string }) {
   return (
     <div className="region column">
       <div className="details">
@@ -34,8 +35,12 @@ export default function JoinRegion() {
 
           <div className="details_epoch_token column">
             <h1 className="amount">
-              {/* TODO create correct icon  */}
-              {/* <Icon color="" src={} /> */}
+              <RegionIcon
+                regionId={regionId}
+                type="circle"
+                width="32px"
+                color="var(--primary-p1-100)"
+              />
               350,483
             </h1>
             TAHO-XP-01
@@ -48,7 +53,12 @@ export default function JoinRegion() {
             <Icon color="var(--secondary-s1-80)" src={infoIcon} />
           </div>
           <div className="amount">
-            {/* <Icon color="" src={} /> */}
+            <RegionIcon
+              regionId={regionId}
+              type="circle"
+              width="24px"
+              color="var(--primary-p1-100)"
+            />
             20,123
           </div>
         </div>
