@@ -6,7 +6,7 @@ import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
 
 import { REGIONS_COUNT } from "shared/constants"
-import { useMapContext } from "./MapContext"
+import { useMapContext } from "../../shared/hooks/map"
 
 type RegionProps = {
   id: string

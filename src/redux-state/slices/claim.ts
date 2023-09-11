@@ -12,8 +12,8 @@ export type ClaimState = {
   useConnectedWallet: boolean
   eligibility: Eligibility | null
   stakeAmount: bigint | null
-  regionAddress: string | null
   representativeAddress: string | null
+  selectedRegionId: string | null
 }
 
 const initialState: ClaimState = {
@@ -24,8 +24,8 @@ const initialState: ClaimState = {
   useConnectedWallet: true,
   eligibility: null,
   stakeAmount: null,
-  regionAddress: null,
   representativeAddress: null,
+  selectedRegionId: null,
 }
 
 const claimSlice = createSlice({
@@ -63,14 +63,6 @@ const claimSlice = createSlice({
     ) => {
       immerState.useConnectedWallet = useConnectedWallet
     },
-    setRegionAddressToClaim: (
-      immerState,
-      {
-        payload: { regionAddress },
-      }: { payload: { regionAddress: string | null } }
-    ) => {
-      immerState.regionAddress = regionAddress
-    },
     setRepresentativeAddressToClaim: (
       immerState,
       {
@@ -91,8 +83,11 @@ const claimSlice = createSlice({
       immerState.hasClaimed = false
       immerState.eligibility = null
       immerState.stakeAmount = null
-      immerState.regionAddress = null
       immerState.representativeAddress = null
+      immerState.selectedRegionId = null
+    },
+    setSelectedRegionId: (immerState, { payload: id }: { payload: string }) => {
+      immerState.selectedRegionId = id
     },
   },
 })
@@ -102,10 +97,10 @@ export const {
   setEligibility,
   setHasClaimed,
   setUseConnectedWalletToClaim,
-  setRegionAddressToClaim,
   setRepresentativeAddressToClaim,
   setStakeAmountToClaim,
   resetClaiming,
+  setSelectedRegionId,
 } = claimSlice.actions
 
 export default claimSlice.reducer

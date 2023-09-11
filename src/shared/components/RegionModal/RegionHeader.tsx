@@ -68,7 +68,6 @@ export default function RegionHeader({ regionId }: { regionId: string }) {
         {`
           header {
             user-select: none;
-            margin-bottom: 24px;
             gap: 32px;
           }
 

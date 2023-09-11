@@ -1,5 +1,8 @@
+import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
 import { truncateAddress } from "shared/utils"
+import { RegionContractData } from "shared/types"
+import { selectRegionById } from "./map"
 
 export const selectClaimingUser = (state: RootState) => ({
   name: state.claim.name || truncateAddress(state.claim.address),
@@ -13,10 +16,19 @@ export const selectEligibility = (state: RootState) => state.claim.eligibility
 export const selectUseConnectedWalletToClaim = (state: RootState) =>
   state.claim.useConnectedWallet
 
-export const selectStakingData = (state: RootState) => ({
-  stakeAmount: state.claim.stakeAmount,
-  regionAddress: state.claim.regionAddress,
-})
+export const selectStakingData = createSelector(
+  (state: RootState) =>
+    state.claim.selectedRegionId
+      ? selectRegionById(state, state.claim.selectedRegionId)
+      : null,
+  (state: RootState) => state.claim.stakeAmount,
+  (regionData: RegionContractData | null, stakeAmount) => ({
+    regionAddress: regionData ? regionData.regionAddress : null,
+    stakeAmount,
+  })
+)
 
 export const selectRepresentativeAddress = (state: RootState) =>
   state.claim.representativeAddress
+
+export const selectRegionId = (state: RootState) => state.claim.selectedRegionId

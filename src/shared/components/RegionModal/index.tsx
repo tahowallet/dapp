@@ -7,6 +7,7 @@ import {
 } from "@react-spring/web"
 import Modal from "shared/components/Modal"
 import { regions } from "shared/constants"
+import { useMapContext } from "shared/hooks"
 import RegionModalContent from "./RegionModalContent"
 
 function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
@@ -131,6 +132,7 @@ export default function RegionModal({
   onClose: () => void
   children: React.ReactNode
 }) {
+  const mapContext = useMapContext()
   const [regionId, setRegionId] = useState(initialRegionId)
   const [prevRegion, nextRegion] = useMemo(() => {
     const index = regions.findIndex((region) => region.id === regionId)
@@ -177,7 +179,10 @@ export default function RegionModal({
             zIndex: 1,
             transform: "translateX(-100%)",
           }}
-          onClick={() => setRegionId(prevRegion)}
+          onClick={() => {
+            setRegionId(prevRegion)
+            mapContext.current.onRegionClick(prevRegion)
+          }}
         />
         <NextBtn
           style={{
@@ -187,12 +192,15 @@ export default function RegionModal({
             zIndex: 1,
             transform: "translateX(100%)",
           }}
-          onClick={() => setRegionId(nextRegion)}
+          onClick={() => {
+            setRegionId(nextRegion)
+            mapContext.current.onRegionClick(nextRegion)
+          }}
         />
         <animated.div style={props}>
           {transitions((style, item) => (
             <animated.div style={{ ...style }}>
-              <RegionModalContent regionId={item}>
+              <RegionModalContent regionId={item} onClose={onClose}>
                 {children}
               </RegionModalContent>
             </animated.div>
