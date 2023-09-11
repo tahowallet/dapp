@@ -4,7 +4,8 @@ import { selectIsJoinRegionMapMode } from "redux-state/selectors/map"
 import { useDispatch, useSelector } from "react-redux"
 import classNames from "classnames"
 import { useHistory } from "react-router-dom"
-import { setMapMode, setMapOverlay } from "redux-state/slices/map"
+import { resetMap } from "redux-state/slices/map"
+import { setSelectedRegionId } from "redux-state/slices/claim"
 import RegionHeader from "./RegionHeader"
 import Button from "../Button"
 
@@ -24,8 +25,8 @@ export default function RegionModalContent({
 
   const handleClose = () => {
     onClose()
-    dispatch(setMapMode("default"))
-    dispatch(setMapOverlay("none"))
+    dispatch(resetMap())
+    dispatch(setSelectedRegionId(regionId))
     location.push("/claim/claiming/sign")
   }
   return (

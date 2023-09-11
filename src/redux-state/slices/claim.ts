@@ -11,6 +11,7 @@ export type ClaimState = {
   hasClaimed: boolean
   useConnectedWallet: boolean
   eligibility: Eligibility | null
+  selectedRegionId: string | null
 }
 
 const initialState: ClaimState = {
@@ -20,6 +21,7 @@ const initialState: ClaimState = {
   hasClaimed: false,
   useConnectedWallet: true,
   eligibility: null,
+  selectedRegionId: null,
 }
 
 const claimSlice = createSlice({
@@ -62,6 +64,10 @@ const claimSlice = createSlice({
       immerState.address = ""
       immerState.hasClaimed = false
       immerState.eligibility = null
+      immerState.selectedRegionId = null
+    },
+    setSelectedRegionId: (immerState, { payload: id }: { payload: string }) => {
+      immerState.selectedRegionId = id
     },
   },
 })
@@ -72,6 +78,7 @@ export const {
   setHasClaimed,
   setUseConnectedWalletToClaim,
   resetClaiming,
+  setSelectedRegionId,
 } = claimSlice.actions
 
 export default claimSlice.reducer
