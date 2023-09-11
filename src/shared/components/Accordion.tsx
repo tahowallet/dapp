@@ -6,9 +6,18 @@ import Icon from "./Icon"
 type AccordionProps = {
   title: string
   children: React.ReactNode
+  icon?: string
+  iconColor?: string
+  type?: "default" | "frame"
 }
 
-export default function Accordion({ children, title }: AccordionProps) {
+export default function Accordion({
+  children,
+  title,
+  icon,
+  iconColor,
+  type = "frame",
+}: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggle = () => setIsOpen(!isOpen)
@@ -21,11 +30,17 @@ export default function Accordion({ children, title }: AccordionProps) {
         onKeyDown={(e) => e.key === "Enter" && toggle()}
         onClick={toggle}
         className={classNames("accordion column", {
+          [type]: true,
           open: isOpen,
         })}
       >
         <div className="accordion_title row">
-          {title}
+          <div className="title row">
+            {icon && (
+              <Icon src={icon} color={iconColor || "var(--secondary-s1-80)"} />
+            )}
+            {title}
+          </div>
           <div className="accordion_icon">
             <Icon src={arrowIcon} color="var(--secondary-s1-80)" />
           </div>
@@ -36,20 +51,34 @@ export default function Accordion({ children, title }: AccordionProps) {
         {`
           .accordion {
             border-radius: 4px;
-            background: var(--secondary-s1-20);
             padding: 8px;
             cursor: pointer;
+          }
+          .default {
+            background: var(--secondary-s1-20);
             transition: background 0.3s ease-in-out;
           }
-          .accordion:hover {
+          .default:hover {
             background: var(--secondary-s1-40);
           }
-          .accordion.open {
+          .default.open {
             background: var(--primary-p1-100);
+          }
+          .frame {
+            border-radius: 8px;
+            padding: 16px 20px 16px 12px;
+            border: 1px solid var(--secondary-s1-20);
+          }
+          .frame.open {
+            border: 1px solid var(--secondary-s1-50);
           }
           .accordion_title {
             justify-content: space-between;
             align-items: center;
+          }
+          .title {
+            align-items: center;
+            gap: 8px;
           }
           .accordion_content {
             max-height: 0;

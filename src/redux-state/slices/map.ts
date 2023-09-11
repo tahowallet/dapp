@@ -26,9 +26,10 @@ const mapSlice = createSlice({
     ) => {
       immerState.overlay = overlay
     },
+    resetMap: (_) => initialState,
   },
 })
 
-export const { setMapMode, setMapOverlay } = mapSlice.actions
+export const { setMapMode, setMapOverlay, resetMap } = mapSlice.actions
 
 export default mapSlice.reducer
