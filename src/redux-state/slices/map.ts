@@ -68,10 +68,14 @@ const mapSlice = createSlice({
         immerState.regions[id].regionAddress = address
       })
     },
+    resetMap: (immerState) => {
+      immerState.mode = "default"
+      immerState.overlay = "none"
+    },
   },
 })
 
-export const { setMapMode, setMapOverlay, setRegionAddresses } =
+export const { setMapMode, setMapOverlay, resetMap, setRegionAddresses } =
   mapSlice.actions
 
 export default mapSlice.reducer

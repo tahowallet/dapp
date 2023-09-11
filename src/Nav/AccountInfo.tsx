@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useSelector, selectWalletAvatar, selectWalletName } from "redux-state"
+import RegionIcon from "shared/components/RegionIcon"
 import { getRegionData } from "../Map/constants"
 import AccountDropdown from "./AccountDropdown"
 
@@ -22,11 +23,7 @@ export default function AccountInfo() {
       {regionMock && (
         <div className="region_container row">
           {region && (
-            <div className="region_icon">
-              <svg viewBox={`0 0 ${region.w} ${region.h}`}>
-                <path d={region.paths[0].data} fill="#f4d03f" />
-              </svg>
-            </div>
+            <RegionIcon regionId={region.id} type="fill" color="#f4d03f" />
           )}
           <span className="region_label">{regionMock.name}</span>
         </div>
@@ -51,11 +48,6 @@ export default function AccountInfo() {
             align-items: center;
             margin-right: 25px;
             gap: 6px;
-          }
-
-          .region_icon {
-            width: 16px;
-            height: 100%;
           }
 
           .region_label {
