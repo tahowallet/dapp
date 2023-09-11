@@ -8,6 +8,7 @@ type AccordionProps = {
   children: React.ReactNode
   icon?: string
   iconColor?: string
+  type?: "default" | "frame"
 }
 
 export default function Accordion({
@@ -15,6 +16,7 @@ export default function Accordion({
   title,
   icon,
   iconColor,
+  type = "frame",
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -28,6 +30,7 @@ export default function Accordion({
         onKeyDown={(e) => e.key === "Enter" && toggle()}
         onClick={toggle}
         className={classNames("accordion column", {
+          [type]: true,
           open: isOpen,
         })}
       >
@@ -48,16 +51,26 @@ export default function Accordion({
         {`
           .accordion {
             border-radius: 4px;
-            background: var(--secondary-s1-20);
             padding: 8px;
             cursor: pointer;
+          }
+          .default {
+            background: var(--secondary-s1-20);
             transition: background 0.3s ease-in-out;
           }
-          .accordion:hover {
+          .default:hover {
             background: var(--secondary-s1-40);
           }
-          .accordion.open {
+          .default.open {
             background: var(--primary-p1-100);
+          }
+          .frame {
+            border-radius: 8px;
+            padding: 16px 20px 16px 12px;
+            border: 1px solid var(--secondary-s1-20);
+          }
+          .frame.open {
+            border: 1px solid var(--secondary-s1-50);
           }
           .accordion_title {
             justify-content: space-between;

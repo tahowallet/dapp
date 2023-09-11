@@ -74,7 +74,7 @@ export default function JoinRegion({ regionId }: { regionId: string }) {
               icon={starIcon}
               iconColor="var(--semantic-success)"
             >
-              {description}
+              <div className="description">{description}</div>
             </Accordion>
           ))}
         </div>
@@ -113,6 +113,10 @@ export default function JoinRegion({ regionId }: { regionId: string }) {
         .rewards_actions {
           max-width: 650px;
           gap: 16px;
+        }
+        .description {
+          color: var(--secondary-s1-80);
+          padding: 0 16px 0px 25px;
         }
 
         .amount {
