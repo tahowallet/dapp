@@ -5,6 +5,7 @@ export default function SharedInput({
   onChange,
   validate = (value) => ({ value }),
   label,
+  type = "text",
   value: propsValue,
   placeholder = " ",
   disabled = false,
@@ -12,6 +13,7 @@ export default function SharedInput({
   style = {},
 }: {
   label: string
+  type?: "text" | "number"
   disabled?: boolean
   value: string
   placeholder?: string
@@ -27,6 +29,8 @@ export default function SharedInput({
     setValue(propsValue)
   }
 
+  const isTypeNumber = type === "number"
+
   return (
     <div
       style={style}
@@ -34,7 +38,9 @@ export default function SharedInput({
     >
       <div className="input_box">
         <input
-          type="text"
+          type={type}
+          min={isTypeNumber ? "0" : undefined}
+          className={classNames({ input_number: isTypeNumber })}
           value={value}
           placeholder={placeholder}
           disabled={disabled}
@@ -164,6 +170,12 @@ export default function SharedInput({
           flex: 1;
           border-top-right-radius: 4px;
           border-top: var(--border);
+        }
+
+        .input_number::-webkit-outer-spin-button,
+        .input_number::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
         }
       `}</style>
     </div>

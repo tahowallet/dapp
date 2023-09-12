@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { encodeUserData } from "shared/utils/pool"
 import {
   selectIsWalletConnected,
   selectWalletAddress,
   useSelector,
 } from "redux-state"
+import TokenAmountInput from "shared/components/TokenAmountInput"
 import {
   ETH_ADDRESS,
   isValidInputAmount,
   userAmountToBigInt,
 } from "../shared/utils"
 import { LiquidityPoolRequest } from "../shared/types"
-import AmountInput from "../shared/components/AmountInput"
 import {
   getAllowance,
   setAllowance,
-  getBalance,
   getBalancerPoolAddress,
   getBalancerPoolAgentAddress,
   joinPool,
@@ -35,26 +34,8 @@ export default function LiquidityPool() {
     useSendTransaction(setAllowance)
   const isConnected = useSelector(selectIsWalletConnected)
 
-  const [tahoBalance, setTahoBalance] = useState(0n)
   const [tahoAmount, setTahoAmount] = useState("")
-  const [ethBalance, setEthBalance] = useState(0n)
   const [ethAmount, setEthAmount] = useState("")
-
-  useEffect(() => {
-    const fetchBalances = async () => {
-      if (!provider || !address) {
-        return
-      }
-
-      const newTahoBalance = await getBalance(provider, CONTRACT_Taho, address)
-      setTahoBalance(newTahoBalance)
-
-      const newEthBalance = (await provider.getBalance(address)).toBigInt()
-      setEthBalance(newEthBalance)
-    }
-
-    fetchBalances()
-  }, [address, provider])
 
   const signJoinPool = async (
     joinRequest: LiquidityPoolRequest,
@@ -129,19 +110,21 @@ export default function LiquidityPool() {
           <div className="lp_container row">
             <div className="token column">
               <span>TAHO</span>
-              <AmountInput
-                label="Amount"
+              <TokenAmountInput
+                label="Wallet balance:"
+                inputLabel="Amount"
                 amount={tahoAmount}
-                maxAmount={tahoBalance}
+                tokenAddress={CONTRACT_Taho}
                 onChange={setTahoAmount}
               />
             </div>
             <div className="token column">
               <span>ETH</span>
-              <AmountInput
-                label="Amount"
+              <TokenAmountInput
+                label="Wallet balance:"
+                inputLabel="Amount"
                 amount={ethAmount}
-                maxAmount={ethBalance}
+                tokenAddress={ETH_ADDRESS}
                 onChange={setEthAmount}
               />
             </div>
