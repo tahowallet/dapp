@@ -23,6 +23,10 @@ declare const CONTRACT_HuntingGroundRegistry: string
 
 declare const CONTRACT_TAHOETHHuntingGroundDeployer: string
 
+declare const CONTRACT_HuntingGroundRewardsEscrowDeployer: string
+
+declare const CONTRACT_DevGrantEscrowDeployer: string
+
 declare const CONTRACT_GameParameters: string
 
 declare const CONTRACT_Game: string
