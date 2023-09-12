@@ -11,16 +11,20 @@ export type ClaimState = {
   hasClaimed: boolean
   useConnectedWallet: boolean
   eligibility: Eligibility | null
+  stakeAmount: bigint | null
+  representativeAddress: string | null
   selectedRegionId: string | null
 }
 
 const initialState: ClaimState = {
-  isLoading: false,
+  isLoading: false, // TODO: implement loading effect
   name: "",
   address: "",
   hasClaimed: false,
   useConnectedWallet: true,
   eligibility: null,
+  stakeAmount: null,
+  representativeAddress: null,
   selectedRegionId: null,
 }
 
@@ -59,11 +63,27 @@ const claimSlice = createSlice({
     ) => {
       immerState.useConnectedWallet = useConnectedWallet
     },
+    setRepresentativeAddressToClaim: (
+      immerState,
+      {
+        payload: { representativeAddress },
+      }: { payload: { representativeAddress: string | null } }
+    ) => {
+      immerState.representativeAddress = representativeAddress
+    },
+    setStakeAmountToClaim: (
+      immerState,
+      { payload: { stakeAmount } }: { payload: { stakeAmount: bigint | null } }
+    ) => {
+      immerState.stakeAmount = stakeAmount
+    },
     resetClaiming: (immerState) => {
       immerState.name = ""
       immerState.address = ""
       immerState.hasClaimed = false
       immerState.eligibility = null
+      immerState.stakeAmount = null
+      immerState.representativeAddress = null
       immerState.selectedRegionId = null
     },
     setSelectedRegionId: (immerState, { payload: id }: { payload: string }) => {
@@ -77,6 +97,8 @@ export const {
   setEligibility,
   setHasClaimed,
   setUseConnectedWalletToClaim,
+  setRepresentativeAddressToClaim,
+  setStakeAmountToClaim,
   resetClaiming,
   setSelectedRegionId,
 } = claimSlice.actions

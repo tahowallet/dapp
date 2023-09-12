@@ -44,6 +44,8 @@ export const useSelector = useReduxSelector
 
 export * from "./slices/claim"
 export * from "./slices/wallet"
+export * from "./slices/map"
 
 export * from "./selectors/claim"
 export * from "./selectors/wallet"
+export * from "./selectors/map"

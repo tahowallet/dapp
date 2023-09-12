@@ -1,6 +1,6 @@
 import React from "react"
 import Modal from "shared/components/Modal"
-import { selectIsJoinRegionMapMode } from "redux-state/selectors/map"
+import { selectIsJoinRegionMapMode } from "redux-state"
 import { useDispatch, useSelector } from "react-redux"
 import classNames from "classnames"
 import { useHistory } from "react-router-dom"
@@ -19,7 +19,6 @@ export default function RegionModalContent({
   onClose: () => void
 }) {
   const isJoinRegionMode = useSelector(selectIsJoinRegionMapMode)
-
   const location = useHistory()
   const dispatch = useDispatch()
 

@@ -1,13 +1,10 @@
 import { Contract, PopulatedTransaction, providers } from "ethers"
 import { Eligibility } from "../types"
-import { tahoDeployerAbi, voteWithFriendsAbi } from "./abi"
+import { voteWithFriendsAbi } from "./abi"
+import { getTahoDeployerContract } from "./game"
 
 async function getVoteWithFriendsContract(provider: providers.Provider) {
-  const tahoDeployer = new Contract(
-    CONTRACT_TahoDeployer,
-    tahoDeployerAbi,
-    provider
-  )
+  const tahoDeployer = getTahoDeployerContract(provider)
 
   const voteWithFriendsAddress = await tahoDeployer.VOTE_WITH_FRIENDS()
 

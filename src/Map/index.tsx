@@ -29,17 +29,17 @@ export default function MapWrapper() {
     })
   }, [])
 
-  const [regionData, setRegionData] = useState<null | string>(null)
+  const [regionId, setRegionId] = useState<null | string>(null)
 
   const contextRef = useValueRef(() => ({
     onRegionClick: (id: string) => {
-      setRegionData(String(id))
+      setRegionId(String(id))
     },
   }))
 
   const isDefaultMapMode = useSelector(selectIsDefaultMapMode)
 
-  const handleClose = useCallback(() => setRegionData(null), [])
+  const handleClose = useCallback(() => setRegionId(null), [])
 
   if (!assetsLoaded) {
     return null
@@ -59,12 +59,12 @@ export default function MapWrapper() {
       </style>
       <MapContext.Provider value={contextRef}>
         <MemoizedInteractiveMap />
-        {regionData && (
-          <RegionModal regionData={regionData} onClose={handleClose}>
+        {regionId && (
+          <RegionModal regionId={regionId} onClose={handleClose}>
             {isDefaultMapMode ? (
               <RegionDetails />
             ) : (
-              <JoinRegion regionId={regionData} />
+              <JoinRegion regionId={regionId} />
             )}
           </RegionModal>
         )}

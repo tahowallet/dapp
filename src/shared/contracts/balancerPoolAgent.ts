@@ -1,13 +1,10 @@
 import { Contract, PopulatedTransaction, providers } from "ethers"
 import { LiquidityPoolRequest } from "../types"
-import { balancerPoolAgentAbi, tahoDeployerAbi } from "./abi"
+import { balancerPoolAgentAbi } from "./abi"
+import { getTahoDeployerContract } from "./game"
 
 export function getBalancerPoolAddress(provider: providers.Provider): string {
-  const tahoDeployer = new Contract(
-    CONTRACT_TahoDeployer,
-    tahoDeployerAbi,
-    provider
-  )
+  const tahoDeployer = getTahoDeployerContract(provider)
 
   return tahoDeployer.BALANCER_POOL()
 }
@@ -15,11 +12,7 @@ export function getBalancerPoolAddress(provider: providers.Provider): string {
 export function getBalancerPoolAgentAddress(
   provider: providers.Provider
 ): string {
-  const tahoDeployer = new Contract(
-    CONTRACT_TahoDeployer,
-    tahoDeployerAbi,
-    provider
-  )
+  const tahoDeployer = getTahoDeployerContract(provider)
 
   return tahoDeployer.BALANCER_POOL_AGENT()
 }

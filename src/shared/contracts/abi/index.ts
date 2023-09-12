@@ -1,3 +1,6 @@
 export { default as tahoDeployerAbi } from "./tahoDeployerAbi"
 export { default as voteWithFriendsAbi } from "./voteWithFriendsAbi"
 export { default as balancerPoolAgentAbi } from "./balancerPoolAgentAbi"
+export { default as erc20Abi } from "./erc20Abi"
+export { default as nodeAbi } from "./nodeAbi"
+export { default as gameParametersAbi } from "./gameParametersAbi"
