@@ -8,6 +8,7 @@ import {
 import TokenAmountInput from "shared/components/TokenAmountInput"
 import {
   ETH_ADDRESS,
+  bigIntToUserAmount,
   isValidInputAmount,
   userAmountToBigInt,
 } from "../shared/utils"
@@ -59,43 +60,39 @@ export default function LiquidityPool() {
       if (!provider || !address || !isSetAllowanceReady) {
         throw new Error("No provider or address")
       }
+      const targetTahoAmount = userAmountToBigInt(tahoAmount)
+      const targetEthAmount = userAmountToBigInt(ethAmount)
 
-      const targetTahoAmount = userAmountToBigInt(+tahoAmount)
-      const targetEthAmount = userAmountToBigInt(+ethAmount)
-
-      const balancerPoolAgentAddress = await getBalancerPoolAgentAddress(
-        provider
-      )
-
-      const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
-        account: address,
-        address: balancerPoolAgentAddress,
-      })
-
-      if (allowanceValue < targetTahoAmount) {
-        await sendSetAllowance(
-          { address: balancerPoolAgentAddress, amount: targetTahoAmount },
-          CONTRACT_Taho
+      if (targetTahoAmount && targetEthAmount) {
+        const balancerPoolAgentAddress = await getBalancerPoolAgentAddress(
+          provider
+        )
+        const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
+          account: address,
+          address: balancerPoolAgentAddress,
+        })
+        if (allowanceValue < targetTahoAmount) {
+          await sendSetAllowance(
+            { address: balancerPoolAgentAddress, amount: targetTahoAmount },
+            CONTRACT_Taho
+          )
+        }
+        const maxAmountsIn = [targetTahoAmount, targetEthAmount]
+        const poolAddress = await getBalancerPoolAddress(provider)
+        const lpTokenSupply = await totalSupply(provider, poolAddress)
+        const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
+        await signJoinPool(
+          {
+            assets: [CONTRACT_Taho, ETH_ADDRESS],
+            maxAmountsIn,
+            userData,
+            fromInternalBalance: false,
+          },
+          {
+            value: targetEthAmount,
+          }
         )
       }
-
-      const maxAmountsIn = [targetTahoAmount, targetEthAmount]
-
-      const poolAddress = await getBalancerPoolAddress(provider)
-      const lpTokenSupply = await totalSupply(provider, poolAddress)
-      const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
-
-      await signJoinPool(
-        {
-          assets: [CONTRACT_Taho, ETH_ADDRESS],
-          maxAmountsIn,
-          userData,
-          fromInternalBalance: false,
-        },
-        {
-          value: targetEthAmount,
-        }
-      )
     } catch (err) {
       // TODO Add error handing
       // eslint-disable-next-line no-console

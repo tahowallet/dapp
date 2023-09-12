@@ -36,7 +36,7 @@ export default function TokenAmountInput({
   const [balance, setBalance] = useState(0n)
   const [symbol, setSymbol] = useState("")
 
-  const maxAmount = bigIntToUserAmount(balance).toString()
+  const maxAmount = bigIntToUserAmount(balance)
 
   useEffect(() => {
     const fetchSymbol = async () => {
@@ -76,13 +76,14 @@ export default function TokenAmountInput({
   const handleValidate = (
     value: string
   ): { value: unknown } | { error: string } => {
-    const parsed = parseFloat(value)
+    const parsed = userAmountToBigInt(value)
+    const isBelowZero = parsed && parsed < 0
 
-    if (!Number.isNaN(parsed) && userAmountToBigInt(parsed) > balance) {
-      return { error: AmountErrors.NOT_ENOUGH_FUNDS }
-    }
-    if (parsed < 0) {
+    if (!parsed || isBelowZero) {
       return { error: AmountErrors.INVALID_VALUE }
+    }
+    if (parsed > balance) {
+      return { error: AmountErrors.NOT_ENOUGH_FUNDS }
     }
 
     return { value: parsed }
