@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Redirect } from "react-router-dom"
 import {
-  StakingData,
   claim,
   getAllowance,
   getRegionVeTokenAddress,
@@ -17,7 +16,11 @@ import {
   selectStakingData,
   selectWalletAddress,
 } from "redux-state"
-import { Eligibility, TransactionProgressStatus } from "shared/types"
+import {
+  Eligibility,
+  StakingData,
+  TransactionProgressStatus,
+} from "shared/types"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 
 const MOCK_STAKE_AMOUNT = 1n
@@ -27,7 +30,8 @@ export default function ClaimingTransactions() {
   const provider = useArbitrumProvider()
   const account = useSelector(selectWalletAddress)
   const eligibility = useSelector(selectEligibility)
-  const { /* stakeAmount */ regionAddress } = useSelector(selectStakingData)
+  const { /* stakeAmount */ regionContractAddress } =
+    useSelector(selectStakingData)
   const {
     send: sendClaim,
     isReady: isClaimReady,
@@ -56,47 +60,57 @@ export default function ClaimingTransactions() {
   }
 
   const signStake = async () => {
-    if (isStakeReady && regionAddress && provider && isSetAllowanceReady) {
+    if (
+      isStakeReady &&
+      regionContractAddress &&
+      provider &&
+      isSetAllowanceReady
+    ) {
       const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
         account,
-        contractAddress: regionAddress,
+        contractAddress: regionContractAddress,
       })
 
       if (allowanceValue < MOCK_STAKE_AMOUNT) {
         await sendSetAllowance(
-          { account: regionAddress, amount: MOCK_STAKE_AMOUNT },
+          { account: regionContractAddress, amount: MOCK_STAKE_AMOUNT },
           CONTRACT_Taho
         )
       }
 
       await sendStake({
         amount: MOCK_STAKE_AMOUNT, // stakeAmount,
-        regionContractAddress: regionAddress,
+        regionContractAddress,
       })
     }
   }
 
   const signUnstake = async () => {
-    if (isUnstakeReady && regionAddress && provider && isSetAllowanceReady) {
+    if (
+      isUnstakeReady &&
+      regionContractAddress &&
+      provider &&
+      isSetAllowanceReady
+    ) {
       const veTokenAddress = await getRegionVeTokenAddress(
         provider,
-        regionAddress
+        regionContractAddress
       )
       const allowanceValue = await getAllowance(provider, veTokenAddress, {
         account,
-        contractAddress: regionAddress,
+        contractAddress: regionContractAddress,
       })
 
       if (allowanceValue < MOCK_STAKE_AMOUNT) {
         await sendSetAllowance(
-          { account: regionAddress, amount: MOCK_STAKE_AMOUNT },
+          { account: regionContractAddress, amount: MOCK_STAKE_AMOUNT },
           veTokenAddress
         )
       }
 
       await sendUnstake({
         amount: MOCK_STAKE_AMOUNT, // stakeAmount,
-        regionContractAddress: regionAddress,
+        regionContractAddress,
       })
     }
   }

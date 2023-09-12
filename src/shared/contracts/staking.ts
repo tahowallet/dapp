@@ -1,7 +1,6 @@
 import { providers } from "ethers"
+import { StakingData } from "shared/types"
 import { getRegionContract } from "./regions"
-
-export type StakingData = { regionContractAddress: string; amount: bigint }
 
 export async function stake(
   provider: providers.Provider,

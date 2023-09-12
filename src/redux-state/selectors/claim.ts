@@ -23,7 +23,7 @@ export const selectStakingData = createSelector(
       : null,
   (state: RootState) => state.claim.stakeAmount,
   (regionData: RegionContractData | null, stakeAmount) => ({
-    regionAddress: regionData ? regionData.regionAddress : null,
+    regionContractAddress: regionData ? regionData.regionContractAddress : null,
     stakeAmount,
   })
 )

@@ -6,28 +6,23 @@ import { RegionContractData } from "shared/types/map"
 const REGIONS: { [id: string]: RegionContractData } = {
   "4": {
     name: "VAMPIRE_NODE",
-    regionAddress: null,
-    veTokenAddress: CONTRACT_VampireNodeVeTaho,
+    regionContractAddress: null,
   },
   "7": {
     name: "EDUCATE_NODE",
-    regionAddress: null,
-    veTokenAddress: CONTRACT_EducateNodeVeTaho,
+    regionContractAddress: null,
   },
   "9": {
     name: "SOCIAL_NODE",
-    regionAddress: null,
-    veTokenAddress: CONTRACT_SocialNodeVeTaho,
+    regionContractAddress: null,
   },
   "19": {
     name: "CREATORS_NODE",
-    regionAddress: null,
-    veTokenAddress: CONTRACT_CreatorsNodeVeTaho,
+    regionContractAddress: null,
   },
   "22": {
     name: "DEFI_NODE",
-    regionAddress: null,
-    veTokenAddress: CONTRACT_DeFiNodeVeTaho,
+    regionContractAddress: null,
   },
 }
 
@@ -65,7 +60,7 @@ const mapSlice = createSlice({
       }: { payload: { id: string; address: string }[] }
     ) => {
       regionAddresses.forEach(({ id, address }) => {
-        immerState.regions[id].regionAddress = address
+        immerState.regions[id].regionContractAddress = address
       })
     },
     resetMap: (immerState) => {

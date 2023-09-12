@@ -1,5 +1,6 @@
 export type RegionContractData = {
   name: string
-  regionAddress?: string | null
-  veTokenAddress: string
+  regionContractAddress: string | null
 }
+
+export type StakingData = { regionContractAddress: string; amount: bigint }
