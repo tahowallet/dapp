@@ -1,12 +1,13 @@
 import React, { useCallback, useLayoutEffect, useState } from "react"
-import { selectIsDefaultMapMode } from "redux-state"
+import { selectIsDefaultMapMode } from "redux-state/selectors/map"
 import { useSelector } from "react-redux"
 import RegionModal from "shared/components/RegionModal"
-import { useValueRef, MapContext } from "shared/hooks"
-import InteractiveMap from "ui/Map/InteractiveMap"
-import JoinRegion from "ui/Map/JoinRegion"
-import RegionDetails from "ui/Map/RegionDetails"
-import backgroundImg from "../public/dapp_map_bg.webp"
+import backgroundImg from "public/dapp_map_bg.webp"
+import { useValueRef } from "shared/hooks"
+import InteractiveMap from "./InteractiveMap"
+import { MapContext } from "../../shared/hooks/map"
+import JoinRegion from "./JoinRegion"
+import RegionDetails from "./RegionDetails"
 
 const MemoizedInteractiveMap = React.memo(InteractiveMap)
 

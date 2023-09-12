@@ -6,6 +6,7 @@ import classNames from "classnames"
 import { useHistory } from "react-router-dom"
 import { resetMap } from "redux-state/slices/map"
 import { setSelectedRegionId } from "redux-state/slices/claim"
+import { ROUTES } from "shared/constants"
 import RegionHeader from "./RegionHeader"
 import Button from "../Button"
 
@@ -26,7 +27,7 @@ export default function RegionModalContent({
     onClose()
     dispatch(resetMap())
     dispatch(setSelectedRegionId(regionId))
-    location.push("/claim/claiming/sign")
+    location.push(ROUTES.CLAIM.DETAILS_SIGN)
   }
   return (
     <Modal.Content>

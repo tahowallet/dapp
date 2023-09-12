@@ -1,6 +1,6 @@
-import { getRegionData } from "Map/constants"
 import classNames from "classnames"
 import React from "react"
+import { getRegionData } from "shared/constants"
 
 type RegionIconProps = {
   regionId: string

@@ -6,8 +6,8 @@ import {
   useTransition as useSpringTransition,
 } from "@react-spring/web"
 import Modal from "shared/components/Modal"
-import { regions } from "Map/constants"
-import { useMapContext } from "Map/MapContext"
+import { regions } from "shared/constants"
+import { useMapContext } from "shared/hooks"
 import RegionModalContent from "./RegionModalContent"
 
 function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {

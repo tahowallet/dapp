@@ -54,3 +54,7 @@ export function encodeJSON(input: unknown): string {
     return value
   })
 }
+
+export function queueMicrotask<T extends () => unknown>(callback: T) {
+  return Promise.resolve().then(callback)
+}
