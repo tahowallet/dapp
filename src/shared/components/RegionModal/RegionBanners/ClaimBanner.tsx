@@ -15,7 +15,7 @@ export default function ClaimBanner() {
       <style jsx>
         {`
           .claim_banner {
-            padding: 36px 24px;
+            padding: 22px 20px 32px;
             background-color: var(--primary-p1-40);
             justify-content: space-between;
             align-items: start;

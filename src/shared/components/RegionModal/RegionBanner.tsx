@@ -8,12 +8,17 @@ type RegionBannerProps = {
    * @default "start"
    */
   alignElements?: "start" | "center"
+  /**
+   * @default false
+   */
+  noMarginBottom?: boolean
   buttonProps: React.ComponentProps<typeof Button>
 }
 
 export default function RegionBanner({
   label,
   alignElements = "start",
+  noMarginBottom = false,
   buttonProps,
 }: RegionBannerProps) {
   return (
@@ -38,7 +43,7 @@ export default function RegionBanner({
             justify-content: space-between;
             align-items: ${alignElements};
             gap: 24px;
-            margin-bottom: 36px;
+            margin-bottom: ${noMarginBottom ? "0" : "36px"};
             width: 671px;
             border-radius: 8px;
           }

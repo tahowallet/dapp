@@ -12,6 +12,7 @@ export default function EarnTahoBanner() {
           </>
         }
         alignElements="center"
+        noMarginBottom
         buttonProps={{ children: "Earn TAHO with referrals" }}
       />
       <style jsx>
