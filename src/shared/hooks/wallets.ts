@@ -134,7 +134,7 @@ export function useFetchRegionsContracts() {
 
     const fetch = async () => {
       const regions = Object.entries(regionsById)
-        .filter(([__, { regionAddress }]) => !regionAddress)
+        .filter(([__, { regionContractAddress }]) => !regionContractAddress)
         .map(([id, data]) => ({ id, data }))
 
       const regionAddresses = await getRegionAddresses(provider, {
