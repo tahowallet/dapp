@@ -4,11 +4,11 @@ import Icon from "shared/components/Icon"
 
 import iconCommunity from "shared/assets/icons/people.svg"
 import iconStar from "shared/assets/icons/star.svg"
-import { getRegionData } from "../../../Map/constants"
+import { getRegionData } from "shared/constants"
 import {
-  MapRegionCutout,
-  MapRegionBackgroundCutout,
-} from "../../../Map/MapCutout"
+  RegionCutout,
+  RegionBackgroundCutout,
+} from "shared/components/RegionCutout"
 
 export const mockData = {
   details:
@@ -23,10 +23,10 @@ export default function RegionHeader({ regionId }: { regionId: string }) {
   return (
     <header className="column">
       <div className="region_header_bg">
-        <MapRegionBackgroundCutout regionId={regionId} />
+        <RegionBackgroundCutout regionId={regionId} />
       </div>
       <div className="region_thumb">
-        <MapRegionCutout regionId={regionId} />
+        <RegionCutout regionId={regionId} />
       </div>
       <h1>{data.name}</h1>
       <div className="region_details_header column">

@@ -1,4 +1,4 @@
-import { ethereumProvider } from "../hooks/contexts"
+import { ethereumProvider } from "./providers"
 
 export const isValidENSDomainName = (s: string): boolean => s.endsWith(".eth")
 

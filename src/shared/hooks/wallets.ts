@@ -7,8 +7,11 @@ import {
   selectWalletAddress,
   connectWalletGlobally,
   disconnectWalletGlobally,
+  selectRegions,
+  setRegionAddresses,
 } from "redux-state"
 import { TransactionProgressStatus } from "shared/types"
+import { getRegionAddresses } from "shared/contracts"
 
 export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   const [{ wallet }] = useConnectWallet()
@@ -118,4 +121,30 @@ export function useSendTransaction<T>(
   }
 
   return { isReady: true, send, status }
+}
+
+export function useFetchRegionsContracts() {
+  const dispatch = useDispatch()
+  const provider = useArbitrumProvider()
+  const regionsById = useSelector(selectRegions)
+  const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
+
+  useEffect(() => {
+    if (!provider || hasAlreadyFetched) return
+
+    const fetch = async () => {
+      const regions = Object.entries(regionsById)
+        .filter(([__, { regionContractAddress }]) => !regionContractAddress)
+        .map(([id, data]) => ({ id, data }))
+
+      const regionAddresses = await getRegionAddresses(provider, {
+        regions,
+      })
+
+      setHasAlreadyFetched(true)
+      dispatch(setRegionAddresses(regionAddresses))
+    }
+
+    fetch()
+  }, [provider, hasAlreadyFetched, regionsById, dispatch])
 }

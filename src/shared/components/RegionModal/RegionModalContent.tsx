@@ -1,11 +1,12 @@
 import React from "react"
 import Modal from "shared/components/Modal"
-import { selectIsJoinRegionMapMode } from "redux-state/selectors/map"
+import { selectIsJoinRegionMapMode } from "redux-state"
 import { useDispatch, useSelector } from "react-redux"
 import classNames from "classnames"
 import { useHistory } from "react-router-dom"
 import { resetMap } from "redux-state/slices/map"
 import { setSelectedRegionId } from "redux-state/slices/claim"
+import { ROUTES } from "shared/constants"
 import RegionHeader from "./RegionHeader"
 import Button from "../Button"
 
@@ -19,7 +20,6 @@ export default function RegionModalContent({
   onClose: () => void
 }) {
   const isJoinRegionMode = useSelector(selectIsJoinRegionMapMode)
-
   const location = useHistory()
   const dispatch = useDispatch()
 
@@ -27,7 +27,7 @@ export default function RegionModalContent({
     onClose()
     dispatch(resetMap())
     dispatch(setSelectedRegionId(regionId))
-    location.push("/claim/claiming/sign")
+    location.push(ROUTES.CLAIM.DETAILS_SIGN)
   }
   return (
     <Modal.Content>
