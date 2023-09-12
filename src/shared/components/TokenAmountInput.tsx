@@ -91,7 +91,9 @@ export default function TokenAmountInput({
 
   return (
     <div>
-      <div className="label">{`${label} ${maxAmount} ${symbol}`}</div>
+      {label && (
+        <div className="label">{`${label} ${maxAmount} ${symbol}`}</div>
+      )}
       <SharedInput
         type="number"
         label={inputLabel}
