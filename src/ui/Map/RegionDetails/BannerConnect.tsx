@@ -3,8 +3,13 @@ import Button from "shared/components/Button"
 import walletIcon from "shared/assets/icons/wallet.svg"
 import iconLight from "shared/assets/icons/m/light.svg"
 import Icon from "shared/components/Icon"
+import { useConnect } from "shared/hooks"
 
 export default function BannerConnect() {
+  const { isConnected, connect } = useConnect()
+
+  if (isConnected) return null
+
   return (
     <div className="connect_hint row">
       <div className="connect_column column">
@@ -21,6 +26,7 @@ export default function BannerConnect() {
         type="primary"
         size="large"
         iconPosition="left"
+        onClick={() => connect()}
       >
         Connect wallet
       </Button>
