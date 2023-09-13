@@ -82,6 +82,7 @@ export default function Button({
             font-weight: 700;
             padding: 20px 32px;
             border-radius: 56px;
+            height: 64px;
           }
           .medium {
             font-family: "Segment";
@@ -90,6 +91,7 @@ export default function Button({
             line-height: 24px;
             padding: 12px 28px;
             border-radius: 28px;
+            height: 48px;
           }
           .secondary.large {
             padding: 18px 30px;
