@@ -12,10 +12,14 @@ const STAKED: string | boolean = true
 const HAS_FUNDS: boolean = false
 
 type RegionDetailsProps = {
+  regionId: string
   onClose: () => void
 }
 
-export default function RegionDetails({ onClose }: RegionDetailsProps) {
+export default function RegionDetails({
+  regionId,
+  onClose,
+}: RegionDetailsProps) {
   return (
     <>
       <BannerConnect />
@@ -27,7 +31,10 @@ export default function RegionDetails({ onClose }: RegionDetailsProps) {
             label: "Rewards",
             component: null, // TODO: <Rewards />
           },
-          { label: "Stake", component: <Staking onClose={onClose} /> },
+          {
+            label: "Stake",
+            component: <Staking regionId={regionId} onClose={onClose} />,
+          },
           { label: "Leaderboard", component: <Leaderboard /> },
           {
             label: "Council",

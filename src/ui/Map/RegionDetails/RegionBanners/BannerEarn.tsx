@@ -4,11 +4,11 @@ import RegionBanner from "shared/components/RegionModal/RegionBanner"
 import { useHistory } from "react-router-dom"
 import routes from "shared/constants/routes"
 
-type EarnTahoBannerProps = {
+type BannerEarnTahoProps = {
   onClose: () => void
 }
 
-export default function EarnTahoBanner({ onClose }: EarnTahoBannerProps) {
+export default function BannerEarnTaho({ onClose }: BannerEarnTahoProps) {
   const location = useHistory()
 
   const referralsButtonHandler = () => {

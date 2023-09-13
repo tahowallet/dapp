@@ -62,7 +62,7 @@ export default function MapWrapper() {
         {regionId && (
           <RegionModal regionId={regionId} onClose={handleClose}>
             {isDefaultMapMode ? (
-              <RegionDetails onClose={handleClose} />
+              <RegionDetails regionId={regionId} onClose={handleClose} />
             ) : (
               <JoinRegion regionId={regionId} />
             )}

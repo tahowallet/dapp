@@ -4,11 +4,11 @@ import TahoAmount from "shared/components/TahoAmount"
 import { useHistory } from "react-router-dom"
 import routes from "shared/constants/routes"
 
-type ClaimBannerProps = {
+type BannerClaimProps = {
   onClose: () => void
 }
 
-export default function ClaimBanner({ onClose }: ClaimBannerProps) {
+export default function BannerClaim({ onClose }: BannerClaimProps) {
   const location = useHistory()
 
   const claimButtonHandler = () => {

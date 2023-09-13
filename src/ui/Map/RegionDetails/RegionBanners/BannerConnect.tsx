@@ -3,7 +3,7 @@ import walletIcon from "shared/assets/icons/wallet.svg"
 import RegionBanner from "shared/components/RegionModal/RegionBanner"
 import { useConnect } from "shared/hooks"
 
-export default function ConnectWalletBanner() {
+export default function BannerConnect() {
   const { isConnected, connect } = useConnect()
 
   if (isConnected) return null

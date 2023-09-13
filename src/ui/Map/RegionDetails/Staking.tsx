@@ -11,17 +11,18 @@ const HAS_ENOUGH_FUNDS: boolean = true
 const HAS_ANOTHER_NODE: boolean = true
 
 type StakingProps = {
+  regionId: string
   onClose: () => void
 }
 
-export default function Staking({ onClose }: StakingProps) {
+export default function Staking({ regionId, onClose }: StakingProps) {
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
 
   return (
     <div className="staking">
       {HAS_ANOTHER_NODE && !VOTING && STAKED === "disabled" && (
-        <BannerTakeToNode />
+        <BannerTakeToNode regionId={regionId} />
       )}
       {!HAS_ENOUGH_FUNDS && STAKED === "disabled" && (
         <BannerEarn onClose={onClose} />

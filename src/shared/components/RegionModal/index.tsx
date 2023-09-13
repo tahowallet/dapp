@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import {
   useSpring,
   animated,
@@ -134,6 +134,9 @@ export default function RegionModal({
 }) {
   const mapContext = useMapContext()
   const [regionId, setRegionId] = useState(initialRegionId)
+
+  useEffect(() => setRegionId(initialRegionId), [initialRegionId])
+
   const [prevRegion, nextRegion] = useMemo(() => {
     const index = regions.findIndex((region) => region.id === regionId)
 
