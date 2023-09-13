@@ -1,8 +1,21 @@
 import React from "react"
 import coinIcon from "shared/assets/taho-coin.svg"
 import RegionBanner from "shared/components/RegionModal/RegionBanner"
+import { useHistory } from "react-router-dom"
+import routes from "shared/constants/routes"
 
-export default function EarnTahoBanner() {
+type EarnTahoBannerProps = {
+  onClose: () => void
+}
+
+export default function EarnTahoBanner({ onClose }: EarnTahoBannerProps) {
+  const location = useHistory()
+
+  const referralsButtonHandler = () => {
+    onClose()
+    location.push(routes.REFERRALS)
+  }
+
   return (
     <>
       <RegionBanner
@@ -13,7 +26,10 @@ export default function EarnTahoBanner() {
         }
         alignElements="center"
         noMarginBottom
-        buttonProps={{ children: "Earn TAHO with referrals" }}
+        buttonProps={{
+          children: "Earn TAHO with referrals",
+          onClick: referralsButtonHandler,
+        }}
       />
       <style jsx>
         {`

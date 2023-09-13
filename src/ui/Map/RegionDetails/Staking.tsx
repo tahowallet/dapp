@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import Button from "shared/components/Button"
 import SharedInput from "shared/components/Input"
-import EarnTahoBanner from "shared/components/RegionModal/RegionBanners/EarnTahoBanner"
-import TakeMeToMyNodeBanner from "shared/components/RegionModal/RegionBanners/TakeMeToMyNodeBanner"
+import BannerEarn from "ui/Map/RegionDetails/RegionBanners/BannerEarn"
+import BannerTakeToNode from "ui/Map/RegionDetails/RegionBanners/BannerTakeToNode"
 
 // Test data to display valid banner
 const VOTING: boolean = false
@@ -10,16 +10,22 @@ const STAKED: string | boolean = "disabled"
 const HAS_ENOUGH_FUNDS: boolean = true
 const HAS_ANOTHER_NODE: boolean = true
 
-export default function Staking() {
+type StakingProps = {
+  onClose: () => void
+}
+
+export default function Staking({ onClose }: StakingProps) {
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
 
   return (
     <div className="staking">
       {HAS_ANOTHER_NODE && !VOTING && STAKED === "disabled" && (
-        <TakeMeToMyNodeBanner />
+        <BannerTakeToNode />
       )}
-      {!HAS_ENOUGH_FUNDS && STAKED === "disabled" && <EarnTahoBanner />}
+      {!HAS_ENOUGH_FUNDS && STAKED === "disabled" && (
+        <BannerEarn onClose={onClose} />
+      )}
       <div className="staking_controls">
         <div className="stake_control">
           <div className="stake_control_header">

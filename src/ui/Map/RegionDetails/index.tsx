@@ -2,35 +2,32 @@ import React from "react"
 import TabPanel from "shared/components/TabPanel"
 import Leaderboard from "./Leaderboard"
 import Staking from "./Staking"
-import ConnectWalletBanner from "shared/components/RegionModal/RegionBanners/ConnectWalletBanner"
-import JoinRegionBanner from "shared/components/RegionModal/RegionBanners/JoinRegionBanner"
-import ClaimBanner from "shared/components/RegionModal/RegionBanners/ClaimBanner"
+import BannerConnect from "ui/Map/RegionDetails/RegionBanners/BannerConnect"
+import BannerJoin from "ui/Map/RegionDetails/RegionBanners/BannerJoin"
+import BannerClaim from "ui/Map/RegionDetails/RegionBanners/BannerClaim"
 
 // Test data to display valid banner
-const WALLET_CONNECTED: boolean = true
 const VOTING: boolean = false
 const STAKED: string | boolean = true
 const HAS_FUNDS: boolean = false
 
-export default function RegionDetails() {
+type RegionDetailsProps = {
+  onClose: () => void
+}
+
+export default function RegionDetails({ onClose }: RegionDetailsProps) {
   return (
     <>
-      <div className="region_banner_container">
-        {!WALLET_CONNECTED && <ConnectWalletBanner />}
-        {WALLET_CONNECTED && !STAKED && (
-          <JoinRegionBanner isDisabled={!VOTING} />
-        )}
-        {WALLET_CONNECTED && !HAS_FUNDS && STAKED === "disabled" && (
-          <ClaimBanner />
-        )}
-      </div>
+      <BannerConnect />
+      {!STAKED && <BannerJoin isDisabled={!VOTING} />}
+      {!HAS_FUNDS && STAKED === "disabled" && <BannerClaim onClose={onClose} />}
       <TabPanel
         tabs={[
           {
             label: "Rewards",
             component: null, // TODO: <Rewards />
           },
-          { label: "Stake", component: <Staking /> },
+          { label: "Stake", component: <Staking onClose={onClose} /> },
           { label: "Leaderboard", component: <Leaderboard /> },
           {
             label: "Council",
@@ -39,13 +36,6 @@ export default function RegionDetails() {
           },
         ]}
       />
-      <style jsx>
-        {`
-          .region_banner_container {
-            width: 671px;
-          }
-        `}
-      </style>
     </>
   )
 }
