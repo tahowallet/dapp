@@ -57,7 +57,7 @@ export default function RegionModalContent({
       <style jsx>
         {`
           .modal {
-            max-width: 755px;
+            width: 755px;
           }
 
           .modal_header {
