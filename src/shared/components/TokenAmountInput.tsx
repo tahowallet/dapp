@@ -93,7 +93,10 @@ export default function TokenAmountInput({
           <Button
             type="tertiary"
             size="medium"
-            onClick={() => onChange(maxAmount)}
+            onMouseDown={(event) => {
+              event.preventDefault()
+              onChange(maxAmount)
+            }}
           >
             Max
           </Button>
