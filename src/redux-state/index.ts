@@ -4,6 +4,7 @@ import {
   useSelector as useReduxSelector,
 } from "react-redux"
 import { encodeJSON } from "shared/utils"
+import { TransactionService } from "shared/services"
 import mainReducer from "./reducers"
 
 const devToolsSanitizer = (input: unknown) => {
@@ -23,6 +24,7 @@ const devToolsSanitizer = (input: unknown) => {
 const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      thunk: { extraArgument: { transactionService: TransactionService } },
       serializableCheck: {
         isSerializable: (value: unknown) =>
           isPlain(value) || typeof value === "bigint",
