@@ -25,8 +25,21 @@ export default function SharedInput({
   const [value, setValue] = useState(propsValue)
   const [error, setError] = useState("")
 
+  const handleError = (newValue: string) => {
+    const validatedData = validate(newValue)
+
+    if ("error" in validatedData) {
+      setError(validatedData.error)
+    } else {
+      setError("")
+    }
+  }
+
   if (propsValue !== value) {
     setValue(propsValue)
+    // The error message should always be up to date.
+    // This means that we should re-set the error message after updating the propsValue.
+    handleError(propsValue)
   }
 
   const isTypeNumber = type === "number"
@@ -45,13 +58,7 @@ export default function SharedInput({
           placeholder={placeholder}
           disabled={disabled}
           onChange={(e) => {
-            const newValue = validate(e.target.value)
-
-            if ("error" in newValue) {
-              setError(newValue.error)
-            } else {
-              setError("")
-            }
+            handleError(e.target.value)
             onChange?.(e.target.value)
           }}
         />
