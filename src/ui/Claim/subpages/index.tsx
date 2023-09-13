@@ -1,12 +1,12 @@
 import React from "react"
 import Modal from "shared/components/Modal"
-import { useSelector } from "react-redux"
 import { selectIsJoinRegionMapMode } from "redux-state/selectors/map"
+import { useDappSelector } from "redux-state"
 import ClaimingStats from "./ClaimingStats"
 import ClaimingFlow from "./ClaimingFlow"
 
 export default function Claiming() {
-  const isJoinRegionMode = useSelector(selectIsJoinRegionMapMode)
+  const isJoinRegionMode = useDappSelector(selectIsJoinRegionMapMode)
 
   if (isJoinRegionMode) {
     return null

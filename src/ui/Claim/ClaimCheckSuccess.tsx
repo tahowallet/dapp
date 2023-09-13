@@ -6,10 +6,10 @@ import iconConnected from "shared/assets/icons/s/connected.svg"
 import Button from "shared/components/Button"
 import { useConnect } from "shared/hooks"
 import {
-  useSelector,
+  useDappSelector,
   selectClaimingUser,
   selectEligibility,
-  useDispatch,
+  useDappDispatch,
   setUseConnectedWalletToClaim,
   resetClaiming,
   selectIsWalletConnected,
@@ -22,13 +22,13 @@ import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimCheckSuccess() {
   const history = useHistory()
-  const dispatch = useDispatch()
-  const isConnected = useSelector(selectIsWalletConnected)
+  const dispatch = useDappDispatch()
+  const isConnected = useDappSelector(selectIsWalletConnected)
   const { connect } = useConnect()
   const { name: claimingName, address: claimingAddress } =
-    useSelector(selectClaimingUser)
-  const connectedAddress = useSelector(selectWalletAddress)
-  const eligibility = useSelector(selectEligibility)
+    useDappSelector(selectClaimingUser)
+  const connectedAddress = useDappSelector(selectWalletAddress)
+  const eligibility = useDappSelector(selectEligibility)
 
   const isCorrectUserConnected =
     isConnected && isSameAddress(connectedAddress, claimingAddress)

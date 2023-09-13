@@ -3,8 +3,8 @@ import {
   fetchEligibility,
   selectEligibility,
   selectHasClaimed,
-  useSelector,
-  useDispatch,
+  useDappSelector,
+  useDappDispatch,
   fetchHasClaimed,
   selectClaimingUser,
 } from "redux-state"
@@ -16,12 +16,12 @@ import ClaimCheckFail from "./ClaimCheckFail"
 import ClaimCheckSuccess from "./ClaimCheckSuccess"
 
 export default function ClaimCheckResult() {
-  const dispatch = useDispatch()
+  const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
-  const { address } = useSelector(selectClaimingUser)
+  const { address } = useDappSelector(selectClaimingUser)
 
-  const hasClaimed = useSelector(selectHasClaimed)
-  const eligibility = useSelector(selectEligibility)
+  const hasClaimed = useDappSelector(selectHasClaimed)
+  const eligibility = useDappSelector(selectEligibility)
 
   useEffect(() => {
     dispatch(fetchEligibility())

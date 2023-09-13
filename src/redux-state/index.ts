@@ -41,8 +41,8 @@ export default store
 
 export type DappDispatch = typeof store.dispatch
 
-export const useDispatch: () => DappDispatch = useReduxDispatch
-export const useSelector = useReduxSelector
+export const useDappDispatch: () => DappDispatch = useReduxDispatch
+export const useDappSelector = useReduxSelector
 
 export * from "./slices/claim"
 export * from "./slices/wallet"
