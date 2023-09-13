@@ -16,6 +16,24 @@ enum AmountErrors {
   INVALID_VALUE = "Invalid value",
 }
 
+function handleValidate(
+  value: string,
+  balance: bigint
+): { value: unknown } | { error: string } {
+  const parsed = userAmountToBigInt(value)
+
+  if (parsed) {
+    if (parsed < 0) {
+      return { error: AmountErrors.INVALID_VALUE }
+    }
+    if (parsed > balance) {
+      return { error: AmountErrors.NOT_ENOUGH_FUNDS }
+    }
+  }
+
+  return { value: parsed }
+}
+
 export default function TokenAmountInput({
   label,
   inputLabel,
@@ -39,56 +57,26 @@ export default function TokenAmountInput({
   const maxAmount = bigIntToUserAmount(balance)
 
   useEffect(() => {
-    const fetchSymbol = async () => {
+    const fetchTokenInfo = async () => {
       if (!provider) {
-        return
-      }
-
-      if (tokenAddress === ETH_ADDRESS) {
-        setSymbol("ETH")
-      } else {
-        const newSymbol = await getSymbol(provider, tokenAddress)
-        setSymbol(newSymbol)
-      }
-    }
-
-    fetchSymbol()
-  }, [provider, tokenAddress])
-
-  useEffect(() => {
-    const fetchBalance = async () => {
-      if (!provider || !address) {
         return
       }
 
       if (tokenAddress === ETH_ADDRESS) {
         const newEthBalance = (await provider.getBalance(address)).toBigInt()
         setBalance(newEthBalance)
+        setSymbol("ETH")
       } else {
         const newBalance = await getBalance(provider, tokenAddress, address)
         setBalance(newBalance)
+
+        const newSymbol = await getSymbol(provider, tokenAddress)
+        setSymbol(newSymbol)
       }
     }
 
-    fetchBalance()
+    fetchTokenInfo()
   }, [address, provider, tokenAddress])
-
-  const handleValidate = (
-    value: string
-  ): { value: unknown } | { error: string } => {
-    const parsed = userAmountToBigInt(value)
-
-    if (parsed) {
-      if (parsed < 0) {
-        return { error: AmountErrors.INVALID_VALUE }
-      }
-      if (parsed > balance) {
-        return { error: AmountErrors.NOT_ENOUGH_FUNDS }
-      }
-    }
-
-    return { value: parsed }
-  }
 
   return (
     <div>
@@ -100,7 +88,7 @@ export default function TokenAmountInput({
         label={inputLabel}
         value={amount}
         onChange={onChange}
-        validate={handleValidate}
+        validate={(value) => handleValidate(value, balance)}
         rightComponent={
           <Button
             type="tertiary"
