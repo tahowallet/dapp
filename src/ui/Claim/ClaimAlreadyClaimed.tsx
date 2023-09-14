@@ -3,13 +3,13 @@ import { useHistory } from "react-router-dom"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import TahoAmount from "shared/components/TahoAmount"
-import { useSelector, selectEligibility } from "redux-state"
+import { useDappSelector, selectEligibility } from "redux-state"
 import { ROUTES } from "shared/constants"
 import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimAlreadyClaimed() {
   const location = useHistory()
-  const eligibility = useSelector(selectEligibility)
+  const eligibility = useDappSelector(selectEligibility)
 
   return (
     <Modal.Container type="map-without-overlay">

@@ -3,8 +3,8 @@ import { useHistory } from "react-router-dom"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import {
-  useDispatch,
-  useSelector,
+  useDappDispatch,
+  useDappSelector,
   selectClaimingUser,
   resetClaiming,
   setUseConnectedWalletToClaim,
@@ -15,8 +15,8 @@ import ClaimCheckRules from "./components/ClaimCheckRules"
 
 export default function ClaimCheckFail() {
   const history = useHistory()
-  const dispatch = useDispatch()
-  const { name } = useSelector(selectClaimingUser)
+  const dispatch = useDappDispatch()
+  const { name } = useDappSelector(selectClaimingUser)
 
   const reset = () => {
     dispatch(setUseConnectedWalletToClaim({ useConnectedWallet: false }))

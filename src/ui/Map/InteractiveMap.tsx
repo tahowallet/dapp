@@ -3,7 +3,7 @@ import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
 import rafSchd from "raf-schd"
 
-import { useSelector } from "react-redux"
+import { useDappSelector } from "redux-state"
 import { selectMapOverlay } from "redux-state/selectors/map"
 import { MAP_BOX } from "shared/constants"
 import { useValueRef, useBeforeFirstPaint, useOnResize } from "shared/hooks"
@@ -23,7 +23,7 @@ export default function InteractiveMap() {
   )
   const mapRef = useRef<Konva.Stage | null>(null)
 
-  const overlay = useSelector(selectMapOverlay)
+  const overlay = useDappSelector(selectMapOverlay)
 
   const stageFns = useValueRef(() => {
     const resetZoom = () => {

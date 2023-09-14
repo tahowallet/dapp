@@ -1,5 +1,9 @@
 import React, { useState } from "react"
-import { useSelector, selectWalletAvatar, selectWalletName } from "redux-state"
+import {
+  useDappSelector,
+  selectWalletAvatar,
+  selectWalletName,
+} from "redux-state"
 import { getRegionData } from "shared/constants"
 import RegionIcon from "shared/components/RegionIcon"
 import AccountDropdown from "./AccountDropdown"
@@ -9,8 +13,8 @@ const regionMock = { name: "KryptoKeep", id: "4" }
 
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const name = useSelector(selectWalletName)
-  const avatar = useSelector(selectWalletAvatar)
+  const name = useDappSelector(selectWalletName)
+  const avatar = useDappSelector(selectWalletAvatar)
   const region = regionMock
     ? getRegionData(regionMock.id.toString())
     : undefined

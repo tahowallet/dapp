@@ -1,10 +1,10 @@
 import React from "react"
 import { useConnect } from "shared/hooks"
 import Button from "shared/components/Button"
-import { useSelector, selectWalletName } from "redux-state"
+import { useDappSelector, selectWalletName } from "redux-state"
 
 export default function AccountDropdown() {
-  const accountName = useSelector(selectWalletName)
+  const accountName = useDappSelector(selectWalletName)
   const { disconnect } = useConnect()
 
   return (

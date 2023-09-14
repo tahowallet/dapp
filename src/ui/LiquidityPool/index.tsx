@@ -3,7 +3,7 @@ import { encodeUserData } from "shared/utils/pool"
 import {
   selectIsWalletConnected,
   selectWalletAddress,
-  useSelector,
+  useDappSelector,
 } from "redux-state"
 import {
   ETH_ADDRESS,
@@ -26,14 +26,14 @@ import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 
 export default function LiquidityPool() {
-  const address = useSelector(selectWalletAddress)
+  const address = useDappSelector(selectWalletAddress)
 
   const provider = useArbitrumProvider()
   const { send: sendJoinPool, isReady: isJoinPoolReady } =
     useSendTransaction(joinPool)
   const { send: sendSetAllowance, isReady: isSetAllowanceReady } =
     useSendTransaction(setAllowance)
-  const isConnected = useSelector(selectIsWalletConnected)
+  const isConnected = useDappSelector(selectIsWalletConnected)
 
   const [tahoBalance, setTahoBalance] = useState(0n)
   const [tahoAmount, setTahoAmount] = useState("")

@@ -1,46 +1,18 @@
-import { configureStore, isPlain } from "@reduxjs/toolkit"
 import {
   useDispatch as useReduxDispatch,
   useSelector as useReduxSelector,
 } from "react-redux"
-import { encodeJSON } from "shared/utils"
-import mainReducer from "./reducers"
-
-const devToolsSanitizer = (input: unknown) => {
-  switch (typeof input) {
-    // We can make use of encodeJSON instead of recursively looping through
-    // the input
-    case "bigint":
-    case "object":
-      return JSON.parse(encodeJSON(input))
-    // We only need to sanitize bigints and objects that may or may not contain
-    // them.
-    default:
-      return input
-  }
-}
-
-const store = configureStore({
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        isSerializable: (value: unknown) =>
-          isPlain(value) || typeof value === "bigint",
-      },
-    }),
-  devTools: {
-    actionSanitizer: devToolsSanitizer,
-    stateSanitizer: devToolsSanitizer,
-  },
-  reducer: mainReducer,
-})
-
-export default store
+import store from "./store"
 
 export type DappDispatch = typeof store.dispatch
 
-export const useDispatch: () => DappDispatch = useReduxDispatch
-export const useSelector = useReduxSelector
+export const useDappDispatch: () => DappDispatch = useReduxDispatch
+export const useDappSelector = useReduxSelector
+
+export default store
+
+export * from "./thunks/claim"
+export * from "./thunks/wallet"
 
 export * from "./slices/claim"
 export * from "./slices/wallet"

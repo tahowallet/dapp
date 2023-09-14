@@ -1,7 +1,10 @@
 import React from "react"
 import Modal from "shared/components/Modal"
-import { selectIsJoinRegionMapMode } from "redux-state"
-import { useDispatch, useSelector } from "react-redux"
+import {
+  selectIsJoinRegionMapMode,
+  useDappDispatch,
+  useDappSelector,
+} from "redux-state"
 import classNames from "classnames"
 import { useHistory } from "react-router-dom"
 import { resetMap } from "redux-state/slices/map"
@@ -19,9 +22,9 @@ export default function RegionModalContent({
   children: React.ReactNode
   onClose: () => void
 }) {
-  const isJoinRegionMode = useSelector(selectIsJoinRegionMapMode)
+  const isJoinRegionMode = useDappSelector(selectIsJoinRegionMapMode)
   const location = useHistory()
-  const dispatch = useDispatch()
+  const dispatch = useDappDispatch()
 
   const handleClose = () => {
     onClose()

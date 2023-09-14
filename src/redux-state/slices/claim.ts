@@ -1,8 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { ethers } from "ethers"
-import { hasAlreadyClaimed } from "shared/contracts"
+import { createSlice } from "@reduxjs/toolkit"
 import { Eligibility } from "shared/types"
-import { getEligibility } from "shared/utils"
 
 export type ClaimState = {
   isLoading: boolean // TODO: add loading effect to the UI
@@ -104,35 +101,3 @@ export const {
 } = claimSlice.actions
 
 export default claimSlice.reducer
-
-export const fetchEligibility = createAsyncThunk(
-  "claim/fetchEligibility",
-  async (_, { dispatch, getState }) => {
-    const {
-      claim: { address },
-    } = getState() as { claim: ClaimState }
-
-    if (!address) {
-      throw Error("No address to fetch eligibility for")
-    }
-
-    const eligibility = await getEligibility(address)
-
-    dispatch(setEligibility({ eligibility }))
-  }
-)
-
-export const fetchHasClaimed = createAsyncThunk(
-  "claim/fetchHasClaimed",
-  async (provider: ethers.providers.Provider, { dispatch, getState }) => {
-    const {
-      claim: { eligibility },
-    } = getState() as { claim: ClaimState }
-
-    const hasClaimed = eligibility
-      ? await hasAlreadyClaimed(provider, eligibility)
-      : false
-
-    dispatch(setHasClaimed({ hasClaimed }))
-  }
-)
