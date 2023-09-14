@@ -6,6 +6,7 @@ import {
 } from "redux-state/slices/wallet"
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
 import { getBalance } from "shared/contracts"
+import { ethers } from "ethers"
 import createDappAsyncThunk from "../asyncThunk"
 
 export const fetchWalletName = createDappAsyncThunk(
@@ -35,12 +36,22 @@ export const fetchWalletName = createDappAsyncThunk(
 export const connectWalletGlobally = createDappAsyncThunk(
   "wallet/connectWalletGlobally",
   async (
-    { address, avatar }: { address: string; avatar?: string },
-    { dispatch, getState }
+    {
+      address,
+      avatar,
+      arbitrumProvider,
+    }: {
+      address: string
+      avatar?: string
+      arbitrumProvider: ethers.providers.Web3Provider
+    },
+    { dispatch, getState, extra: { transactionService } }
   ) => {
     const {
       claim: { useConnectedWallet },
     } = getState()
+
+    await transactionService.setArbitrumProvider(arbitrumProvider)
 
     dispatch(
       updateConnectedWallet({

@@ -36,7 +36,7 @@ export const fetchHasClaimed = createDappAsyncThunk(
 )
 
 export const claimTaho = createDappAsyncThunk(
-  "claim/claim",
+  "claim/claimTaho",
   async (_, { getState, extra: { transactionService } }) => {
     const {
       claim: { eligibility },

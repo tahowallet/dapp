@@ -23,6 +23,7 @@ export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
 
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
+  const arbitrumProvider = useArbitrumProvider()
   const dispatch = useDappDispatch()
 
   const account = wallet?.accounts[0]
@@ -30,12 +31,12 @@ export function useWallet() {
   const avatar = account?.ens?.avatar?.url ?? ""
 
   useEffect(() => {
-    if (address) {
-      dispatch(connectWalletGlobally({ address, avatar }))
+    if (address && arbitrumProvider) {
+      dispatch(connectWalletGlobally({ address, avatar, arbitrumProvider }))
     } else {
       dispatch(disconnectWalletGlobally())
     }
-  }, [address, avatar, dispatch])
+  }, [address, arbitrumProvider, avatar, dispatch])
 }
 
 export function useConnect() {

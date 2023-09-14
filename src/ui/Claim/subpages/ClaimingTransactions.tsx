@@ -10,7 +10,7 @@ export default function ClaimingTransactions() {
   const [shouldRedirect] = useState(false) // TODO: add redirect on success
 
   const signClaim = async () => {
-    dispatch(claimTaho)
+    dispatch(claimTaho())
   }
 
   if (shouldRedirect) {
