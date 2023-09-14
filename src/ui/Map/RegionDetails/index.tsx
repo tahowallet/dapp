@@ -2,9 +2,9 @@ import React from "react"
 import TabPanel from "shared/components/TabPanel"
 import Leaderboard from "./Leaderboard"
 import Staking from "./Staking"
-import BannerConnect from "ui/Map/RegionDetails/RegionBanners/BannerConnect"
-import BannerJoin from "ui/Map/RegionDetails/RegionBanners/BannerJoin"
-import BannerClaim from "ui/Map/RegionDetails/RegionBanners/BannerClaim"
+import BannerConnect from "./RegionBanners/BannerConnect"
+import BannerJoin from "./RegionBanners/BannerJoin"
+import BannerClaim from "./RegionBanners/BannerClaim"
 
 // Test data to display valid banner
 const VOTING: boolean = false
@@ -24,7 +24,7 @@ export default function RegionDetails({
     <>
       <BannerConnect />
       {!STAKED && <BannerJoin isDisabled={!VOTING} />}
-      {!HAS_FUNDS && STAKED === "disabled" && <BannerClaim onClose={onClose} />}
+      {!HAS_FUNDS && STAKED === "disabled" && <BannerClaim close={onClose} />}
       <TabPanel
         tabs={[
           {
@@ -33,7 +33,7 @@ export default function RegionDetails({
           },
           {
             label: "Stake",
-            component: <Staking regionId={regionId} onClose={onClose} />,
+            component: <Staking regionId={regionId} close={onClose} />,
           },
           { label: "Leaderboard", component: <Leaderboard /> },
           {

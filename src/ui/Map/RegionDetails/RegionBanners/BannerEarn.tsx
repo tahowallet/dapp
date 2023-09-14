@@ -3,16 +3,17 @@ import coinIcon from "shared/assets/taho-coin.svg"
 import RegionBanner from "shared/components/RegionModal/RegionBanner"
 import { useHistory } from "react-router-dom"
 import routes from "shared/constants/routes"
+import Button from "shared/components/Button"
 
-type BannerEarnTahoProps = {
-  onClose: () => void
+type BannerEarnProps = {
+  close: () => void
 }
 
-export default function BannerEarnTaho({ onClose }: BannerEarnTahoProps) {
+export default function BannerEarn({ close }: BannerEarnProps) {
   const location = useHistory()
 
   const referralsButtonHandler = () => {
-    onClose()
+    close()
     location.push(routes.REFERRALS)
   }
 
@@ -24,12 +25,12 @@ export default function BannerEarnTaho({ onClose }: BannerEarnTahoProps) {
             Your <span className="taho_coin" /> $TAHO balance is 0
           </>
         }
-        alignElements="center"
-        noMarginBottom
-        buttonProps={{
-          children: "Earn TAHO with referrals",
-          onClick: referralsButtonHandler,
-        }}
+        style={{ marginTop: 24, marginBottom: 0 }}
+        button={
+          <Button onClick={referralsButtonHandler}>
+            Earn TAHO with referrals
+          </Button>
+        }
       />
       <style jsx>
         {`

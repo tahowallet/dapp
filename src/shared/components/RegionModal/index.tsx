@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useMemo } from "react"
 import {
   useSpring,
   animated,
@@ -124,7 +124,7 @@ function NextBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function RegionModal({
-  regionId: initialRegionId,
+  regionId,
   onClose,
   children,
 }: {
@@ -133,9 +133,6 @@ export default function RegionModal({
   children: React.ReactNode
 }) {
   const mapContext = useMapContext()
-  const [regionId, setRegionId] = useState(initialRegionId)
-
-  useEffect(() => setRegionId(initialRegionId), [initialRegionId])
 
   const [prevRegion, nextRegion] = useMemo(() => {
     const index = regions.findIndex((region) => region.id === regionId)
@@ -182,10 +179,7 @@ export default function RegionModal({
             zIndex: 1,
             transform: "translateX(-100%)",
           }}
-          onClick={() => {
-            setRegionId(prevRegion)
-            mapContext.current.onRegionClick(prevRegion)
-          }}
+          onClick={() => mapContext.current.onRegionClick(prevRegion)}
         />
         <NextBtn
           style={{
@@ -195,10 +189,7 @@ export default function RegionModal({
             zIndex: 1,
             transform: "translateX(100%)",
           }}
-          onClick={() => {
-            setRegionId(nextRegion)
-            mapContext.current.onRegionClick(nextRegion)
-          }}
+          onClick={() => mapContext.current.onRegionClick(nextRegion)}
         />
         <animated.div style={props}>
           {transitions((style, item) => (

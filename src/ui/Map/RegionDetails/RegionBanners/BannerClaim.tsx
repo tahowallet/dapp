@@ -5,14 +5,14 @@ import { useHistory } from "react-router-dom"
 import routes from "shared/constants/routes"
 
 type BannerClaimProps = {
-  onClose: () => void
+  close: () => void
 }
 
-export default function BannerClaim({ onClose }: BannerClaimProps) {
+export default function BannerClaim({ close }: BannerClaimProps) {
   const location = useHistory()
 
   const claimButtonHandler = () => {
-    onClose()
+    close()
     location.push(routes.CLAIM.HOME)
   }
 

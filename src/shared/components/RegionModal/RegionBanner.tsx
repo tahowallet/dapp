@@ -1,39 +1,32 @@
-import React from "react"
+import React, { CSSProperties, ReactElement, ReactNode } from "react"
 import Button from "shared/components/Button"
 import lightIcon from "shared/assets/icons/m/light.svg"
+import Icon from "../Icon"
 
 type RegionBannerProps = {
-  label: React.ReactNode
-  /**
-   * @default "start"
-   */
-  alignElements?: "start" | "center"
-  /**
-   * @default false
-   */
-  noMarginBottom?: boolean
-  buttonProps: React.ComponentProps<typeof Button>
+  label: ReactNode
+  button: ReactElement<typeof Button>
+  style?: CSSProperties
 }
 
 export default function RegionBanner({
   label,
-  alignElements = "start",
-  noMarginBottom = false,
-  buttonProps,
+  button,
+  style,
 }: RegionBannerProps) {
   return (
     <>
-      <div className="region_banner row">
+      <div className="region_banner row" style={style}>
         <div>
-          <p className="region_banner_label">{label}</p>
+          <div className="region_banner_label">{label}</div>
           <div className="region_banner_info">
-            <img src={lightIcon} alt="Light Icon" width={24} height={24} />
+            <Icon src={lightIcon} type="image" width="24px" height="24px" />
             <p className="region_banner_text">
               You can only be staked in one region
             </p>
           </div>
         </div>
-        <Button {...buttonProps} />
+        {button}
       </div>
       <style jsx>
         {`
@@ -41,9 +34,9 @@ export default function RegionBanner({
             padding: 28px 24px;
             background-color: var(--primary-p1-40);
             justify-content: space-between;
-            align-items: ${alignElements};
+            align-items: center;
             gap: 24px;
-            margin-bottom: ${noMarginBottom ? "0" : "36px"};
+            margin-bottom: 36px;
             width: 671px;
             border-radius: 8px;
           }

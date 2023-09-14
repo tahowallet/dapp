@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import Button from "shared/components/Button"
 import SharedInput from "shared/components/Input"
-import BannerEarn from "ui/Map/RegionDetails/RegionBanners/BannerEarn"
-import BannerTakeToNode from "ui/Map/RegionDetails/RegionBanners/BannerTakeToNode"
+import BannerEarn from "./RegionBanners/BannerEarn"
+import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 
 // Test data to display valid banner
 const VOTING: boolean = false
@@ -12,22 +12,22 @@ const HAS_ANOTHER_NODE: boolean = true
 
 type StakingProps = {
   regionId: string
-  onClose: () => void
+  close: () => void
 }
 
-export default function Staking({ regionId, onClose }: StakingProps) {
+export default function Staking({ regionId, close }: StakingProps) {
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
 
   return (
-    <div className="staking">
+    <>
       {HAS_ANOTHER_NODE && !VOTING && STAKED === "disabled" && (
         <BannerTakeToNode regionId={regionId} />
       )}
       {!HAS_ENOUGH_FUNDS && STAKED === "disabled" && (
-        <BannerEarn onClose={onClose} />
+        <BannerEarn close={close} />
       )}
-      <div className="staking_controls">
+      <div className="staking">
         <div className="stake_control">
           <div className="stake_control_header">
             <h3 style={{ color: "var(--trading-in)" }}>Stake</h3>
@@ -91,10 +91,6 @@ export default function Staking({ regionId, onClose }: StakingProps) {
       </div>
       <style jsx>{`
         .staking {
-          padding-top: 24px;
-        }
-
-        .staking_controls {
           display: flex;
           gap: 32px;
           padding: 24px 0;
@@ -114,6 +110,6 @@ export default function Staking({ regionId, onClose }: StakingProps) {
           color: var(--secondary-s1-70);
         }
       `}</style>
-    </div>
+    </>
   )
 }
