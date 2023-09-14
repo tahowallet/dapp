@@ -5,7 +5,7 @@ import walletIcon from "shared/assets/icons/wallet.svg"
 import Leaderboard from "./Leaderboard"
 import Staking from "./Staking"
 
-export default function RegionDetails() {
+export default function RegionDetails({ regionId }: { regionId: string }) {
   return (
     <>
       <div className="connect_hint row">
@@ -27,7 +27,7 @@ export default function RegionDetails() {
             label: "Rewards",
             component: null, // TODO: <Rewards />
           },
-          { label: "Stake", component: <Staking /> },
+          { label: "Stake", component: <Staking regionId={regionId} /> },
           { label: "Leaderboard", component: <Leaderboard /> },
           {
             label: "Council",
