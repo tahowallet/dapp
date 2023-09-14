@@ -1,43 +1,31 @@
 import React, { useEffect, useState } from "react"
-import { encodeUserData } from "shared/utils/pool"
 import {
+  fetchWalletBalance,
+  joinTahoPool,
+  selectEthBalace,
   selectIsWalletConnected,
+  selectTahoBalace,
   selectWalletAddress,
+  useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import {
-  ETH_ADDRESS,
-  isValidInputAmount,
-  userAmountToBigInt,
-} from "shared/utils"
-import { LiquidityPoolRequest } from "shared/types"
+import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import AmountInput from "shared/components/AmountInput"
-import {
-  getAllowance,
-  setAllowance,
-  getBalance,
-  getBalancerPoolAddress,
-  getBalancerPoolAgentAddress,
-  joinPool,
-  totalSupply,
-} from "shared/contracts"
-import { useArbitrumProvider, useSendTransaction } from "shared/hooks"
+import { useArbitrumProvider } from "shared/hooks"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 
 export default function LiquidityPool() {
+  const dispatch = useDappDispatch()
   const address = useDappSelector(selectWalletAddress)
 
   const provider = useArbitrumProvider()
-  const { send: sendJoinPool, isReady: isJoinPoolReady } =
-    useSendTransaction(joinPool)
-  const { send: sendSetAllowance, isReady: isSetAllowanceReady } =
-    useSendTransaction(setAllowance)
   const isConnected = useDappSelector(selectIsWalletConnected)
 
-  const [tahoBalance, setTahoBalance] = useState(0n)
+  const tahoBalance = useDappSelector(selectTahoBalace)
+  const ethBalance = useDappSelector(selectEthBalace)
+
   const [tahoAmount, setTahoAmount] = useState("")
-  const [ethBalance, setEthBalance] = useState(0n)
   const [ethAmount, setEthAmount] = useState("")
 
   useEffect(() => {
@@ -45,23 +33,28 @@ export default function LiquidityPool() {
       if (!provider || !address) {
         return
       }
-
-      const newTahoBalance = await getBalance(provider, CONTRACT_Taho, address)
-      setTahoBalance(newTahoBalance)
-
-      const newEthBalance = (await provider.getBalance(address)).toBigInt()
-      setEthBalance(newEthBalance)
+      // TODO: wallet balances should be fetched from time to time globally
+      await dispatch(fetchWalletBalance())
     }
 
     fetchBalances()
-  }, [address, provider])
+  }, [address, provider, dispatch])
 
-  const signJoinPool = async (
-    joinRequest: LiquidityPoolRequest,
-    overrides?: { value: bigint }
-  ) => {
-    if (isJoinPoolReady && address) {
-      const receipt = await sendJoinPool({ joinRequest, overrides })
+  const joinPool = async () => {
+    try {
+      if (!provider || !address) {
+        throw new Error("No provider or address")
+      }
+
+      const targetTahoAmount = userAmountToBigInt(+tahoAmount)
+      const targetEthAmount = userAmountToBigInt(+ethAmount)
+
+      const receipt = await dispatch(
+        joinTahoPool({
+          tahoAmount: targetTahoAmount,
+          ethAmount: targetEthAmount,
+        })
+      )
 
       if (receipt) {
         // TODO remove when designs be ready
@@ -70,51 +63,6 @@ export default function LiquidityPool() {
         setTahoAmount("")
         setEthAmount("")
       }
-    }
-  }
-
-  const joinTahoPool = async () => {
-    try {
-      if (!provider || !address || !isSetAllowanceReady) {
-        throw new Error("No provider or address")
-      }
-
-      const targetTahoAmount = userAmountToBigInt(+tahoAmount)
-      const targetEthAmount = userAmountToBigInt(+ethAmount)
-
-      const balancerPoolAgentAddress = await getBalancerPoolAgentAddress(
-        provider
-      )
-
-      const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
-        account: address,
-        contractAddress: balancerPoolAgentAddress,
-      })
-
-      if (allowanceValue < targetTahoAmount) {
-        await sendSetAllowance(
-          { account: balancerPoolAgentAddress, amount: targetTahoAmount },
-          CONTRACT_Taho
-        )
-      }
-
-      const maxAmountsIn = [targetTahoAmount, targetEthAmount]
-
-      const poolAddress = await getBalancerPoolAddress(provider)
-      const lpTokenSupply = await totalSupply(provider, poolAddress)
-      const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
-
-      await signJoinPool(
-        {
-          assets: [CONTRACT_Taho, ETH_ADDRESS],
-          maxAmountsIn,
-          userData,
-          fromInternalBalance: false,
-        },
-        {
-          value: targetEthAmount,
-        }
-      )
     } catch (err) {
       // TODO Add error handing
       // eslint-disable-next-line no-console
@@ -149,7 +97,7 @@ export default function LiquidityPool() {
           <Button
             type="primary"
             size="medium"
-            onClick={joinTahoPool}
+            onClick={joinPool}
             isDisabled={
               isValidInputAmount(tahoAmount) ||
               isValidInputAmount(ethAmount) ||

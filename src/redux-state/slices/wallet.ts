@@ -6,6 +6,10 @@ export type WalletState = {
   address: string
   name: string
   avatar: string
+  balance: {
+    taho: bigint
+    eth: bigint
+  }
 }
 
 const initialState: WalletState = {
@@ -13,6 +17,10 @@ const initialState: WalletState = {
   address: "",
   name: "",
   avatar: portrait,
+  balance: {
+    taho: 0n,
+    eth: 0n,
+  },
 }
 
 const walletSlice = createSlice({
@@ -31,10 +39,22 @@ const walletSlice = createSlice({
       immerState.avatar = payload.avatar || immerState.avatar || portrait
     },
     updateDisconnectedWallet: (_) => initialState,
+    updateBalances: (
+      immerState,
+      { payload: balances }: { payload: { taho?: bigint; eth?: bigint } }
+    ) => {
+      immerState.balance = {
+        ...immerState.balance,
+        ...balances,
+      }
+    },
   },
 })
 
-export const { updateConnectedWallet, updateDisconnectedWallet } =
-  walletSlice.actions
+export const {
+  updateConnectedWallet,
+  updateDisconnectedWallet,
+  updateBalances,
+} = walletSlice.actions
 
 export default walletSlice.reducer

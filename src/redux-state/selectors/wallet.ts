@@ -13,3 +13,7 @@ export const selectWalletAvatar = (state: RootState) => state.wallet.avatar
 
 export const selectIsWalletConnected = (state: RootState) =>
   state.wallet.isConnected
+
+export const selectTahoBalace = (state: RootState) => state.wallet.balance.taho
+
+export const selectEthBalace = (state: RootState) => state.wallet.balance.eth

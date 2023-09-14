@@ -1,24 +1,29 @@
-import { Contract, PopulatedTransaction, providers } from "ethers"
-import { Eligibility } from "../types"
+import { Contract } from "ethers"
+import {
+  Eligibility,
+  ReadTransactionBuilder,
+  WriteTransactionBuilder,
+} from "../types"
 import { voteWithFriendsAbi } from "./abi"
 import { getTahoDeployerContract } from "./game"
 
-async function getVoteWithFriendsContract(provider: providers.Provider) {
-  const tahoDeployer = getTahoDeployerContract(provider)
+export const getVoteWithFriendsContract: ReadTransactionBuilder<
+  null,
+  Contract
+> = async (provider) => {
+  const tahoDeployer = await getTahoDeployerContract(provider, null)
 
   const voteWithFriendsAddress = await tahoDeployer.VOTE_WITH_FRIENDS()
 
   return new Contract(voteWithFriendsAddress, voteWithFriendsAbi, provider)
 }
 
-export async function claim(
-  provider: providers.Provider,
-  account: string,
+export const claim: WriteTransactionBuilder<{
   eligibility: Eligibility
-): Promise<PopulatedTransaction | null> {
+}> = async (provider, account, { eligibility }) => {
   if (eligibility.index === null || eligibility.proof === null) return null
 
-  const voteWithFriends = await getVoteWithFriendsContract(provider)
+  const voteWithFriends = await getVoteWithFriendsContract(provider, null)
 
   return voteWithFriends.populateTransaction.claim(
     eligibility.index,
@@ -28,15 +33,13 @@ export async function claim(
   )
 }
 
-export async function claimWithCommunityCode(
-  provider: providers.Provider,
-  account: string,
-  eligibility: Eligibility,
+export const claimWithReferral: WriteTransactionBuilder<{
+  eligibility: Eligibility
   referralAccount: string
-): Promise<PopulatedTransaction | null> {
+}> = async (provider, account, { eligibility, referralAccount }) => {
   if (eligibility.index === null || eligibility.proof === null) return null
 
-  const voteWithFriends = await getVoteWithFriendsContract(provider)
+  const voteWithFriends = await getVoteWithFriendsContract(provider, null)
 
   return voteWithFriends.populateTransaction.claimWithCommunityCode(
     eligibility.index,
@@ -47,13 +50,13 @@ export async function claimWithCommunityCode(
   )
 }
 
-export async function hasAlreadyClaimed(
-  provider: providers.Provider,
-  eligibility: Eligibility
-): Promise<boolean> {
+export const hasAlreadyClaimed: ReadTransactionBuilder<
+  { eligibility: Eligibility },
+  boolean
+> = async (provider, { eligibility }) => {
   if (eligibility.index === null || eligibility.proof === null) return false
 
-  const voteWithFriends = await getVoteWithFriendsContract(provider)
+  const voteWithFriends = await getVoteWithFriendsContract(provider, null)
 
   return voteWithFriends.isClaimed(eligibility.index)
 }

@@ -1,9 +1,11 @@
 import { resolveAddressToName } from "shared/utils"
 import {
+  updateBalances,
   updateConnectedWallet,
   updateDisconnectedWallet,
 } from "redux-state/slices/wallet"
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
+import { getBalance } from "shared/contracts"
 import createDappAsyncThunk from "../asyncThunk"
 
 export const fetchWalletName = createDappAsyncThunk(
@@ -68,5 +70,21 @@ export const disconnectWalletGlobally = createDappAsyncThunk(
     if (useConnectedWallet) {
       dispatch(resetClaiming())
     }
+  }
+)
+
+export const fetchWalletBalance = createDappAsyncThunk(
+  "wallet/fetchWalletBalance",
+  async (_, { dispatch, extra: { transactionService } }) => {
+    const account = await transactionService.getSignerAddress()
+
+    const taho = await transactionService.read(getBalance, {
+      tokenAddress: CONTRACT_Taho,
+      account,
+    })
+
+    const eth = await transactionService.getEthBalance()
+
+    dispatch(updateBalances({ taho, eth }))
   }
 )
