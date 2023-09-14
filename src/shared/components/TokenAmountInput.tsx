@@ -23,7 +23,7 @@ function handleValidate(
   const parsed = userAmountToBigInt(value)
 
   if (parsed) {
-    if (parsed < 0) {
+    if (parsed < 0n) {
       return { error: AmountErrors.INVALID_VALUE }
     }
     if (parsed > balance) {
