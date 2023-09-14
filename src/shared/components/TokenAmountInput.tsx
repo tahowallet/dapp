@@ -19,7 +19,7 @@ enum AmountErrors {
 function handleValidate(
   value: string,
   balance: bigint
-): { value: unknown } | { error: string } {
+): { value: bigint | undefined} | { error: string } {
   const parsed = userAmountToBigInt(value)
 
   if (parsed) {
