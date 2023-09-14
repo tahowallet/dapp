@@ -4,3 +4,5 @@ export type RegionContractData = {
 }
 
 export type StakingData = { regionContractAddress: string; amount: bigint }
+
+export type OverlayType = "dark" | "subtle" | "none"

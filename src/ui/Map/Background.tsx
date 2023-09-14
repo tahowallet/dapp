@@ -8,8 +8,7 @@ import backgroundImg from "public/dapp_map_bg.webp"
 import { MAP_BOX, regions } from "shared/constants"
 import { usePrevious, useBeforeFirstPaint } from "shared/hooks"
 import { createBackgroundMask } from "shared/utils"
-
-export type OverlayType = "dark" | "subtle" | "none"
+import { OverlayType } from "shared/types"
 
 const getOverlay = (overlay: OverlayType) => {
   if (overlay === "dark") {
