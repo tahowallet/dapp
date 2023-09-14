@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import {
   ETH_ADDRESS,
   bigIntToUserAmount,
+  isSameAddress,
   userAmountToBigInt,
 } from "shared/utils"
 import { useSelector } from "react-redux"
@@ -19,10 +20,10 @@ enum AmountErrors {
 function handleValidate(
   value: string,
   balance: bigint
-): { value: bigint | undefined} | { error: string } {
+): { value: bigint | undefined } | { error: string } {
   const parsed = userAmountToBigInt(value)
 
-  if (parsed) {
+  if (parsed !== undefined) {
     if (parsed < 0n) {
       return { error: AmountErrors.INVALID_VALUE }
     }
@@ -62,7 +63,7 @@ export default function TokenAmountInput({
         return
       }
 
-      if (tokenAddress === ETH_ADDRESS) {
+      if (isSameAddress(tokenAddress, ETH_ADDRESS)) {
         const newEthBalance = (await provider.getBalance(address)).toBigInt()
         setBalance(newEthBalance)
         setSymbol("ETH")
