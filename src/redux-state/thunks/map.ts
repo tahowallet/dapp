@@ -32,6 +32,42 @@ export const fetchRegionAddresses = createDappAsyncThunk(
   }
 )
 
+export const ensureAllowance = createDappAsyncThunk(
+  "map/ensureAllowance",
+  async (
+    {
+      tokenAddress,
+      contractAddress,
+      amount,
+    }: { tokenAddress: string; contractAddress: string; amount: bigint },
+    { extra: { transactionService } }
+  ) => {
+    const account = await transactionService.getSignerAddress()
+
+    const allowanceValue = await transactionService.read(getAllowance, {
+      tokenAddress,
+      account,
+      contractAddress,
+    })
+
+    if (allowanceValue === null) {
+      return false
+    }
+
+    if (allowanceValue < amount) {
+      const receipt = await transactionService.send(setAllowance, {
+        tokenAddress,
+        account,
+        amount,
+      })
+
+      return !!receipt
+    }
+
+    return true
+  }
+)
+
 export const stakeTaho = createDappAsyncThunk(
   "map/stake",
   async (
@@ -39,26 +75,18 @@ export const stakeTaho = createDappAsyncThunk(
       regionContractAddress,
       amount,
     }: { regionContractAddress: string; amount: bigint },
-    { extra: { transactionService } }
+    { dispatch, extra: { transactionService } }
   ) => {
-    const account = await transactionService.getSignerAddress()
-
-    const allowanceValue = await transactionService.read(getAllowance, {
-      tokenAddress: CONTRACT_Taho,
-      account,
-      contractAddress: regionContractAddress,
-    })
-
-    if (allowanceValue === null) {
-      return null
-    }
-
-    if (allowanceValue < amount) {
-      await transactionService.send(setAllowance, {
+    const allowanceCorrect = await dispatch(
+      ensureAllowance({
         tokenAddress: CONTRACT_Taho,
-        account,
+        contractAddress: regionContractAddress,
         amount,
       })
+    )
+
+    if (!allowanceCorrect) {
+      return null
     }
 
     return transactionService.send(stake, {
@@ -75,26 +103,18 @@ export const unstakeTaho = createDappAsyncThunk(
       regionContractAddress,
       amount,
     }: { regionContractAddress: string; amount: bigint },
-    { extra: { transactionService } }
+    { dispatch, extra: { transactionService } }
   ) => {
-    const account = await transactionService.getSignerAddress()
-
-    const allowanceValue = await transactionService.read(getAllowance, {
-      tokenAddress: CONTRACT_Taho,
-      account,
-      contractAddress: regionContractAddress,
-    })
-
-    if (allowanceValue === null) {
-      return null
-    }
-
-    if (allowanceValue < amount) {
-      await transactionService.send(setAllowance, {
+    const allowanceCorrect = await dispatch(
+      ensureAllowance({
         tokenAddress: CONTRACT_Taho,
-        account,
+        contractAddress: regionContractAddress,
         amount,
       })
+    )
+
+    if (!allowanceCorrect) {
+      return null
     }
 
     return transactionService.send(unstake, {
