@@ -5,7 +5,13 @@ import { TransactionProgressStatus } from "shared/types"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { ROUTES } from "shared/constants"
 
-export default function ClaimingTransactions() {
+export default function ClaimingTransactions({
+  isOpen,
+  close,
+}: {
+  isOpen: boolean
+  close: () => void
+}) {
   const dispatch = useDappDispatch()
   const [shouldRedirect] = useState(false) // TODO: add redirect on success
 
@@ -19,6 +25,8 @@ export default function ClaimingTransactions() {
 
   return (
     <TransactionsModal
+      isOpen={isOpen}
+      close={close}
       transactions={[
         {
           id: "claim",

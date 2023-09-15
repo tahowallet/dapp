@@ -1,8 +1,17 @@
 import React, { useState } from "react"
 import TokenAmountInput from "shared/components/TokenAmountInput"
 import Button from "shared/components/Button"
-import BannerEarn from "./RegionBanners/BannerEarn"
+import TransactionsModal from "shared/components/Transactions/TransactionsModal"
+import { TransactionProgressStatus } from "shared/types"
+import {
+  selectRegionById,
+  stakeTaho,
+  useDappDispatch,
+  useDappSelector,
+} from "redux-state"
+import { userAmountToBigInt } from "shared/utils"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
+import BannerEarn from "./RegionBanners/BannerEarn"
 
 // TODO change to the correct address
 const VE_TOKEN_ADDRESS = CONTRACT_Taho
@@ -19,8 +28,25 @@ type StakingProps = {
 }
 
 export default function Staking({ regionId, close }: StakingProps) {
+  const dispatch = useDappDispatch()
+  const region = useDappSelector((state) => selectRegionById(state, regionId))
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
+
+  const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
+    useState(false)
+
+  const stakeTransaction = async () => {
+    const amount = userAmountToBigInt(stakeAmount)
+    if (region.regionContractAddress && amount) {
+      dispatch(
+        stakeTaho({
+          regionContractAddress: region.regionContractAddress,
+          amount,
+        })
+      )
+    }
+  }
 
   return (
     <>
@@ -42,7 +68,11 @@ export default function Staking({ regionId, close }: StakingProps) {
               onChange={setStakeAmount}
             />
           </div>
-          <Button type="primary" size="medium" isDisabled>
+          <Button
+            type="primary"
+            size="medium"
+            onClick={() => setIsStakeTransactionModalOpen(true)}
+          >
             Stake $TAHO
           </Button>
         </div>
@@ -62,6 +92,19 @@ export default function Staking({ regionId, close }: StakingProps) {
           </Button>
         </div>
       </div>
+      <TransactionsModal
+        isOpen={isStakeTransactionModalOpen}
+        close={() => setIsStakeTransactionModalOpen(false)}
+        transactions={[
+          {
+            id: "stake",
+            title: "Approve and stake $TAHO",
+            buttonLabel: "Approve & stake",
+            status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
+            sendTransaction: stakeTransaction,
+          },
+        ]}
+      />
       <style jsx>{`
         .staking {
           display: flex;
