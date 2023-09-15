@@ -9,6 +9,7 @@ import {
   stake,
   unstake,
 } from "shared/contracts"
+import { RegionContractDataWithId } from "shared/types"
 
 export const fetchRegionAddresses = createDappAsyncThunk(
   "map/fetchRegionAddresses",
@@ -17,14 +18,20 @@ export const fetchRegionAddresses = createDappAsyncThunk(
       map: { regions },
     } = getState()
 
-    const regionsMap = Object.entries(regions)
-      .filter(([__, { regionContractAddress }]) => !regionContractAddress)
-      .map(([id, data]) => ({ id, data }))
+    const regionsWithoutAddresses = Object.entries(regions).reduce(
+      (acc, [id, data]) => {
+        if (data.regionContractAddress === null) {
+          acc.push({ id, data })
+        }
+        return acc
+      },
+      [] as RegionContractDataWithId[]
+    )
 
     const regionAddresses = await transactionService.read(
       getRegionTokenAddresses,
       {
-        regions: regionsMap,
+        regions: regionsWithoutAddresses,
       }
     )
 

@@ -1,6 +1,5 @@
-import { RegionContractData } from "shared/types/map"
+import { RegionContractDataWithId, ReadTransactionBuilder } from "shared/types"
 import { Contract } from "ethers"
-import { ReadTransactionBuilder } from "shared/types"
 import { getTahoDeployerContract } from "./game"
 import { nodeAbi } from "./abi"
 
@@ -21,7 +20,7 @@ export const getRegionVeTokenAddress: ReadTransactionBuilder<
 }
 
 export const getRegionTokenAddresses: ReadTransactionBuilder<
-  { regions: { id: string; data: RegionContractData }[] },
+  { regions: RegionContractDataWithId[] },
   { id: string; address: string }[]
 > = async (provider, { regions }) => {
   const tahoDeployerContract = await getTahoDeployerContract(provider, null)
