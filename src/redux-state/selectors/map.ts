@@ -17,3 +17,13 @@ export const selectRegionById = createSelector(
   [selectRegions, (_, regionId: string) => regionId],
   (regions, regionId) => regions[regionId]
 )
+
+export const selectStakingRegionId = (state: RootState) =>
+  state.map.stakingRegionId
+
+export const selectStakingRegionAddress = createSelector(
+  selectRegions,
+  selectStakingRegionId,
+  (regions, stakingRegionId) =>
+    stakingRegionId && regions[stakingRegionId].regionContractAddress
+)

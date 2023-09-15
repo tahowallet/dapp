@@ -31,12 +31,14 @@ export type MapState = {
   mode: MapModeType
   overlay: OverlayType
   regions: { [id: string]: RegionContractData }
+  stakingRegionId: string | null
 }
 
 const initialState: MapState = {
   mode: "default",
   overlay: "none",
   regions: REGIONS,
+  stakingRegionId: null,
 }
 
 const mapSlice = createSlice({
@@ -61,6 +63,12 @@ const mapSlice = createSlice({
       regionAddresses.forEach(({ id, address }) => {
         immerState.regions[id].regionContractAddress = address
       })
+    },
+    setStakingRegionId: (
+      immerState,
+      { payload: stakingRegionId }: { payload: string | null }
+    ) => {
+      immerState.stakingRegionId = stakingRegionId
     },
     resetMap: (immerState) => {
       immerState.mode = "default"
