@@ -45,6 +45,10 @@ export default function RegionIcon({
 
         .circle > div {
           width: 50%;
+        }
+
+        .circle > div,
+        .fill {
           display: grid;
           place-items: center;
         }

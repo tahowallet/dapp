@@ -19,7 +19,7 @@ export default function ClaimingStats() {
       <div className="stats column">
         <div className="stats_header">You can claim</div>
         <TahoAmount amount={eligibility?.amount ?? 0n} />
-        <Accordion title="Criteria breakdown" type="background">
+        <Accordion title="Criteria breakdown">
           <ClaimCheckRules type="small" />
         </Accordion>
         <div className="line" />
