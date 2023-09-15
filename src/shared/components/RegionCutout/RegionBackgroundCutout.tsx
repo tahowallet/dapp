@@ -2,12 +2,13 @@ import React from "react"
 import backgroundImg from "public/dapp_map_bg.webp"
 import { limitToBounds } from "shared/utils"
 import { MAP_BOX, getRegionData } from "shared/constants"
+import { selectDisplayedRegionId, useDappSelector } from "redux-state"
 
-export default function RegionBackgroundCutout({
-  regionId,
-}: {
-  regionId: string
-}) {
+export default function RegionBackgroundCutout() {
+  const regionId = useDappSelector(selectDisplayedRegionId)
+
+  if (!regionId) return null
+
   const pathData = getRegionData(regionId)
 
   /**

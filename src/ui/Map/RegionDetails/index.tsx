@@ -4,7 +4,7 @@ import Leaderboard from "./Leaderboard"
 import Staking from "./Staking"
 import BannerConnect from "./BannerConnect"
 
-export default function RegionDetails({ regionId }: { regionId: string }) {
+export default function RegionDetails() {
   return (
     <>
       <BannerConnect />
@@ -14,7 +14,7 @@ export default function RegionDetails({ regionId }: { regionId: string }) {
             label: "Rewards",
             component: null, // TODO: <Rewards />
           },
-          { label: "Stake", component: <Staking regionId={regionId} /> },
+          { label: "Stake", component: <Staking /> },
           { label: "Leaderboard", component: <Leaderboard /> },
           {
             label: "Council",

@@ -5,7 +5,7 @@ import classNames from "classnames"
 import { getBalance } from "shared/contracts"
 import { useSelector } from "react-redux"
 import {
-  selectRegions,
+  selectDisplayedRegionAddress,
   selectStakingData,
   selectWalletAddress,
 } from "redux-state"
@@ -50,12 +50,12 @@ function isDisabledUnstake(
   return true
 }
 
-export default function Staking({ regionId }: { regionId: string }) {
+export default function Staking() {
   const address = useSelector(selectWalletAddress)
   const { stakeAmount: alreadyStakeAmount, regionContractAddress } =
     useSelector(selectStakingData)
 
-  const regionsById = useSelector(selectRegions)
+  const selectedRegionAddress = useSelector(selectDisplayedRegionAddress)
 
   const provider = useArbitrumProvider()
 
@@ -76,7 +76,6 @@ export default function Staking({ regionId }: { regionId: string }) {
     fetchBalance()
   }, [address, provider])
 
-  const selectedRegionAddress = regionsById[regionId].regionContractAddress
   const disabledStake = isDisabledStake(
     tahoBalance,
     regionContractAddress,

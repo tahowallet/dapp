@@ -31,12 +31,14 @@ export type MapState = {
   mode: MapModeType
   overlay: OverlayType
   regions: { [id: string]: RegionContractData }
+  displayedRegionId: string | null
 }
 
 const initialState: MapState = {
   mode: "default",
   overlay: "none",
   regions: REGIONS,
+  displayedRegionId: null,
 }
 
 const mapSlice = createSlice({
@@ -62,6 +64,12 @@ const mapSlice = createSlice({
         immerState.regions[id].regionContractAddress = address
       })
     },
+    setDisplayedRegionId: (
+      immerState,
+      { payload: selectedRegionId }: { payload: string | null }
+    ) => {
+      immerState.displayedRegionId = selectedRegionId
+    },
     resetMap: (immerState) => {
       immerState.mode = "default"
       immerState.overlay = "none"
@@ -69,7 +77,12 @@ const mapSlice = createSlice({
   },
 })
 
-export const { setMapMode, setMapOverlay, resetMap, setRegionAddresses } =
-  mapSlice.actions
+export const {
+  setMapMode,
+  setMapOverlay,
+  resetMap,
+  setRegionAddresses,
+  setDisplayedRegionId,
+} = mapSlice.actions
 
 export default mapSlice.reducer

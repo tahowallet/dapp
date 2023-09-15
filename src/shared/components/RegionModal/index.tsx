@@ -8,6 +8,7 @@ import {
 import Modal from "shared/components/Modal"
 import { regions } from "shared/constants"
 import { useMapContext } from "shared/hooks"
+import { selectDisplayedRegionId, useDappSelector } from "redux-state"
 import RegionModalContent from "./RegionModalContent"
 
 function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
@@ -124,14 +125,14 @@ function NextBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function RegionModal({
-  regionId: initialRegionId,
   onClose,
   children,
 }: {
-  regionId: string
   onClose: () => void
   children: React.ReactNode
 }) {
+  const initialRegionId = useDappSelector(selectDisplayedRegionId)
+
   const mapContext = useMapContext()
   const [regionId, setRegionId] = useState(initialRegionId)
   const [prevRegion, nextRegion] = useMemo(() => {
@@ -198,9 +199,9 @@ export default function RegionModal({
           }}
         />
         <animated.div style={props}>
-          {transitions((style, item) => (
+          {transitions((style) => (
             <animated.div style={{ ...style }}>
-              <RegionModalContent regionId={item} onClose={onClose}>
+              <RegionModalContent onClose={onClose}>
                 {children}
               </RegionModalContent>
             </animated.div>
