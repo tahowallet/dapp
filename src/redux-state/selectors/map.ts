@@ -25,5 +25,5 @@ export const selectStakingRegionAddress = createSelector(
   selectRegions,
   selectStakingRegionId,
   (regions, stakingRegionId) =>
-    stakingRegionId && regions[stakingRegionId].regionContractAddress
+    stakingRegionId && regions[stakingRegionId]?.regionContractAddress
 )
