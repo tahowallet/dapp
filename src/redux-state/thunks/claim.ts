@@ -28,7 +28,8 @@ export const fetchHasClaimed = createDappAsyncThunk(
     } = getState()
 
     const hasClaimed = eligibility
-      ? await transactionService.read(hasAlreadyClaimed, { eligibility })
+      ? (await transactionService.read(hasAlreadyClaimed, { eligibility })) ??
+        false
       : false
 
     dispatch(setHasClaimed({ hasClaimed }))

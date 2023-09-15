@@ -93,10 +93,11 @@ export const fetchWalletBalances = createDappAsyncThunk(
 
     if (!account) return
 
-    const tahoBalance = await transactionService.read(getBalance, {
-      tokenAddress: TAHO_ADDRESS,
-      account,
-    })
+    const tahoBalance =
+      (await transactionService.read(getBalance, {
+        tokenAddress: TAHO_ADDRESS,
+        account,
+      })) ?? 0n
 
     const eth = await transactionService.getEthBalance()
 

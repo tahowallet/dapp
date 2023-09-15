@@ -26,7 +26,9 @@ export const fetchRegionAddresses = createDappAsyncThunk(
       }
     )
 
-    dispatch(setRegionAddresses(regionAddresses))
+    if (regionAddresses !== null) {
+      dispatch(setRegionAddresses(regionAddresses))
+    }
   }
 )
 
@@ -47,6 +49,10 @@ export const stakeTaho = createDappAsyncThunk(
       contractAddress: regionContractAddress,
     })
 
+    if (allowanceValue === null) {
+      return null
+    }
+
     if (allowanceValue < amount) {
       await transactionService.send(setAllowance, {
         tokenAddress: CONTRACT_Taho,
@@ -55,7 +61,7 @@ export const stakeTaho = createDappAsyncThunk(
       })
     }
 
-    await transactionService.send(stake, {
+    return transactionService.send(stake, {
       regionContractAddress,
       amount,
     })
@@ -79,6 +85,10 @@ export const unstakeTaho = createDappAsyncThunk(
       contractAddress: regionContractAddress,
     })
 
+    if (allowanceValue === null) {
+      return null
+    }
+
     if (allowanceValue < amount) {
       await transactionService.send(setAllowance, {
         tokenAddress: CONTRACT_Taho,
@@ -87,7 +97,7 @@ export const unstakeTaho = createDappAsyncThunk(
       })
     }
 
-    await transactionService.send(unstake, {
+    return transactionService.send(unstake, {
       regionContractAddress,
       amount,
     })
