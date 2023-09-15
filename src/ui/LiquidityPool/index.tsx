@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react"
 import {
   fetchWalletBalance,
   joinTahoPool,
-  selectEthBalace,
   selectIsWalletConnected,
-  selectTahoBalace,
   selectWalletAddress,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
-import AmountInput from "shared/components/AmountInput"
+import {
+  isValidInputAmount,
+  userAmountToBigInt,
+  ETH_ADDRESS,
+} from "shared/utils"
 import { useArbitrumProvider } from "shared/hooks"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
+import TokenAmountInput from "shared/components/TokenAmountInput"
 
 export default function LiquidityPool() {
   const dispatch = useDappDispatch()
@@ -21,9 +23,6 @@ export default function LiquidityPool() {
 
   const provider = useArbitrumProvider()
   const isConnected = useDappSelector(selectIsWalletConnected)
-
-  const tahoBalance = useDappSelector(selectTahoBalace)
-  const ethBalance = useDappSelector(selectEthBalace)
 
   const [tahoAmount, setTahoAmount] = useState("")
   const [ethAmount, setEthAmount] = useState("")
@@ -46,8 +45,12 @@ export default function LiquidityPool() {
         throw new Error("No provider or address")
       }
 
-      const targetTahoAmount = userAmountToBigInt(+tahoAmount)
-      const targetEthAmount = userAmountToBigInt(+ethAmount)
+      const targetTahoAmount = userAmountToBigInt(tahoAmount)
+      const targetEthAmount = userAmountToBigInt(ethAmount)
+
+      if (!targetTahoAmount || !targetEthAmount) {
+        throw new Error("Invalid token amount")
+      }
 
       const receipt = await dispatch(
         joinTahoPool({
@@ -76,20 +79,20 @@ export default function LiquidityPool() {
         <div className="content column_center">
           <div className="lp_container row">
             <div className="token column">
-              <span>TAHO</span>
-              <AmountInput
-                label="Amount"
+              <TokenAmountInput
+                label="Wallet balance:"
+                inputLabel="Amount"
                 amount={tahoAmount}
-                maxAmount={tahoBalance}
+                tokenAddress={CONTRACT_Taho}
                 onChange={setTahoAmount}
               />
             </div>
             <div className="token column">
-              <span>ETH</span>
-              <AmountInput
-                label="Amount"
+              <TokenAmountInput
+                label="Wallet balance:"
+                inputLabel="Amount"
                 amount={ethAmount}
-                maxAmount={ethBalance}
+                tokenAddress={ETH_ADDRESS}
                 onChange={setEthAmount}
               />
             </div>

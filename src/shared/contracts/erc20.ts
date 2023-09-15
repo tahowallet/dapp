@@ -17,6 +17,15 @@ export const getBalance: ReadTransactionBuilder<
   return BigInt((await token.balanceOf(account)).toString())
 }
 
+export const getSymbol: ReadTransactionBuilder<
+  { tokenAddress: string },
+  string
+> = async (provider, { tokenAddress }) => {
+  const token = await getTokenContract(provider, { tokenAddress })
+
+  return token.symbol()
+}
+
 export const getAllowance: ReadTransactionBuilder<
   { tokenAddress: string; account: string; contractAddress: string },
   bigint
