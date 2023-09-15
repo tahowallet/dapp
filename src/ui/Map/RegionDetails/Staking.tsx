@@ -64,6 +64,8 @@ type StakingProps = {
 
 export default function Staking({ close }: StakingProps) {
   const address = useDappSelector(selectWalletAddress)
+  // TODO: Ultimately, we shouldn't use claim flow data.
+  // This should be change when the staking data will be available in redux
   const { stakeAmount: alreadyStakeAmount, regionContractAddress } =
     useDappSelector(selectStakingData)
 
