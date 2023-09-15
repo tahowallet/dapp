@@ -1,4 +1,5 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
+import { TAHO_ADDRESS, ETH_ADDRESS } from "shared/constants"
 import {
   getAllowance,
   setAllowance,
@@ -7,7 +8,7 @@ import {
   joinPool,
   getTotalSupply,
 } from "shared/contracts"
-import { ETH_ADDRESS, encodeUserData } from "shared/utils"
+import { encodeUserData } from "shared/utils"
 
 // eslint-disable-next-line import/prefer-default-export
 export const joinTahoPool = createDappAsyncThunk(
@@ -27,14 +28,14 @@ export const joinTahoPool = createDappAsyncThunk(
     )
 
     const allowanceValue = await transactionService.read(getAllowance, {
-      tokenAddress: CONTRACT_Taho,
+      tokenAddress: TAHO_ADDRESS,
       account,
       contractAddress: balancerPoolAgentAddress,
     })
 
     if (allowanceValue < tahoAmount) {
       await transactionService.send(setAllowance, {
-        tokenAddress: CONTRACT_Taho,
+        tokenAddress: TAHO_ADDRESS,
         account,
         amount: tahoAmount,
       })
@@ -47,7 +48,7 @@ export const joinTahoPool = createDappAsyncThunk(
     const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
 
     const joinRequest = {
-      assets: [CONTRACT_Taho, ETH_ADDRESS],
+      assets: [TAHO_ADDRESS, ETH_ADDRESS],
       maxAmountsIn,
       userData,
       fromInternalBalance: false,

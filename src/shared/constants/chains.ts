@@ -1,4 +1,6 @@
 // TODO: decide what rpc providers we want to use and if/how we want to handle being rate limited
+import { ethers } from "ethers"
+
 export const ARBITRUM = {
   id: "0xa4b1",
   token: "ETH",
@@ -15,3 +17,6 @@ export const ETHEREUM = {
   label: "Ethereum",
   rpcUrl: process.env.ETHEREUM_RPC_URL,
 }
+
+export const ETH_ADDRESS = ethers.constants.AddressZero
+export const TAHO_ADDRESS = CONTRACT_Taho

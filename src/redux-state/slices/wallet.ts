@@ -1,15 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
 import portrait from "shared/assets/portrait.png"
+import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
+import { TokenBalances } from "shared/types"
 
 export type WalletState = {
   isConnected: boolean
   address: string
   name: string
   avatar: string
-  balance: {
-    taho: bigint
-    eth: bigint
-  }
+  balances: TokenBalances
 }
 
 const initialState: WalletState = {
@@ -17,9 +16,15 @@ const initialState: WalletState = {
   address: "",
   name: "",
   avatar: portrait,
-  balance: {
-    taho: 0n,
-    eth: 0n,
+  balances: {
+    [TAHO_ADDRESS]: {
+      symbol: "TAHO",
+      balance: 0n,
+    },
+    [ETH_ADDRESS]: {
+      symbol: "ETH",
+      balance: 0n,
+    },
   },
 }
 
@@ -41,10 +46,10 @@ const walletSlice = createSlice({
     updateDisconnectedWallet: (_) => initialState,
     updateBalances: (
       immerState,
-      { payload: balances }: { payload: { taho?: bigint; eth?: bigint } }
+      { payload: balances }: { payload: TokenBalances }
     ) => {
-      immerState.balance = {
-        ...immerState.balance,
+      immerState.balances = {
+        ...immerState.balances,
         ...balances,
       }
     },

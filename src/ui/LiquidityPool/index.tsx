@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import {
-  fetchWalletBalance,
   joinTahoPool,
   selectIsWalletConnected,
   selectWalletAddress,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import {
-  isValidInputAmount,
-  userAmountToBigInt,
-  ETH_ADDRESS,
-} from "shared/utils"
+import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import { useArbitrumProvider } from "shared/hooks"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import TokenAmountInput from "shared/components/TokenAmountInput"
+import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 
 export default function LiquidityPool() {
   const dispatch = useDappDispatch()
@@ -26,18 +22,6 @@ export default function LiquidityPool() {
 
   const [tahoAmount, setTahoAmount] = useState("")
   const [ethAmount, setEthAmount] = useState("")
-
-  useEffect(() => {
-    const fetchBalances = async () => {
-      if (!provider || !address) {
-        return
-      }
-      // TODO: wallet balances should be fetched from time to time globally
-      await dispatch(fetchWalletBalance())
-    }
-
-    fetchBalances()
-  }, [address, provider, dispatch])
 
   const joinPool = async () => {
     try {
@@ -83,7 +67,7 @@ export default function LiquidityPool() {
                 label="Wallet balance:"
                 inputLabel="Amount"
                 amount={tahoAmount}
-                tokenAddress={CONTRACT_Taho}
+                tokenAddress={TAHO_ADDRESS}
                 onChange={setTahoAmount}
               />
             </div>
