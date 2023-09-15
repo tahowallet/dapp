@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useMemo } from "react"
 import {
   useSpring,
   animated,
@@ -134,16 +134,16 @@ export default function RegionModal({
   const initialRegionId = useDappSelector(selectDisplayedRegionId)
 
   const mapContext = useMapContext()
-  const [regionId, setRegionId] = useState(initialRegionId)
+
   const [prevRegion, nextRegion] = useMemo(() => {
-    const index = regions.findIndex((region) => region.id === regionId)
+    const index = regions.findIndex((region) => region.id === initialRegionId)
 
     const prev =
       index - 1 < 0 ? regions[regions.length - 1].id : regions[index - 1].id
     const next =
       index + 1 === regions.length ? regions[0].id : regions[index + 1].id
     return [prev, next]
-  }, [regionId])
+  }, [initialRegionId])
 
   const [props] = useSpring(
     () => ({
@@ -161,7 +161,7 @@ export default function RegionModal({
     []
   )
 
-  const transitions = useSpringTransition(regionId, {
+  const transitions = useSpringTransition(initialRegionId, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
@@ -180,10 +180,7 @@ export default function RegionModal({
             zIndex: 1,
             transform: "translateX(-100%)",
           }}
-          onClick={() => {
-            setRegionId(prevRegion)
-            mapContext.current.onRegionClick(prevRegion)
-          }}
+          onClick={() => mapContext.current.onRegionClick(prevRegion)}
         />
         <NextBtn
           style={{
@@ -193,10 +190,7 @@ export default function RegionModal({
             zIndex: 1,
             transform: "translateX(100%)",
           }}
-          onClick={() => {
-            setRegionId(nextRegion)
-            mapContext.current.onRegionClick(nextRegion)
-          }}
+          onClick={() => mapContext.current.onRegionClick(nextRegion)}
         />
         <animated.div style={props}>
           {transitions((style) => (

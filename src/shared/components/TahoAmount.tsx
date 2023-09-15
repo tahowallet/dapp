@@ -9,12 +9,14 @@ type TahoAmountProps = {
   amount?: bigint
   hasBackground?: boolean
   size?: "small" | "large"
+  width?: string
 }
 
 export default function TahoAmount({
   amount = 0n,
   hasBackground = false,
   size = "small",
+  width = "432px",
 }: TahoAmountProps) {
   return (
     <>
@@ -37,7 +39,7 @@ export default function TahoAmount({
             display: flex;
             flex: 1 0 auto;
             min-width: 0;
-            width: 432px;
+            width: ${width};
             align-items: center;
             letter-spacing: 1px;
             color: var(--secondary-s1-100);

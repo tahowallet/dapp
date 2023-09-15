@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react"
 import TokenAmountInput from "shared/components/TokenAmountInput"
 import Button from "shared/components/Button"
-import classNames from "classnames"
-import { getBalance } from "shared/contracts"
-import { useSelector } from "react-redux"
+import { isSameAddress } from "shared/utils"
 import {
   selectDisplayedRegionAddress,
   selectStakingData,
   selectWalletAddress,
+  useDappSelector,
 } from "redux-state"
 import { useArbitrumProvider } from "shared/hooks"
-import { isSameAddress } from "shared/utils"
+import { getBalance } from "shared/contracts"
+import classNames from "classnames"
+import BannerEarn from "./RegionBanners/BannerEarn"
+import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 
 // TODO change to the correct address
 const VE_TOKEN_ADDRESS = CONTRACT_Taho
+
+// Test data to display valid banner
+const VOTING: boolean = false
+const STAKED: string | boolean = "disabled"
+const HAS_ENOUGH_FUNDS: boolean = true
+const HAS_ANOTHER_NODE: boolean = true
 
 function isDisabledStake(
   balance: bigint,
@@ -50,12 +58,16 @@ function isDisabledUnstake(
   return true
 }
 
-export default function Staking() {
-  const address = useSelector(selectWalletAddress)
-  const { stakeAmount: alreadyStakeAmount, regionContractAddress } =
-    useSelector(selectStakingData)
+type StakingProps = {
+  close: () => void
+}
 
-  const selectedRegionAddress = useSelector(selectDisplayedRegionAddress)
+export default function Staking({ close }: StakingProps) {
+  const address = useDappSelector(selectWalletAddress)
+  const { stakeAmount: alreadyStakeAmount, regionContractAddress } =
+    useDappSelector(selectStakingData)
+
+  const selectedRegionAddress = useDappSelector(selectDisplayedRegionAddress)
 
   const provider = useArbitrumProvider()
 
@@ -88,48 +100,55 @@ export default function Staking() {
   )
 
   return (
-    <div className="staking">
-      <div
-        className={classNames("stake_control", {
-          disabled: disabledStake,
-        })}
-      >
-        <div className="stake_control_header">
-          <h3 style={{ color: "var(--trading-in)" }}>Stake</h3>
-          <TokenAmountInput
-            label="Wallet balance:"
-            inputLabel="Stake amount"
-            disabled={disabledStake}
-            amount={stakeAmount}
-            tokenAddress={CONTRACT_Taho}
-            onChange={setStakeAmount}
-          />
+    <>
+      {HAS_ANOTHER_NODE && !VOTING && STAKED === "disabled" && (
+        <BannerTakeToNode />
+      )}
+      {!HAS_ENOUGH_FUNDS && STAKED === "disabled" && (
+        <BannerEarn close={close} />
+      )}
+      <div className="staking">
+        <div
+          className={classNames("stake_control", {
+            disabled: disabledStake,
+          })}
+        >
+          <div className="stake_control_header">
+            <h3 style={{ color: "var(--trading-in)" }}>Stake</h3>
+            <TokenAmountInput
+              label="Wallet balance:"
+              inputLabel="Stake amount"
+              disabled={disabledStake}
+              amount={stakeAmount}
+              tokenAddress={CONTRACT_Taho}
+              onChange={setStakeAmount}
+            />
+          </div>
+          <Button type="primary" size="medium" isDisabled>
+            Stake $TAHO
+          </Button>
         </div>
-        <Button type="primary" size="medium" isDisabled>
-          Stake $TAHO
-        </Button>
-      </div>
-      <div
-        className={classNames("stake_control", {
-          disabled: disabledUnstake,
-        })}
-      >
-        <div className="stake_control_header">
-          <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
-          <TokenAmountInput
-            label="Staked amount:"
-            inputLabel="Unstake amount"
-            disabled={disabledUnstake}
-            amount={unstakeAmount}
-            tokenAddress={VE_TOKEN_ADDRESS}
-            onChange={setUnstakeAmount}
-          />
+        <div
+          className={classNames("stake_control", {
+            disabled: disabledUnstake,
+          })}
+        >
+          <div className="stake_control_header">
+            <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
+            <TokenAmountInput
+              label="Staked amount:"
+              inputLabel="Unstake amount"
+              disabled={disabledUnstake}
+              amount={unstakeAmount}
+              tokenAddress={VE_TOKEN_ADDRESS}
+              onChange={setUnstakeAmount}
+            />
+          </div>
+          <Button type="primary" size="medium" isDisabled>
+            Unstake $TAHO
+          </Button>
         </div>
-        <Button type="primary" size="medium" isDisabled>
-          Unstake $TAHO
-        </Button>
       </div>
-
       <style jsx>{`
         .staking {
           display: flex;
@@ -149,6 +168,6 @@ export default function Staking() {
           opacity: 0.5;
         }
       `}</style>
-    </div>
+    </>
   )
 }

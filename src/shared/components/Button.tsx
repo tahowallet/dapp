@@ -77,6 +77,7 @@ export default function Button({
             box-sizing: border-box;
             transition: all 50ms;
             gap: 8px;
+            white-space: nowrap;
           }
 
           .large {
