@@ -21,6 +21,15 @@ export async function getBalance(
   return BigInt((await token.balanceOf(account)).toString())
 }
 
+export async function getSymbol(
+  provider: providers.Provider,
+  tokenAddress: string
+): Promise<string> {
+  const token = getTokenContract(provider, tokenAddress)
+
+  return token.symbol()
+}
+
 export async function getAllowance(
   provider: providers.Provider,
   tokenAddress: string,

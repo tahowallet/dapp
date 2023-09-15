@@ -1,17 +1,19 @@
 import classNames from "classnames"
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 export default function SharedInput({
   onChange,
-  validate = (value) => ({ value }),
+  validate = (validatedValue) => ({ value: validatedValue }),
   label,
-  value: propsValue,
+  type = "text",
+  value,
   placeholder = " ",
   disabled = false,
   rightComponent = null,
   style = {},
 }: {
   label: string
+  type?: "text" | "number"
   disabled?: boolean
   value: string
   placeholder?: string
@@ -20,12 +22,26 @@ export default function SharedInput({
   rightComponent?: React.ReactNode
   style?: React.CSSProperties & Record<string, string>
 }) {
-  const [value, setValue] = useState(propsValue)
   const [error, setError] = useState("")
 
-  if (propsValue !== value) {
-    setValue(propsValue)
-  }
+  const handleError = useCallback(
+    (newValue: string) => {
+      const validatedData = validate(newValue)
+
+      if ("error" in validatedData) {
+        setError(validatedData.error)
+      } else {
+        setError("")
+      }
+    },
+    [validate]
+  )
+
+  useEffect(() => {
+    handleError(value)
+  }, [handleError, value])
+
+  const isTypeNumber = type === "number"
 
   return (
     <div
@@ -34,20 +50,13 @@ export default function SharedInput({
     >
       <div className="input_box">
         <input
-          type="text"
+          type={type}
+          min={isTypeNumber ? "0" : undefined}
+          className={classNames({ input_number: isTypeNumber })}
           value={value}
           placeholder={placeholder}
           disabled={disabled}
-          onChange={(e) => {
-            const newValue = validate(e.target.value)
-
-            if ("error" in newValue) {
-              setError(newValue.error)
-            } else {
-              setError("")
-            }
-            onChange?.(e.target.value)
-          }}
+          onChange={(e) => onChange?.(e.target.value)}
         />
         <span className="input_label">{label}</span>
         <div role="presentation" className="input_notch">
@@ -164,6 +173,12 @@ export default function SharedInput({
           flex: 1;
           border-top-right-radius: 4px;
           border-top: var(--border);
+        }
+
+        .input_number::-webkit-outer-spin-button,
+        .input_number::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
         }
       `}</style>
     </div>
