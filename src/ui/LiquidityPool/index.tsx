@@ -11,7 +11,6 @@ import {
   userAmountToBigInt,
 } from "shared/utils"
 import { LiquidityPoolRequest } from "shared/types"
-import AmountInput from "shared/components/AmountInput"
 import {
   getAllowance,
   setAllowance,
@@ -24,6 +23,7 @@ import {
 import { useArbitrumProvider, useSendTransaction } from "shared/hooks"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
+import TokenAmountInput from "shared/components/TokenAmountInput"
 
 export default function LiquidityPool() {
   const address = useDappSelector(selectWalletAddress)
@@ -79,42 +79,44 @@ export default function LiquidityPool() {
         throw new Error("No provider or address")
       }
 
-      const targetTahoAmount = userAmountToBigInt(+tahoAmount)
-      const targetEthAmount = userAmountToBigInt(+ethAmount)
+      const targetTahoAmount = userAmountToBigInt(tahoAmount)
+      const targetEthAmount = userAmountToBigInt(ethAmount)
 
-      const balancerPoolAgentAddress = await getBalancerPoolAgentAddress(
-        provider
-      )
+      if (targetTahoAmount && targetEthAmount) {
+        const balancerPoolAgentAddress = await getBalancerPoolAgentAddress(
+          provider
+        )
 
-      const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
-        account: address,
-        contractAddress: balancerPoolAgentAddress,
-      })
+        const allowanceValue = await getAllowance(provider, CONTRACT_Taho, {
+          account: address,
+          contractAddress: balancerPoolAgentAddress,
+        })
 
-      if (allowanceValue < targetTahoAmount) {
-        await sendSetAllowance(
-          { account: balancerPoolAgentAddress, amount: targetTahoAmount },
-          CONTRACT_Taho
+        if (allowanceValue < targetTahoAmount) {
+          await sendSetAllowance(
+            { account: balancerPoolAgentAddress, amount: targetTahoAmount },
+            CONTRACT_Taho
+          )
+        }
+
+        const maxAmountsIn = [targetTahoAmount, targetEthAmount]
+
+        const poolAddress = await getBalancerPoolAddress(provider)
+        const lpTokenSupply = await totalSupply(provider, poolAddress)
+        const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
+
+        await signJoinPool(
+          {
+            assets: [CONTRACT_Taho, ETH_ADDRESS],
+            maxAmountsIn,
+            userData,
+            fromInternalBalance: false,
+          },
+          {
+            value: targetEthAmount,
+          }
         )
       }
-
-      const maxAmountsIn = [targetTahoAmount, targetEthAmount]
-
-      const poolAddress = await getBalancerPoolAddress(provider)
-      const lpTokenSupply = await totalSupply(provider, poolAddress)
-      const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
-
-      await signJoinPool(
-        {
-          assets: [CONTRACT_Taho, ETH_ADDRESS],
-          maxAmountsIn,
-          userData,
-          fromInternalBalance: false,
-        },
-        {
-          value: targetEthAmount,
-        }
-      )
     } catch (err) {
       // TODO Add error handing
       // eslint-disable-next-line no-console
@@ -128,20 +130,20 @@ export default function LiquidityPool() {
         <div className="content column_center">
           <div className="lp_container row">
             <div className="token column">
-              <span>TAHO</span>
-              <AmountInput
-                label="Amount"
+              <TokenAmountInput
+                label="Wallet balance:"
+                inputLabel="Amount"
                 amount={tahoAmount}
-                maxAmount={tahoBalance}
+                tokenAddress={CONTRACT_Taho}
                 onChange={setTahoAmount}
               />
             </div>
             <div className="token column">
-              <span>ETH</span>
-              <AmountInput
-                label="Amount"
+              <TokenAmountInput
+                label="Wallet balance:"
+                inputLabel="Amount"
                 amount={ethAmount}
-                maxAmount={ethBalance}
+                tokenAddress={ETH_ADDRESS}
                 onChange={setEthAmount}
               />
             </div>

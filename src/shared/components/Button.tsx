@@ -20,6 +20,7 @@ type ButtonProps = {
   iconSize?: "medium" | "large"
   iconSrc?: string
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  onMouseDown?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export default function Button({
@@ -32,12 +33,14 @@ export default function Button({
   iconSize = "medium",
   iconSrc,
   onClick,
+  onMouseDown,
 }: ButtonProps) {
   return (
     <>
       <button
         type="button"
         onClick={onClick}
+        onMouseDown={onMouseDown}
         className={classnames({
           button: true,
           primary: type === "primary",

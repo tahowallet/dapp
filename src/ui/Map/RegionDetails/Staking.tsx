@@ -1,8 +1,11 @@
 import React, { useState } from "react"
+import TokenAmountInput from "shared/components/TokenAmountInput"
 import Button from "shared/components/Button"
-import SharedInput from "shared/components/Input"
 import BannerEarn from "./RegionBanners/BannerEarn"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
+
+// TODO change to the correct address
+const VE_TOKEN_ADDRESS = CONTRACT_Taho
 
 // Test data to display valid banner
 const VOTING: boolean = false
@@ -31,28 +34,13 @@ export default function Staking({ regionId, close }: StakingProps) {
         <div className="stake_control">
           <div className="stake_control_header">
             <h3 style={{ color: "var(--trading-in)" }}>Stake</h3>
-            <div className="amount_group">
-              <div className="label">Wallet balance: 12,000 TAHO</div>
-              <SharedInput
-                label="Stake amount"
-                value={stakeAmount}
-                onChange={setStakeAmount}
-                validate={(value) => {
-                  const parsed = parseFloat(value)
-
-                  if (parsed > 12000) {
-                    return { error: "Insufficient balance" }
-                  }
-
-                  return { value: parsed }
-                }}
-                rightComponent={
-                  <Button type="tertiary" size="medium">
-                    Max
-                  </Button>
-                }
-              />
-            </div>
+            <TokenAmountInput
+              label="Wallet balance:"
+              inputLabel="Stake amount"
+              amount={stakeAmount}
+              tokenAddress={CONTRACT_Taho}
+              onChange={setStakeAmount}
+            />
           </div>
           <Button type="primary" size="medium" isDisabled>
             Stake $TAHO
@@ -61,28 +49,13 @@ export default function Staking({ regionId, close }: StakingProps) {
         <div className="stake_control">
           <div className="stake_control_header">
             <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
-            <div className="amount_group">
-              <div className="label">Staked amount: 12.428 TAHO</div>
-              <SharedInput
-                label="Unstake amount"
-                value={unstakeAmount}
-                onChange={setUnstakeAmount}
-                validate={(value) => {
-                  const parsed = parseFloat(value)
-
-                  if (parsed > 12.428) {
-                    return { error: "Insufficient balance" }
-                  }
-
-                  return { value: parsed }
-                }}
-                rightComponent={
-                  <Button type="tertiary" size="medium">
-                    Max
-                  </Button>
-                }
-              />
-            </div>
+            <TokenAmountInput
+              label="Staked amount:"
+              inputLabel="Unstake amount"
+              amount={unstakeAmount}
+              tokenAddress={VE_TOKEN_ADDRESS}
+              onChange={setUnstakeAmount}
+            />
           </div>
           <Button type="primary" size="medium" isDisabled>
             Unstake $TAHO
@@ -103,11 +76,6 @@ export default function Staking({ regionId, close }: StakingProps) {
           gap: 14px;
           border-radius: 8px;
           background: var(--primary-p1-40);
-        }
-
-        .label {
-          font: var(--text-label);
-          color: var(--secondary-s1-70);
         }
       `}</style>
     </>
