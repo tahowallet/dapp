@@ -53,6 +53,9 @@ const walletSlice = createSlice({
         ...balances,
       }
     },
+    resetBalances: (immerState) => {
+      immerState.balances = initialState.balances
+    },
   },
 })
 
@@ -60,6 +63,7 @@ export const {
   updateConnectedWallet,
   updateDisconnectedWallet,
   updateBalances,
+  resetBalances,
 } = walletSlice.actions
 
 export default walletSlice.reducer

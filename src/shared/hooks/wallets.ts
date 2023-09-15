@@ -5,7 +5,12 @@ import {
   useDappDispatch,
   connectWalletGlobally,
   disconnectWalletGlobally,
+  useDappSelector,
+  selectWalletAddress,
+  fetchWalletBalances,
+  resetBalances,
 } from "redux-state"
+import { useInterval } from "./helpers"
 
 export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   const [{ wallet }] = useConnectWallet()
@@ -21,6 +26,20 @@ export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   return arbitrumProvider
 }
 
+export function useBalanceFetch() {
+  const dispatch = useDappDispatch()
+  const account = useDappSelector(selectWalletAddress)
+
+  useInterval(
+    () => {
+      if (account && dispatch) {
+        dispatch(fetchWalletBalances())
+      }
+    },
+    account ? 30 * 1000 : null
+  )
+}
+
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
   const arbitrumProvider = useArbitrumProvider()
@@ -33,8 +52,10 @@ export function useWallet() {
   useEffect(() => {
     if (address && arbitrumProvider) {
       dispatch(connectWalletGlobally({ address, avatar, arbitrumProvider }))
+      dispatch(fetchWalletBalances())
     } else {
       dispatch(disconnectWalletGlobally())
+      dispatch(resetBalances())
     }
   }, [address, arbitrumProvider, avatar, dispatch])
 }
