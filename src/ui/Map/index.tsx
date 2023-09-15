@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useState } from "react"
 import { selectIsDefaultMapMode } from "redux-state/selectors/map"
-import { useSelector } from "react-redux"
+import { useDappSelector } from "redux-state"
 import RegionModal from "shared/components/RegionModal"
 import backgroundImg from "public/dapp_map_bg.webp"
 import { useValueRef } from "shared/hooks"
@@ -37,7 +37,7 @@ export default function MapWrapper() {
     },
   }))
 
-  const isDefaultMapMode = useSelector(selectIsDefaultMapMode)
+  const isDefaultMapMode = useDappSelector(selectIsDefaultMapMode)
 
   const handleClose = useCallback(() => setRegionId(null), [])
 

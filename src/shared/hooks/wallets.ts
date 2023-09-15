@@ -2,8 +2,8 @@ import { useConnectWallet } from "@web3-onboard/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers } from "ethers"
 import {
-  useDispatch,
-  useSelector,
+  useDappDispatch,
+  useDappSelector,
   selectWalletAddress,
   connectWalletGlobally,
   disconnectWalletGlobally,
@@ -29,7 +29,7 @@ export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
 
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
-  const dispatch = useDispatch()
+  const dispatch = useDappDispatch()
 
   const account = wallet?.accounts[0]
   const address = account?.address ?? ""
@@ -75,7 +75,7 @@ export function useSendTransaction<T>(
       ) => Promise<ethers.providers.TransactionReceipt | null>
     } {
   const provider = useArbitrumProvider()
-  const address = useSelector(selectWalletAddress)
+  const address = useDappSelector(selectWalletAddress)
   const [status, setStatus] = useState<TransactionProgressStatus>(
     TransactionProgressStatus.Idle
   )
@@ -124,9 +124,9 @@ export function useSendTransaction<T>(
 }
 
 export function useFetchRegionsContracts() {
-  const dispatch = useDispatch()
+  const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
-  const regionsById = useSelector(selectRegions)
+  const regionsById = useDappSelector(selectRegions)
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
 
   useEffect(() => {

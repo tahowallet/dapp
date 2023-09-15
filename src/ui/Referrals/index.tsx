@@ -8,7 +8,7 @@ import eyeIcon from "shared/assets/icons/m/eye.svg"
 import twitterIcon from "shared/assets/icons/twitter.svg"
 import copyIcon from "shared/assets/icons/s/copy.svg"
 import {
-  useSelector,
+  useDappSelector,
   selectWalletAddress,
   selectWalletTruncatedAddress,
 } from "redux-state"
@@ -17,8 +17,8 @@ import ReferralsLeaderboard from "./ReferralsLeaderboard"
 
 export default function Referrals() {
   const { isConnected, connect } = useConnect()
-  const address = useSelector(selectWalletAddress)
-  const truncatedAddress = useSelector(selectWalletTruncatedAddress)
+  const address = useDappSelector(selectWalletAddress)
+  const truncatedAddress = useDappSelector(selectWalletTruncatedAddress)
 
   const link = `taho.xyz/referral/${address}`
   const truncatedLink = `taho.xyz/referral/${truncatedAddress || "0xABC...XYZ"}`

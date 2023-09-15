@@ -7,8 +7,8 @@ import Modal from "shared/components/Modal"
 import Spinner from "shared/components/Loaders/Spinner"
 import { isProbablyEVMAddress, resolveNameToAddress } from "shared/utils"
 import {
-  useDispatch,
-  useSelector,
+  useDappDispatch,
+  useDappSelector,
   setClaimingUser,
   selectUseConnectedWalletToClaim,
   selectIsWalletConnected,
@@ -20,12 +20,12 @@ import { ROUTES } from "shared/constants"
 import ClaimHeader from "./components/ClaimHeader"
 
 export default function ClaimCheck() {
-  const dispatch = useDispatch()
-  const isConnected = useSelector(selectIsWalletConnected)
-  const useConnectedWallet = useSelector(selectUseConnectedWalletToClaim)
+  const dispatch = useDappDispatch()
+  const isConnected = useDappSelector(selectIsWalletConnected)
+  const useConnectedWallet = useDappSelector(selectUseConnectedWalletToClaim)
 
-  const connectedAddress = useSelector(selectWalletAddress)
-  const connectedName = useSelector(selectWalletName)
+  const connectedAddress = useDappSelector(selectWalletAddress)
+  const connectedName = useDappSelector(selectWalletName)
 
   const [shouldRedirect, setShouldRedirect] = useState(false)
 

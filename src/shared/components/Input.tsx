@@ -1,12 +1,12 @@
 import classNames from "classnames"
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 export default function SharedInput({
   onChange,
-  validate = (value) => ({ value }),
+  validate = (validatedValue) => ({ value: validatedValue }),
   label,
   type = "text",
-  value: propsValue,
+  value,
   placeholder = " ",
   disabled = false,
   rightComponent = null,
@@ -22,25 +22,24 @@ export default function SharedInput({
   rightComponent?: React.ReactNode
   style?: React.CSSProperties & Record<string, string>
 }) {
-  const [value, setValue] = useState(propsValue)
   const [error, setError] = useState("")
 
-  const handleError = (newValue: string) => {
-    const validatedData = validate(newValue)
+  const handleError = useCallback(
+    (newValue: string) => {
+      const validatedData = validate(newValue)
 
-    if ("error" in validatedData) {
-      setError(validatedData.error)
-    } else {
-      setError("")
-    }
-  }
+      if ("error" in validatedData) {
+        setError(validatedData.error)
+      } else {
+        setError("")
+      }
+    },
+    [validate]
+  )
 
-  if (propsValue !== value) {
-    setValue(propsValue)
-    // The error message should always be up to date.
-    // This means that we should re-set the error message after updating the propsValue.
-    handleError(propsValue)
-  }
+  useEffect(() => {
+    handleError(value)
+  }, [handleError, value])
 
   const isTypeNumber = type === "number"
 
@@ -57,10 +56,7 @@ export default function SharedInput({
           value={value}
           placeholder={placeholder}
           disabled={disabled}
-          onChange={(e) => {
-            handleError(e.target.value)
-            onChange?.(e.target.value)
-          }}
+          onChange={(e) => onChange?.(e.target.value)}
         />
         <span className="input_label">{label}</span>
         <div role="presentation" className="input_notch">

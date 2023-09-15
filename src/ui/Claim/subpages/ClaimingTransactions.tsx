@@ -11,7 +11,7 @@ import {
 
 import { useArbitrumProvider, useSendTransaction } from "shared/hooks"
 import {
-  useSelector,
+  useDappSelector,
   selectEligibility,
   selectStakingData,
   selectWalletAddress,
@@ -29,10 +29,10 @@ const MOCK_STAKE_AMOUNT = 1n
 export default function ClaimingTransactions() {
   const [shouldRedirect, setShouldRedirect] = useState(false)
   const provider = useArbitrumProvider()
-  const account = useSelector(selectWalletAddress)
-  const eligibility = useSelector(selectEligibility)
+  const account = useDappSelector(selectWalletAddress)
+  const eligibility = useDappSelector(selectEligibility)
   const { /* stakeAmount */ regionContractAddress } =
-    useSelector(selectStakingData)
+    useDappSelector(selectStakingData)
   const {
     send: sendClaim,
     isReady: isClaimReady,

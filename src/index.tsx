@@ -5,7 +5,7 @@ import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
 import { useFetchRegionsContracts, useWallet } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
-import { selectMapMode, useSelector } from "redux-state"
+import { selectMapMode, useDappSelector } from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
 import Referrals from "ui/Referrals"
 import Footer from "ui/Footer"
@@ -18,7 +18,7 @@ import { ROUTES } from "shared/constants"
 import reduxStore from "./redux-state"
 
 function DApp() {
-  const mapMode = useSelector(selectMapMode)
+  const mapMode = useDappSelector(selectMapMode)
 
   useWallet()
   useFetchRegionsContracts()

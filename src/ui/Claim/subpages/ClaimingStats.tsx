@@ -4,7 +4,7 @@ import Modal from "shared/components/Modal"
 import Icon from "shared/components/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
-import { useSelector, selectEligibility } from "redux-state"
+import { useDappSelector, selectEligibility } from "redux-state"
 import { RegionCutout } from "shared/components/RegionCutout"
 import { getRegionData } from "shared/constants"
 import ClaimCheckRules from "../components/ClaimCheckRules"
@@ -12,7 +12,7 @@ import ClaimCheckRules from "../components/ClaimCheckRules"
 const MOCK_REGION = { population: "12,345", ...getRegionData("4") }
 
 export default function ClaimingStats() {
-  const eligibility = useSelector(selectEligibility)
+  const eligibility = useDappSelector(selectEligibility)
 
   return (
     <Modal.Content>
