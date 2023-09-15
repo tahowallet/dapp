@@ -21,7 +21,11 @@ export default function BannerClaim({ close }: BannerClaimProps) {
       <div className="claim_banner">
         <p className="claim_banner_label">Congratulations, you can claim</p>
         <div className="taho_amount_container row">
-          <TahoAmount amount={327000n} size="large" fixedWidth={false} />
+          <TahoAmount
+            amount={327000000000000000000000n}
+            size="large"
+            width="auto"
+          />
           <Button size="large" onClick={claimButtonHandler}>
             Claim TAHO
           </Button>

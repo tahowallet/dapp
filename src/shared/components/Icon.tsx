@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import React from "react"
+import React, { CSSProperties } from "react"
 
 type IconProps = {
   type?: "mask" | "image"
@@ -7,6 +7,7 @@ type IconProps = {
   width?: string
   height?: string
   color?: string
+  style?: CSSProperties
 }
 
 export default function Icon({
@@ -15,6 +16,7 @@ export default function Icon({
   height,
   src,
   color = "var(--off-white)",
+  style,
 }: IconProps) {
   return (
     <>
@@ -22,6 +24,7 @@ export default function Icon({
         className={classNames("icon", {
           [type]: true,
         })}
+        style={style}
       />
       <style jsx>{`
         .icon {
@@ -30,6 +33,9 @@ export default function Icon({
         }
         .icon.image {
           background-image: url(${src});
+          background-size: contain;
+          background-repeat: no-repeat;
+          display: inline-block;
         }
         .icon.mask {
           mask-image: url(${src});
