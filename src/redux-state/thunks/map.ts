@@ -1,5 +1,6 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
 import { setRegionAddresses } from "redux-state/slices/map"
+import { TAHO_ADDRESS } from "shared/constants"
 import {
   getAllowance,
   getRegionTokenAddresses,
@@ -80,7 +81,7 @@ export const stakeTaho = createDappAsyncThunk(
   ) => {
     const allowanceCorrect = await dispatch(
       ensureAllowance({
-        tokenAddress: CONTRACT_Taho,
+        tokenAddress: TAHO_ADDRESS,
         contractAddress: regionContractAddress,
         amount,
       })
