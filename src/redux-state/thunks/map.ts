@@ -3,6 +3,7 @@ import { setRegionAddresses } from "redux-state/slices/map"
 import {
   getAllowance,
   getRegionTokenAddresses,
+  getRegionVeTokenAddress,
   setAllowance,
   stake,
   unstake,
@@ -105,9 +106,20 @@ export const unstakeTaho = createDappAsyncThunk(
     }: { regionContractAddress: string; amount: bigint },
     { dispatch, extra: { transactionService } }
   ) => {
+    const veTokenAddress = await transactionService.read(
+      getRegionVeTokenAddress,
+      {
+        regionContractAddress,
+      }
+    )
+
+    if (!veTokenAddress) {
+      return null
+    }
+
     const allowanceCorrect = await dispatch(
       ensureAllowance({
-        tokenAddress: CONTRACT_Taho,
+        tokenAddress: veTokenAddress,
         contractAddress: regionContractAddress,
         amount,
       })
