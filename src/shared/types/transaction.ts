@@ -32,7 +32,7 @@ export type WriteTransactionBuilder<T> = (
  * Defines a function that builds a request to read some data from the blockchain.
  *
  * @param provider The provider to use to build the request.
- * @param data Parameterd needed to build the request.
+ * @param data Parameters needed to build the request.
  *
  * @returns A Promise resolving to the response from the blockchain.
  */
