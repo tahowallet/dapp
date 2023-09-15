@@ -66,9 +66,9 @@ const mapSlice = createSlice({
     },
     setDisplayedRegionId: (
       immerState,
-      { payload: selectedRegionId }: { payload: string | null }
+      { payload: displayedRegionId }: { payload: string | null }
     ) => {
-      immerState.displayedRegionId = selectedRegionId
+      immerState.displayedRegionId = displayedRegionId
     },
     resetMap: (immerState) => {
       immerState.mode = "default"
