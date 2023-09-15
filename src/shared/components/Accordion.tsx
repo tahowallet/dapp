@@ -8,7 +8,7 @@ type AccordionProps = {
   children: React.ReactNode
   icon?: string
   iconColor?: string
-  type?: "default" | "frame"
+  type?: "default" | "frame" | "background"
 }
 
 export default function Accordion({
@@ -71,6 +71,14 @@ export default function Accordion({
           }
           .frame.open {
             border: 1px solid var(--secondary-s1-50);
+          }
+          .background {
+            background: var(--secondary-s1-20);
+            color: var(--secondary-s1-80);
+          }
+          .accordion.background.open .accordion_content {
+            padding-top: 16px;
+            padding-bottom: 8px;
           }
           .accordion_title {
             justify-content: space-between;

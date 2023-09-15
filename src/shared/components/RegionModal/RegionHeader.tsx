@@ -96,7 +96,7 @@ export default function RegionHeader({ regionId }: { regionId: string }) {
           .region_thumb {
             position: absolute;
             right: 0;
-            transform: translateY(-60px) translateX(-24px);
+            transform: translateY(-75px) translateX(-24px);
           }
 
           .region_description {
