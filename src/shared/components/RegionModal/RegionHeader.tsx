@@ -9,6 +9,7 @@ import {
   RegionCutout,
   RegionBackgroundCutout,
 } from "shared/components/RegionCutout"
+import { selectDisplayedRegionId, useDappSelector } from "redux-state"
 
 export const mockData = {
   details:
@@ -17,16 +18,20 @@ export const mockData = {
   xpfn: "NFT Collector",
 } as const
 
-export default function RegionHeader({ regionId }: { regionId: string }) {
+export default function RegionHeader() {
+  const regionId = useDappSelector(selectDisplayedRegionId)
+
+  if (!regionId) return null
+
   const data = { ...mockData, ...getRegionData(regionId) }
 
   return (
     <header className="column">
       <div className="region_header_bg">
-        <RegionBackgroundCutout regionId={regionId} />
+        <RegionBackgroundCutout />
       </div>
       <div className="region_thumb">
-        <RegionCutout regionId={regionId} />
+        <RegionCutout />
       </div>
       <h1>{data.name}</h1>
       <div className="region_details_header column">

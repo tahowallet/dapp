@@ -1,15 +1,14 @@
 import React from "react"
+import { selectDisplayedRegionId, useDappSelector } from "redux-state"
 import Button from "shared/components/Button"
 import RegionBanner from "shared/components/RegionModal/RegionBanner"
 import { useMapContext } from "shared/hooks"
 
-type BannerTakeToNodeProps = {
-  regionId: string
-}
-
 const MY_NODE_ID = "19" // id to be changed
 
-export default function BannerTakeToNode({ regionId }: BannerTakeToNodeProps) {
+export default function BannerTakeToNode() {
+  const regionId = useDappSelector(selectDisplayedRegionId)
+
   const { onRegionClick } = useMapContext().current
 
   if (regionId === MY_NODE_ID) return null
