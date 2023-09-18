@@ -1,9 +1,13 @@
-import React, { useCallback, useLayoutEffect, useState } from "react"
+import React, { useCallback, useEffect, useLayoutEffect, useState } from "react"
 import { selectIsDefaultMapMode } from "redux-state/selectors/map"
-import { useDappSelector } from "redux-state"
 import RegionModal from "shared/components/RegionModal"
 import backgroundImg from "public/dapp_map_bg.webp"
 import { useValueRef } from "shared/hooks"
+import {
+  setDisplayedRegionId,
+  useDappDispatch,
+  useDappSelector,
+} from "redux-state"
 import InteractiveMap from "./InteractiveMap"
 import { MapContext } from "../../shared/hooks/map"
 import JoinRegion from "./JoinRegion"
@@ -30,6 +34,12 @@ export default function MapWrapper() {
   }, [])
 
   const [regionId, setRegionId] = useState<null | string>(null)
+
+  const dispatch = useDappDispatch()
+
+  useEffect(() => {
+    dispatch(setDisplayedRegionId(regionId))
+  }, [dispatch, regionId])
 
   const contextRef = useValueRef(() => ({
     onRegionClick: (id: string) => {
@@ -60,11 +70,11 @@ export default function MapWrapper() {
       <MapContext.Provider value={contextRef}>
         <MemoizedInteractiveMap />
         {regionId && (
-          <RegionModal regionId={regionId} onClose={handleClose}>
+          <RegionModal onClose={handleClose}>
             {isDefaultMapMode ? (
-              <RegionDetails regionId={regionId} onClose={handleClose} />
+              <RegionDetails onClose={handleClose} />
             ) : (
-              <JoinRegion regionId={regionId} />
+              <JoinRegion />
             )}
           </RegionModal>
         )}

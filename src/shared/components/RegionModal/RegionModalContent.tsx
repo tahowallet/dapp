@@ -1,6 +1,7 @@
 import React from "react"
 import Modal from "shared/components/Modal"
 import {
+  selectDisplayedRegionId,
   selectIsJoinRegionMapMode,
   useDappDispatch,
   useDappSelector,
@@ -14,17 +15,19 @@ import RegionHeader from "./RegionHeader"
 import Button from "../Button"
 
 export default function RegionModalContent({
-  regionId,
   children,
   onClose,
 }: {
-  regionId: string
   children: React.ReactNode
   onClose: () => void
 }) {
   const isJoinRegionMode = useDappSelector(selectIsJoinRegionMapMode)
+  const regionId = useDappSelector(selectDisplayedRegionId)
+
   const location = useHistory()
   const dispatch = useDappDispatch()
+
+  if (!regionId) return null
 
   const handleClose = () => {
     onClose()
@@ -32,6 +35,7 @@ export default function RegionModalContent({
     dispatch(setSelectedRegionId(regionId))
     location.push(ROUTES.CLAIM.DETAILS_SIGN)
   }
+
   return (
     <Modal.Content>
       <div className="modal">
@@ -40,7 +44,7 @@ export default function RegionModalContent({
             row_end: isJoinRegionMode,
           })}
         >
-          <RegionHeader regionId={regionId} />
+          <RegionHeader />
           {isJoinRegionMode && (
             <div>
               <Button onClick={handleClose} type="primary" size="large">
