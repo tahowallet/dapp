@@ -162,7 +162,13 @@ export default function RegionModal({
 
   const transitions = useSpringTransition(regionId, {
     from: { opacity: 0 },
-    enter: { opacity: 1 },
+    enter: {
+      opacity: 1,
+      height: "100vh",
+      overflow: "hidden auto",
+      paddingTop: 104,
+      paddingBottom: 90,
+    },
     leave: { opacity: 0 },
     exitBeforeEnter: true,
     config: { duration: 200, easing: easings.easeOutQuad },
@@ -174,7 +180,7 @@ export default function RegionModal({
         <PrevBtn
           style={{
             position: "absolute",
-            top: "68px",
+            top: 187,
             left: -80,
             zIndex: 1,
             transform: "translateX(-100%)",
@@ -184,7 +190,7 @@ export default function RegionModal({
         <NextBtn
           style={{
             position: "absolute",
-            top: "68px",
+            top: 187,
             right: -80,
             zIndex: 1,
             transform: "translateX(100%)",
@@ -193,7 +199,7 @@ export default function RegionModal({
         />
         <animated.div style={props}>
           {transitions((style, item) => (
-            <animated.div style={{ ...style }}>
+            <animated.div style={{ ...style }} className="no_scrollbar">
               <RegionModalContent regionId={item} onClose={onClose}>
                 {children}
               </RegionModalContent>

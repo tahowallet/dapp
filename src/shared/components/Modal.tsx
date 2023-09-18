@@ -125,7 +125,6 @@ function Content({
           align-items: center;
           backdrop-filter: blur(26px);
           color: #e4eeee;
-          max-height: 90vh;
           background: radial-gradient(
               57.41% 54.95% at 64.58% 47.64%,
               rgba(27, 97, 94, 0) 0%,
