@@ -16,7 +16,7 @@ export default function Accordion({
   title,
   icon,
   iconColor,
-  type = "frame",
+  type = "default",
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
