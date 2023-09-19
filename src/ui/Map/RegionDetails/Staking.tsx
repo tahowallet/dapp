@@ -20,12 +20,6 @@ import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 // TODO change to the correct address
 const VE_TOKEN_ADDRESS = CONTRACT_Taho
 
-// Test data to display valid banner
-const VOTING: boolean = false
-const STAKED: string | boolean = "disabled"
-const HAS_ENOUGH_FUNDS: boolean = true
-const HAS_ANOTHER_NODE: boolean = true
-
 function isDisabledStake(
   balance: bigint,
   stakingAddress: string | null,
@@ -68,7 +62,7 @@ type StakingProps = {
 export default function Staking({ close }: StakingProps) {
   const dispatch = useDappDispatch()
 
-  const selectedRegionAddress = useDappSelector(selectDisplayedRegionAddress)
+  const displayedRegionAddress = useDappSelector(selectDisplayedRegionAddress)
   const stakingRegionContractAddress = useDappSelector(
     selectStakingRegionAddress
   )
@@ -86,33 +80,38 @@ export default function Staking({ close }: StakingProps) {
   const disabledStake = isDisabledStake(
     tahoBalance,
     stakingRegionContractAddress,
-    selectedRegionAddress
+    displayedRegionAddress
   )
   const disabledUnstake = isDisabledUnstake(
     alreadyStakeAmount,
     stakingRegionContractAddress,
-    selectedRegionAddress
+    displayedRegionAddress
   )
 
   const stakeTransaction = async () => {
     const amount = userAmountToBigInt(stakeAmount)
-    if (selectedRegionAddress && amount) {
+    if (displayedRegionAddress && amount) {
       dispatch(
         stakeTaho({
-          regionContractAddress: selectedRegionAddress,
+          regionContractAddress: displayedRegionAddress,
           amount,
         })
       )
     }
   }
+
+  const shouldLinkToStakingNode =
+    stakingRegionContractAddress !== null &&
+    displayedRegionAddress !== null &&
+    isSameAddress(stakingRegionContractAddress, displayedRegionAddress)
+
+  const shouldLinkToReferrals = !shouldLinkToStakingNode && tahoBalance === 0n
+
   return (
     <>
-      {HAS_ANOTHER_NODE && !VOTING && STAKED === "disabled" && (
-        <BannerTakeToNode />
-      )}
-      {!HAS_ENOUGH_FUNDS && STAKED === "disabled" && (
-        <BannerEarn close={close} />
-      )}
+      {shouldLinkToStakingNode && <BannerTakeToNode />}
+      {shouldLinkToReferrals && <BannerEarn close={close} />}
+
       <div className="staking">
         <div
           className={classNames("stake_control", {
