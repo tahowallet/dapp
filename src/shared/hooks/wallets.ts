@@ -10,6 +10,7 @@ import {
   fetchWalletBalances,
   resetBalances,
 } from "redux-state"
+import { BALANCE_UPDATE_INTERVAL } from "shared/constants"
 import { useInterval } from "./helpers"
 
 export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
@@ -26,6 +27,10 @@ export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   return arbitrumProvider
 }
 
+// Balance update is set to 30 seconds for now to ensure it is not too frequent
+// but it can be adjusted if needed. We should be able to fetch balances when needed by
+// using the `fetchWalletBalances` action. This hook is just to ensure balances are
+// updated periodically.
 export function useBalanceFetch() {
   const dispatch = useDappDispatch()
   const account = useDappSelector(selectWalletAddress)
@@ -36,7 +41,7 @@ export function useBalanceFetch() {
         dispatch(fetchWalletBalances())
       }
     },
-    account ? 30 * 1000 : null
+    account ? BALANCE_UPDATE_INTERVAL : null
   )
 }
 

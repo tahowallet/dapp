@@ -36,12 +36,14 @@ export default function TokenAmountInput({
   inputLabel,
   amount,
   tokenAddress,
+  disabled,
   onChange,
 }: {
   label?: string
   inputLabel: string
   amount: string
   tokenAddress: string
+  disabled?: boolean
   onChange: (value: string) => void
 }) {
   const balance = useDappSelector((state) =>
@@ -62,12 +64,14 @@ export default function TokenAmountInput({
         type="number"
         label={inputLabel}
         value={amount}
+        disabled={disabled}
         onChange={onChange}
         validate={(value) => handleValidate(value, balance)}
         rightComponent={
           <Button
             type="tertiary"
             size="medium"
+            isDisabled={disabled}
             onMouseDown={(event) => {
               event.preventDefault()
               onChange(maxAmount)

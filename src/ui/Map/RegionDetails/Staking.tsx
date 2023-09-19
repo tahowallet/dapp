@@ -4,14 +4,18 @@ import Button from "shared/components/Button"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { TransactionProgressStatus } from "shared/types"
 import {
-  selectRegionById,
   stakeTaho,
   useDappDispatch,
   useDappSelector,
+  selectDisplayedRegionAddress,
+  selectTokenBalanceByAddress,
+  selectStakingRegionAddress,
 } from "redux-state"
-import { userAmountToBigInt } from "shared/utils"
-import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
+import { userAmountToBigInt, isSameAddress } from "shared/utils"
+import classNames from "classnames"
+import { TAHO_ADDRESS } from "shared/constants"
 import BannerEarn from "./RegionBanners/BannerEarn"
+import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 
 // TODO change to the correct address
 const VE_TOKEN_ADDRESS = CONTRACT_Taho
@@ -22,47 +26,105 @@ const STAKED: string | boolean = "disabled"
 const HAS_ENOUGH_FUNDS: boolean = true
 const HAS_ANOTHER_NODE: boolean = true
 
+function isDisabledStake(
+  balance: bigint,
+  stakingAddress: string | null,
+  selectedRegionAddress: string | null
+) {
+  if (balance === 0n) return true
+
+  if (
+    stakingAddress &&
+    selectedRegionAddress &&
+    !isSameAddress(stakingAddress, selectedRegionAddress)
+  )
+    return true
+
+  return false
+}
+
+function isDisabledUnstake(
+  stakeAmount: bigint | null,
+  stakingAddress: string | null,
+  selectedRegionAddress: string | null
+) {
+  if (
+    stakingAddress &&
+    selectedRegionAddress &&
+    isSameAddress(stakingAddress, selectedRegionAddress)
+  ) {
+    if (stakeAmount && stakeAmount > 0n) return false
+
+    return true
+  }
+
+  return true
+}
+
 type StakingProps = {
-  regionId: string
   close: () => void
 }
 
-export default function Staking({ regionId, close }: StakingProps) {
+export default function Staking({ close }: StakingProps) {
   const dispatch = useDappDispatch()
-  const region = useDappSelector((state) => selectRegionById(state, regionId))
+
+  const selectedRegionAddress = useDappSelector(selectDisplayedRegionAddress)
+  const stakingRegionContractAddress = useDappSelector(
+    selectStakingRegionAddress
+  )
+
+  const tahoBalance = useDappSelector((state) =>
+    selectTokenBalanceByAddress(state, TAHO_ADDRESS)
+  )
+  const alreadyStakeAmount = 0n // TODO: find out how much veTaho user has in this region
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)
 
+  const disabledStake = isDisabledStake(
+    tahoBalance,
+    stakingRegionContractAddress,
+    selectedRegionAddress
+  )
+  const disabledUnstake = isDisabledUnstake(
+    alreadyStakeAmount,
+    stakingRegionContractAddress,
+    selectedRegionAddress
+  )
+
   const stakeTransaction = async () => {
     const amount = userAmountToBigInt(stakeAmount)
-    if (region.regionContractAddress && amount) {
+    if (selectedRegionAddress && amount) {
       dispatch(
         stakeTaho({
-          regionContractAddress: region.regionContractAddress,
+          regionContractAddress: selectedRegionAddress,
           amount,
         })
       )
     }
   }
-
   return (
     <>
       {HAS_ANOTHER_NODE && !VOTING && STAKED === "disabled" && (
-        <BannerTakeToNode regionId={regionId} />
+        <BannerTakeToNode />
       )}
       {!HAS_ENOUGH_FUNDS && STAKED === "disabled" && (
         <BannerEarn close={close} />
       )}
       <div className="staking">
-        <div className="stake_control">
+        <div
+          className={classNames("stake_control", {
+            disabled: disabledStake,
+          })}
+        >
           <div className="stake_control_header">
             <h3 style={{ color: "var(--trading-in)" }}>Stake</h3>
             <TokenAmountInput
               label="Wallet balance:"
               inputLabel="Stake amount"
+              disabled={disabledStake}
               amount={stakeAmount}
               tokenAddress={CONTRACT_Taho}
               onChange={setStakeAmount}
@@ -76,12 +138,17 @@ export default function Staking({ regionId, close }: StakingProps) {
             Stake $TAHO
           </Button>
         </div>
-        <div className="stake_control">
+        <div
+          className={classNames("stake_control", {
+            disabled: disabledUnstake,
+          })}
+        >
           <div className="stake_control_header">
             <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
             <TokenAmountInput
               label="Staked amount:"
               inputLabel="Unstake amount"
+              disabled={disabledUnstake}
               amount={unstakeAmount}
               tokenAddress={VE_TOKEN_ADDRESS}
               onChange={setUnstakeAmount}
@@ -119,6 +186,9 @@ export default function Staking({ regionId, close }: StakingProps) {
           gap: 14px;
           border-radius: 8px;
           background: var(--primary-p1-40);
+        }
+        .disabled {
+          opacity: 0.5;
         }
       `}</style>
     </>

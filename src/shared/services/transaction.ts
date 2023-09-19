@@ -99,7 +99,10 @@ class TransactionService {
       if (!this.arbitrumProvider) {
         throw new Error(ERROR_MESSAGE.NO_ARBITRUM_PROVIDER)
       }
-      return await transactionBuilder(this.arbitrumProvider, data)
+
+      const response = await transactionBuilder(this.arbitrumProvider, data)
+
+      return response
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Failed to read data from the blockchain", error)

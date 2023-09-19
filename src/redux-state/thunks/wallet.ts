@@ -91,7 +91,7 @@ export const fetchWalletBalances = createDappAsyncThunk(
   async (_, { dispatch, extra: { transactionService } }) => {
     const account = await transactionService.getSignerAddress()
 
-    if (!account) return
+    if (!account) return null
 
     const tahoBalance =
       (await transactionService.read(getBalance, {
@@ -99,13 +99,15 @@ export const fetchWalletBalances = createDappAsyncThunk(
         account,
       })) ?? 0n
 
-    const eth = await transactionService.getEthBalance()
+    const ethBalance = await transactionService.getEthBalance()
 
     const balances: TokenBalances = {
       [TAHO_ADDRESS]: { symbol: "TAHO", balance: tahoBalance },
-      [ETH_ADDRESS]: { symbol: "ETH", balance: eth },
+      [ETH_ADDRESS]: { symbol: "ETH", balance: ethBalance },
     }
 
     dispatch(updateBalances(balances))
+
+    return balances
   }
 )

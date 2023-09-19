@@ -8,6 +8,7 @@ import {
 import Modal from "shared/components/Modal"
 import { regions } from "shared/constants"
 import { useMapContext } from "shared/hooks"
+import { selectDisplayedRegionId, useDappSelector } from "redux-state"
 import RegionModalContent from "./RegionModalContent"
 
 function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
@@ -124,25 +125,25 @@ function NextBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function RegionModal({
-  regionId,
   onClose,
   children,
 }: {
-  regionId: string
   onClose: () => void
   children: React.ReactNode
 }) {
+  const initialRegionId = useDappSelector(selectDisplayedRegionId)
+
   const mapContext = useMapContext()
 
   const [prevRegion, nextRegion] = useMemo(() => {
-    const index = regions.findIndex((region) => region.id === regionId)
+    const index = regions.findIndex((region) => region.id === initialRegionId)
 
     const prev =
       index - 1 < 0 ? regions[regions.length - 1].id : regions[index - 1].id
     const next =
       index + 1 === regions.length ? regions[0].id : regions[index + 1].id
     return [prev, next]
-  }, [regionId])
+  }, [initialRegionId])
 
   const [props] = useSpring(
     () => ({
@@ -160,7 +161,7 @@ export default function RegionModal({
     []
   )
 
-  const transitions = useSpringTransition(regionId, {
+  const transitions = useSpringTransition(initialRegionId, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
@@ -192,9 +193,9 @@ export default function RegionModal({
           onClick={() => mapContext.current.onRegionClick(nextRegion)}
         />
         <animated.div style={props}>
-          {transitions((style, item) => (
+          {transitions((style) => (
             <animated.div style={{ ...style }}>
-              <RegionModalContent regionId={item} onClose={onClose}>
+              <RegionModalContent onClose={onClose}>
                 {children}
               </RegionModalContent>
             </animated.div>

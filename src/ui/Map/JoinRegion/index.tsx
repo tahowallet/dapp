@@ -4,6 +4,7 @@ import Icon from "shared/components/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import starIcon from "shared/assets/icons/star.svg"
 import RegionIcon from "shared/components/RegionIcon"
+import { selectDisplayedRegionId, useDappSelector } from "redux-state"
 
 const EPOCH = {
   number: "1",
@@ -23,7 +24,11 @@ const REGION_ACTIONS_MOCK = [
   },
 ]
 
-export default function JoinRegion({ regionId }: { regionId: string }) {
+export default function JoinRegion() {
+  const regionId = useDappSelector(selectDisplayedRegionId)
+
+  if (!regionId) return null
+
   return (
     <div className="region column">
       <div className="details">
@@ -73,6 +78,7 @@ export default function JoinRegion({ regionId }: { regionId: string }) {
               title={title}
               icon={starIcon}
               iconColor="var(--semantic-success)"
+              type="frame"
             >
               <div className="description">{description}</div>
             </Accordion>
@@ -111,7 +117,6 @@ export default function JoinRegion({ regionId }: { regionId: string }) {
         }
 
         .rewards_actions {
-          max-width: 650px;
           gap: 16px;
         }
         .description {
