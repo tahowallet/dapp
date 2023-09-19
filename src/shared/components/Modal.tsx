@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import React from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { easings, useSpring, animated } from "@react-spring/web"
 
 import Portal from "./Portal"
@@ -103,6 +103,48 @@ function Container({
   )
 }
 
+function ScrollableContainer({
+  children,
+  type = "freeform",
+  onClickOutside = noop,
+}: ModalProps) {
+  const [isModalCentered, setIsModalCentered] = useState<boolean>(true)
+
+  const adjustModalPosition = useCallback(() => {
+    const modal = document.querySelector(".scrollable_modal > *")
+    if (!modal) return
+
+    const windowHeight = window.innerHeight
+    const modalHeight = modal.getBoundingClientRect().height
+
+    setIsModalCentered(windowHeight >= modalHeight + 290)
+  }, [])
+
+  useEffect(() => {
+    setTimeout(adjustModalPosition, 400)
+    window.addEventListener("resize", adjustModalPosition)
+
+    return () => window.removeEventListener("resize", adjustModalPosition)
+  }, [adjustModalPosition])
+
+  return (
+    <Container type={type} onClickOutside={onClickOutside}>
+      <div className="no_scrollbar scrollable_modal">{children}</div>
+      <style jsx>
+        {`
+          .scrollable_modal {
+            height: 100vh;
+            padding: 150px 0 140px;
+            overflow: hidden auto;
+            display: flex;
+            align-items: ${isModalCentered ? "center" : "flex-start"};
+          }
+        `}
+      </style>
+    </Container>
+  )
+}
+
 /**
  * Modal content wrapper, contains backdrop and shadow styles
  */
@@ -179,6 +221,6 @@ function AnimatedContent({ children }: { children: React.ReactNode }) {
   )
 }
 
-const Modal = { Container, Content, AnimatedContent }
+const Modal = { Container, ScrollableContainer, Content, AnimatedContent }
 
 export default Modal

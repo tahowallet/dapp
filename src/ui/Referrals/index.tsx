@@ -28,7 +28,7 @@ export default function Referrals() {
   }
 
   return (
-    <Modal.Container type="map-without-overlay">
+    <Modal.ScrollableContainer type="map-without-overlay">
       <Modal.AnimatedContent>
         <div className="referrals_container column_center">
           <div className="referrals_header">
@@ -153,6 +153,6 @@ export default function Referrals() {
           }
         `}</style>
       </Modal.AnimatedContent>
-    </Modal.Container>
+    </Modal.ScrollableContainer>
   )
 }
