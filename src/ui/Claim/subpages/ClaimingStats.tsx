@@ -35,7 +35,7 @@ export default function ClaimingStats() {
           <div className="stats_card_label">population</div>
           <div className="stats_card_value">{MOCK_REGION.population}</div>
           <div className="stats_card_region">
-            <RegionCutout regionId={MOCK_REGION.id} />
+            <RegionCutout />
           </div>
         </div>
       </div>

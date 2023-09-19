@@ -29,7 +29,13 @@ declare const CONTRACT_DevGrantEscrowDeployer: string
 
 declare const CONTRACT_GameParameters: string
 
-declare const CONTRACT_Game: string
+declare const CONTRACT_Xp: string
+
+declare const CONTRACT_XpFactoryDeployer: string
+
+declare const CONTRACT_GameDeployer: string
+
+declare const CONTRACT_Elections: string
 
 declare const CONTRACT_DeFiNodeVeTaho: string
 
