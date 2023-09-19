@@ -1,7 +1,10 @@
 import { providers, Contract } from "ethers"
+import { ReadTransactionBuilder } from "shared/types"
 import { tahoDeployerAbi } from "./abi"
 
 // eslint-disable-next-line import/prefer-default-export
-export function getTahoDeployerContract(provider: providers.Provider) {
-  return new Contract(CONTRACT_TahoDeployer, tahoDeployerAbi, provider)
-}
+export const getTahoDeployerContract: ReadTransactionBuilder<
+  null,
+  Contract
+> = async (provider: providers.Provider) =>
+  new Contract(CONTRACT_TahoDeployer, tahoDeployerAbi, provider)

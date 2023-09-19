@@ -13,6 +13,8 @@ export default store
 
 export * from "./thunks/claim"
 export * from "./thunks/wallet"
+export * from "./thunks/lp"
+export * from "./thunks/map"
 
 export * from "./slices/claim"
 export * from "./slices/wallet"

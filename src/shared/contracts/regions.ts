@@ -1,28 +1,29 @@
-import { RegionContractData } from "shared/types/map"
-import { Contract, providers } from "ethers"
+import { RegionContractDataWithId, ReadTransactionBuilder } from "shared/types"
+import { Contract } from "ethers"
 import { getTahoDeployerContract } from "./game"
 import { nodeAbi } from "./abi"
 
-export function getRegionContract(
-  provider: providers.Provider,
-  regionContractAddress: string
-): Contract {
-  return new Contract(regionContractAddress, nodeAbi, provider)
-}
+export const getRegionContract: ReadTransactionBuilder<
+  { regionContractAddress: string },
+  Contract
+> = async (provider, { regionContractAddress }) =>
+  new Contract(regionContractAddress, nodeAbi, provider)
 
-export function getRegionVeTokenAddress(
-  provider: providers.Provider,
-  regionContractAddress: string
-): Promise<string> {
-  const regionTokenContract = getRegionContract(provider, regionContractAddress)
+export const getRegionVeTokenAddress: ReadTransactionBuilder<
+  { regionContractAddress: string },
+  string
+> = async (provider, { regionContractAddress }) => {
+  const regionTokenContract = await getRegionContract(provider, {
+    regionContractAddress,
+  })
   return regionTokenContract.veTaho()
 }
 
-export async function getRegionAddresses(
-  provider: providers.Provider,
-  { regions }: { regions: { id: string; data: RegionContractData }[] }
-): Promise<{ id: string; address: string }[]> {
-  const tahoDeployerContract = getTahoDeployerContract(provider)
+export const getRegionTokenAddresses: ReadTransactionBuilder<
+  { regions: RegionContractDataWithId[] },
+  { id: string; address: string }[]
+> = async (provider, { regions }) => {
+  const tahoDeployerContract = await getTahoDeployerContract(provider, null)
 
   const regionAddresses = await Promise.all(
     regions.map(async ({ id, data }) => {

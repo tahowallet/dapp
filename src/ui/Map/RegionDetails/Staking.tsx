@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import TokenAmountInput from "shared/components/TokenAmountInput"
 import Button from "shared/components/Button"
 import { isSameAddress } from "shared/utils"
 import {
   selectDisplayedRegionAddress,
   selectStakingData,
-  selectWalletAddress,
+  selectTokenBalanceByAddress,
   useDappSelector,
 } from "redux-state"
-import { useArbitrumProvider } from "shared/hooks"
-import { getBalance } from "shared/contracts"
 import classNames from "classnames"
+import { TAHO_ADDRESS } from "shared/constants"
 import BannerEarn from "./RegionBanners/BannerEarn"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 
@@ -63,7 +62,10 @@ type StakingProps = {
 }
 
 export default function Staking({ close }: StakingProps) {
-  const address = useDappSelector(selectWalletAddress)
+  const tahoBalance = useDappSelector((state) =>
+    selectTokenBalanceByAddress(state, TAHO_ADDRESS)
+  )
+
   // TODO: Ultimately, we shouldn't use claim flow data.
   // This should be change when the staking data will be available in redux
   const { stakeAmount: alreadyStakeAmount, regionContractAddress } =
@@ -71,24 +73,8 @@ export default function Staking({ close }: StakingProps) {
 
   const selectedRegionAddress = useDappSelector(selectDisplayedRegionAddress)
 
-  const provider = useArbitrumProvider()
-
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
-  const [tahoBalance, setTahoBalance] = useState(0n)
-
-  useEffect(() => {
-    const fetchBalance = async () => {
-      if (!provider) {
-        return
-      }
-
-      const newBalance = await getBalance(provider, CONTRACT_Taho, address)
-      setTahoBalance(newBalance)
-    }
-
-    fetchBalance()
-  }, [address, provider])
 
   const disabledStake = isDisabledStake(
     tahoBalance,

@@ -1,17 +1,17 @@
 import { useConnectWallet } from "@web3-onboard/react"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { ethers } from "ethers"
 import {
   useDappDispatch,
-  useDappSelector,
-  selectWalletAddress,
   connectWalletGlobally,
   disconnectWalletGlobally,
-  selectRegions,
-  setRegionAddresses,
+  useDappSelector,
+  selectWalletAddress,
+  fetchWalletBalances,
+  resetBalances,
 } from "redux-state"
-import { TransactionProgressStatus } from "shared/types"
-import { getRegionAddresses } from "shared/contracts"
+import { BALANCE_UPDATE_INTERVAL } from "shared/constants"
+import { useInterval } from "./helpers"
 
 export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   const [{ wallet }] = useConnectWallet()
@@ -27,8 +27,27 @@ export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   return arbitrumProvider
 }
 
+// Balance update is set to 30 seconds for now to ensure it is not too frequent
+// but it can be adjusted if needed. We should be able to fetch balances when needed by
+// using the `fetchWalletBalances` action. This hook is just to ensure balances are
+// updated periodically.
+export function useBalanceFetch() {
+  const dispatch = useDappDispatch()
+  const account = useDappSelector(selectWalletAddress)
+
+  useInterval(
+    () => {
+      if (account && dispatch) {
+        dispatch(fetchWalletBalances())
+      }
+    },
+    account ? BALANCE_UPDATE_INTERVAL : null
+  )
+}
+
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
+  const arbitrumProvider = useArbitrumProvider()
   const dispatch = useDappDispatch()
 
   const account = wallet?.accounts[0]
@@ -36,12 +55,14 @@ export function useWallet() {
   const avatar = account?.ens?.avatar?.url ?? ""
 
   useEffect(() => {
-    if (address) {
-      dispatch(connectWalletGlobally({ address, avatar }))
+    if (address && arbitrumProvider) {
+      dispatch(connectWalletGlobally({ address, avatar, arbitrumProvider }))
+      dispatch(fetchWalletBalances())
     } else {
       dispatch(disconnectWalletGlobally())
+      dispatch(resetBalances())
     }
-  }, [address, avatar, dispatch])
+  }, [address, arbitrumProvider, avatar, dispatch])
 }
 
 export function useConnect() {
@@ -52,99 +73,4 @@ export function useConnect() {
   )
 
   return { isConnected: !!wallet, connect, disconnect: disconnectBound }
-}
-
-export function useSendTransaction<T>(
-  transactionBuilder: (
-    provider: ethers.providers.Provider,
-    address: string,
-    data: T
-  ) => Promise<ethers.providers.TransactionRequest | null>
-):
-  | {
-      status: TransactionProgressStatus
-      isReady: false
-      send: null
-    }
-  | {
-      status: TransactionProgressStatus
-      isReady: true
-      send: (
-        data: T,
-        contractAddress?: string
-      ) => Promise<ethers.providers.TransactionReceipt | null>
-    } {
-  const provider = useArbitrumProvider()
-  const address = useDappSelector(selectWalletAddress)
-  const [status, setStatus] = useState<TransactionProgressStatus>(
-    TransactionProgressStatus.Idle
-  )
-
-  if (!provider) return { isReady: false, send: null, status }
-
-  const signer = provider.getSigner()
-
-  const send = async (
-    data: T,
-    contractAddress?: string
-  ): Promise<ethers.providers.TransactionReceipt | null> => {
-    const txDetails = await transactionBuilder(
-      provider,
-      contractAddress || address,
-      data
-    )
-
-    if (!txDetails) {
-      setStatus(TransactionProgressStatus.Idle)
-      return null
-    }
-
-    try {
-      setStatus(TransactionProgressStatus.Signing)
-      const transaction = await signer.sendTransaction({
-        from: address,
-        nonce: await provider.getTransactionCount(address, "latest"),
-        ...txDetails,
-      })
-
-      setStatus(TransactionProgressStatus.Sending)
-
-      const receipt = await transaction.wait()
-
-      setStatus(TransactionProgressStatus.Done)
-
-      return receipt
-    } catch (e) {
-      setStatus(TransactionProgressStatus.Idle)
-      return null
-    }
-  }
-
-  return { isReady: true, send, status }
-}
-
-export function useFetchRegionsContracts() {
-  const dispatch = useDappDispatch()
-  const provider = useArbitrumProvider()
-  const regionsById = useDappSelector(selectRegions)
-  const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
-
-  useEffect(() => {
-    if (!provider || hasAlreadyFetched) return
-
-    const fetch = async () => {
-      const regions = Object.entries(regionsById)
-        .filter(([__, { regionContractAddress }]) => !regionContractAddress)
-        .map(([id, data]) => ({ id, data }))
-
-      const regionAddresses = await getRegionAddresses(provider, {
-        regions,
-      })
-
-      setHasAlreadyFetched(true)
-      dispatch(setRegionAddresses(regionAddresses))
-    }
-
-    fetch()
-  }, [provider, hasAlreadyFetched, regionsById, dispatch])
 }
