@@ -71,8 +71,12 @@ export default function Staking({ close }: StakingProps) {
     selectTokenBalanceByAddress(state, TAHO_ADDRESS)
   )
   const alreadyStakeAmount = 0n // TODO: find out how much veTaho user has in this region
+
   const [stakeAmount, setStakeAmount] = useState("")
+  const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
+
   const [unstakeAmount, setUnstakeAmount] = useState("")
+  const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)
@@ -127,11 +131,13 @@ export default function Staking({ close }: StakingProps) {
               amount={stakeAmount}
               tokenAddress={CONTRACT_Taho}
               onChange={setStakeAmount}
+              onValidate={(isValid) => setIsStakeAmountValid(isValid)}
             />
           </div>
           <Button
             type="primary"
             size="medium"
+            isDisabled={!isStakeAmountValid || !Number(stakeAmount)}
             onClick={() => setIsStakeTransactionModalOpen(true)}
           >
             Stake $TAHO
@@ -151,9 +157,14 @@ export default function Staking({ close }: StakingProps) {
               amount={unstakeAmount}
               tokenAddress={VE_TOKEN_ADDRESS}
               onChange={setUnstakeAmount}
+              onValidate={(isValid) => setIsUnstakeAmountValid(isValid)}
             />
           </div>
-          <Button type="primary" size="medium" isDisabled>
+          <Button
+            type="primary"
+            size="medium"
+            isDisabled={!isUnstakeAmountValid || !Number(unstakeAmount)}
+          >
             Unstake $TAHO
           </Button>
         </div>
