@@ -13,6 +13,7 @@ import { getBalance } from "shared/contracts"
 import classNames from "classnames"
 import BannerEarn from "./RegionBanners/BannerEarn"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
+import ModalLeavingNode from "../Modals/ModalLeavingNode"
 
 // TODO change to the correct address
 const VE_TOKEN_ADDRESS = CONTRACT_Taho
@@ -76,6 +77,9 @@ export default function Staking({ close }: StakingProps) {
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
   const [tahoBalance, setTahoBalance] = useState(0n)
+
+  const [isLeavingModalVisible, setIsLeavingModalVisible] =
+    useState<boolean>(false)
 
   useEffect(() => {
     const fetchBalance = async () => {
@@ -146,11 +150,19 @@ export default function Staking({ close }: StakingProps) {
               onChange={setUnstakeAmount}
             />
           </div>
-          <Button type="primary" size="medium" isDisabled>
+          <Button
+            type="primary"
+            size="medium"
+            onClick={() => setIsLeavingModalVisible(true)}
+            isDisabled
+          >
             Unstake $TAHO
           </Button>
         </div>
       </div>
+      {isLeavingModalVisible && (
+        <ModalLeavingNode close={() => setIsLeavingModalVisible(false)} />
+      )}
       <style jsx>{`
         .staking {
           display: flex;
