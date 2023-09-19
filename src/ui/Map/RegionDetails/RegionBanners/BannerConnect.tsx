@@ -5,13 +5,12 @@ import RegionBanner from "shared/components/RegionModal/RegionBanner"
 import { useConnect } from "shared/hooks"
 
 export default function BannerConnect() {
-  const { isConnected, connect } = useConnect()
-
-  if (isConnected) return null
+  const { connect } = useConnect()
 
   return (
     <RegionBanner
       label="Before joining a region, you need to connect your Taho Wallet"
+      showRegionInfo
       button={
         <Button
           iconSrc={walletIcon}

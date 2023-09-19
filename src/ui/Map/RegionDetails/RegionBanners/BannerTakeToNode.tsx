@@ -13,6 +13,7 @@ export default function BannerTakeToNode() {
   return (
     <RegionBanner
       label="You are already staked in another node,"
+      showRegionInfo
       style={{ marginTop: 24, marginBottom: 0 }}
       button={
         <Button
