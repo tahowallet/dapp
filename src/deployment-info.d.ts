@@ -9,7 +9,7 @@ declare const CONTRACT_Taho: string
 
 declare const CONTRACT_ApprovalTarget: string
 
-declare const CONTRACT_VoteWithFriendsDeployer: string
+declare const CONTRACT_ClaimWithFriendsDeployer: string
 
 declare const CONTRACT_BalancerPoolDeployer: string
 
@@ -27,15 +27,17 @@ declare const CONTRACT_HuntingGroundRewardsEscrowDeployer: string
 
 declare const CONTRACT_DevGrantEscrowDeployer: string
 
-declare const CONTRACT_GameParameters: string
+declare const CONTRACT_GameDeployer: string
+
+declare const CONTRACT_GameParametersDeployer: string
+
+declare const CONTRACT_Elections: string
 
 declare const CONTRACT_Xp: string
 
 declare const CONTRACT_XpFactoryDeployer: string
 
-declare const CONTRACT_GameDeployer: string
-
-declare const CONTRACT_Elections: string
+declare const CONTRACT_XpMerkleDistributorFactoryDeployer: string
 
 declare const CONTRACT_DeFiNodeVeTaho: string
 

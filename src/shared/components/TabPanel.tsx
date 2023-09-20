@@ -1,12 +1,15 @@
-import React, { useState } from "react"
+import React from "react"
 import classnames from "classnames"
 
 export default function TabPanel({
   tabs,
+  activeTab,
+  setActiveTab,
 }: {
+  activeTab: number
+  setActiveTab: (index: number) => void
   tabs: { label: string; component: React.ReactNode }[]
 }) {
-  const [activeTab, setActiveTab] = useState(0)
   return (
     <div>
       <ul>
