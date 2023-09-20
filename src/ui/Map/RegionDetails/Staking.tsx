@@ -10,6 +10,7 @@ import {
   selectDisplayedRegionAddress,
   selectTokenBalanceByAddress,
   selectStakingRegionAddress,
+  selectIsStakingRegionDisplayed,
 } from "redux-state"
 import { userAmountToBigInt, isSameAddress } from "shared/utils"
 import classNames from "classnames"
@@ -21,20 +22,11 @@ import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 const VE_TOKEN_ADDRESS = CONTRACT_Taho
 
 function isDisabledStake(
-  balance: bigint,
-  stakingAddress: string | null,
-  selectedRegionAddress: string | null
+  tahoBalance: bigint,
+  hasStakingRegion: boolean,
+  isStakingRegion: boolean
 ) {
-  if (balance === 0n) return true
-
-  if (
-    stakingAddress &&
-    selectedRegionAddress &&
-    !isSameAddress(stakingAddress, selectedRegionAddress)
-  )
-    return true
-
-  return false
+  return tahoBalance === 0n || (hasStakingRegion && !isStakingRegion)
 }
 
 function isDisabledUnstake(
@@ -42,6 +34,7 @@ function isDisabledUnstake(
   stakingAddress: string | null,
   selectedRegionAddress: string | null
 ) {
+  // TODO: refactor once we have staked amount
   if (
     stakingAddress &&
     selectedRegionAddress &&
@@ -66,6 +59,8 @@ export default function Staking({ close }: StakingProps) {
   const stakingRegionContractAddress = useDappSelector(
     selectStakingRegionAddress
   )
+  const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
+  const hasStakingRegion = !!stakingRegionContractAddress
 
   const tahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, TAHO_ADDRESS)
@@ -79,8 +74,8 @@ export default function Staking({ close }: StakingProps) {
 
   const disabledStake = isDisabledStake(
     tahoBalance,
-    stakingRegionContractAddress,
-    displayedRegionAddress
+    hasStakingRegion,
+    isStakingRegion
   )
   const disabledUnstake = isDisabledUnstake(
     alreadyStakeAmount,
@@ -88,7 +83,7 @@ export default function Staking({ close }: StakingProps) {
     displayedRegionAddress
   )
 
-  const stakeTransaction = async () => {
+  const stakeTransaction = () => {
     const amount = userAmountToBigInt(stakeAmount)
     if (displayedRegionAddress && amount) {
       dispatch(
@@ -100,16 +95,12 @@ export default function Staking({ close }: StakingProps) {
     }
   }
 
-  const shouldLinkToStakingNode =
-    stakingRegionContractAddress !== null &&
-    displayedRegionAddress !== null &&
-    isSameAddress(stakingRegionContractAddress, displayedRegionAddress)
-
-  const shouldLinkToReferrals = !shouldLinkToStakingNode && tahoBalance === 0n
+  const shouldLinkToNode = hasStakingRegion && !isStakingRegion
+  const shouldLinkToReferrals = !shouldLinkToNode && tahoBalance === 0n
 
   return (
     <>
-      {shouldLinkToStakingNode && <BannerTakeToNode />}
+      {shouldLinkToNode && <BannerTakeToNode />}
       {shouldLinkToReferrals && <BannerEarn close={close} />}
 
       <div className="staking">
@@ -132,6 +123,7 @@ export default function Staking({ close }: StakingProps) {
           <Button
             type="primary"
             size="medium"
+            isDisabled={disabledStake}
             onClick={() => setIsStakeTransactionModalOpen(true)}
           >
             Stake $TAHO
@@ -153,7 +145,7 @@ export default function Staking({ close }: StakingProps) {
               onChange={setUnstakeAmount}
             />
           </div>
-          <Button type="primary" size="medium" isDisabled>
+          <Button type="primary" size="medium" isDisabled={disabledUnstake}>
             Unstake $TAHO
           </Button>
         </div>

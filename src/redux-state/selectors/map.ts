@@ -38,11 +38,11 @@ export const selectDisplayedRegionAddress = createSelector(
   (regions, regionId) => regionId && regions[regionId]?.regionContractAddress
 )
 
-export const selectAreSameAddressesOfRegions = createSelector(
+export const selectIsStakingRegionDisplayed = createSelector(
   selectStakingRegionAddress,
   selectDisplayedRegionAddress,
   (stakingAddress, displayedAddress) =>
-    stakingAddress &&
-    displayedAddress &&
+    !!stakingAddress &&
+    !!displayedAddress &&
     isSameAddress(stakingAddress, displayedAddress)
 )

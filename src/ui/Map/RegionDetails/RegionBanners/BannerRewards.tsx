@@ -5,7 +5,7 @@ import RegionBanner from "shared/components/RegionModal/RegionBanner"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import RegionIcon from "shared/components/RegionIcon"
 import {
-  selectAreSameAddressesOfRegions,
+  selectIsStakingRegionDisplayed,
   selectDisplayedRegionId,
   useDappSelector,
 } from "redux-state"
@@ -20,13 +20,13 @@ const MOCKED_XP = {
 
 export default function BannerRewards() {
   const regionId = useDappSelector(selectDisplayedRegionId)
-  const areSameAddresses = useDappSelector(selectAreSameAddressesOfRegions)
+  const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
   const rewardAmount = MOCKED_XP.amount ?? 0
 
   // TODO: add a function body
   const handleClaimXP = () => {}
 
-  if (!regionId || (!areSameAddresses && rewardAmount === 0)) return null
+  if (!regionId || (!isStakingRegion && rewardAmount === 0)) return null
 
   return (
     <RegionBanner
