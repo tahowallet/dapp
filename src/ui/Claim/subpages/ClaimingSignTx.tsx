@@ -66,7 +66,10 @@ export default function ClaimingSignTx() {
           </Button>
         </div>
       </div>
-      {isTxModalOpen && <ClaimingTransactions />}
+      <ClaimingTransactions
+        isOpen={isTxModalOpen}
+        close={() => setIsTxModalOpen(false)}
+      />
       <style jsx>{`
         .sign_container {
           gap: 48px;

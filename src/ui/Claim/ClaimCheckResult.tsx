@@ -28,7 +28,8 @@ export default function ClaimCheckResult() {
   }, [dispatch])
 
   useEffect(() => {
-    if (provider) dispatch(fetchHasClaimed(provider))
+    // we need to schedule this after provider is ready
+    if (provider) dispatch(fetchHasClaimed())
   }, [dispatch, provider])
 
   if (hasClaimed) {

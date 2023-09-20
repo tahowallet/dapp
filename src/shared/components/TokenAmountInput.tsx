@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
+import { bigIntToUserAmount, userAmountToBigInt } from "shared/utils"
 import {
-  ETH_ADDRESS,
-  bigIntToUserAmount,
-  isSameAddress,
-  userAmountToBigInt,
-} from "shared/utils"
-import { useSelector } from "react-redux"
-import { selectWalletAddress } from "redux-state"
-import { useArbitrumProvider } from "shared/hooks"
-import { getBalance, getSymbol } from "shared/contracts"
+  selectTokenBalanceByAddress,
+  selectTokenSymbolByAddress,
+  useDappSelector,
+} from "redux-state"
 import SharedInput from "./Input"
 import Button from "./Button"
 
@@ -50,36 +46,14 @@ export default function TokenAmountInput({
   disabled?: boolean
   onChange: (value: string) => void
 }) {
-  const address = useSelector(selectWalletAddress)
-
-  const provider = useArbitrumProvider()
-
-  const [balance, setBalance] = useState(0n)
-  const [symbol, setSymbol] = useState("")
+  const balance = useDappSelector((state) =>
+    selectTokenBalanceByAddress(state, tokenAddress)
+  )
+  const symbol = useDappSelector((state) =>
+    selectTokenSymbolByAddress(state, tokenAddress)
+  )
 
   const maxAmount = bigIntToUserAmount(balance)
-
-  useEffect(() => {
-    const fetchTokenInfo = async () => {
-      if (!provider) {
-        return
-      }
-
-      if (isSameAddress(tokenAddress, ETH_ADDRESS)) {
-        const newEthBalance = (await provider.getBalance(address)).toBigInt()
-        setBalance(newEthBalance)
-        setSymbol("ETH")
-      } else {
-        const newBalance = await getBalance(provider, tokenAddress, address)
-        setBalance(newBalance)
-
-        const newSymbol = await getSymbol(provider, tokenAddress)
-        setSymbol(newSymbol)
-      }
-    }
-
-    fetchTokenInfo()
-  }, [address, provider, tokenAddress])
 
   return (
     <div>

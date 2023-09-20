@@ -6,15 +6,21 @@ import TransactionProgress, {
 
 type TransactionsModalProps = {
   title?: string
+  isOpen: boolean
+  close: () => void
   transactions?: ({ id: string } & TransactionProgressProps)[]
 }
 
 export default function TransactionsModal({
   title = "Signing transactions",
+  isOpen,
+  close,
   transactions = [],
 }: TransactionsModalProps) {
+  if (!isOpen) return null
+
   return (
-    <Modal.Container type="map-with-overlay">
+    <Modal.Container type="fullscreen" onClickOutside={close}>
       <Modal.Content>
         <div className="transactions_container column">
           <h1>{title}</h1>

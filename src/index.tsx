@@ -3,7 +3,11 @@ import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
-import { useFetchRegionsContracts, useWallet } from "shared/hooks"
+import {
+  useBalanceFetch,
+  useFetchRegionsContracts,
+  useWallet,
+} from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
 import { selectMapMode, useDappSelector } from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
@@ -21,6 +25,7 @@ function DApp() {
   const mapMode = useDappSelector(selectMapMode)
 
   useWallet()
+  useBalanceFetch()
   useFetchRegionsContracts()
 
   return (
