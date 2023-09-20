@@ -10,7 +10,7 @@ export default function BannerConnect() {
   return (
     <RegionBanner
       label="Before joining a region, you need to connect your Taho Wallet"
-      showRegionInfo
+      showHint
       button={
         <Button
           iconSrc={walletIcon}

@@ -5,7 +5,7 @@ import Icon from "../Icon"
 
 type RegionBannerProps = {
   label: ReactNode
-  showRegionInfo?: boolean
+  showHint?: boolean
   children?: React.ReactNode
   button: ReactElement<typeof Button>
   style?: CSSProperties
@@ -13,7 +13,7 @@ type RegionBannerProps = {
 
 export default function RegionBanner({
   label,
-  showRegionInfo = false,
+  showHint = false,
   children,
   button,
   style,
@@ -23,7 +23,7 @@ export default function RegionBanner({
       <div className="region_banner row" style={style}>
         <div>
           {label && <div className="region_banner_label">{label}</div>}
-          {showRegionInfo && (
+          {showHint && (
             <div className="region_banner_info">
               <Icon src={lightIcon} type="image" width="24px" height="24px" />
               <p className="region_banner_text">
