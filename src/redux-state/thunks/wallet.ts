@@ -88,8 +88,11 @@ export const disconnectWalletGlobally = createDappAsyncThunk(
 
 export const fetchWalletBalances = createDappAsyncThunk(
   "wallet/fetchWalletBalance",
-  async (_, { dispatch, extra: { transactionService } }) => {
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
     const account = await transactionService.getSignerAddress()
+    const {
+      map: { regions },
+    } = getState()
 
     if (!account) return null
 
@@ -99,11 +102,29 @@ export const fetchWalletBalances = createDappAsyncThunk(
         account,
       })) ?? 0n
 
+    const veTahoBalances = await Promise.all(
+      Object.values(regions).flatMap(async ({ veTokenContractAddress }) => {
+        if (!veTokenContractAddress) return []
+
+        const veTahoBalance =
+          (await transactionService.read(getBalance, {
+            tokenAddress: veTokenContractAddress,
+            account,
+          })) ?? 0n
+
+        return [
+          veTokenContractAddress,
+          { symbol: "TAHO", balance: veTahoBalance }, // displayed symbol for veTAHO is just TAHO
+        ]
+      })
+    )
+
     const ethBalance = await transactionService.getEthBalance()
 
     const balances: TokenBalances = {
       [TAHO_ADDRESS]: { symbol: "TAHO", balance: tahoBalance },
       [ETH_ADDRESS]: { symbol: "ETH", balance: ethBalance },
+      ...Object.fromEntries(veTahoBalances),
     }
 
     dispatch(updateBalances(balances))

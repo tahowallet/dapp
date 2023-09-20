@@ -38,6 +38,12 @@ export const selectDisplayedRegionAddress = createSelector(
   (regions, regionId) => regionId && regions[regionId]?.regionContractAddress
 )
 
+export const selectDisplayedRegionVeTokenAddress = createSelector(
+  selectRegions,
+  selectDisplayedRegionId,
+  (regions, regionId) => regionId && regions[regionId]?.veTokenContractAddress
+)
+
 export const selectIsStakingRegionDisplayed = createSelector(
   selectStakingRegionAddress,
   selectDisplayedRegionAddress,

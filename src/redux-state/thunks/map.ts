@@ -4,7 +4,6 @@ import { TAHO_ADDRESS } from "shared/constants"
 import {
   getAllowance,
   getRegionTokenAddresses,
-  getRegionVeTokenAddress,
   setAllowance,
   stake,
   unstake,
@@ -111,24 +110,18 @@ export const unstakeTaho = createDappAsyncThunk(
   async (
     {
       regionContractAddress,
+      veTokenContractAddress,
       amount,
-    }: { regionContractAddress: string; amount: bigint },
+    }: {
+      regionContractAddress: string
+      veTokenContractAddress: string
+      amount: bigint
+    },
     { dispatch, extra: { transactionService } }
   ) => {
-    const veTokenAddress = await transactionService.read(
-      getRegionVeTokenAddress,
-      {
-        regionContractAddress,
-      }
-    )
-
-    if (!veTokenAddress) {
-      return false
-    }
-
     const allowanceCorrect = await dispatch(
       ensureAllowance({
-        tokenAddress: veTokenAddress,
+        tokenAddress: veTokenContractAddress,
         spender: regionContractAddress,
         amount,
       })
