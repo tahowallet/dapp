@@ -47,6 +47,8 @@ export const claimTaho = createDappAsyncThunk(
       throw Error("No eligibility to claim")
     }
 
-    await transactionService.send(claim, { eligibility })
+    const receipt = await transactionService.send(claim, { eligibility })
+
+    return receipt
   }
 )
