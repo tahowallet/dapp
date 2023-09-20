@@ -97,6 +97,7 @@ export const {
   resetMap,
   setRegionAddresses,
   setDisplayedRegionId,
+  setStakingRegionId,
 } = mapSlice.actions
 
 export default mapSlice.reducer

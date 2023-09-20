@@ -9,6 +9,7 @@ import { getBalance } from "shared/contracts"
 import { ethers } from "ethers"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances } from "shared/types"
+import { setStakingRegionId } from "redux-state/slices/map"
 import createDappAsyncThunk from "../asyncThunk"
 
 export const fetchWalletName = createDappAsyncThunk(
@@ -96,6 +97,8 @@ export const fetchWalletBalances = createDappAsyncThunk(
 
     if (!account) return null
 
+    let stakingRegionId = null
+
     const tahoBalance =
       (await transactionService.read(getBalance, {
         tokenAddress: TAHO_ADDRESS,
@@ -103,20 +106,26 @@ export const fetchWalletBalances = createDappAsyncThunk(
       })) ?? 0n
 
     const veTahoBalances = await Promise.all(
-      Object.values(regions).flatMap(async ({ veTokenContractAddress }) => {
-        if (!veTokenContractAddress) return []
+      Object.entries(regions).flatMap(
+        async ([regionId, { veTokenContractAddress }]) => {
+          if (!veTokenContractAddress) return []
 
-        const veTahoBalance =
-          (await transactionService.read(getBalance, {
-            tokenAddress: veTokenContractAddress,
-            account,
-          })) ?? 0n
+          const veTahoBalance =
+            (await transactionService.read(getBalance, {
+              tokenAddress: veTokenContractAddress,
+              account,
+            })) ?? 0n
 
-        return [
-          veTokenContractAddress,
-          { symbol: "TAHO", balance: veTahoBalance }, // displayed symbol for veTAHO is just TAHO
-        ]
-      })
+          if (veTahoBalance > 0n) {
+            stakingRegionId = regionId
+          }
+
+          return [
+            veTokenContractAddress,
+            { symbol: "TAHO", balance: veTahoBalance }, // displayed symbol for veTAHO is just TAHO
+          ]
+        }
+      )
     )
 
     const ethBalance = await transactionService.getEthBalance()
@@ -128,6 +137,7 @@ export const fetchWalletBalances = createDappAsyncThunk(
     }
 
     dispatch(updateBalances(balances))
+    dispatch(setStakingRegionId(stakingRegionId))
 
     return balances
   }
