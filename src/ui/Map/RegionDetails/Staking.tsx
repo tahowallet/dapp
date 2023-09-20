@@ -15,6 +15,7 @@ import {
 import { userAmountToBigInt, isSameAddress } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
+import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import BannerEarn from "./RegionBanners/BannerEarn"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 
@@ -98,6 +99,8 @@ export default function Staking({ close }: StakingProps) {
   const shouldLinkToNode = hasStakingRegion && !isStakingRegion
   const shouldLinkToReferrals = !shouldLinkToNode && tahoBalance === 0n
 
+  const isCooldownPeriod = true
+
   return (
     <>
       {shouldLinkToNode && <BannerTakeToNode />}
@@ -129,26 +132,30 @@ export default function Staking({ close }: StakingProps) {
             Stake $TAHO
           </Button>
         </div>
-        <div
-          className={classNames("stake_control", {
-            disabled: disabledUnstake,
-          })}
-        >
-          <div className="stake_control_header">
-            <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
-            <TokenAmountInput
-              label="Staked amount:"
-              inputLabel="Unstake amount"
-              disabled={disabledUnstake}
-              amount={unstakeAmount}
-              tokenAddress={VE_TOKEN_ADDRESS}
-              onChange={setUnstakeAmount}
-            />
+        {!isCooldownPeriod ? (
+          <div
+            className={classNames("stake_control", {
+              disabled: disabledUnstake,
+            })}
+          >
+            <div className="stake_control_header">
+              <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
+              <TokenAmountInput
+                label="Staked amount:"
+                inputLabel="Unstake amount"
+                disabled={disabledUnstake}
+                amount={unstakeAmount}
+                tokenAddress={VE_TOKEN_ADDRESS}
+                onChange={setUnstakeAmount}
+              />
+            </div>
+            <Button type="primary" size="medium" isDisabled={disabledUnstake}>
+              Unstake $TAHO
+            </Button>
           </div>
-          <Button type="primary" size="medium" isDisabled={disabledUnstake}>
-            Unstake $TAHO
-          </Button>
-        </div>
+        ) : (
+          <UnstakeCooldown />
+        )}
       </div>
       <TransactionsModal
         isOpen={isStakeTransactionModalOpen}
