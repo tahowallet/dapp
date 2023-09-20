@@ -3,6 +3,7 @@ import TabPanel from "shared/components/TabPanel"
 import {
   selectEligibility,
   selectHasClaimed,
+  selectIsStakingRegionDisplayed,
   selectIsWalletConnected,
   selectStakingRegionAddress,
   useDappSelector,
@@ -13,6 +14,8 @@ import BannerConnect from "./RegionBanners/BannerConnect"
 import BannerJoin from "./RegionBanners/BannerJoin"
 import BannerClaim from "./RegionBanners/BannerClaim"
 import BannerRewards from "./RegionBanners/BannerRewards"
+
+const MOCKED_REWARD_AMOUNT = 20.123
 
 type RegionDetailsProps = {
   onClose: () => void
@@ -34,6 +37,9 @@ function RegionDetailsBanner({
   const stakingRegionAddress = useDappSelector(selectStakingRegionAddress)
   const eligibility = useDappSelector(selectEligibility)
   const hasClaimed = useDappSelector(selectHasClaimed)
+  const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
+  // TODO: use a correct data
+  const rewardAmount = MOCKED_REWARD_AMOUNT ?? 0
 
   if (!isConnected) {
     return <BannerConnect />
@@ -52,8 +58,11 @@ function RegionDetailsBanner({
     )
   }
 
-  if (stakingRegionAddress) {
-    return <BannerRewards />
+  if (
+    stakingRegionAddress &&
+    (isStakingRegion || (!isStakingRegion && rewardAmount > 0))
+  ) {
+    return <BannerRewards amount={rewardAmount} />
   }
 
   return null

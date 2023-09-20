@@ -4,29 +4,22 @@ import Icon from "shared/components/Icon"
 import RegionBanner from "shared/components/RegionModal/RegionBanner"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import RegionIcon from "shared/components/RegionIcon"
-import {
-  selectIsStakingRegionDisplayed,
-  selectDisplayedRegionId,
-  useDappSelector,
-} from "redux-state"
+import { selectDisplayedRegionId, useDappSelector } from "redux-state"
 
 // TODO: use a correct data
 const MOCKED_XP = {
-  amount: 20.123,
   name: "TAHO-XP-01",
   latestAmount: 12.237,
   weeks: 2,
 }
 
-export default function BannerRewards() {
+export default function BannerRewards({ amount }: { amount: number }) {
   const regionId = useDappSelector(selectDisplayedRegionId)
-  const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
-  const rewardAmount = MOCKED_XP.amount ?? 0
 
   // TODO: add a function body
   const handleClaimXP = () => {}
 
-  if (!regionId || (!isStakingRegion && rewardAmount === 0)) return null
+  if (!regionId) return null
 
   return (
     <RegionBanner
@@ -42,7 +35,7 @@ export default function BannerRewards() {
           size="medium"
           type="secondary"
           onClick={handleClaimXP}
-          isDisabled={rewardAmount === 0}
+          isDisabled={amount === 0}
         >
           Claim XP
         </Button>
@@ -56,10 +49,10 @@ export default function BannerRewards() {
             width="32px"
             color="var(--primary-p1-100)"
           />
-          <div className="token_amount">{rewardAmount}</div>
+          <div className="token_amount">{amount}</div>
           <div className="token_name">{MOCKED_XP.name}</div>
         </div>
-        {rewardAmount !== 0 && (
+        {amount !== 0 && (
           <div className="xp_banner_date">
             Latest: {MOCKED_XP.latestAmount} XP (week {MOCKED_XP.weeks}/12)
           </div>
