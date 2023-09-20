@@ -70,8 +70,7 @@ export default function Staking({ close }: StakingProps) {
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
 
-  const [isLeavingModalVisible, setIsLeavingModalVisible] =
-    useState<boolean>(false)
+  const [isLeavingModalVisible, setIsLeavingModalVisible] = useState(false)
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)

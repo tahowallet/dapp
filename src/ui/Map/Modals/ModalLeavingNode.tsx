@@ -8,8 +8,6 @@ type ModalLeavingNodeProps = {
   close: () => void
 }
 
-// TODO: add Modal.AnimatedContent after "modals-position" branch is merged to main
-
 export default function ModalLeavingNode({ close }: ModalLeavingNodeProps) {
   return (
     <>

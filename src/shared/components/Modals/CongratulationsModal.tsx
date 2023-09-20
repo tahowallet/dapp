@@ -6,14 +6,14 @@ type CongratulationsModalProps = {
   children: string | ReactNode
   header: string | ReactNode
   subheader?: string | ReactNode
-  button: ReactElement<typeof Button> | ReactElement<typeof Button>[]
+  buttons: ReactElement<typeof Button> | ReactElement<typeof Button>[]
 }
 
 export default function CongratulationsModal({
   children,
   header,
   subheader,
-  button,
+  buttons,
 }: CongratulationsModalProps) {
   return (
     <>
@@ -24,8 +24,8 @@ export default function CongratulationsModal({
               <h1>{header}</h1>
               {subheader && <div className="modal_subheader">{subheader}</div>}
             </div>
-            <div className="modal_content">{children}</div>
-            <div className="modal_controls">{button}</div>
+            <div className="modal_content column_center">{children}</div>
+            <div className="modal_controls column_center">{buttons}</div>
           </div>
         </Modal.Content>
       </Modal.Container>
@@ -50,16 +50,10 @@ export default function CongratulationsModal({
           padding: 48px;
           background: var(--primary-p1-100-60);
           margin: 40px 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
         }
         .modal_controls {
           width: 100%;
           padding: 0 48px 48px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
           gap: 24px;
         }
       `}</style>

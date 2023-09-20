@@ -102,8 +102,7 @@ export default function RegionHeader() {
           .region_thumb {
             position: absolute;
             right: 0;
-            top: 0;
-            transform: translateY(-48px);
+            top: -48px;
           }
 
           .region_description {

@@ -1,33 +1,40 @@
 import React from "react"
 import { MAP_BOX, getRegionData } from "shared/constants"
 import backgroundImg from "public/dapp_map_bg.webp"
-import { selectDisplayedRegionId, useDappSelector } from "redux-state"
+import {
+  selectDisplayedRegionId,
+  selectIsStakingRegionDisplayed,
+  selectWalletAvatar,
+  useDappSelector,
+} from "redux-state"
 import RegionPin from "./RegionPin"
+
+const CUTOUT_HEIGHT = 208
+const CUTOUT_WIDTH = 356
+const CUTOUT_RATIO = CUTOUT_HEIGHT / CUTOUT_WIDTH
 
 export default function RegionCutout() {
   const regionId = useDappSelector(selectDisplayedRegionId)
+  const isStakedRegion = useDappSelector(selectIsStakingRegionDisplayed)
+  const walletAvatar = useDappSelector(selectWalletAvatar)
 
   if (!regionId) return null
 
   const pathData = getRegionData(regionId)
-
-  const CUTOUT_HEIGHT = 208
-  const CUTOUT_WIDTH = 356
-  const CUTOUT_RATIO = CUTOUT_HEIGHT / CUTOUT_WIDTH
-  const PATHDATA_RATIO = pathData.h / pathData.w
+  const pathDataRatio = pathData.h / pathData.w
 
   const pathCutoutXref = `cutout_${regionId}_path`
   return (
     <>
       <div className="region_cutout">
-        <RegionPin />
+        {isStakedRegion && <RegionPin avatar={walletAvatar} />}
         <svg
           viewBox={`0 0 ${Math.ceil(pathData.w * 0.25)} ${Math.ceil(
             pathData.h * 0.25
           )}`}
           preserveAspectRatio="xMidYMid meet"
           style={{
-            ...(PATHDATA_RATIO / CUTOUT_RATIO < 1
+            ...(pathDataRatio / CUTOUT_RATIO < 1
               ? { width: 356 }
               : { height: 208 }),
             filter:

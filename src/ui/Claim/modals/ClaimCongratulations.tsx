@@ -20,7 +20,7 @@ export default function ClaimCongratulations({
       <CongratulationsModal
         header="Congratulations!"
         subheader="You just claimed"
-        button={<Button size="large">Go to settlement</Button>}
+        buttons={<Button size="large">Go to settlement</Button>}
       >
         <RegionIcon
           regionId="4"
