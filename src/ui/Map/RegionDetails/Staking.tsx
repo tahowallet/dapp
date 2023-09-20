@@ -88,7 +88,7 @@ export default function Staking({ close }: StakingProps) {
     displayedRegionAddress
   )
 
-  const stakeTransaction = async () => {
+  const stakeTransaction = () => {
     const amount = userAmountToBigInt(stakeAmount)
     if (displayedRegionAddress && amount) {
       dispatch(

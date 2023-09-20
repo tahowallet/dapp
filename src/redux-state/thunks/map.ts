@@ -18,15 +18,14 @@ export const fetchRegionAddresses = createDappAsyncThunk(
       map: { regions },
     } = getState()
 
-    const regionsWithoutAddresses = Object.entries(regions).reduce(
-      (acc, [id, data]) => {
-        if (data.regionContractAddress === null) {
-          acc.push({ id, data })
-        }
-        return acc
-      },
-      [] as RegionContractDataWithId[]
-    )
+    const regionsWithoutAddresses = Object.entries(regions).reduce<
+      RegionContractDataWithId[]
+    >((acc, [id, data]) => {
+      if (data.regionContractAddress === null) {
+        acc.push({ id, data })
+      }
+      return acc
+    }, [])
 
     const regionAddresses = await transactionService.read(
       getRegionTokenAddresses,
