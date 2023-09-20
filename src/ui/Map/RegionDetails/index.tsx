@@ -12,6 +12,7 @@ import Staking from "./Staking"
 import BannerConnect from "./RegionBanners/BannerConnect"
 import BannerJoin from "./RegionBanners/BannerJoin"
 import BannerClaim from "./RegionBanners/BannerClaim"
+import BannerRewards from "./RegionBanners/BannerRewards"
 
 type RegionDetailsProps = {
   onClose: () => void
@@ -49,6 +50,10 @@ function RegionDetailsBanner({
         isDisabled={activeTab === STAKE_TAB_INDEX}
       />
     )
+  }
+
+  if (stakingRegionAddress) {
+    return <BannerRewards />
   }
 
   return null

@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
+import { isSameAddress } from "shared/utils"
 
 export const selectMapMode = (state: RootState) => state.map.mode
 
@@ -35,4 +36,13 @@ export const selectDisplayedRegionAddress = createSelector(
   selectRegions,
   selectDisplayedRegionId,
   (regions, regionId) => regionId && regions[regionId]?.regionContractAddress
+)
+
+export const selectAreSameAddressesOfRegions = createSelector(
+  selectStakingRegionAddress,
+  selectDisplayedRegionAddress,
+  (stakingAddress, displayedAddress) =>
+    stakingAddress &&
+    displayedAddress &&
+    isSameAddress(stakingAddress, displayedAddress)
 )
