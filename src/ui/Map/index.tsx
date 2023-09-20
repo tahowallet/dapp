@@ -10,8 +10,8 @@ import {
 } from "redux-state"
 import InteractiveMap from "./InteractiveMap"
 import { MapContext } from "../../shared/hooks/map"
-import JoinRegion from "./JoinRegion"
 import RegionDetails from "./RegionDetails"
+import Rewards from "./RegionDetails/Rewards"
 
 const MemoizedInteractiveMap = React.memo(InteractiveMap)
 
@@ -74,7 +74,8 @@ export default function MapWrapper() {
             {isDefaultMapMode ? (
               <RegionDetails onClose={handleClose} />
             ) : (
-              <JoinRegion />
+              // TODO: update if claim flow will be used
+              <Rewards />
             )}
           </RegionModal>
         )}

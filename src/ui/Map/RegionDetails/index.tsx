@@ -5,6 +5,7 @@ import Staking from "./Staking"
 import BannerConnect from "./RegionBanners/BannerConnect"
 import BannerJoin from "./RegionBanners/BannerJoin"
 import BannerClaim from "./RegionBanners/BannerClaim"
+import Rewards from "./Rewards"
 
 // Test data to display valid banner
 const VOTING: boolean = false
@@ -25,7 +26,7 @@ export default function RegionDetails({ onClose }: RegionDetailsProps) {
         tabs={[
           {
             label: "Rewards",
-            component: null, // TODO: <Rewards />
+            component: <Rewards />,
           },
           {
             label: "Stake",
