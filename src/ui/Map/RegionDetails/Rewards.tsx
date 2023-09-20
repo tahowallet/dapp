@@ -56,7 +56,7 @@ function RewardsBanner({ regionId }: { regionId: string }) {
           Your estimated reward:
           <Icon color="var(--secondary-s1-80)" src={infoIcon} />
         </div>
-        <div className="amount">
+        <div className="amount" style={{ fontSize: 24 }}>
           <RegionIcon
             regionId={regionId}
             type="circle"
@@ -103,6 +103,7 @@ function RewardsBanner({ regionId }: { regionId: string }) {
           gap: 8px;
           font-family: var(--serif);
           color: var(--off-white);
+          font-weight: 500;
         }
         .gap {
           gap: 4px;
@@ -118,7 +119,11 @@ function RewardsActions() {
       <h3 className="header row">
         Your weekly action needed to receive rewards
         <div className="header_icon row_center">
-          <Icon color="var(--secondary-s1-60)" src={contactsIcon} />
+          <Icon
+            color="var(--secondary-s1-60)"
+            src={contactsIcon}
+            width="18px"
+          />
           Rulebook
         </div>
       </h3>
@@ -146,7 +151,7 @@ function RewardsActions() {
           gap: 8px;
         }
         .rewards_actions {
-          gap: 16px;
+          gap: 20px;
         }
         .rewards_actions_description {
           color: var(--secondary-s1-80);
@@ -169,7 +174,7 @@ export default function Rewards() {
       <style jsx>{`
         .region {
           padding-top: 32px;
-          gap: 20px;
+          gap: 35px;
         }
       `}</style>
     </div>
