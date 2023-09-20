@@ -9,6 +9,7 @@ import {
   unstake,
 } from "shared/contracts"
 import { RegionContractDataWithId } from "shared/types"
+import { fetchWalletBalances } from "./wallet"
 
 export const fetchRegionAddresses = createDappAsyncThunk(
   "map/fetchRegionAddresses",
@@ -96,10 +97,14 @@ export const stakeTaho = createDappAsyncThunk(
       return false
     }
 
-    const receipt = transactionService.send(stake, {
+    const receipt = await transactionService.send(stake, {
       regionContractAddress,
       amount,
     })
+
+    if (receipt) {
+      dispatch(fetchWalletBalances())
+    }
 
     return !!receipt
   }
@@ -131,10 +136,14 @@ export const unstakeTaho = createDappAsyncThunk(
       return false
     }
 
-    const receipt = transactionService.send(unstake, {
+    const receipt = await transactionService.send(unstake, {
       regionContractAddress,
       amount,
     })
+
+    if (receipt) {
+      dispatch(fetchWalletBalances())
+    }
 
     return !!receipt
   }

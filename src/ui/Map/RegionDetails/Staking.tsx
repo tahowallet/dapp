@@ -12,6 +12,7 @@ import {
   selectStakingRegionAddress,
   selectIsStakingRegionDisplayed,
   selectDisplayedRegionVeTokenAddress,
+  unstakeTaho,
 } from "redux-state"
 import { userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -58,6 +59,8 @@ export default function Staking({ close }: StakingProps) {
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)
+  const [isUnstakeTransactionModalOpen, setIsUnstakeTransactionModalOpen] =
+    useState(false)
 
   const disabledStake = isFormDisabled(
     tahoBalance,
@@ -76,6 +79,19 @@ export default function Staking({ close }: StakingProps) {
       dispatch(
         stakeTaho({
           regionContractAddress: displayedRegionAddress,
+          amount,
+        })
+      )
+    }
+  }
+
+  const unstakeTransaction = () => {
+    const amount = userAmountToBigInt(unstakeAmount)
+    if (displayedRegionAddress && displayedRegionVeTokenAddress && amount) {
+      dispatch(
+        unstakeTaho({
+          regionContractAddress: displayedRegionAddress,
+          veTokenContractAddress: displayedRegionVeTokenAddress,
           amount,
         })
       )
@@ -142,6 +158,7 @@ export default function Staking({ close }: StakingProps) {
             isDisabled={
               disabledUnstake || !isUnstakeAmountValid || !Number(unstakeAmount)
             }
+            onClick={() => setIsUnstakeTransactionModalOpen(true)}
           >
             Unstake $TAHO
           </Button>
@@ -157,6 +174,19 @@ export default function Staking({ close }: StakingProps) {
             buttonLabel: "Approve & stake",
             status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
             sendTransaction: stakeTransaction,
+          },
+        ]}
+      />
+      <TransactionsModal
+        isOpen={isUnstakeTransactionModalOpen}
+        close={() => setIsUnstakeTransactionModalOpen(false)}
+        transactions={[
+          {
+            id: "stake",
+            title: "Approve and unstake $TAHO",
+            buttonLabel: "Approve & unstake",
+            status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
+            sendTransaction: unstakeTransaction,
           },
         ]}
       />
