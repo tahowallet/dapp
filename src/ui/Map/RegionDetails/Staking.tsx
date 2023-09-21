@@ -11,6 +11,7 @@ import {
   selectTokenBalanceByAddress,
   selectStakingRegionAddress,
   selectIsStakingRegionDisplayed,
+  selectDisplayedRegionId,
 } from "redux-state"
 import { userAmountToBigInt, isSameAddress } from "shared/utils"
 import classNames from "classnames"
@@ -60,6 +61,7 @@ export default function Staking({ close }: StakingProps) {
   const stakingRegionContractAddress = useDappSelector(
     selectStakingRegionAddress
   )
+  const displayedRegionId = useDappSelector(selectDisplayedRegionId)
   const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
   const hasStakingRegion = !!stakingRegionContractAddress
 
@@ -158,8 +160,11 @@ export default function Staking({ close }: StakingProps) {
           </Button>
         </div>
       </div>
-      {isLeavingModalVisible && (
-        <ModalLeavingNode close={() => setIsLeavingModalVisible(false)} />
+      {isLeavingModalVisible && displayedRegionId && (
+        <ModalLeavingNode
+          regionId={displayedRegionId}
+          close={() => setIsLeavingModalVisible(false)}
+        />
       )}
       <TransactionsModal
         isOpen={isStakeTransactionModalOpen}

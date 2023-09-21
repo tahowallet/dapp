@@ -4,24 +4,32 @@ import Icon from "shared/components/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 import Button from "shared/components/Button"
 
+import { getRegionData } from "shared/constants"
+
 type ModalLeavingNodeProps = {
+  regionId: string
   close: () => void
 }
 
-export default function ModalLeavingNode({ close }: ModalLeavingNodeProps) {
+export default function ModalLeavingNode({
+  regionId,
+  close,
+}: ModalLeavingNodeProps) {
+  const { name: regionName } = getRegionData(regionId)
+
   return (
     <>
-      <Modal.Container type="fullscreen">
+      <Modal.Container type="fullscreen" onClickOutside={close}>
         <Modal.Content>
           <div className="modal">
-            <h1 className="modal_header">Leaving KryptoKeep</h1>
+            <h1 className="modal_header">Leaving {regionName}</h1>
             <div className="modal_infobox">
-              <div className="modal_hint">
+              <div className="modal_hint row_center">
                 <Icon src={lightIcon} type="image" width="24px" height="24px" />
                 <p className="modal_hint_text">Keep in mind</p>
               </div>
               <p>
-                If you leave KryptoKeep now, you are{" "}
+                If you leave {regionName} now, you are{" "}
                 <span>giving up the rewards</span> that you would receive this
                 week.
               </p>
@@ -61,8 +69,6 @@ export default function ModalLeavingNode({ close }: ModalLeavingNodeProps) {
           color: var(--secondary-s1-100);
         }
         .modal_hint {
-          display: flex;
-          align-items: center;
           margin-bottom: 8px;
         }
         .modal_hint_text {
