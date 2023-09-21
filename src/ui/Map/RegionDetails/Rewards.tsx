@@ -24,19 +24,19 @@ const REGION_ACTIONS_MOCK = [
   },
 ]
 
-function RewardsBanner({ regionId }: { regionId: string }) {
+function RewardsDetails({ regionId }: { regionId: string }) {
   return (
-    <div className="banner">
-      <div className="banner_details row">
+    <div className="content">
+      <div className="content_details row">
         <div className="column gap">
           <div className="row">
-            <div className="banner_details_weeks">Week {EPOCH.number}</div>
+            <div className="content_details_weeks">Week {EPOCH.number}</div>
             <span style={{ color: "var(--secondary-s1-70)" }}>/ 12</span>
           </div>
-          <div className="banner_details_range">{EPOCH.date}</div>
+          <div className="content_details_range">{EPOCH.date}</div>
         </div>
 
-        <div className="banner_details_token column">
+        <div className="content_details_token column">
           <h1 className="amount row_center">
             <RegionIcon
               regionId={regionId}
@@ -50,24 +50,24 @@ function RewardsBanner({ regionId }: { regionId: string }) {
         </div>
       </div>
       <style jsx>{`
-        .banner {
+        .content {
           background-color: var(--secondary-s1-10);
           border-radius: 8px;
         }
-        .banner_details {
+        .content_details {
           padding: 19px 24px;
           justify-content: space-between;
         }
-        .banner_details_weeks:after {
+        .content_details_weeks:after {
           content: " ";
           white-space: pre;
         }
-        .banner_details_range {
+        .content_details_range {
           font: var(--text-label);
           color: var(--secondary-s1-70);
         }
 
-        .banner_details_token {
+        .content_details_token {
           text-align: right;
           color: var(--secondary-s1-70);
         }
@@ -141,7 +141,7 @@ export default function Rewards() {
 
   return (
     <div className="region column">
-      <RewardsBanner regionId={regionId} />
+      <RewardsDetails regionId={regionId} />
       <RewardsActions />
       <style jsx>{`
         .region {
