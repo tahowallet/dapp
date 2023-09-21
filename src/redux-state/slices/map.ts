@@ -61,7 +61,7 @@ const mapSlice = createSlice({
     ) => {
       immerState.overlay = overlay
     },
-    setRegionAddresses: (
+    setRegionContractData: (
       immerState,
       {
         payload: regionAddresses,
@@ -95,7 +95,7 @@ export const {
   setMapMode,
   setMapOverlay,
   resetMap,
-  setRegionAddresses,
+  setRegionContractData,
   setDisplayedRegionId,
   setStakingRegionId,
 } = mapSlice.actions

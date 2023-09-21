@@ -1,5 +1,5 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRegionAddresses } from "redux-state/slices/map"
+import { setRegionContractData } from "redux-state/slices/map"
 import { TAHO_ADDRESS } from "shared/constants"
 import {
   getAllowance,
@@ -35,7 +35,7 @@ export const fetchRegionAddresses = createDappAsyncThunk(
     )
 
     if (regionAddresses !== null) {
-      dispatch(setRegionAddresses(regionAddresses))
+      dispatch(setRegionContractData(regionAddresses))
     }
 
     return regionAddresses
