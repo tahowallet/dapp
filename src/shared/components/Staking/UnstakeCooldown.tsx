@@ -1,6 +1,25 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
-export default function UnstakeCooldown() {
+const parseTimeLeft = (stakingTime: number): string => {
+  const timeLeft = 3600 - Math.ceil((Date.now() - stakingTime) / 1000)
+
+  return new Date(timeLeft * 1000).toISOString().slice(14, 19)
+}
+
+export default function UnstakeCooldown({ stakedAt }: { stakedAt: number }) {
+  const [timeRemaining, setTimeRemaining] = useState<string>("")
+
+  useEffect(() => {
+    setTimeRemaining(parseTimeLeft(stakedAt))
+
+    const interval = setInterval(
+      () => setTimeRemaining(parseTimeLeft(stakedAt)),
+      1000
+    )
+
+    return () => clearInterval(interval)
+  }, [stakedAt])
+
   return (
     <>
       <div className="unstake_cooldown">
@@ -16,7 +35,9 @@ export default function UnstakeCooldown() {
           </p>
           <div className="unstake_cooldown_period_time">
             <p style={{ color: "var(--secondary-s1-80)" }}>Time remaining:</p>
-            <div className="unstake_cooldown_period_time_counter">59:45</div>
+            <div className="unstake_cooldown_period_time_counter">
+              {timeRemaining}
+            </div>
           </div>
         </div>
       </div>

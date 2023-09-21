@@ -99,7 +99,7 @@ export default function Staking({ close }: StakingProps) {
   const shouldLinkToNode = hasStakingRegion && !isStakingRegion
   const shouldLinkToReferrals = !shouldLinkToNode && tahoBalance === 0n
 
-  const isCooldownPeriod = true
+  const isCooldownPeriod = false
 
   return (
     <>
@@ -154,7 +154,7 @@ export default function Staking({ close }: StakingProps) {
             </Button>
           </div>
         ) : (
-          <UnstakeCooldown />
+          <UnstakeCooldown stakedAt={Date.now()} /> // TODO: change stakedAt to real value
         )}
       </div>
       <TransactionsModal
