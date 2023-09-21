@@ -109,7 +109,7 @@ export default function ClaimCheck() {
   }
 
   return (
-    <Modal.Container type="map-without-overlay">
+    <Modal.ScrollableContainer topSpacing={217} type="map-without-overlay">
       <Modal.AnimatedContent>
         <div className="check_container">
           <ClaimHeader
@@ -199,6 +199,6 @@ export default function ClaimCheck() {
           }
         `}</style>
       </Modal.AnimatedContent>
-    </Modal.Container>
+    </Modal.ScrollableContainer>
   )
 }

@@ -28,7 +28,7 @@ export default function Referrals() {
   }
 
   return (
-    <Modal.ScrollableContainer type="map-without-overlay">
+    <Modal.ScrollableContainer topSpacing={176} type="map-without-overlay">
       <Modal.AnimatedContent>
         <div className="referrals_container column_center">
           <div className="referrals_header">

@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import React, { useCallback, useEffect, useState } from "react"
+import React from "react"
 import { easings, useSpring, animated } from "@react-spring/web"
 
 import Portal from "./Portal"
@@ -103,45 +103,38 @@ function Container({
   )
 }
 
+type ScrollableContainerProps = {
+  /**
+   * position of the modal from top of the screen
+   */
+  topSpacing: number
+} & ModalProps
+
+/**
+ * Modal container, allows for scrolling when modal does not fit the window
+ */
 function ScrollableContainer({
+  topSpacing,
   children,
   type = "freeform",
   onClickOutside = noop,
-}: ModalProps) {
-  const [isModalCentered, setIsModalCentered] = useState<boolean>(true)
-
-  const adjustModalPosition = useCallback(() => {
-    const modal = document.querySelector(".scrollable_modal > *")
-    if (!modal) return
-
-    const windowHeight = window.innerHeight
-    const modalHeight = modal.getBoundingClientRect().height
-
-    setIsModalCentered(windowHeight >= modalHeight + 290)
-  }, [])
-
-  useEffect(() => {
-    setTimeout(adjustModalPosition, 400)
-    window.addEventListener("resize", adjustModalPosition)
-
-    return () => window.removeEventListener("resize", adjustModalPosition)
-  }, [adjustModalPosition])
-
+}: ScrollableContainerProps) {
   return (
-    <Container type={type} onClickOutside={onClickOutside}>
-      <div className="no_scrollbar scrollable_modal">{children}</div>
+    <>
+      <Container type={type} onClickOutside={onClickOutside}>
+        <div className="no_scrollbar scrollable_modal">{children}</div>
+      </Container>
       <style jsx>
         {`
           .scrollable_modal {
             height: 100vh;
-            padding: 150px 0 140px;
+            padding-top: ${topSpacing}px;
+            padding-bottom: 160px;
             overflow: hidden auto;
-            display: flex;
-            align-items: ${isModalCentered ? "center" : "flex-start"};
           }
         `}
       </style>
-    </Container>
+    </>
   )
 }
 
