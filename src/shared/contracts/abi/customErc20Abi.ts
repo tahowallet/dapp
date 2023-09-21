@@ -281,9 +281,9 @@ export default [
     name: "checkpoints",
     outputs: [
       {
-        internalType: "uint32",
+        internalType: "uint64",
         name: "fromBlock",
-        type: "uint32",
+        type: "uint64",
       },
       {
         internalType: "uint96",

@@ -9,13 +9,23 @@ export default [
         type: "string",
       },
       {
+        internalType: "string",
+        name: "_xpTokenNamePrefix",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_xpTokenSymbolPrefix",
+        type: "string",
+      },
+      {
         internalType: "contract GameParameters",
         name: "_gameParameters",
         type: "address",
       },
       {
-        internalType: "contract NodeMap",
-        name: "_nodeMap",
+        internalType: "contract Game",
+        name: "_game",
         type: "address",
       },
       {
@@ -153,6 +163,45 @@ export default [
     inputs: [
       {
         indexed: false,
+        internalType: "address",
+        name: "newVersion",
+        type: "address",
+      },
+    ],
+    name: "UpgradeFinalized",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newVersion",
+        type: "address",
+      },
+    ],
+    name: "UpgradeInitiated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "xp",
+        type: "address",
+      },
+    ],
+    name: "XpCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
         internalType: "bytes32",
         name: "newXpFunctionHash",
         type: "bytes32",
@@ -260,6 +309,57 @@ export default [
   },
   {
     inputs: [],
+    name: "createXp",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "merkleRoot",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "distributeXp",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "finalizeUpgrade",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "game",
+    outputs: [
+      {
+        internalType: "contract Game",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "gameParameters",
     outputs: [
       {
@@ -285,6 +385,19 @@ export default [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_newVersion",
+        type: "address",
+      },
+    ],
+    name: "initiateUpgrade",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "name",
     outputs: [
@@ -299,10 +412,10 @@ export default [
   },
   {
     inputs: [],
-    name: "nodeMap",
+    name: "newVersion",
     outputs: [
       {
-        internalType: "contract NodeMap",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -480,12 +593,51 @@ export default [
   },
   {
     inputs: [],
+    name: "xp",
+    outputs: [
+      {
+        internalType: "contract Xp",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "xpFunctionHash",
     outputs: [
       {
         internalType: "bytes32",
         name: "",
         type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "xpTokenNamePrefix",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "xpTokenSymbolPrefix",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
       },
     ],
     stateMutability: "view",

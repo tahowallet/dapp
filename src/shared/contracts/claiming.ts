@@ -4,18 +4,18 @@ import {
   ReadTransactionBuilder,
   WriteTransactionBuilder,
 } from "../types"
-import { voteWithFriendsAbi } from "./abi"
+import { claimWithFriendsAbi } from "./abi"
 import { getTahoDeployerContract } from "./game"
 
-export const getVoteWithFriendsContract: ReadTransactionBuilder<
+export const getClaimWithFriendsContract: ReadTransactionBuilder<
   null,
   Contract
 > = async (provider) => {
   const tahoDeployer = await getTahoDeployerContract(provider, null)
 
-  const voteWithFriendsAddress = await tahoDeployer.VOTE_WITH_FRIENDS()
+  const claimWithFriendsAddress = await tahoDeployer.CLAIM_WITH_FRIENDS()
 
-  return new Contract(voteWithFriendsAddress, voteWithFriendsAbi, provider)
+  return new Contract(claimWithFriendsAddress, claimWithFriendsAbi, provider)
 }
 
 export const claim: WriteTransactionBuilder<{
@@ -23,9 +23,9 @@ export const claim: WriteTransactionBuilder<{
 }> = async (provider, account, { eligibility }) => {
   if (eligibility.index === null || eligibility.proof === null) return null
 
-  const voteWithFriends = await getVoteWithFriendsContract(provider, null)
+  const claimWithFriends = await getClaimWithFriendsContract(provider, null)
 
-  return voteWithFriends.populateTransaction.claim(
+  return claimWithFriends.populateTransaction.claim(
     eligibility.index,
     account,
     eligibility.amount,
@@ -39,9 +39,9 @@ export const claimWithReferral: WriteTransactionBuilder<{
 }> = async (provider, account, { eligibility, referralAccount }) => {
   if (eligibility.index === null || eligibility.proof === null) return null
 
-  const voteWithFriends = await getVoteWithFriendsContract(provider, null)
+  const claimWithFriends = await getClaimWithFriendsContract(provider, null)
 
-  return voteWithFriends.populateTransaction.claimWithCommunityCode(
+  return claimWithFriends.populateTransaction.claimWithCommunityCode(
     eligibility.index,
     account,
     eligibility.amount,
@@ -56,7 +56,7 @@ export const hasAlreadyClaimed: ReadTransactionBuilder<
 > = async (provider, { eligibility }) => {
   if (eligibility.index === null || eligibility.proof === null) return false
 
-  const voteWithFriends = await getVoteWithFriendsContract(provider, null)
+  const claimWithFriends = await getClaimWithFriendsContract(provider, null)
 
-  return voteWithFriends.isClaimed(eligibility.index)
+  return claimWithFriends.isClaimed(eligibility.index)
 }

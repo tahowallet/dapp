@@ -1,5 +1,5 @@
 import { ethers } from "ethers"
-import { gameParametersAbi } from "shared/contracts/abi"
+import { gameParametersAbi, tahoDeployerAbi } from "shared/contracts/abi"
 
 const TAHO_MULTISIG = "0xe8746F8728D152FCc9F6549C2baBAa79f5BF2E08"
 
@@ -21,11 +21,19 @@ export async function unlockStaking() {
   await impersonate(TAHO_MULTISIG)
   await setBalance(TAHO_MULTISIG, "0x1000000000000")
 
+  const tahoDeployer = new ethers.Contract(
+    CONTRACT_TahoDeployer,
+    tahoDeployerAbi,
+    localhostProvider
+  )
+
+  const gameParamsAddress = await tahoDeployer.GAME_PARAMETERS()
   const contract = new ethers.Contract(
-    CONTRACT_GameParameters,
+    gameParamsAddress,
     gameParametersAbi,
     localhostProvider
   )
+
   const signer = localhostProvider.getSigner(TAHO_MULTISIG)
 
   const tx = await contract.populateTransaction.updateStakeLockTime(
