@@ -14,7 +14,7 @@ import {
   selectDisplayedRegionVeTokenAddress,
   unstakeTaho,
 } from "redux-state"
-import { userAmountToBigInt } from "shared/utils"
+import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import BannerEarn from "./RegionBanners/BannerEarn"
@@ -128,7 +128,9 @@ export default function Staking({ close }: StakingProps) {
             type="primary"
             size="medium"
             isDisabled={
-              disabledStake || !isStakeAmountValid || !Number(stakeAmount)
+              disabledStake ||
+              !isStakeAmountValid ||
+              !isValidInputAmount(stakeAmount)
             }
             onClick={() => setIsStakeTransactionModalOpen(true)}
           >
@@ -156,7 +158,9 @@ export default function Staking({ close }: StakingProps) {
             type="primary"
             size="medium"
             isDisabled={
-              disabledUnstake || !isUnstakeAmountValid || !Number(unstakeAmount)
+              disabledUnstake ||
+              !isUnstakeAmountValid ||
+              !isValidInputAmount(unstakeAmount)
             }
             onClick={() => setIsUnstakeTransactionModalOpen(true)}
           >
