@@ -11,6 +11,7 @@ export default function BannerJoin({ isDisabled, redirect }: BannerJoinProps) {
   return (
     <RegionBanner
       label="In order to join a region, you need to stake $TAHO into that region."
+      showHint
       button={
         <Button size="large" onClick={redirect} isDisabled={isDisabled}>
           Stake to join region

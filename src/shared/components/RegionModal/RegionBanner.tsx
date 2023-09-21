@@ -5,12 +5,16 @@ import Icon from "../Icon"
 
 type RegionBannerProps = {
   label: ReactNode
+  showHint?: boolean
+  children?: React.ReactNode
   button: ReactElement<typeof Button>
   style?: CSSProperties
 }
 
 export default function RegionBanner({
   label,
+  showHint = false,
+  children,
   button,
   style,
 }: RegionBannerProps) {
@@ -18,13 +22,16 @@ export default function RegionBanner({
     <>
       <div className="region_banner row" style={style}>
         <div>
-          <div className="region_banner_label">{label}</div>
-          <div className="region_banner_info">
-            <Icon src={lightIcon} type="image" width="24px" height="24px" />
-            <p className="region_banner_text">
-              You can only be staked in one region
-            </p>
-          </div>
+          {label && <div className="region_banner_label">{label}</div>}
+          {showHint && (
+            <div className="region_banner_info">
+              <Icon src={lightIcon} type="image" width="24px" height="24px" />
+              <p className="region_banner_text">
+                You can only be staked in one region
+              </p>
+            </div>
+          )}
+          {children}
         </div>
         {button}
       </div>
