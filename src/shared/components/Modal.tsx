@@ -69,6 +69,8 @@ function Container({
   type = "freeform",
   onClickOutside = noop,
 }: ModalProps) {
+  const isOverlay = type === "map-with-overlay" || type === "fullscreen"
+
   return (
     <Portal>
       <div
@@ -92,12 +94,10 @@ function Container({
             }
           }}
           className={classNames("modal_background", {
-            overlay: type === "map-with-overlay" || type === "fullscreen",
+            overlay: isOverlay,
           })}
         />
-        {(type === "map-with-overlay" || type === "fullscreen") && (
-          <CloseBtn onClick={onClickOutside} />
-        )}
+        {isOverlay && <CloseBtn onClick={onClickOutside} />}
         {children}
         <style jsx>
           {`
