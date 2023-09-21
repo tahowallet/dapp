@@ -58,10 +58,7 @@ function RegionDetailsBanner({
     )
   }
 
-  if (
-    stakingRegionAddress &&
-    (isStakingRegion || (!isStakingRegion && rewardAmount > 0))
-  ) {
+  if (isStakingRegion || (!isStakingRegion && rewardAmount > 0)) {
     return <BannerRewards amount={rewardAmount} />
   }
 
