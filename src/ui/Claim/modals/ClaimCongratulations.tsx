@@ -4,7 +4,7 @@ import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
 import RegionIcon from "shared/components/RegionIcon"
 import { parseTahoAmount } from "shared/utils"
 
-type CongratulationsModalProps = {
+type ClaimCongratulationsProps = {
   amount: bigint
   description: string
   region: string
@@ -14,7 +14,7 @@ export default function ClaimCongratulations({
   amount,
   description,
   region,
-}: CongratulationsModalProps) {
+}: ClaimCongratulationsProps) {
   return (
     <>
       <CongratulationsModal
