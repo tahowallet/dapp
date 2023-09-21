@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 
-const parseTimeLeft = (stakingTime: number): string => {
-  const timeLeft = 3600 - Math.ceil((Date.now() - stakingTime) / 1000)
-
-  return new Date(timeLeft * 1000).toISOString().slice(14, 19)
-}
+import { calculateTimeLeftInHHMMFormat } from "shared/utils"
+import { useInterval } from "shared/hooks"
 
 export default function UnstakeCooldown({ stakedAt }: { stakedAt: number }) {
-  const [timeRemaining, setTimeRemaining] = useState<string>("")
-
-  useEffect(() => {
-    setTimeRemaining(parseTimeLeft(stakedAt))
-
-    const interval = setInterval(
-      () => setTimeRemaining(parseTimeLeft(stakedAt)),
-      1000
-    )
-
-    return () => clearInterval(interval)
-  }, [stakedAt])
+  const [timeRemaining, setTimeRemaining] = useState(
+    calculateTimeLeftInHHMMFormat(stakedAt)
+  )
+  useInterval(
+    () => setTimeRemaining(calculateTimeLeftInHHMMFormat(stakedAt)),
+    1000
+  )
 
   return (
     <>
