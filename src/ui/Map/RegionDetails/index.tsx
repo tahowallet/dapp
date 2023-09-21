@@ -3,6 +3,7 @@ import TabPanel from "shared/components/TabPanel"
 import {
   selectEligibility,
   selectHasClaimed,
+  selectIsStakingRegionDisplayed,
   selectIsWalletConnected,
   selectStakingRegionAddress,
   useDappSelector,
@@ -12,6 +13,10 @@ import Staking from "./Staking"
 import BannerConnect from "./RegionBanners/BannerConnect"
 import BannerJoin from "./RegionBanners/BannerJoin"
 import BannerClaim from "./RegionBanners/BannerClaim"
+import Rewards from "./Rewards"
+import BannerRewards from "./RegionBanners/BannerRewards"
+
+const MOCKED_REWARD_AMOUNT = 20.123
 
 type RegionDetailsProps = {
   onClose: () => void
@@ -33,6 +38,9 @@ function RegionDetailsBanner({
   const stakingRegionAddress = useDappSelector(selectStakingRegionAddress)
   const eligibility = useDappSelector(selectEligibility)
   const hasClaimed = useDappSelector(selectHasClaimed)
+  const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
+  // TODO: use a correct data
+  const rewardAmount = MOCKED_REWARD_AMOUNT ?? 0
 
   if (!isConnected) {
     return <BannerConnect />
@@ -49,6 +57,10 @@ function RegionDetailsBanner({
         isDisabled={activeTab === STAKE_TAB_INDEX}
       />
     )
+  }
+
+  if (isStakingRegion || (!isStakingRegion && rewardAmount > 0)) {
+    return <BannerRewards amount={rewardAmount} />
   }
 
   return null
@@ -70,7 +82,7 @@ export default function RegionDetails({ onClose }: RegionDetailsProps) {
         tabs={[
           {
             label: "Rewards",
-            component: null, // TODO: <Rewards />
+            component: <Rewards />,
           },
           {
             label: "Stake",
