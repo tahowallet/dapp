@@ -38,7 +38,7 @@ function RewardsBanner({ regionId }: { regionId: string }) {
         </div>
 
         <div className="banner_details_token column">
-          <h1 className="amount">
+          <h1 className="amount row_center">
             <RegionIcon
               regionId={regionId}
               type="circle"
@@ -56,7 +56,7 @@ function RewardsBanner({ regionId }: { regionId: string }) {
           Your estimated reward:
           <Icon color="var(--secondary-s1-80)" src={infoIcon} />
         </div>
-        <div className="amount" style={{ fontSize: 24 }}>
+        <div className="amount row_center" style={{ fontSize: 24 }}>
           <RegionIcon
             regionId={regionId}
             type="circle"
@@ -98,8 +98,6 @@ function RewardsBanner({ regionId }: { regionId: string }) {
           color: var(--secondary-s1-70);
         }
         .amount {
-          display: flex;
-          align-items: center;
           gap: 8px;
           font-family: var(--serif);
           color: var(--off-white);
