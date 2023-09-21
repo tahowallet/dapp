@@ -33,6 +33,8 @@ export const fetchWalletName = createDappAsyncThunk(
         dispatch(setClaimingUser({ name: resolvedName, address }))
       }
     }
+
+    return resolvedName
   }
 )
 

@@ -17,6 +17,8 @@ export const fetchEligibility = createDappAsyncThunk(
     const eligibility = await getEligibility(address)
 
     dispatch(setEligibility({ eligibility }))
+
+    return eligibility
   }
 )
 
@@ -33,6 +35,8 @@ export const fetchHasClaimed = createDappAsyncThunk(
       : false
 
     dispatch(setHasClaimed({ hasClaimed }))
+
+    return hasClaimed
   }
 )
 
@@ -44,11 +48,11 @@ export const claimTaho = createDappAsyncThunk(
     } = getState()
 
     if (!eligibility) {
-      throw Error("No eligibility to claim")
+      return false
     }
 
     const receipt = await transactionService.send(claim, { eligibility })
 
-    return receipt
+    return !!receipt
   }
 )

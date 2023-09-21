@@ -37,6 +37,8 @@ export const fetchRegionAddresses = createDappAsyncThunk(
     if (regionAddresses !== null) {
       dispatch(setRegionAddresses(regionAddresses))
     }
+
+    return regionAddresses
   }
 )
 
