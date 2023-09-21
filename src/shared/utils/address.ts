@@ -1,7 +1,3 @@
-import { ethers } from "ethers"
-
-export const ETH_ADDRESS = ethers.constants.AddressZero
-
 export function truncateAddress(address: string): string {
   return `${address.slice(0, 6)}…${address.slice(-5)}`.toLowerCase()
 }

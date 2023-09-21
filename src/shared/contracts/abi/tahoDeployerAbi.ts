@@ -7,6 +7,17 @@ export default [
     type: "constructor",
   },
   {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "deployHash",
+        type: "bytes32",
+      },
+    ],
+    name: "UnknownContract",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -106,6 +117,32 @@ export default [
   {
     inputs: [],
     name: "BALANCER_POOL_DEPLOYER_DEPLOY_HASH",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "CLAIM_WITH_FRIENDS",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "CLAIM_WITH_FRIENDS_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -222,6 +259,45 @@ export default [
   },
   {
     inputs: [],
+    name: "DEV_GRANT_ESCROW",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DEV_GRANT_ESCROW_DEPLOYER_DEPLOY_HASH",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DEV_TEAM_MULTISIG",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "EDUCATE_NODE",
     outputs: [
       {
@@ -274,12 +350,64 @@ export default [
   },
   {
     inputs: [],
+    name: "ELECTIONS",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ELECTIONS_DEPLOY_HASH",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "EXPIRING_MERKLE_DISTRIBUTOR_FACTORY",
     outputs: [
       {
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "GAME",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "GAME_DEPLOYER_DEPLOY_HASH",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -300,25 +428,12 @@ export default [
   },
   {
     inputs: [],
-    name: "GAME_PARAMETERS_DEPLOY_HASH",
+    name: "GAME_PARAMETERS_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
         name: "",
         type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "GOVERNOR_BRAVO_V1_BASE_DELEGATE",
-    outputs: [
-      {
-        internalType: "address payable",
-        name: "",
-        type: "address",
       },
     ],
     stateMutability: "view",
@@ -352,20 +467,7 @@ export default [
   },
   {
     inputs: [],
-    name: "MERKLE_FACTORY_DEPLOYER_DEPLOY_HASH",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "NODE_MAP",
+    name: "HUNTING_GROUND_REWARDS_ESCROW",
     outputs: [
       {
         internalType: "address",
@@ -378,7 +480,20 @@ export default [
   },
   {
     inputs: [],
-    name: "NODE_MAP_DEPLOY_HASH",
+    name: "HUNTING_GROUND_REWARDS_ESCROW_DEPLOYER_DEPLOY_HASH",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "MERKLE_FACTORY_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -443,19 +558,6 @@ export default [
   },
   {
     inputs: [],
-    name: "TAHOETH_HUNTING_GROUND_DEPLOYER_DEPLOY_HASH",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "TAHO_COMMUNITY_MULTISIG",
     outputs: [
       {
@@ -482,12 +584,12 @@ export default [
   },
   {
     inputs: [],
-    name: "TAHO_GOVERNOR_BRAVO_DELEGATE_DEPLOY_HASH",
+    name: "TAHO_ETH_HUNTING_GROUND",
     outputs: [
       {
-        internalType: "bytes32",
+        internalType: "address",
         name: "",
-        type: "bytes32",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -495,7 +597,7 @@ export default [
   },
   {
     inputs: [],
-    name: "TAHO_GOVERNOR_BRAVO_DELEGATOR_DEPLOY_HASH",
+    name: "TAHO_ETH_HUNTING_GROUND_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -527,32 +629,6 @@ export default [
         internalType: "address",
         name: "",
         type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "TIMELOCK",
-    outputs: [
-      {
-        internalType: "address payable",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "TIMELOCK_DEPLOYER_DEPLOY_HASH",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -638,7 +714,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VOTE_WITH_FRIENDS",
+    name: "XP",
     outputs: [
       {
         internalType: "address",
@@ -651,7 +727,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VOTE_WITH_FRIENDS_DEPLOYER_DEPLOY_HASH",
+    name: "XP_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -664,12 +740,51 @@ export default [
   },
   {
     inputs: [],
-    name: "arbitraryFinalizationAllowedAfter",
+    name: "XP_FACTORY",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "address",
         name: "",
-        type: "uint256",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "XP_FACTORY_DEPLOYER_DEPLOY_HASH",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "XP_MERKLE_DISTRIBUTOR_FACTORY",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "XP_MERKLE_DISTRIBUTOR_FACTORY_DEPLOYER_DEPLOY_HASH",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -684,6 +799,19 @@ export default [
       },
     ],
     name: "contractRewards",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractsPendingDeploymentCount",
     outputs: [
       {
         internalType: "uint256",
@@ -715,13 +843,6 @@ export default [
   },
   {
     inputs: [],
-    name: "enableTAHOETH",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "finalize",
     outputs: [],
     stateMutability: "nonpayable",
@@ -738,19 +859,6 @@ export default [
     name: "setBalancerPoolCandidate",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "tahoEthDeployAllowed",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
 ] as ContractInterface

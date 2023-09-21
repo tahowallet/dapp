@@ -11,7 +11,7 @@ export type TransactionProgressProps = {
   buttonLabel: string
   disabled?: boolean
   status: TransactionProgressStatus
-  sendTransaction: () => Promise<void>
+  sendTransaction: () => void
 }
 
 type TransactionUIStatus = "not-started" | "in-progress" | "done"

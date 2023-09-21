@@ -1,3 +1,4 @@
+import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
 import { truncateAddress } from "shared/utils"
 
@@ -13,3 +14,25 @@ export const selectWalletAvatar = (state: RootState) => state.wallet.avatar
 
 export const selectIsWalletConnected = (state: RootState) =>
   state.wallet.isConnected
+
+export const selectTokenBalances = (state: RootState) => state.wallet.balances
+
+export const selectTokenBalanceByAddress = createSelector(
+  [selectTokenBalances, (_, tokenAddress) => tokenAddress],
+  (balances, tokenAddress) => balances[tokenAddress]?.balance ?? 0n
+)
+
+export const selectTokenSymbolByAddress = createSelector(
+  [selectTokenBalances, (_, tokenAddress) => tokenAddress],
+  (balances, tokenAddress) => balances[tokenAddress]?.symbol ?? ""
+)
+
+export const selectTokenBalanceBySymbol = createSelector(
+  [selectTokenBalances, (_, tokenSymbol) => tokenSymbol],
+  (balances, tokenSymbol) => {
+    const tokenBalance = Object.values(balances).find(
+      (balance) => balance.symbol === tokenSymbol
+    )
+    return tokenBalance?.balance ?? 0n
+  }
+)
