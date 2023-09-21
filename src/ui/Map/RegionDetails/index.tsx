@@ -13,6 +13,7 @@ import Staking from "./Staking"
 import BannerConnect from "./RegionBanners/BannerConnect"
 import BannerJoin from "./RegionBanners/BannerJoin"
 import BannerClaim from "./RegionBanners/BannerClaim"
+import Rewards from "./Rewards"
 import BannerRewards from "./RegionBanners/BannerRewards"
 
 const MOCKED_REWARD_AMOUNT = 20.123
@@ -81,7 +82,7 @@ export default function RegionDetails({ onClose }: RegionDetailsProps) {
         tabs={[
           {
             label: "Rewards",
-            component: null, // TODO: <Rewards />
+            component: <Rewards />,
           },
           {
             label: "Stake",
