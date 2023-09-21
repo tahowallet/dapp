@@ -33,6 +33,7 @@ export default function BannerEarn({ close }: BannerEarnProps) {
           $TAHO balance is 0
         </>
       }
+      showHint
       style={{ marginTop: 24, marginBottom: 0 }}
       button={
         <Button onClick={referralsButtonHandler}>
