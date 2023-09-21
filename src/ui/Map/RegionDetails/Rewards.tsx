@@ -2,7 +2,6 @@ import React from "react"
 import { selectDisplayedRegionId, useDappSelector } from "redux-state"
 import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
-import infoIcon from "shared/assets/icons/m/info.svg"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
 import starIcon from "shared/assets/icons/star.svg"
 import RegionIcon from "shared/components/RegionIcon"
@@ -50,29 +49,13 @@ function RewardsBanner({ regionId }: { regionId: string }) {
           TAHO-XP-01
         </div>
       </div>
-
-      <div className="banner_reward row_center">
-        <div className="row_center gap">
-          Your estimated reward:
-          <Icon color="var(--secondary-s1-80)" src={infoIcon} />
-        </div>
-        <div className="amount row_center" style={{ fontSize: 24 }}>
-          <RegionIcon
-            regionId={regionId}
-            type="circle"
-            width="24px"
-            color="var(--primary-p1-100)"
-          />
-          20,123
-        </div>
-      </div>
       <style jsx>{`
         .banner {
           background-color: var(--secondary-s1-10);
           border-radius: 8px;
         }
         .banner_details {
-          padding: 24px 24px 0;
+          padding: 19px 24px;
           justify-content: space-between;
         }
         .banner_details_weeks:after {
@@ -86,15 +69,6 @@ function RewardsBanner({ regionId }: { regionId: string }) {
 
         .banner_details_token {
           text-align: right;
-          color: var(--secondary-s1-70);
-        }
-        .banner_reward {
-          margin-top: 10px;
-          padding: 0 24px;
-          height: 40px;
-          border-radius: 8px;
-          justify-content: space-between;
-          background: var(--secondary-s1-10);
           color: var(--secondary-s1-70);
         }
         .amount {
@@ -172,7 +146,7 @@ export default function Rewards() {
       <style jsx>{`
         .region {
           padding-top: 32px;
-          gap: 35px;
+          gap: 22px;
         }
       `}</style>
     </div>
