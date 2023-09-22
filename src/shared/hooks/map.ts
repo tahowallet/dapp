@@ -1,5 +1,5 @@
 import React, { MutableRefObject, useContext, useEffect, useState } from "react"
-import { useDappDispatch } from "redux-state"
+import { fetchWalletBalances, useDappDispatch } from "redux-state"
 import { fetchRegionAddresses } from "redux-state/thunks/map"
 import { useArbitrumProvider } from "./wallets"
 
@@ -29,6 +29,7 @@ export function useFetchRegionsContracts() {
 
     const fetchRegions = async () => {
       await dispatch(fetchRegionAddresses())
+      await dispatch(fetchWalletBalances())
       setHasAlreadyFetched(true)
     }
 

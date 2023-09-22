@@ -38,6 +38,7 @@ export default function TokenAmountInput({
   tokenAddress,
   disabled,
   onChange,
+  onValidate,
 }: {
   label?: string
   inputLabel: string
@@ -45,6 +46,7 @@ export default function TokenAmountInput({
   tokenAddress: string
   disabled?: boolean
   onChange: (value: string) => void
+  onValidate?: (value: boolean) => void
 }) {
   const balance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, tokenAddress)
@@ -54,6 +56,14 @@ export default function TokenAmountInput({
   )
 
   const maxAmount = bigIntToUserAmount(balance)
+
+  const validate = (value: string) => {
+    const result = handleValidate(value, balance)
+    const hasError = "error" in result
+
+    onValidate?.(!hasError)
+    return result
+  }
 
   return (
     <div>
@@ -66,7 +76,7 @@ export default function TokenAmountInput({
         value={amount}
         disabled={disabled}
         onChange={onChange}
-        validate={(value) => handleValidate(value, balance)}
+        validate={validate}
         rightComponent={
           <Button
             type="tertiary"

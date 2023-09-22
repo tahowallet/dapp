@@ -11,43 +11,23 @@ import {
   selectTokenBalanceByAddress,
   selectStakingRegionAddress,
   selectIsStakingRegionDisplayed,
+  selectDisplayedRegionVeTokenAddress,
+  unstakeTaho,
   selectDisplayedRegionId,
 } from "redux-state"
-import { userAmountToBigInt, isSameAddress } from "shared/utils"
+import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import BannerEarn from "./RegionBanners/BannerEarn"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 import ModalLeavingNode from "../Modals/ModalLeavingNode"
 
-// TODO change to the correct address
-const VE_TOKEN_ADDRESS = CONTRACT_Taho
-
-function isDisabledStake(
-  tahoBalance: bigint,
+function isFormDisabled(
+  balance: bigint,
   hasStakingRegion: boolean,
   isStakingRegion: boolean
 ) {
-  return tahoBalance === 0n || (hasStakingRegion && !isStakingRegion)
-}
-
-function isDisabledUnstake(
-  stakeAmount: bigint | null,
-  stakingAddress: string | null,
-  selectedRegionAddress: string | null
-) {
-  // TODO: refactor once we have staked amount
-  if (
-    stakingAddress &&
-    selectedRegionAddress &&
-    isSameAddress(stakingAddress, selectedRegionAddress)
-  ) {
-    if (stakeAmount && stakeAmount > 0n) return false
-
-    return true
-  }
-
-  return true
+  return balance === 0n || (hasStakingRegion && !isStakingRegion)
 }
 
 type StakingProps = {
@@ -58,6 +38,9 @@ export default function Staking({ close }: StakingProps) {
   const dispatch = useDappDispatch()
 
   const displayedRegionAddress = useDappSelector(selectDisplayedRegionAddress)
+  const displayedRegionVeTokenAddress = useDappSelector(
+    selectDisplayedRegionVeTokenAddress
+  )
   const stakingRegionContractAddress = useDappSelector(
     selectStakingRegionAddress
   )
@@ -68,24 +51,31 @@ export default function Staking({ close }: StakingProps) {
   const tahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, TAHO_ADDRESS)
   )
-  const alreadyStakeAmount = 0n // TODO: find out how much veTaho user has in this region
+  const veTahoBalance = useDappSelector((state) =>
+    selectTokenBalanceByAddress(state, displayedRegionVeTokenAddress)
+  )
   const [stakeAmount, setStakeAmount] = useState("")
+  const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
+
   const [unstakeAmount, setUnstakeAmount] = useState("")
+  const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
 
   const [isLeavingModalVisible, setIsLeavingModalVisible] = useState(false)
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)
+  const [isUnstakeTransactionModalOpen, setIsUnstakeTransactionModalOpen] =
+    useState(false)
 
-  const disabledStake = isDisabledStake(
+  const disabledStake = isFormDisabled(
     tahoBalance,
     hasStakingRegion,
     isStakingRegion
   )
-  const disabledUnstake = isDisabledUnstake(
-    alreadyStakeAmount,
-    stakingRegionContractAddress,
-    displayedRegionAddress
+  const disabledUnstake = isFormDisabled(
+    veTahoBalance,
+    hasStakingRegion,
+    isStakingRegion
   )
 
   const stakeTransaction = () => {
@@ -94,6 +84,19 @@ export default function Staking({ close }: StakingProps) {
       dispatch(
         stakeTaho({
           regionContractAddress: displayedRegionAddress,
+          amount,
+        })
+      )
+    }
+  }
+
+  const unstakeTransaction = () => {
+    const amount = userAmountToBigInt(unstakeAmount)
+    if (displayedRegionAddress && displayedRegionVeTokenAddress && amount) {
+      dispatch(
+        unstakeTaho({
+          regionContractAddress: displayedRegionAddress,
+          veTokenContractAddress: displayedRegionVeTokenAddress,
           amount,
         })
       )
@@ -123,12 +126,17 @@ export default function Staking({ close }: StakingProps) {
               amount={stakeAmount}
               tokenAddress={CONTRACT_Taho}
               onChange={setStakeAmount}
+              onValidate={(isValid) => setIsStakeAmountValid(isValid)}
             />
           </div>
           <Button
             type="primary"
             size="medium"
-            isDisabled={disabledStake}
+            isDisabled={
+              disabledStake ||
+              !isStakeAmountValid ||
+              !isValidInputAmount(stakeAmount)
+            }
             onClick={() => setIsStakeTransactionModalOpen(true)}
           >
             Stake $TAHO
@@ -146,15 +154,20 @@ export default function Staking({ close }: StakingProps) {
               inputLabel="Unstake amount"
               disabled={disabledUnstake}
               amount={unstakeAmount}
-              tokenAddress={VE_TOKEN_ADDRESS}
+              tokenAddress={displayedRegionVeTokenAddress ?? ""}
               onChange={setUnstakeAmount}
+              onValidate={(isValid) => setIsUnstakeAmountValid(isValid)}
             />
           </div>
           <Button
             type="primary"
             size="medium"
-            onClick={() => setIsLeavingModalVisible(true)}
-            isDisabled={disabledUnstake}
+            isDisabled={
+              disabledUnstake ||
+              !isUnstakeAmountValid ||
+              !isValidInputAmount(unstakeAmount)
+            }
+            onClick={() => setIsUnstakeTransactionModalOpen(true)}
           >
             Unstake $TAHO
           </Button>
@@ -176,6 +189,19 @@ export default function Staking({ close }: StakingProps) {
             buttonLabel: "Approve & stake",
             status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
             sendTransaction: stakeTransaction,
+          },
+        ]}
+      />
+      <TransactionsModal
+        isOpen={isUnstakeTransactionModalOpen}
+        close={() => setIsUnstakeTransactionModalOpen(false)}
+        transactions={[
+          {
+            id: "stake",
+            title: "Approve and unstake $TAHO",
+            buttonLabel: "Approve & unstake",
+            status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
+            sendTransaction: unstakeTransaction,
           },
         ]}
       />

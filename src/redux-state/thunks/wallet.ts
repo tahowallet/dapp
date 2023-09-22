@@ -9,6 +9,7 @@ import { getBalance } from "shared/contracts"
 import { ethers } from "ethers"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances } from "shared/types"
+import { setStakingRegionId } from "redux-state/slices/map"
 import createDappAsyncThunk from "../asyncThunk"
 
 export const fetchWalletName = createDappAsyncThunk(
@@ -32,6 +33,8 @@ export const fetchWalletName = createDappAsyncThunk(
         dispatch(setClaimingUser({ name: resolvedName, address }))
       }
     }
+
+    return resolvedName
   }
 )
 
@@ -88,10 +91,15 @@ export const disconnectWalletGlobally = createDappAsyncThunk(
 
 export const fetchWalletBalances = createDappAsyncThunk(
   "wallet/fetchWalletBalance",
-  async (_, { dispatch, extra: { transactionService } }) => {
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
     const account = await transactionService.getSignerAddress()
+    const {
+      map: { regions },
+    } = getState()
 
     if (!account) return null
+
+    let stakingRegionId = null
 
     const tahoBalance =
       (await transactionService.read(getBalance, {
@@ -99,14 +107,39 @@ export const fetchWalletBalances = createDappAsyncThunk(
         account,
       })) ?? 0n
 
+    const veTahoBalances = await Promise.all(
+      Object.entries(regions).flatMap(
+        async ([regionId, { veTokenContractAddress }]) => {
+          if (!veTokenContractAddress) return []
+
+          const veTahoBalance =
+            (await transactionService.read(getBalance, {
+              tokenAddress: veTokenContractAddress,
+              account,
+            })) ?? 0n
+
+          if (veTahoBalance > 0n) {
+            stakingRegionId = regionId
+          }
+
+          return [
+            veTokenContractAddress,
+            { symbol: "TAHO", balance: veTahoBalance }, // displayed symbol for veTAHO is just TAHO
+          ]
+        }
+      )
+    )
+
     const ethBalance = await transactionService.getEthBalance()
 
     const balances: TokenBalances = {
       [TAHO_ADDRESS]: { symbol: "TAHO", balance: tahoBalance },
       [ETH_ADDRESS]: { symbol: "ETH", balance: ethBalance },
+      ...Object.fromEntries(veTahoBalances),
     }
 
     dispatch(updateBalances(balances))
+    dispatch(setStakingRegionId(stakingRegionId))
 
     return balances
   }
