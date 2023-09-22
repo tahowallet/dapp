@@ -1,16 +1,15 @@
 import React, { useState } from "react"
 
-import { calculateTimeLeftInHHMMFormat } from "shared/utils"
+import { calculateTimeLeft } from "shared/utils"
 import { useInterval } from "shared/hooks"
+import { HOUR, SECOND } from "shared/constants"
 
 export default function UnstakeCooldown({ stakedAt }: { stakedAt: number }) {
   const [timeRemaining, setTimeRemaining] = useState(
-    calculateTimeLeftInHHMMFormat(stakedAt)
+    calculateTimeLeft(stakedAt, HOUR)
   )
-  useInterval(
-    () => setTimeRemaining(calculateTimeLeftInHHMMFormat(stakedAt)),
-    1000
-  )
+
+  useInterval(() => setTimeRemaining(calculateTimeLeft(stakedAt, HOUR)), SECOND)
 
   return (
     <>
