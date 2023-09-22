@@ -6,22 +6,27 @@ const REGIONS: { [id: string]: RegionContractData } = {
   "4": {
     name: "VAMPIRE_NODE",
     regionContractAddress: null,
+    veTokenContractAddress: null,
   },
   "7": {
     name: "EDUCATE_NODE",
     regionContractAddress: null,
+    veTokenContractAddress: null,
   },
   "9": {
     name: "SOCIAL_NODE",
     regionContractAddress: null,
+    veTokenContractAddress: null,
   },
   "19": {
     name: "CREATORS_NODE",
     regionContractAddress: null,
+    veTokenContractAddress: null,
   },
   "22": {
     name: "DEFI_NODE",
     regionContractAddress: null,
+    veTokenContractAddress: null,
   },
 }
 
@@ -56,14 +61,15 @@ const mapSlice = createSlice({
     ) => {
       immerState.overlay = overlay
     },
-    setRegionAddresses: (
+    setRegionContractData: (
       immerState,
       {
         payload: regionAddresses,
-      }: { payload: { id: string; address: string }[] }
+      }: { payload: { id: string; address: string; veTokenAddress: string }[] }
     ) => {
-      regionAddresses.forEach(({ id, address }) => {
+      regionAddresses.forEach(({ id, address, veTokenAddress }) => {
         immerState.regions[id].regionContractAddress = address
+        immerState.regions[id].veTokenContractAddress = veTokenAddress
       })
     },
     setStakingRegionId: (
@@ -89,8 +95,9 @@ export const {
   setMapMode,
   setMapOverlay,
   resetMap,
-  setRegionAddresses,
+  setRegionContractData,
   setDisplayedRegionId,
+  setStakingRegionId,
 } = mapSlice.actions
 
 export default mapSlice.reducer

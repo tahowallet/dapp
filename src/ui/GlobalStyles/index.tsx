@@ -209,6 +209,13 @@ export default function GlobalStyles() {
         .invisible {
           visibility: hidden;
         }
+        .no_scrollbar {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .no_scrollbar::-webkit-scrollbar {
+          display: none;
+        }
       `}
     </style>
   )

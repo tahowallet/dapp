@@ -9,26 +9,18 @@ export const getRegionContract: ReadTransactionBuilder<
 > = async (provider, { regionContractAddress }) =>
   new Contract(regionContractAddress, nodeAbi, provider)
 
-export const getRegionVeTokenAddress: ReadTransactionBuilder<
-  { regionContractAddress: string },
-  string
-> = async (provider, { regionContractAddress }) => {
-  const regionTokenContract = await getRegionContract(provider, {
-    regionContractAddress,
-  })
-  return regionTokenContract.veTaho()
-}
-
 export const getRegionTokenAddresses: ReadTransactionBuilder<
   { regions: RegionContractDataWithId[] },
-  { id: string; address: string }[]
+  { id: string; address: string; veTokenAddress: string }[]
 > = async (provider, { regions }) => {
   const tahoDeployerContract = await getTahoDeployerContract(provider, null)
 
   const regionAddresses = await Promise.all(
     regions.map(async ({ id, data }) => {
       const regionAddress = await tahoDeployerContract[data.name]()
-      return { id, address: regionAddress }
+      const veTokenAddress = await tahoDeployerContract[`${data.name}_VETAHO`]()
+
+      return { id, address: regionAddress, veTokenAddress }
     })
   )
 

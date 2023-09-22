@@ -1,15 +1,15 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRegionAddresses } from "redux-state/slices/map"
+import { setRegionContractData } from "redux-state/slices/map"
 import { TAHO_ADDRESS } from "shared/constants"
 import {
   getAllowance,
   getRegionTokenAddresses,
-  getRegionVeTokenAddress,
   setAllowance,
   stake,
   unstake,
 } from "shared/contracts"
 import { RegionContractDataWithId } from "shared/types"
+import { fetchWalletBalances } from "./wallet"
 
 export const fetchRegionAddresses = createDappAsyncThunk(
   "map/fetchRegionAddresses",
@@ -35,8 +35,10 @@ export const fetchRegionAddresses = createDappAsyncThunk(
     )
 
     if (regionAddresses !== null) {
-      dispatch(setRegionAddresses(regionAddresses))
+      dispatch(setRegionContractData(regionAddresses))
     }
+
+    return regionAddresses
   }
 )
 
@@ -45,9 +47,9 @@ export const ensureAllowance = createDappAsyncThunk(
   async (
     {
       tokenAddress,
-      contractAddress,
+      spender,
       amount,
-    }: { tokenAddress: string; contractAddress: string; amount: bigint },
+    }: { tokenAddress: string; spender: string; amount: bigint },
     { extra: { transactionService } }
   ) => {
     const account = await transactionService.getSignerAddress()
@@ -55,7 +57,7 @@ export const ensureAllowance = createDappAsyncThunk(
     const allowanceValue = await transactionService.read(getAllowance, {
       tokenAddress,
       account,
-      contractAddress,
+      spender,
     })
 
     if (allowanceValue === null) {
@@ -65,7 +67,7 @@ export const ensureAllowance = createDappAsyncThunk(
     if (allowanceValue < amount) {
       const receipt = await transactionService.send(setAllowance, {
         tokenAddress,
-        account,
+        spender,
         amount,
       })
 
@@ -88,19 +90,25 @@ export const stakeTaho = createDappAsyncThunk(
     const allowanceCorrect = await dispatch(
       ensureAllowance({
         tokenAddress: TAHO_ADDRESS,
-        contractAddress: regionContractAddress,
+        spender: regionContractAddress,
         amount,
       })
     )
 
     if (!allowanceCorrect) {
-      return null
+      return false
     }
 
-    return transactionService.send(stake, {
+    const receipt = await transactionService.send(stake, {
       regionContractAddress,
       amount,
     })
+
+    if (receipt) {
+      dispatch(fetchWalletBalances())
+    }
+
+    return !!receipt
   }
 )
 
@@ -109,36 +117,36 @@ export const unstakeTaho = createDappAsyncThunk(
   async (
     {
       regionContractAddress,
+      veTokenContractAddress,
       amount,
-    }: { regionContractAddress: string; amount: bigint },
+    }: {
+      regionContractAddress: string
+      veTokenContractAddress: string
+      amount: bigint
+    },
     { dispatch, extra: { transactionService } }
   ) => {
-    const veTokenAddress = await transactionService.read(
-      getRegionVeTokenAddress,
-      {
-        regionContractAddress,
-      }
-    )
-
-    if (!veTokenAddress) {
-      return null
-    }
-
     const allowanceCorrect = await dispatch(
       ensureAllowance({
-        tokenAddress: veTokenAddress,
-        contractAddress: regionContractAddress,
+        tokenAddress: veTokenContractAddress,
+        spender: regionContractAddress,
         amount,
       })
     )
 
     if (!allowanceCorrect) {
-      return null
+      return false
     }
 
-    return transactionService.send(unstake, {
+    const receipt = await transactionService.send(unstake, {
       regionContractAddress,
       amount,
     })
+
+    if (receipt) {
+      dispatch(fetchWalletBalances())
+    }
+
+    return !!receipt
   }
 )

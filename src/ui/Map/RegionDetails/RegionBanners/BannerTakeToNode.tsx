@@ -1,14 +1,12 @@
 import React from "react"
-import { selectStakingRegionAddress, useDappSelector } from "redux-state"
+import { selectStakingRegionId, useDappSelector } from "redux-state"
 import Button from "shared/components/Button"
 import RegionBanner from "shared/components/RegionModal/RegionBanner"
 import { useMapContext } from "shared/hooks"
 
 export default function BannerTakeToNode() {
   const { onRegionClick } = useMapContext().current
-  const stakingRegionContractAddress = useDappSelector(
-    selectStakingRegionAddress
-  )
+  const stakingRegionContractId = useDappSelector(selectStakingRegionId)
 
   return (
     <RegionBanner
@@ -18,8 +16,7 @@ export default function BannerTakeToNode() {
       button={
         <Button
           onClick={() =>
-            stakingRegionContractAddress &&
-            onRegionClick(stakingRegionContractAddress)
+            stakingRegionContractId && onRegionClick(stakingRegionContractId)
           }
         >
           Take me to my node

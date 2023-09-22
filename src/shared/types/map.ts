@@ -1,6 +1,7 @@
 export type RegionContractData = {
   name: string
   regionContractAddress: string | null
+  veTokenContractAddress: string | null
 }
 
 export type RegionContractDataWithId = { id: string; data: RegionContractData }
