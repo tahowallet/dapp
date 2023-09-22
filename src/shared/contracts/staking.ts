@@ -1,26 +1,26 @@
 import { StakingData, WriteTransactionBuilder } from "shared/types"
-import { getRegionContract } from "./regions"
+import { getRealmContract } from "./realms"
 
 export const stake: WriteTransactionBuilder<StakingData> = async (
   provider,
   _,
-  { regionContractAddress, amount }
+  { realmContractAddress, amount }
 ) => {
-  const regionTokenContract = await getRegionContract(provider, {
-    regionContractAddress,
+  const realmTokenContract = await getRealmContract(provider, {
+    realmContractAddress,
   })
 
-  return regionTokenContract.populateTransaction.stake(amount)
+  return realmTokenContract.populateTransaction.stake(amount)
 }
 
 export const unstake: WriteTransactionBuilder<StakingData> = async (
   provider,
   _,
-  { regionContractAddress, amount }
+  { realmContractAddress, amount }
 ) => {
-  const regionTokenContract = await getRegionContract(provider, {
-    regionContractAddress,
+  const realmTokenContract = await getRealmContract(provider, {
+    realmContractAddress,
   })
 
-  return regionTokenContract.populateTransaction.unstake(amount)
+  return realmTokenContract.populateTransaction.unstake(amount)
 }

@@ -5,7 +5,7 @@ import Icon from "shared/components/Icon"
 import earthIcon from "shared/assets/icons/earth.svg"
 import communityIcon from "shared/assets/icons/community.svg"
 import rulerIcon from "shared/assets/icons/ruler.svg"
-import { setMapMode, setMapOverlay } from "redux-state/slices/map"
+import { setIslandMode, setIslandOverlay } from "redux-state/slices/island"
 import { ROUTES } from "shared/constants"
 import { useDappDispatch } from "redux-state"
 
@@ -58,9 +58,9 @@ export default function ClaimingPledge() {
           <div className="button_container row">
             <Button
               onClick={() => {
-                dispatch(setMapMode("join-region"))
-                dispatch(setMapOverlay("dark"))
-                location.push(ROUTES.CLAIM.DETAILS_REGION)
+                dispatch(setIslandMode("join-realm"))
+                dispatch(setIslandOverlay("dark"))
+                location.push(ROUTES.CLAIM.DETAILS_REALM)
               }}
               type="primary"
               size="large"

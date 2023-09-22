@@ -38,7 +38,7 @@ export default function ClaimingSignTx() {
               <p>
                 The second transaction is the one that everybody is here for!
                 This transaction will send your TAHO to you, from where you can
-                stake them into a region.
+                stake them into a realm.
               </p>
             </div>
           </div>

@@ -109,7 +109,7 @@ export default function ClaimCheck() {
   }
 
   return (
-    <Modal.Container type="map-without-overlay">
+    <Modal.Container type="island-without-overlay">
       <Modal.Content>
         <div className="check_container">
           <ClaimHeader

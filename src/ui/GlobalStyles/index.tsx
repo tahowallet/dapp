@@ -66,11 +66,11 @@ export default function GlobalStyles() {
           --text-body-s: 500 14px/20px var(--sans);
 
           /* z-index */
-          --z-map: 0;
+          --z-island: 0;
           --z-navigation: 110;
 
           /* Modals */
-          --z-modal-map: 100;
+          --z-modal-island: 100;
           --z-modal-overlay: 120;
 
           /* wallet connect overrides */
