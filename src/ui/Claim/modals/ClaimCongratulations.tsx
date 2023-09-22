@@ -2,37 +2,44 @@ import React from "react"
 import Button from "shared/components/Button"
 import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
 import RegionIcon from "shared/components/RegionIcon"
-import { parseTahoAmount } from "shared/utils"
+import { getRegionData } from "shared/constants"
 
 type ClaimCongratulationsProps = {
-  amount: bigint
+  amount: number
   description: string
-  region: string
+  regionId: string
+  close: () => void
 }
 
 export default function ClaimCongratulations({
   amount,
   description,
-  region,
+  regionId,
+  close,
 }: ClaimCongratulationsProps) {
+  const { name: regionName } = getRegionData(regionId)
+
   return (
     <>
       <CongratulationsModal
         header="Congratulations!"
         subheader="You just claimed"
-        buttons={<Button size="large">Go to settlement</Button>}
+        buttons={
+          <Button size="large" onClick={close}>
+            Go to settlement
+          </Button>
+        }
+        close={close}
       >
         <RegionIcon
-          regionId="4"
+          regionId={regionId}
           color="var(--primary-p1-100)"
           type="circle"
           width="48px"
         />
-        <div className="taho_amount">
-          {parseTahoAmount(amount).toLocaleString()}
-        </div>
+        <div className="taho_amount">{amount}</div>
         <p className="taho_description">{description}</p>
-        <p className="taho_region">from {region}</p>
+        <p className="taho_region">from {regionName}</p>
       </CongratulationsModal>
       <style jsx>{`
         .taho_amount {

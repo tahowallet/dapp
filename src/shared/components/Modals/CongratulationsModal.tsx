@@ -7,6 +7,7 @@ type CongratulationsModalProps = {
   header: string | ReactNode
   subheader?: string | ReactNode
   buttons: ReactElement<typeof Button> | ReactElement<typeof Button>[]
+  close: () => void
 }
 
 export default function CongratulationsModal({
@@ -14,10 +15,11 @@ export default function CongratulationsModal({
   header,
   subheader,
   buttons,
+  close,
 }: CongratulationsModalProps) {
   return (
     <>
-      <Modal.Container type="map-with-overlay">
+      <Modal.Container type="fullscreen" onClickOutside={close}>
         <Modal.Content>
           <div className="modal">
             <div className="modal_header">
