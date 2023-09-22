@@ -28,7 +28,7 @@ export default function ModalLeavingNode({
                 <Icon src={lightIcon} type="image" width="24px" height="24px" />
                 <p className="modal_hint_text">Keep in mind</p>
               </div>
-              <p>
+              <p style={{ paddingRight: 5 }}>
                 If you leave {regionName} now, you are{" "}
                 <span>giving up the rewards</span> that you would receive this
                 week.
