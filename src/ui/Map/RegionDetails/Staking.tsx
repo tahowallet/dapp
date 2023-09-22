@@ -13,12 +13,14 @@ import {
   selectIsStakingRegionDisplayed,
   selectDisplayedRegionVeTokenAddress,
   unstakeTaho,
+  selectDisplayedRegionId,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import BannerEarn from "./RegionBanners/BannerEarn"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
+import ModalLeavingNode from "../Modals/ModalLeavingNode"
 
 function isFormDisabled(
   balance: bigint,
@@ -42,6 +44,7 @@ export default function Staking({ close }: StakingProps) {
   const stakingRegionContractAddress = useDappSelector(
     selectStakingRegionAddress
   )
+  const displayedRegionId = useDappSelector(selectDisplayedRegionId)
   const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
   const hasStakingRegion = !!stakingRegionContractAddress
 
@@ -56,6 +59,8 @@ export default function Staking({ close }: StakingProps) {
 
   const [unstakeAmount, setUnstakeAmount] = useState("")
   const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
+
+  const [isLeavingModalVisible, setIsLeavingModalVisible] = useState(false)
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)
@@ -168,6 +173,12 @@ export default function Staking({ close }: StakingProps) {
           </Button>
         </div>
       </div>
+      {isLeavingModalVisible && displayedRegionId && (
+        <ModalLeavingNode
+          regionId={displayedRegionId}
+          close={() => setIsLeavingModalVisible(false)}
+        />
+      )}
       <TransactionsModal
         isOpen={isStakeTransactionModalOpen}
         close={() => setIsStakeTransactionModalOpen(false)}
