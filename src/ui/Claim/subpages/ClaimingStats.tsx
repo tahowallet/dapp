@@ -5,11 +5,11 @@ import Icon from "shared/components/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
 import { useDappSelector, selectEligibility } from "redux-state"
-import { RegionCutout } from "shared/components/RegionCutout"
+import { RegionCutout } from "shared/components/RealmCutout"
 import { getRegionData } from "shared/constants"
 import ClaimCheckRules from "../components/ClaimCheckRules"
 
-const MOCK_REGION = { population: "12,345", ...getRegionData("4") }
+const MOCK_REALM = { population: "12,345", ...getRegionData("4") }
 
 export default function ClaimingStats() {
   const eligibility = useDappSelector(selectEligibility)
@@ -31,10 +31,10 @@ export default function ClaimingStats() {
           <Icon color="var(--secondary-s1-80)" src={infoIcon} />)
         </div>
         <div className="stats_card column">
-          <div className="stats_card_title">{MOCK_REGION.name}</div>
+          <div className="stats_card_title">{MOCK_REALM.name}</div>
           <div className="stats_card_label">population</div>
-          <div className="stats_card_value">{MOCK_REGION.population}</div>
-          <div className="stats_card_region">
+          <div className="stats_card_value">{MOCK_REALM.population}</div>
+          <div className="stats_card_realm">
             <RegionCutout />
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function ClaimingStats() {
         .stats_card_title {
           font: var(--text-h1);
           font-size: 24px;
-          color: ${MOCK_REGION.color};
+          color: ${MOCK_REALM.color};
         }
         .stats_card_label {
           color: var(--secondary-s1-60);
@@ -91,7 +91,7 @@ export default function ClaimingStats() {
           font-size: 18px;
           color: var(--secondary-s1-100);
         }
-        .stats_card_region {
+        .stats_card_realm {
           position: absolute;
           right: 0;
           bottom: -20%;

@@ -12,7 +12,7 @@ export default function ClaimFinish() {
   const eligibility = useDappSelector(selectEligibility)
 
   return (
-    <Modal.Container type="map-without-overlay">
+    <Modal.Container type="island-without-overlay">
       <Modal.Content>
         <div className="finish_container column_center">
           <ClaimHeader header="You have landed" subheader="You just claimed:" />
@@ -24,7 +24,7 @@ export default function ClaimFinish() {
               type="primary"
               size="large"
             >
-              Go to map & choose region
+              Go to island & choose realm
             </Button>
           </div>
         </div>

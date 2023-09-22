@@ -7,7 +7,7 @@ import {
   getTotalSupply,
 } from "shared/contracts"
 import { encodeUserData } from "shared/utils"
-import { ensureAllowance } from "./map"
+import { ensureAllowance } from "./island"
 
 // eslint-disable-next-line import/prefer-default-export
 export const joinTahoPool = createDappAsyncThunk(

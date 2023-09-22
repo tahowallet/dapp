@@ -7,13 +7,17 @@ import { noop } from "../utils"
 type ModalProps = {
   children: React.ReactNode
   /**
-   * - map-with-overlay: modal has a light overlay covering the map, navigation is accessible
-   * - map-without-overlay: modal has no overlay but map is not accessible, navigation is accessible
+   * - island-with-overlay: modal has a light overlay covering the island, navigation is accessible
+   * - island-without-overlay: modal has no overlay but island is not accessible, navigation is accessible
    * - fullscreen: modal has a dark overlay that covers the whole screen, navigation is not accessible
    * - freeform: no styling applied
    * @default "freeform"
    */
-  type?: "fullscreen" | "freeform" | "map-with-overlay" | "map-without-overlay"
+  type?:
+    | "fullscreen"
+    | "freeform"
+    | "island-with-overlay"
+    | "island-without-overlay"
   onClickOutside?: () => void
 }
 
@@ -48,7 +52,7 @@ function Container({
             }
           }}
           className={classNames("modal_background", {
-            overlay: type === "map-with-overlay" || type === "fullscreen",
+            overlay: type === "island-with-overlay" || type === "fullscreen",
           })}
         />
         {children}
@@ -66,7 +70,7 @@ function Container({
               align-items: center;
               justify-content: center;
               overflow: hidden;
-              z-index: var(--z-modal-map);
+              z-index: var(--z-modal-island);
             }
 
             .modal_background {

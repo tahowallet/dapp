@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
 import { truncateAddress } from "shared/utils"
 import { RegionContractData } from "shared/types"
-import { selectRegionById } from "./map"
+import { selectRegionById } from "./island"
 
 export const selectClaimingUser = (state: RootState) => ({
   name: state.claim.name || truncateAddress(state.claim.address),
@@ -22,8 +22,8 @@ export const selectStakingData = createSelector(
       ? selectRegionById(state, state.claim.selectedRegionId)
       : null,
   (state: RootState) => state.claim.stakeAmount,
-  (regionData: RegionContractData | null, stakeAmount) => ({
-    regionContractAddress: regionData ? regionData.regionContractAddress : null,
+  (realmData: RegionContractData | null, stakeAmount) => ({
+    realmContractAddress: realmData ? realmData.realmContractAddress : null,
     stakeAmount,
   })
 )

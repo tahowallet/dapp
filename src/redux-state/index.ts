@@ -14,12 +14,12 @@ export default store
 export * from "./thunks/claim"
 export * from "./thunks/wallet"
 export * from "./thunks/lp"
-export * from "./thunks/map"
+export * from "./thunks/island"
 
 export * from "./slices/claim"
 export * from "./slices/wallet"
-export * from "./slices/map"
+export * from "./slices/island"
 
 export * from "./selectors/claim"
 export * from "./selectors/wallet"
-export * from "./selectors/map"
+export * from "./selectors/island"

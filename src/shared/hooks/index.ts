@@ -1,3 +1,3 @@
 export * from "./wallets"
 export * from "./helpers"
-export * from "./map"
+export * from "./island"
