@@ -1,6 +1,6 @@
 import React from "react"
 import coinIcon from "shared/assets/taho-coin.svg"
-import RegionBanner from "shared/components/RealmModal/RealmBanner"
+import RealmBanner from "shared/components/RealmModal/RealmBanner"
 import { useHistory } from "react-router-dom"
 import routes from "shared/constants/routes"
 import Button from "shared/components/Button"
@@ -19,7 +19,7 @@ export default function BannerEarn({ close }: BannerEarnProps) {
   }
 
   return (
-    <RegionBanner
+    <RealmBanner
       label={
         <>
           Your{" "}

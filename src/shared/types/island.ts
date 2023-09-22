@@ -1,9 +1,10 @@
-export type RegionContractData = {
+export type RealmContractData = {
   name: string
   realmContractAddress: string | null
+  veTokenContractAddress: string | null
 }
 
-export type RegionContractDataWithId = { id: string; data: RegionContractData }
+export type RealmContractDataWithId = { id: string; data: RealmContractData }
 
 export type StakingData = { realmContractAddress: string; amount: bigint }
 

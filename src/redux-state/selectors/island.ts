@@ -7,40 +7,46 @@ export const selectIslandMode = (state: RootState) => state.island.mode
 export const selectIsDefaultIslandMode = (state: RootState) =>
   state.island.mode === "default"
 
-export const selectIsJoinRegionIslandMode = (state: RootState) =>
+export const selectIsJoinRealmIslandMode = (state: RootState) =>
   state.island.mode === "join-realm"
 
 export const selectIslandOverlay = (state: RootState) => state.island.overlay
 
 export const selectRealms = (state: RootState) => state.island.realms
 
-export const selectRegionById = createSelector(
+export const selectRealmById = createSelector(
   [selectRealms, (_, realmId: string) => realmId],
   (realms, realmId) => realms[realmId]
 )
 
-export const selectStakingRegionId = (state: RootState) =>
-  state.island.stakingRegionId
+export const selectStakingRealmId = (state: RootState) =>
+  state.island.stakingRealmId
 
-export const selectStakingRegionAddress = createSelector(
+export const selectStakingRealmAddress = createSelector(
   selectRealms,
-  selectStakingRegionId,
-  (realms, stakingRegionId) =>
-    stakingRegionId && realms[stakingRegionId]?.realmContractAddress
+  selectStakingRealmId,
+  (realms, stakingRealmId) =>
+    stakingRealmId && realms[stakingRealmId]?.realmContractAddress
 )
 
-export const selectDisplayedRegionId = (state: RootState) =>
-  state.island.displayedRegionId
+export const selectDisplayedRealmId = (state: RootState) =>
+  state.island.displayedRealmId
 
-export const selectDisplayedRegionAddress = createSelector(
+export const selectDisplayedRealmAddress = createSelector(
   selectRealms,
-  selectDisplayedRegionId,
+  selectDisplayedRealmId,
   (realms, realmId) => realmId && realms[realmId]?.realmContractAddress
 )
 
-export const selectIsStakingRegionDisplayed = createSelector(
-  selectStakingRegionAddress,
-  selectDisplayedRegionAddress,
+export const selectDisplayedRealmVeTokenAddress = createSelector(
+  selectRealms,
+  selectDisplayedRealmId,
+  (realms, realmId) => realmId && realms[realmId]?.veTokenContractAddress
+)
+
+export const selectIsStakingRealmDisplayed = createSelector(
+  selectStakingRealmAddress,
+  selectDisplayedRealmAddress,
   (stakingAddress, displayedAddress) =>
     !!stakingAddress &&
     !!displayedAddress &&

@@ -3,9 +3,9 @@ import TabPanel from "shared/components/TabPanel"
 import {
   selectEligibility,
   selectHasClaimed,
-  selectIsStakingRegionDisplayed,
+  selectIsStakingRealmDisplayed,
   selectIsWalletConnected,
-  selectStakingRegionAddress,
+  selectStakingRealmAddress,
   useDappSelector,
 } from "redux-state"
 import Leaderboard from "./Leaderboard"
@@ -18,27 +18,27 @@ import BannerRewards from "./RealmBanners/BannerRewards"
 
 const MOCKED_REWARD_AMOUNT = 20.123
 
-type RegionDetailsProps = {
+type RealmDetailsProps = {
   onClose: () => void
 }
 
-type RegionDetailsBannerProps = RegionDetailsProps & {
+type RealmDetailsBannerProps = RealmDetailsProps & {
   activeTab: number
   setActiveTab: (index: number) => void
 }
 
 const STAKE_TAB_INDEX = 1
 
-function RegionDetailsBanner({
+function RealmDetailsBanner({
   onClose,
   activeTab,
   setActiveTab,
-}: RegionDetailsBannerProps) {
+}: RealmDetailsBannerProps) {
   const isConnected = useDappSelector(selectIsWalletConnected)
-  const stakingRegionAddress = useDappSelector(selectStakingRegionAddress)
+  const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
   const eligibility = useDappSelector(selectEligibility)
   const hasClaimed = useDappSelector(selectHasClaimed)
-  const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
+  const isStakingRealm = useDappSelector(selectIsStakingRealmDisplayed)
   // TODO: use a correct data
   const rewardAmount = MOCKED_REWARD_AMOUNT ?? 0
 
@@ -46,11 +46,11 @@ function RegionDetailsBanner({
     return <BannerConnect />
   }
 
-  if (!stakingRegionAddress && eligibility && !hasClaimed) {
+  if (!stakingRealmAddress && eligibility && !hasClaimed) {
     return <BannerClaim close={onClose} />
   }
 
-  if (!stakingRegionAddress) {
+  if (!stakingRealmAddress) {
     return (
       <BannerJoin
         redirect={() => setActiveTab(STAKE_TAB_INDEX)}
@@ -59,19 +59,19 @@ function RegionDetailsBanner({
     )
   }
 
-  if (isStakingRegion || (!isStakingRegion && rewardAmount > 0)) {
+  if (isStakingRealm || (!isStakingRealm && rewardAmount > 0)) {
     return <BannerRewards amount={rewardAmount} />
   }
 
   return null
 }
 
-export default function RegionDetails({ onClose }: RegionDetailsProps) {
+export default function RealmDetails({ onClose }: RealmDetailsProps) {
   const [activeTab, setActiveTab] = React.useState(0)
 
   return (
     <>
-      <RegionDetailsBanner
+      <RealmDetailsBanner
         onClose={onClose}
         activeTab={activeTab}
         setActiveTab={setActiveTab}

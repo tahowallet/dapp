@@ -86,8 +86,8 @@ export default function LiquidityPool() {
             size="medium"
             onClick={joinPool}
             isDisabled={
-              isValidInputAmount(tahoAmount) ||
-              isValidInputAmount(ethAmount) ||
+              !isValidInputAmount(tahoAmount) ||
+              !isValidInputAmount(ethAmount) ||
               !isConnected
             }
           >

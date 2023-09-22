@@ -1,15 +1,15 @@
 import React from "react"
 import backgroundImg from "public/dapp_island_bg.webp"
 import { limitToBounds } from "shared/utils"
-import { ISLAND_BOX, getRegionData } from "shared/constants"
-import { selectDisplayedRegionId, useDappSelector } from "redux-state"
+import { ISLAND_BOX, getRealmData } from "shared/constants"
+import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 
-export default function RegionBackgroundCutout() {
-  const realmId = useDappSelector(selectDisplayedRegionId)
+export default function RealmBackgroundCutout() {
+  const realmId = useDappSelector(selectDisplayedRealmId)
 
   if (!realmId) return null
 
-  const pathData = getRegionData(realmId)
+  const pathData = getRealmData(realmId)
 
   /**
    * For the x offset we want to push the realm to the right side of the modal

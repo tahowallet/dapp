@@ -3,7 +3,7 @@ import Button from "shared/components/Button"
 import lightIcon from "shared/assets/icons/m/light.svg"
 import Icon from "../Icon"
 
-type RegionBannerProps = {
+type RealmBannerProps = {
   label: ReactNode
   showHint?: boolean
   children?: React.ReactNode
@@ -11,13 +11,13 @@ type RegionBannerProps = {
   style?: CSSProperties
 }
 
-export default function RegionBanner({
+export default function RealmBanner({
   label,
   showHint = false,
   children,
   button,
   style,
-}: RegionBannerProps) {
+}: RealmBannerProps) {
   return (
     <>
       <div className="realm_banner row" style={style}>

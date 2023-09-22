@@ -26,19 +26,19 @@ export const joinTahoPool = createDappAsyncThunk(
     )
 
     if (!balancerPoolAddress || !balancerPoolAgentAddress) {
-      return null
+      return false
     }
 
     const allowanceCorrect = await dispatch(
       ensureAllowance({
         tokenAddress: TAHO_ADDRESS,
-        contractAddress: balancerPoolAgentAddress,
+        spender: balancerPoolAgentAddress,
         amount: tahoAmount,
       })
     )
 
     if (!allowanceCorrect) {
-      return null
+      return false
     }
 
     const maxAmountsIn = [tahoAmount, ethAmount]
@@ -47,7 +47,7 @@ export const joinTahoPool = createDappAsyncThunk(
     })
 
     if (lpTokenSupply === null) {
-      return null
+      return false
     }
 
     const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
@@ -62,6 +62,11 @@ export const joinTahoPool = createDappAsyncThunk(
       value: ethAmount,
     }
 
-    return transactionService.send(joinPool, { joinRequest, overrides })
+    const receipt = transactionService.send(joinPool, {
+      joinRequest,
+      overrides,
+    })
+
+    return !!receipt
   }
 )

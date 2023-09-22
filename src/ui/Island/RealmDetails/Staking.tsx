@@ -7,45 +7,28 @@ import {
   stakeTaho,
   useDappDispatch,
   useDappSelector,
-  selectDisplayedRegionAddress,
+  selectDisplayedRealmAddress,
   selectTokenBalanceByAddress,
-  selectStakingRegionAddress,
-  selectIsStakingRegionDisplayed,
+  selectStakingRealmAddress,
+  selectIsStakingRealmDisplayed,
+  selectDisplayedRealmVeTokenAddress,
+  unstakeTaho,
+  selectDisplayedRealmId,
 } from "redux-state"
-import { userAmountToBigInt, isSameAddress } from "shared/utils"
+import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
+import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
+import ModalLeavingNode from "../Modals/ModalLeavingNode"
 import BannerEarn from "./RealmBanners/BannerEarn"
 import BannerTakeToNode from "./RealmBanners/BannerTakeToNode"
 
-// TODO change to the correct address
-const VE_TOKEN_ADDRESS = CONTRACT_Taho
-
-function isDisabledStake(
-  tahoBalance: bigint,
-  hasStakingRegion: boolean,
-  isStakingRegion: boolean
+function isFormDisabled(
+  balance: bigint,
+  hasStakingRealm: boolean,
+  isStakingRealm: boolean
 ) {
-  return tahoBalance === 0n || (hasStakingRegion && !isStakingRegion)
-}
-
-function isDisabledUnstake(
-  stakeAmount: bigint | null,
-  stakingAddress: string | null,
-  selectedRegionAddress: string | null
-) {
-  // TODO: refactor once we have staked amount
-  if (
-    stakingAddress &&
-    selectedRegionAddress &&
-    isSameAddress(stakingAddress, selectedRegionAddress)
-  ) {
-    if (stakeAmount && stakeAmount > 0n) return false
-
-    return true
-  }
-
-  return true
+  return balance === 0n || (hasStakingRealm && !isStakingRealm)
 }
 
 type StakingProps = {
@@ -55,48 +38,74 @@ type StakingProps = {
 export default function Staking({ close }: StakingProps) {
   const dispatch = useDappDispatch()
 
-  const displayedRegionAddress = useDappSelector(selectDisplayedRegionAddress)
-  const stakingRegionContractAddress = useDappSelector(
-    selectStakingRegionAddress
+  const displayedRealmAddress = useDappSelector(selectDisplayedRealmAddress)
+  const displayedRealmVeTokenAddress = useDappSelector(
+    selectDisplayedRealmVeTokenAddress
   )
-  const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
-  const hasStakingRegion = !!stakingRegionContractAddress
+  const stakingRealmContractAddress = useDappSelector(selectStakingRealmAddress)
+  const displayedRealmId = useDappSelector(selectDisplayedRealmId)
+  const isStakingRealm = useDappSelector(selectIsStakingRealmDisplayed)
+  const hasStakingRealm = !!stakingRealmContractAddress
 
   const tahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, TAHO_ADDRESS)
   )
-  const alreadyStakeAmount = 0n // TODO: find out how much veTaho user has in this realm
+  const veTahoBalance = useDappSelector((state) =>
+    selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
+  )
   const [stakeAmount, setStakeAmount] = useState("")
+  const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
+
   const [unstakeAmount, setUnstakeAmount] = useState("")
+  const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
+
+  const [isLeavingModalVisible, setIsLeavingModalVisible] = useState(false)
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)
+  const [isUnstakeTransactionModalOpen, setIsUnstakeTransactionModalOpen] =
+    useState(false)
 
-  const disabledStake = isDisabledStake(
+  const disabledStake = isFormDisabled(
     tahoBalance,
-    hasStakingRegion,
-    isStakingRegion
+    hasStakingRealm,
+    isStakingRealm
   )
-  const disabledUnstake = isDisabledUnstake(
-    alreadyStakeAmount,
-    stakingRegionContractAddress,
-    displayedRegionAddress
+  const disabledUnstake = isFormDisabled(
+    veTahoBalance,
+    hasStakingRealm,
+    isStakingRealm
   )
 
   const stakeTransaction = () => {
     const amount = userAmountToBigInt(stakeAmount)
-    if (displayedRegionAddress && amount) {
+    if (displayedRealmAddress && amount) {
       dispatch(
         stakeTaho({
-          realmContractAddress: displayedRegionAddress,
+          realmContractAddress: displayedRealmAddress,
           amount,
         })
       )
     }
   }
 
-  const shouldLinkToNode = hasStakingRegion && !isStakingRegion
+  const unstakeTransaction = () => {
+    const amount = userAmountToBigInt(unstakeAmount)
+    if (displayedRealmAddress && displayedRealmVeTokenAddress && amount) {
+      dispatch(
+        unstakeTaho({
+          realmContractAddress: displayedRealmAddress,
+          veTokenContractAddress: displayedRealmVeTokenAddress,
+          amount,
+        })
+      )
+    }
+  }
+
+  const shouldLinkToNode = hasStakingRealm && !isStakingRealm
   const shouldLinkToReferrals = !shouldLinkToNode && tahoBalance === 0n
+
+  const isCooldownPeriod = false
 
   return (
     <>
@@ -118,38 +127,63 @@ export default function Staking({ close }: StakingProps) {
               amount={stakeAmount}
               tokenAddress={CONTRACT_Taho}
               onChange={setStakeAmount}
+              onValidate={(isValid) => setIsStakeAmountValid(isValid)}
             />
           </div>
           <Button
             type="primary"
             size="medium"
-            isDisabled={disabledStake}
+            isDisabled={
+              disabledStake ||
+              !isStakeAmountValid ||
+              !isValidInputAmount(stakeAmount)
+            }
             onClick={() => setIsStakeTransactionModalOpen(true)}
           >
             Stake $TAHO
           </Button>
         </div>
-        <div
-          className={classNames("stake_control", {
-            disabled: disabledUnstake,
-          })}
-        >
-          <div className="stake_control_header">
-            <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
-            <TokenAmountInput
-              label="Staked amount:"
-              inputLabel="Unstake amount"
-              disabled={disabledUnstake}
-              amount={unstakeAmount}
-              tokenAddress={VE_TOKEN_ADDRESS}
-              onChange={setUnstakeAmount}
-            />
+        {!isCooldownPeriod ? (
+          <div
+            className={classNames("stake_control", {
+              disabled: disabledUnstake,
+            })}
+          >
+            <div className="stake_control_header">
+              <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
+              <TokenAmountInput
+                label="Staked amount:"
+                inputLabel="Unstake amount"
+                disabled={disabledUnstake}
+                amount={unstakeAmount}
+                tokenAddress={displayedRealmVeTokenAddress ?? ""}
+                onChange={setUnstakeAmount}
+                onValidate={(isValid) => setIsUnstakeAmountValid(isValid)}
+              />
+            </div>
+            <Button
+              type="primary"
+              size="medium"
+              isDisabled={
+                disabledUnstake ||
+                !isUnstakeAmountValid ||
+                !isValidInputAmount(unstakeAmount)
+              }
+              onClick={() => setIsUnstakeTransactionModalOpen(true)}
+            >
+              Unstake $TAHO
+            </Button>
           </div>
-          <Button type="primary" size="medium" isDisabled={disabledUnstake}>
-            Unstake $TAHO
-          </Button>
-        </div>
+        ) : (
+          <UnstakeCooldown stakedAt={Date.now()} /> // TODO: change stakedAt to real value
+        )}
       </div>
+      {isLeavingModalVisible && displayedRealmId && (
+        <ModalLeavingNode
+          realmId={displayedRealmId}
+          close={() => setIsLeavingModalVisible(false)}
+        />
+      )}
       <TransactionsModal
         isOpen={isStakeTransactionModalOpen}
         close={() => setIsStakeTransactionModalOpen(false)}
@@ -160,6 +194,19 @@ export default function Staking({ close }: StakingProps) {
             buttonLabel: "Approve & stake",
             status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
             sendTransaction: stakeTransaction,
+          },
+        ]}
+      />
+      <TransactionsModal
+        isOpen={isUnstakeTransactionModalOpen}
+        close={() => setIsUnstakeTransactionModalOpen(false)}
+        transactions={[
+          {
+            id: "stake",
+            title: "Approve and unstake $TAHO",
+            buttonLabel: "Approve & unstake",
+            status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
+            sendTransaction: unstakeTransaction,
           },
         ]}
       />

@@ -1,18 +1,18 @@
 import React, { MutableRefObject, useContext, useEffect, useState } from "react"
-import { useDappDispatch } from "redux-state"
-import { fetchRegionAddresses } from "redux-state/thunks/island"
+import { fetchWalletBalances, useDappDispatch } from "redux-state"
+import { fetchRealmAddresses } from "redux-state/thunks/island"
 import { useArbitrumProvider } from "./wallets"
 
 export const IslandContext = React.createContext<
   MutableRefObject<IslandContextType>
 >({
   current: {
-    onRegionClick: () => {},
+    onRealmClick: () => {},
   },
 })
 
 export type IslandContextType = {
-  onRegionClick: (id: string) => void
+  onRealmClick: (id: string) => void
 }
 
 export function useIslandContext() {
@@ -28,7 +28,8 @@ export function useFetchRealmsContracts() {
     if (!provider || hasAlreadyFetched) return
 
     const fetchRealms = async () => {
-      await dispatch(fetchRegionAddresses())
+      await dispatch(fetchRealmAddresses())
+      await dispatch(fetchWalletBalances())
       setHasAlreadyFetched(true)
     }
 

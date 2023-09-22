@@ -1,25 +1,25 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRegionAddresses } from "redux-state/slices/island"
+import { setRealmContractData } from "redux-state/slices/island"
 import { TAHO_ADDRESS } from "shared/constants"
 import {
   getAllowance,
-  getRegionTokenAddresses,
-  getRegionVeTokenAddress,
+  getRealmTokenAddresses,
   setAllowance,
   stake,
   unstake,
 } from "shared/contracts"
-import { RegionContractDataWithId } from "shared/types"
+import { RealmContractDataWithId } from "shared/types"
+import { fetchWalletBalances } from "./wallet"
 
-export const fetchRegionAddresses = createDappAsyncThunk(
-  "island/fetchRegionAddresses",
+export const fetchRealmAddresses = createDappAsyncThunk(
+  "island/fetchRealmAddresses",
   async (_, { dispatch, getState, extra: { transactionService } }) => {
     const {
       island: { realms },
     } = getState()
 
     const realmsWithoutAddresses = Object.entries(realms).reduce<
-      RegionContractDataWithId[]
+      RealmContractDataWithId[]
     >((acc, [id, data]) => {
       if (data.realmContractAddress === null) {
         acc.push({ id, data })
@@ -28,15 +28,17 @@ export const fetchRegionAddresses = createDappAsyncThunk(
     }, [])
 
     const realmAddresses = await transactionService.read(
-      getRegionTokenAddresses,
+      getRealmTokenAddresses,
       {
         realms: realmsWithoutAddresses,
       }
     )
 
     if (realmAddresses !== null) {
-      dispatch(setRegionAddresses(realmAddresses))
+      dispatch(setRealmContractData(realmAddresses))
     }
+
+    return realmAddresses
   }
 )
 
@@ -45,9 +47,9 @@ export const ensureAllowance = createDappAsyncThunk(
   async (
     {
       tokenAddress,
-      contractAddress,
+      spender,
       amount,
-    }: { tokenAddress: string; contractAddress: string; amount: bigint },
+    }: { tokenAddress: string; spender: string; amount: bigint },
     { extra: { transactionService } }
   ) => {
     const account = await transactionService.getSignerAddress()
@@ -55,7 +57,7 @@ export const ensureAllowance = createDappAsyncThunk(
     const allowanceValue = await transactionService.read(getAllowance, {
       tokenAddress,
       account,
-      contractAddress,
+      spender,
     })
 
     if (allowanceValue === null) {
@@ -65,7 +67,7 @@ export const ensureAllowance = createDappAsyncThunk(
     if (allowanceValue < amount) {
       const receipt = await transactionService.send(setAllowance, {
         tokenAddress,
-        account,
+        spender,
         amount,
       })
 
@@ -88,19 +90,25 @@ export const stakeTaho = createDappAsyncThunk(
     const allowanceCorrect = await dispatch(
       ensureAllowance({
         tokenAddress: TAHO_ADDRESS,
-        contractAddress: realmContractAddress,
+        spender: realmContractAddress,
         amount,
       })
     )
 
     if (!allowanceCorrect) {
-      return null
+      return false
     }
 
-    return transactionService.send(stake, {
+    const receipt = await transactionService.send(stake, {
       realmContractAddress,
       amount,
     })
+
+    if (receipt) {
+      dispatch(fetchWalletBalances())
+    }
+
+    return !!receipt
   }
 )
 
@@ -109,36 +117,36 @@ export const unstakeTaho = createDappAsyncThunk(
   async (
     {
       realmContractAddress,
+      veTokenContractAddress,
       amount,
-    }: { realmContractAddress: string; amount: bigint },
+    }: {
+      realmContractAddress: string
+      veTokenContractAddress: string
+      amount: bigint
+    },
     { dispatch, extra: { transactionService } }
   ) => {
-    const veTokenAddress = await transactionService.read(
-      getRegionVeTokenAddress,
-      {
-        realmContractAddress,
-      }
-    )
-
-    if (!veTokenAddress) {
-      return null
-    }
-
     const allowanceCorrect = await dispatch(
       ensureAllowance({
-        tokenAddress: veTokenAddress,
-        contractAddress: realmContractAddress,
+        tokenAddress: veTokenContractAddress,
+        spender: realmContractAddress,
         amount,
       })
     )
 
     if (!allowanceCorrect) {
-      return null
+      return false
     }
 
-    return transactionService.send(unstake, {
+    const receipt = await transactionService.send(unstake, {
       realmContractAddress,
       amount,
     })
+
+    if (receipt) {
+      dispatch(fetchWalletBalances())
+    }
+
+    return !!receipt
   }
 )

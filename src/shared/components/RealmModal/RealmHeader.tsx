@@ -4,12 +4,12 @@ import Icon from "shared/components/Icon"
 
 import iconCommunity from "shared/assets/icons/people.svg"
 import iconStar from "shared/assets/icons/star.svg"
-import { getRegionData } from "shared/constants"
+import { getRealmData } from "shared/constants"
 import {
-  RegionCutout,
-  RegionBackgroundCutout,
+  RealmCutout,
+  RealmBackgroundCutout,
 } from "shared/components/RealmCutout"
-import { selectDisplayedRegionId, useDappSelector } from "redux-state"
+import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 
 export const mockData = {
   details:
@@ -18,20 +18,20 @@ export const mockData = {
   xpfn: "NFT Collector",
 } as const
 
-export default function RegionHeader() {
-  const realmId = useDappSelector(selectDisplayedRegionId)
+export default function RealmHeader() {
+  const realmId = useDappSelector(selectDisplayedRealmId)
 
   if (!realmId) return null
 
-  const data = { ...mockData, ...getRegionData(realmId) }
+  const data = { ...mockData, ...getRealmData(realmId) }
 
   return (
     <header className="column">
       <div className="realm_header_bg">
-        <RegionBackgroundCutout />
+        <RealmBackgroundCutout />
       </div>
       <div className="realm_thumb">
-        <RegionCutout />
+        <RealmCutout />
       </div>
       <h1>{data.name}</h1>
       <div className="realm_details_header column">
@@ -98,10 +98,11 @@ export default function RegionHeader() {
             align-items: center;
             gap: 4px;
           }
+
           .realm_thumb {
             position: absolute;
             right: 0;
-            transform: translateY(-75px) translateX(-24px);
+            top: -48px;
           }
 
           .realm_description {

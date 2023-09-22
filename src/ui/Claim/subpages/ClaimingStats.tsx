@@ -5,11 +5,11 @@ import Icon from "shared/components/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
 import { useDappSelector, selectEligibility } from "redux-state"
-import { RegionCutout } from "shared/components/RealmCutout"
-import { getRegionData } from "shared/constants"
+import { RealmCutout } from "shared/components/RealmCutout"
+import { getRealmData } from "shared/constants"
 import ClaimCheckRules from "../components/ClaimCheckRules"
 
-const MOCK_REALM = { population: "12,345", ...getRegionData("4") }
+const MOCK_REALM = { population: "12,345", ...getRealmData("4") }
 
 export default function ClaimingStats() {
   const eligibility = useDappSelector(selectEligibility)
@@ -27,7 +27,7 @@ export default function ClaimingStats() {
         <span>-</span>
         <div className="line" />
         <div className="stats_header row">
-          Region (Suggested{" "}
+          Realm (Suggested{" "}
           <Icon color="var(--secondary-s1-80)" src={infoIcon} />)
         </div>
         <div className="stats_card column">
@@ -35,7 +35,7 @@ export default function ClaimingStats() {
           <div className="stats_card_label">population</div>
           <div className="stats_card_value">{MOCK_REALM.population}</div>
           <div className="stats_card_realm">
-            <RegionCutout />
+            <RealmCutout />
           </div>
         </div>
       </div>

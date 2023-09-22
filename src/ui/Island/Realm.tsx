@@ -8,7 +8,7 @@ import { animated, easings, useSpring } from "@react-spring/konva"
 import { REALMS_COUNT } from "shared/constants"
 import { useIslandContext } from "../../shared/hooks/island"
 
-type RegionProps = {
+type RealmProps = {
   id: string
   imageLayer: HTMLCanvasElement
   path: string
@@ -22,7 +22,7 @@ type RegionProps = {
   labelY: number
 }
 
-export default function Region({
+export default function Realm({
   path,
   width,
   height,
@@ -34,7 +34,7 @@ export default function Region({
   imageLayer,
   labelX,
   labelY,
-}: RegionProps) {
+}: RealmProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
   const islandContext = useIslandContext()
@@ -44,9 +44,9 @@ export default function Region({
   const imageLayerRef = useRef<Konva.Image>(null)
   const overlayRef = useRef<Konva.Path>(null)
 
-  const handleRegionClick = () => {
+  const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
-    islandContext.current.onRegionClick(id)
+    islandContext.current.onRealmClick(id)
   }
 
   useLayoutEffect(() => {
@@ -230,7 +230,7 @@ export default function Region({
         data={path}
         width={width}
         height={height}
-        onClick={handleRegionClick}
+        onClick={handleRealmClick}
         {...pathProps}
       />
     </Group>

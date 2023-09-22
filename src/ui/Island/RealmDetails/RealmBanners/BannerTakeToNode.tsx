@@ -1,25 +1,22 @@
 import React from "react"
-import { selectStakingRegionAddress, useDappSelector } from "redux-state"
+import { selectStakingRealmId, useDappSelector } from "redux-state"
 import Button from "shared/components/Button"
-import RegionBanner from "shared/components/RealmModal/RealmBanner"
+import RealmBanner from "shared/components/RealmModal/RealmBanner"
 import { useIslandContext } from "shared/hooks"
 
 export default function BannerTakeToNode() {
-  const { onRegionClick } = useIslandContext().current
-  const stakingRegionContractAddress = useDappSelector(
-    selectStakingRegionAddress
-  )
+  const { onRealmClick } = useIslandContext().current
+  const stakingRealmContractId = useDappSelector(selectStakingRealmId)
 
   return (
-    <RegionBanner
+    <RealmBanner
       label="You are already staked in another node,"
       showHint
       style={{ marginTop: 24, marginBottom: 0 }}
       button={
         <Button
           onClick={() =>
-            stakingRegionContractAddress &&
-            onRegionClick(stakingRegionContractAddress)
+            stakingRealmContractId && onRealmClick(stakingRealmContractId)
           }
         >
           Take me to my node

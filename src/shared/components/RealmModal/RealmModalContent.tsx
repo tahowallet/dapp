@@ -1,28 +1,28 @@
 import React from "react"
 import Modal from "shared/components/Modal"
 import {
-  selectDisplayedRegionId,
-  selectIsJoinRegionIslandMode,
+  selectDisplayedRealmId,
+  selectIsJoinRealmIslandMode,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import classNames from "classnames"
 import { useHistory } from "react-router-dom"
 import { resetIsland } from "redux-state/slices/island"
-import { setSelectedRegionId } from "redux-state/slices/claim"
+import { setSelectedRealmId } from "redux-state/slices/claim"
 import { ROUTES } from "shared/constants"
-import RegionHeader from "./RealmHeader"
+import RealmHeader from "./RealmHeader"
 import Button from "../Button"
 
-export default function RegionModalContent({
+export default function RealmModalContent({
   children,
   onClose,
 }: {
   children: React.ReactNode
   onClose: () => void
 }) {
-  const isJoinRegionMode = useDappSelector(selectIsJoinRegionIslandMode)
-  const realmId = useDappSelector(selectDisplayedRegionId)
+  const isJoinRealmMode = useDappSelector(selectIsJoinRealmIslandMode)
+  const realmId = useDappSelector(selectDisplayedRealmId)
 
   const location = useHistory()
   const dispatch = useDappDispatch()
@@ -32,7 +32,7 @@ export default function RegionModalContent({
   const handleClose = () => {
     onClose()
     dispatch(resetIsland())
-    dispatch(setSelectedRegionId(realmId))
+    dispatch(setSelectedRealmId(realmId))
     location.push(ROUTES.CLAIM.DETAILS_SIGN)
   }
 
@@ -41,11 +41,11 @@ export default function RegionModalContent({
       <div className="modal">
         <div
           className={classNames("modal_header", {
-            row_end: isJoinRegionMode,
+            row_end: isJoinRealmMode,
           })}
         >
-          <RegionHeader />
-          {isJoinRegionMode && (
+          <RealmHeader />
+          {isJoinRealmMode && (
             <div>
               <Button onClick={handleClose} type="primary" size="large">
                 Choose this realm
@@ -55,7 +55,7 @@ export default function RegionModalContent({
         </div>
         <div
           className={classNames("modal_content", {
-            dark: isJoinRegionMode,
+            dark: isJoinRealmMode,
           })}
         >
           {children}

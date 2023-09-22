@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from "react"
 import { selectIsDefaultIslandMode } from "redux-state/selectors/island"
-import RegionModal from "shared/components/RealmModal"
+import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
 import { useValueRef } from "shared/hooks"
 import {
-  setDisplayedRegionId,
+  setDisplayedRealmId,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import InteractiveIsland from "./InteractiveIsland"
 import { IslandContext } from "../../shared/hooks/island"
-import RegionDetails from "./RealmDetails"
+import RealmDetails from "./RealmDetails"
 import Rewards from "./RealmDetails/Rewards"
 
 const MemoizedInteractiveIsland = React.memo(InteractiveIsland)
@@ -33,23 +33,23 @@ export default function IslandWrapper() {
     })
   }, [])
 
-  const [realmId, setRegionId] = useState<null | string>(null)
+  const [realmId, setRealmId] = useState<null | string>(null)
 
   const dispatch = useDappDispatch()
 
   useEffect(() => {
-    dispatch(setDisplayedRegionId(realmId))
+    dispatch(setDisplayedRealmId(realmId))
   }, [dispatch, realmId])
 
   const contextRef = useValueRef(() => ({
-    onRegionClick: (id: string) => {
-      setRegionId(String(id))
+    onRealmClick: (id: string) => {
+      setRealmId(String(id))
     },
   }))
 
   const isDefaultIslandMode = useDappSelector(selectIsDefaultIslandMode)
 
-  const handleClose = useCallback(() => setRegionId(null), [])
+  const handleClose = useCallback(() => setRealmId(null), [])
 
   if (!assetsLoaded) {
     return null
@@ -70,14 +70,14 @@ export default function IslandWrapper() {
       <IslandContext.Provider value={contextRef}>
         <MemoizedInteractiveIsland />
         {realmId && (
-          <RegionModal onClose={handleClose}>
+          <RealmModal onClose={handleClose}>
             {isDefaultIslandMode ? (
-              <RegionDetails onClose={handleClose} />
+              <RealmDetails onClose={handleClose} />
             ) : (
               // TODO: update if claim flow will be used
               <Rewards />
             )}
-          </RegionModal>
+          </RealmModal>
         )}
       </IslandContext.Provider>
     </div>

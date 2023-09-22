@@ -8,8 +8,8 @@ import {
 import Modal from "shared/components/Modal"
 import { realms } from "shared/constants"
 import { useIslandContext } from "shared/hooks"
-import { selectDisplayedRegionId, useDappSelector } from "redux-state"
-import RegionModalContent from "./RealmModalContent"
+import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import RealmModalContent from "./RealmModalContent"
 
 function PrevBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   return (
@@ -124,26 +124,26 @@ function NextBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-export default function RegionModal({
+export default function RealmModal({
   onClose,
   children,
 }: {
   onClose: () => void
   children: React.ReactNode
 }) {
-  const initialRegionId = useDappSelector(selectDisplayedRegionId)
+  const initialRealmId = useDappSelector(selectDisplayedRealmId)
 
   const islandContext = useIslandContext()
 
-  const [prevRegion, nextRegion] = useMemo(() => {
-    const index = realms.findIndex((realm) => realm.id === initialRegionId)
+  const [prevRealm, nextRealm] = useMemo(() => {
+    const index = realms.findIndex((realm) => realm.id === initialRealmId)
 
     const prev =
       index - 1 < 0 ? realms[realms.length - 1].id : realms[index - 1].id
     const next =
       index + 1 === realms.length ? realms[0].id : realms[index + 1].id
     return [prev, next]
-  }, [initialRegionId])
+  }, [initialRealmId])
 
   const [props] = useSpring(
     () => ({
@@ -161,10 +161,11 @@ export default function RegionModal({
     []
   )
 
-  const transitions = useSpringTransition(initialRegionId, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
+  const transitions = useSpringTransition(initialRealmId, {
+    initial: { backdropFilter: "blur(26px)" },
+    from: { opacity: 0, backdropFilter: "blur(0)" },
+    enter: { opacity: 1, backdropFilter: "blur(26px)" },
+    leave: { opacity: 0, backdropFilter: "blur(0)" },
     exitBeforeEnter: true,
     config: { duration: 200, easing: easings.easeOutQuad },
   })
@@ -175,31 +176,41 @@ export default function RegionModal({
         <PrevBtn
           style={{
             position: "absolute",
-            top: "68px",
+            top: 180,
             left: -80,
             zIndex: 1,
             transform: "translateX(-100%)",
           }}
-          onClick={() => islandContext.current.onRegionClick(prevRegion)}
+          onClick={() => islandContext.current.onRealmClick(prevRealm)}
         />
         <NextBtn
           style={{
             position: "absolute",
-            top: "68px",
+            top: 180,
             right: -80,
             zIndex: 1,
             transform: "translateX(100%)",
           }}
-          onClick={() => islandContext.current.onRegionClick(nextRegion)}
+          onClick={() => islandContext.current.onRealmClick(nextRealm)}
         />
         <animated.div style={props}>
-          {transitions((style) => (
-            <animated.div style={{ ...style }}>
-              <RegionModalContent onClose={onClose}>
-                {children}
-              </RegionModalContent>
-            </animated.div>
-          ))}
+          <div
+            className="no_scrollbar"
+            style={{
+              height: "100vh",
+              overflow: "hidden auto",
+              paddingTop: 104,
+              paddingBottom: 90,
+            }}
+          >
+            {transitions((style) => (
+              <animated.div style={{ ...style }}>
+                <RealmModalContent onClose={onClose}>
+                  {children}
+                </RealmModalContent>
+              </animated.div>
+            ))}
+          </div>
         </animated.div>
       </animated.div>
     </Modal.Container>

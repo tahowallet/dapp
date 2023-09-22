@@ -8,7 +8,7 @@ import iconStatusOptional from "shared/assets/icons/s/status-optional.svg"
 
 type ClaimingStatus = "done" | "current" | "upcoming" | "optional"
 
-const CLAIMING_STEPS = ["Community Pledge", "Claim", "Region"] as const
+const CLAIMING_STEPS = ["Community Pledge", "Claim", "Realm"] as const
 
 type ClaimingStep = (typeof CLAIMING_STEPS)[number]
 
@@ -40,7 +40,7 @@ function getStatus(
   step: ClaimingStep,
   currentStep: ClaimingStep
 ): ClaimingStatus {
-  if (step === "Region") {
+  if (step === "Realm") {
     return "optional"
   }
   if (step === currentStep) {
@@ -77,7 +77,7 @@ export default function ClaimingSteps({
                 />
                 <span>{step}</span>
               </div>
-              {step !== "Region" && <div className="divider" />}
+              {step !== "Realm" && <div className="divider" />}
             </React.Fragment>
           )
         })}

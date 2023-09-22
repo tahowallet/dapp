@@ -27,22 +27,22 @@ export const getSymbol: ReadTransactionBuilder<
 }
 
 export const getAllowance: ReadTransactionBuilder<
-  { tokenAddress: string; account: string; contractAddress: string },
+  { tokenAddress: string; account: string; spender: string },
   bigint
-> = async (provider, { tokenAddress, account, contractAddress }) => {
+> = async (provider, { tokenAddress, account, spender }) => {
   const token = await getTokenContract(provider, { tokenAddress })
 
-  return BigInt((await token.allowance(account, contractAddress)).toString())
+  return BigInt((await token.allowance(account, spender)).toString())
 }
 
 export const setAllowance: WriteTransactionBuilder<{
   tokenAddress: string
-  account: string
+  spender: string
   amount: bigint
-}> = async (provider, account, { tokenAddress, amount }) => {
+}> = async (provider, _, { tokenAddress, amount, spender }) => {
   const token = await getTokenContract(provider, { tokenAddress })
 
-  return token.populateTransaction.approve(account, amount)
+  return token.populateTransaction.approve(spender, amount)
 }
 
 export const getTotalSupply: ReadTransactionBuilder<

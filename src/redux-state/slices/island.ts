@@ -1,27 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { OverlayType, RegionContractData } from "shared/types"
+import { OverlayType, RealmContractData } from "shared/types"
 
 // TODO: names and ids may change
-const REALMS: { [id: string]: RegionContractData } = {
+const REALMS: { [id: string]: RealmContractData } = {
   "4": {
     name: "VAMPIRE_NODE",
     realmContractAddress: null,
+    veTokenContractAddress: null,
   },
   "7": {
     name: "EDUCATE_NODE",
     realmContractAddress: null,
+    veTokenContractAddress: null,
   },
   "9": {
     name: "SOCIAL_NODE",
     realmContractAddress: null,
+    veTokenContractAddress: null,
   },
   "19": {
     name: "CREATORS_NODE",
     realmContractAddress: null,
+    veTokenContractAddress: null,
   },
   "22": {
     name: "DEFI_NODE",
     realmContractAddress: null,
+    veTokenContractAddress: null,
   },
 }
 
@@ -30,17 +35,17 @@ type IslandModeType = "default" | "join-realm"
 export type IslandState = {
   mode: IslandModeType
   overlay: OverlayType
-  realms: { [id: string]: RegionContractData }
-  stakingRegionId: string | null
-  displayedRegionId: string | null
+  realms: { [id: string]: RealmContractData }
+  stakingRealmId: string | null
+  displayedRealmId: string | null
 }
 
 const initialState: IslandState = {
   mode: "default",
   overlay: "none",
   realms: REALMS,
-  stakingRegionId: null,
-  displayedRegionId: null,
+  stakingRealmId: null,
+  displayedRealmId: null,
 }
 
 const islandSlice = createSlice({
@@ -59,27 +64,28 @@ const islandSlice = createSlice({
     ) => {
       immerState.overlay = overlay
     },
-    setRegionAddresses: (
+    setRealmContractData: (
       immerState,
       {
         payload: realmAddresses,
-      }: { payload: { id: string; address: string }[] }
+      }: { payload: { id: string; address: string; veTokenAddress: string }[] }
     ) => {
-      realmAddresses.forEach(({ id, address }) => {
+      realmAddresses.forEach(({ id, address, veTokenAddress }) => {
         immerState.realms[id].realmContractAddress = address
+        immerState.realms[id].veTokenContractAddress = veTokenAddress
       })
     },
-    setStakingRegionId: (
+    setStakingRealmId: (
       immerState,
-      { payload: stakingRegionId }: { payload: string | null }
+      { payload: stakingRealmId }: { payload: string | null }
     ) => {
-      immerState.stakingRegionId = stakingRegionId
+      immerState.stakingRealmId = stakingRealmId
     },
-    setDisplayedRegionId: (
+    setDisplayedRealmId: (
       immerState,
-      { payload: displayedRegionId }: { payload: string | null }
+      { payload: displayedRealmId }: { payload: string | null }
     ) => {
-      immerState.displayedRegionId = displayedRegionId
+      immerState.displayedRealmId = displayedRealmId
     },
     resetIsland: (immerState) => {
       immerState.mode = "default"
@@ -92,8 +98,9 @@ export const {
   setIslandMode,
   setIslandOverlay,
   resetIsland,
-  setRegionAddresses,
-  setDisplayedRegionId,
+  setRealmContractData,
+  setDisplayedRealmId,
+  setStakingRealmId,
 } = islandSlice.actions
 
 export default islandSlice.reducer

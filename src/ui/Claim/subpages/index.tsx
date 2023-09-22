@@ -1,14 +1,14 @@
 import React from "react"
 import Modal from "shared/components/Modal"
-import { selectIsJoinRegionIslandMode } from "redux-state/selectors/island"
+import { selectIsJoinRealmIslandMode } from "redux-state/selectors/island"
 import { useDappSelector } from "redux-state"
 import ClaimingStats from "./ClaimingStats"
 import ClaimingFlow from "./ClaimingFlow"
 
 export default function Claiming() {
-  const isJoinRegionMode = useDappSelector(selectIsJoinRegionIslandMode)
+  const isJoinRealmMode = useDappSelector(selectIsJoinRealmIslandMode)
 
-  if (isJoinRegionMode) {
+  if (isJoinRealmMode) {
     return null
   }
 

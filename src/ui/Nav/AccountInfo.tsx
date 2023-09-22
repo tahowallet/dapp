@@ -4,8 +4,8 @@ import {
   selectWalletAvatar,
   selectWalletName,
 } from "redux-state"
-import { getRegionData } from "shared/constants"
-import RegionIcon from "shared/components/RealmIcon"
+import { getRealmData } from "shared/constants"
+import RealmIcon from "shared/components/RealmIcon"
 import AccountDropdown from "./AccountDropdown"
 
 // TODO: use realm for given account
@@ -15,7 +15,7 @@ export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const name = useDappSelector(selectWalletName)
   const avatar = useDappSelector(selectWalletAvatar)
-  const realm = realmMock ? getRegionData(realmMock.id.toString()) : undefined
+  const realm = realmMock ? getRealmData(realmMock.id.toString()) : undefined
 
   if (!name) return null
 
@@ -25,7 +25,7 @@ export default function AccountInfo() {
       {realmMock && (
         <div className="realm_container row">
           {realm && (
-            <RegionIcon realmId={realm.id} type="fill" color="#f4d03f" />
+            <RealmIcon realmId={realm.id} type="fill" color="#f4d03f" />
           )}
           <span className="realm_label">{realmMock.name}</span>
         </div>

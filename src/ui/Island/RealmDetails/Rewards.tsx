@@ -1,10 +1,10 @@
 import React from "react"
-import { selectDisplayedRegionId, useDappSelector } from "redux-state"
+import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
 import starIcon from "shared/assets/icons/star.svg"
-import RegionIcon from "shared/components/RealmIcon"
+import RealmIcon from "shared/components/RealmIcon"
 
 const EPOCH = {
   number: "1",
@@ -38,7 +38,7 @@ function RewardsDetails({ realmId }: { realmId: string }) {
 
         <div className="content_details_token column">
           <h1 className="amount row_center">
-            <RegionIcon
+            <RealmIcon
               realmId={realmId}
               type="circle"
               width="32px"
@@ -135,7 +135,7 @@ function RewardsActions() {
 }
 
 export default function Rewards() {
-  const realmId = useDappSelector(selectDisplayedRegionId)
+  const realmId = useDappSelector(selectDisplayedRealmId)
 
   if (!realmId) return null
 

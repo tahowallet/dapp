@@ -1,6 +1,6 @@
 import React from "react"
 import Button from "shared/components/Button"
-import RegionBanner from "shared/components/RealmModal/RealmBanner"
+import RealmBanner from "shared/components/RealmModal/RealmBanner"
 
 type BannerJoinProps = {
   isDisabled: boolean
@@ -9,7 +9,7 @@ type BannerJoinProps = {
 
 export default function BannerJoin({ isDisabled, redirect }: BannerJoinProps) {
   return (
-    <RegionBanner
+    <RealmBanner
       label="In order to join a realm, you need to stake $TAHO into that realm."
       showHint
       button={

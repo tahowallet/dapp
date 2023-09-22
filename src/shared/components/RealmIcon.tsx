@@ -1,21 +1,21 @@
 import classNames from "classnames"
 import React from "react"
-import { getRegionData } from "shared/constants"
+import { getRealmData } from "shared/constants"
 
-type RegionIconProps = {
+type RealmIconProps = {
   realmId: string
   color: string
   type?: "fill" | "circle"
   width?: string
 }
 
-export default function RegionIcon({
+export default function RealmIcon({
   realmId,
   color,
   type = "fill",
   width = "16px",
-}: RegionIconProps) {
-  const realm = getRegionData(realmId)
+}: RealmIconProps) {
+  const realm = getRealmData(realmId)
 
   return (
     <div

@@ -4,7 +4,7 @@ import useImage from "use-image"
 import backgroundImg from "public/dapp_island_bg.webp"
 import { realms } from "shared/constants"
 import { createCutoutFromPath } from "shared/utils"
-import Region from "./Realm"
+import Realm from "./Realm"
 
 export default function IslandRealms() {
   const [bg] = useImage(backgroundImg)
@@ -22,7 +22,7 @@ export default function IslandRealms() {
   return (
     <>
       {realmImgLayers.map(({ realm, layer: crop }) => (
-        <Region
+        <Realm
           key={realm.id}
           id={realm.id}
           imageLayer={crop}

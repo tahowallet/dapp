@@ -5,7 +5,7 @@ type Dimensions = {
   height: number
 }
 
-type RegionRenderData = {
+type RealmRenderData = {
   id: string
   h: number
   w: number
@@ -51,7 +51,7 @@ export function getMinimumScale(content: Dimensions, container: Dimensions) {
 }
 
 export function createCutoutFromPath(
-  realmData: RegionRenderData,
+  realmData: RealmRenderData,
   image: HTMLImageElement
 ) {
   const { x, y, w, h, paths } = realmData
@@ -85,7 +85,7 @@ export function createCutoutFromPath(
 }
 
 export function createBackgroundMask(
-  realms: RegionRenderData[],
+  realms: RealmRenderData[],
   bgImage: HTMLImageElement
 ) {
   const canvas = document.createElement("canvas")

@@ -1,2 +1,3 @@
-export { default as RegionCutout } from "./RealmCutout"
-export { default as RegionBackgroundCutout } from "./RealmBackgroundCutout"
+export { default as RealmCutout } from "./RealmCutout"
+export { default as RealmBackgroundCutout } from "./RealmBackgroundCutout"
+export { default as RealmPin } from "./RealmPin"
