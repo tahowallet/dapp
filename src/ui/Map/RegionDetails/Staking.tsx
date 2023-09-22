@@ -18,6 +18,7 @@ import {
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
+import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import BannerEarn from "./RegionBanners/BannerEarn"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
 import ModalLeavingNode from "../Modals/ModalLeavingNode"
@@ -106,6 +107,8 @@ export default function Staking({ close }: StakingProps) {
   const shouldLinkToNode = hasStakingRegion && !isStakingRegion
   const shouldLinkToReferrals = !shouldLinkToNode && tahoBalance === 0n
 
+  const isCooldownPeriod = false
+
   return (
     <>
       {shouldLinkToNode && <BannerTakeToNode />}
@@ -142,36 +145,40 @@ export default function Staking({ close }: StakingProps) {
             Stake $TAHO
           </Button>
         </div>
-        <div
-          className={classNames("stake_control", {
-            disabled: disabledUnstake,
-          })}
-        >
-          <div className="stake_control_header">
-            <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
-            <TokenAmountInput
-              label="Staked amount:"
-              inputLabel="Unstake amount"
-              disabled={disabledUnstake}
-              amount={unstakeAmount}
-              tokenAddress={displayedRegionVeTokenAddress ?? ""}
-              onChange={setUnstakeAmount}
-              onValidate={(isValid) => setIsUnstakeAmountValid(isValid)}
-            />
-          </div>
-          <Button
-            type="primary"
-            size="medium"
-            isDisabled={
-              disabledUnstake ||
-              !isUnstakeAmountValid ||
-              !isValidInputAmount(unstakeAmount)
-            }
-            onClick={() => setIsUnstakeTransactionModalOpen(true)}
+        {!isCooldownPeriod ? (
+          <div
+            className={classNames("stake_control", {
+              disabled: disabledUnstake,
+            })}
           >
-            Unstake $TAHO
-          </Button>
-        </div>
+            <div className="stake_control_header">
+              <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
+              <TokenAmountInput
+                label="Staked amount:"
+                inputLabel="Unstake amount"
+                disabled={disabledUnstake}
+                amount={unstakeAmount}
+                tokenAddress={displayedRegionVeTokenAddress ?? ""}
+                onChange={setUnstakeAmount}
+                onValidate={(isValid) => setIsUnstakeAmountValid(isValid)}
+              />
+            </div>
+            <Button
+              type="primary"
+              size="medium"
+              isDisabled={
+                disabledUnstake ||
+                !isUnstakeAmountValid ||
+                !isValidInputAmount(unstakeAmount)
+              }
+              onClick={() => setIsUnstakeTransactionModalOpen(true)}
+            >
+              Unstake $TAHO
+            </Button>
+          </div>
+        ) : (
+          <UnstakeCooldown stakedAt={Date.now()} /> // TODO: change stakedAt to real value
+        )}
       </div>
       {isLeavingModalVisible && displayedRegionId && (
         <ModalLeavingNode
