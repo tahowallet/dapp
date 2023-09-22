@@ -101,9 +101,9 @@ export function bigIntToUserAmount(
  */
 export function isValidInputAmount(amount: string): boolean {
   return (
-    !amount.trim() ||
-    Number.isNaN(parseFloat(amount)) ||
-    parseFloat(amount) <= 0
+    !!amount.trim() &&
+    !Number.isNaN(parseFloat(amount)) &&
+    parseFloat(amount) >= 0
   )
 }
 

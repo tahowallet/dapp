@@ -98,10 +98,11 @@ export default function RegionHeader() {
             align-items: center;
             gap: 4px;
           }
+
           .region_thumb {
             position: absolute;
             right: 0;
-            transform: translateY(-75px) translateX(-24px);
+            top: -48px;
           }
 
           .region_description {
