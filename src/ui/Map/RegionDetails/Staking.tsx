@@ -11,12 +11,14 @@ import {
   selectTokenBalanceByAddress,
   selectStakingRegionAddress,
   selectIsStakingRegionDisplayed,
+  selectDisplayedRegionId,
 } from "redux-state"
 import { userAmountToBigInt, isSameAddress } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import BannerEarn from "./RegionBanners/BannerEarn"
 import BannerTakeToNode from "./RegionBanners/BannerTakeToNode"
+import ModalLeavingNode from "../Modals/ModalLeavingNode"
 
 // TODO change to the correct address
 const VE_TOKEN_ADDRESS = CONTRACT_Taho
@@ -59,6 +61,7 @@ export default function Staking({ close }: StakingProps) {
   const stakingRegionContractAddress = useDappSelector(
     selectStakingRegionAddress
   )
+  const displayedRegionId = useDappSelector(selectDisplayedRegionId)
   const isStakingRegion = useDappSelector(selectIsStakingRegionDisplayed)
   const hasStakingRegion = !!stakingRegionContractAddress
 
@@ -68,6 +71,8 @@ export default function Staking({ close }: StakingProps) {
   const alreadyStakeAmount = 0n // TODO: find out how much veTaho user has in this region
   const [stakeAmount, setStakeAmount] = useState("")
   const [unstakeAmount, setUnstakeAmount] = useState("")
+
+  const [isLeavingModalVisible, setIsLeavingModalVisible] = useState(false)
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)
@@ -145,11 +150,22 @@ export default function Staking({ close }: StakingProps) {
               onChange={setUnstakeAmount}
             />
           </div>
-          <Button type="primary" size="medium" isDisabled={disabledUnstake}>
+          <Button
+            type="primary"
+            size="medium"
+            onClick={() => setIsLeavingModalVisible(true)}
+            isDisabled={disabledUnstake}
+          >
             Unstake $TAHO
           </Button>
         </div>
       </div>
+      {isLeavingModalVisible && displayedRegionId && (
+        <ModalLeavingNode
+          regionId={displayedRegionId}
+          close={() => setIsLeavingModalVisible(false)}
+        />
+      )}
       <TransactionsModal
         isOpen={isStakeTransactionModalOpen}
         close={() => setIsStakeTransactionModalOpen(false)}

@@ -10,7 +10,7 @@ import SharedInput from "shared/components/Input"
 
 import { truncateAddress } from "shared/utils"
 
-const mockData = new Array(10)
+const mockData = new Array(20)
   .fill({ address: "0", xp: 240e3 })
   .map((item) => ({
     ...item,
@@ -81,7 +81,6 @@ export default function Leaderboard() {
 
         .leaderboard_container {
           overflow-y: auto;
-          max-height: 360px;
           scrollbar-width: none;
         }
 

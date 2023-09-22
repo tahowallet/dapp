@@ -162,9 +162,10 @@ export default function RegionModal({
   )
 
   const transitions = useSpringTransition(initialRegionId, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
+    initial: { backdropFilter: "blur(26px)" },
+    from: { opacity: 0, backdropFilter: "blur(0)" },
+    enter: { opacity: 1, backdropFilter: "blur(26px)" },
+    leave: { opacity: 0, backdropFilter: "blur(0)" },
     exitBeforeEnter: true,
     config: { duration: 200, easing: easings.easeOutQuad },
   })
@@ -175,7 +176,7 @@ export default function RegionModal({
         <PrevBtn
           style={{
             position: "absolute",
-            top: "68px",
+            top: 180,
             left: -80,
             zIndex: 1,
             transform: "translateX(-100%)",
@@ -185,7 +186,7 @@ export default function RegionModal({
         <NextBtn
           style={{
             position: "absolute",
-            top: "68px",
+            top: 180,
             right: -80,
             zIndex: 1,
             transform: "translateX(100%)",
@@ -193,13 +194,23 @@ export default function RegionModal({
           onClick={() => mapContext.current.onRegionClick(nextRegion)}
         />
         <animated.div style={props}>
-          {transitions((style) => (
-            <animated.div style={{ ...style }}>
-              <RegionModalContent onClose={onClose}>
-                {children}
-              </RegionModalContent>
-            </animated.div>
-          ))}
+          <div
+            className="no_scrollbar"
+            style={{
+              height: "100vh",
+              overflow: "hidden auto",
+              paddingTop: 104,
+              paddingBottom: 90,
+            }}
+          >
+            {transitions((style) => (
+              <animated.div style={{ ...style }}>
+                <RegionModalContent onClose={onClose}>
+                  {children}
+                </RegionModalContent>
+              </animated.div>
+            ))}
+          </div>
         </animated.div>
       </animated.div>
     </Modal.Container>
