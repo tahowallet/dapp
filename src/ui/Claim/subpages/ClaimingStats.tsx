@@ -6,10 +6,14 @@ import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
 import { useDappSelector, selectEligibility } from "redux-state"
 import { RealmCutout } from "shared/components/RealmCutout"
-import { getRealmData } from "shared/constants"
+import { getRealmDataOnIsland } from "shared/constants"
 import ClaimCheckRules from "../components/ClaimCheckRules"
 
-const MOCK_REALM = { population: "12,345", ...getRealmData("4") }
+const MOCK_REALM = {
+  population: "12,345",
+  name: "The Keep",
+  ...getRealmDataOnIsland("4"),
+}
 
 export default function ClaimingStats() {
   const eligibility = useDappSelector(selectEligibility)

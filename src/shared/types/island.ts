@@ -4,6 +4,13 @@ export type RealmContractData = {
   veTokenContractAddress: string | null
 }
 
+export type RealmDetails = {
+  name: string
+  description: string
+  xpfn: string
+  quests: { name: string; description: string }[]
+}
+
 export type RealmContractDataWithId = { id: string; data: RealmContractData }
 
 export type StakingData = { realmContractAddress: string; amount: bigint }

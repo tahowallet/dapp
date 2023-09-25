@@ -1,5 +1,5 @@
 import React from "react"
-import { ISLAND_BOX, getRealmData } from "shared/constants"
+import { ISLAND_BOX, getRealmDataOnIsland } from "shared/constants"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
   selectDisplayedRealmId,
@@ -20,7 +20,7 @@ export default function RealmCutout() {
 
   if (!realmId) return null
 
-  const pathData = getRealmData(realmId)
+  const pathData = getRealmDataOnIsland(realmId)
   const pathDataRatio = pathData.h / pathData.w
 
   const pathCutoutXref = `cutout_${realmId}_path`
