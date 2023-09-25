@@ -2,13 +2,11 @@ import { ethers } from "ethers"
 
 export enum TransactionProgressStatus {
   Idle,
+  Approving,
   Signing,
   Sending,
   Done,
-}
-
-export type Transaction = {
-  status: TransactionProgressStatus
+  Failed,
 }
 
 /**

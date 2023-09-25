@@ -4,6 +4,8 @@ import {
 } from "react-redux"
 import store from "./store"
 
+import "./events"
+
 export type DappDispatch = typeof store.dispatch
 
 export const useDappDispatch: () => DappDispatch = useReduxDispatch

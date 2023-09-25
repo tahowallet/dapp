@@ -38,6 +38,7 @@ export default function LiquidityPool() {
 
       const receipt = await dispatch(
         joinTahoPool({
+          id: "joinLP",
           tahoAmount: targetTahoAmount,
           ethAmount: targetEthAmount,
         })

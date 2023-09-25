@@ -13,7 +13,11 @@ import { ensureAllowance } from "./island"
 export const joinTahoPool = createDappAsyncThunk(
   "lp/joinTahoPool",
   async (
-    { tahoAmount, ethAmount }: { tahoAmount: bigint; ethAmount: bigint },
+    {
+      id,
+      tahoAmount,
+      ethAmount,
+    }: { id: string; tahoAmount: bigint; ethAmount: bigint },
     { dispatch, extra: { transactionService } }
   ) => {
     const balancerPoolAddress = await transactionService.read(
@@ -31,6 +35,7 @@ export const joinTahoPool = createDappAsyncThunk(
 
     const allowanceCorrect = await dispatch(
       ensureAllowance({
+        id,
         tokenAddress: TAHO_ADDRESS,
         spender: balancerPoolAgentAddress,
         amount: tahoAmount,
@@ -62,7 +67,7 @@ export const joinTahoPool = createDappAsyncThunk(
       value: ethAmount,
     }
 
-    const receipt = transactionService.send(joinPool, {
+    const receipt = transactionService.send(id, joinPool, {
       joinRequest,
       overrides,
     })

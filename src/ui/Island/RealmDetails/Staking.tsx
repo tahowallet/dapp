@@ -1,8 +1,7 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import TokenAmountInput from "shared/components/TokenAmountInput"
 import Button from "shared/components/Button"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
-import { TransactionProgressStatus } from "shared/types"
 import {
   stakeTaho,
   useDappDispatch,
@@ -14,11 +13,13 @@ import {
   selectDisplayedRealmVeTokenAddress,
   unstakeTaho,
   selectDisplayedRealmId,
+  selectTransactionStatusById,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
+import { TransactionProgressStatus } from "shared/types"
 import ModalLeavingNode from "../Modals/ModalLeavingNode"
 import BannerEarn from "./RealmBanners/BannerEarn"
 import BannerTakeToNode from "./RealmBanners/BannerTakeToNode"
@@ -34,6 +35,9 @@ function isFormDisabled(
 type StakingProps = {
   close: () => void
 }
+
+const STAKE_TX_ID = "stake"
+const UNSTAKE_TX_ID = "unstake"
 
 export default function Staking({ close }: StakingProps) {
   const dispatch = useDappDispatch()
@@ -61,6 +65,14 @@ export default function Staking({ close }: StakingProps) {
 
   const [isLeavingModalVisible, setIsLeavingModalVisible] = useState(false)
 
+  const stakeTransactionStatus = useDappSelector((state) =>
+    selectTransactionStatusById(state, STAKE_TX_ID)
+  )
+
+  const unstakeTransactionStatus = useDappSelector((state) =>
+    selectTransactionStatusById(state, UNSTAKE_TX_ID)
+  )
+
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
     useState(false)
   const [isUnstakeTransactionModalOpen, setIsUnstakeTransactionModalOpen] =
@@ -82,6 +94,7 @@ export default function Staking({ close }: StakingProps) {
     if (displayedRealmAddress && amount) {
       dispatch(
         stakeTaho({
+          id: STAKE_TX_ID,
           realmContractAddress: displayedRealmAddress,
           amount,
         })
@@ -94,6 +107,7 @@ export default function Staking({ close }: StakingProps) {
     if (displayedRealmAddress && displayedRealmVeTokenAddress && amount) {
       dispatch(
         unstakeTaho({
+          id: UNSTAKE_TX_ID,
           realmContractAddress: displayedRealmAddress,
           veTokenContractAddress: displayedRealmVeTokenAddress,
           amount,
@@ -106,6 +120,20 @@ export default function Staking({ close }: StakingProps) {
   const shouldLinkToReferrals = !shouldLinkToNode && tahoBalance === 0n
 
   const isCooldownPeriod = false
+
+  useEffect(() => {
+    if (stakeTransactionStatus === TransactionProgressStatus.Done) {
+      setIsStakeTransactionModalOpen(false)
+      setStakeAmount("")
+    }
+  }, [stakeTransactionStatus])
+
+  useEffect(() => {
+    if (unstakeTransactionStatus === TransactionProgressStatus.Done) {
+      setIsUnstakeTransactionModalOpen(false)
+      setUnstakeAmount("")
+    }
+  }, [unstakeTransactionStatus])
 
   return (
     <>
@@ -189,10 +217,10 @@ export default function Staking({ close }: StakingProps) {
         close={() => setIsStakeTransactionModalOpen(false)}
         transactions={[
           {
-            id: "stake",
+            id: STAKE_TX_ID,
             title: "Approve and stake $TAHO",
             buttonLabel: "Approve & stake",
-            status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
+            status: stakeTransactionStatus,
             sendTransaction: stakeTransaction,
           },
         ]}
@@ -202,10 +230,10 @@ export default function Staking({ close }: StakingProps) {
         close={() => setIsUnstakeTransactionModalOpen(false)}
         transactions={[
           {
-            id: "stake",
+            id: UNSTAKE_TX_ID,
             title: "Approve and unstake $TAHO",
             buttonLabel: "Approve & unstake",
-            status: TransactionProgressStatus.Idle, // TODO: status is not yet implemented
+            status: unstakeTransactionStatus,
             sendTransaction: unstakeTransaction,
           },
         ]}
