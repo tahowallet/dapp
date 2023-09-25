@@ -14,6 +14,7 @@ import {
 } from "shared/utils"
 import Background from "./Background"
 import Realms from "./IslandRealms"
+import RealmPin from "./RealmPin"
 
 export default function InteractiveIsland() {
   const settingsRef = useRef({ minScale: 0 })
@@ -156,6 +157,7 @@ export default function InteractiveIsland() {
       <Layer>
         <Background overlay={overlay} />
         <Realms />
+        <RealmPin />
       </Layer>
     </Stage>
   )
