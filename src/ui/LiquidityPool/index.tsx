@@ -58,7 +58,7 @@ export default function LiquidityPool() {
   }
 
   return (
-    <Modal.Container type="map-without-overlay">
+    <Modal.Container type="island-without-overlay">
       <Modal.AnimatedContent>
         <div className="content column_center">
           <div className="lp_container row">

@@ -12,7 +12,7 @@ export default function ClaimAlreadyClaimed() {
   const eligibility = useDappSelector(selectEligibility)
 
   return (
-    <Modal.Container type="map-without-overlay">
+    <Modal.Container type="island-without-overlay">
       <Modal.Content>
         <div className="claimed_container column_center">
           <ClaimHeader header="Already claimed" />

@@ -10,7 +10,7 @@ export type ClaimState = {
   eligibility: Eligibility | null
   stakeAmount: bigint | null
   representativeAddress: string | null
-  selectedRegionId: string | null
+  selectedRealmId: string | null
 }
 
 const initialState: ClaimState = {
@@ -22,7 +22,7 @@ const initialState: ClaimState = {
   eligibility: null,
   stakeAmount: null,
   representativeAddress: null,
-  selectedRegionId: null,
+  selectedRealmId: null,
 }
 
 const claimSlice = createSlice({
@@ -81,10 +81,10 @@ const claimSlice = createSlice({
       immerState.eligibility = null
       immerState.stakeAmount = null
       immerState.representativeAddress = null
-      immerState.selectedRegionId = null
+      immerState.selectedRealmId = null
     },
-    setSelectedRegionId: (immerState, { payload: id }: { payload: string }) => {
-      immerState.selectedRegionId = id
+    setSelectedRealmId: (immerState, { payload: id }: { payload: string }) => {
+      immerState.selectedRealmId = id
     },
   },
 })
@@ -97,7 +97,7 @@ export const {
   setRepresentativeAddressToClaim,
   setStakeAmountToClaim,
   resetClaiming,
-  setSelectedRegionId,
+  setSelectedRealmId,
 } = claimSlice.actions
 
 export default claimSlice.reducer

@@ -1,19 +1,19 @@
 import React from "react"
 import Modal from "shared/components/Modal"
-import { selectIsJoinRegionMapMode } from "redux-state/selectors/map"
+import { selectIsJoinRealmIslandMode } from "redux-state/selectors/island"
 import { useDappSelector } from "redux-state"
 import ClaimingStats from "./ClaimingStats"
 import ClaimingFlow from "./ClaimingFlow"
 
 export default function Claiming() {
-  const isJoinRegionMode = useDappSelector(selectIsJoinRegionMapMode)
+  const isJoinRealmMode = useDappSelector(selectIsJoinRealmIslandMode)
 
-  if (isJoinRegionMode) {
+  if (isJoinRealmMode) {
     return null
   }
 
   return (
-    <Modal.Container type="map-with-overlay">
+    <Modal.Container type="island-with-overlay">
       <div className="steps_container column">
         <div className="steps_container_wrapper row">
           <ClaimingFlow />

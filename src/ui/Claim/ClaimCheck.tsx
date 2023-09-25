@@ -109,7 +109,7 @@ export default function ClaimCheck() {
   }
 
   return (
-    <Modal.ScrollableContainer topSpacing={217} type="map-without-overlay">
+    <Modal.ScrollableContainer topSpacing={217} type="island-without-overlay">
       <Modal.AnimatedContent>
         <div className="check_container">
           <ClaimHeader

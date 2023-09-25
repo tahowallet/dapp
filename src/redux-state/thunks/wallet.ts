@@ -9,7 +9,7 @@ import { getBalance } from "shared/contracts"
 import { ethers } from "ethers"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances } from "shared/types"
-import { setStakingRegionId } from "redux-state/slices/map"
+import { setStakingRealmId } from "redux-state/slices/island"
 import createDappAsyncThunk from "../asyncThunk"
 
 export const fetchWalletName = createDappAsyncThunk(
@@ -94,12 +94,12 @@ export const fetchWalletBalances = createDappAsyncThunk(
   async (_, { getState, dispatch, extra: { transactionService } }) => {
     const account = await transactionService.getSignerAddress()
     const {
-      map: { regions },
+      island: { realms },
     } = getState()
 
     if (!account) return null
 
-    let stakingRegionId = null
+    let stakingRealmId = null
 
     const tahoBalance =
       (await transactionService.read(getBalance, {
@@ -108,8 +108,8 @@ export const fetchWalletBalances = createDappAsyncThunk(
       })) ?? 0n
 
     const veTahoBalances = await Promise.all(
-      Object.entries(regions).flatMap(
-        async ([regionId, { veTokenContractAddress }]) => {
+      Object.entries(realms).flatMap(
+        async ([realmId, { veTokenContractAddress }]) => {
           if (!veTokenContractAddress) return []
 
           const veTahoBalance =
@@ -119,7 +119,7 @@ export const fetchWalletBalances = createDappAsyncThunk(
             })) ?? 0n
 
           if (veTahoBalance > 0n) {
-            stakingRegionId = regionId
+            stakingRealmId = realmId
           }
 
           return [
@@ -139,7 +139,7 @@ export const fetchWalletBalances = createDappAsyncThunk(
     }
 
     dispatch(updateBalances(balances))
-    dispatch(setStakingRegionId(stakingRegionId))
+    dispatch(setStakingRealmId(stakingRealmId))
 
     return balances
   }

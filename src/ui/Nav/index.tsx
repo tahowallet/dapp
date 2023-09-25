@@ -11,7 +11,7 @@ import AccountInfo from "./AccountInfo"
 const NAV_ITEMS = [
   {
     path: ROUTES.HOME,
-    title: "Map",
+    title: "The Island",
     exact: true,
   },
   {

@@ -4,32 +4,30 @@ import {
   selectWalletAvatar,
   selectWalletName,
 } from "redux-state"
-import { getRegionData } from "shared/constants"
-import RegionIcon from "shared/components/RegionIcon"
+import { getRealmData } from "shared/constants"
+import RealmIcon from "shared/components/RealmIcon"
 import AccountDropdown from "./AccountDropdown"
 
-// TODO: use region for given account
-const regionMock = { name: "KryptoKeep", id: "4" }
+// TODO: use realm for given account
+const realmMock = { name: "KryptoKeep", id: "4" }
 
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const name = useDappSelector(selectWalletName)
   const avatar = useDappSelector(selectWalletAvatar)
-  const region = regionMock
-    ? getRegionData(regionMock.id.toString())
-    : undefined
+  const realm = realmMock ? getRealmData(realmMock.id.toString()) : undefined
 
   if (!name) return null
 
   return (
     <div className="account_container row">
       {isDropdownOpen && <AccountDropdown />}
-      {regionMock && (
-        <div className="region_container row">
-          {region && (
-            <RegionIcon regionId={region.id} type="fill" color="#f4d03f" />
+      {realmMock && (
+        <div className="realm_container row">
+          {realm && (
+            <RealmIcon realmId={realm.id} type="fill" color="#f4d03f" />
           )}
-          <span className="region_label">{regionMock.name}</span>
+          <span className="realm_label">{realmMock.name}</span>
         </div>
       )}
       <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
@@ -48,13 +46,13 @@ export default function AccountInfo() {
             line-height: 24px;
           }
 
-          .region_container {
+          .realm_container {
             align-items: center;
             margin-right: 25px;
             gap: 6px;
           }
 
-          .region_label {
+          .realm_label {
             color: #f4d03f;
           }
 

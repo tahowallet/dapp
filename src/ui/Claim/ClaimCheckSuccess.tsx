@@ -44,7 +44,7 @@ export default function ClaimCheckSuccess() {
   }
 
   return (
-    <Modal.Container type="map-with-overlay">
+    <Modal.Container type="island-with-overlay">
       <Modal.Content>
         <div className="success_container column_center">
           <ClaimHeader

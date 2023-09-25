@@ -5,36 +5,36 @@ import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
 import {
   useBalanceFetch,
-  useFetchRegionsContracts,
+  useFetchRealmsContracts,
   useWallet,
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
-import { selectMapMode, useDappSelector } from "redux-state"
+import { selectIslandMode, useDappSelector } from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
 import Referrals from "ui/Referrals"
 import Footer from "ui/Footer"
 import Nav from "ui/Nav"
 import Claim from "ui/Claim"
 import GlobalStyles from "ui/GlobalStyles"
-import MapComponent from "ui/Map"
+import IslandComponent from "ui/Island"
 import web3Onboard from "shared/utils/web3Onboard"
 import { ROUTES } from "shared/constants"
 import reduxStore from "./redux-state"
 
 function DApp() {
-  const mapMode = useDappSelector(selectMapMode)
+  const islandMode = useDappSelector(selectIslandMode)
 
   useWallet()
   useBalanceFetch()
-  useFetchRegionsContracts()
+  useFetchRealmsContracts()
 
   return (
     <>
       <GlobalStyles />
       <Router>
-        <MapComponent />
+        <IslandComponent />
         <TestingPanel />
-        {mapMode === "default" && <Nav />}
+        {islandMode === "default" && <Nav />}
         <Switch>
           <Route path={ROUTES.CLAIM.HOME}>
             <Claim />

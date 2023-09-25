@@ -1,23 +1,23 @@
 import React from "react"
 import Button from "shared/components/Button"
 import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
-import RegionIcon from "shared/components/RegionIcon"
-import { getRegionData } from "shared/constants"
+import RealmIcon from "shared/components/RealmIcon"
+import { getRealmData } from "shared/constants"
 
 type ClaimCongratulationsProps = {
   amount: number
   description: string
-  regionId: string
+  realmId: string
   close: () => void
 }
 
 export default function ClaimCongratulations({
   amount,
   description,
-  regionId,
+  realmId,
   close,
 }: ClaimCongratulationsProps) {
-  const { name: regionName } = getRegionData(regionId)
+  const { name: realmName } = getRealmData(realmId)
 
   return (
     <>
@@ -31,15 +31,15 @@ export default function ClaimCongratulations({
         }
         close={close}
       >
-        <RegionIcon
-          regionId={regionId}
+        <RealmIcon
+          realmId={realmId}
           color="var(--primary-p1-100)"
           type="circle"
           width="48px"
         />
         <div className="taho_amount">{amount}</div>
         <p className="taho_description">{description}</p>
-        <p className="taho_region">from {regionName}</p>
+        <p className="taho_realm">from {realmName}</p>
       </CongratulationsModal>
       <style jsx>{`
         .taho_amount {
@@ -50,7 +50,7 @@ export default function ClaimCongratulations({
           color: var(--secondary-s1-70);
           margin-bottom: 11px;
         }
-        .taho_region {
+        .taho_realm {
           font-weight: 400;
         }
       `}</style>
