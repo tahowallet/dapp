@@ -14,6 +14,7 @@ import {
   unstakeTaho,
   selectDisplayedRealmId,
   selectTransactionStatusById,
+  stopTrackingTransactionStatus,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -116,6 +117,16 @@ export default function Staking({ close }: StakingProps) {
     }
   }
 
+  const closeStakingTransactionModal = () => {
+    setIsStakeTransactionModalOpen(false)
+    dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
+  }
+
+  const closeUnstakingTransactionModal = () => {
+    setIsUnstakeTransactionModalOpen(false)
+    dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
+  }
+
   const shouldLinkToNode = hasStakingRealm && !isStakingRealm
   const shouldLinkToReferrals = !shouldLinkToNode && tahoBalance === 0n
 
@@ -125,15 +136,17 @@ export default function Staking({ close }: StakingProps) {
     if (stakeTransactionStatus === TransactionProgressStatus.Done) {
       setIsStakeTransactionModalOpen(false)
       setStakeAmount("")
+      dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
     }
-  }, [stakeTransactionStatus])
+  }, [dispatch, stakeTransactionStatus])
 
   useEffect(() => {
     if (unstakeTransactionStatus === TransactionProgressStatus.Done) {
       setIsUnstakeTransactionModalOpen(false)
       setUnstakeAmount("")
+      dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
     }
-  }, [unstakeTransactionStatus])
+  }, [dispatch, unstakeTransactionStatus])
 
   return (
     <>
@@ -214,7 +227,7 @@ export default function Staking({ close }: StakingProps) {
       )}
       <TransactionsModal
         isOpen={isStakeTransactionModalOpen}
-        close={() => setIsStakeTransactionModalOpen(false)}
+        close={closeStakingTransactionModal}
         transactions={[
           {
             id: STAKE_TX_ID,
@@ -227,7 +240,7 @@ export default function Staking({ close }: StakingProps) {
       />
       <TransactionsModal
         isOpen={isUnstakeTransactionModalOpen}
-        close={() => setIsUnstakeTransactionModalOpen(false)}
+        close={closeUnstakingTransactionModal}
         transactions={[
           {
             id: UNSTAKE_TX_ID,

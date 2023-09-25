@@ -1,5 +1,6 @@
 import React from "react"
-import iconNotifCorrect from "shared/assets/icons/s/notif-correct.svg"
+import iconNotifCorrect from "shared/assets/icons/m/notif-correct.svg"
+import iconNotifWrong from "shared/assets/icons/m/notif-wrong.svg"
 import { TransactionProgressStatus } from "shared/types"
 import classNames from "classnames"
 import Button from "../Button"
@@ -14,7 +15,7 @@ export type TransactionProgressProps = {
   sendTransaction: () => void
 }
 
-type TransactionUIStatus = "not-started" | "in-progress" | "done"
+type TransactionUIStatus = "not-started" | "in-progress" | "done" | "failed"
 
 type TransactionStepProps = {
   status: TransactionUIStatus
@@ -24,7 +25,11 @@ type TransactionStepProps = {
 const createGetStatusFunction =
   (currentStatus: TransactionProgressStatus) =>
   (status: TransactionProgressStatus): TransactionUIStatus => {
-    if (status === currentStatus) {
+    if (
+      status === currentStatus ||
+      (currentStatus === TransactionProgressStatus.Signing &&
+        status === TransactionProgressStatus.Approving)
+    ) {
       return "in-progress"
     }
     if (status > currentStatus) {
@@ -36,10 +41,13 @@ const createGetStatusFunction =
 const statusToElementProps = [
   {
     id: "signing",
-    getLabel: (status: TransactionProgressStatus): string =>
-      status <= TransactionProgressStatus.Signing
+    getLabel: (status: TransactionProgressStatus): string => {
+      if (status === TransactionProgressStatus.Approving) return "Approving"
+
+      return status <= TransactionProgressStatus.Signing
         ? "Waiting for signature"
-        : "Signed",
+        : "Signed"
+    },
     getStatus: createGetStatusFunction(TransactionProgressStatus.Signing),
   },
   {
@@ -55,9 +63,14 @@ const statusToElementProps = [
 function TransactionStep({ status, title }: TransactionStepProps) {
   return (
     <div className={classNames("step row_center", { [status]: true })}>
-      {status !== "done" && <Ripple disabled={status === "not-started"} />}
+      {status !== "done" && status !== "failed" && (
+        <Ripple disabled={status === "not-started"} />
+      )}
       {status === "done" && (
-        <Icon src={iconNotifCorrect} color="var(--trading-in)" />
+        <Icon width="24px" src={iconNotifCorrect} color="var(--trading-in)" />
+      )}
+      {status === "failed" && (
+        <Icon width="24px" src={iconNotifWrong} color="var(--semantic-error)" />
       )}
       <span>{title}</span>
       <style jsx>{`
@@ -68,6 +81,9 @@ function TransactionStep({ status, title }: TransactionStepProps) {
         }
         .step.done {
           color: var(--trading-in);
+        }
+        .step.failed {
+          color: var(--semantic-error);
         }
         .step.not-started {
           opacity: 0.5;
@@ -89,12 +105,13 @@ export default function TransactionProgress({
     status > TransactionProgressStatus.Idle &&
     status < TransactionProgressStatus.Done
   const isDone = status === TransactionProgressStatus.Done
+  const hasFailed = status === TransactionProgressStatus.Failed
 
   return (
     <div className="progress_container column">
       {title && <h5>{title}</h5>}
 
-      {isUninitialized && (
+      {(isUninitialized || hasFailed) && (
         <Button
           type="primary"
           size="large"
@@ -115,6 +132,13 @@ export default function TransactionProgress({
         ))}
 
       {isDone && <TransactionStep key="done" status="done" title="Done" />}
+      {hasFailed && (
+        <TransactionStep
+          key="failed"
+          status="failed"
+          title="Transaction failed, try again"
+        />
+      )}
       <style jsx>{`
         .progress_container {
           gap: 16px;
