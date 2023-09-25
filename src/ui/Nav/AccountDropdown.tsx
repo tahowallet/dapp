@@ -1,15 +1,39 @@
-import React from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import { useConnect } from "shared/hooks"
 import Button from "shared/components/Button"
 import { useDappSelector, selectWalletName } from "redux-state"
 
-export default function AccountDropdown() {
+type AccountDropdownProps = {
+  close: () => void
+  openTrigger: HTMLButtonElement | null
+}
+
+export default function AccountDropdown({
+  openTrigger,
+  close,
+}: AccountDropdownProps) {
   const accountName = useDappSelector(selectWalletName)
   const { disconnect } = useConnect()
 
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const closeDropdown = useCallback(
+    (e: MouseEvent) => {
+      if (!dropdownRef.current || !openTrigger) return
+      if (e.target !== dropdownRef.current && e.target !== openTrigger) close()
+    },
+    [dropdownRef, close, openTrigger]
+  )
+
+  useEffect(() => {
+    window.addEventListener("click", closeDropdown)
+
+    return () => window.removeEventListener("click", closeDropdown)
+  }, [closeDropdown])
+
   return (
     <>
-      <div className="account_dropdown_container column">
+      <div className="account_dropdown_container column" ref={dropdownRef}>
         <div>{accountName}</div>
         <Button type="tertiary" onClick={() => disconnect()}>
           Disconnect
@@ -19,7 +43,7 @@ export default function AccountDropdown() {
         .account_dropdown_container {
           position: absolute;
           top: 65px;
-          right: 0;
+          right: 5%;
           background: var(--primary-p1-100);
           padding: 24px;
           border-radius: 16px;

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import {
   useDappSelector,
   selectWalletAvatar,
@@ -11,6 +11,7 @@ import AccountDropdown from "./AccountDropdown"
 
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownTriggerRef = useRef<HTMLButtonElement>(null)
 
   const name = useDappSelector(selectWalletName)
   const avatar = useDappSelector(selectWalletAvatar)
@@ -22,7 +23,12 @@ export default function AccountInfo() {
 
   return (
     <div className="account_container row">
-      {isDropdownOpen && <AccountDropdown />}
+      {isDropdownOpen && (
+        <AccountDropdown
+          openTrigger={dropdownTriggerRef.current}
+          close={() => setIsDropdownOpen(false)}
+        />
+      )}
       <div className="realm_container row">
         {realm && (
           <>
@@ -31,7 +37,12 @@ export default function AccountInfo() {
           </>
         )}
       </div>
-      <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
+      <button
+        className="account"
+        type="button"
+        onClick={() => setIsDropdownOpen((prev) => !prev)}
+        ref={dropdownTriggerRef}
+      >
         <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
       </button>
@@ -45,6 +56,10 @@ export default function AccountInfo() {
             font-style: normal;
             font-weight: 500;
             line-height: 24px;
+          }
+
+          .account > * {
+            pointer-events: none;
           }
 
           .realm_container {
