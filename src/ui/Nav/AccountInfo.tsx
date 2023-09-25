@@ -3,33 +3,34 @@ import {
   useDappSelector,
   selectWalletAvatar,
   selectWalletName,
+  selectStakingRealmId,
 } from "redux-state"
 import { getRealmData } from "shared/constants"
 import RealmIcon from "shared/components/RealmIcon"
 import AccountDropdown from "./AccountDropdown"
 
-// TODO: use realm for given account
-const realmMock = { name: "KryptoKeep", id: "4" }
-
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
   const name = useDappSelector(selectWalletName)
   const avatar = useDappSelector(selectWalletAvatar)
-  const realm = realmMock ? getRealmData(realmMock.id.toString()) : undefined
+  const stakingRealmId = useDappSelector(selectStakingRealmId)
+
+  const realm = stakingRealmId ? getRealmData(stakingRealmId) : null
 
   if (!name) return null
 
   return (
     <div className="account_container row">
       {isDropdownOpen && <AccountDropdown />}
-      {realmMock && (
-        <div className="realm_container row">
-          {realm && (
-            <RealmIcon realmId={realm.id} type="fill" color="#f4d03f" />
-          )}
-          <span className="realm_label">{realmMock.name}</span>
-        </div>
-      )}
+      <div className="realm_container row">
+        {realm && (
+          <>
+            <RealmIcon realmId={realm.id} type="fill" color={realm.color} />
+            <span className="realm_label">{realm.name}</span>
+          </>
+        )}
+      </div>
       <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
         <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
@@ -53,7 +54,7 @@ export default function AccountInfo() {
           }
 
           .realm_label {
-            color: #f4d03f;
+            color: ${realm ? realm.color : "#f4d03f"};
           }
 
           .account_label {
