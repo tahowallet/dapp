@@ -1,5 +1,6 @@
 import classNames from "classnames"
 import React from "react"
+import { easings, useSpring, animated } from "@react-spring/web"
 
 import Portal from "./Portal"
 import { noop } from "../utils"
@@ -153,6 +154,41 @@ function Container({
   )
 }
 
+type ScrollableContainerProps = {
+  /**
+   * position of the modal from top of the screen
+   */
+  topSpacing: number
+} & ModalProps
+
+/**
+ * Modal container, allows for scrolling when modal does not fit the window
+ */
+function ScrollableContainer({
+  topSpacing,
+  children,
+  type = "freeform",
+  onClickOutside = noop,
+}: ScrollableContainerProps) {
+  return (
+    <>
+      <Container type={type} onClickOutside={onClickOutside}>
+        <div className="no_scrollbar scrollable_modal">{children}</div>
+      </Container>
+      <style jsx>
+        {`
+          .scrollable_modal {
+            height: 100vh;
+            padding-top: ${topSpacing}px;
+            padding-bottom: 160px;
+            overflow: hidden auto;
+          }
+        `}
+      </style>
+    </>
+  )
+}
+
 /**
  * Modal content wrapper, contains backdrop and shadow styles
  */
@@ -204,6 +240,31 @@ function Content({
   )
 }
 
-const Modal = { Container, Content }
+/**
+ * Modal content wrapper, it uses Content component adding animation to it
+ */
+function AnimatedContent({ children }: { children: React.ReactNode }) {
+  const [props] = useSpring(
+    () => ({
+      from: {
+        transform: "translate3d(0,38.5%,0) scale(0)",
+      },
+      to: {
+        transform: "translate3d(0,0,0) scale(1)",
+        position: "relative",
+      },
+      config: { duration: 400, easing: easings.easeInOutCubic },
+    }),
+    []
+  )
+
+  return (
+    <animated.div style={{ ...props, transformOrigin: "bottom" }}>
+      <Content>{children}</Content>
+    </animated.div>
+  )
+}
+
+const Modal = { Container, ScrollableContainer, Content, AnimatedContent }
 
 export default Modal

@@ -109,8 +109,8 @@ export default function ClaimCheck() {
   }
 
   return (
-    <Modal.Container type="island-without-overlay">
-      <Modal.Content>
+    <Modal.ScrollableContainer topSpacing={217} type="island-without-overlay">
+      <Modal.AnimatedContent>
         <div className="check_container">
           <ClaimHeader
             season="Season 1"
@@ -198,7 +198,7 @@ export default function ClaimCheck() {
             margin: 0 12px;
           }
         `}</style>
-      </Modal.Content>
-    </Modal.Container>
+      </Modal.AnimatedContent>
+    </Modal.ScrollableContainer>
   )
 }

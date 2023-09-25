@@ -60,7 +60,7 @@ export default function LiquidityPool() {
 
   return (
     <Modal.Container type="island-without-overlay">
-      <Modal.Content>
+      <Modal.AnimatedContent>
         <div className="content column_center">
           <div className="lp_container row">
             <div className="token column">
@@ -109,7 +109,7 @@ export default function LiquidityPool() {
             align-items: center;
           }
         `}</style>
-      </Modal.Content>
+      </Modal.AnimatedContent>
     </Modal.Container>
   )
 }

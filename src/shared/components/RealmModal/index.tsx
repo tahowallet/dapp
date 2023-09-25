@@ -176,7 +176,7 @@ export default function RealmModal({
         <PrevBtn
           style={{
             position: "absolute",
-            top: 180,
+            top: 187,
             left: -80,
             zIndex: 1,
             transform: "translateX(-100%)",
@@ -186,7 +186,7 @@ export default function RealmModal({
         <NextBtn
           style={{
             position: "absolute",
-            top: 180,
+            top: 187,
             right: -80,
             zIndex: 1,
             transform: "translateX(100%)",
