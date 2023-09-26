@@ -19,6 +19,7 @@ import GlobalStyles from "ui/GlobalStyles"
 import IslandComponent from "ui/Island"
 import web3Onboard from "shared/utils/web3Onboard"
 import { ROUTES } from "shared/constants"
+import Controls from "ui/Controls"
 import reduxStore from "./redux-state"
 
 function DApp() {
@@ -48,6 +49,7 @@ function DApp() {
           </Route>
         </Switch>
         <Footer />
+        <Controls />
       </Router>
     </>
   )

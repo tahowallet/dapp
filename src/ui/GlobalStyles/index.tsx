@@ -68,6 +68,7 @@ export default function GlobalStyles() {
           /* z-index */
           --z-island: 0;
           --z-navigation: 110;
+          --z-controls: 115;
 
           /* Modals */
           --z-modal-island: 100;
@@ -197,6 +198,10 @@ export default function GlobalStyles() {
         .row_center {
           display: flex;
           align-items: center;
+        }
+        .center {
+          display: grid;
+          place-items: center;
         }
         .ellipsis {
           white-space: nowrap;
