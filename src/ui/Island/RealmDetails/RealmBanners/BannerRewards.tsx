@@ -34,7 +34,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
             You don&apos;t have to claim your XP until end of season. Unless you
             plan on trading it.
             <br />
-            Exchanging XP for $TAHO only happens at the end of seasons,
+            Exchanging XP for $TAHO only happens at the end of seasons.
             <br />
             <a href="/" target="_blank" style={{ textDecoration: "underline" }}>
               Read more here
