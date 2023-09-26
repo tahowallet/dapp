@@ -20,7 +20,7 @@ export default function CongratulationsModal({
   return (
     <>
       <Modal.Container type="fullscreen" onClickOutside={close}>
-        <Modal.Content>
+        <Modal.AnimatedContent>
           <div className="modal">
             <div className="modal_header">
               <h1>{header}</h1>
@@ -29,7 +29,7 @@ export default function CongratulationsModal({
             <div className="modal_content column_center">{children}</div>
             <div className="modal_controls column_center">{buttons}</div>
           </div>
-        </Modal.Content>
+        </Modal.AnimatedContent>
       </Modal.Container>
       <style jsx>{`
         .modal {
