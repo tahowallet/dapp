@@ -50,10 +50,10 @@ export default function Realm({
   }
 
   useLayoutEffect(() => {
-    const pathNode = pathRef.current
+    const pathRealm = pathRef.current
     const group = groupRef.current
     const stage = pathRef.current?.getStage()
-    if (!stage || !pathNode || !group) return () => {}
+    if (!stage || !pathRealm || !group) return () => {}
     const defaultZ = group.zIndex()
 
     const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
@@ -68,9 +68,9 @@ export default function Realm({
       }
     }
 
-    pathNode.on("mouseenter.hover mouseleave.hover", handleHover)
+    pathRealm.on("mouseenter.hover mouseleave.hover", handleHover)
 
-    return () => pathNode.off(".hover")
+    return () => pathRealm.off(".hover")
   }, [])
 
   const styles = useMemo(() => {
@@ -86,7 +86,7 @@ export default function Realm({
           x: x + labelX,
           y: y + labelY + 200,
         },
-        pathNode: {
+        pathRealm: {
           stroke: "#FFF",
           strokeWidth: 4,
         },
@@ -101,7 +101,7 @@ export default function Realm({
         text: {
           opacity: 0,
         },
-        pathNode: {
+        pathRealm: {
           stroke: "#FFF",
         },
       },
@@ -124,7 +124,7 @@ export default function Realm({
           x: x + labelX,
           y: y + labelY,
         },
-        pathNode: {
+        pathRealm: {
           stroke: color,
           strokeWidth: 10,
         },
@@ -136,11 +136,11 @@ export default function Realm({
 
   const [pathProps] = useSpring(() => {
     const destinationStyle = isHovered
-      ? styles.highlight.pathNode
-      : styles.default.pathNode
+      ? styles.highlight.pathRealm
+      : styles.default.pathRealm
 
     return {
-      from: styles.default.pathNode,
+      from: styles.default.pathRealm,
       to: destinationStyle,
     }
   }, [isHovered])

@@ -6,21 +6,21 @@ import Button from "shared/components/Button"
 
 import { getRealmData } from "shared/constants"
 
-type ModalLeavingNodeProps = {
+type ModalLeavingRealmProps = {
   realmId: string
   close: () => void
 }
 
-export default function ModalLeavingNode({
+export default function ModalLeavingRealm({
   realmId,
   close,
-}: ModalLeavingNodeProps) {
+}: ModalLeavingRealmProps) {
   const { name: realmName } = getRealmData(realmId)
 
   return (
     <>
       <Modal.Container type="fullscreen" onClickOutside={close}>
-        <Modal.Content>
+        <Modal.AnimatedContent>
           <div className="modal">
             <h1 className="modal_header">Leaving {realmName}</h1>
             <div className="modal_infobox">
@@ -34,7 +34,7 @@ export default function ModalLeavingNode({
                 week.
               </p>
               <p>
-                You also <span>can&apos;t join another node for 3 days.</span>
+                You also <span>can&apos;t join another realm for 3 days.</span>
               </p>
             </div>
             <div className="modal_controls">
@@ -46,7 +46,7 @@ export default function ModalLeavingNode({
               </Button>
             </div>
           </div>
-        </Modal.Content>
+        </Modal.AnimatedContent>
       </Modal.Container>
       <style jsx>{`
         .modal {

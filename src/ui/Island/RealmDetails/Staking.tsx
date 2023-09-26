@@ -21,9 +21,9 @@ import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import { TransactionProgressStatus } from "shared/types"
-import ModalLeavingNode from "../Modals/ModalLeavingNode"
+import ModalLeavingRealm from "../Modals/ModalLeavingRealm"
 import BannerEarn from "./RealmBanners/BannerEarn"
-import BannerTakeToNode from "./RealmBanners/BannerTakeToNode"
+import BannerTakeToRealm from "./RealmBanners/BannerTakeToRealm"
 
 function isFormDisabled(
   balance: bigint,
@@ -64,7 +64,7 @@ export default function Staking({ close }: StakingProps) {
   const [unstakeAmount, setUnstakeAmount] = useState("")
   const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
 
-  const [isLeavingModalVisible, setIsLeavingModalVisible] = useState(false)
+  const [isLeavingRealmVisible, setIsLeavingRealmVisible] = useState(false)
 
   const stakeTransactionStatus = useDappSelector((state) =>
     selectTransactionStatusById(state, STAKE_TX_ID)
@@ -127,8 +127,8 @@ export default function Staking({ close }: StakingProps) {
     dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
   }
 
-  const shouldLinkToNode = hasStakingRealm && !isStakingRealm
-  const shouldLinkToReferrals = !shouldLinkToNode && tahoBalance === 0n
+  const shouldLinkToRealm = hasStakingRealm && !isStakingRealm
+  const shouldLinkToReferrals = !shouldLinkToRealm && tahoBalance === 0n
 
   const isCooldownPeriod = false
 
@@ -150,7 +150,7 @@ export default function Staking({ close }: StakingProps) {
 
   return (
     <>
-      {shouldLinkToNode && <BannerTakeToNode />}
+      {shouldLinkToRealm && <BannerTakeToRealm />}
       {shouldLinkToReferrals && <BannerEarn close={close} />}
 
       <div className="staking">
@@ -219,10 +219,10 @@ export default function Staking({ close }: StakingProps) {
           <UnstakeCooldown stakedAt={Date.now()} /> // TODO: change stakedAt to real value
         )}
       </div>
-      {isLeavingModalVisible && displayedRealmId && (
-        <ModalLeavingNode
+      {isLeavingRealmVisible && displayedRealmId && (
+        <ModalLeavingRealm
           realmId={displayedRealmId}
-          close={() => setIsLeavingModalVisible(false)}
+          close={() => setIsLeavingRealmVisible(false)}
         />
       )}
       <TransactionsModal

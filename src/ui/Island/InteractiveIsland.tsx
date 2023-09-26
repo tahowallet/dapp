@@ -41,9 +41,9 @@ export default function InteractiveIsland() {
     }
 
     const centerIsland = (scale: number) => {
-      const islandNode = islandRef.current
-      if (islandNode) {
-        islandNode.absolutePosition({
+      const islandRealm = islandRef.current
+      if (islandRealm) {
+        islandRealm.absolutePosition({
           x: -Math.abs((ISLAND_BOX.width * scale - stageBounds.width) / 2),
           y: -Math.abs((ISLAND_BOX.height * scale - stageBounds.height) / 2),
         })
