@@ -10,9 +10,11 @@ import Icon from "../Icon"
 export type TransactionProgressProps = {
   title?: string
   buttonLabel: string
+  buttonType?: "primary" | "secondary"
+  buttonSize?: "large" | "medium"
   disabled?: boolean
   status: TransactionProgressStatus
-  sendTransaction: () => void
+  onClick: () => void
 }
 
 type TransactionUIStatus = "not-started" | "in-progress" | "done" | "failed"
@@ -96,9 +98,11 @@ function TransactionStep({ status, title }: TransactionStepProps) {
 export default function TransactionProgress({
   title,
   buttonLabel,
+  buttonType = "primary",
+  buttonSize = "large",
   disabled,
   status,
-  sendTransaction,
+  onClick,
 }: TransactionProgressProps) {
   const isUninitialized = status === TransactionProgressStatus.Idle
   const isInProgress =
@@ -113,10 +117,10 @@ export default function TransactionProgress({
 
       {(isUninitialized || hasFailed) && (
         <Button
-          type="primary"
-          size="large"
+          type={buttonType}
+          size={buttonSize}
           isDisabled={disabled}
-          onClick={sendTransaction}
+          onClick={onClick}
         >
           {buttonLabel}
         </Button>

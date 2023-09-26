@@ -25,19 +25,13 @@ export default function TransactionsModal({
         <div className="transactions_container column">
           <h1>{title}</h1>
           {transactions.map(
-            ({
-              id,
-              title: txTitle,
-              buttonLabel = "Sign",
-              status,
-              sendTransaction,
-            }) => (
+            ({ id, title: txTitle, buttonLabel = "Sign", status, onClick }) => (
               <TransactionProgress
                 key={id}
                 title={txTitle}
                 buttonLabel={buttonLabel}
                 status={status}
-                sendTransaction={sendTransaction}
+                onClick={onClick}
               />
             )
           )}
