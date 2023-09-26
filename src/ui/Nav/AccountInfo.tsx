@@ -29,14 +29,14 @@ export default function AccountInfo() {
           close={() => setIsDropdownOpen(false)}
         />
       )}
-      <div className="realm_container row">
-        {realm && (
-          <>
-            <RealmIcon realmId={realm.id} type="fill" color={realm.color} />
-            <span className="realm_label">{realm.name}</span>
-          </>
-        )}
-      </div>
+      {realm && (
+        <div className="realm_container row">
+          <RealmIcon realmId={realm.id} type="fill" color={realm.color} />
+          <span className="realm_label" style={{ color: realm.color }}>
+            {realm.name}
+          </span>
+        </div>
+      )}
       <button
         className="account"
         type="button"
@@ -66,10 +66,6 @@ export default function AccountInfo() {
             align-items: center;
             margin-right: 25px;
             gap: 6px;
-          }
-
-          .realm_label {
-            color: ${realm ? realm.color : "#f4d03f"};
           }
 
           .account_label {

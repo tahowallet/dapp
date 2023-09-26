@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import { useConnect } from "shared/hooks"
 import Button from "shared/components/Button"
 import { useDappSelector, selectWalletName } from "redux-state"
@@ -17,19 +17,16 @@ export default function AccountDropdown({
 
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const closeDropdown = useCallback(
-    (e: MouseEvent) => {
+  useEffect(() => {
+    const closeDropdown = (e: MouseEvent) => {
       if (!dropdownRef.current || !openTrigger) return
       if (e.target !== dropdownRef.current && e.target !== openTrigger) close()
-    },
-    [dropdownRef, close, openTrigger]
-  )
+    }
 
-  useEffect(() => {
     window.addEventListener("click", closeDropdown)
 
     return () => window.removeEventListener("click", closeDropdown)
-  }, [closeDropdown])
+  }, [dropdownRef, openTrigger, close])
 
   return (
     <>
