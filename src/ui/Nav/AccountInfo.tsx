@@ -1,36 +1,48 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import {
   useDappSelector,
   selectWalletAvatar,
   selectWalletName,
+  selectStakingRealmId,
 } from "redux-state"
 import { getRealmData } from "shared/constants"
 import RealmIcon from "shared/components/RealmIcon"
 import AccountDropdown from "./AccountDropdown"
 
-// TODO: use realm for given account
-const realmMock = { name: "KryptoKeep", id: "4" }
-
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownTriggerRef = useRef<HTMLButtonElement>(null)
+
   const name = useDappSelector(selectWalletName)
   const avatar = useDappSelector(selectWalletAvatar)
-  const realm = realmMock ? getRealmData(realmMock.id.toString()) : undefined
+  const stakingRealmId = useDappSelector(selectStakingRealmId)
+
+  const realm = stakingRealmId ? getRealmData(stakingRealmId) : null
 
   if (!name) return null
 
   return (
     <div className="account_container row">
-      {isDropdownOpen && <AccountDropdown />}
-      {realmMock && (
+      {isDropdownOpen && (
+        <AccountDropdown
+          openTrigger={dropdownTriggerRef.current}
+          close={() => setIsDropdownOpen(false)}
+        />
+      )}
+      {realm && (
         <div className="realm_container row">
-          {realm && (
-            <RealmIcon realmId={realm.id} type="fill" color="#f4d03f" />
-          )}
-          <span className="realm_label">{realmMock.name}</span>
+          <RealmIcon realmId={realm.id} type="fill" color={realm.color} />
+          <span className="realm_label" style={{ color: realm.color }}>
+            {realm.name}
+          </span>
         </div>
       )}
-      <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
+      <button
+        className="account"
+        type="button"
+        onClick={() => setIsDropdownOpen((prev) => !prev)}
+        ref={dropdownTriggerRef}
+      >
         <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
       </button>
@@ -46,14 +58,14 @@ export default function AccountInfo() {
             line-height: 24px;
           }
 
+          .account > * {
+            pointer-events: none;
+          }
+
           .realm_container {
             align-items: center;
             margin-right: 25px;
             gap: 6px;
-          }
-
-          .realm_label {
-            color: #f4d03f;
           }
 
           .account_label {
