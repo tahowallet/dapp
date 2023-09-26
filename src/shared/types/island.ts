@@ -5,8 +5,10 @@ export type RealmContractData = {
 }
 
 export type RealmDetails = {
+  id: string
   name: string
   description: string
+  color: string
   xpfn: string
   quests: { name: string; description: string }[]
 }

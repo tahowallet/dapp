@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import useImage from "use-image"
 
 import backgroundImg from "public/dapp_island_bg.webp"
-import { getRealmDetails, realms } from "shared/constants"
+import { realms } from "shared/constants"
 import { createCutoutFromPath } from "shared/utils"
 import Realm from "./Realm"
 
@@ -14,7 +14,7 @@ export default function IslandRealms() {
     }
 
     return realms.map((realm) => ({
-      realm: { ...realm, name: getRealmDetails(realm.id).name },
+      realm,
       layer: createCutoutFromPath(realm, bg),
     }))
   }, [bg])

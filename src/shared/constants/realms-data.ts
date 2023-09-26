@@ -12,7 +12,6 @@ export const realm1 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -30,7 +29,6 @@ export const realm2 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -48,7 +46,6 @@ export const realm3 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -66,7 +63,6 @@ export const realm4 = {
     },
   ],
   realmType: "realm",
-  color: "#DC7633",
   labelX: 380,
   labelY: 216.5,
 }
@@ -84,7 +80,6 @@ export const realm5 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -102,7 +97,6 @@ export const realm6 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -120,7 +114,6 @@ export const realm7 = {
     },
   ],
   realmType: "realm",
-  color: "#D7BDE2",
   labelX: 540,
   labelY: 400,
 }
@@ -138,7 +131,6 @@ export const realm8 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -156,7 +148,6 @@ export const realm9 = {
     },
   ],
   realmType: "realm",
-  color: "#85C1E9",
   labelX: 700,
   labelY: 350,
 }
@@ -178,7 +169,6 @@ export const realm10 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -196,7 +186,6 @@ export const realm11 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -214,7 +203,6 @@ export const realm12 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -232,7 +220,6 @@ export const realm13 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -250,7 +237,6 @@ export const realm14 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -268,7 +254,6 @@ export const realm15 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -294,7 +279,6 @@ export const realm16 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -312,7 +296,6 @@ export const realm17 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -329,7 +312,6 @@ export const realm18 = {
     },
   ],
   realmType: "realm",
-  color: "#fff",
   labelX: 0,
   labelY: 0,
 }
@@ -347,7 +329,6 @@ export const realm19 = {
     },
   ],
   realmType: "realm",
-  color: "#F9E79F",
   labelX: 264,
   labelY: 409,
 }
@@ -365,7 +346,6 @@ export const realm20 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -382,7 +362,6 @@ export const realm21 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -400,7 +379,6 @@ export const realm22 = {
     },
   ],
   realmType: "realm",
-  color: "#CCFFCC",
   labelX: 337,
   labelY: 388,
 }
@@ -418,7 +396,6 @@ export const realm23 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -444,7 +421,6 @@ export const realm24 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -462,7 +438,6 @@ export const realm25 = {
     },
   ],
   realmType: "common",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -480,7 +455,6 @@ export const realm26 = {
     },
   ],
   realmType: "common",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -498,7 +472,6 @@ export const realm27 = {
     },
   ],
   realmType: "common",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
