@@ -49,7 +49,7 @@ export default function ClaimCheckSuccess() {
         <div className="success_container column_center">
           <ClaimHeader
             season="Season 1"
-            header="Congratulation!"
+            header="Congratulations!"
             subheader={
               <>
                 <span style={{ color: "var(--semantic-info)" }}>
