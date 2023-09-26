@@ -1,10 +1,4 @@
-import React, {
-  CSSProperties,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react"
+import React, { CSSProperties, ReactNode, useState } from "react"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import { animated, useSpring } from "@react-spring/web"
 import Icon from "./Icon"
@@ -23,23 +17,8 @@ export default function Tooltip({
   labelStyle,
 }: TooltipProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
-  const tooltipRef = useRef<HTMLDivElement>(null)
 
   const toggleTooltip = () => setIsTooltipVisible((prev) => !prev)
-
-  useEffect(() => {
-    if (!tooltipRef.current) return
-    const tooltip = tooltipRef.current
-
-    tooltip.addEventListener("mouseenter", toggleTooltip)
-    tooltip.addEventListener("mouseleave", toggleTooltip)
-
-    // eslint-disable-next-line consistent-return
-    return () => {
-      tooltip.removeEventListener("mouseenter", toggleTooltip)
-      tooltip.removeEventListener("mouseleave", toggleTooltip)
-    }
-  }, [tooltipRef])
 
   const tooltipAnimation = useSpring({
     opacity: isTooltipVisible ? 1 : 0,
@@ -52,7 +31,11 @@ export default function Tooltip({
     <>
       <div className="label row" style={style}>
         <div style={labelStyle}>{label}</div>
-        <div style={{ position: "relative" }} ref={tooltipRef}>
+        <div
+          style={{ position: "relative" }}
+          onMouseEnter={toggleTooltip}
+          onMouseLeave={toggleTooltip}
+        >
           <Icon
             color={
               isTooltipVisible
