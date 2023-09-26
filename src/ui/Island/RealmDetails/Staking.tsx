@@ -60,7 +60,7 @@ export default function Staking({ close }: StakingProps) {
 
       <div className="staking">
         <StakeForm isDisabled={disabledStake} />
-        <UnstakeForm isDisabled={disabledUnstake} />
+        <UnstakeForm isDisabled={disabledUnstake} balance={veTahoBalance} />
       </div>
       <style jsx>{`
         .staking {

@@ -68,6 +68,14 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     [dispatch]
   )
 
+  const onInputChange = (value: string) => {
+    setStakeAmount(value)
+
+    if (stakeTransactionStatus === TransactionProgressStatus.Failed) {
+      dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
+    }
+  }
+
   return (
     <>
       <div
@@ -83,7 +91,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
             disabled={isDisabled}
             amount={stakeAmount}
             tokenAddress={TAHO_ADDRESS}
-            onChange={setStakeAmount}
+            onChange={onInputChange}
             onValidate={(isValid) => setIsStakeAmountValid(isValid)}
           />
         </div>

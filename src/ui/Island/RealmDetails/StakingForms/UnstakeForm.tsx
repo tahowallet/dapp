@@ -20,7 +20,13 @@ import ModalLeavingRealm from "ui/Island/Modals/ModalLeavingRealm"
 
 const UNSTAKE_TX_ID = "unstake"
 
-export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
+export default function UnstakeForm({
+  isDisabled,
+  balance,
+}: {
+  isDisabled: boolean
+  balance: bigint
+}) {
   const dispatch = useDappDispatch()
 
   const displayedRealmAddress = useDappSelector(selectDisplayedRealmAddress)
@@ -30,9 +36,11 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   const displayedRealmId = useDappSelector(selectDisplayedRealmId)
 
   const [unstakeAmount, setUnstakeAmount] = useState("")
+  const amount = userAmountToBigInt(unstakeAmount)
+
   const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
 
-  const [isLeavingRealmVisible, setIsLeavingRealmVisible] = useState(false)
+  const [isLeavingRealmModalOpen, setIsLeavingRealmModalOpen] = useState(false)
 
   const unstakeTransactionStatus = useDappSelector((state) =>
     selectTransactionStatusById(state, UNSTAKE_TX_ID)
@@ -42,7 +50,6 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     useState(false)
 
   const unstakeTransaction = () => {
-    const amount = userAmountToBigInt(unstakeAmount)
     if (displayedRealmAddress && displayedRealmVeTokenAddress && amount) {
       dispatch(
         unstakeTaho({
@@ -80,6 +87,22 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     [dispatch]
   )
 
+  const onInputChange = (value: string) => {
+    setUnstakeAmount(value)
+
+    if (unstakeTransactionStatus === TransactionProgressStatus.Failed) {
+      dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
+    }
+  }
+
+  const onClickUnstake = () => {
+    if (amount === balance) {
+      setIsLeavingRealmModalOpen(true)
+    } else {
+      setIsUnstakeTransactionModalOpen(true)
+    }
+  }
+
   return (
     <>
       {!isCooldownPeriod ? (
@@ -96,7 +119,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
               disabled={isDisabled}
               amount={unstakeAmount}
               tokenAddress={displayedRealmVeTokenAddress ?? ""}
-              onChange={setUnstakeAmount}
+              onChange={onInputChange}
               onValidate={(isValid) => setIsUnstakeAmountValid(isValid)}
             />
           </div>
@@ -109,16 +132,17 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
               !isUnstakeAmountValid ||
               !isValidInputAmount(unstakeAmount)
             }
-            onClick={() => setIsUnstakeTransactionModalOpen(true)}
+            onClick={onClickUnstake}
           />
         </div>
       ) : (
         <UnstakeCooldown stakedAt={Date.now()} /> // TODO: change stakedAt to real value
       )}
-      {isLeavingRealmVisible && displayedRealmId && (
+      {isLeavingRealmModalOpen && displayedRealmId && (
         <ModalLeavingRealm
           realmId={displayedRealmId}
-          close={() => setIsLeavingRealmVisible(false)}
+          transaction={unstakeTransactionData}
+          close={() => setIsLeavingRealmModalOpen(false)}
         />
       )}
       <TransactionsModal
