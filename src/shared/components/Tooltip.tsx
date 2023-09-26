@@ -45,11 +45,9 @@ export default function Tooltip({
             src={infoIcon}
             style={{ zIndex: "3", position: "relative", transition: "all .2s" }}
           />
-          {isTooltipVisible && (
-            <animated.div style={{ ...tooltipAnimation, position: "absolute" }}>
-              <div className="tooltip">{children}</div>
-            </animated.div>
-          )}
+          <animated.div style={{ ...tooltipAnimation, position: "absolute" }}>
+            <div className="tooltip">{children}</div>
+          </animated.div>
         </div>
       </div>
       <style jsx>
