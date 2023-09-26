@@ -10,6 +10,7 @@ import {
   selectDisplayedRealmId,
   selectTransactionStatusById,
   stopTrackingTransactionStatus,
+  selectTokenBalanceByAddress,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -20,13 +21,7 @@ import ModalLeavingRealm from "ui/Island/Modals/ModalLeavingRealm"
 
 const UNSTAKE_TX_ID = "unstake"
 
-export default function UnstakeForm({
-  isDisabled,
-  balance,
-}: {
-  isDisabled: boolean
-  balance: bigint
-}) {
+export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   const dispatch = useDappDispatch()
 
   const displayedRealmAddress = useDappSelector(selectDisplayedRealmAddress)
@@ -35,6 +30,9 @@ export default function UnstakeForm({
   )
   const displayedRealmId = useDappSelector(selectDisplayedRealmId)
 
+  const veTahoBalance = useDappSelector((state) =>
+    selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
+  )
   const [unstakeAmount, setUnstakeAmount] = useState("")
   const amount = userAmountToBigInt(unstakeAmount)
 
@@ -96,7 +94,7 @@ export default function UnstakeForm({
   }
 
   const onClickUnstake = () => {
-    if (amount === balance) {
+    if (amount === veTahoBalance) {
       setIsLeavingRealmModalOpen(true)
     } else {
       setIsUnstakeTransactionModalOpen(true)
@@ -105,7 +103,9 @@ export default function UnstakeForm({
 
   return (
     <>
-      {!isCooldownPeriod ? (
+      {isCooldownPeriod ? (
+        <UnstakeCooldown />
+      ) : (
         <div
           className={classNames("stake_control", {
             disabled: isDisabled,
@@ -135,8 +135,6 @@ export default function UnstakeForm({
             onClick={onClickUnstake}
           />
         </div>
-      ) : (
-        <UnstakeCooldown stakedAt={Date.now()} /> // TODO: change stakedAt to real value
       )}
       {isLeavingRealmModalOpen && displayedRealmId && (
         <ModalLeavingRealm
