@@ -221,6 +221,12 @@ export default function GlobalStyles() {
         .no_scrollbar::-webkit-scrollbar {
           display: none;
         }
+        .button_reset {
+          background: none;
+          outline: none;
+          border: none;
+          cursor: pointer;
+        }
       `}
     </style>
   )

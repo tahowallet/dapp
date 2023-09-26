@@ -15,7 +15,7 @@ export default function ZoomControls() {
           gap: 7px;
           border-radius: 4px;
           position: relative;
-          border: 1px solid var(--secondary-s1-70);
+          border: 1px solid var(--secondary-s1-50);
           background: var(--secondary-s1-20);
         }
         .controls::after {
@@ -27,6 +27,9 @@ export default function ZoomControls() {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
+        }
+        .controls:hover {
+          border: 1px solid var(--secondary-s1-70);
         }
       `}</style>
     </>

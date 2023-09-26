@@ -8,7 +8,7 @@ type ZoomControlProps = {
 export default function ZoomControl({ icon }: ZoomControlProps) {
   return (
     <>
-      <button className="control center" type="button">
+      <button className="control center button_reset" type="button">
         <div className="control_icon">
           <Icon src={icon} height="16px" width="16px" />
         </div>
@@ -18,12 +18,8 @@ export default function ZoomControl({ icon }: ZoomControlProps) {
           .control {
             width: 32px;
             height: 32px;
-            background: none;
-            outline: none;
-            border: none;
             transition: all 0.3s;
             border-radius: 4px;
-            cursor: pointer;
           }
           .control_icon {
             opacity: 0.7;

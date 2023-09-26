@@ -1,11 +1,13 @@
 import React from "react"
 import ZoomControls from "./ZoomControls"
+import MapControl from "./MapControl"
 
 export default function Controls() {
   return (
     <>
-      <div className="controls">
+      <div className="controls column_center">
         <ZoomControls />
+        <MapControl />
       </div>
       <style jsx>
         {`
@@ -14,6 +16,7 @@ export default function Controls() {
             left: 35px;
             bottom: 72px;
             z-index: var(--z-controls);
+            gap: 5px;
           }
         `}
       </style>
