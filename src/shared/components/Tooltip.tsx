@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react"
 import infoIcon from "shared/assets/icons/m/info.svg"
+import { animated, useSpring } from "@react-spring/web"
 import Icon from "./Icon"
 
 type TooltipProps = {
@@ -40,20 +41,31 @@ export default function Tooltip({
     }
   }, [tooltipRef])
 
+  const tooltipAnimation = useSpring({
+    opacity: isTooltipVisible ? 1 : 0,
+    left: 0,
+    top: 0,
+    paddingTop: 32,
+  })
+
   return (
     <>
       <div className="label row" style={style}>
         <div style={labelStyle}>{label}</div>
         <div style={{ position: "relative" }} ref={tooltipRef}>
           <Icon
-            color="var(--secondary-s1-80)"
+            color={
+              isTooltipVisible
+                ? "var(--secondary-s1-100)"
+                : "var(--secondary-s1-80)"
+            }
             src={infoIcon}
-            style={{ zIndex: "3", position: "relative" }}
+            style={{ zIndex: "3", position: "relative", transition: "all .2s" }}
           />
           {isTooltipVisible && (
-            <div className="tooltip">
-              <div className="tooltip_content">{children}</div>
-            </div>
+            <animated.div style={{ ...tooltipAnimation, position: "absolute" }}>
+              <div className="tooltip">{children}</div>
+            </animated.div>
           )}
         </div>
       </div>
@@ -64,12 +76,6 @@ export default function Tooltip({
             align-items: center;
           }
           .tooltip {
-            position: absolute;
-            left: 0;
-            top: 0;
-            padding-top: 32px;
-          }
-          .tooltip_content {
             width: 325px;
             padding: 24px 32px 32px;
             background: var(--secondary-s1-90);
