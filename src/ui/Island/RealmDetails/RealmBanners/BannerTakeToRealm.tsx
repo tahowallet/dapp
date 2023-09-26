@@ -4,13 +4,13 @@ import Button from "shared/components/Button"
 import RealmBanner from "shared/components/RealmModal/RealmBanner"
 import { useIslandContext } from "shared/hooks"
 
-export default function BannerTakeToNode() {
+export default function BannerTakeToRealm() {
   const { onRealmClick } = useIslandContext().current
   const stakingRealmContractId = useDappSelector(selectStakingRealmId)
 
   return (
     <RealmBanner
-      label="You are already staked in another node,"
+      label="You are already staked in another realm,"
       showHint
       style={{ marginTop: 24, marginBottom: 0 }}
       button={
@@ -19,7 +19,7 @@ export default function BannerTakeToNode() {
             stakingRealmContractId && onRealmClick(stakingRealmContractId)
           }
         >
-          Take me to my node
+          Take me to my realm
         </Button>
       }
     />

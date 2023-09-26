@@ -155,7 +155,7 @@ export default [
   },
   {
     inputs: [],
-    name: "CREATORS_NODE",
+    name: "CREATORS_REALM",
     outputs: [
       {
         internalType: "address",
@@ -168,7 +168,7 @@ export default [
   },
   {
     inputs: [],
-    name: "CREATORS_NODE_DEPLOYER_DEPLOY_HASH",
+    name: "CREATORS_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -181,7 +181,7 @@ export default [
   },
   {
     inputs: [],
-    name: "CREATORS_NODE_VETAHO",
+    name: "CREATORS_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -194,7 +194,7 @@ export default [
   },
   {
     inputs: [],
-    name: "CREATORS_NODE_VETAHO_DEPLOY_HASH",
+    name: "CREATORS_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -207,7 +207,7 @@ export default [
   },
   {
     inputs: [],
-    name: "DEFI_NODE",
+    name: "DEFI_REALM",
     outputs: [
       {
         internalType: "address",
@@ -220,7 +220,7 @@ export default [
   },
   {
     inputs: [],
-    name: "DEFI_NODE_DEPLOYER_DEPLOY_HASH",
+    name: "DEFI_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -233,7 +233,7 @@ export default [
   },
   {
     inputs: [],
-    name: "DEFI_NODE_VETAHO",
+    name: "DEFI_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -246,7 +246,7 @@ export default [
   },
   {
     inputs: [],
-    name: "DEFI_NODE_VETAHO_DEPLOY_HASH",
+    name: "DEFI_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -298,7 +298,7 @@ export default [
   },
   {
     inputs: [],
-    name: "EDUCATE_NODE",
+    name: "EDUCATE_REALM",
     outputs: [
       {
         internalType: "address",
@@ -311,7 +311,7 @@ export default [
   },
   {
     inputs: [],
-    name: "EDUCATE_NODE_DEPLOYER_DEPLOY_HASH",
+    name: "EDUCATE_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -324,7 +324,7 @@ export default [
   },
   {
     inputs: [],
-    name: "EDUCATE_NODE_VETAHO",
+    name: "EDUCATE_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -337,7 +337,7 @@ export default [
   },
   {
     inputs: [],
-    name: "EDUCATE_NODE_VETAHO_DEPLOY_HASH",
+    name: "EDUCATE_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -506,7 +506,7 @@ export default [
   },
   {
     inputs: [],
-    name: "SOCIAL_NODE",
+    name: "SOCIAL_REALM",
     outputs: [
       {
         internalType: "address",
@@ -519,7 +519,7 @@ export default [
   },
   {
     inputs: [],
-    name: "SOCIAL_NODE_DEPLOYER_DEPLOY_HASH",
+    name: "SOCIAL_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -532,7 +532,7 @@ export default [
   },
   {
     inputs: [],
-    name: "SOCIAL_NODE_VETAHO",
+    name: "SOCIAL_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -545,7 +545,7 @@ export default [
   },
   {
     inputs: [],
-    name: "SOCIAL_NODE_VETAHO_DEPLOY_HASH",
+    name: "SOCIAL_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -662,7 +662,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VAMPIRE_NODE",
+    name: "VAMPIRE_REALM",
     outputs: [
       {
         internalType: "address",
@@ -675,7 +675,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VAMPIRE_NODE_DEPLOYER_DEPLOY_HASH",
+    name: "VAMPIRE_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -688,7 +688,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VAMPIRE_NODE_VETAHO",
+    name: "VAMPIRE_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -701,7 +701,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VAMPIRE_NODE_VETAHO_DEPLOY_HASH",
+    name: "VAMPIRE_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -780,6 +780,32 @@ export default [
   {
     inputs: [],
     name: "XP_MERKLE_DISTRIBUTOR_FACTORY_DEPLOYER_DEPLOY_HASH",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "XP_TAHO_CONVERTER_FACTORY",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "XP_TAHO_CONVERTER_FACTORY_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",

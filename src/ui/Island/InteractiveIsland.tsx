@@ -14,6 +14,7 @@ import {
 } from "shared/utils"
 import Background from "./Background"
 import Realms from "./IslandRealms"
+import RealmPin from "./RealmPin"
 
 export default function InteractiveIsland() {
   const settingsRef = useRef({ minScale: 0 })
@@ -40,9 +41,9 @@ export default function InteractiveIsland() {
     }
 
     const centerIsland = (scale: number) => {
-      const islandNode = islandRef.current
-      if (islandNode) {
-        islandNode.absolutePosition({
+      const islandRealm = islandRef.current
+      if (islandRealm) {
+        islandRealm.absolutePosition({
           x: -Math.abs((ISLAND_BOX.width * scale - stageBounds.width) / 2),
           y: -Math.abs((ISLAND_BOX.height * scale - stageBounds.height) / 2),
         })
@@ -156,6 +157,7 @@ export default function InteractiveIsland() {
       <Layer>
         <Background overlay={overlay} />
         <Realms />
+        <RealmPin />
       </Layer>
     </Stage>
   )

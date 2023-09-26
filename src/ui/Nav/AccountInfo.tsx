@@ -1,34 +1,48 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import {
   useDappSelector,
   selectWalletAvatar,
   selectWalletName,
   selectStakingRealmId,
 } from "redux-state"
-import { getRealmColor, getRealmDetails } from "shared/constants"
+import { getRealmDetails } from "shared/constants"
 import RealmIcon from "shared/components/RealmIcon"
 import AccountDropdown from "./AccountDropdown"
 
 export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownTriggerRef = useRef<HTMLButtonElement>(null)
+
   const name = useDappSelector(selectWalletName)
   const avatar = useDappSelector(selectWalletAvatar)
-  const realmId = useDappSelector(selectStakingRealmId)
-  const realmColor = realmId ? getRealmColor(realmId) : null
-  const realmDetails = realmId ? getRealmDetails(realmId) : null
+  const stakingRealmId = useDappSelector(selectStakingRealmId)
+
+  const realm = stakingRealmId ? getRealmDetails(stakingRealmId) : null
 
   if (!name) return null
 
   return (
     <div className="account_container row">
-      {isDropdownOpen && <AccountDropdown />}
-      {realmId && realmDetails && realmColor && (
+      {isDropdownOpen && (
+        <AccountDropdown
+          openTrigger={dropdownTriggerRef.current}
+          close={() => setIsDropdownOpen(false)}
+        />
+      )}
+      {realm && (
         <div className="realm_container row">
-          <RealmIcon realmId={realmId} type="fill" color={realmColor} />
-          <span className="realm_label">{realmDetails.name}</span>
+          <RealmIcon realmId={realm.id} type="fill" color={realm.color} />
+          <span className="realm_label" style={{ color: realm.color }}>
+            {realm.name}
+          </span>
         </div>
       )}
-      <button type="button" onClick={() => setIsDropdownOpen((prev) => !prev)}>
+      <button
+        className="account"
+        type="button"
+        onClick={() => setIsDropdownOpen((prev) => !prev)}
+        ref={dropdownTriggerRef}
+      >
         <span className="account_label ellipsis">{name}</span>
         <div className="avatar" />
       </button>
@@ -44,14 +58,14 @@ export default function AccountInfo() {
             line-height: 24px;
           }
 
+          .account > * {
+            pointer-events: none;
+          }
+
           .realm_container {
             align-items: center;
             margin-right: 25px;
             gap: 6px;
-          }
-
-          .realm_label {
-            color: ${realmColor};
           }
 
           .account_label {
