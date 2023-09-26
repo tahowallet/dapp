@@ -8,6 +8,7 @@ function MapControlIcon({ isOverlay }: { isOverlay: boolean }) {
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      style={{ position: "relative", zIndex: 2 }}
     >
       <circle cx="8" cy="8" r="2" fill={!isOverlay ? "#11BEA9" : "#0D2321"} />
       <circle cx="16" cy="8" r="2" fill="#0D2321" />
@@ -69,9 +70,21 @@ export default function MapControl() {
             border-radius: 4px;
             border: 1px solid var(--secondary-s1-50);
             transition: all 0.3s;
+            position: relative;
           }
           .map_control:hover {
             border: 1px solid var(--secondary-s1-70);
+          }
+          .map_control::after {
+            content: "";
+            position: absolute;
+            opacity: 0;
+            inset: 0;
+            background: var(--secondary-s1-10);
+            transition: opacity 0.3s;
+          }
+          .map_control:hover::after {
+            opacity: 1;
           }
         `}
       </style>
