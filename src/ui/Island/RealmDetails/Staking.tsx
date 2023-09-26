@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import TokenAmountInput from "shared/components/TokenAmountInput"
-import Button from "shared/components/Button"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import {
   stakeTaho,
@@ -21,6 +20,7 @@ import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import { TransactionProgressStatus } from "shared/types"
+import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import ModalLeavingRealm from "../Modals/ModalLeavingRealm"
 import BannerEarn from "./RealmBanners/BannerEarn"
 import BannerTakeToRealm from "./RealmBanners/BannerTakeToRealm"
@@ -117,20 +117,26 @@ export default function Staking({ close }: StakingProps) {
     }
   }
 
-  const closeStakingTransactionModal = () => {
-    setIsStakeTransactionModalOpen(false)
-    dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
-  }
-
-  const closeUnstakingTransactionModal = () => {
-    setIsUnstakeTransactionModalOpen(false)
-    dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
-  }
-
   const shouldLinkToRealm = hasStakingRealm && !isStakingRealm
   const shouldLinkToReferrals = !shouldLinkToRealm && tahoBalance === 0n
 
   const isCooldownPeriod = false
+
+  const stakeTransactionData = {
+    id: STAKE_TX_ID,
+    title: "Approve and stake $TAHO",
+    buttonLabel: "Approve & stake",
+    status: stakeTransactionStatus,
+    onClick: stakeTransaction,
+  }
+
+  const unstakeTransactionData = {
+    id: UNSTAKE_TX_ID,
+    title: "Approve and unstake $TAHO",
+    buttonLabel: "Approve & unstake",
+    status: unstakeTransactionStatus,
+    onClick: unstakeTransaction,
+  }
 
   useEffect(() => {
     if (stakeTransactionStatus === TransactionProgressStatus.Done) {
@@ -147,6 +153,14 @@ export default function Staking({ close }: StakingProps) {
       dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
     }
   }, [dispatch, unstakeTransactionStatus])
+
+  useEffect(
+    () => () => {
+      dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
+      dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
+    },
+    [dispatch]
+  )
 
   return (
     <>
@@ -171,18 +185,17 @@ export default function Staking({ close }: StakingProps) {
               onValidate={(isValid) => setIsStakeAmountValid(isValid)}
             />
           </div>
-          <Button
-            type="primary"
-            size="medium"
-            isDisabled={
+          <TransactionProgress
+            buttonLabel="Stake $TAHO"
+            buttonSize="medium"
+            status={stakeTransactionData.status}
+            disabled={
               disabledStake ||
               !isStakeAmountValid ||
               !isValidInputAmount(stakeAmount)
             }
             onClick={() => setIsStakeTransactionModalOpen(true)}
-          >
-            Stake $TAHO
-          </Button>
+          />
         </div>
         {!isCooldownPeriod ? (
           <div
@@ -202,18 +215,17 @@ export default function Staking({ close }: StakingProps) {
                 onValidate={(isValid) => setIsUnstakeAmountValid(isValid)}
               />
             </div>
-            <Button
-              type="primary"
-              size="medium"
-              isDisabled={
+            <TransactionProgress
+              buttonLabel="Unstake $TAHO"
+              buttonSize="medium"
+              status={unstakeTransactionData.status}
+              disabled={
                 disabledUnstake ||
                 !isUnstakeAmountValid ||
                 !isValidInputAmount(unstakeAmount)
               }
               onClick={() => setIsUnstakeTransactionModalOpen(true)}
-            >
-              Unstake $TAHO
-            </Button>
+            />
           </div>
         ) : (
           <UnstakeCooldown stakedAt={Date.now()} /> // TODO: change stakedAt to real value
@@ -227,29 +239,13 @@ export default function Staking({ close }: StakingProps) {
       )}
       <TransactionsModal
         isOpen={isStakeTransactionModalOpen}
-        close={closeStakingTransactionModal}
-        transactions={[
-          {
-            id: STAKE_TX_ID,
-            title: "Approve and stake $TAHO",
-            buttonLabel: "Approve & stake",
-            status: stakeTransactionStatus,
-            sendTransaction: stakeTransaction,
-          },
-        ]}
+        close={() => setIsStakeTransactionModalOpen(false)}
+        transactions={[stakeTransactionData]}
       />
       <TransactionsModal
         isOpen={isUnstakeTransactionModalOpen}
-        close={closeUnstakingTransactionModal}
-        transactions={[
-          {
-            id: UNSTAKE_TX_ID,
-            title: "Approve and unstake $TAHO",
-            buttonLabel: "Approve & unstake",
-            status: unstakeTransactionStatus,
-            sendTransaction: unstakeTransaction,
-          },
-        ]}
+        close={() => setIsUnstakeTransactionModalOpen(false)}
+        transactions={[unstakeTransactionData]}
       />
       <style jsx>{`
         .staking {
