@@ -31,7 +31,7 @@ export default function AccountDropdown({
   return (
     <>
       <div className="account_dropdown_container column" ref={dropdownRef}>
-        <div>{accountName}</div>
+        <div style={{ whiteSpace: "nowrap" }}>{accountName}</div>
         <Button type="tertiary" onClick={() => disconnect()}>
           Disconnect
         </Button>
