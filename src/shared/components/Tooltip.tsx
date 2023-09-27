@@ -18,8 +18,6 @@ export default function Tooltip({
 }: TooltipProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
-  const toggleTooltip = () => setIsTooltipVisible((prev) => !prev)
-
   const tooltipAnimation = useSpring({
     opacity: isTooltipVisible ? 1 : 0,
     left: 0,
@@ -33,18 +31,23 @@ export default function Tooltip({
         <div style={labelStyle}>{label}</div>
         <div
           style={{ position: "relative" }}
-          onMouseEnter={toggleTooltip}
-          onMouseLeave={toggleTooltip}
+          onMouseLeave={() => setIsTooltipVisible(false)}
         >
-          <Icon
-            color={
-              isTooltipVisible
-                ? "var(--secondary-s1-100)"
-                : "var(--secondary-s1-80)"
-            }
-            src={infoIcon}
-            style={{ zIndex: "3", position: "relative", transition: "all .2s" }}
-          />
+          <div onMouseEnter={() => setIsTooltipVisible(true)}>
+            <Icon
+              color={
+                isTooltipVisible
+                  ? "var(--secondary-s1-100)"
+                  : "var(--secondary-s1-80)"
+              }
+              src={infoIcon}
+              style={{
+                zIndex: "3",
+                position: "relative",
+                transition: "all .2s",
+              }}
+            />
+          </div>
           <animated.div style={{ ...tooltipAnimation, position: "absolute" }}>
             <div className="tooltip">{children}</div>
           </animated.div>
