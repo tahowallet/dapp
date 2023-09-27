@@ -1,7 +1,7 @@
 import React from "react"
 import Portal from "shared/components/Portal"
 import ZoomControls from "./ZoomControls"
-import MapControl from "./MapControl"
+import IslandControl from "./IslandControl"
 
 export default function Controls() {
   return (
@@ -9,7 +9,7 @@ export default function Controls() {
       <Portal>
         <div className="controls column_center">
           <ZoomControls />
-          <MapControl />
+          <IslandControl />
         </div>
       </Portal>
       <style jsx>

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-function MapControlIcon({ isOverlay }: { isOverlay: boolean }) {
+function IslandControlIcon({ isOverlay }: { isOverlay: boolean }) {
   return (
     <svg
       width="32"
@@ -48,7 +48,7 @@ function MapControlIcon({ isOverlay }: { isOverlay: boolean }) {
   )
 }
 
-export default function MapControl() {
+export default function IslandControl() {
   const [isOverlay, setIsOverlay] = useState(false)
 
   return (
@@ -58,7 +58,7 @@ export default function MapControl() {
         className="map_control button_reset center"
         onClick={() => setIsOverlay((prev) => !prev)}
       >
-        <MapControlIcon isOverlay={isOverlay} />
+        <IslandControlIcon isOverlay={isOverlay} />
       </button>
       <style jsx>
         {`
