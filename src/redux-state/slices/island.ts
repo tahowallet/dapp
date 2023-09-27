@@ -43,7 +43,7 @@ export type IslandState = {
 
 const initialState: IslandState = {
   mode: "default",
-  overlay: "none",
+  overlay: "dark",
   realms: REALMS,
   stakingRealmId: null,
   displayedRealmId: null,
