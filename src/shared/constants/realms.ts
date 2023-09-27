@@ -2,6 +2,25 @@ import { RealmDetails } from "shared/types"
 import { realm19, realm22, realm4, realm7, realm9 } from "./realms-data"
 import CUSTOM_DATA from "./realms-details.json"
 
+// TODO: names and ids may change
+export const REALMS_WITH_CONTRACT_NAME = {
+  "4": {
+    name: "VAMPIRE_REALM",
+  },
+  "7": {
+    name: "EDUCATE_REALM",
+  },
+  "9": {
+    name: "SOCIAL_REALM",
+  },
+  "19": {
+    name: "CREATORS_REALM",
+  },
+  "22": {
+    name: "DEFI_REALM",
+  },
+}
+
 // TODO: read the correct custom data for realms
 // The custom data should be read from a JSON file.
 // Currently, the structure of the file isn't yet known and should be updated later.

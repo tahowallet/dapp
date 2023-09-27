@@ -1,7 +1,10 @@
 export type RealmContractData = {
   name: string
-  realmContractAddress: string | null
-  veTokenContractAddress: string | null
+  realmContractAddress: string
+  veTokenContractAddress: string
+  realmName: string
+  xpTokenNamePrefix: string
+  xpTokenSymbolPrefix: string
 }
 
 export type RealmDetails = {

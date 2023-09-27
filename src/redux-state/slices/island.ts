@@ -1,34 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { OverlayType, RealmContractData } from "shared/types"
-
-// TODO: names and ids may change
-const REALMS: { [id: string]: RealmContractData } = {
-  "4": {
-    name: "VAMPIRE_REALM",
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-  "7": {
-    name: "EDUCATE_REALM",
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-  "9": {
-    name: "SOCIAL_REALM",
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-  "19": {
-    name: "CREATORS_REALM",
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-  "22": {
-    name: "DEFI_REALM",
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-}
+import {
+  OverlayType,
+  RealmContractData,
+  RealmContractDataWithId,
+} from "shared/types"
 
 type IslandModeType = "default" | "join-realm"
 
@@ -43,7 +18,7 @@ export type IslandState = {
 const initialState: IslandState = {
   mode: "default",
   overlay: "none",
-  realms: REALMS,
+  realms: {},
   stakingRealmId: null,
   displayedRealmId: null,
 }
@@ -66,13 +41,10 @@ const islandSlice = createSlice({
     },
     setRealmContractData: (
       immerState,
-      {
-        payload: realmAddresses,
-      }: { payload: { id: string; address: string; veTokenAddress: string }[] }
+      { payload: realmData }: { payload: RealmContractDataWithId[] }
     ) => {
-      realmAddresses.forEach(({ id, address, veTokenAddress }) => {
-        immerState.realms[id].realmContractAddress = address
-        immerState.realms[id].veTokenContractAddress = veTokenAddress
+      realmData.forEach(({ id, data }) => {
+        immerState.realms[id] = data
       })
     },
     setStakingRealmId: (
