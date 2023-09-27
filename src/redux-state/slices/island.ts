@@ -4,27 +4,27 @@ import { OverlayType, RealmContractData } from "shared/types"
 // TODO: names and ids may change
 const REALMS: { [id: string]: RealmContractData } = {
   "4": {
-    name: "VAMPIRE_NODE",
+    name: "VAMPIRE_REALM",
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
   "7": {
-    name: "EDUCATE_NODE",
+    name: "EDUCATE_REALM",
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
   "9": {
-    name: "SOCIAL_NODE",
+    name: "SOCIAL_REALM",
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
   "19": {
-    name: "CREATORS_NODE",
+    name: "CREATORS_REALM",
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
   "22": {
-    name: "DEFI_NODE",
+    name: "DEFI_REALM",
     realmContractAddress: null,
     veTokenContractAddress: null,
   },

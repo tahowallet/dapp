@@ -5,7 +5,7 @@ export default [
     inputs: [
       {
         internalType: "string",
-        name: "nodeName",
+        name: "realmName",
         type: "string",
       },
       {
@@ -310,7 +310,13 @@ export default [
   {
     inputs: [],
     name: "createXp",
-    outputs: [],
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },

@@ -1,13 +1,13 @@
 import { RealmContractDataWithId, ReadTransactionBuilder } from "shared/types"
 import { Contract } from "ethers"
 import { getTahoDeployerContract } from "./game"
-import { nodeAbi } from "./abi"
+import { realmAbi } from "./abi"
 
 export const getRealmContract: ReadTransactionBuilder<
   { realmContractAddress: string },
   Contract
 > = async (provider, { realmContractAddress }) =>
-  new Contract(realmContractAddress, nodeAbi, provider)
+  new Contract(realmContractAddress, realmAbi, provider)
 
 export const getRealmTokenAddresses: ReadTransactionBuilder<
   { realms: RealmContractDataWithId[] },
