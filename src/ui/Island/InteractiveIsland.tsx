@@ -2,7 +2,6 @@ import React, { useCallback, useRef, useState } from "react"
 import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
 import rafSchd from "raf-schd"
-
 import {
   setIslandZoomLevel,
   useDappDispatch,
@@ -19,6 +18,7 @@ import {
   getMinimumScale,
   limitToBounds,
 } from "shared/utils"
+import Controls from "ui/Controls"
 import Background from "./Background"
 import Realms from "./IslandRealms"
 import RealmPin from "./RealmPin"
@@ -154,19 +154,22 @@ export default function InteractiveIsland() {
   [])
 
   return (
-    <Stage
-      ref={islandRef}
-      draggable
-      dragBoundFunc={restrictDragBounds}
-      scale={{ x: zoomLevel, y: zoomLevel }}
-      width={stageBounds.width}
-      height={stageBounds.height}
-    >
-      <Layer>
-        <Background overlay={overlay} />
-        <Realms />
-        <RealmPin />
-      </Layer>
-    </Stage>
+    <>
+      <Stage
+        ref={islandRef}
+        draggable
+        dragBoundFunc={restrictDragBounds}
+        scale={{ x: zoomLevel, y: zoomLevel }}
+        width={stageBounds.width}
+        height={stageBounds.height}
+      >
+        <Layer>
+          <Background overlay={overlay} />
+          <Realms />
+          <RealmPin />
+        </Layer>
+      </Stage>
+      <Controls />
+    </>
   )
 }

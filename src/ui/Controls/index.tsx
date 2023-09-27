@@ -1,14 +1,17 @@
 import React from "react"
+import Portal from "shared/components/Portal"
 import ZoomControls from "./ZoomControls"
 import MapControl from "./MapControl"
 
 export default function Controls() {
   return (
     <>
-      <div className="controls column_center">
-        <ZoomControls />
-        <MapControl />
-      </div>
+      <Portal>
+        <div className="controls column_center">
+          <ZoomControls />
+          <MapControl />
+        </div>
+      </Portal>
       <style jsx>
         {`
           .controls {
