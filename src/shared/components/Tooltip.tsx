@@ -4,62 +4,68 @@ import { animated, useSpring } from "@react-spring/web"
 import Icon from "./Icon"
 
 type TooltipProps = {
-  label: ReactNode
+  positionY?: "bottom" | "top"
+  positionX?: "left" | "right"
   children: ReactNode
   style?: CSSProperties
-  labelStyle?: CSSProperties
 }
 
 export default function Tooltip({
-  label,
+  positionY = "bottom",
+  positionX = "right",
   children,
   style,
-  labelStyle,
 }: TooltipProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
-  const tooltipAnimation = useSpring({
-    opacity: isTooltipVisible ? 1 : 0,
-    left: 0,
-    top: 0,
-    paddingTop: 32,
-  })
+  const tooltipAnimation = useSpring({ opacity: isTooltipVisible ? 1 : 0 })
+
+  const tooltipPosition = {
+    ...(positionY === "top"
+      ? { bottom: 0, paddingBottom: 32 }
+      : { top: 0, paddingTop: 32 }),
+    ...(positionX === "left" ? { right: 0 } : { left: 0 }),
+  }
 
   return (
     <>
-      <div className="label row" style={style}>
-        <div style={labelStyle}>{label}</div>
-        <div
-          style={{ position: "relative" }}
-          onMouseLeave={() => setIsTooltipVisible(false)}
-        >
-          <div onMouseEnter={() => setIsTooltipVisible(true)}>
-            <Icon
-              color={
-                isTooltipVisible
-                  ? "var(--secondary-s1-100)"
-                  : "var(--secondary-s1-80)"
-              }
-              src={infoIcon}
-              style={{
-                zIndex: "3",
-                position: "relative",
-                transition: "all .2s",
-              }}
-            />
-          </div>
-          <animated.div style={{ ...tooltipAnimation, position: "absolute" }}>
-            <div className="tooltip">{children}</div>
-          </animated.div>
+      <div className="tooltip" onMouseLeave={() => setIsTooltipVisible(false)}>
+        <div onMouseEnter={() => setIsTooltipVisible(true)}>
+          <Icon
+            color={
+              isTooltipVisible
+                ? "var(--secondary-s1-100)"
+                : "var(--secondary-s1-80)"
+            }
+            src={infoIcon}
+            style={{
+              zIndex: "3",
+              position: "relative",
+              transition: "all .2s",
+              cursor: "pointer",
+            }}
+          />
         </div>
+        <animated.div
+          style={{
+            ...tooltipAnimation,
+            ...tooltipPosition,
+            position: "absolute",
+            pointerEvents: isTooltipVisible ? "all" : "none",
+          }}
+        >
+          <div className="tooltip_content" style={style}>
+            {children}
+          </div>
+        </animated.div>
       </div>
       <style jsx>
         {`
-          .label {
-            gap: 8px;
-            align-items: center;
-          }
           .tooltip {
+            position: relative;
+            margin-left: 8px;
+          }
+          .tooltip_content {
             width: 325px;
             padding: 24px 32px 32px;
             background: var(--secondary-s1-90);
