@@ -36,6 +36,7 @@ export function useBalanceFetch() {
   const account = useDappSelector(selectWalletAddress)
 
   useInterval(
+    // TODO wrap in useCallback
     () => {
       if (account && dispatch) {
         dispatch(fetchWalletBalances())

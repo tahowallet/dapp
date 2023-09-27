@@ -52,3 +52,6 @@ export const selectIsStakingRealmDisplayed = createSelector(
     !!displayedAddress &&
     isSameAddress(stakingAddress, displayedAddress)
 )
+
+export const selectStakeUnlockTime = (state: RootState) =>
+  state.island.stakeUnlockTime

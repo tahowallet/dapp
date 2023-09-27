@@ -18,6 +18,7 @@ import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import ModalLeavingRealm from "ui/Island/Modals/ModalLeavingRealm"
+import { useStakeCooldownPeriod } from "shared/hooks"
 
 const UNSTAKE_TX_ID = "unstake"
 
@@ -47,6 +48,8 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   const [isUnstakeTransactionModalOpen, setIsUnstakeTransactionModalOpen] =
     useState(false)
 
+  const { timeRemaining, hasCooldown } = useStakeCooldownPeriod()
+
   const unstakeTransaction = () => {
     if (displayedRealmAddress && displayedRealmVeTokenAddress && amount) {
       dispatch(
@@ -59,8 +62,6 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
       )
     }
   }
-
-  const isCooldownPeriod = false
 
   const unstakeTransactionData = {
     id: UNSTAKE_TX_ID,
@@ -103,8 +104,8 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   return (
     <>
-      {isCooldownPeriod ? (
-        <UnstakeCooldown />
+      {timeRemaining && hasCooldown ? (
+        <UnstakeCooldown timeRemaining={timeRemaining} />
       ) : (
         <div
           className={classNames("stake_control", {
