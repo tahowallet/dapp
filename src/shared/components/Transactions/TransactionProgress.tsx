@@ -47,7 +47,7 @@ const statusToElementProps = [
     getLabel: (status: TransactionProgressStatus): string => {
       if (status === TransactionProgressStatus.Approving) return "Approving"
 
-      return status <= TransactionProgressStatus.Signing
+      return status === TransactionProgressStatus.Idle
         ? "Waiting for signature"
         : "Signed"
     },
@@ -55,10 +55,7 @@ const statusToElementProps = [
   },
   {
     id: "sending",
-    getLabel: (status: TransactionProgressStatus): string =>
-      status <= TransactionProgressStatus.Sending
-        ? "Sending transaction"
-        : "Sent",
+    getLabel: (): string => "Sending transaction",
     getStatus: createGetStatusFunction(TransactionProgressStatus.Sending),
   },
 ]
