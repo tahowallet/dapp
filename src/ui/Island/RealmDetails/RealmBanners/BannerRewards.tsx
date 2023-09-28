@@ -32,7 +32,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
         label={
           <div className="row_center">
             Claimable rewards
-            <Tooltip>
+            <Tooltip width={325}>
               You don&apos;t have to claim your XP until end of season. Unless
               you plan on trading it.
               <br />
