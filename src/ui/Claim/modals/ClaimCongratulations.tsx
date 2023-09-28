@@ -1,8 +1,8 @@
 import React from "react"
+import { selectRealmById, useDappSelector } from "redux-state"
 import Button from "shared/components/Button"
 import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
 import RealmIcon from "shared/components/RealmIcon"
-import { getRealmDetails } from "shared/constants"
 
 type ClaimCongratulationsProps = {
   amount: number
@@ -17,7 +17,7 @@ export default function ClaimCongratulations({
   realmId,
   close,
 }: ClaimCongratulationsProps) {
-  const { name: realmName } = getRealmDetails(realmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   return (
     <>
@@ -39,7 +39,7 @@ export default function ClaimCongratulations({
         />
         <div className="taho_amount">{amount}</div>
         <p className="taho_description">{description}</p>
-        <p className="taho_realm">from {realmName}</p>
+        <p className="taho_realm">from {realm?.realmName}</p>
       </CongratulationsModal>
       <style jsx>{`
         .taho_amount {

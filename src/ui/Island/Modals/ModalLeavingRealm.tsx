@@ -3,8 +3,7 @@ import Modal from "shared/components/Modal"
 import Icon from "shared/components/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 import Button from "shared/components/Button"
-
-import { getRealmDetails } from "shared/constants"
+import { selectRealmById, useDappSelector } from "redux-state"
 
 type ModalLeavingRealmProps = {
   realmId: string
@@ -15,21 +14,21 @@ export default function ModalLeavingRealm({
   realmId,
   close,
 }: ModalLeavingRealmProps) {
-  const { name: realmName } = getRealmDetails(realmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   return (
     <>
       <Modal.Container type="fullscreen" onClickOutside={close}>
         <Modal.AnimatedContent>
           <div className="modal">
-            <h1 className="modal_header">Leaving {realmName}</h1>
+            <h1 className="modal_header">Leaving {realm?.realmName}</h1>
             <div className="modal_infobox">
               <div className="modal_hint row_center">
                 <Icon src={lightIcon} type="image" width="24px" height="24px" />
                 <p className="modal_hint_text">Keep in mind</p>
               </div>
               <p style={{ paddingRight: 5 }}>
-                If you leave {realmName} now, you are{" "}
+                If you leave {realm?.realmName} now, you are{" "}
                 <span>giving up the rewards</span> that you would receive this
                 week.
               </p>

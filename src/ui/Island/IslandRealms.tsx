@@ -27,7 +27,7 @@ export default function IslandRealms() {
           id={realm.id}
           imageLayer={crop}
           color={realm.color}
-          name={realm.name}
+          name={realm.realmName}
           width={realm.w}
           height={realm.h}
           x={realm.x}

@@ -1,6 +1,10 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRealmContractData } from "redux-state/slices/island"
-import { REALMS_WITH_CONTRACT_NAME, TAHO_ADDRESS } from "shared/constants"
+import { setRealmsData } from "redux-state/slices/island"
+import {
+  REALMS_WITH_CONTRACT_NAME,
+  TAHO_ADDRESS,
+  getRealmCustomData,
+} from "shared/constants"
 import {
   getAllRealmsData,
   getAllowance,
@@ -17,13 +21,25 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
       island: { realms },
     } = getState()
 
+    // Run when data is not set
     if (Object.keys(realms).length === 0) {
       const realmData = await transactionService.read(getAllRealmsData, {
         realms: REALMS_WITH_CONTRACT_NAME,
       })
 
       if (realmData !== null) {
-        dispatch(setRealmContractData(realmData))
+        const updatedRealms = realmData.map(({ id, data }) => {
+          const customData = getRealmCustomData(id)
+          return {
+            id,
+            data: {
+              ...customData,
+              ...data,
+              realmName: data.realmName || customData.realmName,
+            },
+          }
+        })
+        dispatch(setRealmsData(updatedRealms))
       }
 
       return !!realmData

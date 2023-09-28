@@ -1,16 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit"
-import {
-  OverlayType,
-  RealmContractData,
-  RealmContractDataWithId,
-} from "shared/types"
+import { OverlayType, RealmData, RealmDataWithId } from "shared/types"
 
 type IslandModeType = "default" | "join-realm"
 
 export type IslandState = {
   mode: IslandModeType
   overlay: OverlayType
-  realms: { [id: string]: RealmContractData }
+  realms: { [id: string]: RealmData }
   stakingRealmId: string | null
   displayedRealmId: string | null
 }
@@ -39,9 +35,9 @@ const islandSlice = createSlice({
     ) => {
       immerState.overlay = overlay
     },
-    setRealmContractData: (
+    setRealmsData: (
       immerState,
-      { payload: realmData }: { payload: RealmContractDataWithId[] }
+      { payload: realmData }: { payload: RealmDataWithId[] }
     ) => {
       realmData.forEach(({ id, data }) => {
         immerState.realms[id] = data
@@ -70,7 +66,7 @@ export const {
   setIslandMode,
   setIslandOverlay,
   resetIsland,
-  setRealmContractData,
+  setRealmsData,
   setDisplayedRealmId,
   setStakingRealmId,
 } = islandSlice.actions

@@ -4,18 +4,22 @@ import Icon from "shared/components/Icon"
 import RealmBanner from "shared/components/RealmModal/RealmBanner"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import RealmIcon from "shared/components/RealmIcon"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import {
+  selectDisplayedRealmId,
+  selectRealmById,
+  useDappSelector,
+} from "redux-state"
 import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 
 // TODO: use a correct data
 const MOCKED_XP = {
-  name: "TAHO-XP-01",
   latestAmount: 12.237,
   weeks: 2,
 }
 
 export default function BannerRewards({ amount }: { amount: number }) {
   const realmId = useDappSelector(selectDisplayedRealmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   const [congratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
@@ -25,7 +29,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
     setCongratulationsModalOpen(true)
   }
 
-  if (!realmId) return null
+  if (!realmId || !realm) return null
 
   return (
     <>
@@ -57,7 +61,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
               color="var(--primary-p1-100)"
             />
             <div className="token_amount">{amount}</div>
-            <div className="token_name">{MOCKED_XP.name}</div>
+            <div className="token_name">{realm.xpTokenSymbolPrefix}</div>
           </div>
           {amount !== 0 && (
             <div className="xp_banner_date">
@@ -99,7 +103,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
         <ClaimCongratulations
           realmId={realmId}
           amount={amount}
-          description={MOCKED_XP.name}
+          description={realm.xpTokenSymbolPrefix}
           close={() => setCongratulationsModalOpen(false)}
         />
       )}

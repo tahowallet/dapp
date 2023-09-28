@@ -4,21 +4,21 @@ import Icon from "shared/components/Icon"
 
 import iconCommunity from "shared/assets/icons/people.svg"
 import iconStar from "shared/assets/icons/star.svg"
-import { getRealmDetails } from "shared/constants"
 import {
   RealmCutout,
   RealmBackgroundCutout,
 } from "shared/components/RealmCutout"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import {
+  selectDisplayedRealmId,
+  selectRealmById,
+  useDappSelector,
+} from "redux-state"
 
 export const MOCK_POPULATION = 34_350
 
 export default function RealmHeader() {
   const realmId = useDappSelector(selectDisplayedRealmId)
-
-  if (!realmId) return null
-
-  const realmDetails = getRealmDetails(realmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   return (
     <header className="column">
@@ -28,7 +28,7 @@ export default function RealmHeader() {
       <div className="realm_thumb">
         <RealmCutout />
       </div>
-      <h1>{realmDetails.name}</h1>
+      <h1>{realm?.realmName}</h1>
       <div className="realm_details_header column">
         <div className="tags row">
           <div className="tag column">
@@ -59,10 +59,10 @@ export default function RealmHeader() {
               />
               XP Function
             </span>
-            <span>{realmDetails.xpfn}</span>
+            <span>{realm?.xpfn}</span>
           </div>
         </div>
-        <p className="realm_description">{realmDetails.description}</p>
+        <p className="realm_description">{realm?.description}</p>
       </div>
       <style jsx>
         {`
