@@ -74,6 +74,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   useEffect(() => {
     if (unstakeTransactionStatus === TransactionProgressStatus.Done) {
       setIsUnstakeTransactionModalOpen(false)
+      setIsLeavingRealmModalOpen(false)
       setUnstakeAmount("")
       dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
     }
