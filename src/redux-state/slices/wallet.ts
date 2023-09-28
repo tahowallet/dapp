@@ -10,7 +10,7 @@ export type WalletState = {
   name: string
   avatar: string
   balances: TokenBalances
-  transactions: { [id: string]: TransactionProgressStatus }
+  transactionStatus: { [id: string]: TransactionProgressStatus }
 }
 
 const initialState: WalletState = {
@@ -28,7 +28,7 @@ const initialState: WalletState = {
       balance: 0n,
     },
   },
-  transactions: {},
+  transactionStatus: {},
 }
 
 const walletSlice = createSlice({
@@ -67,14 +67,14 @@ const walletSlice = createSlice({
         payload: { id: string; status: TransactionProgressStatus }
       }
     ) => {
-      immerState.transactions[payload.id] = payload.status
+      immerState.transactionStatus[payload.id] = payload.status
     },
     stopTrackingTransactionStatus: (
       immerState,
       { payload: id }: { payload: string }
     ) => {
-      delete immerState.transactions[id]
-      delete immerState.transactions[getAllowanceTransactionID(id)]
+      delete immerState.transactionStatus[id]
+      delete immerState.transactionStatus[getAllowanceTransactionID(id)]
     },
   },
 })
