@@ -1,6 +1,14 @@
-import React, { useState } from "react"
+import React from "react"
+import {
+  selectIslandOverlay,
+  setIslandOverlay,
+  useDappDispatch,
+  useDappSelector,
+} from "redux-state"
 
-function IslandControlIcon({ isOverlay }: { isOverlay: boolean }) {
+function IslandControlIcon() {
+  const isOverlay = useDappSelector(selectIslandOverlay)
+
   return (
     <svg
       width="32"
@@ -10,13 +18,28 @@ function IslandControlIcon({ isOverlay }: { isOverlay: boolean }) {
       xmlns="http://www.w3.org/2000/svg"
       style={{ position: "relative", zIndex: 2 }}
     >
-      <circle cx="8" cy="8" r="2" fill={!isOverlay ? "#11BEA9" : "#0D2321"} />
+      <circle
+        cx="8"
+        cy="8"
+        r="2"
+        fill={isOverlay !== "none" ? "#11BEA9" : "#0D2321"}
+      />
       <circle cx="16" cy="8" r="2" fill="#0D2321" />
       <circle cx="24" cy="8" r="2" fill="#0D2321" />
       <circle cx="9" cy="16" r="2" fill="#0D2321" />
-      <circle cx="16" cy="16" r="2" fill={!isOverlay ? "#3CC5EE" : "#0D2321"} />
+      <circle
+        cx="16"
+        cy="16"
+        r="2"
+        fill={isOverlay !== "none" ? "#3CC5EE" : "#0D2321"}
+      />
       <circle cx="24" cy="16" r="2" fill="#0D2321" />
-      <circle cx="8" cy="24" r="2" fill={!isOverlay ? "#F2B824" : "#0D2321"} />
+      <circle
+        cx="8"
+        cy="24"
+        r="2"
+        fill={isOverlay !== "none" ? "#F2B824" : "#0D2321"}
+      />
       <circle cx="16" cy="24" r="2" fill="#0D2321" />
       <circle cx="24" cy="24" r="2" fill="#0D2321" />
       <defs>
@@ -49,16 +72,19 @@ function IslandControlIcon({ isOverlay }: { isOverlay: boolean }) {
 }
 
 export default function IslandControl() {
-  const [isOverlay, setIsOverlay] = useState(false)
+  const isOverlay = useDappSelector(selectIslandOverlay)
+  const dispatch = useDappDispatch()
 
   return (
     <>
       <button
         type="button"
         className="map_control button_reset center"
-        onClick={() => setIsOverlay((prev) => !prev)}
+        onClick={() =>
+          dispatch(setIslandOverlay(isOverlay === "none" ? "dark" : "none"))
+        }
       >
-        <IslandControlIcon isOverlay={isOverlay} />
+        <IslandControlIcon />
       </button>
       <style jsx>
         {`
