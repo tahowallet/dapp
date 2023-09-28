@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Modal from "../Modal"
 import TransactionProgress, {
   TransactionProgressProps,
@@ -22,6 +22,7 @@ export default function TransactionsModal({
   useEffect(() => {
     if (!isOpen || !transactions.length || transactionInProgress) return
     transactions[0].onClick()
+    setTransactionInProgress(true)
   }, [isOpen, transactions, transactionInProgress])
 
   useEffect(() => {
@@ -29,10 +30,15 @@ export default function TransactionsModal({
       setTransactionInProgress(true)
   }, [transactions])
 
+  const closeModal = useCallback(() => {
+    setTransactionInProgress(false)
+    close()
+  }, [close])
+
   if (!isOpen) return null
 
   return (
-    <Modal.Container type="fullscreen" onClickOutside={close}>
+    <Modal.Container type="fullscreen" onClickOutside={closeModal}>
       <Modal.Content>
         <div className="transactions_container column">
           <h1>{title}</h1>
