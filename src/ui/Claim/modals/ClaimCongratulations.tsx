@@ -2,7 +2,7 @@ import React from "react"
 import Button from "shared/components/Button"
 import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
 import RealmIcon from "shared/components/RealmIcon"
-import { getRealmData } from "shared/constants"
+import { getRealmDetails } from "shared/constants"
 
 type ClaimCongratulationsProps = {
   amount: number
@@ -17,7 +17,7 @@ export default function ClaimCongratulations({
   realmId,
   close,
 }: ClaimCongratulationsProps) {
-  const { name: realmName } = getRealmData(realmId)
+  const { name: realmName } = getRealmDetails(realmId)
 
   return (
     <>
