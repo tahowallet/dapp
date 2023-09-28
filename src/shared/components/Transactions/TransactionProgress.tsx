@@ -3,6 +3,7 @@ import iconNotifCorrect from "shared/assets/icons/m/notif-correct.svg"
 import iconNotifWrong from "shared/assets/icons/m/notif-wrong.svg"
 import { TransactionProgressStatus } from "shared/types"
 import classNames from "classnames"
+import { isTransactionPending } from "shared/utils"
 import Button from "../Button"
 import Ripple from "../Loaders/Ripple"
 import Icon from "../Icon"
@@ -105,9 +106,7 @@ export default function TransactionProgress({
   onClick,
 }: TransactionProgressProps) {
   const isUninitialized = status === TransactionProgressStatus.Idle
-  const isInProgress =
-    status > TransactionProgressStatus.Idle &&
-    status < TransactionProgressStatus.Done
+  const isInProgress = isTransactionPending(status)
   const isDone = status === TransactionProgressStatus.Done
   const hasFailed = status === TransactionProgressStatus.Failed
 
