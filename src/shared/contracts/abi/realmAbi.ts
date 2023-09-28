@@ -118,6 +118,19 @@ export default [
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "string",
+        name: "newQuestlineUrl",
+        type: "string",
+      },
+    ],
+    name: "QuestlineUrlUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: true,
         internalType: "address",
         name: "staker",
@@ -188,13 +201,56 @@ export default [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
+        internalType: "uint256",
+        name: "season",
+        type: "uint256",
+      },
+      {
+        indexed: true,
         internalType: "address",
         name: "xp",
         type: "address",
       },
     ],
     name: "XpCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "xp",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "questlineUrl",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "merkleRoot",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "distributor",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "XpDistributed",
     type: "event",
   },
   {
@@ -449,6 +505,19 @@ export default [
     type: "function",
   },
   {
+    inputs: [],
+    name: "questlineUrl",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "bytes32",
@@ -580,6 +649,19 @@ export default [
       },
     ],
     name: "updateName",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "newQuestlineUrl",
+        type: "string",
+      },
+    ],
+    name: "updateQuestlineUrl",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
