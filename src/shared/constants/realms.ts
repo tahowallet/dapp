@@ -30,7 +30,7 @@ export const realms = [realm4, realm7, realm9, realm19, realm22].map(
 
 export const REALMS_COUNT = realms.length
 
-export function getRealmDataOnIsland(realmId: string): (typeof realms)[number] {
+export function getRealmMapData(realmId: string): (typeof realms)[number] {
   const pathData = realms.find((realm) => realm.id === realmId)
 
   if (!pathData) {
