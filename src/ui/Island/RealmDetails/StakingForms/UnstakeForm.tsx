@@ -119,7 +119,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
             disabled: isDisabled,
           })}
         >
-          <div className="stake_control_header">
+          <div>
             <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
             <TokenAmountInput
               label="Staked amount:"
