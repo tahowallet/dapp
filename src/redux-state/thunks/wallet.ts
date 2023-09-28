@@ -7,7 +7,7 @@ import {
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
 import { getBalance, getStakeUnlockTime } from "shared/contracts"
 import { ethers } from "ethers"
-import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
+import { ETH_ADDRESS, SECOND, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances } from "shared/types"
 import {
   setStakingRealmId,
