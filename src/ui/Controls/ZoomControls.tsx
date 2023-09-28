@@ -4,8 +4,11 @@ import zoomOut from "shared/assets/icons/m/zoom-out.svg"
 import { Stage } from "konva/lib/Stage"
 
 import { useDappDispatch, setIslandZoomLevel } from "redux-state"
-import { ISLAND_BOX } from "shared/constants"
-import { limitToBounds } from "shared/utils"
+import {
+  calculateIslandPosition,
+  calculateNewIslandScale,
+  getCurrentCanvasPosition,
+} from "shared/utils"
 import ZoomControl from "./ZoomControl"
 
 type ZoomControlsProps = {
@@ -17,7 +20,7 @@ export default function ZoomControls({ stage, minScale }: ZoomControlsProps) {
   const dispatch = useDappDispatch()
 
   const zoomHandler = (increase: boolean) => {
-    const oldScale = stage.scaleX()
+    const zoom = stage.scaleX()
     const scaleBy = 1.01
 
     const center = {
@@ -26,33 +29,28 @@ export default function ZoomControls({ stage, minScale }: ZoomControlsProps) {
     }
 
     // Get current center related to screen
-    const relatedTo = {
-      x: (center.x - stage.x()) / oldScale,
-      y: (center.y - stage.y()) / oldScale,
-    }
+    const canvasPosition = getCurrentCanvasPosition(
+      center.x - stage.x(),
+      center.y - stage.y(),
+      zoom
+    )
 
-    const newScale = limitToBounds(
-      increase ? oldScale * scaleBy : oldScale / scaleBy,
-      minScale,
-      Math.max(0.45, minScale)
+    const newScale = calculateNewIslandScale(
+      increase ? zoom * scaleBy : zoom / scaleBy,
+      minScale
     )
 
     const newPosition = {
-      x: center.x - relatedTo.x * newScale,
-      y: center.y - relatedTo.y * newScale,
+      x: center.x - canvasPosition.x * newScale,
+      y: center.y - canvasPosition.y * newScale,
     }
 
-    const maxX = ISLAND_BOX.width - stage.width() / newScale
-    const maxY = ISLAND_BOX.height - stage.height() / newScale
-
-    stage.scale({ x: newScale, y: newScale })
-
     // Force bounds while zooming in/out
-    stage.absolutePosition({
-      x: limitToBounds(newPosition.x, -maxX * newScale, 0),
-      y: limitToBounds(newPosition.y, -maxY * newScale, 0),
-    })
+    stage.absolutePosition(
+      calculateIslandPosition(stage, newScale, newPosition.x, newPosition.y)
+    )
 
+    // Update the stage scale
     dispatch(setIslandZoomLevel(newScale))
   }
 
