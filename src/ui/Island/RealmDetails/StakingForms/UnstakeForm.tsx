@@ -134,7 +134,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
           <TransactionProgress
             buttonLabel="Unstake $TAHO"
             buttonSize="medium"
-            status={unstakeTransactionData.status}
+            status={unstakeTransactionStatus}
             disabled={
               isDisabled ||
               !isUnstakeAmountValid ||

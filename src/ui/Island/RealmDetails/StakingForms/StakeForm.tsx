@@ -102,7 +102,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
         <TransactionProgress
           buttonLabel="Stake $TAHO"
           buttonSize="medium"
-          status={stakeTransactionData.status}
+          status={stakeTransactionStatus}
           disabled={
             isDisabled ||
             !isStakeAmountValid ||
