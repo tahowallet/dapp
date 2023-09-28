@@ -7,7 +7,7 @@ type TooltipProps = {
   children: ReactNode
   positionY?: "bottom" | "top"
   positionX?: "left" | "right" | "center"
-  width: number
+  width?: string
   style?: CSSProperties
 }
 
@@ -15,7 +15,7 @@ export default function Tooltip({
   children,
   positionY = "bottom",
   positionX = "right",
-  width,
+  width = "325px",
   style,
 }: TooltipProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
@@ -24,17 +24,15 @@ export default function Tooltip({
 
   let tooltipXAxis: CSSProperties = {}
 
-  // eslint-disable-next-line default-case
   switch (positionX) {
     case "left":
       tooltipXAxis = { right: 0 }
       break
-    case "right":
-      tooltipXAxis = { left: 0 }
-      break
     case "center":
       tooltipXAxis = { left: "50%", transform: "translateX(-50%)" }
       break
+    default:
+      tooltipXAxis = { left: 0 }
   }
 
   const tooltipPosition = {
@@ -83,7 +81,7 @@ export default function Tooltip({
             margin-left: 8px;
           }
           .tooltip_content {
-            width: ${width}px;
+            width: ${width};
             padding: 24px 32px 32px;
             background: var(--secondary-s1-90);
             color: var(--primary-p1-100);
