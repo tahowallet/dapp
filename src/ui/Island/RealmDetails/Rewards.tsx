@@ -5,24 +5,12 @@ import Icon from "shared/components/Icon"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
 import starIcon from "shared/assets/icons/star.svg"
 import RealmIcon from "shared/components/RealmIcon"
+import { getRealmDetails } from "shared/constants"
 
 const EPOCH = {
   number: "1",
   date: "24 OCT - 30 OCT",
 }
-
-const REALM_ACTIONS_MOCK = [
-  {
-    title: "Have at least 0.5 BTC staked in Treshold (Repeatable)",
-    description:
-      "You need to stake at least 0.5 BTC every week in order to receive rewards. You can only receive these rewards for doing this. We are giving this out only to users that have completed this action, this way we make sure that you are aligned with our needs and wants",
-  },
-  {
-    title: "Have at least 0.5 BTC staked in Treshold (Only once)",
-    description:
-      "You need to stake at least 0.5 BTC every week in order to receive rewards. You can only receive these rewards for doing this We are giving this out only to users that have completed this action, this way we make sure that you are aligned with our needs and wants",
-  },
-]
 
 function RewardsDetails({ realmId }: { realmId: string }) {
   return (
@@ -85,7 +73,11 @@ function RewardsDetails({ realmId }: { realmId: string }) {
   )
 }
 
-function RewardsActions() {
+function RewardsQuests({
+  quests,
+}: {
+  quests: { name: string; description: string }[]
+}) {
   return (
     <div>
       <h3 className="header row">
@@ -99,16 +91,16 @@ function RewardsActions() {
           Rulebook
         </div>
       </h3>
-      <div className="rewards_actions column">
-        {REALM_ACTIONS_MOCK.map(({ title, description }) => (
+      <div className="rewards_quests column">
+        {quests.map(({ name, description }) => (
           <Accordion
-            key={title}
-            title={title}
+            key={name}
+            title={name}
             icon={starIcon}
             iconColor="var(--semantic-success)"
             type="frame"
           >
-            <div className="rewards_actions_description">{description}</div>
+            <div className="rewards_quests_description">{description}</div>
           </Accordion>
         ))}
       </div>
@@ -122,10 +114,10 @@ function RewardsActions() {
           font: var(--text-label);
           gap: 8px;
         }
-        .rewards_actions {
+        .rewards_quests {
           gap: 20px;
         }
-        .rewards_actions_description {
+        .rewards_quests_description {
           color: var(--secondary-s1-80);
           padding: 0 16px 0px 25px;
         }
@@ -139,10 +131,12 @@ export default function Rewards() {
 
   if (!realmId) return null
 
+  const realmDetails = getRealmDetails(realmId)
+
   return (
     <div className="realm column">
       <RewardsDetails realmId={realmId} />
-      <RewardsActions />
+      <RewardsQuests quests={realmDetails.quests} />
       <style jsx>{`
         .realm {
           padding-top: 32px;

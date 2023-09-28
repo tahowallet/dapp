@@ -38,14 +38,16 @@ export type IslandState = {
   realms: { [id: string]: RealmContractData }
   stakingRealmId: string | null
   displayedRealmId: string | null
+  zoomLevel: number
 }
 
 const initialState: IslandState = {
   mode: "default",
-  overlay: "none",
+  overlay: "dark",
   realms: REALMS,
   stakingRealmId: null,
   displayedRealmId: null,
+  zoomLevel: 1,
 }
 
 const islandSlice = createSlice({
@@ -63,6 +65,12 @@ const islandSlice = createSlice({
       { payload: overlay }: { payload: OverlayType }
     ) => {
       immerState.overlay = overlay
+    },
+    setIslandZoomLevel: (
+      immerState,
+      { payload: zoomLevel }: { payload: number }
+    ) => {
+      immerState.zoomLevel = zoomLevel
     },
     setRealmContractData: (
       immerState,
@@ -97,6 +105,7 @@ const islandSlice = createSlice({
 export const {
   setIslandMode,
   setIslandOverlay,
+  setIslandZoomLevel,
   resetIsland,
   setRealmContractData,
   setDisplayedRealmId,
