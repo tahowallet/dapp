@@ -21,7 +21,7 @@ export default function ZoomControls({ stage, minScale }: ZoomControlsProps) {
 
   const zoomHandler = (increase: boolean) => {
     const zoom = stage.scaleX()
-    const scaleBy = 1.01
+    const scaleBy = 1.05
 
     const center = {
       x: stage.width() / 2,
