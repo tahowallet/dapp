@@ -57,7 +57,7 @@ const calculateIntervalTime = (timeRemaining: number | null) =>
 
 export function useStakeCooldownPeriod() {
   const stakeUnlockTime = useDappSelector(selectStakeUnlockTime)
-  const [timeRemaining, setTimeRemaining] = useState<number | null>(
+  const [timeRemaining, setTimeRemaining] = useState(
     calculateTimeLeft(stakeUnlockTime)
   )
   const [intervalTime, setIntervalTime] = useState(() =>
