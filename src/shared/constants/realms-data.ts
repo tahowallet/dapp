@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 export const realm1 = {
   id: "1",
-  name: "Unknown",
   h: 761,
   w: 834.16357421875,
   x: 328.5,
@@ -13,14 +12,12 @@ export const realm1 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm2 = {
   id: "2",
-  name: "Unknown",
   h: 693,
   w: 910,
   x: 1001,
@@ -32,14 +29,12 @@ export const realm2 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm3 = {
   id: "3",
-  name: "Unknown",
   h: 519.2423095703125,
   w: 869.3656616210938,
   x: 1830.134765625,
@@ -51,7 +46,6 @@ export const realm3 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -69,15 +63,12 @@ export const realm4 = {
     },
   ],
   realmType: "realm",
-  color: "#DC7633",
-  name: "Smiterin",
   labelX: 380,
   labelY: 216.5,
 }
 
 export const realm5 = {
   id: "5",
-  name: "Unknown",
   h: 658.1906127929688,
   w: 1006.6297607421875,
   x: 3252.37060546875,
@@ -89,14 +80,12 @@ export const realm5 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm6 = {
   id: "6",
-  name: "Unknown",
   h: 639.0697021484375,
   w: 809.1002807617188,
   x: 4157.89990234375,
@@ -108,7 +97,6 @@ export const realm6 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -126,15 +114,12 @@ export const realm7 = {
     },
   ],
   realmType: "realm",
-  color: "#D7BDE2",
-  name: "Blockhaven",
   labelX: 540,
   labelY: 400,
 }
 
 export const realm8 = {
   id: "8",
-  name: "Unknown",
   h: 803.0932006835938,
   w: 1195.7030029296875,
   x: 364.94140625,
@@ -146,7 +131,6 @@ export const realm8 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -164,15 +148,12 @@ export const realm9 = {
     },
   ],
   realmType: "realm",
-  color: "#85C1E9",
-  name: "SilverTown",
   labelX: 700,
   labelY: 350,
 }
 
 export const realm10 = {
   id: "10",
-  name: "Unknown",
   h: 1051,
   w: 840,
   x: 1931,
@@ -188,14 +169,12 @@ export const realm10 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm11 = {
   id: "11",
-  name: "Unknown",
   h: 876.7557373046875,
   w: 1165.000732421875,
   x: 2626.9990234375,
@@ -207,14 +186,12 @@ export const realm11 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm12 = {
   id: "12",
-  name: "Unknown",
   h: 881.1550903320312,
   w: 1080,
   x: 3301,
@@ -226,14 +203,12 @@ export const realm12 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm13 = {
   id: "13",
-  name: "Unknown",
   h: 754.7785034179688,
   w: 936.8584594726562,
   x: 4176.51123046875,
@@ -245,14 +220,12 @@ export const realm13 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm14 = {
   id: "14",
-  name: "Unknown",
   h: 987.5093383789062,
   w: 919.0001831054688,
   x: 4840.00048828125,
@@ -264,14 +237,12 @@ export const realm14 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm15 = {
   id: "15",
-  name: "Unknown",
   h: 827,
   w: 1159,
   x: 317,
@@ -283,14 +254,12 @@ export const realm15 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm16 = {
   id: "16",
-  name: "Unknown",
   h: 937,
   w: 1038,
   x: 1222,
@@ -310,14 +279,12 @@ export const realm16 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm17 = {
   id: "17",
-  name: "Unknown",
   h: 1107.990234375,
   w: 1042.1488037109375,
   x: 1605.8515625,
@@ -329,14 +296,12 @@ export const realm17 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm18 = {
   id: "21",
-  name: "Unknown",
   h: 737,
   w: 1114,
   x: 2310,
@@ -347,7 +312,6 @@ export const realm18 = {
     },
   ],
   realmType: "realm",
-  color: "#fff",
   labelX: 0,
   labelY: 0,
 }
@@ -365,15 +329,12 @@ export const realm19 = {
     },
   ],
   realmType: "realm",
-  color: "#F9E79F",
-  name: "The Keep",
   labelX: 264,
   labelY: 409,
 }
 
 export const realm20 = {
   id: "20",
-  name: "Unknown",
   h: 822.8822021484375,
   w: 1086.839599609375,
   x: 3069.4541015625,
@@ -385,14 +346,12 @@ export const realm20 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm21 = {
   id: "18",
-  name: "Unknown",
   h: 803.45,
   w: 936.64,
   x: 4081,
@@ -403,7 +362,6 @@ export const realm21 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
@@ -421,15 +379,12 @@ export const realm22 = {
     },
   ],
   realmType: "realm",
-  color: "#CCFFCC",
-  name: "Brownstone",
   labelX: 337,
   labelY: 388,
 }
 
 export const realm23 = {
   id: "23",
-  name: "Unknown",
   h: 772,
   w: 1026.5,
   x: 3235.5,
@@ -441,14 +396,12 @@ export const realm23 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm24 = {
   id: "24",
-  name: "Unknown",
   h: 692.6273803710938,
   w: 1195.4835205078125,
   x: 4116.5166015625,
@@ -468,14 +421,12 @@ export const realm24 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm25 = {
   id: "25",
-  name: "Unknown",
   h: 468,
   w: 493,
   x: 3962.03125,
@@ -487,14 +438,12 @@ export const realm25 = {
     },
   ],
   realmType: "common",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm26 = {
   id: "26",
-  name: "Unknown",
   h: 304,
   w: 473,
   x: 2391.03125,
@@ -506,14 +455,12 @@ export const realm26 = {
     },
   ],
   realmType: "common",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }
 
 export const realm27 = {
   id: "27",
-  name: "Unknown",
   h: 473,
   w: 700,
   x: 1383,
@@ -525,7 +472,6 @@ export const realm27 = {
     },
   ],
   realmType: "common",
-  color: "#000",
   labelX: 0,
   labelY: 0,
 }

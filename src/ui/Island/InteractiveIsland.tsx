@@ -17,6 +17,9 @@ import {
   getWindowDimensions,
   getMinimumScale,
   limitToBounds,
+  calculateNewIslandScale,
+  calculateIslandPosition,
+  getCurrentCanvasPosition,
 } from "shared/utils"
 import Controls from "ui/Controls"
 import Background from "./Background"
@@ -72,10 +75,9 @@ export default function InteractiveIsland() {
       const zoomFactor = 0.001
       const { minScale } = settingsRef.current
 
-      const newScale = limitToBounds(
+      const newScale = calculateNewIslandScale(
         zoom + delta * -zoomFactor,
-        minScale,
-        Math.max(0.45, minScale)
+        minScale
       )
 
       const stagePos = stage.absolutePosition()
@@ -83,27 +85,22 @@ export default function InteractiveIsland() {
 
       if (pointer && newScale !== zoom) {
         // Get current mouse position in the canvas
-        const pointerCanvasPos = {
-          x: -(pointer.x - stagePos.x) / zoom,
-          y: -(pointer.y - stagePos.y) / zoom,
-        }
-
-        const maxX = ISLAND_BOX.width - stage.width() / newScale
-        const maxY = ISLAND_BOX.height - stage.height() / newScale
+        const pointerCanvasPos = getCurrentCanvasPosition(
+          -(pointer.x - stagePos.x),
+          -(pointer.y - stagePos.y),
+          zoom
+        )
 
         // Add back pointer position to retrieve "same canvas position" offset
         const targetX = pointerCanvasPos.x * newScale + pointer.x
         const targetY = pointerCanvasPos.y * newScale + pointer.y
 
-        stage.scale({ x: newScale, y: newScale })
-
         // Force bounds while zooming in/out
-        stage.absolutePosition({
-          x: limitToBounds(targetX, -maxX * newScale, 0),
-          y: limitToBounds(targetY, -maxY * newScale, 0),
-        })
+        stage.absolutePosition(
+          calculateIslandPosition(stage, newScale, targetX, targetY)
+        )
 
-        // Manually update the stage scale and queue a state update
+        // Update the stage scale
         dispatch(setIslandZoomLevel(newScale))
       }
       acc = 0
@@ -169,7 +166,10 @@ export default function InteractiveIsland() {
           <RealmPin />
         </Layer>
       </Stage>
-      <Controls />
+      <Controls
+        stage={islandRef.current}
+        minScale={settingsRef.current.minScale}
+      />
     </>
   )
 }

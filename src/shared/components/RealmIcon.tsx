@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import React from "react"
-import { getRealmData } from "shared/constants"
+import { getRealmMapData } from "shared/constants"
 
 type RealmIconProps = {
   realmId: string
@@ -15,7 +15,7 @@ export default function RealmIcon({
   type = "fill",
   width = "16px",
 }: RealmIconProps) {
-  const realm = getRealmData(realmId)
+  const realm = getRealmMapData(realmId)
 
   return (
     <div

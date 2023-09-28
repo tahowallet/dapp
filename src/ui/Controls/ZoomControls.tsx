@@ -1,14 +1,64 @@
 import React from "react"
 import zoomIn from "shared/assets/icons/m/zoom-in.svg"
 import zoomOut from "shared/assets/icons/m/zoom-out.svg"
+import { Stage } from "konva/lib/Stage"
+
+import { useDappDispatch, setIslandZoomLevel } from "redux-state"
+import {
+  calculateIslandPosition,
+  calculateNewIslandScale,
+  getCurrentCanvasPosition,
+} from "shared/utils"
 import ZoomControl from "./ZoomControl"
 
-export default function ZoomControls() {
+type ZoomControlsProps = {
+  stage: Stage
+  minScale: number
+}
+
+export default function ZoomControls({ stage, minScale }: ZoomControlsProps) {
+  const dispatch = useDappDispatch()
+
+  const zoomHandler = (increase: boolean) => {
+    const zoom = stage.scaleX()
+    const scaleBy = 1.05
+
+    const center = {
+      x: stage.width() / 2,
+      y: stage.height() / 2,
+    }
+
+    // Get current center related to screen
+    const canvasPosition = getCurrentCanvasPosition(
+      center.x - stage.x(),
+      center.y - stage.y(),
+      zoom
+    )
+
+    const newScale = calculateNewIslandScale(
+      increase ? zoom * scaleBy : zoom / scaleBy,
+      minScale
+    )
+
+    const newPosition = {
+      x: center.x - canvasPosition.x * newScale,
+      y: center.y - canvasPosition.y * newScale,
+    }
+
+    // Force bounds while zooming in/out
+    stage.absolutePosition(
+      calculateIslandPosition(stage, newScale, newPosition.x, newPosition.y)
+    )
+
+    // Update the stage scale
+    dispatch(setIslandZoomLevel(newScale))
+  }
+
   return (
     <>
       <div className="controls column_center">
-        <ZoomControl icon={zoomIn} />
-        <ZoomControl icon={zoomOut} />
+        <ZoomControl icon={zoomIn} onClick={() => zoomHandler(true)} />
+        <ZoomControl icon={zoomOut} onClick={() => zoomHandler(false)} />
       </div>
       <style jsx>{`
         .controls {

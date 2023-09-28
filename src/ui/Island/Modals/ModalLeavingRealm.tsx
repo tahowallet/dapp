@@ -4,7 +4,7 @@ import Icon from "shared/components/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 import Button from "shared/components/Button"
 
-import { getRealmData } from "shared/constants"
+import { getRealmDetails } from "shared/constants"
 
 type ModalLeavingRealmProps = {
   realmId: string
@@ -15,7 +15,7 @@ export default function ModalLeavingRealm({
   realmId,
   close,
 }: ModalLeavingRealmProps) {
-  const { name: realmName } = getRealmData(realmId)
+  const { name: realmName } = getRealmDetails(realmId)
 
   return (
     <>
