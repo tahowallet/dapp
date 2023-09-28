@@ -11,7 +11,7 @@ import {
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
-import { TAHO_ADDRESS } from "shared/constants"
+import { SECOND, TAHO_ADDRESS } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 
@@ -55,9 +55,11 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   useEffect(() => {
     if (stakeTransactionStatus === TransactionProgressStatus.Done) {
-      setIsStakeTransactionModalOpen(false)
-      setStakeAmount("")
-      dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
+      setTimeout(() => {
+        setIsStakeTransactionModalOpen(false)
+        setStakeAmount("")
+        dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
+      }, SECOND)
     }
   }, [dispatch, stakeTransactionStatus])
 
