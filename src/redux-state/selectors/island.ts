@@ -55,3 +55,6 @@ export const selectIsStakingRealmDisplayed = createSelector(
     !!displayedAddress &&
     isSameAddress(stakingAddress, displayedAddress)
 )
+
+export const selectIslandZoomLevel = (state: RootState) =>
+  state.island.zoomLevel

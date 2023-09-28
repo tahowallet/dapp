@@ -1,4 +1,6 @@
 import assert from "assert"
+import { Stage } from "konva/lib/Stage"
+import { ISLAND_BOX } from "shared/constants"
 
 type Dimensions = {
   width: number
@@ -12,6 +14,11 @@ type RealmRenderData = {
   x: number
   y: number
   paths: { data: string }[]
+}
+
+type Coordinates = {
+  x: number
+  y: number
 }
 
 export function limitToBounds(val: number, min: number, max: number) {
@@ -109,4 +116,37 @@ export function createBackgroundMask(
 
   ctx.drawImage(bgImage, 0, 0)
   return canvas
+}
+
+export function calculateNewIslandScale(
+  newValue: number,
+  minScale: number
+): number {
+  const newScale = limitToBounds(newValue, minScale, Math.max(0.45, minScale))
+  return newScale
+}
+
+export function calculateIslandPosition(
+  stage: Stage,
+  newScale: number,
+  targetX: number,
+  targetY: number
+): Coordinates {
+  const maxX = ISLAND_BOX.width - stage.width() / newScale
+  const maxY = ISLAND_BOX.height - stage.height() / newScale
+
+  // Force bounds while zooming in/out
+  const newX = limitToBounds(targetX, -maxX * newScale, 0)
+  const newY = limitToBounds(targetY, -maxY * newScale, 0)
+
+  return { x: newX, y: newY }
+}
+
+export function getCurrentCanvasPosition(
+  positionX: number,
+  positionY: number,
+  zoom: number
+): Coordinates {
+  const canvasPosition = { x: positionX / zoom, y: positionY / zoom }
+  return canvasPosition
 }
