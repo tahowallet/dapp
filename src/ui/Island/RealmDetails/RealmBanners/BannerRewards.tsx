@@ -1,11 +1,10 @@
 import React, { useState } from "react"
 import Button from "shared/components/Button"
-import Icon from "shared/components/Icon"
 import RealmBanner from "shared/components/RealmModal/RealmBanner"
-import infoIcon from "shared/assets/icons/m/info.svg"
 import RealmIcon from "shared/components/RealmIcon"
 import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
+import Tooltip from "shared/components/Tooltip"
 
 // TODO: use a correct data
 const MOCKED_XP = {
@@ -31,10 +30,22 @@ export default function BannerRewards({ amount }: { amount: number }) {
     <>
       <RealmBanner
         label={
-          <div className="label row">
+          <div className="row_center">
             Claimable rewards
-            {/* TODO: change to tooltip component */}
-            <Icon color="var(--secondary-s1-80)" src={infoIcon} />
+            <Tooltip>
+              You don&apos;t have to claim your XP until end of season. Unless
+              you plan on trading it.
+              <br />
+              Exchanging XP for $TAHO only happens at the end of seasons.
+              <br />
+              <a
+                href="/"
+                target="_blank"
+                style={{ textDecoration: "underline" }}
+              >
+                Read more here
+              </a>
+            </Tooltip>
           </div>
         }
         button={
