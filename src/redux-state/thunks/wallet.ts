@@ -152,11 +152,11 @@ export const fetchWalletBalances = createDappAsyncThunk(
         account,
       })
 
-      const unlockTimeInMiliseconds = unlockTime
-        ? Number(unlockTime) * 1000
+      const unlockTimeInMilliseconds = unlockTime
+        ? Number(unlockTime) * SECOND
         : null
 
-      dispatch(setStakingUnlockTime(unlockTimeInMiliseconds))
+      dispatch(setStakingUnlockTime(unlockTimeInMilliseconds))
     } else {
       dispatch(setStakingUnlockTime(null))
     }
