@@ -3,12 +3,17 @@ import Icon from "shared/components/Icon"
 
 type ZoomControlProps = {
   icon: string
+  onClick: () => void
 }
 
-export default function ZoomControl({ icon }: ZoomControlProps) {
+export default function ZoomControl({ icon, onClick }: ZoomControlProps) {
   return (
     <>
-      <button className="control center button_reset" type="button">
+      <button
+        className="control center button_reset"
+        type="button"
+        onClick={onClick}
+      >
         <div className="control_icon">
           <Icon src={icon} height="16px" width="16px" />
         </div>

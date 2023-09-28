@@ -169,7 +169,10 @@ export default function InteractiveIsland() {
           <RealmPin />
         </Layer>
       </Stage>
-      <Controls />
+      <Controls
+        stage={islandRef.current}
+        minScale={settingsRef.current.minScale}
+      />
     </>
   )
 }
