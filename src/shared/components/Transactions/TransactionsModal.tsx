@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Modal from "../Modal"
 import TransactionProgress, {
   TransactionProgressProps,
@@ -17,6 +17,18 @@ export default function TransactionsModal({
   close,
   transactions = [],
 }: TransactionsModalProps) {
+  const [transactionInProgress, setTransactionInProgress] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen || !transactions.length || transactionInProgress) return
+    transactions[0].onClick()
+  }, [isOpen, transactions, transactionInProgress])
+
+  useEffect(() => {
+    if (transactions.length && transactions[0].status === 1)
+      setTransactionInProgress(true)
+  }, [transactions])
+
   if (!isOpen) return null
 
   return (
