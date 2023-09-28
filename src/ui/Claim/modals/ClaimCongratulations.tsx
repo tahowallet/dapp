@@ -39,7 +39,7 @@ export default function ClaimCongratulations({
         />
         <div className="taho_amount">{amount}</div>
         <p className="taho_description">{description}</p>
-        <p className="taho_realm">from {realm?.realmName}</p>
+        <p className="taho_realm">from {realm?.name}</p>
       </CongratulationsModal>
       <style jsx>{`
         .taho_amount {

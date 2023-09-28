@@ -28,7 +28,7 @@ export default function RealmHeader() {
       <div className="realm_thumb">
         <RealmCutout />
       </div>
-      <h1>{realm?.realmName}</h1>
+      <h1>{realm?.name}</h1>
       <div className="realm_details_header column">
         <div className="tags row">
           <div className="tag column">

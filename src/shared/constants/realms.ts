@@ -27,14 +27,15 @@ export const REALMS_WITH_CONTRACT_NAME: { [id: string]: { name: string } } = {
 // The data is not yet ready, so it has been mocked.
 export function getRealmCustomData(
   realmId: string
-): { realmName: string } & RealmCustomData {
-  const realms = CUSTOM_DATA.realms.find((realm) => realm.id === realmId)
+): { name: string } & RealmCustomData {
+  const realm = CUSTOM_DATA.realms.find(({ id }) => id === realmId)
 
-  if (!realms) {
+  if (!realm) {
     throw new Error(`Missing data for realm ${realmId}`)
   }
-
-  return realms
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { id, ...customData } = realm
+  return customData
 }
 
 export const ISLAND_BOX = {
@@ -44,8 +45,8 @@ export const ISLAND_BOX = {
 
 export const realms = [realm4, realm7, realm9, realm19, realm22].map(
   (realm) => {
-    const { color, realmName } = getRealmCustomData(realm.id)
-    return { ...realm, color, realmName }
+    const { color, name } = getRealmCustomData(realm.id)
+    return { ...realm, color, name }
   }
 )
 

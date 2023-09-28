@@ -15,7 +15,7 @@ export default function AccountInfo() {
 
   const name = useDappSelector(selectWalletName)
   const avatar = useDappSelector(selectWalletAvatar)
-  const realmId = useDappSelector(selectStakingRealmId) ?? ""
+  const realmId = useDappSelector(selectStakingRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   return (
@@ -26,11 +26,11 @@ export default function AccountInfo() {
           close={() => setIsDropdownOpen(false)}
         />
       )}
-      {realm && (
+      {realm && realmId && (
         <div className="realm_container row">
           <RealmIcon realmId={realmId} type="fill" color={realm.color} />
           <span className="realm_label" style={{ color: realm.color }}>
-            {realm.realmName}
+            {realm.name}
           </span>
         </div>
       )}

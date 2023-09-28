@@ -34,7 +34,7 @@ export default function ClaimingStats() {
           <Icon color="var(--secondary-s1-80)" src={infoIcon} />)
         </div>
         <div className="stats_card column">
-          <div className="stats_card_title">{MOCK_REALM.realmName}</div>
+          <div className="stats_card_title">{MOCK_REALM.name}</div>
           <div className="stats_card_label">population</div>
           <div className="stats_card_value">{MOCK_REALM.population}</div>
           <div className="stats_card_realm">

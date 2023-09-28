@@ -1,19 +1,11 @@
-import { ReadTransactionBuilder } from "shared/types"
+import {
+  ReadTransactionBuilder,
+  RealmAddressesData,
+  RealmContractData,
+} from "shared/types"
 import { Contract } from "ethers"
 import { realmAbi } from "./abi"
 import { getTahoDeployerContract } from "./game"
-
-type TokenAddressesResponse = {
-  realmContractAddress: string
-  veTokenContractAddress: string
-}
-
-type RealmResponse = {
-  realmName: string
-  xpTokenNamePrefix: string
-  xpTokenSymbolPrefix: string
-  questlineUrl: string
-}
 
 export const getRealmContract: ReadTransactionBuilder<
   { realmContractAddress: string },
@@ -25,7 +17,7 @@ export const getRealmTokenAddresses: ReadTransactionBuilder<
   { realms: { [id: string]: { name: string } } },
   {
     id: string
-    data: TokenAddressesResponse
+    data: RealmAddressesData
   }[]
 > = async (provider, { realms }) => {
   const tahoDeployerContract = await getTahoDeployerContract(provider, null)
@@ -54,10 +46,10 @@ export const getRealmData: ReadTransactionBuilder<
   {
     realmsWithContractData: {
       id: string
-      data: TokenAddressesResponse
+      data: RealmAddressesData
     }[]
   },
-  { id: string; data: TokenAddressesResponse & RealmResponse }[]
+  { id: string; data: RealmAddressesData & RealmContractData }[]
 > = async (provider, { realmsWithContractData }) => {
   const realmData = await Promise.all(
     realmsWithContractData.map(async ({ id, data }) => {
@@ -65,17 +57,17 @@ export const getRealmData: ReadTransactionBuilder<
         realmContractAddress: data.realmContractAddress,
       })
 
-      const realmName: string = await realmContract.realmName
+      const name: string = await realmContract.realmName
       const xpTokenNamePrefix: string = await realmContract.xpTokenNamePrefix()
       const xpTokenSymbolPrefix: string =
         await realmContract.xpTokenSymbolPrefix()
-      const questlineUrl = await realmContract.questlineUrl()
+      const questlineUrl: string = await realmContract.questlineUrl()
 
       return {
         id,
         data: {
           ...data,
-          realmName,
+          name,
           xpTokenNamePrefix,
           xpTokenSymbolPrefix,
           questlineUrl,
@@ -88,7 +80,7 @@ export const getRealmData: ReadTransactionBuilder<
 
 export const getAllRealmsData: ReadTransactionBuilder<
   { realms: { [id: string]: { name: string } } },
-  { id: string; data: TokenAddressesResponse & RealmResponse }[]
+  { id: string; data: RealmAddressesData & RealmContractData }[]
 > = async (provider, { realms }) => {
   const realmsWithContractData = await getRealmTokenAddresses(provider, {
     realms,

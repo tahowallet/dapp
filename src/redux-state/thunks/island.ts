@@ -21,7 +21,7 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
       island: { realms },
     } = getState()
 
-    // Run when data is not set
+    // Run when data isn't set
     if (Object.keys(realms).length === 0) {
       const realmData = await transactionService.read(getAllRealmsData, {
         realms: REALMS_WITH_CONTRACT_NAME,
@@ -35,7 +35,9 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
             data: {
               ...customData,
               ...data,
-              realmName: data.realmName || customData.realmName,
+              // TODO: The name of the realm should be taken from the contracts.
+              // At the moment, these aren't available. So let's use the ones stored in the JSON file.
+              name: data.name || customData.name,
             },
           }
         })

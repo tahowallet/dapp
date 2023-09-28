@@ -2,7 +2,7 @@
     "realms": [
         {
             "id": "4",
-            "realmName": "Smiterin",
+            "name": "Smiterin",
             "color": "#DC7633",
             "xpfn": "NFT Collector",
             "description": "KryptoKeep is the meeting place of explorers that have tried out the Keep Network.",
@@ -19,7 +19,7 @@
         },
         {
             "id": "7",
-            "realmName": "Blockhaven",
+            "name": "Blockhaven",
             "color": "#D7BDE2",
             "xpfn": "NFT Collector",
             "description": "KryptoKeep is the meeting place of explorers that have tried out the Keep Network.",
@@ -36,7 +36,7 @@
         },
         {
             "id": "9",
-            "realmName": "SilverTown",
+            "name": "SilverTown",
             "color": "#85C1E9",
             "xpfn": "NFT Collector",
             "description": "KryptoKeep is the meeting place of explorers that have tried out the Keep Network.",
@@ -53,7 +53,7 @@
         },
         {
             "id": "19",
-            "realmName": "The Keep",
+            "name": "The Keep",
             "xpfn": "NFT Collector",
             "color": "#F9E79F",
             "description": "KryptoKeep is the meeting place of explorers that have tried out the Keep Network.",
@@ -70,7 +70,7 @@
         },
         {
             "id": "22",
-            "realmName": "Brownstone",
+            "name": "Brownstone",
             "xpfn": "NFT Collector",
             "color": "#CCFFCC",
             "description": "KryptoKeep is the meeting place of explorers that have tried out the Keep Network.",
