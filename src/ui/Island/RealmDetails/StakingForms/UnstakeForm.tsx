@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import TokenAmountInput from "shared/components/TokenAmountInput"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import {
@@ -18,8 +18,10 @@ import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import ModalLeavingRealm from "ui/Island/Modals/ModalLeavingRealm"
-import { useStakeCooldownPeriod } from "shared/hooks"
-import { SECOND } from "shared/constants"
+import {
+  useStakeCooldownPeriod,
+  useTransactionSuccessCallback,
+} from "shared/hooks"
 
 const UNSTAKE_TX_ID = "unstake"
 
@@ -72,16 +74,17 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     onClick: unstakeTransaction,
   }
 
-  useEffect(() => {
-    if (unstakeTransactionStatus === TransactionProgressStatus.Done) {
-      setTimeout(() => {
-        setIsUnstakeTransactionModalOpen(false)
-        setIsLeavingRealmModalOpen(false)
-        setUnstakeAmount("")
-        dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
-      }, SECOND)
-    }
-  }, [dispatch, unstakeTransactionStatus])
+  const unstakeTransactionSuccessCallback = useCallback(() => {
+    setIsUnstakeTransactionModalOpen(false)
+    setIsLeavingRealmModalOpen(false)
+    setUnstakeAmount("")
+    dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
+  }, [dispatch])
+
+  useTransactionSuccessCallback(
+    unstakeTransactionStatus,
+    unstakeTransactionSuccessCallback
+  )
 
   useEffect(
     () => () => {

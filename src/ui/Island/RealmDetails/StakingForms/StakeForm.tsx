@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import TokenAmountInput from "shared/components/TokenAmountInput"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import {
@@ -11,9 +11,10 @@ import {
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
-import { SECOND, TAHO_ADDRESS } from "shared/constants"
+import { TAHO_ADDRESS } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
+import { useTransactionSuccessCallback } from "shared/hooks"
 
 const STAKE_TX_ID = "stake"
 
@@ -53,15 +54,16 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     onClick: stakeTransaction,
   }
 
-  useEffect(() => {
-    if (stakeTransactionStatus === TransactionProgressStatus.Done) {
-      setTimeout(() => {
-        setIsStakeTransactionModalOpen(false)
-        setStakeAmount("")
-        dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
-      }, SECOND)
-    }
-  }, [dispatch, stakeTransactionStatus])
+  const stakeTransactionSuccessCallback = useCallback(() => {
+    setIsStakeTransactionModalOpen(false)
+    setStakeAmount("")
+    dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
+  }, [dispatch])
+
+  useTransactionSuccessCallback(
+    stakeTransactionStatus,
+    stakeTransactionSuccessCallback
+  )
 
   useEffect(
     () => () => {
