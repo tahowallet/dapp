@@ -68,6 +68,7 @@ export default function GlobalStyles() {
           /* z-index */
           --z-island: 0;
           --z-navigation: 110;
+          --z-controls: 115;
 
           /* Modals */
           --z-modal-island: 100;
@@ -198,6 +199,10 @@ export default function GlobalStyles() {
           display: flex;
           align-items: center;
         }
+        .center {
+          display: grid;
+          place-items: center;
+        }
         .ellipsis {
           white-space: nowrap;
           overflow: hidden;
@@ -215,6 +220,12 @@ export default function GlobalStyles() {
         }
         .no_scrollbar::-webkit-scrollbar {
           display: none;
+        }
+        .button_reset {
+          background: none;
+          outline: none;
+          border: none;
+          cursor: pointer;
         }
       `}
     </style>
