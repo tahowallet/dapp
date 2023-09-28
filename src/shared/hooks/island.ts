@@ -55,6 +55,11 @@ const calculateTimeLeft = (stakeUnlockTime: number | null) =>
 const calculateIntervalTime = (timeRemaining: number | null) =>
   timeRemaining && timeRemaining > 0 ? SECOND : null
 
+/**
+ * Returns the time remaining until the user can unstake their tokens.
+ * It tracks if a user's stake is locked or not, runs a timer,
+ * stops and resumes the timer based on the `stakeUnlockTime` value.
+ */
 export function useStakeCooldownPeriod() {
   const stakeUnlockTime = useDappSelector(selectStakeUnlockTime)
   const [timeRemaining, setTimeRemaining] = useState(
