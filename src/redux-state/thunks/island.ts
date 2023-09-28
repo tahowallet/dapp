@@ -13,6 +13,7 @@ import {
   TransactionProgressStatus,
 } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
+import { getAllowanceTransactionID } from "shared/utils"
 import { fetchWalletBalances } from "./wallet"
 
 export const fetchRealmAddresses = createDappAsyncThunk(
@@ -79,7 +80,7 @@ export const ensureAllowance = createDappAsyncThunk(
       )
 
       const receipt = await transactionService.send(
-        `${id}_allowance`,
+        getAllowanceTransactionID(id),
         setAllowance,
         {
           tokenAddress,

@@ -5,3 +5,5 @@ export const isTransactionPending = (status: TransactionProgressStatus) =>
   status === TransactionProgressStatus.Approving ||
   status === TransactionProgressStatus.Signing ||
   status === TransactionProgressStatus.Sending
+
+export const getAllowanceTransactionID = (id: string) => `${id}_allowance`

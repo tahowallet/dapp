@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import portrait from "shared/assets/portrait.png"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances, TransactionProgressStatus } from "shared/types"
+import { getAllowanceTransactionID } from "shared/utils"
 
 export type WalletState = {
   isConnected: boolean
@@ -73,6 +74,7 @@ const walletSlice = createSlice({
       { payload: id }: { payload: string }
     ) => {
       delete immerState.transactions[id]
+      delete immerState.transactions[getAllowanceTransactionID(id)]
     },
   },
 })
