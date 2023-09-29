@@ -9,10 +9,10 @@ import ConnectWallet from "./ConnectWallet"
 import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
 
-export default function Onboarding({ close }: { close: () => void }) {
+export default function Onboarding() {
   const [onboardingLoaded, setOnboardingLoaded] = useState(false)
-
   const { isConnected } = useConnect()
+
   const tahoBalance = parseTahoAmount(
     useDappSelector((state) => selectTokenBalanceBySymbol(state, "TAHO"))
   )
@@ -30,7 +30,7 @@ export default function Onboarding({ close }: { close: () => void }) {
       <div className="onboarding">
         {!isConnected && <ConnectWallet />}
         {isConnected && !tahoBalance && <JoinWaitlist />}
-        {isConnected && tahoBalance && <EnterPortal handler={close} />}
+        {isConnected && tahoBalance && <EnterPortal />}
       </div>
       <Nav />
       <style jsx>{`

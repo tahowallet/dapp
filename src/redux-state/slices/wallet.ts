@@ -9,6 +9,7 @@ export type WalletState = {
   name: string
   avatar: string
   balances: TokenBalances
+  isOnboarded: boolean
 }
 
 const initialState: WalletState = {
@@ -26,6 +27,7 @@ const initialState: WalletState = {
       balance: 0n,
     },
   },
+  isOnboarded: false,
 }
 
 const walletSlice = createSlice({
@@ -53,6 +55,9 @@ const walletSlice = createSlice({
         ...balances,
       }
     },
+    updateWalletOnboarding: (immerState, { payload }: { payload: boolean }) => {
+      immerState.isOnboarded = payload
+    },
     resetBalances: (immerState) => {
       immerState.balances = initialState.balances
     },
@@ -63,6 +68,7 @@ export const {
   updateConnectedWallet,
   updateDisconnectedWallet,
   updateBalances,
+  updateWalletOnboarding,
   resetBalances,
 } = walletSlice.actions
 

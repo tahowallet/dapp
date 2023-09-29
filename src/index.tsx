@@ -1,15 +1,20 @@
-import React, { useState } from "react"
+import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
 import {
   useBalanceFetch,
+  useConnect,
   useFetchRealmsContracts,
   useWallet,
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
-import { selectIslandMode, useDappSelector } from "redux-state"
+import {
+  selectIsWalletOnboarded,
+  selectIslandMode,
+  useDappSelector,
+} from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
 import Referrals from "ui/Referrals"
 import Footer from "ui/Footer"
@@ -23,8 +28,10 @@ import Onboarding from "ui/Onboarding"
 import reduxStore from "./redux-state"
 
 function DApp() {
-  const [onboardingVisible, setOnboardingVisible] = useState(true)
   const islandMode = useDappSelector(selectIslandMode)
+  const isOnboarded = useDappSelector(selectIsWalletOnboarded)
+
+  const { isConnected } = useConnect()
 
   useWallet()
   useBalanceFetch()
@@ -34,10 +41,8 @@ function DApp() {
     <>
       <GlobalStyles />
       <Router>
-        {onboardingVisible && (
-          <Onboarding close={() => setOnboardingVisible(false)} />
-        )}
-        {!onboardingVisible && (
+        {!isOnboarded && <Onboarding />}
+        {isOnboarded && isConnected && (
           <>
             <IslandComponent />
             <TestingPanel />
@@ -61,6 +66,7 @@ function DApp() {
     </>
   )
 }
+
 function DAppProviders() {
   return (
     <Provider store={reduxStore}>

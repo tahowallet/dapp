@@ -9,6 +9,7 @@ import {
   selectWalletAddress,
   fetchWalletBalances,
   resetBalances,
+  updateWalletOnboarding,
 } from "redux-state"
 import { BALANCE_UPDATE_INTERVAL } from "shared/constants"
 import { useInterval } from "./helpers"
@@ -67,10 +68,12 @@ export function useWallet() {
 
 export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
-  const disconnectBound = useCallback(
-    () => wallet && disconnect(wallet),
-    [wallet, disconnect]
-  )
+  const dispatch = useDappDispatch()
+
+  const disconnectBound = useCallback(() => {
+    dispatch(updateWalletOnboarding(false))
+    return wallet && disconnect(wallet)
+  }, [wallet, disconnect, dispatch])
 
   return { isConnected: !!wallet, connect, disconnect: disconnectBound }
 }
