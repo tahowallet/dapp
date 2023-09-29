@@ -5,7 +5,7 @@ import { TransactionProgressStatus } from "shared/types"
 // eslint-disable-next-line import/prefer-default-export
 export function useTransactionSuccessCallback(
   status: TransactionProgressStatus,
-  // callback should be stable, preferrably useCallback
+  // callback should be stable, preferably useCallback
   callback: () => void,
   delay = SECOND
 ) {
