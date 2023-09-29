@@ -111,7 +111,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   return (
     <>
-      {timeRemaining && hasCooldown ? (
+      {timeRemaining && hasCooldown && !isDisabled ? (
         <UnstakeCooldown timeRemaining={timeRemaining} />
       ) : (
         <div
