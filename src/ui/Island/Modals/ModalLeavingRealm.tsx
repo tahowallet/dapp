@@ -4,11 +4,11 @@ import Icon from "shared/components/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 import Button from "shared/components/Button"
 
-import { getRealmData } from "shared/constants"
 import TransactionProgress, {
   TransactionProgressProps,
 } from "shared/components/Transactions/TransactionProgress"
 import { isTransactionPending } from "shared/utils"
+import { getRealmDetails } from "shared/constants"
 
 type ModalLeavingRealmProps = {
   realmId: string
@@ -21,7 +21,7 @@ export default function ModalLeavingRealm({
   close,
   transaction,
 }: ModalLeavingRealmProps) {
-  const { name: realmName } = getRealmData(realmId)
+  const { name: realmName } = getRealmDetails(realmId)
 
   const isPending = isTransactionPending(transaction.status)
   return (

@@ -5,7 +5,7 @@ import {
   selectWalletName,
   selectStakingRealmId,
 } from "redux-state"
-import { getRealmData } from "shared/constants"
+import { getRealmDetails } from "shared/constants"
 import RealmIcon from "shared/components/RealmIcon"
 import AccountDropdown from "./AccountDropdown"
 
@@ -17,7 +17,7 @@ export default function AccountInfo() {
   const avatar = useDappSelector(selectWalletAvatar)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
 
-  const realm = stakingRealmId ? getRealmData(stakingRealmId) : null
+  const realm = stakingRealmId ? getRealmDetails(stakingRealmId) : null
 
   if (!name) return null
 

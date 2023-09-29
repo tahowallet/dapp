@@ -55,3 +55,6 @@ export const selectIsStakingRealmDisplayed = createSelector(
 
 export const selectStakeUnlockTime = (state: RootState) =>
   state.island.stakeUnlockTime
+
+export const selectIslandZoomLevel = (state: RootState) =>
+  state.island.zoomLevel
