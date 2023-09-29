@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
@@ -19,9 +19,11 @@ import GlobalStyles from "ui/GlobalStyles"
 import IslandComponent from "ui/Island"
 import web3Onboard from "shared/utils/web3Onboard"
 import { ROUTES } from "shared/constants"
+import Onboarding from "ui/Onboarding"
 import reduxStore from "./redux-state"
 
 function DApp() {
+  const [onboardingVisible, setOnboardingVisible] = useState(true)
   const islandMode = useDappSelector(selectIslandMode)
 
   useWallet()
@@ -32,22 +34,29 @@ function DApp() {
     <>
       <GlobalStyles />
       <Router>
-        <IslandComponent />
-        <TestingPanel />
-        {islandMode === "default" && <Nav />}
-        <Switch>
-          <Route path={ROUTES.CLAIM.HOME}>
-            <Claim />
-          </Route>
-          <Route path={ROUTES.REFERRALS}>
-            <Referrals />
-          </Route>
-          {/* TODO should be removed or defined later */}
-          <Route path={ROUTES.LP}>
-            <LiquidityPool />
-          </Route>
-        </Switch>
-        <Footer />
+        {onboardingVisible && (
+          <Onboarding close={() => setOnboardingVisible(false)} />
+        )}
+        {!onboardingVisible && (
+          <>
+            <IslandComponent />
+            <TestingPanel />
+            {islandMode === "default" && <Nav />}
+            <Switch>
+              <Route path={ROUTES.CLAIM.HOME}>
+                <Claim />
+              </Route>
+              <Route path={ROUTES.REFERRALS}>
+                <Referrals />
+              </Route>
+              {/* TODO should be removed or defined later */}
+              <Route path={ROUTES.LP}>
+                <LiquidityPool />
+              </Route>
+            </Switch>
+            <Footer />
+          </>
+        )}
       </Router>
     </>
   )
