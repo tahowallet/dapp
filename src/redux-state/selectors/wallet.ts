@@ -39,7 +39,7 @@ export const selectTokenBalanceBySymbol = createSelector(
 )
 
 export const selectTransactionStatusById = createSelector(
-  [(_, id) => id, (state: RootState) => state.wallet.transactionStatus],
+  [(_, id: string) => id, (state: RootState) => state.wallet.transactionStatus],
   (id, transactionStatus) =>
     transactionStatus[id] ?? TransactionProgressStatus.Idle
 )
