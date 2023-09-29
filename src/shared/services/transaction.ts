@@ -57,9 +57,12 @@ class TransactionService {
     this.arbitrumProvider = providerOrNull
   }
 
-  emitTransactionStatus(id: string | null, status: TransactionProgressStatus) {
+  async emitTransactionStatus(
+    id: string | null,
+    status: TransactionProgressStatus
+  ) {
     if (id) {
-      this.emitter.emit("updateTransactionStatus", { id, status })
+      await this.emitter.emit("updateTransactionStatus", { id, status })
     }
   }
 

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import portrait from "shared/assets/portrait.png"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances, TransactionProgressStatus } from "shared/types"
+import { getAllowanceTransactionID } from "shared/utils"
 
 export type WalletState = {
   isConnected: boolean
@@ -9,7 +10,7 @@ export type WalletState = {
   name: string
   avatar: string
   balances: TokenBalances
-  transactions: { [id: string]: TransactionProgressStatus }
+  transactionStatus: { [id: string]: TransactionProgressStatus }
 }
 
 const initialState: WalletState = {
@@ -27,7 +28,7 @@ const initialState: WalletState = {
       balance: 0n,
     },
   },
-  transactions: {},
+  transactionStatus: {},
 }
 
 const walletSlice = createSlice({
@@ -66,13 +67,14 @@ const walletSlice = createSlice({
         payload: { id: string; status: TransactionProgressStatus }
       }
     ) => {
-      immerState.transactions[payload.id] = payload.status
+      immerState.transactionStatus[payload.id] = payload.status
     },
     stopTrackingTransactionStatus: (
       immerState,
       { payload: id }: { payload: string }
     ) => {
-      delete immerState.transactions[id]
+      delete immerState.transactionStatus[id]
+      delete immerState.transactionStatus[getAllowanceTransactionID(id)]
     },
   },
 })

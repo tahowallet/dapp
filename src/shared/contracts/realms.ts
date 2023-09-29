@@ -26,3 +26,16 @@ export const getRealmTokenAddresses: ReadTransactionBuilder<
 
   return realmAddresses
 }
+
+export const getStakeUnlockTime: ReadTransactionBuilder<
+  { realmContractAddress: string; account: string },
+  bigint
+> = async (provider, { realmContractAddress, account }) => {
+  const realmContract = await getRealmContract(provider, {
+    realmContractAddress,
+  })
+
+  const unlockTime = await realmContract.stakeUnlockTime(account)
+
+  return BigInt(unlockTime)
+}
