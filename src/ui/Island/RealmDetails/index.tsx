@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import TabPanel from "shared/components/TabPanel"
 import {
   selectEligibility,
@@ -67,7 +67,7 @@ function RealmDetailsBanner({
 }
 
 export default function RealmDetails({ onClose }: RealmDetailsProps) {
-  const [activeTab, setActiveTab] = React.useState(0)
+  const [activeTab, setActiveTab] = useState(0)
 
   return (
     <>
