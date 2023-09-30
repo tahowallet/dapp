@@ -12,7 +12,7 @@ export const getTahoDeployerContract: ReadTransactionBuilder<
 export const getGameContract: ReadTransactionBuilder<null, Contract> = async (
   provider: providers.Provider
 ) => {
-  const tagoDeployerContract = await getTahoDeployerContract(provider, null)
-  const gameAddress = await tagoDeployerContract.GAME()
+  const tahoDeployerContract = await getTahoDeployerContract(provider, null)
+  const gameAddress = await tahoDeployerContract.GAME()
   return new Contract(gameAddress, gameAbi, provider)
 }
