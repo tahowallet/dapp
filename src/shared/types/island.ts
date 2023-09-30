@@ -1,5 +1,6 @@
 export type RealmContractData = {
   name: string
+  population: number
   realmContractAddress: string | null
   veTokenContractAddress: string | null
 }

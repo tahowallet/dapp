@@ -1,14 +1,20 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRealmContractData } from "redux-state/slices/island"
+import {
+  setRealmContractData,
+  setRealmPopulation,
+} from "redux-state/slices/island"
 import { TAHO_ADDRESS } from "shared/constants"
 import {
   getAllowance,
   getRealmTokenAddresses,
+  getStakersRegistered,
+  getStakersUnregistered,
   setAllowance,
   stake,
   unstake,
 } from "shared/contracts"
 import { RealmContractDataWithId } from "shared/types"
+import { normalizeAddress } from "shared/utils"
 import { fetchWalletBalances } from "./wallet"
 
 export const fetchRealmAddresses = createDappAsyncThunk(
@@ -148,5 +154,59 @@ export const unstakeTaho = createDappAsyncThunk(
     }
 
     return !!receipt
+  }
+)
+
+export const fetchPopulation = createDappAsyncThunk(
+  "island/fetchPopulation",
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
+    const {
+      island: { realms },
+    } = getState()
+
+    const registeredStakers = await transactionService.read(
+      getStakersRegistered,
+      null
+    )
+    const unregisteredStakers = await transactionService.read(
+      getStakersUnregistered,
+      null
+    )
+
+    const mappedRealms: { [address: string]: number } = {}
+
+    Object.values(realms).forEach(({ realmContractAddress }) => {
+      if (realmContractAddress !== null) {
+        mappedRealms[normalizeAddress(realmContractAddress)] = 0
+      }
+    })
+
+    registeredStakers?.forEach(([realm]) => {
+      const normalizedRealm = normalizeAddress(realm)
+
+      if (mappedRealms[normalizedRealm] !== undefined) {
+        mappedRealms[normalizedRealm] += 1
+      }
+    })
+
+    unregisteredStakers?.forEach(([realm]) => {
+      const normalizedRealm = normalizeAddress(realm)
+
+      if (mappedRealms[normalizedRealm] !== undefined) {
+        mappedRealms[normalizedRealm] -= 1
+      }
+    })
+
+    Object.entries(mappedRealms).forEach(([realmAddress, population]) => {
+      const [realmId] = Object.entries(realms).find(
+        ([__, { realmContractAddress }]) =>
+          realmContractAddress !== null &&
+          normalizeAddress(realmContractAddress) === realmAddress
+      ) ?? [null]
+
+      if (realmId !== null) {
+        dispatch(setRealmPopulation({ id: realmId, population }))
+      }
+    })
   }
 )

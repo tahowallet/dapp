@@ -5,26 +5,31 @@ import { OverlayType, RealmContractData } from "shared/types"
 const REALMS: { [id: string]: RealmContractData } = {
   "4": {
     name: "VAMPIRE_REALM",
+    population: 0,
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
   "7": {
     name: "EDUCATE_REALM",
+    population: 0,
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
   "9": {
     name: "SOCIAL_REALM",
+    population: 0,
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
   "19": {
     name: "CREATORS_REALM",
+    population: 0,
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
   "22": {
     name: "DEFI_REALM",
+    population: 0,
     realmContractAddress: null,
     veTokenContractAddress: null,
   },
@@ -83,6 +88,15 @@ const islandSlice = createSlice({
         immerState.realms[id].veTokenContractAddress = veTokenAddress
       })
     },
+    setRealmPopulation: (
+      immerState,
+      {
+        payload: realmPopulation,
+      }: { payload: { id: string; population: number } }
+    ) => {
+      immerState.realms[realmPopulation.id].population =
+        realmPopulation.population
+    },
     setStakingRealmId: (
       immerState,
       { payload: stakingRealmId }: { payload: string | null }
@@ -108,6 +122,7 @@ export const {
   setIslandZoomLevel,
   resetIsland,
   setRealmContractData,
+  setRealmPopulation,
   setDisplayedRealmId,
   setStakingRealmId,
 } = islandSlice.actions
