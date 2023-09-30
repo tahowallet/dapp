@@ -48,6 +48,60 @@ export const fetchRealmAddresses = createDappAsyncThunk(
   }
 )
 
+export const fetchPopulation = createDappAsyncThunk(
+  "island/fetchPopulation",
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
+    const {
+      island: { realms },
+    } = getState()
+
+    const registeredStakers = await transactionService.read(
+      getStakersRegistered,
+      null
+    )
+    const unregisteredStakers = await transactionService.read(
+      getStakersUnregistered,
+      null
+    )
+
+    const mappedRealms: { [address: string]: number } = {}
+
+    Object.values(realms).forEach(({ realmContractAddress }) => {
+      if (realmContractAddress !== null) {
+        mappedRealms[normalizeAddress(realmContractAddress)] = 0
+      }
+    })
+
+    registeredStakers?.forEach(([realm]) => {
+      const normalizedRealm = normalizeAddress(realm)
+
+      if (mappedRealms[normalizedRealm] !== undefined) {
+        mappedRealms[normalizedRealm] += 1
+      }
+    })
+
+    unregisteredStakers?.forEach(([realm]) => {
+      const normalizedRealm = normalizeAddress(realm)
+
+      if (mappedRealms[normalizedRealm] !== undefined) {
+        mappedRealms[normalizedRealm] -= 1
+      }
+    })
+
+    Object.entries(mappedRealms).forEach(([realmAddress, population]) => {
+      const [realmId] = Object.entries(realms).find(
+        ([__, { realmContractAddress }]) =>
+          realmContractAddress !== null &&
+          normalizeAddress(realmContractAddress) === realmAddress
+      ) ?? [null]
+
+      if (realmId !== null) {
+        dispatch(setRealmPopulation({ id: realmId, population }))
+      }
+    })
+  }
+)
+
 export const ensureAllowance = createDappAsyncThunk(
   "island/ensureAllowance",
   async (
@@ -112,6 +166,7 @@ export const stakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
+      dispatch(fetchPopulation())
     }
 
     return !!receipt
@@ -151,62 +206,9 @@ export const unstakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
+      dispatch(fetchPopulation())
     }
 
     return !!receipt
-  }
-)
-
-export const fetchPopulation = createDappAsyncThunk(
-  "island/fetchPopulation",
-  async (_, { getState, dispatch, extra: { transactionService } }) => {
-    const {
-      island: { realms },
-    } = getState()
-
-    const registeredStakers = await transactionService.read(
-      getStakersRegistered,
-      null
-    )
-    const unregisteredStakers = await transactionService.read(
-      getStakersUnregistered,
-      null
-    )
-
-    const mappedRealms: { [address: string]: number } = {}
-
-    Object.values(realms).forEach(({ realmContractAddress }) => {
-      if (realmContractAddress !== null) {
-        mappedRealms[normalizeAddress(realmContractAddress)] = 0
-      }
-    })
-
-    registeredStakers?.forEach(([realm]) => {
-      const normalizedRealm = normalizeAddress(realm)
-
-      if (mappedRealms[normalizedRealm] !== undefined) {
-        mappedRealms[normalizedRealm] += 1
-      }
-    })
-
-    unregisteredStakers?.forEach(([realm]) => {
-      const normalizedRealm = normalizeAddress(realm)
-
-      if (mappedRealms[normalizedRealm] !== undefined) {
-        mappedRealms[normalizedRealm] -= 1
-      }
-    })
-
-    Object.entries(mappedRealms).forEach(([realmAddress, population]) => {
-      const [realmId] = Object.entries(realms).find(
-        ([__, { realmContractAddress }]) =>
-          realmContractAddress !== null &&
-          normalizeAddress(realmContractAddress) === realmAddress
-      ) ?? [null]
-
-      if (realmId !== null) {
-        dispatch(setRealmPopulation({ id: realmId, population }))
-      }
-    })
   }
 )
