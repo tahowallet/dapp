@@ -55,3 +55,8 @@ export const selectIsStakingRealmDisplayed = createSelector(
 
 export const selectIslandZoomLevel = (state: RootState) =>
   state.island.zoomLevel
+
+export const selectPopulationById = createSelector(
+  selectRealmById,
+  (realm) => realm?.population ?? 0
+)

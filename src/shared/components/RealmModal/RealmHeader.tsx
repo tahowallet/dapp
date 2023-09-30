@@ -9,12 +9,17 @@ import {
   RealmCutout,
   RealmBackgroundCutout,
 } from "shared/components/RealmCutout"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
-
-export const MOCK_POPULATION = 34_350
+import {
+  selectDisplayedRealmId,
+  selectPopulationById,
+  useDappSelector,
+} from "redux-state"
 
 export default function RealmHeader() {
   const realmId = useDappSelector(selectDisplayedRealmId)
+  const population = useDappSelector((state) =>
+    selectPopulationById(state, realmId ?? "0")
+  )
 
   if (!realmId) return null
 
@@ -44,7 +49,7 @@ export default function RealmHeader() {
               />
               Population
             </span>
-            <span>{MOCK_POPULATION}</span>
+            <span>{population}</span>
           </div>
           <div className="tag column">
             <span
