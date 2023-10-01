@@ -10,7 +10,6 @@ import {
 } from "shared/components/RealmCutout"
 import {
   selectDisplayedRealmId,
-  selectPopulationById,
   selectRealmById,
   useDappSelector,
 } from "redux-state"
@@ -18,9 +17,6 @@ import {
 export default function RealmHeader() {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
-  const population = useDappSelector((state) =>
-    selectPopulationById(state, realmId ?? "0")
-  )
 
   return (
     <header className="column">
@@ -46,7 +42,7 @@ export default function RealmHeader() {
               />
               Population
             </span>
-            <span>{population}</span>
+            <span>{realm?.population}</span>
           </div>
           <div className="tag column">
             <span
