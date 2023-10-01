@@ -10,21 +10,44 @@ import {
   fetchWalletBalances,
   resetBalances,
 } from "redux-state"
-import { BALANCE_UPDATE_INTERVAL } from "shared/constants"
+import { ARBITRUM, BALANCE_UPDATE_INTERVAL } from "shared/constants"
 import { useInterval } from "./helpers"
 
-export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
+export function useArbitrumProvider(): ethers.providers.Provider | null {
   const [{ wallet }] = useConnectWallet()
 
-  const arbitrumProvider = useMemo(
-    () =>
-      wallet?.provider
-        ? new ethers.providers.Web3Provider(wallet.provider)
-        : null,
-    [wallet?.provider]
-  )
+  const arbitrumProvider = useMemo(() => {
+    if (wallet?.provider !== undefined) {
+      if (process.env.USE_ARBITRUM_FORK === "true") {
+        return new ethers.providers.JsonRpcBatchProvider(ARBITRUM.rpcUrl)
+      }
+
+      return new ethers.providers.Web3Provider(wallet.provider)
+    }
+    return null
+  }, [wallet?.provider])
 
   return arbitrumProvider
+}
+
+export function useArbitrumSigner(): ethers.providers.JsonRpcSigner | null {
+  const [{ wallet }] = useConnectWallet()
+  const arbitrumProvider = useArbitrumProvider()
+
+  const arbitrumSigner = useMemo(() => {
+    if (
+      process.env.USE_ARBITRUM_FORK === "true" &&
+      wallet?.provider !== undefined
+    ) {
+      return new ethers.providers.Web3Provider(wallet.provider).getSigner()
+    }
+
+    return arbitrumProvider instanceof ethers.providers.Web3Provider
+      ? arbitrumProvider?.getSigner() ?? null
+      : null
+  }, [arbitrumProvider, wallet?.provider])
+
+  return arbitrumSigner
 }
 
 // Balance update is set to 30 seconds for now to ensure it is not too frequent
@@ -46,6 +69,7 @@ export function useBalanceFetch() {
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
   const arbitrumProvider = useArbitrumProvider()
+  const arbitrumSigner = useArbitrumSigner()
   const dispatch = useDappDispatch()
 
   const account = wallet?.accounts[0]
@@ -53,14 +77,21 @@ export function useWallet() {
   const avatar = account?.ens?.avatar?.url ?? ""
 
   useEffect(() => {
-    if (address && arbitrumProvider) {
-      dispatch(connectWalletGlobally({ address, avatar, arbitrumProvider }))
+    if (address && arbitrumProvider && arbitrumSigner) {
+      dispatch(
+        connectWalletGlobally({
+          address,
+          avatar,
+          arbitrumProvider,
+          arbitrumSigner,
+        })
+      )
       dispatch(fetchWalletBalances())
     } else {
       dispatch(disconnectWalletGlobally())
       dispatch(resetBalances())
     }
-  }, [address, arbitrumProvider, avatar, dispatch])
+  }, [address, arbitrumProvider, arbitrumSigner, avatar, dispatch])
 }
 
 export function useConnect() {

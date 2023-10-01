@@ -20,7 +20,9 @@ type Events = {
 }
 
 class TransactionService {
-  arbitrumProvider: ethers.providers.Web3Provider | null = null
+  arbitrumProvider: ethers.providers.Provider | null = null
+
+  arbitrumSigner: ethers.providers.JsonRpcSigner | null = null
 
   ethereumProvider: ethers.providers.Provider | null = null
 
@@ -33,11 +35,11 @@ class TransactionService {
   }
 
   async getSignerAddress(): Promise<string> {
-    if (!this.arbitrumProvider) {
+    if (!this.arbitrumSigner) {
       throw new Error(ERROR_MESSAGE.NO_ARBITRUM_PROVIDER)
     }
 
-    return this.arbitrumProvider.getSigner().getAddress()
+    return this.arbitrumSigner.getAddress()
   }
 
   async getEthBalance(account?: string): Promise<bigint> {
@@ -51,10 +53,12 @@ class TransactionService {
     return ethBalance.toBigInt()
   }
 
-  async setArbitrumProvider(
-    providerOrNull: ethers.providers.Web3Provider | null
+  async setArbitrumProviderAndSigner(
+    providerOrNull: ethers.providers.Provider | null,
+    signerOrNull: ethers.providers.JsonRpcSigner | null
   ) {
     this.arbitrumProvider = providerOrNull
+    this.arbitrumSigner = signerOrNull
   }
 
   async emitTransactionStatus(
@@ -72,11 +76,11 @@ class TransactionService {
     data: T
   ): Promise<ethers.providers.TransactionReceipt | null> {
     try {
-      if (!this.arbitrumProvider) {
+      if (!this.arbitrumProvider || !this.arbitrumSigner) {
         throw new Error(ERROR_MESSAGE.NO_ARBITRUM_PROVIDER)
       }
 
-      const signer = this.arbitrumProvider.getSigner()
+      const signer = this.arbitrumSigner
       const address = await signer.getAddress()
       const nonce = await this.arbitrumProvider.getTransactionCount(
         address,
