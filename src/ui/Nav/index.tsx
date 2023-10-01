@@ -1,12 +1,14 @@
-import React from "react"
+import React, { useCallback, useState } from "react"
 
 import Button from "shared/components/Button"
 import logoIcon from "shared/assets/nav_logo.svg"
 import walletIcon from "shared/assets/icons/wallet.svg"
-import { useConnect } from "shared/hooks"
+import { useConnect, useInterval } from "shared/hooks"
 import { ROUTES } from "shared/constants"
 import NavItem from "./NavItem"
 import AccountInfo from "./AccountInfo"
+
+const TENDERLY_API = `https://api.tenderly.co/api/v1/account/${process.env.TENDERLY_USER}/project/${process.env.TENDERLY_PROJECT}`
 
 const NAV_ITEMS = [
   {
@@ -31,6 +33,58 @@ const NAV_ITEMS = [
 
 export default function Nav(): JSX.Element {
   const { isConnected, connect } = useConnect()
+
+  const [resetCounterLastBumped, setResetCounterLastBumped] = useState<number>(
+    Date.now()
+  )
+  const [resetCounter, setResetCounter] = useState<number>(0)
+
+  useInterval(() => {
+    if (Date.now() - resetCounterLastBumped > 300) {
+      setResetCounter(0)
+    }
+  }, 300)
+
+  const handleResetReveal = useCallback(async () => {
+    if (
+      process.env.NODE_ENV !== "development" ||
+      process.env.TENDERLY_FORK_HEAD === undefined ||
+      process.env.TENDERLY_FORK_HEAD === ""
+    ) {
+      return
+    }
+
+    if (resetCounter > 3) {
+      setResetCounter(0)
+      setResetCounterLastBumped(Date.now())
+
+      // Shortcut to getting an answer.
+      // eslint-disable-next-line no-restricted-globals,no-alert
+      const result = confirm("Do you want to reset chain state?")
+
+      if (result) {
+        const resetParams = {
+          fork_head: process.env.TENDERLY_FORK_HEAD,
+        }
+        const resetResult = await fetch(new URL(`${TENDERLY_API}/fork`), {
+          method: "put",
+          body: Buffer.from(JSON.stringify(resetParams)),
+          headers: {
+            "X-Access-Key": process.env.TENDERLY_ACCESS_KEY ?? "",
+          },
+        })
+
+        if (resetResult) {
+          // Shortcut to getting it done.
+          // eslint-disable-next-line no-restricted-globals,no-alert
+          alert("reset")
+        }
+      }
+    } else {
+      setResetCounterLastBumped(Date.now())
+      setResetCounter(resetCounter + 1)
+    }
+  }, [resetCounter])
 
   return (
     <div className="nav_container">
@@ -57,7 +111,7 @@ export default function Nav(): JSX.Element {
           </nav>
         </div>
         <div className="logo_container">
-          <div className="logo" />
+          <div className="logo" onClick={handleResetReveal} />
         </div>
         <div className="rhs_container row">
           <div className="connect_wallet_btn">
