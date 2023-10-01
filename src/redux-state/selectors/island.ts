@@ -15,20 +15,11 @@ export const selectIslandOverlay = (state: RootState) => state.island.overlay
 export const selectRealms = (state: RootState) => state.island.realms
 
 export const selectRealmById = createSelector(
-  [selectRealms, (_, realmId: string) => realmId],
-  (realms, realmId) => realms[realmId]
+  [selectRealms, (_, realmId: string | null) => realmId],
+  (realms, realmId) => (realmId ? realms[realmId] : null)
 )
 
-export const selectStakingRealmId = (state: RootState) =>
-  state.island.stakingRealmId
-
-export const selectStakingRealmAddress = createSelector(
-  selectRealms,
-  selectStakingRealmId,
-  (realms, stakingRealmId) =>
-    stakingRealmId && realms[stakingRealmId]?.realmContractAddress
-)
-
+/* Displayed Realm - selectors */
 export const selectDisplayedRealmId = (state: RootState) =>
   state.island.displayedRealmId
 
@@ -44,6 +35,18 @@ export const selectDisplayedRealmVeTokenAddress = createSelector(
   (realms, realmId) => realmId && realms[realmId]?.veTokenContractAddress
 )
 
+/* Staking Realm - selectors */
+export const selectStakingRealmId = (state: RootState) =>
+  state.island.stakingRealmId
+
+export const selectStakingRealmAddress = createSelector(
+  selectRealms,
+  selectStakingRealmId,
+  (realms, stakingRealmId) =>
+    stakingRealmId && realms[stakingRealmId]?.realmContractAddress
+)
+
+/* Helpful selectors */
 export const selectIsStakingRealmDisplayed = createSelector(
   selectStakingRealmAddress,
   selectDisplayedRealmAddress,

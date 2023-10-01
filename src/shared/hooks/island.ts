@@ -1,6 +1,9 @@
 import React, { MutableRefObject, useContext, useEffect, useState } from "react"
 import { fetchWalletBalances, useDappDispatch } from "redux-state"
-import { fetchPopulation, fetchRealmAddresses } from "redux-state/thunks/island"
+import {
+  fetchPopulation,
+  initRealmsDataFromContracts,
+} from "redux-state/thunks/island"
 import { useArbitrumProvider } from "./wallets"
 
 export const IslandContext = React.createContext<
@@ -28,7 +31,7 @@ export function useFetchRealmsContracts() {
     if (!provider || hasAlreadyFetched) return
 
     const fetchRealms = async () => {
-      await dispatch(fetchRealmAddresses())
+      await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchWalletBalances())
       await dispatch(fetchPopulation())
       setHasAlreadyFetched(true)

@@ -1,46 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { OverlayType, RealmContractData } from "shared/types"
-
-// TODO: names and ids may change
-const REALMS: { [id: string]: RealmContractData } = {
-  "4": {
-    name: "VAMPIRE_REALM",
-    population: 0,
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-  "7": {
-    name: "EDUCATE_REALM",
-    population: 0,
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-  "9": {
-    name: "SOCIAL_REALM",
-    population: 0,
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-  "19": {
-    name: "CREATORS_REALM",
-    population: 0,
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-  "22": {
-    name: "DEFI_REALM",
-    population: 0,
-    realmContractAddress: null,
-    veTokenContractAddress: null,
-  },
-}
+import { OverlayType, RealmData, RealmDataWithId } from "shared/types"
 
 type IslandModeType = "default" | "join-realm"
 
 export type IslandState = {
   mode: IslandModeType
   overlay: OverlayType
-  realms: { [id: string]: RealmContractData }
+  realms: { [id: string]: RealmData }
   stakingRealmId: string | null
   displayedRealmId: string | null
   zoomLevel: number
@@ -49,7 +15,7 @@ export type IslandState = {
 const initialState: IslandState = {
   mode: "default",
   overlay: "dark",
-  realms: REALMS,
+  realms: {},
   stakingRealmId: null,
   displayedRealmId: null,
   zoomLevel: 1,
@@ -77,15 +43,12 @@ const islandSlice = createSlice({
     ) => {
       immerState.zoomLevel = zoomLevel
     },
-    setRealmContractData: (
+    setRealmsData: (
       immerState,
-      {
-        payload: realmAddresses,
-      }: { payload: { id: string; address: string; veTokenAddress: string }[] }
+      { payload: realmData }: { payload: RealmDataWithId[] }
     ) => {
-      realmAddresses.forEach(({ id, address, veTokenAddress }) => {
-        immerState.realms[id].realmContractAddress = address
-        immerState.realms[id].veTokenContractAddress = veTokenAddress
+      realmData.forEach(({ id, data }) => {
+        immerState.realms[id] = data
       })
     },
     setRealmPopulation: (
@@ -121,8 +84,8 @@ export const {
   setIslandOverlay,
   setIslandZoomLevel,
   resetIsland,
-  setRealmContractData,
   setRealmPopulation,
+  setRealmsData,
   setDisplayedRealmId,
   setStakingRealmId,
 } = islandSlice.actions
