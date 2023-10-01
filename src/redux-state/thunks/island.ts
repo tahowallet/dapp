@@ -1,44 +1,53 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRealmContractData } from "redux-state/slices/island"
-import { TAHO_ADDRESS } from "shared/constants"
+import { setRealmsData } from "redux-state/slices/island"
 import {
+  REALMS_WITH_CONTRACT_NAME,
+  TAHO_ADDRESS,
+  getRealmCustomData,
+} from "shared/constants"
+import {
+  getAllRealmsData,
   getAllowance,
-  getRealmTokenAddresses,
   setAllowance,
   stake,
   unstake,
 } from "shared/contracts"
-import { RealmContractDataWithId } from "shared/types"
 import { fetchWalletBalances } from "./wallet"
 
-export const fetchRealmAddresses = createDappAsyncThunk(
-  "island/fetchRealmAddresses",
+export const initRealmsDataFromContracts = createDappAsyncThunk(
+  "island/initRealmsDataFromContracts",
   async (_, { dispatch, getState, extra: { transactionService } }) => {
     const {
       island: { realms },
     } = getState()
 
-    const realmsWithoutAddresses = Object.entries(realms).reduce<
-      RealmContractDataWithId[]
-    >((acc, [id, data]) => {
-      if (data.realmContractAddress === null) {
-        acc.push({ id, data })
-      }
-      return acc
-    }, [])
+    // Run when data isn't set
+    if (Object.keys(realms).length === 0) {
+      const realmData = await transactionService.read(getAllRealmsData, {
+        realms: REALMS_WITH_CONTRACT_NAME,
+      })
 
-    const realmAddresses = await transactionService.read(
-      getRealmTokenAddresses,
-      {
-        realms: realmsWithoutAddresses,
+      if (realmData !== null) {
+        const updatedRealms = realmData.map(({ id, data }) => {
+          const customData = getRealmCustomData(id)
+          return {
+            id,
+            data: {
+              ...customData,
+              ...data,
+              // TODO: The name of the realm should be taken from the contracts.
+              // At the moment, these aren't available. So let's use the ones stored in the JSON file.
+              name: data.name || customData.name,
+            },
+          }
+        })
+        dispatch(setRealmsData(updatedRealms))
       }
-    )
 
-    if (realmAddresses !== null) {
-      dispatch(setRealmContractData(realmAddresses))
+      return !!realmData
     }
 
-    return realmAddresses
+    return false
   }
 )
 

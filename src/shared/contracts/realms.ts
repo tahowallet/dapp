@@ -1,7 +1,11 @@
-import { RealmContractDataWithId, ReadTransactionBuilder } from "shared/types"
+import {
+  ReadTransactionBuilder,
+  RealmAddressesData,
+  RealmContractData,
+} from "shared/types"
 import { Contract } from "ethers"
-import { getTahoDeployerContract } from "./game"
 import { realmAbi } from "./abi"
+import { getTahoDeployerContract } from "./game"
 
 export const getRealmContract: ReadTransactionBuilder<
   { realmContractAddress: string },
@@ -10,19 +14,79 @@ export const getRealmContract: ReadTransactionBuilder<
   new Contract(realmContractAddress, realmAbi, provider)
 
 export const getRealmTokenAddresses: ReadTransactionBuilder<
-  { realms: RealmContractDataWithId[] },
-  { id: string; address: string; veTokenAddress: string }[]
+  { realms: { [id: string]: { name: string } } },
+  {
+    id: string
+    data: RealmAddressesData
+  }[]
 > = async (provider, { realms }) => {
   const tahoDeployerContract = await getTahoDeployerContract(provider, null)
 
   const realmAddresses = await Promise.all(
-    realms.map(async ({ id, data }) => {
-      const realmAddress = await tahoDeployerContract[data.name]()
-      const veTokenAddress = await tahoDeployerContract[`${data.name}_VETAHO`]()
+    Object.entries(realms).map(async ([id, { name }]) => {
+      const realmContractAddress: string = await tahoDeployerContract[name]()
+      const veTokenContractAddress: string = await tahoDeployerContract[
+        `${name}_VETAHO`
+      ]()
 
-      return { id, address: realmAddress, veTokenAddress }
+      return {
+        id,
+        data: {
+          realmContractAddress,
+          veTokenContractAddress,
+        },
+      }
     })
   )
 
   return realmAddresses
+}
+
+export const getRealmData: ReadTransactionBuilder<
+  {
+    realmsWithContractData: {
+      id: string
+      data: RealmAddressesData
+    }[]
+  },
+  { id: string; data: RealmAddressesData & RealmContractData }[]
+> = async (provider, { realmsWithContractData }) => {
+  const realmData = await Promise.all(
+    realmsWithContractData.map(async ({ id, data }) => {
+      const realmContract = await getRealmContract(provider, {
+        realmContractAddress: data.realmContractAddress,
+      })
+
+      const name: string = await realmContract.realmName
+      const xpTokenNamePrefix: string = await realmContract.xpTokenNamePrefix()
+      const xpTokenSymbolPrefix: string =
+        await realmContract.xpTokenSymbolPrefix()
+      const questlineUrl: string = await realmContract.questlineUrl()
+
+      return {
+        id,
+        data: {
+          ...data,
+          name,
+          xpTokenNamePrefix,
+          xpTokenSymbolPrefix,
+          questlineUrl,
+        },
+      }
+    })
+  )
+  return realmData
+}
+
+export const getAllRealmsData: ReadTransactionBuilder<
+  { realms: { [id: string]: { name: string } } },
+  { id: string; data: RealmAddressesData & RealmContractData }[]
+> = async (provider, { realms }) => {
+  const realmsWithContractData = await getRealmTokenAddresses(provider, {
+    realms,
+  })
+
+  const realmData = await getRealmData(provider, { realmsWithContractData })
+
+  return realmData
 }
