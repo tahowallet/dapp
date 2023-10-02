@@ -16,7 +16,9 @@ export default function RealmBarIcon({
   const { width: progressBarWidth, left: progressBarStart } =
     progressBar.getBoundingClientRect()
 
-  let adjustedPosition = position * progressBarWidth
+  const adjustedProgressBarWidth = progressBarWidth - 16 // some spacing, not to stick to the progress bar
+  let adjustedPosition = position * adjustedProgressBarWidth + 8
+
   const previous = progressBar.children[index - 1]
 
   if (index > 0 && previous) {
