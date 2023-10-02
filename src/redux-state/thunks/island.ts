@@ -73,9 +73,7 @@ export const fetchPopulation = createDappAsyncThunk(
     const mappedRealms: { [address: string]: number } = {}
 
     Object.values(realms).forEach(({ realmContractAddress }) => {
-      if (realmContractAddress !== null) {
-        mappedRealms[normalizeAddress(realmContractAddress)] = 0
-      }
+      mappedRealms[normalizeAddress(realmContractAddress)] = 0
     })
 
     registeredStakers?.forEach(([realm]) => {
