@@ -1,11 +1,10 @@
 import React from "react"
 import IconLink from "shared/components/IconLink"
 import Link from "shared/components/Link"
-
 import discordIcon from "shared/assets/icons/discord.svg"
 import twitterIcon from "shared/assets/icons/twitter.svg"
 import githubIcon from "shared/assets/icons/github.svg"
-import ClaimProgressBar from "./ClaimProgressBar"
+import RealmsBar from "./RealmsBar"
 
 const ICON_SIZE = "18px"
 
@@ -33,7 +32,7 @@ export default function Footer() {
         />
       </div>
       <Link to="/rulebook">Rulebook</Link>
-      <ClaimProgressBar />
+      <RealmsBar />
       <style jsx>{`
         footer {
           position: absolute;

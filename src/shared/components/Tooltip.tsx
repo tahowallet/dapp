@@ -8,6 +8,7 @@ type TooltipProps = {
   positionY?: "bottom" | "top"
   positionX?: "left" | "right" | "center"
   width?: string
+  gap?: string
   style?: CSSProperties
 }
 
@@ -16,6 +17,7 @@ export default function Tooltip({
   positionY = "bottom",
   positionX = "right",
   width = "325px",
+  gap = "8px",
   style,
 }: TooltipProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
@@ -78,7 +80,7 @@ export default function Tooltip({
         {`
           .tooltip {
             position: relative;
-            margin-left: 8px;
+            margin-left: ${gap};
           }
           .tooltip_content {
             width: ${width};
