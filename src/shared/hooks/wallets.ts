@@ -35,14 +35,13 @@ export function useBalanceFetch() {
   const dispatch = useDappDispatch()
   const account = useDappSelector(selectWalletAddress)
 
-  useInterval(
-    () => {
-      if (account && dispatch) {
-        dispatch(fetchWalletBalances())
-      }
-    },
-    account ? BALANCE_UPDATE_INTERVAL : null
-  )
+  const walletBalancesCallback = useCallback(() => {
+    if (account && dispatch) {
+      dispatch(fetchWalletBalances())
+    }
+  }, [account, dispatch])
+
+  useInterval(walletBalancesCallback, account ? BALANCE_UPDATE_INTERVAL : null)
 }
 
 export function useWallet() {

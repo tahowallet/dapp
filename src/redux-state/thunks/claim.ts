@@ -42,7 +42,10 @@ export const fetchHasClaimed = createDappAsyncThunk(
 
 export const claimTaho = createDappAsyncThunk(
   "claim/claimTaho",
-  async (_, { getState, extra: { transactionService } }) => {
+  async (
+    { id }: { id: string },
+    { getState, extra: { transactionService } }
+  ) => {
     const {
       claim: { eligibility },
     } = getState()
@@ -51,7 +54,7 @@ export const claimTaho = createDappAsyncThunk(
       return false
     }
 
-    const receipt = await transactionService.send(claim, { eligibility })
+    const receipt = await transactionService.send(id, claim, { eligibility })
 
     return !!receipt
   }
