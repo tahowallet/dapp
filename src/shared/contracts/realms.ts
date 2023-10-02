@@ -69,10 +69,14 @@ export const getRealmData: ReadTransactionBuilder<
         data: {
           ...data,
           name,
-          population: 0,
           xpTokenNamePrefix,
           xpTokenSymbolPrefix,
           questlineUrl,
+          // Population is fetched after all Realm data is initialized
+          // and contract addresses are saved in the state to ensure that
+          // calculating population based on the Events is not blocking
+          // displaying Island UI
+          population: 0,
         },
       }
     })
