@@ -4,19 +4,20 @@ import RealmBarTooltip from "./RealmBarTooltip"
 type RealmBarIconProps = {
   name: string
   population: number
-  position: number
   index: number
+  totalPopulation: number
   progressBar: HTMLDivElement | null
 }
 
 export default function RealmBarIcon({
   name,
   population,
-  position,
   index,
+  totalPopulation,
   progressBar,
 }: RealmBarIconProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
+  const position = population / totalPopulation
 
   if (!progressBar) return null
 
@@ -57,7 +58,7 @@ export default function RealmBarIcon({
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
-          left: ${adjustedPosition}px;
+          left: ${population > 0 ? adjustedPosition : 24 * index}px;
           border-radius: 50%;
           z-index: 999;
         }

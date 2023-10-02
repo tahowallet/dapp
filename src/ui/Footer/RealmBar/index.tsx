@@ -6,11 +6,11 @@ import { separateThousandsByComma } from "shared/utils"
 import RealmBarIcon from "./RealmBarIcon"
 
 const MOCKED_DATA = [
-  { id: "1", name: "Arbitrum", population: 24000 },
-  { id: "2", name: "Arbitrum", population: 22129 },
-  { id: "3", name: "Arbitrum", population: 9200 },
-  { id: "4", name: "Arbitrum", population: 498 },
-  { id: "5", name: "Arbitrum", population: 12 },
+  { id: "1", name: "Arbitrum", population: 100 },
+  { id: "2", name: "Arbitrum", population: 100 },
+  { id: "3", name: "Arbitrum", population: 100 },
+  { id: "4", name: "Arbitrum", population: 100 },
+  { id: "5", name: "Arbitrum", population: 100 },
 ]
 
 export default function RealmsBar() {
@@ -62,8 +62,8 @@ export default function RealmsBar() {
               key={realm.id}
               index={index}
               population={realm.population}
+              totalPopulation={totalPopulation}
               name={realm.name}
-              position={realm.population / totalPopulation}
             />
           ))}
         </div>
