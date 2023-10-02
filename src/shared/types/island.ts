@@ -26,6 +26,8 @@ export type RealmData = RealmAddressesData & RealmContractData & RealmCustomData
 
 export type RealmDataWithId = { id: string; data: RealmData }
 
+export type RealmWithStaker = [string, string]
+
 export type StakingData = { realmContractAddress: string; amount: bigint }
 
 export type OverlayType = "dark" | "subtle" | "none"

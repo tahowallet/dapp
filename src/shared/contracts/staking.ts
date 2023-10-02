@@ -2,8 +2,8 @@ import {
   ReadTransactionBuilder,
   StakingData,
   WriteTransactionBuilder,
+  RealmWithStaker,
 } from "shared/types"
-import { RealmWithStaker } from "shared/types/stake"
 import { normalizeAddress } from "shared/utils"
 import { ethers } from "ethers"
 import { getRealmContract } from "./realms"
