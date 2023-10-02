@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
+import { TransactionProgressStatus } from "shared/types"
 import { truncateAddress } from "shared/utils"
 
 export const selectWalletAddress = (state: RootState) => state.wallet.address
@@ -35,4 +36,10 @@ export const selectTokenBalanceBySymbol = createSelector(
     )
     return tokenBalance?.balance ?? 0n
   }
+)
+
+export const selectTransactionStatusById = createSelector(
+  [(_, id: string) => id, (state: RootState) => state.wallet.transactionStatus],
+  (id, transactionStatus) =>
+    transactionStatus[id] ?? TransactionProgressStatus.Idle
 )

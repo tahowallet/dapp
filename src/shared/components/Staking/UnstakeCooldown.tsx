@@ -1,22 +1,31 @@
-import React, { useState } from "react"
+import React from "react"
 
-import { calculateTimeLeft } from "shared/utils"
-import { useInterval } from "shared/hooks"
-import { HOUR, SECOND } from "shared/constants"
+import { bigIntToUserAmount, formatTime } from "shared/utils"
+import {
+  selectDisplayedRealmVeTokenAddress,
+  selectTokenBalanceByAddress,
+  useDappSelector,
+} from "redux-state"
 
-export default function UnstakeCooldown({ stakedAt }: { stakedAt: number }) {
-  const [timeRemaining, setTimeRemaining] = useState(
-    calculateTimeLeft(stakedAt, HOUR)
+export default function UnstakeCooldown({
+  timeRemaining,
+}: {
+  timeRemaining: number
+}) {
+  const displayedRealmVeTokenAddress = useDappSelector(
+    selectDisplayedRealmVeTokenAddress
   )
-
-  useInterval(() => setTimeRemaining(calculateTimeLeft(stakedAt, HOUR)), SECOND)
+  const veTahoBalance = useDappSelector((state) =>
+    selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
+  )
+  const veTahoUserAmount = bigIntToUserAmount(veTahoBalance)
 
   return (
     <>
       <div className="unstake_cooldown">
         <div className="unstake_cooldown_header">
           <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
-          <div className="amount">Staked amount: 5,387 TAHO</div>
+          <div className="amount">Staked amount: {veTahoUserAmount} TAHO</div>
         </div>
         <div className="unstake_cooldown_period">
           <div className="unstake_cooldown_period_header">Cooldown period</div>
@@ -27,7 +36,7 @@ export default function UnstakeCooldown({ stakedAt }: { stakedAt: number }) {
           <div className="unstake_cooldown_period_time">
             <p style={{ color: "var(--secondary-s1-80)" }}>Time remaining:</p>
             <div className="unstake_cooldown_period_time_counter">
-              {timeRemaining}
+              {formatTime(timeRemaining)}
             </div>
           </div>
         </div>

@@ -12,6 +12,9 @@ import {
   stake,
   unstake,
 } from "shared/contracts"
+import { TransactionProgressStatus } from "shared/types"
+import { updateTransactionStatus } from "redux-state/slices/wallet"
+import { getAllowanceTransactionID } from "shared/utils"
 import { fetchWalletBalances } from "./wallet"
 
 export const initRealmsDataFromContracts = createDappAsyncThunk(
@@ -55,11 +58,12 @@ export const ensureAllowance = createDappAsyncThunk(
   "island/ensureAllowance",
   async (
     {
+      id,
       tokenAddress,
       spender,
       amount,
-    }: { tokenAddress: string; spender: string; amount: bigint },
-    { extra: { transactionService } }
+    }: { id: string; tokenAddress: string; spender: string; amount: bigint },
+    { extra: { transactionService }, dispatch }
   ) => {
     const account = await transactionService.getSignerAddress()
 
@@ -74,11 +78,23 @@ export const ensureAllowance = createDappAsyncThunk(
     }
 
     if (allowanceValue < amount) {
-      const receipt = await transactionService.send(setAllowance, {
-        tokenAddress,
-        spender,
-        amount,
-      })
+      // Update on "parent transaction" to make it possible to track them together in the UI
+      dispatch(
+        updateTransactionStatus({
+          id,
+          status: TransactionProgressStatus.Approving,
+        })
+      )
+
+      const receipt = await transactionService.send(
+        getAllowanceTransactionID(id),
+        setAllowance,
+        {
+          tokenAddress,
+          spender,
+          amount,
+        }
+      )
 
       return !!receipt
     }
@@ -91,13 +107,15 @@ export const stakeTaho = createDappAsyncThunk(
   "island/stake",
   async (
     {
+      id,
       realmContractAddress,
       amount,
-    }: { realmContractAddress: string; amount: bigint },
+    }: { id: string; realmContractAddress: string; amount: bigint },
     { dispatch, extra: { transactionService } }
   ) => {
     const allowanceCorrect = await dispatch(
       ensureAllowance({
+        id,
         tokenAddress: TAHO_ADDRESS,
         spender: realmContractAddress,
         amount,
@@ -108,7 +126,7 @@ export const stakeTaho = createDappAsyncThunk(
       return false
     }
 
-    const receipt = await transactionService.send(stake, {
+    const receipt = await transactionService.send(id, stake, {
       realmContractAddress,
       amount,
     })
@@ -125,10 +143,12 @@ export const unstakeTaho = createDappAsyncThunk(
   "island/unstake",
   async (
     {
+      id,
       realmContractAddress,
       veTokenContractAddress,
       amount,
     }: {
+      id: string
       realmContractAddress: string
       veTokenContractAddress: string
       amount: bigint
@@ -137,6 +157,7 @@ export const unstakeTaho = createDappAsyncThunk(
   ) => {
     const allowanceCorrect = await dispatch(
       ensureAllowance({
+        id,
         tokenAddress: veTokenContractAddress,
         spender: realmContractAddress,
         amount,
@@ -147,7 +168,7 @@ export const unstakeTaho = createDappAsyncThunk(
       return false
     }
 
-    const receipt = await transactionService.send(unstake, {
+    const receipt = await transactionService.send(id, unstake, {
       realmContractAddress,
       amount,
     })
