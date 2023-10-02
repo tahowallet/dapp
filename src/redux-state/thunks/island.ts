@@ -14,7 +14,7 @@ import {
   stake,
   unstake,
 } from "shared/contracts"
-import { normalizeAddress } from "shared/utils"
+import { isSameAddress } from "shared/utils"
 import { fetchWalletBalances } from "./wallet"
 
 export const initRealmsDataFromContracts = createDappAsyncThunk(
@@ -73,32 +73,25 @@ export const fetchPopulation = createDappAsyncThunk(
     const mappedRealms: { [address: string]: number } = {}
 
     Object.values(realms).forEach(({ realmContractAddress }) => {
-      if (realmContractAddress !== null) {
-        mappedRealms[normalizeAddress(realmContractAddress)] = 0
-      }
+      mappedRealms[realmContractAddress] = 0
     })
 
     registeredStakers?.forEach(([realm]) => {
-      const normalizedRealm = normalizeAddress(realm)
-
-      if (mappedRealms[normalizedRealm] !== undefined) {
-        mappedRealms[normalizedRealm] += 1
+      if (mappedRealms[realm] !== undefined) {
+        mappedRealms[realm] += 1
       }
     })
 
     unregisteredStakers?.forEach(([realm]) => {
-      const normalizedRealm = normalizeAddress(realm)
-
-      if (mappedRealms[normalizedRealm] !== undefined) {
-        mappedRealms[normalizedRealm] -= 1
+      if (mappedRealms[realm] !== undefined) {
+        mappedRealms[realm] -= 1
       }
     })
 
     Object.entries(mappedRealms).forEach(([realmAddress, population]) => {
       const [realmId] = Object.entries(realms).find(
         ([__, { realmContractAddress }]) =>
-          realmContractAddress !== null &&
-          normalizeAddress(realmContractAddress) === realmAddress
+          isSameAddress(realmContractAddress, realmAddress)
       ) ?? [null]
 
       if (realmId !== null) {
