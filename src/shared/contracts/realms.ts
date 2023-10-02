@@ -4,6 +4,7 @@ import {
   RealmContractData,
 } from "shared/types"
 import { Contract } from "ethers"
+import { normalizeAddress } from "shared/utils"
 import { realmAbi } from "./abi"
 import { getTahoDeployerContract } from "./game"
 
@@ -32,8 +33,8 @@ export const getRealmTokenAddresses: ReadTransactionBuilder<
       return {
         id,
         data: {
-          realmContractAddress,
-          veTokenContractAddress,
+          realmContractAddress: normalizeAddress(realmContractAddress),
+          veTokenContractAddress: normalizeAddress(veTokenContractAddress),
         },
       }
     })

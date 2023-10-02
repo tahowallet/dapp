@@ -4,6 +4,8 @@ import {
   WriteTransactionBuilder,
 } from "shared/types"
 import { RealmWithStaker } from "shared/types/stake"
+import { normalizeAddress } from "shared/utils"
+import { ethers } from "ethers"
 import { getRealmContract } from "./realms"
 import { getGameContract } from "./game"
 
@@ -31,6 +33,15 @@ export const unstake: WriteTransactionBuilder<StakingData> = async (
   return realmTokenContract.populateTransaction.unstake(amount)
 }
 
+const getStakersFromEvents = (events: ethers.Event[]) =>
+  events.flatMap<RealmWithStaker>((event) => {
+    const { args } = event
+
+    return args
+      ? [[normalizeAddress(args.realm), normalizeAddress(args.staker)]]
+      : []
+  })
+
 export const getStakersRegistered: ReadTransactionBuilder<
   null,
   RealmWithStaker[]
@@ -42,14 +53,7 @@ export const getStakersRegistered: ReadTransactionBuilder<
     stakerRegisteredEventFilter
   )
 
-  const registeredStakers = stakerRegisteredEvents.flatMap<RealmWithStaker>(
-    (event) => {
-      const { args } = event
-
-      return args ? [[args.realm, args.staker]] : []
-    }
-  )
-
+  const registeredStakers = getStakersFromEvents(stakerRegisteredEvents)
   return registeredStakers
 }
 
@@ -65,13 +69,7 @@ export const getStakersUnregistered: ReadTransactionBuilder<
     stakerUnregisteredEventFilter
   )
 
-  const unregisteredStakers = stakerUnregisteredEvents.flatMap<RealmWithStaker>(
-    (event) => {
-      const { args } = event
-
-      return args ? [[args.realm, args.staker]] : []
-    }
-  )
+  const unregisteredStakers = getStakersFromEvents(stakerUnregisteredEvents)
 
   return unregisteredStakers
 }
