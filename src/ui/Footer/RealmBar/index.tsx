@@ -1,28 +1,43 @@
-import React, { useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import populationIcon from "shared/assets/icons/people.svg"
 import Icon from "shared/components/Icon"
 import Tooltip from "shared/components/Tooltip"
 import { separateThousandsByComma } from "shared/utils"
 import { selectRealms, useDappSelector } from "redux-state"
+import { RealmData } from "shared/types"
 import RealmBarIcon from "./RealmBarIcon"
+
+type RealmsData = {
+  id: string
+} & RealmData
 
 export default function RealmsBar() {
   const realms = useDappSelector(selectRealms)
+
+  const [realmsData, setRealmsData] = useState<RealmsData[]>([])
+  const [totalPopulation, setTotalPopulation] = useState(0)
   const progressBarRef = useRef<HTMLDivElement>(null)
 
-  const realmsData =
-    Object.entries(realms).map(([id, data]) => ({
+  useEffect(() => {
+    if (!realms) return
+    const fetchedData = Object.entries(realms).map(([id, data]) => ({
       id,
       ...data,
-    })) || []
+    }))
 
-  if (!realmsData.length) return null
+    const sortedRealms = fetchedData.sort((a, b) => a.population - b.population)
+    setRealmsData(sortedRealms)
+  }, [realms])
 
-  const totalPopulation = realmsData
-    .map((el) => el.population)
-    .reduce((a, b) => a + b)
+  useEffect(() => {
+    if (!realmsData.length) return
 
-  const sortedData = realmsData.sort((a, b) => a.population - b.population)
+    const total = realmsData
+      .map((realm) => realm.population)
+      .reduce((a, b) => a + b)
+
+    setTotalPopulation(total)
+  }, [realmsData])
 
   return (
     <>
@@ -59,7 +74,7 @@ export default function RealmsBar() {
           </div>
         </div>
         <div className="progress_bar" ref={progressBarRef}>
-          {sortedData.map((realm, index) => (
+          {realmsData.map((realm, index) => (
             <RealmBarIcon
               progressBar={progressBarRef.current}
               key={realm.id}
