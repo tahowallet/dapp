@@ -33,7 +33,7 @@ export default function RealmBarIcon({
     const previousRightBound = previous.getBoundingClientRect().left + 24
 
     if (previousRightBound > adjustedPosition + progressBarStart) {
-      adjustedPosition = previousRightBound - progressBarStart
+      adjustedPosition = previousRightBound - progressBarStart + 8
     }
   }
 

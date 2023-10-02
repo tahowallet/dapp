@@ -3,23 +3,26 @@ import populationIcon from "shared/assets/icons/people.svg"
 import Icon from "shared/components/Icon"
 import Tooltip from "shared/components/Tooltip"
 import { separateThousandsByComma } from "shared/utils"
+import { selectRealms, useDappSelector } from "redux-state"
 import RealmBarIcon from "./RealmBarIcon"
 
-const MOCKED_DATA = [
-  { id: "1", name: "Arbitrum", population: 100 },
-  { id: "2", name: "Arbitrum", population: 100 },
-  { id: "3", name: "Arbitrum", population: 100 },
-  { id: "4", name: "Arbitrum", population: 100 },
-  { id: "5", name: "Arbitrum", population: 100 },
-]
-
 export default function RealmsBar() {
-  const totalPopulation = MOCKED_DATA.map((el) => el.population).reduce(
-    (a, b) => a + b
-  )
-
-  const sortedData = MOCKED_DATA.sort((a, b) => a.population - b.population)
+  const realms = useDappSelector(selectRealms)
   const progressBarRef = useRef<HTMLDivElement>(null)
+
+  const realmsData =
+    Object.entries(realms).map(([id, data]) => ({
+      id,
+      ...data,
+    })) || []
+
+  if (!realmsData.length) return null
+
+  const totalPopulation = realmsData
+    .map((el) => el.population)
+    .reduce((a, b) => a + b)
+
+  const sortedData = realmsData.sort((a, b) => a.population - b.population)
 
   return (
     <>

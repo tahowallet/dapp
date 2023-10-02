@@ -44,6 +44,7 @@ export default function RealmBarTooltip({
           font-size: 16px;
           line-height: 24px;
           color: var(--secondary-s1-70);
+          white-space: nowrap;
         }
         .tooltip_population {
           font-size: 22px;
@@ -55,7 +56,7 @@ export default function RealmBarTooltip({
           position: absolute;
           top: 100%;
           left: 50%;
-          transform: translateX(-50%) rotate(120deg);
+          transform: translateX(-50%);
           width: 0;
           height: 0;
           border-style: solid;
