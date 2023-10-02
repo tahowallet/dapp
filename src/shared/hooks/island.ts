@@ -11,8 +11,8 @@ import {
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import { fetchRealmAddresses } from "redux-state/thunks/island"
 import { SECOND } from "shared/constants"
+import { initRealmsDataFromContracts } from "redux-state/thunks/island"
 import { useArbitrumProvider } from "./wallets"
 import { useInterval } from "./helpers"
 
@@ -41,7 +41,7 @@ export function useFetchRealmsContracts() {
     if (!provider || hasAlreadyFetched) return
 
     const fetchRealms = async () => {
-      await dispatch(fetchRealmAddresses())
+      await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchWalletBalances())
       setHasAlreadyFetched(true)
     }

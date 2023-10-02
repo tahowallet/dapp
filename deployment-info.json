@@ -1,118 +1,118 @@
 [
   {
     "name": "TahoDeployer",
-    "expectedAddress": "0xa9d9F37c55BA3D1cE6ae0514AF35B7b69d9c54eb"
+    "expectedAddress": "0x4897A775E92ed33E1e7B76657C330E6E66C7196F"
   },
   {
     "name": "Taho",
-    "expectedAddress": "0xCd23203C08c2ab1E09398165094ec00c5910150F"
+    "expectedAddress": "0x15D8cf92F2a691FED304d6A776536B465B14D93c"
   },
   {
     "name": "ApprovalTarget",
-    "expectedAddress": "0x7Df4E33955E6Bf2e9985b150107341597B590750"
+    "expectedAddress": "0x960628e0fb77b4E416A32BcFEa6C0051dd6066C2"
   },
   {
     "name": "ClaimWithFriendsDeployer",
-    "expectedAddress": "0xEE7735350bf653Cd875E5DaeC379A6d463200EBd"
+    "expectedAddress": "0x6C64503a40eDF8Ed7E38F91542a94c6f849C891e"
   },
   {
     "name": "BalancerPoolDeployer",
-    "expectedAddress": "0x4503C677051CFD4Fbe24f8b3d9f224daf3fe8689"
+    "expectedAddress": "0x149B705Deb67EF1A067F8f7A880d5306d5297494"
   },
   {
     "name": "BalancerPoolAgentDeployer",
-    "expectedAddress": "0x03985bd3a74554b4d3196A6bC46962F3f413d2C6"
+    "expectedAddress": "0x8b8801911ae2996A472a6b5ec8D8D1D0424D0532"
   },
   {
     "name": "MerkleFactoryDeployer",
-    "expectedAddress": "0x061391c6a205EE22b0eb2E48999bF2086963a5c0"
+    "expectedAddress": "0x053aB1d838FA590aD4bFC1d3b7a18A68Eb1f85c6"
   },
   {
     "name": "TreasuryVesterDeployer",
-    "expectedAddress": "0x4e3B3DE2F6D2dE0EF7AB4DC8E0a45F4a79a5ef51"
+    "expectedAddress": "0x78D737f68178E6F4dfdDC18bE8d686A0da951aa0"
   },
   {
     "name": "HuntingGroundRegistry",
-    "expectedAddress": "0x3F2F52F14fB5E995C305cCFC2985bF261B69c6CA"
+    "expectedAddress": "0x7b121aC43888d3d628470Fcd33b7c07cA24A2a8d"
   },
   {
     "name": "TAHOETHHuntingGroundDeployer",
-    "expectedAddress": "0xcD5dB4DFd8650952e9446DA3F8F0ed2ef1814F90"
+    "expectedAddress": "0x0979b60F70CE065aA42D55b330402f15a58b6FE1"
   },
   {
     "name": "HuntingGroundRewardsEscrowDeployer",
-    "expectedAddress": "0x9dC0D61863897610eea177658c10D347CbC3d4Ef"
+    "expectedAddress": "0xEB8eDc393389a0135f07fB9793BCc85386eB0ae6"
   },
   {
     "name": "DevGrantEscrowDeployer",
-    "expectedAddress": "0xC62246633c2041729AE3a9ac13E0644a25AA8Ef8"
+    "expectedAddress": "0x82bbeE0Aa8c546047e0725D1A34F420A92657437"
   },
   {
     "name": "GameDeployer",
-    "expectedAddress": "0xd9451A63459f2D15971d66C3c33eB0FD732af3B4"
+    "expectedAddress": "0x215E6Fb9CE23Ee53087dd0afAec917085958b59d"
   },
   {
     "name": "GameParametersDeployer",
-    "expectedAddress": "0x83844487cF1E54A20832D1a3aAB80E25bBe9eBF2"
+    "expectedAddress": "0xF6f2E271d7dC8EaB2B9A37Ff4a99DF606c2395bA"
   },
   {
     "name": "Elections",
-    "expectedAddress": "0xbE43F9372A90890bAC2363085FDF94AB7A01C714"
+    "expectedAddress": "0xCF5AdF2a355A209d210B66293833df2869371638"
   },
   {
     "name": "Xp",
-    "expectedAddress": "0x0b00696C70B2190c0f8BE9AF463890a4601FA1F5"
+    "expectedAddress": "0xDFd0F8b03B87301F6cde84Fe9fcA841C25595D49"
   },
   {
     "name": "XpFactoryDeployer",
-    "expectedAddress": "0x3d0b9DD58B10435751f06A72CD63587E1d0144d4"
+    "expectedAddress": "0xf2Dda06AbDEC3a49042F430C039011c97EEDAb30"
   },
   {
     "name": "XpMerkleDistributorFactoryDeployer",
-    "expectedAddress": "0x7689eaf98aa7F54a51034C67A82263E40c8e6e10"
+    "expectedAddress": "0x7ccC7Bf479a286504dC9B9fD7F93C238941937eD"
   },
   {
     "name": "XpTahoConverterFactoryDeployer",
-    "expectedAddress": "0xa49d33BDb95d5D3C8154F62F3E2B404b3a470dff"
+    "expectedAddress": "0xecbA6BC6d23C16A12E2b899ded722F1ee4C12246"
   },
   {
     "name": "DeFiRealmVeTaho",
-    "expectedAddress": "0xAB61FDac11E284Dd8252bB9C1157F46Ce322A10a"
+    "expectedAddress": "0xd86c483e1FE0fbaCFb0216730FAff3C074ec4381"
   },
   {
     "name": "CreatorsRealmVeTaho",
-    "expectedAddress": "0x178a6352D7B12a7ecA46b1EE1718174a9f16C72d"
+    "expectedAddress": "0xc3b298B3a5e2E12E792C7BBC66607E9329691ffb"
   },
   {
     "name": "SocialRealmVeTaho",
-    "expectedAddress": "0xFc9215125c4f95c482244096436cC953F4c7E2A8"
+    "expectedAddress": "0x131C2575B9bFB1FEE61CCF99A1301855Fc9ba9b9"
   },
   {
     "name": "EducateRealmVeTaho",
-    "expectedAddress": "0x51bC9E8E7457c0087f8e3538656d516c5A4E50fa"
+    "expectedAddress": "0x80e1c80050d0675505Cf6a6a739Bfc0cE37dB612"
   },
   {
     "name": "VampireRealmVeTaho",
-    "expectedAddress": "0xc4e257bc6F77Cc279D0a3B6A0B999Daf71F61D20"
+    "expectedAddress": "0x1D52560e70f7593DBdea42dF9Be2ceaFa201Fa64"
   },
   {
     "name": "DeFiRealmDeployer",
-    "expectedAddress": "0x0aF47d64fb668A974Baa091CeBbACCFD48adb8BC"
+    "expectedAddress": "0xc69A310933D62091beF528B874e4180C18a6d003"
   },
   {
     "name": "CreatorsRealmDeployer",
-    "expectedAddress": "0x4E89a3483431c931CaDf2343aE41e18b1d86294E"
+    "expectedAddress": "0xdf814C4f1F7BB642D5767037479cfBd5F65d5fc4"
   },
   {
     "name": "SocialRealmDeployer",
-    "expectedAddress": "0x2f10C42aAB2CB702478Ba0ad37Dbceb4B5A70Eea"
+    "expectedAddress": "0x946197C9e7e1C35CA5Ef16A96184d26ceC102392"
   },
   {
     "name": "EducateRealmDeployer",
-    "expectedAddress": "0xF556B1c57bABD474dC0D4dBA4237849834D96e65"
+    "expectedAddress": "0xA21116cc2Fb26eD28Eb840C15F4619B0419F9CC4"
   },
   {
     "name": "VampireRealmDeployer",
-    "expectedAddress": "0x4c4F8E1390B00863e7E77b110F3b9757c3812A5e"
+    "expectedAddress": "0x424C0340f6a590696D66509d881586b406d938F4"
   }
 ]
