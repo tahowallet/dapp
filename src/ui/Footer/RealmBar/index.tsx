@@ -2,15 +2,15 @@ import React, { useRef } from "react"
 import populationIcon from "shared/assets/icons/people.svg"
 import Icon from "shared/components/Icon"
 import Tooltip from "shared/components/Tooltip"
-import { separateThousandsByComma } from "shared/utils/numbers"
+import { separateThousandsByComma } from "shared/utils"
 import RealmBarIcon from "./RealmBarIcon"
 
 const MOCKED_DATA = [
-  { name: "Arbitrum", population: 24000 },
-  { name: "Arbitrum", population: 22129 },
-  { name: "Arbitrum", population: 9200 },
-  { name: "Arbitrum", population: 498 },
-  { name: "Arbitrum", population: 12 },
+  { id: "1", name: "Arbitrum", population: 24000 },
+  { id: "2", name: "Arbitrum", population: 22129 },
+  { id: "3", name: "Arbitrum", population: 9200 },
+  { id: "4", name: "Arbitrum", population: 498 },
+  { id: "5", name: "Arbitrum", population: 12 },
 ]
 
 export default function RealmsBar() {
@@ -56,12 +56,14 @@ export default function RealmsBar() {
           </div>
         </div>
         <div className="progress_bar" ref={progressBarRef}>
-          {sortedData.map((el, index) => (
+          {sortedData.map((realm, index) => (
             <RealmBarIcon
               progressBar={progressBarRef.current}
-              key={index}
+              key={realm.id}
               index={index}
-              position={el.population / totalPopulation}
+              population={realm.population}
+              name={realm.name}
+              position={realm.population / totalPopulation}
             />
           ))}
         </div>

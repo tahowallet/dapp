@@ -1,6 +1,7 @@
 import React, { CSSProperties, ReactNode, useState } from "react"
 import infoIcon from "shared/assets/icons/m/info.svg"
-import { animated, useSpring } from "@react-spring/web"
+import { animated } from "@react-spring/web"
+import { useVisibilityTransition } from "shared/hooks"
 import Icon from "./Icon"
 
 type TooltipProps = {
@@ -22,7 +23,7 @@ export default function Tooltip({
 }: TooltipProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
-  const tooltipAnimation = useSpring({ opacity: isTooltipVisible ? 1 : 0 })
+  const tooltipAnimation = useVisibilityTransition(isTooltipVisible)
 
   let tooltipXAxis: CSSProperties = {}
 
