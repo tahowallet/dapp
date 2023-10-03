@@ -8,6 +8,7 @@ export type IslandState = {
   overlay: OverlayType
   realms: { [id: string]: RealmData }
   stakingRealmId: string | null
+  stakeUnlockTime: number | null
   displayedRealmId: string | null
   zoomLevel: number
 }
@@ -17,6 +18,7 @@ const initialState: IslandState = {
   overlay: "dark",
   realms: {},
   stakingRealmId: null,
+  stakeUnlockTime: null,
   displayedRealmId: null,
   zoomLevel: 1,
 }
@@ -72,6 +74,12 @@ const islandSlice = createSlice({
     ) => {
       immerState.displayedRealmId = displayedRealmId
     },
+    setStakingUnlockTime: (
+      immerState,
+      { payload: stakeUnlockTime }: { payload: number | null }
+    ) => {
+      immerState.stakeUnlockTime = stakeUnlockTime
+    },
     resetIsland: (immerState) => {
       immerState.mode = "default"
       immerState.overlay = "none"
@@ -88,6 +96,7 @@ export const {
   setRealmsData,
   setDisplayedRealmId,
   setStakingRealmId,
+  setStakingUnlockTime,
 } = islandSlice.actions
 
 export default islandSlice.reducer

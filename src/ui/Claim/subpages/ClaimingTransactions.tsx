@@ -1,9 +1,17 @@
-import React, { useState } from "react"
-import { Redirect } from "react-router-dom"
-import { useDappDispatch, claimTaho } from "redux-state"
-import { TransactionProgressStatus } from "shared/types"
+import React, { useCallback } from "react"
+import { useHistory } from "react-router-dom"
+import {
+  useDappDispatch,
+  claimTaho,
+  useDappSelector,
+  selectTransactionStatusById,
+  stopTrackingTransactionStatus,
+} from "redux-state"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { ROUTES } from "shared/constants"
+import { useTransactionSuccessCallback } from "shared/hooks/transactions"
+
+const CLAIM_TX_ID = "claim"
 
 export default function ClaimingTransactions({
   isOpen,
@@ -13,15 +21,21 @@ export default function ClaimingTransactions({
   close: () => void
 }) {
   const dispatch = useDappDispatch()
-  const [shouldRedirect] = useState(false) // TODO: add redirect on success
+  const history = useHistory()
+  const claimTransactionStatus = useDappSelector((state) =>
+    selectTransactionStatusById(state, CLAIM_TX_ID)
+  )
 
   const signClaim = () => {
-    dispatch(claimTaho())
+    dispatch(claimTaho({ id: CLAIM_TX_ID }))
   }
 
-  if (shouldRedirect) {
-    return <Redirect to={ROUTES.CLAIM.FINISH} />
-  }
+  const claimSuccessCallback = useCallback(() => {
+    dispatch(stopTrackingTransactionStatus(CLAIM_TX_ID))
+    history.push(ROUTES.CLAIM.FINISH)
+  }, [dispatch, history])
+
+  useTransactionSuccessCallback(claimTransactionStatus, claimSuccessCallback)
 
   return (
     <TransactionsModal
@@ -32,8 +46,8 @@ export default function ClaimingTransactions({
           id: "claim",
           title: "1. Claim your $TAHO",
           buttonLabel: "Claim",
-          status: TransactionProgressStatus.Idle, // TODO: add status
-          sendTransaction: signClaim,
+          status: claimTransactionStatus,
+          onClick: signClaim,
         },
       ]}
     />

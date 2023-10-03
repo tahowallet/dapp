@@ -19,6 +19,14 @@ export const selectRealmById = createSelector(
   (realms, realmId) => (realmId ? realms[realmId] : null)
 )
 
+export const selectRealmWithIdByAddress = createSelector(
+  [selectRealms, (_, realmAddress: string) => realmAddress],
+  (realms, realmAddress) =>
+    Object.entries(realms).find(([_, { realmContractAddress }]) =>
+      isSameAddress(realmContractAddress, realmAddress)
+    )
+)
+
 /* Displayed Realm - selectors */
 export const selectDisplayedRealmId = (state: RootState) =>
   state.island.displayedRealmId
@@ -55,6 +63,9 @@ export const selectIsStakingRealmDisplayed = createSelector(
     !!displayedAddress &&
     isSameAddress(stakingAddress, displayedAddress)
 )
+
+export const selectStakeUnlockTime = (state: RootState) =>
+  state.island.stakeUnlockTime
 
 export const selectIslandZoomLevel = (state: RootState) =>
   state.island.zoomLevel

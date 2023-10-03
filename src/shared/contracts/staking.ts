@@ -73,3 +73,16 @@ export const getStakersUnregistered: ReadTransactionBuilder<
 
   return unregisteredStakers
 }
+
+export const getStakeUnlockTime: ReadTransactionBuilder<
+  { realmContractAddress: string; account: string },
+  bigint
+> = async (provider, { realmContractAddress, account }) => {
+  const realmContract = await getRealmContract(provider, {
+    realmContractAddress,
+  })
+
+  const unlockTime = await realmContract.stakeUnlockTime(account)
+
+  return BigInt(unlockTime)
+}

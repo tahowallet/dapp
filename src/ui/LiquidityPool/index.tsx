@@ -3,6 +3,7 @@ import {
   joinTahoPool,
   selectIsWalletConnected,
   selectWalletAddress,
+  stopTrackingTransactionStatus,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
@@ -12,6 +13,8 @@ import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
 import TokenAmountInput from "shared/components/TokenAmountInput"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
+
+const LP_TX_ID = "joinLP"
 
 export default function LiquidityPool() {
   const dispatch = useDappDispatch()
@@ -38,6 +41,7 @@ export default function LiquidityPool() {
 
       const receipt = await dispatch(
         joinTahoPool({
+          id: LP_TX_ID,
           tahoAmount: targetTahoAmount,
           ethAmount: targetEthAmount,
         })
@@ -47,6 +51,7 @@ export default function LiquidityPool() {
         // TODO remove when designs be ready
         // eslint-disable-next-line no-console
         console.log(receipt)
+        dispatch(stopTrackingTransactionStatus(LP_TX_ID))
         setTahoAmount("")
         setEthAmount("")
       }
