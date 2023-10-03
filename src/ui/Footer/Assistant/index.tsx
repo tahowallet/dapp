@@ -1,10 +1,14 @@
 import React, { useState } from "react"
 import Icon from "shared/components/Icon"
 import assistant from "shared/assets/assistant.png"
+import { useTimeout } from "shared/hooks"
 import AssistantWelcome from "./AssistantContent/AssistantWelcome"
 
 export default function Assistant() {
-  const [isContentVisible, setIsContentVisible] = useState(true)
+  const [isContentVisible, setIsContentVisible] = useState(false)
+
+  // Delay content popup for nice animation
+  useTimeout(() => setIsContentVisible(true), 500)
 
   return (
     <>
