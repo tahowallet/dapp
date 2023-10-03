@@ -4,6 +4,7 @@ import {
   RealmContractData,
 } from "shared/types"
 import { Contract } from "ethers"
+import { normalizeAddress } from "shared/utils"
 import { realmAbi } from "./abi"
 import { getTahoDeployerContract } from "./game"
 
@@ -32,8 +33,8 @@ export const getRealmTokenAddresses: ReadTransactionBuilder<
       return {
         id,
         data: {
-          realmContractAddress,
-          veTokenContractAddress,
+          realmContractAddress: normalizeAddress(realmContractAddress),
+          veTokenContractAddress: normalizeAddress(veTokenContractAddress),
         },
       }
     })
@@ -71,6 +72,11 @@ export const getRealmData: ReadTransactionBuilder<
           xpTokenNamePrefix,
           xpTokenSymbolPrefix,
           questlineUrl,
+          // Population is fetched after all Realm data is initialized
+          // and contract addresses are saved in the state to ensure that
+          // calculating population based on the Events is not blocking
+          // displaying Island UI
+          population: 0,
         },
       }
     })
