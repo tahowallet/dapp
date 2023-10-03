@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { debounce } from "lodash"
+import { useSpring } from "@react-spring/web"
 
 type VoidFn = () => unknown
 
@@ -105,4 +106,9 @@ export function useInterval(callback: () => void, delay: number | null) {
       clearInterval(id)
     }
   }, [delay])
+}
+
+// Transition depending on the component visibility
+export function useVisibilityTransition(state: boolean) {
+  return useSpring({ opacity: state ? 1 : 0 })
 }
