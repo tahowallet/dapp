@@ -19,6 +19,14 @@ export const selectRealmById = createSelector(
   (realms, realmId) => (realmId ? realms[realmId] : null)
 )
 
+export const selectRealmWithIdByAddress = createSelector(
+  [selectRealms, (_, realmAddress: string) => realmAddress],
+  (realms, realmAddress) =>
+    Object.entries(realms).find(([_, { realmContractAddress }]) =>
+      isSameAddress(realmContractAddress, realmAddress)
+    )
+)
+
 /* Displayed Realm - selectors */
 export const selectDisplayedRealmId = (state: RootState) =>
   state.island.displayedRealmId
@@ -61,3 +69,32 @@ export const selectStakeUnlockTime = (state: RootState) =>
 
 export const selectIslandZoomLevel = (state: RootState) =>
   state.island.zoomLevel
+
+export const selectSortedPopulation = (state: RootState) => {
+  const fetchedData = Object.entries(state.island.realms).map(([id, data]) => ({
+    id,
+    ...data,
+  }))
+
+  const sortedRealms = fetchedData.sort((a, b) => a.population - b.population)
+  return sortedRealms
+}
+
+export const selectTotalPopulation = createSelector(
+  selectSortedPopulation,
+  (realms) =>
+    realms.length
+      ? realms.map((realm) => realm.population).reduce((a, b) => a + b)
+      : 0
+)
+
+export const selectMaxPopulation = createSelector(
+  selectSortedPopulation,
+  (realms) =>
+    realms.length ? Math.max(...realms.map((realm) => realm.population)) : 0
+)
+
+export const selectPopulationById = createSelector(
+  selectRealmById,
+  (realm) => realm?.population ?? 0
+)

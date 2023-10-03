@@ -108,30 +108,6 @@ export function useInterval(callback: () => void, delay: number | null) {
   }, [delay])
 }
 
-// Source: https://usehooks-ts.com/react-hook/use-timeout
-export function useTimeout(callback: () => void, delay: number | null) {
-  const savedCallback = useRef(callback)
-
-  // Remember the latest callback if it changes.
-  useLayoutEffect(() => {
-    savedCallback.current = callback
-  }, [callback])
-
-  // Set up the timeout.
-  useEffect(() => {
-    // Don't schedule if no delay is specified.
-    // Note: 0 is a valid value for delay.
-    if (!delay && delay !== 0) {
-      return
-    }
-
-    const id = setTimeout(() => savedCallback.current(), delay)
-
-    // eslint-disable-next-line consistent-return
-    return () => clearTimeout(id)
-  }, [delay])
-}
-
 // Transition depending on the component visibility
 export function useVisibilityTransition(state: boolean) {
   return useSpring({ opacity: state ? 1 : 0 })

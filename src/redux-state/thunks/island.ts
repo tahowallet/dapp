@@ -1,5 +1,5 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRealmsData } from "redux-state/slices/island"
+import { setRealmPopulation, setRealmsData } from "redux-state/slices/island"
 import {
   REALMS_WITH_CONTRACT_NAME,
   TAHO_ADDRESS,
@@ -8,10 +8,13 @@ import {
 import {
   getAllRealmsData,
   getAllowance,
+  getStakersRegistered,
+  getStakersUnregistered,
   setAllowance,
   stake,
   unstake,
 } from "shared/contracts"
+import { selectRealmWithIdByAddress } from "redux-state/selectors/island"
 import { TransactionProgressStatus } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { getAllowanceTransactionID } from "shared/utils"
@@ -51,6 +54,53 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
     }
 
     return false
+  }
+)
+
+export const fetchPopulation = createDappAsyncThunk(
+  "island/fetchPopulation",
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
+    const {
+      island: { realms },
+    } = getState()
+
+    const registeredStakers = await transactionService.read(
+      getStakersRegistered,
+      null
+    )
+    const unregisteredStakers = await transactionService.read(
+      getStakersUnregistered,
+      null
+    )
+
+    const mappedRealms: { [address: string]: number } = {}
+
+    Object.values(realms).forEach(({ realmContractAddress }) => {
+      mappedRealms[realmContractAddress] = 0
+    })
+
+    registeredStakers?.forEach(([realm]) => {
+      if (mappedRealms[realm] !== undefined) {
+        mappedRealms[realm] += 1
+      }
+    })
+
+    unregisteredStakers?.forEach(([realm]) => {
+      if (mappedRealms[realm] !== undefined) {
+        mappedRealms[realm] -= 1
+      }
+    })
+
+    Object.entries(mappedRealms).forEach(([realmAddress, population]) => {
+      const [realmId] = selectRealmWithIdByAddress(
+        getState(),
+        realmAddress
+      ) ?? [null]
+
+      if (realmId !== null) {
+        dispatch(setRealmPopulation({ id: realmId, population }))
+      }
+    })
   }
 )
 
@@ -133,6 +183,7 @@ export const stakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
+      dispatch(fetchPopulation())
     }
 
     return !!receipt
@@ -175,6 +226,7 @@ export const unstakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
+      dispatch(fetchPopulation())
     }
 
     return !!receipt
