@@ -11,7 +11,8 @@
     "lint:eslint": "eslint .",
     "lint:fix:eslint": "eslint . --fix",
     "lint:config": "prettier -c '**/*.@(json|yaml|toml)'",
-    "lint:config:fix": "prettier -w '**/*.@(json|yaml|toml)'"
+    "lint:config:fix": "prettier -w '**/*.@(json|yaml|toml)'",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-spring/konva": "^9.7.3",
