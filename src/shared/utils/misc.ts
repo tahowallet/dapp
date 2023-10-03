@@ -97,13 +97,13 @@ export function bigIntToUserAmount(
  * The value shouldn't be:
  * - a empty string
  * - a string or other non-numeric value
- * - less than zero.
+ * - equal or less than zero.
  */
 export function isValidInputAmount(amount: string): boolean {
   return (
     !!amount.trim() &&
     !Number.isNaN(parseFloat(amount)) &&
-    parseFloat(amount) >= 0
+    parseFloat(amount) > 0
   )
 }
 

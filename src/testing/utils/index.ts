@@ -34,13 +34,28 @@ export async function unlockStaking() {
     localhostProvider
   )
 
+  const oldLockTime = await contract.stakeLockTime()
+
   const signer = localhostProvider.getSigner(TAHO_MULTISIG)
 
-  const tx = await contract.populateTransaction.updateStakeLockTime(
-    ethers.BigNumber.from(20)
+  const populatedTx = await contract.populateTransaction.updateStakeLockTime(
+    ethers.BigNumber.from(60)
   )
 
-  await signer.sendTransaction(tx)
+  const tx = await signer.sendTransaction(populatedTx)
+
+  await tx.wait()
+
+  const newLockTime = await contract.stakeLockTime()
+
+  // eslint-disable-next-line no-console
+  console.log(
+    "Changed lock time from",
+    oldLockTime.toString(),
+    "seconds to",
+    newLockTime.toString(),
+    "seconds"
+  )
 
   await stopImpersonating(TAHO_MULTISIG)
 }

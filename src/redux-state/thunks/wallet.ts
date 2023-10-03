@@ -5,11 +5,14 @@ import {
   updateDisconnectedWallet,
 } from "redux-state/slices/wallet"
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
-import { getBalance } from "shared/contracts"
+import { getBalance, getStakeUnlockTime } from "shared/contracts"
 import { ethers } from "ethers"
-import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
+import { ETH_ADDRESS, SECOND, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances } from "shared/types"
-import { setStakingRealmId } from "redux-state/slices/island"
+import {
+  setStakingRealmId,
+  setStakingUnlockTime,
+} from "redux-state/slices/island"
 import createDappAsyncThunk from "../asyncThunk"
 
 export const fetchWalletName = createDappAsyncThunk(
@@ -100,6 +103,7 @@ export const fetchWalletBalances = createDappAsyncThunk(
     if (!account) return null
 
     let stakingRealmId = null
+    let stakingRealmContractAddress = null
 
     const tahoBalance =
       (await transactionService.read(getBalance, {
@@ -109,7 +113,7 @@ export const fetchWalletBalances = createDappAsyncThunk(
 
     const veTahoBalances = await Promise.all(
       Object.entries(realms).flatMap(
-        async ([realmId, { veTokenContractAddress }]) => {
+        async ([realmId, { realmContractAddress, veTokenContractAddress }]) => {
           if (!veTokenContractAddress) return []
 
           const veTahoBalance =
@@ -120,6 +124,7 @@ export const fetchWalletBalances = createDappAsyncThunk(
 
           if (veTahoBalance > 0n) {
             stakingRealmId = realmId
+            stakingRealmContractAddress = realmContractAddress
           }
 
           return [
@@ -140,6 +145,21 @@ export const fetchWalletBalances = createDappAsyncThunk(
 
     dispatch(updateBalances(balances))
     dispatch(setStakingRealmId(stakingRealmId))
+
+    if (stakingRealmContractAddress) {
+      const unlockTime = await transactionService.read(getStakeUnlockTime, {
+        realmContractAddress: stakingRealmContractAddress,
+        account,
+      })
+
+      const unlockTimeInMilliseconds = unlockTime
+        ? Number(unlockTime) * SECOND
+        : null
+
+      dispatch(setStakingUnlockTime(unlockTimeInMilliseconds))
+    } else {
+      dispatch(setStakingUnlockTime(null))
+    }
 
     return balances
   }

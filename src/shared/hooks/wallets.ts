@@ -34,13 +34,13 @@ export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
 export function useBalanceFetch() {
   const dispatch = useDappDispatch()
   const account = useDappSelector(selectWalletAddress)
-  const balanceFetchCallback = useCallback(() => {
+  const walletBalancesCallback = useCallback(() => {
     if (account && dispatch) {
       dispatch(fetchWalletBalances())
     }
   }, [account, dispatch])
 
-  useInterval(balanceFetchCallback, account ? BALANCE_UPDATE_INTERVAL : null)
+  useInterval(walletBalancesCallback, account ? BALANCE_UPDATE_INTERVAL : null)
 }
 
 export function useWallet() {
