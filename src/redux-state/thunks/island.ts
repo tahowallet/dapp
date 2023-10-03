@@ -14,7 +14,7 @@ import {
   stake,
   unstake,
 } from "shared/contracts"
-import { isSameAddress } from "shared/utils"
+import { selectRealmWithIdByAddress } from "redux-state/selectors/island"
 import { fetchWalletBalances } from "./wallet"
 
 export const initRealmsDataFromContracts = createDappAsyncThunk(
@@ -89,9 +89,9 @@ export const fetchPopulation = createDappAsyncThunk(
     })
 
     Object.entries(mappedRealms).forEach(([realmAddress, population]) => {
-      const [realmId] = Object.entries(realms).find(
-        ([__, { realmContractAddress }]) =>
-          isSameAddress(realmContractAddress, realmAddress)
+      const [realmId] = selectRealmWithIdByAddress(
+        getState(),
+        realmAddress
       ) ?? [null]
 
       if (realmId !== null) {
