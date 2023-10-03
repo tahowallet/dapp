@@ -162,12 +162,12 @@ const POPULATION_BAR_GAP = 8
 export function calculateRealmsByPopulationIconPositions(
   width: number,
   realmsData: RealmsData[],
-  totalPopulation: number
+  maxValue: number
 ) {
   const positions: number[] = []
 
   realmsData.forEach((realm, index) => {
-    const populationShare = realm.population / totalPopulation
+    const populationShare = realm.population / maxValue
     let iconPosition = populationShare * width
 
     if (iconPosition < positions[index - 1] + POPULATION_ICON_SIZE) {

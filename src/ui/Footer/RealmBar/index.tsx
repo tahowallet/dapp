@@ -6,57 +6,34 @@ import {
   calculateRealmsByPopulationIconPositions,
   separateThousandsByComma,
 } from "shared/utils"
-import { selectRealms, useDappSelector } from "redux-state"
-import { RealmData } from "shared/types"
+import {
+  selectMaxPopulation,
+  selectSortedPopulation,
+  selectTotalPopulation,
+  useDappSelector,
+} from "redux-state"
 import RealmBarIcon from "./RealmBarIcon"
 
-type RealmsData = {
-  id: string
-} & RealmData
-
 export default function RealmsBar() {
-  const realms = useDappSelector(selectRealms)
+  const realmsData = useDappSelector(selectSortedPopulation)
+  const totalPopulation = useDappSelector(selectTotalPopulation)
+  const maxPopulation = useDappSelector(selectMaxPopulation)
 
-  const [realmsData, setRealmsData] = useState<RealmsData[]>([])
-  const [totalPopulation, setTotalPopulation] = useState(0)
   const [positions, setPositions] = useState<number[]>([])
-
   const progressBarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!realms) return
-    const fetchedData = Object.entries(realms).map(([id, data]) => ({
-      id,
-      ...data,
-    }))
-
-    const sortedRealms = fetchedData.sort((a, b) => a.population - b.population)
-    setRealmsData(sortedRealms)
-  }, [realms])
-
-  useEffect(() => {
-    if (!realmsData.length) return
-
-    const total = realmsData
-      .map((realm) => realm.population)
-      .reduce((a, b) => a + b)
-
-    setTotalPopulation(total)
-  }, [realmsData])
-
-  useEffect(() => {
-    if (!realmsData.length || !totalPopulation || !progressBarRef.current)
-      return
+    if (!realmsData.length || !maxPopulation || !progressBarRef.current) return
 
     const { width } = progressBarRef.current.getBoundingClientRect()
     const pos = calculateRealmsByPopulationIconPositions(
       width,
       realmsData,
-      totalPopulation
+      maxPopulation
     )
 
     setPositions(pos)
-  }, [realmsData, totalPopulation, progressBarRef])
+  }, [realmsData, maxPopulation, progressBarRef])
 
   return (
     <>
@@ -80,14 +57,7 @@ export default function RealmsBar() {
           </div>
           <div className="row_center" style={{ gap: 4 }}>
             <p style={{ color: "var(--secondary-s1-60)" }}>Total:</p>
-            <p
-              style={{
-                fontSize: 22,
-                fontWeight: 600,
-                lineHeight: "32px",
-                marginRight: 15,
-              }}
-            >
+            <p className="total_value">
               {separateThousandsByComma(totalPopulation)}
             </p>
           </div>
@@ -128,6 +98,12 @@ export default function RealmsBar() {
             height: 40px;
             width: 100%;
             position: relative;
+          }
+          .total_value {
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 32px;
+            margin-right: 15px;
           }
         `}
       </style>
