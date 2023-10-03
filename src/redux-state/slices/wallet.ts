@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import portrait from "shared/assets/portrait.png"
-import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
+import { ETH_ADDRESS, TAHO_ADDRESS, ONBOARDED_WALLET } from "shared/constants"
 import { TokenBalances, TransactionProgressStatus } from "shared/types"
 import { getAllowanceTransactionID } from "shared/utils"
 
@@ -29,7 +29,7 @@ const initialState: WalletState = {
       balance: 0n,
     },
   },
-  isOnboarded: false,
+  isOnboarded: !!localStorage.getItem(ONBOARDED_WALLET),
   transactionStatus: {},
 }
 
@@ -48,7 +48,10 @@ const walletSlice = createSlice({
       immerState.name = payload.name || immerState.name || ""
       immerState.avatar = payload.avatar || immerState.avatar || portrait
     },
-    updateDisconnectedWallet: (_) => initialState,
+    updateDisconnectedWallet: (immerState) => ({
+      ...initialState,
+      isOnboarded: immerState.isOnboarded,
+    }),
     updateBalances: (
       immerState,
       { payload: balances }: { payload: TokenBalances }
@@ -59,6 +62,11 @@ const walletSlice = createSlice({
       }
     },
     updateWalletOnboarding: (immerState, { payload }: { payload: boolean }) => {
+      if (payload) {
+        localStorage.setItem(ONBOARDED_WALLET, immerState.address)
+      } else {
+        localStorage.removeItem(ONBOARDED_WALLET)
+      }
       immerState.isOnboarded = payload
     },
     resetBalances: (immerState) => {
