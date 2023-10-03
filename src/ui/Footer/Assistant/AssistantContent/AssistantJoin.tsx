@@ -8,6 +8,10 @@ export default function AssistantJoin({
   isVisible,
   close,
 }: AssistantContentProps) {
+  const joinHandler = () => {
+    // TODO: add link to discord
+  }
+
   return (
     <>
       <AssistantContent isVisible={isVisible} close={close}>
@@ -16,7 +20,7 @@ export default function AssistantJoin({
           Have any questions or ideas? Join the conversation on Discord to share
           them!
         </p>
-        <Button>
+        <Button onClick={joinHandler}>
           <Icon
             src={discordIcon}
             width="18px"

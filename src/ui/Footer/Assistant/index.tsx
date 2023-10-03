@@ -3,9 +3,9 @@ import Icon from "shared/components/Icon"
 import assistant from "shared/assets/assistant.png"
 import { useTimeout } from "shared/hooks"
 import Portal from "shared/components/Portal"
-// import AssistantWelcome from "./AssistantContent/AssistantWelcome"
+import AssistantWelcome from "./AssistantContent/AssistantWelcome"
 // import AssistantQuests from "./AssistantContent/AssistantQuests"
-import AssistantJoin from "./AssistantContent/AssistantJoin"
+// import AssistantJoin from "./AssistantContent/AssistantJoin"
 
 export default function Assistant() {
   const [isContentVisible, setIsContentVisible] = useState(false)
@@ -32,12 +32,13 @@ export default function Assistant() {
               color="currentColor"
             />
           </button>
-          {/* <AssistantWelcome
+          {/* TODO: add logic for displaying messages */}
+          <AssistantWelcome
             isVisible={isContentVisible}
             close={closeAssistant}
-          /> */}
+          />
           {/* <AssistantQuests isVisible={isContentVisible} close={closeAssistant} /> */}
-          <AssistantJoin isVisible={isContentVisible} close={closeAssistant} />
+          {/* <AssistantJoin isVisible={isContentVisible} close={closeAssistant} /> */}
         </div>
       </Portal>
       <style jsx>{`
