@@ -1,17 +1,12 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import realmPointer from "shared/assets/realm-pointer.png"
-import AssistantContent from "."
-
-type AssistantWelcomeProps = {
-  isVisible: boolean
-  close: () => void
-}
+import AssistantContent, { AssistantContentProps } from "."
 
 export default function AssistantWelcome({
   isVisible,
   close,
-}: AssistantWelcomeProps) {
+}: AssistantContentProps) {
   return (
     <>
       <AssistantContent isVisible={isVisible} close={close}>

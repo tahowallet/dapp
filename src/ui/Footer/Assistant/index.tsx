@@ -2,13 +2,17 @@ import React, { useState } from "react"
 import Icon from "shared/components/Icon"
 import assistant from "shared/assets/assistant.png"
 import { useTimeout } from "shared/hooks"
-import AssistantWelcome from "./AssistantContent/AssistantWelcome"
+// import AssistantWelcome from "./AssistantContent/AssistantWelcome"
+// import AssistantQuests from "./AssistantContent/AssistantQuests"
+import AssistantJoin from "./AssistantContent/AssistantJoin"
 
 export default function Assistant() {
   const [isContentVisible, setIsContentVisible] = useState(false)
 
   // Delay content popup for nice animation
   useTimeout(() => setIsContentVisible(true), 500)
+
+  const closeAssistant = () => setIsContentVisible(false)
 
   return (
     <>
@@ -26,10 +30,12 @@ export default function Assistant() {
             color="currentColor"
           />
         </button>
-        <AssistantWelcome
+        {/* <AssistantWelcome
           isVisible={isContentVisible}
-          close={() => setIsContentVisible(false)}
-        />
+          close={closeAssistant}
+        /> */}
+        {/* <AssistantQuests isVisible={isContentVisible} close={closeAssistant} /> */}
+        <AssistantJoin isVisible={isContentVisible} close={closeAssistant} />
       </div>
       <style jsx>{`
         .assistant {

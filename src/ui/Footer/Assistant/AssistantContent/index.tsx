@@ -4,8 +4,7 @@ import { useVisibilityTransition } from "shared/hooks"
 import Icon from "shared/components/Icon"
 import closeIcon from "shared/assets/icons/s/close.svg"
 
-type AssistantContentProps = {
-  children: ReactNode
+export type AssistantContentProps = {
   isVisible: boolean
   close: () => void
 }
@@ -14,7 +13,7 @@ export default function AssistantContent({
   children,
   isVisible,
   close,
-}: AssistantContentProps) {
+}: AssistantContentProps & { children: ReactNode }) {
   const transition = useVisibilityTransition(isVisible)
 
   return (
