@@ -5,6 +5,7 @@ import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
 import {
   useBalanceFetch,
+  useFetchGameData,
   useFetchRealmsContracts,
   useWallet,
 } from "shared/hooks"
@@ -27,6 +28,7 @@ function DApp() {
   useWallet()
   useBalanceFetch()
   useFetchRealmsContracts()
+  useFetchGameData()
 
   return (
     <>

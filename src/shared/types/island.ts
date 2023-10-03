@@ -28,3 +28,9 @@ export type RealmDataWithId = { id: string; data: RealmData }
 export type StakingData = { realmContractAddress: string; amount: bigint }
 
 export type OverlayType = "dark" | "subtle" | "none"
+
+export type SeasonInfo = {
+  season: number
+  seasonStartTimestamp: number
+  isInterSeason: boolean
+}

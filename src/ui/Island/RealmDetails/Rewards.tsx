@@ -2,6 +2,8 @@ import React from "react"
 import {
   selectDisplayedRealmId,
   selectRealmById,
+  selectSeasonStartDate,
+  selectSeasonWeek,
   useDappSelector,
 } from "redux-state"
 import Accordion from "shared/components/Accordion"
@@ -9,11 +11,7 @@ import Icon from "shared/components/Icon"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
 import starIcon from "shared/assets/icons/star.svg"
 import RealmIcon from "shared/components/RealmIcon"
-
-const EPOCH = {
-  number: "1",
-  date: "24 OCT - 30 OCT",
-}
+import { printData } from "shared/utils"
 
 function RewardsDetails({
   realmId,
@@ -22,15 +20,28 @@ function RewardsDetails({
   realmId: string
   tokenSymbol: string
 }) {
+  const seasonStartDate = useDappSelector(selectSeasonStartDate)
+  const seasonWeek = useDappSelector(selectSeasonWeek)
+
   return (
     <div className="content">
       <div className="content_details row">
         <div className="column gap">
           <div className="row">
-            <div className="content_details_weeks">Week {EPOCH.number}</div>
-            <span style={{ color: "var(--secondary-s1-70)" }}>/ 12</span>
+            {!!seasonWeek && (
+              <>
+                <div className="content_details_weeks">
+                  Total real rewards Week {seasonWeek}
+                </div>
+                <span style={{ color: "var(--secondary-s1-70)" }}>/ 12</span>
+              </>
+            )}
           </div>
-          <div className="content_details_range">{EPOCH.date}</div>
+          {seasonStartDate && (
+            <div className="content_details_range">
+              {`${printData(seasonStartDate)}  - 30 OCT`}
+            </div>
+          )}
         </div>
 
         <div className="content_details_token column">

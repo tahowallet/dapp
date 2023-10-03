@@ -19,6 +19,16 @@ export const selectRealmById = createSelector(
   (realms, realmId) => (realmId ? realms[realmId] : null)
 )
 
+export const selectStakeUnlockTime = (state: RootState) =>
+  state.island.stakeUnlockTime
+
+export const selectIslandZoomLevel = (state: RootState) =>
+  state.island.zoomLevel
+
+// TODO: Delete when the season date has been set
+export const selectSeasonStartTimestamp = (state: RootState) =>
+  state.island.seasonInfo?.seasonStartTimestamp || Date.now()
+
 /* Displayed Realm - selectors */
 export const selectDisplayedRealmId = (state: RootState) =>
   state.island.displayedRealmId
@@ -56,8 +66,14 @@ export const selectIsStakingRealmDisplayed = createSelector(
     isSameAddress(stakingAddress, displayedAddress)
 )
 
-export const selectStakeUnlockTime = (state: RootState) =>
-  state.island.stakeUnlockTime
+export const selectSeasonStartDate = createSelector(
+  selectSeasonStartTimestamp,
+  (seasonStartTimestamp) =>
+    seasonStartTimestamp ? new Date(seasonStartTimestamp) : null
+)
 
-export const selectIslandZoomLevel = (state: RootState) =>
-  state.island.zoomLevel
+export const selectSeasonWeek = createSelector(
+  selectSeasonStartTimestamp,
+  (seasonStartTimestamp) =>
+    seasonStartTimestamp ? (Date.now() - seasonStartTimestamp) / 7 + 1 : null
+)
