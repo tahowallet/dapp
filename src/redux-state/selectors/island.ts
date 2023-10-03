@@ -66,14 +66,32 @@ export const selectIsStakingRealmDisplayed = createSelector(
     isSameAddress(stakingAddress, displayedAddress)
 )
 
-export const selectSeasonStartDate = createSelector(
-  selectSeasonStartTimestamp,
-  (seasonStartTimestamp) =>
-    seasonStartTimestamp ? new Date(seasonStartTimestamp) : null
-)
-
 export const selectSeasonWeek = createSelector(
   selectSeasonStartTimestamp,
   (seasonStartTimestamp) =>
     seasonStartTimestamp ? (Date.now() - seasonStartTimestamp) / 7 + 1 : null
+)
+
+export const selectWeekStartDate = createSelector(
+  selectSeasonStartTimestamp,
+  selectSeasonWeek,
+  (seasonStartTimestamp, seasonWeek) => {
+    if (seasonStartTimestamp && seasonWeek) {
+      const startDate = new Date(seasonStartTimestamp)
+      startDate.setDate(startDate.getDate() + (seasonWeek - 1) * 7)
+      return startDate
+    }
+    return null
+  }
+)
+
+export const selectWeekEndDate = createSelector(
+  selectWeekStartDate,
+  (startDate) => {
+    if (!startDate) return null
+
+    const endDate = new Date()
+    endDate.setDate(startDate.getDate() + 6)
+    return endDate
+  }
 )

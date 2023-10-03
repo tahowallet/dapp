@@ -2,9 +2,10 @@ import React from "react"
 import {
   selectDisplayedRealmId,
   selectRealmById,
-  selectSeasonStartDate,
+  selectWeekStartDate,
   selectSeasonWeek,
   useDappSelector,
+  selectWeekEndDate,
 } from "redux-state"
 import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
@@ -20,7 +21,8 @@ function RewardsDetails({
   realmId: string
   tokenSymbol: string
 }) {
-  const seasonStartDate = useDappSelector(selectSeasonStartDate)
+  const startDate = useDappSelector(selectWeekStartDate)
+  const endDate = useDappSelector(selectWeekEndDate)
   const seasonWeek = useDappSelector(selectSeasonWeek)
 
   return (
@@ -37,9 +39,9 @@ function RewardsDetails({
               </>
             )}
           </div>
-          {seasonStartDate && (
+          {startDate && endDate && (
             <div className="content_details_range">
-              {`${printData(seasonStartDate)}  - 30 OCT`}
+              {`${printData(startDate)}  - ${printData(endDate)}`}
             </div>
           )}
         </div>
