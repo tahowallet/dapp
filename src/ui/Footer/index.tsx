@@ -4,6 +4,7 @@ import Link from "shared/components/Link"
 import discordIcon from "shared/assets/icons/discord.svg"
 import twitterIcon from "shared/assets/icons/twitter.svg"
 import githubIcon from "shared/assets/icons/github.svg"
+// import ClaimProgressBar from "./ClaimProgressBar" // not used at the moment
 import RealmsBar from "./RealmBar"
 
 const ICON_SIZE = "18px"
