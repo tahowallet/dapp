@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from "react"
 import populationIcon from "shared/assets/icons/people.svg"
 import Icon from "shared/components/Icon"
 import Tooltip from "shared/components/Tooltip"
-import { separateThousandsByComma } from "shared/utils"
+import {
+  calculateRealmsByPopulationIconPositions,
+  separateThousandsByComma,
+} from "shared/utils"
 import { selectRealms, useDappSelector } from "redux-state"
 import { RealmData } from "shared/types"
 import RealmBarIcon from "./RealmBarIcon"
@@ -16,6 +19,8 @@ export default function RealmsBar() {
 
   const [realmsData, setRealmsData] = useState<RealmsData[]>([])
   const [totalPopulation, setTotalPopulation] = useState(0)
+  const [positions, setPositions] = useState<number[]>([])
+
   const progressBarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -38,6 +43,20 @@ export default function RealmsBar() {
 
     setTotalPopulation(total)
   }, [realmsData])
+
+  useEffect(() => {
+    if (!realmsData.length || !totalPopulation || !progressBarRef.current)
+      return
+
+    const { width } = progressBarRef.current.getBoundingClientRect()
+    const pos = calculateRealmsByPopulationIconPositions(
+      width,
+      realmsData,
+      totalPopulation
+    )
+
+    setPositions(pos)
+  }, [realmsData, totalPopulation, progressBarRef])
 
   return (
     <>
@@ -76,11 +95,9 @@ export default function RealmsBar() {
         <div className="progress_bar" ref={progressBarRef}>
           {realmsData.map((realm, index) => (
             <RealmBarIcon
-              progressBar={progressBarRef.current}
               key={realm.id}
-              index={index}
+              position={positions[index]}
               population={realm.population}
-              totalPopulation={totalPopulation}
               name={realm.name}
             />
           ))}

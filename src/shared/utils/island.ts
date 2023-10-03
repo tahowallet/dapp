@@ -1,6 +1,7 @@
 import assert from "assert"
 import { Stage } from "konva/lib/Stage"
 import { ISLAND_BOX } from "shared/constants"
+import { RealmData } from "shared/types"
 
 type Dimensions = {
   width: number
@@ -20,6 +21,10 @@ type Coordinates = {
   x: number
   y: number
 }
+
+type RealmsData = {
+  id: string
+} & RealmData
 
 export function limitToBounds(val: number, min: number, max: number) {
   if (val < min) return min
@@ -149,4 +154,30 @@ export function getCurrentCanvasPosition(
 ): Coordinates {
   const canvasPosition = { x: positionX / zoom, y: positionY / zoom }
   return canvasPosition
+}
+
+export function calculateRealmsByPopulationIconPositions(
+  width: number,
+  realmsData: RealmsData[],
+  totalPopulation: number
+) {
+  const positions: number[] = []
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < realmsData.length; i++) {
+    const populationShare = realmsData[i].population / totalPopulation
+    let iconPosition = populationShare * width
+
+    if (iconPosition < positions[i - 1] + 24) {
+      iconPosition = positions[i - 1] + 24
+    } else if (iconPosition >= width) {
+      iconPosition = width - 32
+    } else if (iconPosition === 0) {
+      iconPosition = 8
+    }
+
+    positions[i] = iconPosition
+  }
+
+  return positions
 }
