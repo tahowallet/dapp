@@ -1,7 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
 import { truncateAddress } from "shared/utils"
-import { RealmContractData } from "shared/types"
+import { RealmData } from "shared/types"
 import { selectRealmById } from "./island"
 
 export const selectClaimingUser = (state: RootState) => ({
@@ -17,12 +17,9 @@ export const selectUseConnectedWalletToClaim = (state: RootState) =>
   state.claim.useConnectedWallet
 
 export const selectStakingData = createSelector(
-  (state: RootState) =>
-    state.claim.selectedRealmId
-      ? selectRealmById(state, state.claim.selectedRealmId)
-      : null,
+  (state: RootState) => selectRealmById(state, state.claim.selectedRealmId),
   (state: RootState) => state.claim.stakeAmount,
-  (realmData: RealmContractData | null, stakeAmount) => ({
+  (realmData: RealmData | null, stakeAmount) => ({
     realmContractAddress: realmData ? realmData.realmContractAddress : null,
     stakeAmount,
   })

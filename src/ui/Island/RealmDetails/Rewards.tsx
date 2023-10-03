@@ -1,18 +1,27 @@
 import React from "react"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import {
+  selectDisplayedRealmId,
+  selectRealmById,
+  useDappSelector,
+} from "redux-state"
 import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
 import starIcon from "shared/assets/icons/star.svg"
 import RealmIcon from "shared/components/RealmIcon"
-import { getRealmDetails } from "shared/constants"
 
 const EPOCH = {
   number: "1",
   date: "24 OCT - 30 OCT",
 }
 
-function RewardsDetails({ realmId }: { realmId: string }) {
+function RewardsDetails({
+  realmId,
+  tokenSymbol,
+}: {
+  realmId: string
+  tokenSymbol: string
+}) {
   return (
     <div className="content">
       <div className="content_details row">
@@ -34,7 +43,7 @@ function RewardsDetails({ realmId }: { realmId: string }) {
             />
             350,483
           </h1>
-          TAHO-XP-01
+          {tokenSymbol}
         </div>
       </div>
       <style jsx>{`
@@ -128,15 +137,17 @@ function RewardsQuests({
 
 export default function Rewards() {
   const realmId = useDappSelector(selectDisplayedRealmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
-  if (!realmId) return null
-
-  const realmDetails = getRealmDetails(realmId)
+  if (!realmId || !realm) return null
 
   return (
     <div className="realm column">
-      <RewardsDetails realmId={realmId} />
-      <RewardsQuests quests={realmDetails.quests} />
+      <RewardsDetails
+        realmId={realmId}
+        tokenSymbol={realm.xpTokenSymbolPrefix}
+      />
+      <RewardsQuests quests={realm.quests} />
       <style jsx>{`
         .realm {
           padding-top: 32px;

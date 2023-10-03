@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 import portrait from "shared/assets/portrait.png"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
-import { TokenBalances } from "shared/types"
+import { TokenBalances, TransactionProgressStatus } from "shared/types"
+import { getAllowanceTransactionID } from "shared/utils"
 
 export type WalletState = {
   isConnected: boolean
@@ -10,6 +11,7 @@ export type WalletState = {
   avatar: string
   balances: TokenBalances
   isOnboarded: boolean
+  transactionStatus: { [id: string]: TransactionProgressStatus }
 }
 
 const initialState: WalletState = {
@@ -28,6 +30,7 @@ const initialState: WalletState = {
     },
   },
   isOnboarded: false,
+  transactionStatus: {},
 }
 
 const walletSlice = createSlice({
@@ -61,6 +64,23 @@ const walletSlice = createSlice({
     resetBalances: (immerState) => {
       immerState.balances = initialState.balances
     },
+    updateTransactionStatus: (
+      immerState,
+      {
+        payload,
+      }: {
+        payload: { id: string; status: TransactionProgressStatus }
+      }
+    ) => {
+      immerState.transactionStatus[payload.id] = payload.status
+    },
+    stopTrackingTransactionStatus: (
+      immerState,
+      { payload: id }: { payload: string }
+    ) => {
+      delete immerState.transactionStatus[id]
+      delete immerState.transactionStatus[getAllowanceTransactionID(id)]
+    },
   },
 })
 
@@ -70,6 +90,8 @@ export const {
   updateBalances,
   updateWalletOnboarding,
   resetBalances,
+  updateTransactionStatus,
+  stopTrackingTransactionStatus,
 } = walletSlice.actions
 
 export default walletSlice.reducer

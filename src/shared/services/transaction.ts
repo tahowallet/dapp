@@ -1,9 +1,10 @@
+import Emittery from "emittery"
 import { ethers } from "ethers"
 import { ETHEREUM } from "shared/constants"
 import {
-  Transaction,
   WriteTransactionBuilder,
   ReadTransactionBuilder,
+  TransactionProgressStatus,
 } from "shared/types"
 
 const ERROR_MESSAGE = {
@@ -11,12 +12,19 @@ const ERROR_MESSAGE = {
   TRANSACTION_BUILDER_FAILED: "Transaction is not ready",
 }
 
+type Events = {
+  updateTransactionStatus: {
+    id: string
+    status: TransactionProgressStatus
+  }
+}
+
 class TransactionService {
   arbitrumProvider: ethers.providers.Web3Provider | null = null
 
   ethereumProvider: ethers.providers.Provider | null = null
 
-  transactions: { [hash: string]: Transaction } = {}
+  emitter = new Emittery<Events>()
 
   constructor() {
     this.ethereumProvider = new ethers.providers.JsonRpcProvider(
@@ -49,7 +57,17 @@ class TransactionService {
     this.arbitrumProvider = providerOrNull
   }
 
+  async emitTransactionStatus(
+    id: string | null,
+    status: TransactionProgressStatus
+  ) {
+    if (id) {
+      await this.emitter.emit("updateTransactionStatus", { id, status })
+    }
+  }
+
   async send<T>(
+    id: string | null,
     transactionBuilder: WriteTransactionBuilder<T>,
     data: T
   ): Promise<ethers.providers.TransactionReceipt | null> {
@@ -75,16 +93,24 @@ class TransactionService {
         throw new Error(ERROR_MESSAGE.TRANSACTION_BUILDER_FAILED)
       }
 
+      this.emitTransactionStatus(id, TransactionProgressStatus.Signing)
+
       const transaction = await signer.sendTransaction({
         from: address,
         nonce,
         ...transactionRequest,
       })
 
+      this.emitTransactionStatus(id, TransactionProgressStatus.Sending)
+
       const receipt = await transaction.wait()
+
+      this.emitTransactionStatus(id, TransactionProgressStatus.Done)
 
       return receipt
     } catch (error) {
+      this.emitTransactionStatus(id, TransactionProgressStatus.Failed)
+
       // eslint-disable-next-line no-console
       console.error("Failed to send transaction", error)
       return null
