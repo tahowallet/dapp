@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import Icon from "shared/components/Icon"
 import assistant from "shared/assets/assistant.png"
 import { useTimeout } from "shared/hooks"
+import Portal from "shared/components/Portal"
 // import AssistantWelcome from "./AssistantContent/AssistantWelcome"
 // import AssistantQuests from "./AssistantContent/AssistantQuests"
 import AssistantJoin from "./AssistantContent/AssistantJoin"
@@ -16,32 +17,35 @@ export default function Assistant() {
 
   return (
     <>
-      <div className="assistant">
-        <button
-          type="button"
-          className="assistant_trigger button_reset"
-          onClick={() => setIsContentVisible((prevState) => !prevState)}
-        >
-          <Icon
-            src={assistant}
-            width="62px"
-            height="62px"
-            type="image"
-            color="currentColor"
-          />
-        </button>
-        {/* <AssistantWelcome
-          isVisible={isContentVisible}
-          close={closeAssistant}
-        /> */}
-        {/* <AssistantQuests isVisible={isContentVisible} close={closeAssistant} /> */}
-        <AssistantJoin isVisible={isContentVisible} close={closeAssistant} />
-      </div>
+      <Portal>
+        <div className="assistant">
+          <button
+            type="button"
+            className="assistant_trigger button_reset"
+            onClick={() => setIsContentVisible((prevState) => !prevState)}
+          >
+            <Icon
+              src={assistant}
+              width="62px"
+              height="62px"
+              type="image"
+              color="currentColor"
+            />
+          </button>
+          {/* <AssistantWelcome
+            isVisible={isContentVisible}
+            close={closeAssistant}
+          /> */}
+          {/* <AssistantQuests isVisible={isContentVisible} close={closeAssistant} /> */}
+          <AssistantJoin isVisible={isContentVisible} close={closeAssistant} />
+        </div>
+      </Portal>
       <style jsx>{`
         .assistant {
           position: absolute;
           bottom: 25px;
           right: 25px;
+          z-index: 999999999;
         }
         .assistant_trigger {
           cursor: pointer;

@@ -29,7 +29,6 @@ export default function AssistantContent({
           padding: "24px 32px 32px",
           width: 375,
         }}
-        className="content"
       >
         <button
           type="button"
@@ -38,7 +37,7 @@ export default function AssistantContent({
         >
           <Icon src={closeIcon} width="16px" height="16px" />
         </button>
-        <div>{children}</div>
+        <div className="content">{children}</div>
       </animated.div>
       <style jsx>{`
         .close_button {
@@ -46,6 +45,17 @@ export default function AssistantContent({
           top: 14px;
           right: 16px;
           padding: 0;
+        }
+        .content::after {
+          content: "";
+          background: #043937;
+          height: 12px;
+          width: 12px;
+          position: absolute;
+          bottom: -4px;
+          right: 31px;
+          border-radius: 2px;
+          rotate: 45deg;
         }
       `}</style>
     </>
