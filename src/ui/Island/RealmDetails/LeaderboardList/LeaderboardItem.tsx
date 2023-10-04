@@ -4,6 +4,7 @@ import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
 import { isSameAddress, truncateAddress } from "shared/utils"
 import { XpMerkleTreeItem } from "shared/types/xp"
+import { selectWalletAvatar, useDappSelector } from "redux-state"
 
 const format = new Intl.NumberFormat()
 
@@ -18,6 +19,7 @@ export default function LeaderboardItem({
 }) {
   const { beneficiary: address, amount } = item
   const isCurrentUser = isSameAddress(address, currentUser)
+  const avatar = useDappSelector(selectWalletAvatar)
 
   return (
     <>
@@ -32,7 +34,15 @@ export default function LeaderboardItem({
           {rank <= 3 && (
             <Icon src={crossIcon} width="16px" color="currentColor" />
           )}
-          <span>{rank}</span>
+          <span className="rank">{rank}</span>
+          {isCurrentUser && (
+            <Icon
+              type="image"
+              src={avatar}
+              width="40px"
+              style={{ borderRadius: "100%" }}
+            />
+          )}
           <span className="address">{truncateAddress(address)}</span>
           <span className="xp">{format.format(BigInt(amount))} XP</span>
         </div>
@@ -45,6 +55,7 @@ export default function LeaderboardItem({
           gap: 12px;
           color: var(--secondary-s1-70);
           font: 500 18px/1.2 var(--sans);
+          line-height: 28px;
         }
 
         .leaderboard_item :is(.top_item, .is_user) {
@@ -55,12 +66,16 @@ export default function LeaderboardItem({
         }
 
         .leaderboard_item.is_user {
-          background: var(--primary-p1-100);
+          background: var(--primary-p1-100) !important;
           padding-left: 23px;
         }
 
         .xp {
           margin-left: auto;
+        }
+
+        .rank {
+          width: 20px;
         }
 
         .leaderboard_item[data-rank="1"] {
@@ -77,6 +92,7 @@ export default function LeaderboardItem({
         .leaderboard_item[data-rank="3"] {
           color: #d0d6d6;
           border: 1px solid currentColor;
+          margin-bottom: 14px;
         }
 
         .wrapper {

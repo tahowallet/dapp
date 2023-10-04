@@ -63,7 +63,6 @@ export default function LeaderboardList() {
             currentUser={address}
           />
         )}
-
         {leaderboardXp.map((item, index) => (
           <LeaderboardItem
             item={item}
