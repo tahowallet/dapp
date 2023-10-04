@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import portalBackground from "shared/assets/portal-background.png"
-import { useConnect } from "shared/hooks"
+import { useAssets, useConnect } from "shared/hooks"
 import { useDappSelector, selectTokenBalanceBySymbol } from "redux-state"
 import { parseTahoAmount } from "shared/utils"
 import FullPageLoader from "shared/components/Loaders/FullPage"
@@ -10,20 +10,14 @@ import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
 
 export default function Onboarding() {
-  const [onboardingLoaded, setOnboardingLoaded] = useState(false)
   const { isConnected } = useConnect()
+  const assetsLoaded = useAssets([portalBackground])
 
   const tahoBalance = parseTahoAmount(
     useDappSelector((state) => selectTokenBalanceBySymbol(state, "TAHO"))
   )
 
-  useEffect(() => {
-    // TODO: remove this timeout and replace it with function to await assets being loaded
-    const timeout = setTimeout(() => setOnboardingLoaded(true), 3000)
-    return () => clearTimeout(timeout)
-  }, [])
-
-  if (!onboardingLoaded) return <FullPageLoader />
+  if (!assetsLoaded) return <FullPageLoader />
 
   return (
     <>

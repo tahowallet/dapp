@@ -106,3 +106,25 @@ export function useInterval(callback: () => void, delay: number | null) {
     }
   }, [delay])
 }
+
+export function useAssets(assets: string[]) {
+  const [assetsLoaded, setAssetsLoaded] = useState(false)
+
+  // TODO: modify this to also accept video as an asset
+  useLayoutEffect(() => {
+    let loaded = 0
+
+    assets.forEach((asset) => {
+      const img = new Image()
+      img.src = asset
+      img.onload = () => {
+        loaded += 1
+        if (loaded === assets.length) {
+          setAssetsLoaded(true)
+        }
+      }
+    })
+  }, [assets])
+
+  return assetsLoaded
+}
