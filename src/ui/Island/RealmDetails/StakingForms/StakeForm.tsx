@@ -15,6 +15,7 @@ import { TAHO_ADDRESS } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import { useTransactionSuccessCallback } from "shared/hooks"
+import StakeCongratulationsModal from "./StakeCongratulationsModal"
 
 const STAKE_TX_ID = "stake"
 
@@ -31,6 +32,9 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   )
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
+    useState(false)
+
+  const [isCongratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
 
   const stakeTransaction = () => {
@@ -56,6 +60,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const stakeTransactionSuccessCallback = useCallback(() => {
     setIsStakeTransactionModalOpen(false)
+    setCongratulationsModalOpen(true)
     setStakeAmount("")
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
   }, [dispatch])
@@ -115,6 +120,10 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
         isOpen={isStakeTransactionModalOpen}
         close={() => setIsStakeTransactionModalOpen(false)}
         transactions={[stakeTransactionData]}
+      />
+      <StakeCongratulationsModal
+        isOpen={isCongratulationsModalOpen}
+        close={() => setCongratulationsModalOpen(false)}
       />
       <style jsx>{`
         .stake_control {
