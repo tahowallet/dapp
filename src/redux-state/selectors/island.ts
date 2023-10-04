@@ -54,16 +54,16 @@ export const selectStakingRealmAddress = createSelector(
     stakingRealmId && realms[stakingRealmId]?.realmContractAddress
 )
 
-/* Population - selector */
-export const selectSortedPopulation = (state: RootState) => {
-  const fetchedData = Object.entries(state.island.realms).map(([id, data]) => ({
+/* Population - selectors */
+export const selectSortedPopulation = createSelector(selectRealms, (realms) => {
+  const realmsData = Object.entries(realms).map(([id, data]) => ({
     id,
     ...data,
   }))
 
-  const sortedRealms = fetchedData.sort((a, b) => a.population - b.population)
+  const sortedRealms = realmsData.sort((a, b) => a.population - b.population)
   return sortedRealms
-}
+})
 
 export const selectPopulationById = createSelector(
   selectRealmById,
