@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { OverlayType, RealmData, RealmDataWithId } from "shared/types"
+import { ASSISTANT } from "shared/constants"
 
 type IslandModeType = "default" | "join-realm"
 
@@ -27,6 +28,12 @@ export type IslandState = {
   assistant: Assistant
 }
 
+const initialAssistantState: Assistant = {
+  welcomePopup: { closed: false },
+  questsPopup: { staked: false, closed: false },
+  visible: true,
+}
+
 const initialState: IslandState = {
   mode: "default",
   overlay: "dark",
@@ -35,11 +42,9 @@ const initialState: IslandState = {
   stakeUnlockTime: null,
   displayedRealmId: null,
   zoomLevel: 1,
-  assistant: {
-    welcomePopup: { closed: false },
-    questsPopup: { staked: false, closed: false },
-    visible: true,
-  },
+  assistant: localStorage.getItem(ASSISTANT)
+    ? JSON.parse(localStorage.getItem(ASSISTANT)!)
+    : initialAssistantState,
 }
 
 const islandSlice = createSlice({
@@ -135,6 +140,8 @@ const islandSlice = createSlice({
         ...immerState.assistant,
         ...updatedAssistant,
       }
+
+      localStorage.setItem(ASSISTANT, JSON.stringify(immerState.assistant))
     },
     resetIsland: (immerState) => {
       immerState.mode = "default"
