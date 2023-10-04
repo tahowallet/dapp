@@ -10,7 +10,7 @@ export default function AssistantWelcome({
   return (
     <>
       <AssistantContent isVisible={isVisible} close={close}>
-        <div className="header">Welcome to The Frontier, Nomad!</div>
+        <div className="header">Welcome to The Island, Nomad!</div>
         <p className="paragraph">My name is Scout and I&apos;m here to help!</p>
         <p className="paragraph">
           There are 5 realms for you to explore and choose from

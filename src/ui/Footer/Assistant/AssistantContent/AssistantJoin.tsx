@@ -15,7 +15,7 @@ export default function AssistantJoin({
   return (
     <>
       <AssistantContent isVisible={isVisible} close={close}>
-        <div className="header">I hope you are enjoying The Frontier Beta</div>
+        <div className="header">I hope you are enjoying The Island Beta</div>
         <p className="paragraph">
           Have any questions or ideas? Join the conversation on Discord to share
           them!
