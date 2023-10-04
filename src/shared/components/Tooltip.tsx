@@ -1,6 +1,7 @@
 import React, { CSSProperties, ReactNode, useState } from "react"
 import infoIcon from "shared/assets/icons/m/info.svg"
-import { animated, useSpring } from "@react-spring/web"
+import { animated } from "@react-spring/web"
+import { useVisibilityTransition } from "shared/hooks"
 import Icon from "./Icon"
 
 type TooltipProps = {
@@ -8,6 +9,7 @@ type TooltipProps = {
   positionY?: "bottom" | "top"
   positionX?: "left" | "right" | "center"
   width?: string
+  gap?: string
   style?: CSSProperties
 }
 
@@ -16,11 +18,12 @@ export default function Tooltip({
   positionY = "bottom",
   positionX = "right",
   width = "325px",
+  gap = "8px",
   style,
 }: TooltipProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
-  const tooltipAnimation = useSpring({ opacity: isTooltipVisible ? 1 : 0 })
+  const tooltipAnimation = useVisibilityTransition(isTooltipVisible)
 
   let tooltipXAxis: CSSProperties = {}
 
@@ -78,7 +81,7 @@ export default function Tooltip({
         {`
           .tooltip {
             position: relative;
-            margin-left: 8px;
+            margin-left: ${gap};
           }
           .tooltip_content {
             width: ${width};

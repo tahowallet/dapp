@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import React from "react"
-import { parseTahoAmount } from "../utils"
+import { parseTahoAmount, separateThousandsByComma } from "../utils"
 import Icon from "./Icon"
 import lockIcon from "../assets/icons/s/lock.svg"
 import coinIcon from "../assets/taho-coin.svg"
@@ -28,7 +28,7 @@ export default function TahoAmount({
       >
         <div className="taho_coin" />
         <span className="amount_value">
-          {parseTahoAmount(amount).toLocaleString()}
+          {separateThousandsByComma(parseTahoAmount(amount))}
         </span>
         <span>TAHO</span>
         <Icon src={lockIcon} color="var(--semantic-attention)" />

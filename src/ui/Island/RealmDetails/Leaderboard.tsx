@@ -1,12 +1,9 @@
-import React, { useState } from "react"
+import React from "react"
 import classNames from "classnames"
 import { keccak256 } from "ethers/lib/utils"
 
 import Icon from "shared/components/Icon"
-import iconSearch from "shared/assets/icons/m/search.svg"
 import crossIcon from "shared/assets/icons/plus.svg"
-
-import SharedInput from "shared/components/Input"
 
 import { truncateAddress } from "shared/utils"
 
@@ -20,7 +17,7 @@ const mockData = new Array(20)
 const format = new Intl.NumberFormat()
 
 export default function Leaderboard() {
-  const [query, setQuery] = useState("")
+  // const [query, setQuery] = useState("")
 
   const userAddress = mockData[9].address
 
@@ -38,7 +35,7 @@ export default function Leaderboard() {
 
   return (
     <div className="leaderboard_container">
-      <SharedInput
+      {/* <SharedInput
         value={query}
         onChange={setQuery}
         label="Look up a fellow citizen (ENS/UNS, 0xAddress)"
@@ -48,7 +45,7 @@ export default function Leaderboard() {
             <Icon src={iconSearch} width="24px" />
           </div>
         }
-      />
+      /> */}
       <ul>
         {sortedResults.map((item) => (
           <li key={item.rank}>
@@ -74,6 +71,7 @@ export default function Leaderboard() {
           list-style: none;
           margin: 0;
           padding: 0;
+          padding-top: 24px;
           display: flex;
           flex-direction: column;
           gap: 12px;
