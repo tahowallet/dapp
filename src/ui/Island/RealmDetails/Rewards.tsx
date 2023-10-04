@@ -6,6 +6,7 @@ import {
   selectSeasonWeek,
   useDappSelector,
   selectWeekEndDate,
+  selectSeasonDurationInWeeks,
 } from "redux-state"
 import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
@@ -24,6 +25,7 @@ function RewardsDetails({
   const startDate = useDappSelector(selectWeekStartDate)
   const endDate = useDappSelector(selectWeekEndDate)
   const seasonWeek = useDappSelector(selectSeasonWeek)
+  const duration = useDappSelector(selectSeasonDurationInWeeks)
 
   return (
     <div className="content">
@@ -35,7 +37,9 @@ function RewardsDetails({
                 <div className="content_details_weeks">
                   Total real rewards Week {seasonWeek}
                 </div>
-                <span style={{ color: "var(--secondary-s1-70)" }}>/ 12</span>
+                <span style={{ color: "var(--secondary-s1-70)" }}>
+                  / {duration}
+                </span>
               </>
             )}
           </div>

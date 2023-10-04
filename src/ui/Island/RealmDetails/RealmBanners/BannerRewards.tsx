@@ -5,6 +5,7 @@ import RealmIcon from "shared/components/RealmIcon"
 import {
   selectDisplayedRealmId,
   selectRealmById,
+  selectSeasonDurationInWeeks,
   selectSeasonWeek,
   useDappSelector,
 } from "redux-state"
@@ -18,6 +19,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
   const seasonWeek = useDappSelector(selectSeasonWeek)
+  const duration = useDappSelector(selectSeasonDurationInWeeks)
 
   const [congratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
@@ -73,9 +75,9 @@ export default function BannerRewards({ amount }: { amount: number }) {
             <div className="token_amount">{amount}</div>
             <div className="token_name">{realm.xpTokenSymbolPrefix}</div>
           </div>
-          {amount !== 0 && seasonWeek && (
+          {amount !== 0 && seasonWeek && duration && (
             <div className="xp_banner_date">
-              Latest: {MOCKED_LATEST_AMOUNT} XP (week {seasonWeek}/12)
+              Latest: {MOCKED_LATEST_AMOUNT} XP (week {seasonWeek}/{duration})
             </div>
           )}
         </div>

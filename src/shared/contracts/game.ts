@@ -30,5 +30,6 @@ export const getSeasonInfo: ReadTransactionBuilder<null, SeasonInfo> = async (
     season,
     seasonStartTimestamp,
     isInterSeason,
+    durationInWeeks: Number(process.env.SEASON_LENGTH_IN_WEEKS ?? "8"),
   }
 }

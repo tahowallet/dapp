@@ -33,4 +33,5 @@ export type SeasonInfo = {
   season: number
   seasonStartTimestamp: number
   isInterSeason: boolean
+  durationInWeeks: number
 }

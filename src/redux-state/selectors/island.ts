@@ -29,6 +29,9 @@ export const selectIslandZoomLevel = (state: RootState) =>
 export const selectSeasonStartTimestamp = (state: RootState) =>
   state.island.seasonInfo?.seasonStartTimestamp || Date.now()
 
+export const selectSeasonDurationInWeeks = (state: RootState) =>
+  state.island.seasonInfo?.durationInWeeks
+
 /* Displayed Realm - selectors */
 export const selectDisplayedRealmId = (state: RootState) =>
   state.island.displayedRealmId
