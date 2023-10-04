@@ -55,9 +55,10 @@ export default function RealmHeader() {
                 width="18px"
                 color="currentColor"
               />
-              XP Function
+              Questline
             </span>
-            <span>{realm?.xpfn}</span>
+            {/* TODO: Set the correct value when it will be defined */}
+            <span>NFT collector</span>
           </div>
         </div>
         <p className="realm_description">{realm?.description}</p>

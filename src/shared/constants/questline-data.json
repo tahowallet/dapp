@@ -1,0 +1,32 @@
+{
+    "realms": [
+        {
+            "realm": "0xhexaddressofrealmcontract",
+            "questlineUrl": "...",
+            "questlineHash": "0xhashafrash",
+            "description": "The realm is in need of a stronger Threshold Network. Strengthen it by depositing and redeeming tBTC, and staking or LPing T!",
+            "quests": [
+                {
+                    "name": "Stake T",
+                    "description": "Stake at least **100 T** for at least **2 days**"
+                },
+                {
+                    "name": "Operate T",
+                    "description": "Stake at least **5000 T** with a running operator for at least **3 weeks**"
+                },
+                {
+                    "name": "Mint tBTC",
+                    "description": "Mint at least **0.1 BTC** into tBTC."
+                },
+                {
+                    "name": "Redeem tBTC",
+                    "description": "Redeem at least **0.5 BTC** into tBTC."
+                },
+                {
+                    "name": "Mint and hold/use tBTC",
+                    "description": "Mint at least **0.1 BTC** into tBTC and hold it or transfer it to known LP contracts."
+                }
+            ]
+        }
+    ]
+}
