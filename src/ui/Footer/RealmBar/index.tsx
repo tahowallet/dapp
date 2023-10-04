@@ -25,13 +25,7 @@ export default function RealmsBar() {
   const progressBarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (
-      !realmsData.length ||
-      !maxPopulation ||
-      !minPopulation ||
-      !progressBarRef.current
-    )
-      return
+    if (!realmsData.length || !progressBarRef.current) return
 
     const { width } = progressBarRef.current.getBoundingClientRect()
 
