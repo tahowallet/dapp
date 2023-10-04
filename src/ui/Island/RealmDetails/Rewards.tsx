@@ -7,6 +7,7 @@ import {
   useDappSelector,
   selectWeekEndDate,
   selectSeasonDurationInWeeks,
+  selectIsEndOfSeason,
 } from "redux-state"
 import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
@@ -26,6 +27,7 @@ function RewardsDetails({
   const endDate = useDappSelector(selectWeekEndDate)
   const seasonWeek = useDappSelector(selectSeasonWeek)
   const duration = useDappSelector(selectSeasonDurationInWeeks)
+  const isEndOfSeason = useDappSelector(selectIsEndOfSeason)
 
   return (
     <div className="content">
@@ -43,7 +45,10 @@ function RewardsDetails({
               </>
             )}
           </div>
-          {startDate && endDate && (
+          {/* TODO: Currently there is no information on what the end of season
+          should look like. Let's block the date range for now when the season
+          is over. */}
+          {startDate && endDate && !isEndOfSeason && (
             <div className="content_details_range">
               {`${printData(startDate)}  - ${printData(endDate)}`}
             </div>

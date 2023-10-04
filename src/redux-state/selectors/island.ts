@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
+import { DAY } from "shared/constants"
 import { isSameAddress } from "shared/utils"
 
 export const selectIslandMode = (state: RootState) => state.island.mode
@@ -35,16 +36,37 @@ export const selectRealmWithIdByAddress = createSelector(
 
 /* Season info  - selectors */
 export const selectSeasonStartTimestamp = (state: RootState) =>
-  // TODO: Delete when the season date has been set
-  state.island.seasonInfo?.seasonStartTimestamp || Date.now()
+  state.island.seasonInfo?.seasonStartTimestamp
+
+export const selectSeasonEndTimestamp = (state: RootState) =>
+  state.island.seasonInfo?.seasonEndTimestamp
 
 export const selectSeasonDurationInWeeks = (state: RootState) =>
   state.island.seasonInfo?.durationInWeeks
 
+export const selectIsEndOfSeason = createSelector(
+  selectSeasonEndTimestamp,
+  (seasonEndTimestamp) => {
+    if (seasonEndTimestamp) {
+      return Date.now() > seasonEndTimestamp
+    }
+    return null
+  }
+)
+
 export const selectSeasonWeek = createSelector(
   selectSeasonStartTimestamp,
-  (seasonStartTimestamp) =>
-    seasonStartTimestamp ? (Date.now() - seasonStartTimestamp) / 7 + 1 : null
+  selectIsEndOfSeason,
+  selectSeasonDurationInWeeks,
+  (seasonStartTimestamp, isEndOfSeason, durationInWeeks) => {
+    if (isEndOfSeason) return durationInWeeks
+
+    if (seasonStartTimestamp && durationInWeeks) {
+      return Math.trunc((Date.now() - seasonStartTimestamp) / (7 * DAY) + 1)
+    }
+
+    return null
+  }
 )
 
 export const selectWeekStartDate = createSelector(

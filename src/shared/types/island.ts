@@ -35,6 +35,7 @@ export type OverlayType = "dark" | "subtle" | "none"
 export type SeasonInfo = {
   season: number
   seasonStartTimestamp: number
+  seasonEndTimestamp: number
   isInterSeason: boolean
   durationInWeeks: number
 }
