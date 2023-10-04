@@ -159,26 +159,27 @@ export function getCurrentCanvasPosition(
 const POPULATION_ICON_SIZE = 24
 const POPULATION_BAR_GAP = 8
 
-export function calculateRealmsByPopulationIconPositions(
+export function calculatePopulationIconsPositions(
   width: number,
   realmsData: RealmsData[],
+  minValue: number,
   maxValue: number
 ) {
   const positions: number[] = []
 
   realmsData.forEach((realm, index) => {
-    const populationShare = realm.population / maxValue
-    let iconPosition = populationShare * width
+    const populationShare = realm.population / (maxValue - minValue)
+    const iconPosition = populationShare * width
 
-    if (iconPosition < positions[index - 1] + POPULATION_ICON_SIZE) {
-      iconPosition = positions[index - 1] + POPULATION_ICON_SIZE
-    } else if (iconPosition >= width) {
-      iconPosition = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
-    } else if (iconPosition === 0) {
-      iconPosition = POPULATION_BAR_GAP
+    if (realm.population === maxValue) {
+      positions[index] = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
+    } else if (realm.population === minValue) {
+      positions[index] = POPULATION_BAR_GAP
+    } else if (iconPosition < positions[index - 1] + POPULATION_ICON_SIZE) {
+      positions[index] = positions[index - 1] + POPULATION_ICON_SIZE
+    } else {
+      positions[index] = iconPosition
     }
-
-    positions[index] = iconPosition
   })
 
   return positions

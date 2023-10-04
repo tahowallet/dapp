@@ -3,10 +3,11 @@ import populationIcon from "shared/assets/icons/people.svg"
 import Icon from "shared/components/Icon"
 import Tooltip from "shared/components/Tooltip"
 import {
-  calculateRealmsByPopulationIconPositions,
+  calculatePopulationIconsPositions,
   separateThousandsByComma,
 } from "shared/utils"
 import {
+  selectMinPopulation,
   selectMaxPopulation,
   selectSortedPopulation,
   selectTotalPopulation,
@@ -18,22 +19,33 @@ export default function RealmsBar() {
   const realmsData = useDappSelector(selectSortedPopulation)
   const totalPopulation = useDappSelector(selectTotalPopulation)
   const maxPopulation = useDappSelector(selectMaxPopulation)
+  const minPopulation = useDappSelector(selectMinPopulation)
 
   const [positions, setPositions] = useState<number[]>([])
   const progressBarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!realmsData.length || !maxPopulation || !progressBarRef.current) return
+    if (
+      !realmsData.length ||
+      !maxPopulation ||
+      !minPopulation ||
+      !progressBarRef.current
+    )
+      return
 
     const { width } = progressBarRef.current.getBoundingClientRect()
-    const pos = calculateRealmsByPopulationIconPositions(
+
+    const pos = calculatePopulationIconsPositions(
       width,
       realmsData,
+      minPopulation,
       maxPopulation
     )
 
     setPositions(pos)
-  }, [realmsData, maxPopulation, progressBarRef])
+  }, [realmsData, minPopulation, maxPopulation, progressBarRef])
+
+  if (!totalPopulation) return null
 
   return (
     <>

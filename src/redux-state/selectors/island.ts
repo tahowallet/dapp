@@ -54,22 +54,7 @@ export const selectStakingRealmAddress = createSelector(
     stakingRealmId && realms[stakingRealmId]?.realmContractAddress
 )
 
-/* Helpful selectors */
-export const selectIsStakingRealmDisplayed = createSelector(
-  selectStakingRealmAddress,
-  selectDisplayedRealmAddress,
-  (stakingAddress, displayedAddress) =>
-    !!stakingAddress &&
-    !!displayedAddress &&
-    isSameAddress(stakingAddress, displayedAddress)
-)
-
-export const selectStakeUnlockTime = (state: RootState) =>
-  state.island.stakeUnlockTime
-
-export const selectIslandZoomLevel = (state: RootState) =>
-  state.island.zoomLevel
-
+/* Population - selector */
 export const selectSortedPopulation = (state: RootState) => {
   const fetchedData = Object.entries(state.island.realms).map(([id, data]) => ({
     id,
@@ -79,6 +64,11 @@ export const selectSortedPopulation = (state: RootState) => {
   const sortedRealms = fetchedData.sort((a, b) => a.population - b.population)
   return sortedRealms
 }
+
+export const selectPopulationById = createSelector(
+  selectRealmById,
+  (realm) => realm?.population ?? 0
+)
 
 export const selectTotalPopulation = createSelector(
   selectSortedPopulation,
@@ -94,7 +84,24 @@ export const selectMaxPopulation = createSelector(
     realms.length ? Math.max(...realms.map((realm) => realm.population)) : 0
 )
 
-export const selectPopulationById = createSelector(
-  selectRealmById,
-  (realm) => realm?.population ?? 0
+export const selectMinPopulation = createSelector(
+  selectSortedPopulation,
+  (realms) =>
+    realms.length ? Math.min(...realms.map((realm) => realm.population)) : 0
 )
+
+/* Helpful selectors */
+export const selectIsStakingRealmDisplayed = createSelector(
+  selectStakingRealmAddress,
+  selectDisplayedRealmAddress,
+  (stakingAddress, displayedAddress) =>
+    !!stakingAddress &&
+    !!displayedAddress &&
+    isSameAddress(stakingAddress, displayedAddress)
+)
+
+export const selectStakeUnlockTime = (state: RootState) =>
+  state.island.stakeUnlockTime
+
+export const selectIslandZoomLevel = (state: RootState) =>
+  state.island.zoomLevel
