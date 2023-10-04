@@ -1,18 +1,19 @@
 import React, {
   MutableRefObject,
-  useCallback,
   useContext,
   useEffect,
   useState,
+  useCallback,
 } from "react"
 import {
   fetchWalletBalances,
-  selectStakeUnlockTime,
   useDappDispatch,
+  selectStakeUnlockTime,
   useDappSelector,
 } from "redux-state"
 import { SECOND } from "shared/constants"
 import {
+  fetchPopulation,
   initRealmsDataFromContracts,
   initSeasonInfoData,
 } from "redux-state/thunks/island"
@@ -63,6 +64,7 @@ export function useFetchRealmsContracts() {
     const fetchRealms = async () => {
       await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchWalletBalances())
+      await dispatch(fetchPopulation())
       setHasAlreadyFetched(true)
     }
 

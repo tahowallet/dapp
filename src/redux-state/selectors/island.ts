@@ -25,12 +25,51 @@ export const selectStakeUnlockTime = (state: RootState) =>
 export const selectIslandZoomLevel = (state: RootState) =>
   state.island.zoomLevel
 
-// TODO: Delete when the season date has been set
+export const selectRealmWithIdByAddress = createSelector(
+  [selectRealms, (_, realmAddress: string) => realmAddress],
+  (realms, realmAddress) =>
+    Object.entries(realms).find(([_, { realmContractAddress }]) =>
+      isSameAddress(realmContractAddress, realmAddress)
+    )
+)
+
+/* Season info  - selectors */
 export const selectSeasonStartTimestamp = (state: RootState) =>
+  // TODO: Delete when the season date has been set
   state.island.seasonInfo?.seasonStartTimestamp || Date.now()
 
 export const selectSeasonDurationInWeeks = (state: RootState) =>
   state.island.seasonInfo?.durationInWeeks
+
+export const selectSeasonWeek = createSelector(
+  selectSeasonStartTimestamp,
+  (seasonStartTimestamp) =>
+    seasonStartTimestamp ? (Date.now() - seasonStartTimestamp) / 7 + 1 : null
+)
+
+export const selectWeekStartDate = createSelector(
+  selectSeasonStartTimestamp,
+  selectSeasonWeek,
+  (seasonStartTimestamp, seasonWeek) => {
+    if (seasonStartTimestamp && seasonWeek) {
+      const startDate = new Date(seasonStartTimestamp)
+      startDate.setDate(startDate.getDate() + (seasonWeek - 1) * 7)
+      return startDate
+    }
+    return null
+  }
+)
+
+export const selectWeekEndDate = createSelector(
+  selectWeekStartDate,
+  (startDate) => {
+    if (!startDate) return null
+
+    const endDate = new Date()
+    endDate.setDate(startDate.getDate() + 6)
+    return endDate
+  }
+)
 
 /* Displayed Realm - selectors */
 export const selectDisplayedRealmId = (state: RootState) =>
@@ -69,32 +108,31 @@ export const selectIsStakingRealmDisplayed = createSelector(
     isSameAddress(stakingAddress, displayedAddress)
 )
 
-export const selectSeasonWeek = createSelector(
-  selectSeasonStartTimestamp,
-  (seasonStartTimestamp) =>
-    seasonStartTimestamp ? (Date.now() - seasonStartTimestamp) / 7 + 1 : null
+export const selectSortedPopulation = (state: RootState) => {
+  const fetchedData = Object.entries(state.island.realms).map(([id, data]) => ({
+    id,
+    ...data,
+  }))
+
+  const sortedRealms = fetchedData.sort((a, b) => a.population - b.population)
+  return sortedRealms
+}
+
+export const selectTotalPopulation = createSelector(
+  selectSortedPopulation,
+  (realms) =>
+    realms.length
+      ? realms.map((realm) => realm.population).reduce((a, b) => a + b)
+      : 0
 )
 
-export const selectWeekStartDate = createSelector(
-  selectSeasonStartTimestamp,
-  selectSeasonWeek,
-  (seasonStartTimestamp, seasonWeek) => {
-    if (seasonStartTimestamp && seasonWeek) {
-      const startDate = new Date(seasonStartTimestamp)
-      startDate.setDate(startDate.getDate() + (seasonWeek - 1) * 7)
-      return startDate
-    }
-    return null
-  }
+export const selectMaxPopulation = createSelector(
+  selectSortedPopulation,
+  (realms) =>
+    realms.length ? Math.max(...realms.map((realm) => realm.population)) : 0
 )
 
-export const selectWeekEndDate = createSelector(
-  selectWeekStartDate,
-  (startDate) => {
-    if (!startDate) return null
-
-    const endDate = new Date()
-    endDate.setDate(startDate.getDate() + 6)
-    return endDate
-  }
+export const selectPopulationById = createSelector(
+  selectRealmById,
+  (realm) => realm?.population ?? 0
 )

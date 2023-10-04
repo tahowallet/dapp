@@ -1,8 +1,8 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import classnames from "classnames"
 
 type ButtonProps = {
-  children: string
+  children: ReactNode
   /**
    * @default "primary"
    */

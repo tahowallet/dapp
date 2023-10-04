@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import TabPanel from "shared/components/TabPanel"
 import {
   selectEligibility,
@@ -15,6 +15,7 @@ import BannerJoin from "./RealmBanners/BannerJoin"
 import BannerClaim from "./RealmBanners/BannerClaim"
 import Rewards from "./Rewards"
 import BannerRewards from "./RealmBanners/BannerRewards"
+import Council from "./Council"
 
 const MOCKED_REWARD_AMOUNT = 20.123
 
@@ -67,7 +68,7 @@ function RealmDetailsBanner({
 }
 
 export default function RealmDetails({ onClose }: RealmDetailsProps) {
-  const [activeTab, setActiveTab] = React.useState(0)
+  const [activeTab, setActiveTab] = useState(0)
 
   return (
     <>
@@ -91,8 +92,7 @@ export default function RealmDetails({ onClose }: RealmDetailsProps) {
           { label: "Leaderboard", component: <Leaderboard /> },
           {
             label: "Council",
-            component: null,
-            // TODO: <Council />
+            component: <Council />,
           },
         ]}
       />
