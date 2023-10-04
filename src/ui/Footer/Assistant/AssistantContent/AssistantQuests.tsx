@@ -1,17 +1,32 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import starIcon from "shared/assets/icons/star-2.svg"
-import AssistantContent, { AssistantContentProps } from "."
+import {
+  selectAssistant,
+  selectRealmById,
+  selectStakingRealmId,
+  setAssistant,
+  useDappDispatch,
+  useDappSelector,
+} from "redux-state"
+import AssistantContent from "."
 
-export default function AssistantQuests({
-  isVisible,
-  close,
-}: AssistantContentProps) {
+export default function AssistantQuests() {
+  const stakedRealm = useDappSelector(selectStakingRealmId)
+  const realm = useDappSelector((state) => selectRealmById(state, stakedRealm))
+
+  const { questsPopup, visible } = useDappSelector(selectAssistant)
+  const dispatch = useDappDispatch()
+
   return (
     <>
-      <AssistantContent isVisible={isVisible} close={close}>
+      <AssistantContent
+        isVisible={questsPopup.staked && !questsPopup.closed && visible}
+        close={() => dispatch(setAssistant("close-quests"))}
+      >
         <div className="header">
-          You are now a Citizen of Arbiland, I think you&apos;ll like it here!
+          You are now a Citizen of {realm?.name}, I think you&apos;ll like it
+          here!
         </div>
         <div className="hint row">
           <Icon

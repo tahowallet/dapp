@@ -3,6 +3,19 @@ import { OverlayType, RealmData, RealmDataWithId } from "shared/types"
 
 type IslandModeType = "default" | "join-realm"
 
+type Assistant = {
+  welcomePopup: { closed: boolean }
+  questsPopup: { staked: boolean; closed: boolean }
+  visible: boolean
+}
+
+type AssistantPayload =
+  | "close-welcome"
+  | "join-region"
+  | "close-quests"
+  | "toggle-popup"
+  | "close-popup"
+
 export type IslandState = {
   mode: IslandModeType
   overlay: OverlayType
@@ -11,6 +24,7 @@ export type IslandState = {
   stakeUnlockTime: number | null
   displayedRealmId: string | null
   zoomLevel: number
+  assistant: Assistant
 }
 
 const initialState: IslandState = {
@@ -21,6 +35,11 @@ const initialState: IslandState = {
   stakeUnlockTime: null,
   displayedRealmId: null,
   zoomLevel: 1,
+  assistant: {
+    welcomePopup: { closed: false },
+    questsPopup: { staked: false, closed: false },
+    visible: true,
+  },
 }
 
 const islandSlice = createSlice({
@@ -80,6 +99,43 @@ const islandSlice = createSlice({
     ) => {
       immerState.stakeUnlockTime = stakeUnlockTime
     },
+    setAssistant: (immerState, { payload }: { payload: AssistantPayload }) => {
+      let updatedAssistant = {} // TODO: adjust types
+
+      // eslint-disable-next-line default-case
+      switch (payload) {
+        case "close-welcome":
+          updatedAssistant = { welcomePopup: { closed: true }, visible: false }
+          break
+        case "close-quests":
+          updatedAssistant = {
+            questsPopup: {
+              closed: true,
+              staked: immerState.assistant.questsPopup.staked,
+            },
+            visible: false,
+          }
+          break
+        case "join-region":
+          updatedAssistant = {
+            welcomePopup: { closed: true },
+            questsPopup: { closed: false, staked: true },
+            visible: true,
+          }
+          break
+        case "toggle-popup":
+          updatedAssistant = { visible: !immerState.assistant.visible }
+          break
+        case "close-popup":
+          updatedAssistant = { visible: false }
+          break
+      }
+
+      immerState.assistant = {
+        ...immerState.assistant,
+        ...updatedAssistant,
+      }
+    },
     resetIsland: (immerState) => {
       immerState.mode = "default"
       immerState.overlay = "none"
@@ -97,6 +153,7 @@ export const {
   setDisplayedRealmId,
   setStakingRealmId,
   setStakingUnlockTime,
+  setAssistant,
 } = islandSlice.actions
 
 export default islandSlice.reducer
