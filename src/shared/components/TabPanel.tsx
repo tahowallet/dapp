@@ -1,5 +1,6 @@
 import React from "react"
 import classnames from "classnames"
+import crossWhiteIcon from "shared/assets/icons/cross-white.svg"
 
 export default function TabPanel({
   tabs,
@@ -37,6 +38,7 @@ export default function TabPanel({
           border-bottom: 1px solid var(--secondary-s1-20);
         }
         li {
+          position: relative;
           color: var(--secondary-s1-60);
         }
         button {
@@ -49,7 +51,15 @@ export default function TabPanel({
         li.active {
           color: var(--secondary-s1-100);
         }
-
+        li.active:after {
+          content: url(${crossWhiteIcon});
+          width: 17px;
+          position: absolute;
+          bottom: -23px;
+          right: 0;
+          left: 0;
+          margin: 0 auto;
+        }
         .content {
           min-height: 200px;
         }
