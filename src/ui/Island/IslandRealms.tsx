@@ -2,22 +2,31 @@ import React, { useMemo } from "react"
 import useImage from "use-image"
 
 import backgroundImg from "public/dapp_island_bg.webp"
-import { realms } from "shared/constants"
+import { REALMS_WITH_CONTRACT_NAME, REALMS_MAP_DATA } from "shared/constants"
 import { createCutoutFromPath } from "shared/utils"
+import { selectRealms, useDappSelector } from "redux-state"
 import Realm from "./Realm"
 
 export default function IslandRealms() {
+  const realms = useDappSelector(selectRealms)
   const [bg] = useImage(backgroundImg)
   const realmImgLayers = useMemo(() => {
     if (!bg) {
       return []
     }
 
-    return realms.map((realm) => ({
-      realm,
-      layer: createCutoutFromPath(realm, bg),
-    }))
-  }, [bg])
+    return REALMS_MAP_DATA.map((realm) => {
+      const updatedRealm = {
+        ...realm,
+        name:
+          // TODO: The name of the realm should be taken from the contracts.
+          // At the moment, these aren't available. Let's use mocked data for this moment.
+          realms[realm.id]?.name ||
+          REALMS_WITH_CONTRACT_NAME[realm.id].realmName,
+      }
+      return { realm: updatedRealm, layer: createCutoutFromPath(realm, bg) }
+    })
+  }, [bg, realms])
 
   return (
     <>

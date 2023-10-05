@@ -1,41 +1,53 @@
-import { RealmCustomData } from "shared/types"
+import { RealmQuestlineData } from "shared/types"
 import { realm19, realm22, realm4, realm7, realm9 } from "./realms-data"
-import CUSTOM_DATA from "./realms-details.json"
+import QUESTLINE_DATA from "../../data/questline-data.json"
 
 // TODO: names and ids may change
-export const REALMS_WITH_CONTRACT_NAME: { [id: string]: { name: string } } = {
+export const REALMS_WITH_CONTRACT_NAME: {
+  [id: string]: { name: string; realmName: string }
+} = {
   "4": {
     name: "VAMPIRE_REALM",
+    realmName: "Smiterin",
   },
   "7": {
     name: "EDUCATE_REALM",
+    realmName: "Blockhaven",
   },
   "9": {
     name: "SOCIAL_REALM",
+    realmName: "SilverTown",
   },
   "19": {
     name: "CREATORS_REALM",
+    realmName: "The Keep",
   },
   "22": {
     name: "DEFI_REALM",
+    realmName: "Brownstone",
   },
 }
 
-// TODO: read the correct custom data for realms
-// The custom data should be read from a JSON file.
+// TODO: read the correct questline data for realms
+// The questline data should be read from a JSON file.
 // Currently, the structure of the file isn't yet known and should be updated later.
 // The data is not yet ready, so it has been mocked.
-export function getRealmCustomData(
-  realmId: string
-): { name: string } & RealmCustomData {
-  const realm = CUSTOM_DATA.realms.find(({ id }) => id === realmId)
+export function getQuestlineData(
+  realmContractAddress: string
+): RealmQuestlineData {
+  // TODO: Delete when questline data is ready for use
+  const realmWithQuestline = QUESTLINE_DATA.realms[0]
+  // const realmWithQuestline = QUESTLINE_DATA.realms.find(
+  //   ({ realm }) => realm === realmContractAddress
+  // )
 
-  if (!realm) {
-    throw new Error(`Missing data for realm ${realmId}`)
+  if (!realmWithQuestline) {
+    throw new Error(`Missing data for realm ${realmContractAddress}`)
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, ...customData } = realm
-  return customData
+  const { realm, ...questlineData } = realmWithQuestline
+
+  return { ...questlineData, questlineName: questlineData.name }
 }
 
 export const ISLAND_BOX = {
@@ -43,21 +55,28 @@ export const ISLAND_BOX = {
   height: 3944,
 }
 
-export const realms = [realm4, realm7, realm9, realm19, realm22].map(
-  (realm) => {
-    const { color, name } = getRealmCustomData(realm.id)
-    return { ...realm, color, name }
-  }
-)
+export const REALMS_MAP_DATA = [realm4, realm7, realm9, realm19, realm22]
 
-export const REALMS_COUNT = realms.length
+export const REALMS_COUNT = REALMS_MAP_DATA.length
 
-export function getRealmMapData(realmId: string): (typeof realms)[number] {
-  const pathData = realms.find((realm) => realm.id === realmId)
+export function getRealmMapData(
+  realmId: string
+): (typeof REALMS_MAP_DATA)[number] {
+  const pathData = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
 
   if (!pathData) {
     throw new Error(`Missing data for realm ${realmId}`)
   }
 
   return pathData
+}
+
+export function getRealmColor(realmId: string): string {
+  const color = REALMS_MAP_DATA.find((realm) => realm.id === realmId)?.color
+
+  if (!color) {
+    throw new Error(`Missing color for realm ${realmId}`)
+  }
+
+  return color
 }
