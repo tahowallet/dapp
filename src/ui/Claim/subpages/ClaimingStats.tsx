@@ -6,12 +6,12 @@ import infoIcon from "shared/assets/icons/m/info.svg"
 import Accordion from "shared/components/Accordion"
 import { useDappSelector, selectEligibility } from "redux-state"
 import { RealmCutout } from "shared/components/RealmCutout"
-import { getRealmCustomData } from "shared/constants"
 import ClaimCheckRules from "../components/ClaimCheckRules"
 
 const MOCK_REALM = {
   population: "12,345",
-  ...getRealmCustomData("4"),
+  name: "The Keep",
+  color: "#DC7633",
 }
 
 export default function ClaimingStats() {

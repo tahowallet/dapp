@@ -62,7 +62,9 @@ export const getRealmData: ReadTransactionBuilder<
       const xpTokenNamePrefix: string = await realmContract.xpTokenNamePrefix()
       const xpTokenSymbolPrefix: string =
         await realmContract.xpTokenSymbolPrefix()
-      const questlineUrl: string = await realmContract.questlineUrl()
+      // TODO: The URL will be related with the XpDistributed event.
+      // The function should be updated when the contracts are ready.
+      const merkleDataUrl: string = await realmContract.questlineUrl()
 
       return {
         id,
@@ -71,7 +73,7 @@ export const getRealmData: ReadTransactionBuilder<
           name,
           xpTokenNamePrefix,
           xpTokenSymbolPrefix,
-          questlineUrl,
+          merkleDataUrl,
           // Population is fetched after all Realm data is initialized
           // and contract addresses are saved in the state to ensure that
           // calculating population based on the Events is not blocking
