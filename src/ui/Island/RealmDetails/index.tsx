@@ -13,7 +13,7 @@ import Staking from "./Staking"
 import BannerConnect from "./RealmBanners/BannerConnect"
 import BannerJoin from "./RealmBanners/BannerJoin"
 import BannerClaim from "./RealmBanners/BannerClaim"
-import Rewards from "./Rewards"
+import Quests from "./Quests"
 import BannerRewards from "./RealmBanners/BannerRewards"
 import Council from "./Council"
 
@@ -82,8 +82,8 @@ export default function RealmDetails({ onClose }: RealmDetailsProps) {
         setActiveTab={setActiveTab}
         tabs={[
           {
-            label: "Rewards",
-            component: <Rewards />,
+            label: "Quests",
+            component: <Quests />,
           },
           {
             label: "Stake",
