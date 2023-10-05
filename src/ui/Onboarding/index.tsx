@@ -24,8 +24,8 @@ export default function Onboarding() {
     <>
       <div className="onboarding">
         {!isConnected && <ConnectWallet />}
-        {isConnected && !tahoBalance && <JoinWaitlist />}
-        {isConnected && tahoBalance && <EnterPortal />}
+        {isConnected && tahoBalance <= 0 && <JoinWaitlist />}
+        {isConnected && tahoBalance > 0 && <EnterPortal />}
       </div>
       <Nav />
       <style jsx>{`
