@@ -4,9 +4,10 @@ import {
   selectWalletAvatar,
   selectWalletName,
   selectStakingRealmId,
+  selectRealmById,
 } from "redux-state"
-import { getRealmData } from "shared/constants"
 import RealmIcon from "shared/components/RealmIcon"
+import { getRealmColor } from "shared/constants"
 import AccountDropdown from "./AccountDropdown"
 
 export default function AccountInfo() {
@@ -15,11 +16,9 @@ export default function AccountInfo() {
 
   const name = useDappSelector(selectWalletName)
   const avatar = useDappSelector(selectWalletAvatar)
-  const stakingRealmId = useDappSelector(selectStakingRealmId)
-
-  const realm = stakingRealmId ? getRealmData(stakingRealmId) : null
-
-  if (!name) return null
+  const realmId = useDappSelector(selectStakingRealmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
+  const color = realmId && getRealmColor(realmId)
 
   return (
     <div className="account_container row">
@@ -29,10 +28,10 @@ export default function AccountInfo() {
           close={() => setIsDropdownOpen(false)}
         />
       )}
-      {realm && (
+      {realm && realmId && color && (
         <div className="realm_container row">
-          <RealmIcon realmId={realm.id} type="fill" color={realm.color} />
-          <span className="realm_label" style={{ color: realm.color }}>
+          <RealmIcon realmId={realmId} type="fill" color={color} />
+          <span className="realm_label" style={{ color }}>
             {realm.name}
           </span>
         </div>

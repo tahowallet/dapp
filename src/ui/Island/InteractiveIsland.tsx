@@ -2,29 +2,41 @@ import React, { useCallback, useRef, useState } from "react"
 import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
 import rafSchd from "raf-schd"
-
-import { useDappSelector } from "redux-state"
-import { selectIslandOverlay } from "redux-state/selectors/island"
+import {
+  setIslandZoomLevel,
+  useDappDispatch,
+  useDappSelector,
+} from "redux-state"
+import {
+  selectIslandOverlay,
+  selectIslandZoomLevel,
+} from "redux-state/selectors/island"
 import { ISLAND_BOX } from "shared/constants"
 import { useValueRef, useBeforeFirstPaint, useOnResize } from "shared/hooks"
 import {
   getWindowDimensions,
   getMinimumScale,
   limitToBounds,
+  calculateNewIslandScale,
+  calculateIslandPosition,
+  getCurrentCanvasPosition,
 } from "shared/utils"
+import Controls from "ui/Controls"
+import Assistant from "ui/Footer/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
 import RealmPin from "./RealmPin"
 
 export default function InteractiveIsland() {
   const settingsRef = useRef({ minScale: 0 })
-  const [zoomLevel, setZoomLevel] = useState(1)
   const [stageBounds, setStageDimensions] = useState(() =>
     getWindowDimensions()
   )
   const islandRef = useRef<Konva.Stage | null>(null)
 
   const overlay = useDappSelector(selectIslandOverlay)
+  const zoomLevel = useDappSelector(selectIslandZoomLevel)
+  const dispatch = useDappDispatch()
 
   const stageFns = useValueRef(() => {
     const resetZoom = () => {
@@ -36,7 +48,7 @@ export default function InteractiveIsland() {
       const minZoom = getMinimumScale(ISLAND_BOX, box)
       settingsRef.current.minScale = minZoom
 
-      setZoomLevel(minZoom)
+      dispatch(setIslandZoomLevel(minZoom))
       stageFns.current.centerIsland(minZoom)
     }
 
@@ -64,10 +76,9 @@ export default function InteractiveIsland() {
       const zoomFactor = 0.001
       const { minScale } = settingsRef.current
 
-      const newScale = limitToBounds(
+      const newScale = calculateNewIslandScale(
         zoom + delta * -zoomFactor,
-        minScale,
-        Math.max(0.45, minScale)
+        minScale
       )
 
       const stagePos = stage.absolutePosition()
@@ -75,28 +86,23 @@ export default function InteractiveIsland() {
 
       if (pointer && newScale !== zoom) {
         // Get current mouse position in the canvas
-        const pointerCanvasPos = {
-          x: -(pointer.x - stagePos.x) / zoom,
-          y: -(pointer.y - stagePos.y) / zoom,
-        }
-
-        const maxX = ISLAND_BOX.width - stage.width() / newScale
-        const maxY = ISLAND_BOX.height - stage.height() / newScale
+        const pointerCanvasPos = getCurrentCanvasPosition(
+          -(pointer.x - stagePos.x),
+          -(pointer.y - stagePos.y),
+          zoom
+        )
 
         // Add back pointer position to retrieve "same canvas position" offset
         const targetX = pointerCanvasPos.x * newScale + pointer.x
         const targetY = pointerCanvasPos.y * newScale + pointer.y
 
-        stage.scale({ x: newScale, y: newScale })
-
         // Force bounds while zooming in/out
-        stage.absolutePosition({
-          x: limitToBounds(targetX, -maxX * newScale, 0),
-          y: limitToBounds(targetY, -maxY * newScale, 0),
-        })
+        stage.absolutePosition(
+          calculateIslandPosition(stage, newScale, targetX, targetY)
+        )
 
-        // Manually update the stage scale and queue a state update
-        setZoomLevel(newScale)
+        // Update the stage scale
+        dispatch(setIslandZoomLevel(newScale))
       }
       acc = 0
     })
@@ -146,19 +152,26 @@ export default function InteractiveIsland() {
   [])
 
   return (
-    <Stage
-      ref={islandRef}
-      draggable
-      dragBoundFunc={restrictDragBounds}
-      scale={{ x: zoomLevel, y: zoomLevel }}
-      width={stageBounds.width}
-      height={stageBounds.height}
-    >
-      <Layer>
-        <Background overlay={overlay} />
-        <Realms />
-        <RealmPin />
-      </Layer>
-    </Stage>
+    <>
+      <Stage
+        ref={islandRef}
+        draggable
+        dragBoundFunc={restrictDragBounds}
+        scale={{ x: zoomLevel, y: zoomLevel }}
+        width={stageBounds.width}
+        height={stageBounds.height}
+      >
+        <Layer>
+          <Background overlay={overlay} />
+          <Realms />
+          <RealmPin />
+        </Layer>
+      </Stage>
+      <Assistant />
+      <Controls
+        stage={islandRef.current}
+        minScale={settingsRef.current.minScale}
+      />
+    </>
   )
 }

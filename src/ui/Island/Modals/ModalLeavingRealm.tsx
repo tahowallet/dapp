@@ -4,32 +4,40 @@ import Icon from "shared/components/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 import Button from "shared/components/Button"
 
-import { getRealmData } from "shared/constants"
+import TransactionProgress, {
+  TransactionProgressProps,
+} from "shared/components/Transactions/TransactionProgress"
+import { isTransactionPending } from "shared/utils"
+import { selectRealmById, useDappSelector } from "redux-state"
 
 type ModalLeavingRealmProps = {
   realmId: string
+  transaction: TransactionProgressProps
   close: () => void
 }
 
 export default function ModalLeavingRealm({
   realmId,
   close,
+  transaction,
 }: ModalLeavingRealmProps) {
-  const { name: realmName } = getRealmData(realmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
+
+  const isPending = isTransactionPending(transaction.status)
 
   return (
     <>
       <Modal.Container type="fullscreen" onClickOutside={close}>
         <Modal.AnimatedContent>
           <div className="modal">
-            <h1 className="modal_header">Leaving {realmName}</h1>
+            <h1 className="modal_header">Leaving {realm?.name}</h1>
             <div className="modal_infobox">
               <div className="modal_hint row_center">
                 <Icon src={lightIcon} type="image" width="24px" height="24px" />
                 <p className="modal_hint_text">Keep in mind</p>
               </div>
               <p style={{ paddingRight: 5 }}>
-                If you leave {realmName} now, you are{" "}
+                If you leave {realm?.name} now, you are{" "}
                 <span>giving up the rewards</span> that you would receive this
                 week.
               </p>
@@ -38,12 +46,19 @@ export default function ModalLeavingRealm({
               </p>
             </div>
             <div className="modal_controls">
-              <Button size="large" onClick={close}>
-                I&apos;ll stay
-              </Button>
-              <Button size="large" type="secondary">
-                Yes, I want to leave
-              </Button>
+              {isPending || (
+                <Button size="large" onClick={close}>
+                  I&apos;ll stay
+                </Button>
+              )}
+              <TransactionProgress
+                title={isPending ? "Unstaking" : ""}
+                buttonSize="large"
+                buttonType="secondary"
+                buttonLabel="Yes, I want to leave"
+                status={transaction.status}
+                onClick={transaction.onClick}
+              />
             </div>
           </div>
         </Modal.AnimatedContent>

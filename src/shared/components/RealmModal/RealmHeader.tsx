@@ -4,26 +4,19 @@ import Icon from "shared/components/Icon"
 
 import iconCommunity from "shared/assets/icons/people.svg"
 import iconStar from "shared/assets/icons/star.svg"
-import { getRealmData } from "shared/constants"
 import {
   RealmCutout,
   RealmBackgroundCutout,
 } from "shared/components/RealmCutout"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
-
-export const mockData = {
-  details:
-    "KryptoKeep is the meeting place of explorers that have tried out the Keep Network",
-  pop: 34_350,
-  xpfn: "NFT Collector",
-} as const
+import {
+  selectDisplayedRealmId,
+  selectRealmById,
+  useDappSelector,
+} from "redux-state"
 
 export default function RealmHeader() {
   const realmId = useDappSelector(selectDisplayedRealmId)
-
-  if (!realmId) return null
-
-  const data = { ...mockData, ...getRealmData(realmId) }
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   return (
     <header className="column">
@@ -33,7 +26,7 @@ export default function RealmHeader() {
       <div className="realm_thumb">
         <RealmCutout />
       </div>
-      <h1>{data.name}</h1>
+      <h1>{realm?.name}</h1>
       <div className="realm_details_header column">
         <div className="tags row">
           <div className="tag column">
@@ -49,7 +42,7 @@ export default function RealmHeader() {
               />
               Population
             </span>
-            <span>{data.pop}</span>
+            <span>{realm?.population}</span>
           </div>
           <div className="tag column">
             <span
@@ -62,12 +55,12 @@ export default function RealmHeader() {
                 width="18px"
                 color="currentColor"
               />
-              XP Function
+              Questline
             </span>
-            <span>{data.xpfn}</span>
+            <span>{realm?.questlineName}</span>
           </div>
         </div>
-        <p className="realm_description">{data.details}</p>
+        <p className="realm_description">{realm?.description}</p>
       </div>
       <style jsx>
         {`

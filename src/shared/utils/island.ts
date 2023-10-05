@@ -1,4 +1,7 @@
 import assert from "assert"
+import { Stage } from "konva/lib/Stage"
+import { ISLAND_BOX } from "shared/constants"
+import { RealmData } from "shared/types"
 
 type Dimensions = {
   width: number
@@ -13,6 +16,15 @@ type RealmRenderData = {
   y: number
   paths: { data: string }[]
 }
+
+type Coordinates = {
+  x: number
+  y: number
+}
+
+type RealmsData = {
+  id: string
+} & RealmData
 
 export function limitToBounds(val: number, min: number, max: number) {
   if (val < min) return min
@@ -109,4 +121,65 @@ export function createBackgroundMask(
 
   ctx.drawImage(bgImage, 0, 0)
   return canvas
+}
+
+export function calculateNewIslandScale(
+  newValue: number,
+  minScale: number
+): number {
+  const newScale = limitToBounds(newValue, minScale, Math.max(0.45, minScale))
+  return newScale
+}
+
+export function calculateIslandPosition(
+  stage: Stage,
+  newScale: number,
+  targetX: number,
+  targetY: number
+): Coordinates {
+  const maxX = ISLAND_BOX.width - stage.width() / newScale
+  const maxY = ISLAND_BOX.height - stage.height() / newScale
+
+  // Force bounds while zooming in/out
+  const newX = limitToBounds(targetX, -maxX * newScale, 0)
+  const newY = limitToBounds(targetY, -maxY * newScale, 0)
+
+  return { x: newX, y: newY }
+}
+
+export function getCurrentCanvasPosition(
+  positionX: number,
+  positionY: number,
+  zoom: number
+): Coordinates {
+  const canvasPosition = { x: positionX / zoom, y: positionY / zoom }
+  return canvasPosition
+}
+
+const POPULATION_ICON_SIZE = 24
+const POPULATION_BAR_GAP = 8
+
+export function calculateRealmsByPopulationIconPositions(
+  width: number,
+  realmsData: RealmsData[],
+  maxValue: number
+) {
+  const positions: number[] = []
+
+  realmsData.forEach((realm, index) => {
+    const populationShare = realm.population / maxValue
+    let iconPosition = populationShare * width
+
+    if (iconPosition < positions[index - 1] + POPULATION_ICON_SIZE) {
+      iconPosition = positions[index - 1] + POPULATION_ICON_SIZE
+    } else if (iconPosition >= width) {
+      iconPosition = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
+    } else if (iconPosition === 0) {
+      iconPosition = POPULATION_BAR_GAP
+    }
+
+    positions[index] = iconPosition
+  })
+
+  return positions
 }

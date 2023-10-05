@@ -3,6 +3,7 @@ import iconNotifCorrect from "shared/assets/icons/m/notif-correct.svg"
 import iconNotifWrong from "shared/assets/icons/m/notif-wrong.svg"
 import { TransactionProgressStatus } from "shared/types"
 import classNames from "classnames"
+import { isTransactionPending } from "shared/utils"
 import Button from "../Button"
 import Ripple from "../Loaders/Ripple"
 import Icon from "../Icon"
@@ -46,7 +47,7 @@ const statusToElementProps = [
     getLabel: (status: TransactionProgressStatus): string => {
       if (status === TransactionProgressStatus.Approving) return "Approving"
 
-      return status <= TransactionProgressStatus.Signing
+      return status === TransactionProgressStatus.Idle
         ? "Waiting for signature"
         : "Signed"
     },
@@ -54,10 +55,7 @@ const statusToElementProps = [
   },
   {
     id: "sending",
-    getLabel: (status: TransactionProgressStatus): string =>
-      status <= TransactionProgressStatus.Sending
-        ? "Sending transaction"
-        : "Sent",
+    getLabel: (): string => "Sending transaction",
     getStatus: createGetStatusFunction(TransactionProgressStatus.Sending),
   },
 ]
@@ -105,9 +103,7 @@ export default function TransactionProgress({
   onClick,
 }: TransactionProgressProps) {
   const isUninitialized = status === TransactionProgressStatus.Idle
-  const isInProgress =
-    status > TransactionProgressStatus.Idle &&
-    status < TransactionProgressStatus.Done
+  const isInProgress = isTransactionPending(status)
   const isDone = status === TransactionProgressStatus.Done
   const hasFailed = status === TransactionProgressStatus.Failed
 
