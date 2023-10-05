@@ -11,7 +11,7 @@ import {
 import InteractiveIsland from "./InteractiveIsland"
 import { IslandContext } from "../../shared/hooks/island"
 import RealmDetails from "./RealmDetails"
-import Rewards from "./RealmDetails/Rewards"
+import Quests from "./RealmDetails/Quests"
 
 const MemoizedInteractiveIsland = React.memo(InteractiveIsland)
 
@@ -75,7 +75,7 @@ export default function IslandWrapper() {
               <RealmDetails onClose={handleClose} />
             ) : (
               // TODO: update if claim flow will be used
-              <Rewards />
+              <Quests />
             )}
           </RealmModal>
         )}
