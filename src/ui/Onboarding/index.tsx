@@ -5,6 +5,7 @@ import { useDappSelector, selectTokenBalanceBySymbol } from "redux-state"
 import { parseTahoAmount } from "shared/utils"
 import FullPageLoader from "shared/components/Loaders/FullPage"
 import Nav from "ui/Nav"
+import { TAHO_SYMBOL } from "shared/constants"
 import ConnectWallet from "./ConnectWallet"
 import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
@@ -14,7 +15,7 @@ export default function Onboarding() {
   const assetsLoaded = useAssets([portalBackground])
 
   const tahoBalance = parseTahoAmount(
-    useDappSelector((state) => selectTokenBalanceBySymbol(state, "TAHO"))
+    useDappSelector((state) => selectTokenBalanceBySymbol(state, TAHO_SYMBOL))
   )
 
   if (!assetsLoaded) return <FullPageLoader />

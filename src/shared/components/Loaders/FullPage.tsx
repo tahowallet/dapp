@@ -1,5 +1,6 @@
 import React from "react"
 
+// Source: https://codepen.io/Vlad-Todirut/pen/LYMdvao
 export default function FullPageLoader() {
   return (
     <>
