@@ -8,6 +8,7 @@ import {
   selectDisplayedRealmAddress,
   selectTransactionStatusById,
   stopTrackingTransactionStatus,
+  selectStakingRealmAddress,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -23,6 +24,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const dispatch = useDappDispatch()
 
   const displayedRealmAddress = useDappSelector(selectDisplayedRealmAddress)
+  const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
 
   const [stakeAmount, setStakeAmount] = useState("")
   const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
@@ -58,24 +60,17 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     onClick: stakeTransaction,
   }
 
+  const openCongratulationsModal = () => {
+    if (!stakingRealmAddress) {
+      setCongratulationsModalOpen(true)
+    }
+  }
+
   const stakeTransactionSuccessCallback = useCallback(() => {
     setIsStakeTransactionModalOpen(false)
-    setCongratulationsModalOpen(true)
     setStakeAmount("")
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
   }, [dispatch])
-
-  useTransactionSuccessCallback(
-    stakeTransactionStatus,
-    stakeTransactionSuccessCallback
-  )
-
-  useEffect(
-    () => () => {
-      dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
-    },
-    [dispatch]
-  )
 
   const onInputChange = (value: string) => {
     setStakeAmount(value)
@@ -84,6 +79,18 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
       dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
     }
   }
+
+  useTransactionSuccessCallback(stakeTransactionStatus, () => {
+    stakeTransactionSuccessCallback()
+    openCongratulationsModal()
+  })
+
+  useEffect(
+    () => () => {
+      dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
+    },
+    [dispatch]
+  )
 
   return (
     <>
