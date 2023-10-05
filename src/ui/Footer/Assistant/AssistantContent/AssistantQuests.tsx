@@ -2,10 +2,10 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import starIcon from "shared/assets/icons/star-2.svg"
 import {
-  selectAssistant,
+  closeQuestsAssistant,
+  selectQuestsAssistantVisible,
   selectRealmById,
   selectStakingRealmId,
-  setAssistant,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
@@ -15,14 +15,14 @@ export default function AssistantQuests() {
   const stakedRealm = useDappSelector(selectStakingRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, stakedRealm))
 
-  const { questsPopup, visible } = useDappSelector(selectAssistant)
+  const visible = useDappSelector(selectQuestsAssistantVisible)
   const dispatch = useDappDispatch()
 
   return (
     <>
       <AssistantContent
-        isVisible={questsPopup.staked && !questsPopup.closed && visible}
-        close={() => dispatch(setAssistant("close-quests"))}
+        isVisible={visible}
+        close={() => dispatch(closeQuestsAssistant())}
       >
         <div className="header">
           You are now a Citizen of {realm?.name}, I think you&apos;ll like it

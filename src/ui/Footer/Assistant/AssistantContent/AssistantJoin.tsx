@@ -3,16 +3,15 @@ import Icon from "shared/components/Icon"
 import Button from "shared/components/Button"
 import discordIcon from "shared/assets/icons/discord.svg"
 import {
-  selectAssistant,
+  closeAssistant,
+  selectJoinAssistantVisible,
   useDappDispatch,
   useDappSelector,
-  setAssistant,
 } from "redux-state"
 import AssistantContent from "."
 
 export default function AssistantJoin() {
-  const { welcomePopup, questsPopup, visible } =
-    useDappSelector(selectAssistant)
+  const visible = useDappSelector(selectJoinAssistantVisible)
   const dispatch = useDappDispatch()
 
   const joinHandler = () => {
@@ -22,8 +21,8 @@ export default function AssistantJoin() {
   return (
     <>
       <AssistantContent
-        isVisible={welcomePopup.closed && questsPopup.closed && visible}
-        close={() => dispatch(setAssistant("close-popup"))}
+        isVisible={visible}
+        close={() => dispatch(closeAssistant())}
       >
         <div className="header">I hope you are enjoying The Island Beta</div>
         <p className="paragraph">

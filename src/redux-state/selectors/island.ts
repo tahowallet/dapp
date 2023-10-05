@@ -98,5 +98,3 @@ export const selectPopulationById = createSelector(
   selectRealmById,
   (realm) => realm?.population ?? 0
 )
-
-export const selectAssistant = (state: RootState) => state.island.assistant

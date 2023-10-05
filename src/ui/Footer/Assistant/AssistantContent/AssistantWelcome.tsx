@@ -2,22 +2,22 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import realmPointer from "shared/assets/realm-pointer.png"
 import {
+  closeWelcomeAssistant,
+  selectWelcomeAssistantVisible,
   useDappDispatch,
-  setAssistant,
   useDappSelector,
-  selectAssistant,
 } from "redux-state"
 import AssistantContent from "."
 
 export default function AssistantWelcome() {
-  const { welcomePopup, visible } = useDappSelector(selectAssistant)
+  const visible = useDappSelector(selectWelcomeAssistantVisible)
   const dispatch = useDappDispatch()
 
   return (
     <>
       <AssistantContent
-        isVisible={!welcomePopup.closed && visible}
-        close={() => dispatch(setAssistant("close-welcome"))}
+        isVisible={visible}
+        close={() => dispatch(closeWelcomeAssistant())}
       >
         <div className="header">Welcome to The Island, Nomad!</div>
         <p className="paragraph">My name is Scout and I&apos;m here to help!</p>
