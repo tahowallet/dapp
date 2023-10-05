@@ -17,7 +17,7 @@ const setBalance = (address: string, balance: string) =>
   localhostProvider.send("hardhat_setBalance", [address, balance])
 
 // eslint-disable-next-line import/prefer-default-export
-export async function unlockStaking() {
+export async function setQuickUnstaking() {
   await impersonate(TAHO_MULTISIG)
   await setBalance(TAHO_MULTISIG, "0x1000000000000")
 

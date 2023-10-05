@@ -1,5 +1,5 @@
 import React from "react"
-import { unlockStaking } from "testing/utils"
+import { setQuickUnstaking } from "testing/utils/quickUnstaking"
 
 /**
  * This component shouldn't be used in production.
@@ -12,8 +12,8 @@ export default function TestingPanel() {
 
   return (
     <div className="testing row">
-      <button type="button" onClick={unlockStaking}>
-        Unlock staking
+      <button type="button" onClick={setQuickUnstaking}>
+        Quick unstaking
       </button>
       <style jsx>
         {`
