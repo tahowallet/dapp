@@ -2,6 +2,10 @@ import { configureStore, isPlain } from "@reduxjs/toolkit"
 import { encodeJSON } from "shared/utils"
 import { TransactionService } from "shared/services"
 import mainReducer from "./reducers"
+import {
+  loadStateFromLocalStorage,
+  saveStateToLocalStorage,
+} from "./local-storage"
 
 const devToolsSanitizer = (input: unknown) => {
   switch (typeof input) {
@@ -33,6 +37,13 @@ const store = configureStore({
     stateSanitizer: devToolsSanitizer,
   },
   reducer: mainReducer,
+  preloadedState: loadStateFromLocalStorage(),
 })
+
+store.subscribe(() =>
+  saveStateToLocalStorage({
+    assistant: store.getState().assistant,
+  })
+)
 
 export default store
