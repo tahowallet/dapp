@@ -57,8 +57,7 @@ export default function RealmHeader() {
               />
               Questline
             </span>
-            {/* TODO: Set the correct value when it will be defined */}
-            <span>NFT collector</span>
+            <span>{realm?.questlineName}</span>
           </div>
         </div>
         <p className="realm_description">{realm?.description}</p>

@@ -4,6 +4,7 @@
             "realm": "0xhexaddressofrealmcontract",
             "questlineUrl": "...",
             "questlineHash": "0xhashafrash",
+            "name": "NFT collector",
             "description": "The realm is in need of a stronger Threshold Network. Strengthen it by depositing and redeeming tBTC, and staking or LPing T!",
             "quests": [
                 {

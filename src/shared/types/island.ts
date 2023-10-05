@@ -18,6 +18,7 @@ export type RealmQuestlineData = {
   questlineUrl: string
   questlineHash: string
   description: string
+  questlineName: string
   quests: { name: string; description: string }[]
 }
 
