@@ -53,7 +53,7 @@ Instruction based on [the system tests readme](https://github.com/tahowallet/con
   export TAHO_DEPLOYER_PRIVATE_KEY="..." # mnemonic or first private key from `test test ... junk`
   export FORKING_BLOCK="..." # historical block; optional - setting this var enables cache and speeds up repatable read operations
   ```
-- Open first terminal and run `yarn run test:fork_mainnet`
+- Open first terminal and run `yarn run test:fork`
 - Open second terminal and run `yarn run deploy_taho`
 
 ---
