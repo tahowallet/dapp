@@ -1,90 +1,32 @@
 {
-    "totalAmount": "1000",
-    "merkleRoot": "0x0",
-    "claims": {
-        "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266": {
-            "beneficiary": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-            "amount": "10",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0x70997970c51812dc3a010c7d01b50e0d17dc79c8": {
-            "beneficiary": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
-            "amount": "9",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc": {
-            "beneficiary": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
-            "amount": "8",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0x90f79bf6eb2c4f870365e785982e1f101e93b906": {
-            "beneficiary": "0x90f79bf6eb2c4f870365e785982e1f101e93b906",
-            "amount": "7",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0x15d34aaf54267db7d7c367839aaf71a00a2c6a65": {
-            "beneficiary": "0x15d34aaf54267db7d7c367839aaf71a00a2c6a65",
-            "amount": "6",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0x976ea74026e726554db657fa54763abd0c3a0aa9": {
-            "beneficiary": "0x976ea74026e726554db657fa54763abd0c3a0aa9",
-            "amount": "5",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0x14dc79964da2c08b23698b3d3cc7ca32193d9955": {
-            "beneficiary": "0x14dc79964da2c08b23698b3d3cc7ca32193d9955",
-            "amount": "4",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f": {
-            "beneficiary": "0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f",
-            "amount": "3",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0xa0ee7a142d267c1f36714e4a8f75612f20a79720": {
-            "beneficiary": "0xa0ee7a142d267c1f36714e4a8f75612f20a79720",
-            "amount": "2",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0xbcd4042de499d14e55001ccbb24a551f3b954096": {
-            "beneficiary": "0xbcd4042de499d14e55001ccbb24a551f3b954096",
-            "amount": "1",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0x71be63f3384f5fb98995898a86b02fb2426c5788": {
-            "beneficiary": "0x71be63f3384f5fb98995898a86b02fb2426c5788",
-            "amount": "11",
-            "proof": [
-                "0x0"
-            ]
-        },
-        "0xfabb0ac9d68b0b445fb7357272ff202c5651694a": {
-            "beneficiary": "0xfabb0ac9d68b0b445fb7357272ff202c5651694a",
-            "amount": "12",
-            "proof": [
-                "0x0"
-            ]
-        }
+  "totalAmount": "48780",
+  "merkleRoot": "0x9aeb07a89bf1bb94688cc178c55b0a767bac1a33d2fa66cde794238f4f9e9d91",
+  "claims": {
+    "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266": {
+      "index": 2,
+      "beneficiary": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+      "amount": "8130",
+      "proof": [
+        "0x8ec0c0c52a46e5bc13c0e6d7923ce3b01155600b870d988692de29e538390103"
+      ]
+    },
+    "0x70997970c51812dc3a010c7d01b50e0d17dc79c8": {
+      "index": 1,
+      "beneficiary": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+      "amount": "16260",
+      "proof": [
+        "0x1364421c30895d0949d8f03614ad49766d67b19169eea8ec69551b7559a1539c",
+        "0x67c6a2e151d4352a55021b5d0028c18121cfc24c7d73b179d22b17daff069c6e"
+      ]
+    },
+    "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc": {
+      "index": 0,
+      "beneficiary": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+      "amount": "24390",
+      "proof": [
+        "0x274996539fafc4b0887fdcfbe1c73bc1147c223b1ebedc6e4e8462a80707d2c7",
+        "0x67c6a2e151d4352a55021b5d0028c18121cfc24c7d73b179d22b17daff069c6e"
+      ]
     }
+  }
 }
