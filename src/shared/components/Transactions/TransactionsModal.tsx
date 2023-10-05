@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { TransactionProgressStatus } from "shared/types"
+import { isTransactionPending } from "shared/utils"
 import Modal from "../Modal"
 import TransactionProgress, {
   TransactionProgressProps,
@@ -28,10 +28,7 @@ export default function TransactionsModal({
   }, [isOpen, transactions, transactionInProgress])
 
   useEffect(() => {
-    if (
-      transactions.length &&
-      transactions[0].status === TransactionProgressStatus.Approving
-    )
+    if (isTransactionPending(transactions[0].status))
       setTransactionInProgress(true)
   }, [transactions])
 
