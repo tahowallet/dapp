@@ -1,6 +1,6 @@
 import React from "react"
 import classnames from "classnames"
-import crossWhiteIcon from "shared/assets/icons/cross_white.svg"
+import crossWhiteIcon from "shared/assets/icons/cross-white.svg"
 
 export default function TabPanel({
   tabs,
