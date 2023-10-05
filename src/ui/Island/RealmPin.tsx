@@ -7,7 +7,7 @@ import {
   selectWalletAvatar,
   useDappSelector,
 } from "redux-state"
-import { REALMS_MAP_DATA } from "shared/constants"
+import { getRealmMapData } from "shared/constants"
 
 const PIN_TRANSLATE = 200
 
@@ -18,9 +18,7 @@ export default function RealmPin() {
   const [pinImage] = useImage(pin)
   const [avatarImage] = useImage(avatar)
 
-  const stakingRealm = REALMS_MAP_DATA.find(
-    (realm) => realm.id === stakingRealmId
-  )
+  const stakingRealm = stakingRealmId && getRealmMapData(stakingRealmId)
 
   if (!stakingRealmId || !stakingRealm) return null
 
