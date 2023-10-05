@@ -2,11 +2,13 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
-import { isSameAddress, truncateAddress } from "shared/utils"
+import {
+  isSameAddress,
+  separateThousandsByComma,
+  truncateAddress,
+} from "shared/utils"
 import { XpMerkleTreeItem } from "shared/types/xp"
 import { selectWalletAvatar, useDappSelector } from "redux-state"
-
-const format = new Intl.NumberFormat()
 
 export default function LeaderboardItem({
   item,
@@ -44,7 +46,9 @@ export default function LeaderboardItem({
             />
           )}
           <span className="address">{truncateAddress(address)}</span>
-          <span className="xp">{format.format(BigInt(amount))} XP</span>
+          <span className="xp">
+            {separateThousandsByComma(BigInt(amount))} XP
+          </span>
         </div>
       </li>
       <style jsx>{`
