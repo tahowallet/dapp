@@ -5,7 +5,7 @@ import { Easings } from "konva/lib/Tween"
 import useImage from "use-image"
 
 import backgroundImg from "public/dapp_island_bg.webp"
-import { ISLAND_BOX, realms } from "shared/constants"
+import { ISLAND_BOX, REALMS_MAP_DATA } from "shared/constants"
 import { usePrevious, useBeforeFirstPaint } from "shared/hooks"
 import { createBackgroundMask } from "shared/utils"
 import { OverlayType } from "shared/types"
@@ -100,7 +100,7 @@ export default function Background({ overlay }: { overlay: OverlayType }) {
       return undefined
     }
 
-    return createBackgroundMask(realms, islandImage)
+    return createBackgroundMask(REALMS_MAP_DATA, islandImage)
   }, [islandImage])
 
   return (
