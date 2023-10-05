@@ -13,6 +13,8 @@ import {
   selectTotalPopulation,
   useDappSelector,
 } from "redux-state"
+import { useVisibilityTransition } from "shared/hooks"
+import { animated } from "@react-spring/web"
 import RealmBarIcon from "./RealmBarIcon"
 
 export default function RealmsBar() {
@@ -23,6 +25,8 @@ export default function RealmsBar() {
 
   const [positions, setPositions] = useState<number[]>([])
   const progressBarRef = useRef<HTMLDivElement>(null)
+
+  const transition = useVisibilityTransition(totalPopulation > 0)
 
   useEffect(() => {
     if (!realmsData.length || !progressBarRef.current) return
@@ -39,46 +43,46 @@ export default function RealmsBar() {
     setPositions(pos)
   }, [realmsData, minPopulation, maxPopulation, progressBarRef])
 
-  if (!totalPopulation) return null
-
   return (
     <>
-      <div className="bar">
-        <div className="top_bar">
-          <div className="row_center">
-            <Icon
-              src={populationIcon}
-              type="image"
-              color="currentColor"
-              width="24px"
-              height="24px"
-              style={{ marginRight: 5 }}
-            />
-            <p style={{ color: "var(--secondary-s1-60)" }}>
-              Realms by population
-            </p>
-            <Tooltip positionY="top" positionX="center" gap="5px">
-              TBD
-            </Tooltip>
+      <animated.div style={{ ...transition }}>
+        <div className="bar">
+          <div className="top_bar">
+            <div className="row_center">
+              <Icon
+                src={populationIcon}
+                type="image"
+                color="currentColor"
+                width="24px"
+                height="24px"
+                style={{ marginRight: 5 }}
+              />
+              <p style={{ color: "var(--secondary-s1-60)" }}>
+                Realms by population
+              </p>
+              <Tooltip positionY="top" positionX="center" gap="5px">
+                TBD
+              </Tooltip>
+            </div>
+            <div className="row_center" style={{ gap: 4 }}>
+              <p style={{ color: "var(--secondary-s1-60)" }}>Total:</p>
+              <p className="total_value">
+                {separateThousandsByComma(totalPopulation)}
+              </p>
+            </div>
           </div>
-          <div className="row_center" style={{ gap: 4 }}>
-            <p style={{ color: "var(--secondary-s1-60)" }}>Total:</p>
-            <p className="total_value">
-              {separateThousandsByComma(totalPopulation)}
-            </p>
+          <div className="progress_bar" ref={progressBarRef}>
+            {realmsData.map((realm, index) => (
+              <RealmBarIcon
+                key={realm.id}
+                position={positions[index]}
+                population={realm.population}
+                name={realm.name}
+              />
+            ))}
           </div>
         </div>
-        <div className="progress_bar" ref={progressBarRef}>
-          {realmsData.map((realm, index) => (
-            <RealmBarIcon
-              key={realm.id}
-              position={positions[index]}
-              population={realm.population}
-              name={realm.name}
-            />
-          ))}
-        </div>
-      </div>
+      </animated.div>
       <style jsx>
         {`
           .bar {
