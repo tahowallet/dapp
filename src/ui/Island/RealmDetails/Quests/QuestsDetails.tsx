@@ -1,22 +1,16 @@
 import React from "react"
 import {
-  selectDisplayedRealmId,
-  selectRealmById,
-  selectWeekStartDate,
-  selectSeasonWeek,
-  useDappSelector,
-  selectWeekEndDate,
-  selectSeasonDurationInWeeks,
   selectIsEndOfSeason,
+  selectSeasonDurationInWeeks,
+  selectSeasonWeek,
+  selectWeekEndDate,
+  selectWeekStartDate,
+  useDappSelector,
 } from "redux-state"
-import Accordion from "shared/components/Accordion"
-import Icon from "shared/components/Icon"
-import contactsIcon from "shared/assets/icons/m/contacts.svg"
-import starIcon from "shared/assets/icons/star.svg"
 import RealmIcon from "shared/components/RealmIcon"
 import { printData } from "shared/utils"
 
-function RewardsDetails({
+export default function QuestsDetails({
   realmId,
   tokenSymbol,
 }: {
@@ -45,9 +39,6 @@ function RewardsDetails({
               </>
             )}
           </div>
-          {/* TODO: Currently there is no information on what the end of season
-          should look like. Let's block the date range for now when the season
-          is over. */}
           {startDate && endDate && !isEndOfSeason && (
             <div className="content_details_range">
               {`${printData(startDate)}  - ${printData(endDate)}`}
@@ -98,82 +89,6 @@ function RewardsDetails({
         }
         .gap {
           gap: 4px;
-        }
-      `}</style>
-    </div>
-  )
-}
-
-function RewardsQuests({
-  quests,
-}: {
-  quests: { name: string; description: string }[]
-}) {
-  return (
-    <div>
-      <h3 className="header row">
-        Your weekly action needed to receive rewards
-        <div className="header_icon row_center">
-          <Icon
-            color="var(--secondary-s1-60)"
-            src={contactsIcon}
-            width="18px"
-          />
-          Rulebook
-        </div>
-      </h3>
-      <div className="rewards_quests column">
-        {quests.map(({ name, description }) => (
-          <Accordion
-            key={name}
-            title={name}
-            icon={starIcon}
-            iconColor="var(--semantic-success)"
-            type="frame"
-          >
-            <div className="rewards_quests_description">{description}</div>
-          </Accordion>
-        ))}
-      </div>
-      <style jsx>{`
-        .header {
-          margin-bottom: 8px;
-          justify-content: space-between;
-        }
-        .header_icon {
-          color: var(--secondary-s1-60);
-          font: var(--text-label);
-          gap: 8px;
-        }
-        .rewards_quests {
-          gap: 20px;
-        }
-        .rewards_quests_description {
-          color: var(--secondary-s1-80);
-          padding: 0 16px 0px 25px;
-        }
-      `}</style>
-    </div>
-  )
-}
-
-export default function Rewards() {
-  const realmId = useDappSelector(selectDisplayedRealmId)
-  const realm = useDappSelector((state) => selectRealmById(state, realmId))
-
-  if (!realmId || !realm) return null
-
-  return (
-    <div className="realm column">
-      <RewardsDetails
-        realmId={realmId}
-        tokenSymbol={realm.xpTokenSymbolPrefix}
-      />
-      <RewardsQuests quests={realm.quests} />
-      <style jsx>{`
-        .realm {
-          padding-top: 32px;
-          gap: 22px;
         }
       `}</style>
     </div>

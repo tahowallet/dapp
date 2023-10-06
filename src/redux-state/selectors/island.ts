@@ -20,12 +20,6 @@ export const selectRealmById = createSelector(
   (realms, realmId) => (realmId ? realms[realmId] : null)
 )
 
-export const selectStakeUnlockTime = (state: RootState) =>
-  state.island.stakeUnlockTime
-
-export const selectIslandZoomLevel = (state: RootState) =>
-  state.island.zoomLevel
-
 export const selectRealmWithIdByAddress = createSelector(
   [selectRealms, (_, realmAddress: string) => realmAddress],
   (realms, realmAddress) =>
@@ -120,25 +114,21 @@ export const selectStakingRealmAddress = createSelector(
     stakingRealmId && realms[stakingRealmId]?.realmContractAddress
 )
 
-/* Helpful selectors */
-export const selectIsStakingRealmDisplayed = createSelector(
-  selectStakingRealmAddress,
-  selectDisplayedRealmAddress,
-  (stakingAddress, displayedAddress) =>
-    !!stakingAddress &&
-    !!displayedAddress &&
-    isSameAddress(stakingAddress, displayedAddress)
-)
-
-export const selectSortedPopulation = (state: RootState) => {
-  const fetchedData = Object.entries(state.island.realms).map(([id, data]) => ({
+/* Population - selectors */
+export const selectSortedPopulation = createSelector(selectRealms, (realms) => {
+  const realmsData = Object.entries(realms).map(([id, data]) => ({
     id,
     ...data,
   }))
 
-  const sortedRealms = fetchedData.sort((a, b) => a.population - b.population)
+  const sortedRealms = realmsData.sort((a, b) => a.population - b.population)
   return sortedRealms
-}
+})
+
+export const selectPopulationById = createSelector(
+  selectRealmById,
+  (realm) => realm?.population ?? 0
+)
 
 export const selectTotalPopulation = createSelector(
   selectSortedPopulation,
@@ -154,7 +144,18 @@ export const selectMaxPopulation = createSelector(
     realms.length ? Math.max(...realms.map((realm) => realm.population)) : 0
 )
 
-export const selectPopulationById = createSelector(
-  selectRealmById,
-  (realm) => realm?.population ?? 0
+/* Helpful selectors */
+export const selectIsStakingRealmDisplayed = createSelector(
+  selectStakingRealmAddress,
+  selectDisplayedRealmAddress,
+  (stakingAddress, displayedAddress) =>
+    !!stakingAddress &&
+    !!displayedAddress &&
+    isSameAddress(stakingAddress, displayedAddress)
 )
+
+export const selectStakeUnlockTime = (state: RootState) =>
+  state.island.stakeUnlockTime
+
+export const selectIslandZoomLevel = (state: RootState) =>
+  state.island.zoomLevel
