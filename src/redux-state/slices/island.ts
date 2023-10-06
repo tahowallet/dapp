@@ -16,7 +16,7 @@ export type IslandState = {
   stakeUnlockTime: number | null
   displayedRealmId: string | null
   zoomLevel: number
-  seasonInfo?: SeasonInfo
+  seasonInfo: SeasonInfo | null
 }
 
 const initialState: IslandState = {
@@ -27,6 +27,7 @@ const initialState: IslandState = {
   stakeUnlockTime: null,
   displayedRealmId: null,
   zoomLevel: 1,
+  seasonInfo: null,
 }
 
 const islandSlice = createSlice({
