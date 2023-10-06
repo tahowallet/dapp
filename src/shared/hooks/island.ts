@@ -11,11 +11,12 @@ import {
   selectStakeUnlockTime,
   useDappSelector,
 } from "redux-state"
+import { SECOND } from "shared/constants"
 import {
   fetchPopulation,
   initRealmsDataFromContracts,
+  initSeasonInfoData,
 } from "redux-state/thunks/island"
-import { SECOND } from "shared/constants"
 import { useArbitrumProvider } from "./wallets"
 import { useInterval } from "./helpers"
 
@@ -35,7 +36,7 @@ export function useIslandContext() {
   return useContext(IslandContext)
 }
 
-export function useFetchRealmsContracts() {
+export function useGameDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
@@ -43,14 +44,15 @@ export function useFetchRealmsContracts() {
   useEffect(() => {
     if (!provider || hasAlreadyFetched) return
 
-    const fetchRealms = async () => {
+    const fetchData = async () => {
+      await dispatch(initSeasonInfoData())
       await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchWalletBalances())
       await dispatch(fetchPopulation())
       setHasAlreadyFetched(true)
     }
 
-    fetchRealms()
+    fetchData()
   }, [provider, hasAlreadyFetched, dispatch])
 }
 

@@ -33,3 +33,11 @@ export type RealmWithStaker = [string, string]
 export type StakingData = { realmContractAddress: string; amount: bigint }
 
 export type OverlayType = "dark" | "subtle" | "none"
+
+export type SeasonInfo = {
+  season: number
+  seasonStartTimestamp: number
+  seasonEndTimestamp: number
+  isInterSeason: boolean
+  durationInWeeks: number
+}
