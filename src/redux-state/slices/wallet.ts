@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import portrait from "shared/assets/portrait.png"
-import {
-  ETH_ADDRESS,
-  TAHO_ADDRESS,
-  LOCAL_STORAGE_WALLET,
-} from "shared/constants"
+import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances, TransactionProgressStatus } from "shared/types"
 import { getAllowanceTransactionID } from "shared/utils"
 
@@ -14,7 +10,6 @@ export type WalletState = {
   name: string
   avatar: string
   balances: TokenBalances
-  isOnboarded: boolean
   transactionStatus: { [id: string]: TransactionProgressStatus }
 }
 
@@ -33,7 +28,6 @@ const initialState: WalletState = {
       balance: 0n,
     },
   },
-  isOnboarded: !!localStorage.getItem(LOCAL_STORAGE_WALLET),
   transactionStatus: {},
 }
 
@@ -52,10 +46,7 @@ const walletSlice = createSlice({
       immerState.name = payload.name || immerState.name || ""
       immerState.avatar = payload.avatar || immerState.avatar || portrait
     },
-    updateDisconnectedWallet: (immerState) => ({
-      ...initialState,
-      isOnboarded: immerState.isOnboarded,
-    }),
+    updateDisconnectedWallet: () => initialState,
     updateBalances: (
       immerState,
       { payload: balances }: { payload: TokenBalances }
@@ -64,14 +55,6 @@ const walletSlice = createSlice({
         ...immerState.balances,
         ...balances,
       }
-    },
-    updateWalletOnboarding: (immerState, { payload }: { payload: boolean }) => {
-      if (payload) {
-        localStorage.setItem(LOCAL_STORAGE_WALLET, immerState.address)
-      } else {
-        localStorage.removeItem(LOCAL_STORAGE_WALLET)
-      }
-      immerState.isOnboarded = payload
     },
     resetBalances: (immerState) => {
       immerState.balances = initialState.balances
@@ -100,7 +83,6 @@ export const {
   updateConnectedWallet,
   updateDisconnectedWallet,
   updateBalances,
-  updateWalletOnboarding,
   resetBalances,
   updateTransactionStatus,
   stopTrackingTransactionStatus,

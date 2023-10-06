@@ -8,13 +8,10 @@ import {
   useConnect,
   useFetchRealmsContracts,
   useWallet,
+  useWalletOnboarding,
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
-import {
-  selectIsWalletOnboarded,
-  selectIslandMode,
-  useDappSelector,
-} from "redux-state"
+import { selectIslandMode, useDappSelector } from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
 import Referrals from "ui/Referrals"
 import Footer from "ui/Footer"
@@ -29,9 +26,8 @@ import reduxStore from "./redux-state"
 
 function DApp() {
   const islandMode = useDappSelector(selectIslandMode)
-  const isOnboarded = useDappSelector(selectIsWalletOnboarded)
-
   const { isConnected } = useConnect()
+  const [isOnboarded] = useWalletOnboarding()
 
   useWallet()
   useBalanceFetch()
