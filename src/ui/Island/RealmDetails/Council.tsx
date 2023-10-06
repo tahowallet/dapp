@@ -1,5 +1,5 @@
 import React from "react"
-import placeholderCouncil from "shared/assets/placeholder_council.png"
+import placeholderCouncil from "shared/assets/placeholder-council.png"
 
 export default function Council() {
   return (
@@ -9,7 +9,7 @@ export default function Council() {
           src={placeholderCouncil}
           height={373}
           width={637}
-          alt="Placeholder: Coming in Season 1"
+          alt="Placeholder: Council"
         />
         <h1 className="placeholder_title">Coming in Season 1</h1>
       </div>
