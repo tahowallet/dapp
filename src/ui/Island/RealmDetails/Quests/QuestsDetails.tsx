@@ -8,7 +8,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import RealmIcon from "shared/components/RealmIcon"
-import { printData } from "shared/utils"
+import { formatDate } from "shared/utils"
 
 export default function QuestsDetails({
   realmId,
@@ -41,7 +41,7 @@ export default function QuestsDetails({
           </div>
           {startDate && endDate && !isEndOfSeason && (
             <div className="content_details_range">
-              {`${printData(startDate)}  - ${printData(endDate)}`}
+              {`${formatDate(startDate)}  - ${formatDate(endDate)}`}
             </div>
           )}
         </div>
