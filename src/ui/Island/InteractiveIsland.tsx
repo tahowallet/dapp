@@ -22,6 +22,7 @@ import {
   getCurrentCanvasPosition,
 } from "shared/utils"
 import Controls from "ui/Controls"
+import Assistant from "ui/Footer/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
 import RealmPin from "./RealmPin"
@@ -166,6 +167,7 @@ export default function InteractiveIsland() {
           <RealmPin />
         </Layer>
       </Stage>
+      <Assistant />
       <Controls
         stage={islandRef.current}
         minScale={settingsRef.current.minScale}

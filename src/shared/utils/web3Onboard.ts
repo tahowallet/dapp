@@ -4,18 +4,21 @@ import walletConnectModule from "@web3-onboard/walletconnect"
 import { init } from "@web3-onboard/react"
 import { ARBITRUM } from "shared/constants"
 
-const wallets = [
-  tahoWalletModule(),
-  trezorModule({
+const walletsSetup = {
+  taho: tahoWalletModule(),
+  trezor: trezorModule({
     // TODO: use proper email and url
     email: "doggos@taho.xyz",
     appUrl: "https://taho.xyz",
   }),
-  walletConnectModule({
+  walletConnect: walletConnectModule({
     projectId: process.env.WALLET_CONNECT_ID ?? "",
     requiredChains: [42161],
   }),
-]
+}
+
+const wallets = [walletsSetup.taho]
+
 const chains = [ARBITRUM]
 // TODO: decide what metadata should look like
 const appMetadata = {
@@ -30,7 +33,8 @@ const web3Onboard = init({
   appMetadata,
   connect: {
     autoConnectLastWallet: true,
-    removeIDontHaveAWalletInfoLink: true,
+    iDontHaveAWalletLink:
+      "https://chrome.google.com/webstore/detail/taho/eajafomhmkipbjmfmhebemolkcicgfmd",
     removeWhereIsMyWalletWarning: true,
   },
   accountCenter: {

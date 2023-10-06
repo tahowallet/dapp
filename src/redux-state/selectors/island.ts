@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
+import { DAY } from "shared/constants"
 import { isSameAddress } from "shared/utils"
 
 export const selectIslandMode = (state: RootState) => state.island.mode
@@ -19,15 +20,72 @@ export const selectRealmById = createSelector(
   (realms, realmId) => (realmId ? realms[realmId] : null)
 )
 
-export const selectStakeUnlockTime = (state: RootState) =>
-  state.island.stakeUnlockTime
+export const selectRealmWithIdByAddress = createSelector(
+  [selectRealms, (_, realmAddress: string) => realmAddress],
+  (realms, realmAddress) =>
+    Object.entries(realms).find(([_, { realmContractAddress }]) =>
+      isSameAddress(realmContractAddress, realmAddress)
+    )
+)
 
-export const selectIslandZoomLevel = (state: RootState) =>
-  state.island.zoomLevel
-
-// TODO: Delete when the season date has been set
+/* Season info  - selectors */
 export const selectSeasonStartTimestamp = (state: RootState) =>
-  state.island.seasonInfo?.seasonStartTimestamp || Date.now()
+  state.island.seasonInfo?.seasonStartTimestamp
+
+export const selectSeasonEndTimestamp = (state: RootState) =>
+  state.island.seasonInfo?.seasonEndTimestamp
+
+export const selectSeasonDurationInWeeks = (state: RootState) =>
+  state.island.seasonInfo?.durationInWeeks
+
+export const selectIsEndOfSeason = createSelector(
+  selectSeasonEndTimestamp,
+  (seasonEndTimestamp) => {
+    if (seasonEndTimestamp) {
+      return Date.now() > seasonEndTimestamp
+    }
+    return null
+  }
+)
+
+export const selectSeasonWeek = createSelector(
+  selectSeasonStartTimestamp,
+  selectIsEndOfSeason,
+  selectSeasonDurationInWeeks,
+  (seasonStartTimestamp, isEndOfSeason, durationInWeeks) => {
+    if (isEndOfSeason) return durationInWeeks
+
+    if (seasonStartTimestamp && durationInWeeks) {
+      return Math.trunc((Date.now() - seasonStartTimestamp) / (7 * DAY) + 1)
+    }
+
+    return null
+  }
+)
+
+export const selectWeekStartDate = createSelector(
+  selectSeasonStartTimestamp,
+  selectSeasonWeek,
+  (seasonStartTimestamp, seasonWeek) => {
+    if (seasonStartTimestamp && seasonWeek) {
+      const startDate = new Date(seasonStartTimestamp)
+      startDate.setDate(startDate.getDate() + (seasonWeek - 1) * 7)
+      return startDate
+    }
+    return null
+  }
+)
+
+export const selectWeekEndDate = createSelector(
+  selectWeekStartDate,
+  (startDate) => {
+    if (!startDate) return null
+
+    const endDate = new Date()
+    endDate.setDate(startDate.getDate() + 6)
+    return endDate
+  }
+)
 
 /* Displayed Realm - selectors */
 export const selectDisplayedRealmId = (state: RootState) =>
@@ -56,6 +114,36 @@ export const selectStakingRealmAddress = createSelector(
     stakingRealmId && realms[stakingRealmId]?.realmContractAddress
 )
 
+/* Population - selectors */
+export const selectSortedPopulation = createSelector(selectRealms, (realms) => {
+  const realmsData = Object.entries(realms).map(([id, data]) => ({
+    id,
+    ...data,
+  }))
+
+  const sortedRealms = realmsData.sort((a, b) => a.population - b.population)
+  return sortedRealms
+})
+
+export const selectPopulationById = createSelector(
+  selectRealmById,
+  (realm) => realm?.population ?? 0
+)
+
+export const selectTotalPopulation = createSelector(
+  selectSortedPopulation,
+  (realms) =>
+    realms.length
+      ? realms.map((realm) => realm.population).reduce((a, b) => a + b)
+      : 0
+)
+
+export const selectMaxPopulation = createSelector(
+  selectSortedPopulation,
+  (realms) =>
+    realms.length ? Math.max(...realms.map((realm) => realm.population)) : 0
+)
+
 /* Helpful selectors */
 export const selectIsStakingRealmDisplayed = createSelector(
   selectStakingRealmAddress,
@@ -66,14 +154,8 @@ export const selectIsStakingRealmDisplayed = createSelector(
     isSameAddress(stakingAddress, displayedAddress)
 )
 
-export const selectSeasonStartDate = createSelector(
-  selectSeasonStartTimestamp,
-  (seasonStartTimestamp) =>
-    seasonStartTimestamp ? new Date(seasonStartTimestamp) : null
-)
+export const selectStakeUnlockTime = (state: RootState) =>
+  state.island.stakeUnlockTime
 
-export const selectSeasonWeek = createSelector(
-  selectSeasonStartTimestamp,
-  (seasonStartTimestamp) =>
-    seasonStartTimestamp ? (Date.now() - seasonStartTimestamp) / 7 + 1 : null
-)
+export const selectIslandZoomLevel = (state: RootState) =>
+  state.island.zoomLevel

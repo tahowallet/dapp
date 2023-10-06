@@ -6,8 +6,10 @@ export const formatTime = (time: number): string =>
   new Date(time).toISOString().slice(14, 19)
 
 // The function displays the date in the format: 24 OCT
-export const printData = (date: Date): string =>
-  date.toLocaleString("default", {
-    month: "short",
-    day: "numeric",
-  })
+export const formatDate = (date: Date): string =>
+  date
+    .toLocaleString("default", {
+      month: "short",
+      day: "numeric",
+    })
+    .toUpperCase()

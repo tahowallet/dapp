@@ -1,18 +1,19 @@
 import React, {
   MutableRefObject,
-  useCallback,
   useContext,
   useEffect,
   useState,
+  useCallback,
 } from "react"
 import {
   fetchWalletBalances,
-  selectStakeUnlockTime,
   useDappDispatch,
+  selectStakeUnlockTime,
   useDappSelector,
 } from "redux-state"
 import { SECOND } from "shared/constants"
 import {
+  fetchPopulation,
   initRealmsDataFromContracts,
   initSeasonInfoData,
 } from "redux-state/thunks/island"
@@ -35,7 +36,7 @@ export function useIslandContext() {
   return useContext(IslandContext)
 }
 
-export function useFetchGameData() {
+export function useGameDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
@@ -45,28 +46,13 @@ export function useFetchGameData() {
 
     const fetchData = async () => {
       await dispatch(initSeasonInfoData())
+      await dispatch(initRealmsDataFromContracts())
+      await dispatch(fetchWalletBalances())
+      await dispatch(fetchPopulation())
       setHasAlreadyFetched(true)
     }
 
     fetchData()
-  }, [provider, hasAlreadyFetched, dispatch])
-}
-
-export function useFetchRealmsContracts() {
-  const dispatch = useDappDispatch()
-  const provider = useArbitrumProvider()
-  const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
-
-  useEffect(() => {
-    if (!provider || hasAlreadyFetched) return
-
-    const fetchRealms = async () => {
-      await dispatch(initRealmsDataFromContracts())
-      await dispatch(fetchWalletBalances())
-      setHasAlreadyFetched(true)
-    }
-
-    fetchRealms()
   }, [provider, hasAlreadyFetched, dispatch])
 }
 

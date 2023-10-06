@@ -16,7 +16,7 @@ export type IslandState = {
   stakeUnlockTime: number | null
   displayedRealmId: string | null
   zoomLevel: number
-  seasonInfo?: SeasonInfo
+  seasonInfo: SeasonInfo | null
 }
 
 const initialState: IslandState = {
@@ -27,6 +27,7 @@ const initialState: IslandState = {
   stakeUnlockTime: null,
   displayedRealmId: null,
   zoomLevel: 1,
+  seasonInfo: null,
 }
 
 const islandSlice = createSlice({
@@ -58,6 +59,15 @@ const islandSlice = createSlice({
       realmData.forEach(({ id, data }) => {
         immerState.realms[id] = data
       })
+    },
+    setRealmPopulation: (
+      immerState,
+      {
+        payload: realmPopulation,
+      }: { payload: { id: string; population: number } }
+    ) => {
+      immerState.realms[realmPopulation.id].population =
+        realmPopulation.population
     },
     setStakingRealmId: (
       immerState,
@@ -95,6 +105,7 @@ export const {
   setIslandOverlay,
   setIslandZoomLevel,
   resetIsland,
+  setRealmPopulation,
   setRealmsData,
   setDisplayedRealmId,
   setStakingRealmId,

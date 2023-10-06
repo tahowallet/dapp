@@ -3,6 +3,7 @@ import classNames from "classnames"
 import Icon from "shared/components/Icon"
 import iconNotifCorrect from "shared/assets/icons/s/notif-correct.svg"
 import iconNorifWrong from "shared/assets/icons/s/notif-wrong.svg"
+import { separateThousandsByComma } from "shared/utils"
 import { Rule } from "../types"
 
 const RULES_MOCK: Rule[] = [
@@ -55,7 +56,7 @@ export default function ClaimCheckRules({
             />
             {label}
             <div className="rules_amount">
-              {success ? amount.toLocaleString() : "0.0"}
+              {success ? separateThousandsByComma(amount) : "0.0"}
             </div>
           </li>
         ))}

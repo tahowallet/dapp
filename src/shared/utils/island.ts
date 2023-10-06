@@ -1,6 +1,7 @@
 import assert from "assert"
 import { Stage } from "konva/lib/Stage"
 import { ISLAND_BOX } from "shared/constants"
+import { RealmData } from "shared/types"
 
 type Dimensions = {
   width: number
@@ -20,6 +21,10 @@ type Coordinates = {
   x: number
   y: number
 }
+
+type RealmsData = {
+  id: string
+} & RealmData
 
 export function limitToBounds(val: number, min: number, max: number) {
   if (val < min) return min
@@ -149,4 +154,51 @@ export function getCurrentCanvasPosition(
 ): Coordinates {
   const canvasPosition = { x: positionX / zoom, y: positionY / zoom }
   return canvasPosition
+}
+
+const POPULATION_ICON_SIZE = 24
+const POPULATION_BAR_GAP = 8
+
+export function calculatePopulationIconsPositions(
+  width: number,
+  realmsData: RealmsData[],
+  maxValue: number
+) {
+  const positions: number[] = []
+
+  realmsData.forEach((realm, index) => {
+    const populationShare = realm.population / maxValue
+    let iconPosition = Math.max(
+      populationShare * width + POPULATION_BAR_GAP,
+      POPULATION_BAR_GAP + index * POPULATION_ICON_SIZE
+    )
+
+    // Realm with smallest population
+    if (index === 0) {
+      iconPosition = POPULATION_BAR_GAP
+    }
+
+    // Realm with biggest population
+    if (realm.population === maxValue) {
+      iconPosition = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
+    }
+
+    // Realms have small population difference
+    if (iconPosition < positions[index - 1] + POPULATION_ICON_SIZE) {
+      iconPosition = positions[index - 1] + POPULATION_ICON_SIZE
+    }
+
+    // Setting max position for realms sorted by population
+    const MAX_VALUE =
+      width -
+      ((realmsData.length - index) * POPULATION_ICON_SIZE + POPULATION_BAR_GAP)
+
+    if (iconPosition + POPULATION_ICON_SIZE > MAX_VALUE) {
+      iconPosition = MAX_VALUE
+    }
+
+    positions[index] = iconPosition
+  })
+
+  return positions
 }

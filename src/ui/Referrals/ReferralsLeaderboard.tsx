@@ -1,4 +1,5 @@
 import React from "react"
+import { separateThousandsByComma } from "shared/utils"
 
 const MOCKED_REFERRALS_LEADERBOARD = [
   {
@@ -25,7 +26,7 @@ export default function ReferralsLeaderboard() {
             <span className="order">{index + 1}</span>
             <span className="wide">{referral.address}</span>
             <span className="right">
-              {referral.bonus.toLocaleString()} TAHO
+              {separateThousandsByComma(referral.bonus)} TAHO
             </span>
           </div>
         ))}

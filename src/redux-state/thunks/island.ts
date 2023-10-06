@@ -1,18 +1,25 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRealmsData, setSeasonInfo } from "redux-state/slices/island"
+import {
+  setRealmPopulation,
+  setRealmsData,
+  setSeasonInfo,
+} from "redux-state/slices/island"
 import {
   REALMS_WITH_CONTRACT_NAME,
   TAHO_ADDRESS,
-  getRealmCustomData,
+  getQuestlineData,
 } from "shared/constants"
 import {
   getAllRealmsData,
   getAllowance,
   getSeasonInfo,
+  getStakersRegistered,
+  getStakersUnregistered,
   setAllowance,
   stake,
   unstake,
 } from "shared/contracts"
+import { selectRealmWithIdByAddress } from "redux-state/selectors/island"
 import { TransactionProgressStatus } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { getAllowanceTransactionID } from "shared/utils"
@@ -33,15 +40,15 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
 
       if (realmData !== null) {
         const updatedRealms = realmData.map(({ id, data }) => {
-          const customData = getRealmCustomData(id)
+          const questlineData = getQuestlineData(data.realmContractAddress)
           return {
             id,
             data: {
-              ...customData,
+              ...questlineData,
               ...data,
               // TODO: The name of the realm should be taken from the contracts.
-              // At the moment, these aren't available. So let's use the ones stored in the JSON file.
-              name: data.name || customData.name,
+              // At the moment, these aren't available. Let's use mocked data for this moment.
+              name: data.name || REALMS_WITH_CONTRACT_NAME[id].realmName,
             },
           }
         })
@@ -65,6 +72,53 @@ export const initSeasonInfoData = createDappAsyncThunk(
     }
 
     return !!seasonInfo
+  }
+)
+
+export const fetchPopulation = createDappAsyncThunk(
+  "island/fetchPopulation",
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
+    const {
+      island: { realms },
+    } = getState()
+
+    const registeredStakers = await transactionService.read(
+      getStakersRegistered,
+      null
+    )
+    const unregisteredStakers = await transactionService.read(
+      getStakersUnregistered,
+      null
+    )
+
+    const mappedRealms: { [address: string]: number } = {}
+
+    Object.values(realms).forEach(({ realmContractAddress }) => {
+      mappedRealms[realmContractAddress] = 0
+    })
+
+    registeredStakers?.forEach(([realm]) => {
+      if (mappedRealms[realm] !== undefined) {
+        mappedRealms[realm] += 1
+      }
+    })
+
+    unregisteredStakers?.forEach(([realm]) => {
+      if (mappedRealms[realm] !== undefined) {
+        mappedRealms[realm] -= 1
+      }
+    })
+
+    Object.entries(mappedRealms).forEach(([realmAddress, population]) => {
+      const [realmId] = selectRealmWithIdByAddress(
+        getState(),
+        realmAddress
+      ) ?? [null]
+
+      if (realmId !== null) {
+        dispatch(setRealmPopulation({ id: realmId, population }))
+      }
+    })
   }
 )
 
@@ -147,6 +201,7 @@ export const stakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
+      dispatch(fetchPopulation())
     }
 
     return !!receipt
@@ -189,6 +244,7 @@ export const unstakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
+      dispatch(fetchPopulation())
     }
 
     return !!receipt

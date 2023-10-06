@@ -14,8 +14,6 @@ import {
   useDappSelector,
 } from "redux-state"
 
-export const MOCK_POPULATION = 34_350
-
 export default function RealmHeader() {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
@@ -44,7 +42,7 @@ export default function RealmHeader() {
               />
               Population
             </span>
-            <span>{MOCK_POPULATION}</span>
+            <span>{realm?.population}</span>
           </div>
           <div className="tag column">
             <span
@@ -57,9 +55,9 @@ export default function RealmHeader() {
                 width="18px"
                 color="currentColor"
               />
-              XP Function
+              Questline
             </span>
-            <span>{realm?.xpfn}</span>
+            <span>{realm?.questlineName}</span>
           </div>
         </div>
         <p className="realm_description">{realm?.description}</p>

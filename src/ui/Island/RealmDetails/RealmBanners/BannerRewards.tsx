@@ -10,12 +10,6 @@ import {
 import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
 
-// TODO: use a correct data
-const MOCKED_XP = {
-  latestAmount: 12.237,
-  weeks: 2,
-}
-
 export default function BannerRewards({ amount }: { amount: number }) {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
@@ -74,11 +68,6 @@ export default function BannerRewards({ amount }: { amount: number }) {
             <div className="token_amount">{amount}</div>
             <div className="token_name">{realm.xpTokenSymbolPrefix}</div>
           </div>
-          {amount !== 0 && (
-            <div className="xp_banner_date">
-              Latest: {MOCKED_XP.latestAmount} XP (week {MOCKED_XP.weeks}/12)
-            </div>
-          )}
         </div>
         <style jsx>
           {`
