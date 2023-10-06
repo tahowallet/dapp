@@ -17,12 +17,6 @@ export default function Leaderboard() {
         }
       /> */}
       <LeaderboardList />
-      <style jsx>{`
-        .leaderboard_container {
-          overflow-y: auto;
-          scrollbar-width: none;
-        }
-      `}</style>
     </>
   )
 }
