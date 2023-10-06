@@ -36,7 +36,7 @@ export function useIslandContext() {
   return useContext(IslandContext)
 }
 
-export function useFetchGameData() {
+export function useGameDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
@@ -46,29 +46,13 @@ export function useFetchGameData() {
 
     const fetchData = async () => {
       await dispatch(initSeasonInfoData())
-      setHasAlreadyFetched(true)
-    }
-
-    fetchData()
-  }, [provider, hasAlreadyFetched, dispatch])
-}
-
-export function useFetchRealmsContracts() {
-  const dispatch = useDappDispatch()
-  const provider = useArbitrumProvider()
-  const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
-
-  useEffect(() => {
-    if (!provider || hasAlreadyFetched) return
-
-    const fetchRealms = async () => {
       await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchWalletBalances())
       await dispatch(fetchPopulation())
       setHasAlreadyFetched(true)
     }
 
-    fetchRealms()
+    fetchData()
   }, [provider, hasAlreadyFetched, dispatch])
 }
 
