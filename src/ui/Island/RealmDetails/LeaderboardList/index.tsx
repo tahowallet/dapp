@@ -29,9 +29,11 @@ export default function LeaderboardList() {
   useEffect(() => {
     const fetchXp = async () => {
       if (realmId && realmAddress && address) {
+        // TODO: Leaderboard should be based on sum of all drops
         const xpData = await getRealmXpData({
           id: realmId,
           address: realmAddress,
+          dropIndex: 1,
         })
 
         if (xpData) {

@@ -8,9 +8,11 @@ type DynamicXPMerkleTreeImport = {
 export async function getRealmXpData({
   id,
   address,
+  dropIndex,
 }: {
   id?: string
   address?: string
+  dropIndex: number
 }): Promise<XpMerkleTree | null> {
   if (!id && !address) {
     throw new Error("Missing realm id and address")
@@ -20,7 +22,7 @@ export async function getRealmXpData({
 
   if (id) {
     try {
-      xpData = await import(`data/xp/xp_${id}.json`)
+      xpData = await import(`data/xp/xp_${id}_${dropIndex}.json`)
     } catch (error) {
       // nothing serious yet, let's try with address
     }
@@ -28,7 +30,9 @@ export async function getRealmXpData({
 
   if (address && !xpData) {
     try {
-      xpData = await import(`data/xp/xp_${normalizeAddress(address)}.json`)
+      xpData = await import(
+        `data/xp/xp_${normalizeAddress(address)}_${dropIndex}.json`
+      )
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn(
