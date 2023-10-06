@@ -16,6 +16,8 @@ import {
 import LeaderboardItem from "./LeaderboardItem"
 import RealmDetailsPlaceholder from "../Placeholder"
 
+const leaderboardDateAvailable = "Oct 31"
+
 export default function LeaderboardList() {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realmAddress = useDappSelector(selectDisplayedRealmAddress)
@@ -54,7 +56,7 @@ export default function LeaderboardList() {
   if (leaderboardXp === null) {
     return (
       <RealmDetailsPlaceholder
-        title={"Available after\nOct 31"}
+        title={`Available after\n${leaderboardDateAvailable}`}
         imageSrc={placeholderLeaderboard}
       />
     )
