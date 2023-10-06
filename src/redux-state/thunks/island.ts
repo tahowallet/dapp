@@ -1,5 +1,9 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRealmPopulation, setRealmsData } from "redux-state/slices/island"
+import {
+  setRealmPopulation,
+  setRealmsData,
+  setSeasonInfo,
+} from "redux-state/slices/island"
 import {
   REALMS_WITH_CONTRACT_NAME,
   TAHO_ADDRESS,
@@ -8,6 +12,7 @@ import {
 import {
   getAllRealmsData,
   getAllowance,
+  getSeasonInfo,
   getStakersRegistered,
   getStakersUnregistered,
   setAllowance,
@@ -58,6 +63,19 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
     }
 
     return false
+  }
+)
+
+export const initSeasonInfoData = createDappAsyncThunk(
+  "island/initSeasonInfoData",
+  async (_, { dispatch, extra: { transactionService } }) => {
+    const seasonInfo = await transactionService.read(getSeasonInfo, null)
+
+    if (seasonInfo) {
+      dispatch(setSeasonInfo(seasonInfo))
+    }
+
+    return !!seasonInfo
   }
 )
 

@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
+import { DAY } from "shared/constants"
 import { isSameAddress } from "shared/utils"
 
 export const selectIslandMode = (state: RootState) => state.island.mode
@@ -25,6 +26,65 @@ export const selectRealmWithIdByAddress = createSelector(
     Object.entries(realms).find(([_, { realmContractAddress }]) =>
       isSameAddress(realmContractAddress, realmAddress)
     )
+)
+
+/* Season info  - selectors */
+export const selectSeasonStartTimestamp = (state: RootState) =>
+  state.island.seasonInfo?.seasonStartTimestamp
+
+export const selectSeasonEndTimestamp = (state: RootState) =>
+  state.island.seasonInfo?.seasonEndTimestamp
+
+export const selectSeasonDurationInWeeks = (state: RootState) =>
+  state.island.seasonInfo?.durationInWeeks
+
+export const selectIsEndOfSeason = createSelector(
+  selectSeasonEndTimestamp,
+  (seasonEndTimestamp) => {
+    if (seasonEndTimestamp) {
+      return Date.now() > seasonEndTimestamp
+    }
+    return null
+  }
+)
+
+export const selectSeasonWeek = createSelector(
+  selectSeasonStartTimestamp,
+  selectIsEndOfSeason,
+  selectSeasonDurationInWeeks,
+  (seasonStartTimestamp, isEndOfSeason, durationInWeeks) => {
+    if (isEndOfSeason) return durationInWeeks
+
+    if (seasonStartTimestamp && durationInWeeks) {
+      return Math.trunc((Date.now() - seasonStartTimestamp) / (7 * DAY) + 1)
+    }
+
+    return null
+  }
+)
+
+export const selectWeekStartDate = createSelector(
+  selectSeasonStartTimestamp,
+  selectSeasonWeek,
+  (seasonStartTimestamp, seasonWeek) => {
+    if (seasonStartTimestamp && seasonWeek) {
+      const startDate = new Date(seasonStartTimestamp)
+      startDate.setDate(startDate.getDate() + (seasonWeek - 1) * 7)
+      return startDate
+    }
+    return null
+  }
+)
+
+export const selectWeekEndDate = createSelector(
+  selectWeekStartDate,
+  (startDate) => {
+    if (!startDate) return null
+
+    const endDate = new Date()
+    endDate.setDate(startDate.getDate() + 6)
+    return endDate
+  }
 )
 
 /* Displayed Realm - selectors */

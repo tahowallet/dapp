@@ -1,8 +1,8 @@
 import { providers, Contract } from "ethers"
-import { ReadTransactionBuilder } from "shared/types"
+import { ReadTransactionBuilder, SeasonInfo } from "shared/types"
+import { DAY } from "shared/constants"
 import { gameAbi, tahoDeployerAbi } from "./abi"
 
-// eslint-disable-next-line import/prefer-default-export
 export const getTahoDeployerContract: ReadTransactionBuilder<
   null,
   Contract
@@ -15,4 +15,27 @@ export const getGameContract: ReadTransactionBuilder<null, Contract> = async (
   const tahoDeployerContract = await getTahoDeployerContract(provider, null)
   const gameAddress = await tahoDeployerContract.GAME()
   return new Contract(gameAddress, gameAbi, provider)
+}
+
+export const getSeasonInfo: ReadTransactionBuilder<null, SeasonInfo> = async (
+  provider
+) => {
+  const gameContract = await getGameContract(provider, null)
+  const seasonInfo = await gameContract.seasonInfo()
+
+  const season = seasonInfo[0].toNumber()
+  // TODO: Delete when the season date has been set
+  const seasonStartTimestamp = seasonInfo[1].toNumber() || Date.now()
+  const isInterSeason = seasonInfo[2]
+
+  const durationInWeeks = Number(process.env.SEASON_LENGTH_IN_WEEKS ?? "8")
+  const seasonEndTimestamp = seasonStartTimestamp + durationInWeeks * 7 * DAY
+
+  return {
+    season,
+    seasonStartTimestamp,
+    seasonEndTimestamp,
+    durationInWeeks,
+    isInterSeason,
+  }
 }
