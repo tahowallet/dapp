@@ -2,7 +2,7 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import starIcon from "shared/assets/icons/star-2.svg"
 import {
-  closeQuestsAssistant,
+  closeAssistant,
   selectQuestsAssistantVisible,
   selectRealmById,
   selectStakingRealmId,
@@ -22,7 +22,7 @@ export default function AssistantQuests() {
     <>
       <AssistantContent
         isVisible={visible}
-        close={() => dispatch(closeQuestsAssistant())}
+        close={() => dispatch(closeAssistant())}
       >
         <div className="header">
           You are now a Citizen of {realm?.name}, I think you&apos;ll like it

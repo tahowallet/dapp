@@ -4,6 +4,8 @@ import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
 import { useValueRef } from "shared/hooks"
 import {
+  closeAssistant,
+  selectWelcomeAssistantVisible,
   setDisplayedRealmId,
   useDappDispatch,
   useDappSelector,
@@ -35,6 +37,7 @@ export default function IslandWrapper() {
 
   const [realmId, setRealmId] = useState<null | string>(null)
 
+  const welcomeAssistantVisible = useDappSelector(selectWelcomeAssistantVisible)
   const dispatch = useDappDispatch()
 
   useEffect(() => {
@@ -44,6 +47,7 @@ export default function IslandWrapper() {
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
       setRealmId(String(id))
+      if (welcomeAssistantVisible) dispatch(closeAssistant())
     },
   }))
 

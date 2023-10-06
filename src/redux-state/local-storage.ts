@@ -1,6 +1,6 @@
 import { RootState } from "./reducers"
 
-const REDUX_LOCAL_STORAGE_KEY = "redux-store"
+const REDUX_LOCAL_STORAGE_KEY = "redux_store"
 
 // Source: https://www.geeksforgeeks.org/how-to-persist-redux-state-in-local-storage-without-any-external-library/
 export const saveStateToLocalStorage = (state: Partial<RootState>) => {

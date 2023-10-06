@@ -2,7 +2,7 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import realmPointer from "shared/assets/realm-pointer.png"
 import {
-  closeWelcomeAssistant,
+  closeAssistant,
   selectWelcomeAssistantVisible,
   useDappDispatch,
   useDappSelector,
@@ -17,7 +17,7 @@ export default function AssistantWelcome() {
     <>
       <AssistantContent
         isVisible={visible}
-        close={() => dispatch(closeWelcomeAssistant())}
+        close={() => dispatch(closeAssistant())}
       >
         <div className="header">Welcome to The Island, Nomad!</div>
         <p className="paragraph">My name is Scout and I&apos;m here to help!</p>
