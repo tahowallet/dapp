@@ -162,7 +162,6 @@ const POPULATION_BAR_GAP = 8
 export function calculatePopulationIconsPositions(
   width: number,
   realmsData: RealmsData[],
-  minValue: number,
   maxValue: number
 ) {
   const positions: number[] = []
@@ -178,25 +177,24 @@ export function calculatePopulationIconsPositions(
     if (index === 0) {
       iconPosition = POPULATION_BAR_GAP
     }
+
     // Realm with biggest population
     if (realm.population === maxValue) {
       iconPosition = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
     }
+
     // Realms have small population difference
     if (iconPosition < positions[index - 1] + POPULATION_ICON_SIZE) {
       iconPosition = positions[index - 1] + POPULATION_ICON_SIZE
     }
+
     // Setting max position for realms sorted by population
-    if (
-      iconPosition + POPULATION_ICON_SIZE >
+    const MAX_VALUE =
       width -
-        ((realmsData.length - index) * POPULATION_ICON_SIZE +
-          POPULATION_BAR_GAP)
-    ) {
-      iconPosition =
-        width -
-        (POPULATION_BAR_GAP +
-          (realmsData.length - index) * POPULATION_ICON_SIZE)
+      ((realmsData.length - index) * POPULATION_ICON_SIZE + POPULATION_BAR_GAP)
+
+    if (iconPosition + POPULATION_ICON_SIZE > width - MAX_VALUE) {
+      iconPosition = MAX_VALUE
     }
 
     positions[index] = iconPosition

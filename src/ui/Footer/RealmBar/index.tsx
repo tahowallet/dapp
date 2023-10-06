@@ -7,7 +7,6 @@ import {
   separateThousandsByComma,
 } from "shared/utils"
 import {
-  selectMinPopulation,
   selectMaxPopulation,
   selectSortedPopulation,
   selectTotalPopulation,
@@ -21,7 +20,6 @@ export default function RealmsBar() {
   const realmsData = useDappSelector(selectSortedPopulation)
   const totalPopulation = useDappSelector(selectTotalPopulation)
   const maxPopulation = useDappSelector(selectMaxPopulation)
-  const minPopulation = useDappSelector(selectMinPopulation)
 
   const [positions, setPositions] = useState<number[]>([])
   const progressBarRef = useRef<HTMLDivElement>(null)
@@ -36,12 +34,11 @@ export default function RealmsBar() {
     const pos = calculatePopulationIconsPositions(
       width,
       realmsData,
-      minPopulation,
       maxPopulation
     )
 
     setPositions(pos)
-  }, [realmsData, minPopulation, maxPopulation, progressBarRef])
+  }, [realmsData, maxPopulation, progressBarRef])
 
   return (
     <>

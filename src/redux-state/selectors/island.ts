@@ -84,12 +84,6 @@ export const selectMaxPopulation = createSelector(
     realms.length ? Math.max(...realms.map((realm) => realm.population)) : 0
 )
 
-export const selectMinPopulation = createSelector(
-  selectSortedPopulation,
-  (realms) =>
-    realms.length ? Math.min(...realms.map((realm) => realm.population)) : 0
-)
-
 /* Helpful selectors */
 export const selectIsStakingRealmDisplayed = createSelector(
   selectStakingRealmAddress,
