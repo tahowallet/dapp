@@ -193,7 +193,7 @@ export function calculatePopulationIconsPositions(
       width -
       ((realmsData.length - index) * POPULATION_ICON_SIZE + POPULATION_BAR_GAP)
 
-    if (iconPosition + POPULATION_ICON_SIZE > width - MAX_VALUE) {
+    if (iconPosition + POPULATION_ICON_SIZE > MAX_VALUE) {
       iconPosition = MAX_VALUE
     }
 
