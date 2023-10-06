@@ -4,6 +4,7 @@ import {
   RealmContractData,
 } from "shared/types"
 import { Contract } from "ethers"
+import { normalizeAddress } from "shared/utils"
 import { realmAbi } from "./abi"
 import { getTahoDeployerContract } from "./game"
 
@@ -62,12 +63,16 @@ export const getRealmData: ReadTransactionBuilder<
       const xpTokenSymbolPrefix: string =
         await realmContract.xpTokenSymbolPrefix()
       const questlineUrl: string = await realmContract.questlineUrl()
+      const xpTokenContractAddress: string = normalizeAddress(
+        await realmContract.xp()
+      )
 
       return {
         id,
         data: {
           ...data,
           name,
+          xpTokenContractAddress,
           xpTokenNamePrefix,
           xpTokenSymbolPrefix,
           questlineUrl,

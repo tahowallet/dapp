@@ -7,6 +7,7 @@ export type RealmAddressesData = {
 // Data from Realm contract
 export type RealmContractData = {
   name: string
+  xpTokenContractAddress: string
   xpTokenNamePrefix: string
   xpTokenSymbolPrefix: string
   // TODO: Finally, custom data should be taken from the following link
