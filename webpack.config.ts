@@ -111,7 +111,16 @@ export default async (
   const deploymentInfo: { name: string; expectedAddress: string }[] =
     JSON.parse(
       await fs
-        .readFile(path.resolve(__dirname, "./deployment-info.json"), "utf-8")
+        .readFile(
+          path.resolve(
+            __dirname,
+            process.env.TENDERLY_FORK_HEAD === undefined ||
+              process.env.TENDERLY_FORK_HEAD.trim() === ""
+              ? "./deployment-info.json"
+              : "./tenderly-fork-deployment-info.json"
+          ),
+          "utf-8"
+        )
         .catch(() => "[]")
     )
 
