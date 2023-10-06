@@ -28,6 +28,9 @@ export default function AssistantQuests() {
           You are now a Citizen of {realm?.name}, I think you&apos;ll like it
           here!
         </div>
+        <div style={{ height: 40 }}>
+          {realm && <p>Population of {realm.population - 1} + 1 (You!)</p>}
+        </div>
         <div className="hint row">
           <Icon
             src={starIcon}
