@@ -24,7 +24,7 @@ export default function AssistantJoin() {
         isVisible={visible}
         close={() => dispatch(closeAssistant())}
       >
-        <div className="header">I hope you are enjoying The Island Beta</div>
+        <div className="header">I hope you are enjoying The Island Beta!</div>
         <p className="paragraph">
           Have any questions or ideas? Join the conversation on Discord to share
           them!

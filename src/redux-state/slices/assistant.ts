@@ -29,7 +29,7 @@ const assistantSlice = createSlice({
       immerState.visible = true
     },
     closeAssistant: (immerState) => {
-      immerState.visible = true
+      immerState.visible = false
     },
     toggleAssistant: (immerState) => {
       if (!immerState.welcomePopup.closed) {
