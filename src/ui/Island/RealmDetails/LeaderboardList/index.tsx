@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import placeholderLeaderboard from "shared/assets/placeholder-leaderboard.png"
 
 import {
   selectDisplayedRealmAddress,
@@ -13,6 +14,9 @@ import {
   getUserXPRank,
 } from "shared/utils/xp"
 import LeaderboardItem from "./LeaderboardItem"
+import RealmDetailsPlaceholder from "../Placeholder"
+
+const leaderboardDateAvailable = "Oct 31"
 
 export default function LeaderboardList() {
   const realmId = useDappSelector(selectDisplayedRealmId)
@@ -50,7 +54,12 @@ export default function LeaderboardList() {
   }, [realmId, realmAddress, address])
 
   if (leaderboardXp === null) {
-    return null
+    return (
+      <RealmDetailsPlaceholder
+        title={`Available after\n${leaderboardDateAvailable}`}
+        imageSrc={placeholderLeaderboard}
+      />
+    )
   }
 
   return (

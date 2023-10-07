@@ -47,7 +47,7 @@ export function getQuestlineData(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { realm, ...questlineData } = realmWithQuestline
 
-  return { ...questlineData, questlineName: questlineData.name }
+  return questlineData
 }
 
 export const ISLAND_BOX = {

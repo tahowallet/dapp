@@ -1,10 +1,14 @@
 import React from "react"
+import {
+  selectIsEndOfSeason,
+  selectSeasonDurationInWeeks,
+  selectSeasonWeek,
+  selectWeekEndDate,
+  selectWeekStartDate,
+  useDappSelector,
+} from "redux-state"
 import RealmIcon from "shared/components/RealmIcon"
-
-const EPOCH = {
-  number: "1",
-  date: "24 OCT - 30 OCT",
-}
+import { formatDate } from "shared/utils"
 
 export default function QuestsDetails({
   realmId,
@@ -13,15 +17,33 @@ export default function QuestsDetails({
   realmId: string
   tokenSymbol: string
 }) {
+  const startDate = useDappSelector(selectWeekStartDate)
+  const endDate = useDappSelector(selectWeekEndDate)
+  const seasonWeek = useDappSelector(selectSeasonWeek)
+  const duration = useDappSelector(selectSeasonDurationInWeeks)
+  const isEndOfSeason = useDappSelector(selectIsEndOfSeason)
+
   return (
     <div className="content">
       <div className="content_details row">
         <div className="column gap">
           <div className="row">
-            <div className="content_details_weeks">Week {EPOCH.number}</div>
-            <span style={{ color: "var(--secondary-s1-70)" }}>/ 12</span>
+            {!!seasonWeek && (
+              <>
+                <div className="content_details_weeks">
+                  Total real rewards Week {seasonWeek}
+                </div>
+                <span style={{ color: "var(--secondary-s1-70)" }}>
+                  / {duration}
+                </span>
+              </>
+            )}
           </div>
-          <div className="content_details_range">{EPOCH.date}</div>
+          {startDate && endDate && !isEndOfSeason && (
+            <div className="content_details_range">
+              {`${formatDate(startDate)}  - ${formatDate(endDate)}`}
+            </div>
+          )}
         </div>
 
         <div className="content_details_token column">
