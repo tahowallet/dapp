@@ -20,6 +20,11 @@ declare module "*.woff2" {
   export = value
 }
 
+declare module "*.mp4" {
+  const value: string
+  export = value
+}
+
 declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: "production" | "development" | "test"
