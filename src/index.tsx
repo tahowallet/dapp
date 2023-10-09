@@ -6,7 +6,7 @@ import { Provider } from "react-redux"
 import {
   useBalanceFetch,
   useConnect,
-  useFetchRealmsContracts,
+  useGameDataFetch,
   useWallet,
   useWalletOnboarding,
 } from "shared/hooks"
@@ -30,8 +30,8 @@ function DApp() {
   const [isOnboarded] = useWalletOnboarding()
 
   useWallet()
+  useGameDataFetch()
   useBalanceFetch()
-  useFetchRealmsContracts()
 
   return (
     <>
