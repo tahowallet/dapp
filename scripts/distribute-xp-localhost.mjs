@@ -1,13 +1,13 @@
 import { ethers } from "ethers"
-import realmAbi from "../src/shared/contracts/abi/realmAbi"
 
 // TODO: make it a script argument
-const MERKLE_ROOT = ""
-const AMOUNT = 0
-const MERKLE_DATA_URL = ""
-const REALM_ADDRESS = ""
+const MERKLE_ROOT =
+  "0xdbc0fb6353c544c5f6f61744b099c6fe6ff51083abb449dee34b25a660d5bcd6"
+const AMOUNT = 1000
+const MERKLE_DATA_URL = "test.xyz"
+const REALM_ADDRESS = "0x25f59fb6bc988c9af5cbb9e105c20971b4b420db"
 
-const TAHO_MULTISIG = "0xe8746F8728D152FCc9F6549C2baBAa79f5BF2E08"
+const TAHO_MULTISIG = "0x6e80164ea60673d64d5d6228beb684a1274bb017"
 const localhostProvider = new ethers.providers.JsonRpcProvider(
   "http://localhost:8545"
 )
@@ -30,7 +30,50 @@ async function main() {
 
   const realmContract = new ethers.Contract(
     REALM_ADDRESS,
-    realmAbi,
+    [
+      {
+        inputs: [],
+        name: "createXp",
+        outputs: [
+          {
+            internalType: "address",
+            name: "",
+            type: "address",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "bytes32",
+            name: "merkleRoot",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "merkleDataUrl",
+            type: "string",
+          },
+        ],
+        name: "distributeXp",
+        outputs: [
+          {
+            internalType: "address",
+            name: "",
+            type: "address",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
     localhostProvider
   )
 

@@ -9,6 +9,7 @@
     "build": "yarn write-types && patch-package && webpack build --mode=production",
     "write-types": "node scripts/write-taho-types.mjs",
     "generate-xp": "node scripts/generate-xp-merkle-tree.mjs",
+    "distribute-xp": "node scripts/distribute-xp-localhost.mjs",
     "lint:eslint": "eslint .",
     "lint:fix:eslint": "eslint . --fix",
     "lint:config": "prettier -c '**/*.@(json|yaml|toml)'",

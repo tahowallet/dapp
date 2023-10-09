@@ -56,6 +56,7 @@ export async function getUserXpByMerkleRoot(
   account: string
 ): Promise<XpByMerkleRoot> {
   const xpItemByMerkleRoot: XpByMerkleRoot = {}
+  const normalizedAddress = normalizeAddress(account)
   let dropIndex = 1
 
   // eslint-disable-next-line no-constant-condition
@@ -66,7 +67,7 @@ export async function getUserXpByMerkleRoot(
     if (!xpData) break
 
     const { merkleRoot } = xpData
-    const userClaim = xpData.claims[account]
+    const userClaim = xpData.claims[normalizedAddress]
 
     if (userClaim) {
       xpItemByMerkleRoot[merkleRoot] = userClaim
