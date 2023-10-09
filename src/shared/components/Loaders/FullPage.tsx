@@ -33,6 +33,7 @@ export default function FullPageLoader() {
             height: 100vh;
             background: linear-gradient(179deg, #0d2321 0.77%, #153d3b 101%);
             justify-content: center;
+            overflow: hidden;
           }
 
           .demo {

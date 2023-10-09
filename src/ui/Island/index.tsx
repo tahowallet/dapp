@@ -8,6 +8,7 @@ import {
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
+import FullPageLoader from "shared/components/Loaders/FullPage"
 import InteractiveIsland from "./InteractiveIsland"
 import { IslandContext } from "../../shared/hooks/island"
 import RealmDetails from "./RealmDetails"
@@ -35,7 +36,7 @@ export default function IslandWrapper() {
 
   const handleClose = useCallback(() => setRealmId(null), [])
 
-  if (!assetsLoaded) return null
+  if (!assetsLoaded) return <FullPageLoader />
 
   return (
     <div className="island_container">
