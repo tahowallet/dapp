@@ -8,7 +8,7 @@ export const formatTime = (time: number): string =>
 // The function displays the date in the format: 24 OCT
 export const formatDate = (date: Date): string =>
   date
-    .toLocaleString("default", {
+    .toLocaleString("en-GB", {
       month: "short",
       day: "numeric",
     })
