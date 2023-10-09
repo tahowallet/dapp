@@ -23,10 +23,7 @@ import { selectRealmWithIdByAddress } from "redux-state/selectors/island"
 import { TransactionProgressStatus } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { getAllowanceTransactionID } from "shared/utils"
-import {
-  closeAssistant,
-  joinRegionAssistant,
-} from "redux-state/slices/assistant"
+import { useAssistant } from "shared/hooks"
 import { fetchWalletBalances } from "./wallet"
 
 export const initRealmsDataFromContracts = createDappAsyncThunk(
@@ -194,6 +191,8 @@ export const stakeTaho = createDappAsyncThunk(
       })
     )
 
+    const { joinRegionAssistant } = useAssistant()
+
     if (!allowanceCorrect) {
       return false
     }
@@ -206,7 +205,7 @@ export const stakeTaho = createDappAsyncThunk(
     if (receipt) {
       dispatch(fetchWalletBalances())
       dispatch(fetchPopulation())
-      dispatch(joinRegionAssistant())
+      joinRegionAssistant()
     }
 
     return !!receipt
@@ -238,6 +237,8 @@ export const unstakeTaho = createDappAsyncThunk(
       })
     )
 
+    const { closeAssistant } = useAssistant()
+
     if (!allowanceCorrect) {
       return false
     }
@@ -250,7 +251,7 @@ export const unstakeTaho = createDappAsyncThunk(
     if (receipt) {
       dispatch(fetchWalletBalances())
       dispatch(fetchPopulation())
-      dispatch(closeAssistant())
+      closeAssistant()
     }
 
     return !!receipt

@@ -1,14 +1,20 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Icon from "shared/components/Icon"
-import assistant from "shared/assets/assistant.png"
+import assistantImage from "shared/assets/assistant.png"
 import Portal from "shared/components/Portal"
-import { useDappDispatch, toggleAssistant } from "redux-state"
+import { useAssistant } from "shared/hooks"
 import AssistantWelcome from "./AssistantContent/AssistantWelcome"
 import AssistantQuests from "./AssistantContent/AssistantQuests"
 import AssistantJoin from "./AssistantContent/AssistantJoin"
 
 export default function Assistant() {
-  const dispatch = useDappDispatch()
+  const { assistant, initializeAssistant, toggleAssistant } = useAssistant()
+
+  useEffect(() => {
+    if (!assistant) initializeAssistant()
+  }, [assistant, initializeAssistant])
+
+  if (!assistant) return null
 
   return (
     <>
@@ -17,10 +23,10 @@ export default function Assistant() {
           <button
             type="button"
             className="assistant_trigger button_reset"
-            onClick={() => dispatch(toggleAssistant())}
+            onClick={toggleAssistant}
           >
             <Icon
-              src={assistant}
+              src={assistantImage}
               width="62px"
               height="62px"
               type="image"

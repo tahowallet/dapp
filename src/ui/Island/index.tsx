@@ -2,16 +2,13 @@ import React, { useCallback, useEffect, useLayoutEffect, useState } from "react"
 import { selectIsDefaultIslandMode } from "redux-state/selectors/island"
 import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
-import { useValueRef } from "shared/hooks"
+import { useValueRef, IslandContext, useAssistant } from "shared/hooks"
 import {
-  closeAssistant,
-  selectWelcomeAssistantVisible,
   setDisplayedRealmId,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import InteractiveIsland from "./InteractiveIsland"
-import { IslandContext } from "../../shared/hooks/island"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
 
@@ -37,8 +34,9 @@ export default function IslandWrapper() {
 
   const [realmId, setRealmId] = useState<null | string>(null)
 
-  const welcomeAssistantVisible = useDappSelector(selectWelcomeAssistantVisible)
   const dispatch = useDappDispatch()
+
+  const { assistant, closeAssistant } = useAssistant()
 
   useEffect(() => {
     dispatch(setDisplayedRealmId(realmId))
@@ -47,7 +45,7 @@ export default function IslandWrapper() {
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
       setRealmId(String(id))
-      if (welcomeAssistantVisible) dispatch(closeAssistant())
+      if (assistant.type === "welcome" && assistant.visible) closeAssistant()
     },
   }))
 

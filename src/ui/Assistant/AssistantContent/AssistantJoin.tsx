@@ -2,17 +2,11 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import Button from "shared/components/Button"
 import discordIcon from "shared/assets/icons/discord.svg"
-import {
-  closeAssistant,
-  selectJoinAssistantVisible,
-  useDappDispatch,
-  useDappSelector,
-} from "redux-state"
+import { useAssistant } from "shared/hooks"
 import AssistantContent from "."
 
 export default function AssistantJoin() {
-  const visible = useDappSelector(selectJoinAssistantVisible)
-  const dispatch = useDappDispatch()
+  const { assistant, closeAssistant } = useAssistant()
 
   const joinHandler = () => {
     // TODO: add link to discord
@@ -21,8 +15,8 @@ export default function AssistantJoin() {
   return (
     <>
       <AssistantContent
-        isVisible={visible}
-        close={() => dispatch(closeAssistant())}
+        isVisible={assistant.visible && assistant.type === "default"}
+        close={closeAssistant}
       >
         <div className="header">I hope you are enjoying The Island Beta!</div>
         <p className="paragraph">
