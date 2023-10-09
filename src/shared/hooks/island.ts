@@ -69,10 +69,14 @@ export function useFetchRealmsContracts() {
 
       setHasAlreadyFetchedForAccount(account)
     }
-    if (account && account !== hasAlreadyFetchedForAccount) {
+    if (
+      account &&
+      hasAlreadyFetched &&
+      account !== hasAlreadyFetchedForAccount
+    ) {
       fetchData()
     }
-  }, [dispatch, hasAlreadyFetchedForAccount, account])
+  }, [dispatch, hasAlreadyFetchedForAccount, hasAlreadyFetched, account])
 }
 
 const calculateTimeLeft = (stakeUnlockTime: number | null) =>
