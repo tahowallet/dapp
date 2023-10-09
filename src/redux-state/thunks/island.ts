@@ -124,8 +124,8 @@ export const fetchPopulation = createDappAsyncThunk(
   }
 )
 
-export const updateXpAllocatable = createDappAsyncThunk(
-  "island/updateXpAllocatable",
+export const fetchXpAllocatable = createDappAsyncThunk(
+  "island/fetchXpAllocatable",
   async (_, { getState, dispatch, extra: { transactionService } }) => {
     const {
       island: { realms },

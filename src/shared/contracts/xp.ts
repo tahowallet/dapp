@@ -1,7 +1,6 @@
 import { Contract, providers } from "ethers"
 import { ReadTransactionBuilder } from "shared/types"
-import xpAbi from "./abi/xpAbi"
-import { xpMerkleDistributorFactoryAbi } from "./abi"
+import { xpAbi, xpMerkleDistributorFactoryAbi } from "./abi"
 import { getGameContract } from "./game"
 
 export const getXpContract: ReadTransactionBuilder<

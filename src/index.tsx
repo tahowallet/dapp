@@ -9,7 +9,6 @@ import {
   useGameDataFetch,
   useWallet,
   useWalletOnboarding,
-  useXpAllocatableFetch,
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
 import { selectIslandMode, useDappSelector } from "redux-state"
@@ -33,7 +32,6 @@ function DApp() {
   useWallet()
   useGameDataFetch()
   useBalanceFetch()
-  useXpAllocatableFetch()
 
   return (
     <>
