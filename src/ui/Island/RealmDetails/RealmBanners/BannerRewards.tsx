@@ -40,6 +40,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
 
   const claimTransactionData = {
     id: CLAIM_XP_TX_ID,
+    title: "Sign transaction to claim XP",
     buttonLabel: "Claim XP",
     status: claimXpTransactionStatus,
     onClick: claimTransaction,
