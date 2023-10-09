@@ -1,6 +1,8 @@
 import React from "react"
-import { setQuickUnstaking } from "testing/utils/quickUnstaking"
-
+import {
+  createXPtokens,
+  setQuickUnstaking,
+} from "testing/utils/contract-actions"
 /**
  * This component shouldn't be used in production.
  * It is used to allow manual testing on the blockchain fork.
@@ -14,6 +16,9 @@ export default function TestingPanel() {
     <div className="testing row">
       <button type="button" onClick={setQuickUnstaking}>
         Quick unstaking
+      </button>
+      <button type="button" onClick={createXPtokens}>
+        Create XP tokens
       </button>
       <style jsx>
         {`
