@@ -54,6 +54,25 @@ export const selectStakingRealmAddress = createSelector(
     stakingRealmId && realms[stakingRealmId]?.realmContractAddress
 )
 
+/* Xp selectors */
+export const selectLeaderboards = (state: RootState) =>
+  state.island.leaderboards
+
+const selectLeaderboardDataById = createSelector(
+  [(_, realmId: string) => realmId, selectLeaderboards],
+  (realmId, leaderboards) => leaderboards[realmId]
+)
+
+export const selectLeaderboardById = createSelector(
+  selectLeaderboardDataById,
+  (leaderboard) => leaderboard?.leaderboard ?? []
+)
+
+export const selectUserLeaderboardRankById = createSelector(
+  selectLeaderboardDataById,
+  (leaderboard) => leaderboard?.currentUser ?? null
+)
+
 /* Helpful selectors */
 export const selectIsStakingRealmDisplayed = createSelector(
   selectStakingRealmAddress,

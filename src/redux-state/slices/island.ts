@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { OverlayType, RealmData, RealmDataWithId } from "shared/types"
+import {
+  LeaderboardData,
+  OverlayType,
+  RealmData,
+  RealmDataWithId,
+  UnclaimedXpData,
+} from "shared/types"
 
 type IslandModeType = "default" | "join-realm"
 
@@ -7,6 +13,8 @@ export type IslandState = {
   mode: IslandModeType
   overlay: OverlayType
   realms: { [id: string]: RealmData }
+  leaderboards: { [id: string]: LeaderboardData }
+  unclaimedXp: { [id: string]: UnclaimedXpData }
   stakingRealmId: string | null
   stakeUnlockTime: number | null
   displayedRealmId: string | null
@@ -17,6 +25,8 @@ const initialState: IslandState = {
   mode: "default",
   overlay: "dark",
   realms: {},
+  leaderboards: {},
+  unclaimedXp: {},
   stakingRealmId: null,
   stakeUnlockTime: null,
   displayedRealmId: null,
@@ -80,6 +90,18 @@ const islandSlice = createSlice({
     ) => {
       immerState.stakeUnlockTime = stakeUnlockTime
     },
+    setLeaderboardData: (
+      immerState,
+      { payload }: { payload: { id: string; data: LeaderboardData } }
+    ) => {
+      immerState.leaderboards[payload.id] = payload.data
+    },
+    setUnclaimedXpData: (
+      immerState,
+      { payload }: { payload: { id: string; data: UnclaimedXpData } }
+    ) => {
+      immerState.unclaimedXp[payload.id] = payload.data
+    },
     resetIsland: (immerState) => {
       immerState.mode = "default"
       immerState.overlay = "none"
@@ -97,6 +119,8 @@ export const {
   setDisplayedRealmId,
   setStakingRealmId,
   setStakingUnlockTime,
+  setLeaderboardData,
+  setUnclaimedXpData,
 } = islandSlice.actions
 
 export default islandSlice.reducer

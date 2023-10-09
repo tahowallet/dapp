@@ -12,6 +12,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import {
+  fetchLeaderboardData,
   fetchPopulation,
   initRealmsDataFromContracts,
 } from "redux-state/thunks/island"
@@ -47,6 +48,7 @@ export function useFetchRealmsContracts() {
       await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchWalletBalances())
       await dispatch(fetchPopulation())
+      await dispatch(fetchLeaderboardData())
       setHasAlreadyFetched(true)
     }
 

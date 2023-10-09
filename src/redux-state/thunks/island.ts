@@ -232,3 +232,39 @@ export const unstakeTaho = createDappAsyncThunk(
     return !!receipt
   }
 )
+
+export const fetchLeaderboardData = createDappAsyncThunk(
+  "island/fetchLeaderboardData",
+  async (_, { dispatch, getState }) => {
+    const {
+      island: { realms },
+      wallet: { address },
+    } = getState()
+
+    await Promise.allSettled(
+      Object.keys(realms).map(async (realmId) => {
+        const xpData = await getRealmXpData({
+          id: realmId,
+        })
+
+        if (xpData) {
+          const sorted = getRealmXpSorted(xpData)
+          const leaderboard = sorted.slice(0, 10).map((item, index) => ({
+            ...item,
+            rank: index + 1,
+          }))
+
+          const currentUser = getUserXpRank(sorted, address)
+
+          dispatch(
+            setLeaderboardData({
+              id: realmId,
+              data: { currentUser, leaderboard },
+            })
+          )
+        }
+      })
+    )
+  }
+)
+
