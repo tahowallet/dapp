@@ -34,6 +34,8 @@ export default function FullPageLoader() {
             background: linear-gradient(179deg, #0d2321 0.77%, #153d3b 101%);
             justify-content: center;
             overflow: hidden;
+            position: fixed;
+            inset: 0;
           }
 
           .demo {
