@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import TabPanel from "shared/components/TabPanel"
 import {
+  selectDisplayedRealmId,
   selectEligibility,
   selectHasClaimed,
   selectIsStakingRealmDisplayed,
   selectIsWalletConnected,
   selectStakingRealmAddress,
+  selectUnclaimedXpSumById,
   useDappSelector,
 } from "redux-state"
 import Leaderboard from "./Leaderboard"
@@ -15,8 +17,6 @@ import BannerJoin from "./RealmBanners/BannerJoin"
 import BannerClaim from "./RealmBanners/BannerClaim"
 import Rewards from "./Rewards"
 import BannerRewards from "./RealmBanners/BannerRewards"
-
-const MOCKED_REWARD_AMOUNT = 20.123
 
 type RealmDetailsProps = {
   onClose: () => void
@@ -36,11 +36,13 @@ function RealmDetailsBanner({
 }: RealmDetailsBannerProps) {
   const isConnected = useDappSelector(selectIsWalletConnected)
   const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
+  const displatedRealmId = useDappSelector(selectDisplayedRealmId)
   const eligibility = useDappSelector(selectEligibility)
   const hasClaimed = useDappSelector(selectHasClaimed)
   const isStakingRealm = useDappSelector(selectIsStakingRealmDisplayed)
-  // TODO: use a correct data
-  const rewardAmount = MOCKED_REWARD_AMOUNT ?? 0
+  const rewardAmount = useDappSelector((state) =>
+    displatedRealmId ? selectUnclaimedXpSumById(state, displatedRealmId) : 0
+  )
 
   if (!isConnected) {
     return <BannerConnect />

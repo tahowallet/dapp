@@ -58,6 +58,8 @@ export const selectStakingRealmAddress = createSelector(
 export const selectLeaderboards = (state: RootState) =>
   state.island.leaderboards
 
+export const selectUnclaimedXp = (state: RootState) => state.island.unclaimedXp
+
 const selectLeaderboardDataById = createSelector(
   [(_, realmId: string) => realmId, selectLeaderboards],
   (realmId, leaderboards) => leaderboards[realmId]
@@ -71,6 +73,21 @@ export const selectLeaderboardById = createSelector(
 export const selectUserLeaderboardRankById = createSelector(
   selectLeaderboardDataById,
   (leaderboard) => leaderboard?.currentUser ?? null
+)
+
+export const selectUnclaimedXpById = createSelector(
+  [(_, realmId: string) => realmId, selectUnclaimedXp],
+  (realmId, unclaimedXp) => unclaimedXp[realmId]
+)
+
+export const selectUnclaimedXpSumById = createSelector(
+  [selectUnclaimedXpById],
+  (unclaimedXp) =>
+    unclaimedXp?.reduce(
+      // TODO: not sue if final version will be hex or decimal
+      (acc, item) => acc + parseInt(item.claim.amount, 10),
+      0
+    ) ?? 0
 )
 
 /* Helpful selectors */
