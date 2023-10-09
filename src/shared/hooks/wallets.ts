@@ -9,6 +9,8 @@ import {
   selectWalletAddress,
   fetchWalletBalances,
   resetBalances,
+  resetIsland,
+  resetClaiming,
 } from "redux-state"
 import { BALANCE_UPDATE_INTERVAL, LOCAL_STORAGE_WALLET } from "shared/constants"
 import { useInterval } from "./helpers"
@@ -105,4 +107,24 @@ export function useConnect() {
   }, [wallet, disconnect, updateWalletOnboarding])
 
   return { isConnected: !!wallet, connect, disconnect: disconnectBound }
+}
+
+// Hook is invoked when user switches accounts
+export function useWalletChange() {
+  const dispatch = useDappDispatch()
+  const address = useDappSelector(selectWalletAddress)
+  const [currentAddress, setCurrentAddres] = useState("")
+  const [_, updateWalletOnboarding] = useWalletOnboarding()
+
+  useEffect(() => {
+    if (!currentAddress) setCurrentAddres(address)
+
+    if (address !== currentAddress) {
+      dispatch(resetIsland())
+      dispatch(resetClaiming())
+
+      updateWalletOnboarding("")
+      setCurrentAddres(address)
+    }
+  }, [currentAddress, address, updateWalletOnboarding, dispatch])
 }

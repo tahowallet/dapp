@@ -8,6 +8,7 @@ import {
   useConnect,
   useGameDataFetch,
   useWallet,
+  useWalletChange,
   useWalletOnboarding,
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
@@ -29,6 +30,7 @@ function DApp() {
   const { isConnected } = useConnect()
   const [isOnboarded] = useWalletOnboarding()
 
+  useWalletChange()
   useWallet()
   useGameDataFetch()
   useBalanceFetch()
