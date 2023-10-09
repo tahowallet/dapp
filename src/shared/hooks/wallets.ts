@@ -1,5 +1,5 @@
 import { useConnectWallet } from "@web3-onboard/react"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers } from "ethers"
 import {
   useDappDispatch,
@@ -10,7 +10,7 @@ import {
   fetchWalletBalances,
   resetBalances,
 } from "redux-state"
-import { BALANCE_UPDATE_INTERVAL } from "shared/constants"
+import { BALANCE_UPDATE_INTERVAL, LOCAL_STORAGE_WALLET } from "shared/constants"
 import { useInterval } from "./helpers"
 
 export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
@@ -63,12 +63,46 @@ export function useWallet() {
   }, [address, arbitrumProvider, avatar, dispatch])
 }
 
+// Source: https://sabesh.hashnode.dev/update-components-based-on-localstorage-change-in-react-hooks
+export function useWalletOnboarding(): [
+  string | null,
+  (newValue: string) => void
+] {
+  const initialValue = localStorage.getItem(LOCAL_STORAGE_WALLET) || null
+  const [walletOnboarded, setWalletOnboarded] = useState(initialValue)
+
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key !== LOCAL_STORAGE_WALLET) return
+      setWalletOnboarded(e.newValue)
+    }
+
+    window.addEventListener("storage", handleStorageChange)
+    return () => window.removeEventListener("storage", handleStorageChange)
+  })
+
+  const updateWalletOnboarding = (newValue: string) => {
+    window.localStorage.setItem(LOCAL_STORAGE_WALLET, newValue)
+
+    const event = new StorageEvent("storage", {
+      key: LOCAL_STORAGE_WALLET,
+      newValue,
+    })
+
+    window.dispatchEvent(event)
+  }
+
+  return [walletOnboarded, updateWalletOnboarding]
+}
+
 export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
-  const disconnectBound = useCallback(
-    () => wallet && disconnect(wallet),
-    [wallet, disconnect]
-  )
+  const [_, updateWalletOnboarding] = useWalletOnboarding()
+
+  const disconnectBound = useCallback(() => {
+    updateWalletOnboarding("")
+    return wallet && disconnect(wallet)
+  }, [wallet, disconnect, updateWalletOnboarding])
 
   return { isConnected: !!wallet, connect, disconnect: disconnectBound }
 }
