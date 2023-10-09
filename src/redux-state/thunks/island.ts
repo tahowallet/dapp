@@ -336,7 +336,7 @@ export const claimXp = createDappAsyncThunk(
     } = getState()
     const claims = unclaimedXp[realmId] ?? []
 
-    if (claims.length) {
+    if (!claims.length) {
       return false
     }
 
