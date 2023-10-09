@@ -5,13 +5,13 @@ import { useAssistant } from "shared/hooks"
 import AssistantContent from "."
 
 export default function AssistantWelcome() {
-  const { assistant, closeAssistant } = useAssistant()
+  const { updateAssistant, assistantVisible } = useAssistant()
 
   return (
     <>
       <AssistantContent
-        isVisible={assistant.visible && assistant.type === "welcome"}
-        close={closeAssistant}
+        isVisible={assistantVisible("welcome")}
+        close={() => updateAssistant({ visible: false, type: "default" })}
       >
         <div className="header">Welcome to The Island, Nomad!</div>
         <p className="paragraph">My name is Scout and I&apos;m here to help!</p>

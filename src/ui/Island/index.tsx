@@ -36,7 +36,7 @@ export default function IslandWrapper() {
 
   const dispatch = useDappDispatch()
 
-  const { assistant, closeAssistant } = useAssistant()
+  const { updateAssistant, assistantVisible } = useAssistant()
 
   useEffect(() => {
     dispatch(setDisplayedRealmId(realmId))
@@ -45,7 +45,8 @@ export default function IslandWrapper() {
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
       setRealmId(String(id))
-      if (assistant.type === "welcome" && assistant.visible) closeAssistant()
+      if (assistantVisible("welcome"))
+        updateAssistant({ visible: false, type: "default" })
     },
   }))
 

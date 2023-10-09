@@ -13,13 +13,13 @@ export default function AssistantQuests() {
   const stakedRealm = useDappSelector(selectStakingRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, stakedRealm))
 
-  const { assistant, closeAssistant } = useAssistant()
+  const { updateAssistant, assistantVisible } = useAssistant()
 
   return (
     <>
       <AssistantContent
-        isVisible={assistant.visible && assistant.type === "quests"}
-        close={closeAssistant}
+        isVisible={assistantVisible("quests")}
+        close={() => updateAssistant({ visible: false, type: "default" })}
       >
         <div className="header">
           You are now a Citizen of {realm?.name}, I think you&apos;ll like it

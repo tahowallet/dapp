@@ -6,7 +6,7 @@ import { useAssistant } from "shared/hooks"
 import AssistantContent from "."
 
 export default function AssistantJoin() {
-  const { assistant, closeAssistant } = useAssistant()
+  const { updateAssistant, assistantVisible } = useAssistant()
 
   const joinHandler = () => {
     // TODO: add link to discord
@@ -15,8 +15,8 @@ export default function AssistantJoin() {
   return (
     <>
       <AssistantContent
-        isVisible={assistant.visible && assistant.type === "default"}
-        close={closeAssistant}
+        isVisible={assistantVisible("default")}
+        close={() => updateAssistant({ visible: false, type: "default" })}
       >
         <div className="header">I hope you are enjoying The Island Beta!</div>
         <p className="paragraph">

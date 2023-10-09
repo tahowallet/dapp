@@ -8,11 +8,11 @@ import AssistantQuests from "./AssistantContent/AssistantQuests"
 import AssistantJoin from "./AssistantContent/AssistantJoin"
 
 export default function Assistant() {
-  const { assistant, initializeAssistant, toggleAssistant } = useAssistant()
+  const { assistant, updateAssistant } = useAssistant()
 
   useEffect(() => {
-    if (!assistant) initializeAssistant()
-  }, [assistant, initializeAssistant])
+    if (!assistant) updateAssistant({ visible: true, type: "welcome" })
+  }, [assistant, updateAssistant])
 
   if (!assistant) return null
 
@@ -23,7 +23,12 @@ export default function Assistant() {
           <button
             type="button"
             className="assistant_trigger button_reset"
-            onClick={toggleAssistant}
+            onClick={() =>
+              updateAssistant({
+                visible: !assistant.visible,
+                type: "default",
+              })
+            }
           >
             <Icon
               src={assistantImage}
