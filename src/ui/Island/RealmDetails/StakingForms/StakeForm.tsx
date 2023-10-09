@@ -8,6 +8,7 @@ import {
   selectDisplayedRealmAddress,
   selectTransactionStatusById,
   stopTrackingTransactionStatus,
+  selectStakingRealmAddress,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -15,6 +16,7 @@ import { TAHO_ADDRESS } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import { useTransactionSuccessCallback } from "shared/hooks"
+import StakeCongratulationsModal from "./StakeCongratulationsModal"
 
 const STAKE_TX_ID = "stake"
 
@@ -22,6 +24,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const dispatch = useDappDispatch()
 
   const displayedRealmAddress = useDappSelector(selectDisplayedRealmAddress)
+  const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
 
   const [stakeAmount, setStakeAmount] = useState("")
   const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
@@ -31,6 +34,9 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   )
 
   const [isStakeTransactionModalOpen, setIsStakeTransactionModalOpen] =
+    useState(false)
+
+  const [isCongratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
 
   const stakeTransaction = () => {
@@ -54,23 +60,17 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     onClick: stakeTransaction,
   }
 
+  const openCongratulationsModal = () => {
+    if (!stakingRealmAddress) {
+      setCongratulationsModalOpen(true)
+    }
+  }
+
   const stakeTransactionSuccessCallback = useCallback(() => {
     setIsStakeTransactionModalOpen(false)
     setStakeAmount("")
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
   }, [dispatch])
-
-  useTransactionSuccessCallback(
-    stakeTransactionStatus,
-    stakeTransactionSuccessCallback
-  )
-
-  useEffect(
-    () => () => {
-      dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
-    },
-    [dispatch]
-  )
 
   const onInputChange = (value: string) => {
     setStakeAmount(value)
@@ -79,6 +79,18 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
       dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
     }
   }
+
+  useTransactionSuccessCallback(stakeTransactionStatus, () => {
+    stakeTransactionSuccessCallback()
+    openCongratulationsModal()
+  })
+
+  useEffect(
+    () => () => {
+      dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
+    },
+    [dispatch]
+  )
 
   return (
     <>
@@ -115,6 +127,10 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
         isOpen={isStakeTransactionModalOpen}
         close={() => setIsStakeTransactionModalOpen(false)}
         transactions={[stakeTransactionData]}
+      />
+      <StakeCongratulationsModal
+        isOpen={isCongratulationsModalOpen}
+        close={() => setCongratulationsModalOpen(false)}
       />
       <style jsx>{`
         .stake_control {

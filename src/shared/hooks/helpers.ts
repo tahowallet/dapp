@@ -136,3 +136,32 @@ export function useTimeout(callback: () => void, delay: number | null) {
 export function useVisibilityTransition(state: boolean) {
   return useSpring({ opacity: state ? 1 : 0 })
 }
+
+export function useAssets(assets: string[]) {
+  const [assetsLoaded, setAssetsLoaded] = useState(false)
+
+  useLayoutEffect(() => {
+    let loaded = 0
+
+    const checkAssetsLoaded = () => {
+      loaded += 1
+      if (loaded === assets.length) setAssetsLoaded(true)
+    }
+
+    assets.forEach((asset) => {
+      if (asset.endsWith(".mp4") || asset.endsWith(".webm")) {
+        const video = document.createElement("video")
+        video.src = asset
+        video.onloadeddata = () => {
+          if (video.readyState === 4) checkAssetsLoaded()
+        }
+      } else {
+        const img = new Image()
+        img.src = asset
+        img.onload = checkAssetsLoaded
+      }
+    })
+  }, [assets])
+
+  return assetsLoaded
+}

@@ -46,7 +46,7 @@ const walletSlice = createSlice({
       immerState.name = payload.name || immerState.name || ""
       immerState.avatar = payload.avatar || immerState.avatar || portrait
     },
-    updateDisconnectedWallet: (_) => initialState,
+    updateDisconnectedWallet: () => initialState,
     updateBalances: (
       immerState,
       { payload: balances }: { payload: TokenBalances }

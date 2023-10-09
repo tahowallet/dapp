@@ -12,19 +12,21 @@ export type RealmContractData = {
   xpTokenNamePrefix: string
   xpTokenSymbolPrefix: string
   population: number
-  // TODO: Finally, custom data should be taken from the following link
-  questlineUrl: string
+  merkleDataUrl: string
 }
 
-// Custom data from JSON file
-export type RealmCustomData = {
-  color: string
-  xpfn: string
+// Questline data from JSON file
+export type RealmQuestlineData = {
+  questlineUrl: string
+  questlineHash: string
   description: string
+  questlineName: string
   quests: { name: string; description: string }[]
 }
 
-export type RealmData = RealmAddressesData & RealmContractData & RealmCustomData
+export type RealmData = RealmAddressesData &
+  RealmContractData &
+  RealmQuestlineData
 
 export type RealmDataWithId = { id: string; data: RealmData }
 
@@ -44,3 +46,11 @@ export type UnclaimedXpData = XpDistributor & {
 export type StakingData = { realmContractAddress: string; amount: bigint }
 
 export type OverlayType = "dark" | "subtle" | "none"
+
+export type SeasonInfo = {
+  season: number
+  seasonStartTimestamp: number
+  seasonEndTimestamp: number
+  isInterSeason: boolean
+  durationInWeeks: number
+}

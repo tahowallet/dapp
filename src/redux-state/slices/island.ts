@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 import {
   LeaderboardData,
+  UnclaimedXpData,
   OverlayType,
   RealmData,
   RealmDataWithId,
-  UnclaimedXpData,
+  SeasonInfo,
 } from "shared/types"
 
 type IslandModeType = "default" | "join-realm"
@@ -19,6 +20,7 @@ export type IslandState = {
   stakeUnlockTime: number | null
   displayedRealmId: string | null
   zoomLevel: number
+  seasonInfo: SeasonInfo | null
 }
 
 const initialState: IslandState = {
@@ -31,6 +33,7 @@ const initialState: IslandState = {
   stakeUnlockTime: null,
   displayedRealmId: null,
   zoomLevel: 1,
+  seasonInfo: null,
 }
 
 const islandSlice = createSlice({
@@ -102,6 +105,12 @@ const islandSlice = createSlice({
     ) => {
       immerState.unclaimedXp[payload.id] = payload.data
     },
+    setSeasonInfo: (
+      immerState,
+      { payload: seasonInfo }: { payload: SeasonInfo }
+    ) => {
+      immerState.seasonInfo = seasonInfo
+    },
     resetIsland: (immerState) => {
       immerState.mode = "default"
       immerState.overlay = "none"
@@ -121,6 +130,7 @@ export const {
   setStakingUnlockTime,
   setLeaderboardData,
   setUnclaimedXpData,
+  setSeasonInfo,
 } = islandSlice.actions
 
 export default islandSlice.reducer

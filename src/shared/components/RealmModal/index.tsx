@@ -6,7 +6,7 @@ import {
   useTransition as useSpringTransition,
 } from "@react-spring/web"
 import Modal from "shared/components/Modal"
-import { realms } from "shared/constants"
+import { REALMS_MAP_DATA } from "shared/constants"
 import { useIslandContext } from "shared/hooks"
 import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import RealmModalContent from "./RealmModalContent"
@@ -136,12 +136,18 @@ export default function RealmModal({
   const islandContext = useIslandContext()
 
   const [prevRealm, nextRealm] = useMemo(() => {
-    const index = realms.findIndex((realm) => realm.id === initialRealmId)
+    const index = REALMS_MAP_DATA.findIndex(
+      (realm) => realm.id === initialRealmId
+    )
 
     const prev =
-      index - 1 < 0 ? realms[realms.length - 1].id : realms[index - 1].id
+      index - 1 < 0
+        ? REALMS_MAP_DATA[REALMS_MAP_DATA.length - 1].id
+        : REALMS_MAP_DATA[index - 1].id
     const next =
-      index + 1 === realms.length ? realms[0].id : realms[index + 1].id
+      index + 1 === REALMS_MAP_DATA.length
+        ? REALMS_MAP_DATA[0].id
+        : REALMS_MAP_DATA[index + 1].id
     return [prev, next]
   }, [initialRealmId])
 

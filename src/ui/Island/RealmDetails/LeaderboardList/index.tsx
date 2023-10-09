@@ -1,4 +1,5 @@
 import React from "react"
+import placeholderLeaderboard from "shared/assets/placeholder-leaderboard.png"
 
 import {
   selectDisplayedRealmId,
@@ -8,6 +9,9 @@ import {
   useDappSelector,
 } from "redux-state"
 import LeaderboardItem from "./LeaderboardItem"
+import RealmDetailsPlaceholder from "../Placeholder"
+
+const leaderboardDateAvailable = "Oct 31"
 
 export default function LeaderboardList() {
   const realmId = useDappSelector(selectDisplayedRealmId)
@@ -22,7 +26,12 @@ export default function LeaderboardList() {
   )
 
   if (!leaderboardList.length) {
-    return null
+    return (
+      <RealmDetailsPlaceholder
+        title={`Available after\n${leaderboardDateAvailable}`}
+        imageSrc={placeholderLeaderboard}
+      />
+    )
   }
 
   return (

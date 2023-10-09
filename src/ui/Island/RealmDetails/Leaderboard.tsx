@@ -1,12 +1,10 @@
 import React from "react"
-
 import LeaderboardList from "./LeaderboardList"
 
 export default function Leaderboard() {
   // const [query, setQuery] = useState("")
-
   return (
-    <div className="leaderboard_container">
+    <>
       {/* <SharedInput
         value={query}
         onChange={setQuery}
@@ -19,12 +17,6 @@ export default function Leaderboard() {
         }
       /> */}
       <LeaderboardList />
-      <style jsx>{`
-        .leaderboard_container {
-          overflow-y: auto;
-          scrollbar-width: none;
-        }
-      `}</style>
-    </div>
+    </>
   )
 }

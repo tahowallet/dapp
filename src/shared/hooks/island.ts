@@ -12,13 +12,14 @@ import {
   useDappSelector,
   selectWalletAddress,
 } from "redux-state"
+import { SECOND } from "shared/constants"
 import {
   fetchLeaderboardData,
   fetchPopulation,
   fetchUnclaimedXp,
   initRealmsDataFromContracts,
+  initSeasonInfoData,
 } from "redux-state/thunks/island"
-import { SECOND } from "shared/constants"
 import { useArbitrumProvider } from "./wallets"
 import { useInterval } from "./helpers"
 
@@ -38,7 +39,7 @@ export function useIslandContext() {
   return useContext(IslandContext)
 }
 
-export function useFetchRealmsContracts() {
+export function useGameDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
   const account = useDappSelector(selectWalletAddress)
@@ -51,6 +52,7 @@ export function useFetchRealmsContracts() {
     if (!provider || hasAlreadyFetched) return
 
     const fetchData = async () => {
+      await dispatch(initSeasonInfoData())
       await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchPopulation())
 

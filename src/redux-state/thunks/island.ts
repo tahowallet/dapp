@@ -1,18 +1,20 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
 import {
   setLeaderboardData,
+  setUnclaimedXpData,
   setRealmPopulation,
   setRealmsData,
-  setUnclaimedXpData,
+  setSeasonInfo,
 } from "redux-state/slices/island"
 import {
   REALMS_WITH_CONTRACT_NAME,
   TAHO_ADDRESS,
-  getRealmCustomData,
+  getQuestlineData,
 } from "shared/constants"
 import {
   getAllRealmsData,
   getAllowance,
+  getSeasonInfo,
   getStakersRegistered,
   getStakersUnregistered,
   setAllowance,
@@ -48,15 +50,15 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
 
       if (realmData !== null) {
         const updatedRealms = realmData.map(({ id, data }) => {
-          const customData = getRealmCustomData(id)
+          const questlineData = getQuestlineData(data.realmContractAddress)
           return {
             id,
             data: {
-              ...customData,
+              ...questlineData,
               ...data,
               // TODO: The name of the realm should be taken from the contracts.
-              // At the moment, these aren't available. So let's use the ones stored in the JSON file.
-              name: data.name || customData.name,
+              // At the moment, these aren't available. Let's use mocked data for this moment.
+              name: data.name || REALMS_WITH_CONTRACT_NAME[id].realmName,
             },
           }
         })
@@ -67,6 +69,19 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
     }
 
     return false
+  }
+)
+
+export const initSeasonInfoData = createDappAsyncThunk(
+  "island/initSeasonInfoData",
+  async (_, { dispatch, extra: { transactionService } }) => {
+    const seasonInfo = await transactionService.read(getSeasonInfo, null)
+
+    if (seasonInfo) {
+      dispatch(setSeasonInfo(seasonInfo))
+    }
+
+    return !!seasonInfo
   }
 )
 

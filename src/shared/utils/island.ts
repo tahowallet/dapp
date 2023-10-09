@@ -159,7 +159,7 @@ export function getCurrentCanvasPosition(
 const POPULATION_ICON_SIZE = 24
 const POPULATION_BAR_GAP = 8
 
-export function calculateRealmsByPopulationIconPositions(
+export function calculatePopulationIconsPositions(
   width: number,
   realmsData: RealmsData[],
   maxValue: number
@@ -168,14 +168,33 @@ export function calculateRealmsByPopulationIconPositions(
 
   realmsData.forEach((realm, index) => {
     const populationShare = realm.population / maxValue
-    let iconPosition = populationShare * width
+    let iconPosition = Math.max(
+      populationShare * width + POPULATION_BAR_GAP,
+      POPULATION_BAR_GAP + index * POPULATION_ICON_SIZE
+    )
 
+    // Realm with smallest population
+    if (index === 0) {
+      iconPosition = POPULATION_BAR_GAP
+    }
+
+    // Realm with biggest population
+    if (realm.population === maxValue) {
+      iconPosition = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
+    }
+
+    // Realms have small population difference
     if (iconPosition < positions[index - 1] + POPULATION_ICON_SIZE) {
       iconPosition = positions[index - 1] + POPULATION_ICON_SIZE
-    } else if (iconPosition >= width) {
-      iconPosition = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
-    } else if (iconPosition === 0) {
-      iconPosition = POPULATION_BAR_GAP
+    }
+
+    // Setting max position for realms sorted by population
+    const MAX_VALUE =
+      width -
+      ((realmsData.length - index) * POPULATION_ICON_SIZE + POPULATION_BAR_GAP)
+
+    if (iconPosition + POPULATION_ICON_SIZE > MAX_VALUE) {
+      iconPosition = MAX_VALUE
     }
 
     positions[index] = iconPosition
