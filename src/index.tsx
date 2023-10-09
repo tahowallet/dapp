@@ -3,7 +3,12 @@ import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
-import { useBalanceFetch, useGameDataFetch, useWallet } from "shared/hooks"
+import {
+  useBalanceFetch,
+  useGameDataFetch,
+  useWallet,
+  useXpAllocatableFetch,
+} from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
 import { selectIslandMode, useDappSelector } from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
@@ -23,6 +28,7 @@ function DApp() {
   useWallet()
   useGameDataFetch()
   useBalanceFetch()
+  useXpAllocatableFetch()
 
   return (
     <>

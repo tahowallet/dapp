@@ -80,6 +80,7 @@ export const getRealmData: ReadTransactionBuilder<
             contractAddress: xpTokenContractAddress,
           },
           merkleDataUrl,
+          xpAllocatable: 0n,
           // Population is fetched after all Realm data is initialized
           // and contract addresses are saved in the state to ensure that
           // calculating population based on the Events is not blocking

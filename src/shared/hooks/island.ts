@@ -10,12 +10,14 @@ import {
   useDappDispatch,
   selectStakeUnlockTime,
   useDappSelector,
+  selectWalletAddress,
 } from "redux-state"
-import { SECOND } from "shared/constants"
+import { SECOND, XP_ALLOCATABLE_UPDATE_INTERVAL } from "shared/constants"
 import {
   fetchPopulation,
   initRealmsDataFromContracts,
   initSeasonInfoData,
+  updateXpAllocatable,
 } from "redux-state/thunks/island"
 import { useArbitrumProvider } from "./wallets"
 import { useInterval } from "./helpers"
@@ -89,4 +91,20 @@ export function useStakeCooldownPeriod() {
   useInterval(intervalCallback, intervalTime)
 
   return { hasCooldown: !!timeRemaining && timeRemaining > 0, timeRemaining }
+}
+
+export function useXpAllocatableFetch() {
+  const dispatch = useDappDispatch()
+  const account = useDappSelector(selectWalletAddress)
+
+  const xpAllocatableCallback = useCallback(() => {
+    if (account && dispatch) {
+      dispatch(updateXpAllocatable())
+    }
+  }, [account, dispatch])
+
+  useInterval(
+    xpAllocatableCallback,
+    account ? XP_ALLOCATABLE_UPDATE_INTERVAL : null
+  )
 }

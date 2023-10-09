@@ -1,6 +1,7 @@
 import React from "react"
 import {
   selectIsEndOfSeason,
+  selectRealmById,
   selectSeasonDurationInWeeks,
   selectSeasonWeek,
   selectWeekEndDate,
@@ -8,7 +9,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import RealmIcon from "shared/components/RealmIcon"
-import { formatDate } from "shared/utils"
+import { bigIntToUserAmount, formatDate } from "shared/utils"
 
 export default function QuestsDetails({
   realmId,
@@ -22,6 +23,7 @@ export default function QuestsDetails({
   const seasonWeek = useDappSelector(selectSeasonWeek)
   const duration = useDappSelector(selectSeasonDurationInWeeks)
   const isEndOfSeason = useDappSelector(selectIsEndOfSeason)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   return (
     <div className="content">
@@ -54,7 +56,7 @@ export default function QuestsDetails({
               width="32px"
               color="var(--primary-p1-100)"
             />
-            350,483
+            {bigIntToUserAmount(realm?.xpAllocatable ?? 0n)}
           </h1>
           {tokenSymbol}
         </div>
