@@ -4,13 +4,13 @@ import { useWalletOnboarding } from "shared/hooks"
 import { selectWalletAddress, useDappSelector } from "redux-state"
 
 export default function EnterPortal() {
-  const walletAdress = useDappSelector(selectWalletAddress)
+  const walletAddress = useDappSelector(selectWalletAddress)
   const [_, setIsOnboarded] = useWalletOnboarding()
 
   return (
     <OnboardingModal
       buttonLabel="Enter the portal"
-      onClick={() => setIsOnboarded(walletAdress)}
+      onClick={() => setIsOnboarded(walletAddress)}
     >
       You have been
       <br /> granted passage.
