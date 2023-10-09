@@ -8,6 +8,8 @@
     "start": "yarn write-types && patch-package && webpack serve --mode=development",
     "build": "yarn write-types && patch-package && webpack build --mode=production",
     "write-types": "node scripts/write-taho-types.mjs",
+    "start-season": "ts-node scripts/start-season.mjs",
+    "create-xp": "ts-node scripts/create-xp-tokens.mjs",
     "lint:eslint": "eslint .",
     "lint:fix:eslint": "eslint . --fix",
     "lint:config": "prettier -c '**/*.@(json|yaml|toml)'",
