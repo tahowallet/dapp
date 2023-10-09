@@ -5,6 +5,7 @@ export default function RealmPin({ avatar }: { avatar: string }) {
   return (
     <>
       <div className="realm_pin">
+        <img src={realmPin} height={86} width={74} alt="Realm Pin" />
         <img
           src={avatar}
           height={60}
@@ -12,7 +13,6 @@ export default function RealmPin({ avatar }: { avatar: string }) {
           alt="Avatar"
           className="realm_pin_avatar"
         />
-        <img src={realmPin} height={92} width={108} alt="Realm Pin" />
       </div>
       <style jsx>{`
         .realm_pin {
@@ -20,16 +20,13 @@ export default function RealmPin({ avatar }: { avatar: string }) {
           z-index: 2;
           left: 190px;
           top: 30px;
-          height: 89px;
         }
         .realm_pin_avatar {
           position: absolute;
-          height: 60px;
-          width: 60px;
           border-radius: 50%;
           overflow: hidden;
-          left: 8px;
-          top: 7px;
+          left: 7px;
+          top: 6px;
         }
       `}</style>
     </>

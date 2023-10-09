@@ -7,9 +7,9 @@ import {
   selectWalletAvatar,
   useDappSelector,
 } from "redux-state"
-import { getRealmMapData } from "shared/constants"
+import { FIGMA_FACTOR, getRealmMapData } from "shared/constants"
 
-const PIN_TRANSLATE = 200
+const PIN_TRANSLATE = 350
 
 export default function RealmPin() {
   const stakingRealmId = useDappSelector(selectStakingRealmId)
@@ -27,14 +27,20 @@ export default function RealmPin() {
 
   return (
     <Group listening={false}>
-      <Image image={pinImage} x={pinX} y={pinY} height={237} width={290} />
+      <Image
+        image={pinImage}
+        x={pinX}
+        y={pinY}
+        height={86 * FIGMA_FACTOR.Y}
+        width={74 * FIGMA_FACTOR.X}
+      />
       <Image
         image={avatarImage}
-        x={pinX + 21}
-        y={pinY + 18}
-        height={158}
-        width={158}
-        cornerRadius={79}
+        x={pinX + 24}
+        y={pinY + 20}
+        height={60 * FIGMA_FACTOR.Y}
+        width={60 * FIGMA_FACTOR.X}
+        cornerRadius={100}
       />
     </Group>
   )
