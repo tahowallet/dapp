@@ -140,18 +140,25 @@ export function useVisibilityTransition(state: boolean) {
 export function useAssets(assets: string[]) {
   const [assetsLoaded, setAssetsLoaded] = useState(false)
 
-  // TODO: modify this to also accept video as an asset
   useLayoutEffect(() => {
     let loaded = 0
 
+    const checkAssetsLoaded = () => {
+      loaded += 1
+      if (loaded === assets.length) setAssetsLoaded(true)
+    }
+
     assets.forEach((asset) => {
-      const img = new Image()
-      img.src = asset
-      img.onload = () => {
-        loaded += 1
-        if (loaded === assets.length) {
-          setAssetsLoaded(true)
+      if (asset.endsWith(".mp4") || asset.endsWith(".webm")) {
+        const video = document.createElement("video")
+        video.src = asset
+        video.onloadeddata = () => {
+          if (video.readyState === 4) checkAssetsLoaded()
         }
+      } else {
+        const img = new Image()
+        img.src = asset
+        img.onload = checkAssetsLoaded
       }
     })
   }, [assets])
