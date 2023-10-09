@@ -1,5 +1,10 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
-import { setRealmPopulation, setRealmsData } from "redux-state/slices/island"
+import {
+  setLeaderboardData,
+  setRealmPopulation,
+  setRealmsData,
+  setUnclaimedXpData,
+} from "redux-state/slices/island"
 import {
   REALMS_WITH_CONTRACT_NAME,
   TAHO_ADDRESS,
@@ -13,11 +18,19 @@ import {
   setAllowance,
   stake,
   unstake,
+  getUnclaimedXpDistributions,
+  claimXp as claimXpTokens,
 } from "shared/contracts"
 import { selectRealmWithIdByAddress } from "redux-state/selectors/island"
 import { TransactionProgressStatus } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { getAllowanceTransactionID } from "shared/utils"
+import {
+  getRealmLeaderboardData,
+  getRealmXpSorted,
+  getUserLeaderboardRank,
+  getUserXpByMerkleRoot,
+} from "shared/utils/xp"
 import { fetchWalletBalances } from "./wallet"
 
 export const initRealmsDataFromContracts = createDappAsyncThunk(
@@ -243,9 +256,7 @@ export const fetchLeaderboardData = createDappAsyncThunk(
 
     await Promise.allSettled(
       Object.keys(realms).map(async (realmId) => {
-        const xpData = await getRealmXpData({
-          id: realmId,
-        })
+        const xpData = await getRealmLeaderboardData(realmId)
 
         if (xpData) {
           const sorted = getRealmXpSorted(xpData)
@@ -254,7 +265,7 @@ export const fetchLeaderboardData = createDappAsyncThunk(
             rank: index + 1,
           }))
 
-          const currentUser = getUserXpRank(sorted, address)
+          const currentUser = getUserLeaderboardRank(sorted, address)
 
           dispatch(
             setLeaderboardData({
@@ -265,6 +276,81 @@ export const fetchLeaderboardData = createDappAsyncThunk(
         }
       })
     )
+
+    return true
   }
 )
 
+export const fetchUnclaimedXp = createDappAsyncThunk(
+  "island/fetchUnclaimedXp",
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
+    const account = await transactionService.getSignerAddress()
+    const {
+      island: { realms },
+    } = getState()
+
+    if (!account) return false
+
+    await Promise.allSettled(
+      Object.entries(realms).map(
+        async ([realmId, { realmContractAddress }]) => {
+          const claims = await getUserXpByMerkleRoot(realmId, account)
+          const unclaimedXp = await transactionService.read(
+            getUnclaimedXpDistributions,
+            {
+              realmAddress: realmContractAddress,
+              claims,
+            }
+          )
+
+          if (unclaimedXp) {
+            dispatch(
+              setUnclaimedXpData({
+                id: realmId,
+                data: unclaimedXp,
+              })
+            )
+          }
+        }
+      )
+    )
+
+    return true
+  }
+)
+
+export const claimXp = createDappAsyncThunk(
+  "island/claimXp",
+  async (
+    {
+      id,
+      realmId,
+    }: {
+      id: string
+      realmId: string
+    },
+    { dispatch, getState, extra: { transactionService } }
+  ) => {
+    const {
+      island: { unclaimedXp },
+    } = getState()
+    const claims = unclaimedXp[realmId] ?? []
+
+    if (claims.length) {
+      return false
+    }
+
+    await Promise.allSettled(
+      claims.map(async ({ distributorContractAddress, claim }) => {
+        await transactionService.send(id, claimXpTokens, {
+          distributorContractAddress,
+          claim,
+        })
+      })
+    )
+
+    dispatch(fetchUnclaimedXp())
+
+    return true
+  }
+)

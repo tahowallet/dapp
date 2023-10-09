@@ -1,6 +1,7 @@
 import { Contract, ethers } from "ethers"
 import {
   ReadTransactionBuilder,
+  UnclaimedXpData,
   WriteTransactionBuilder,
   XpByMerkleRoot,
   XpDistributor,
@@ -77,7 +78,7 @@ export const getUnclaimedXpDistributions: ReadTransactionBuilder<
     realmAddress: string
     claims: XpByMerkleRoot
   },
-  XpDistributor[]
+  UnclaimedXpData[]
 > = async (provider, { realmAddress, claims }) => {
   const realmContract = await getRealmContract(provider, {
     realmContractAddress: realmAddress,
@@ -95,7 +96,7 @@ export const getUnclaimedXpDistributions: ReadTransactionBuilder<
   )
 
   const unclaimedOrNull = await Promise.all(
-    relevantDistributors.map<Promise<XpDistributor | null>>(
+    relevantDistributors.map<Promise<UnclaimedXpData | null>>(
       async ({ distributorContractAddress, merkleRoot }) => {
         const hasClaimed = await hasClaimedXp(provider, {
           distributorContractAddress,
@@ -104,13 +105,17 @@ export const getUnclaimedXpDistributions: ReadTransactionBuilder<
 
         return hasClaimed
           ? null
-          : ({ distributorContractAddress, merkleRoot } as XpDistributor)
+          : {
+              distributorContractAddress,
+              merkleRoot,
+              claim: claims[merkleRoot],
+            }
       }
     )
   )
 
-  const unclaimed = unclaimedOrNull.filter<XpDistributor>(
-    (possibleDistributor): possibleDistributor is XpDistributor =>
+  const unclaimed = unclaimedOrNull.filter<UnclaimedXpData>(
+    (possibleDistributor): possibleDistributor is UnclaimedXpData =>
       !!possibleDistributor
   )
 

@@ -1,4 +1,4 @@
-import { XpMerkleTreeItem } from "./xp"
+import { XpDistributor, XpMerkleTreeItem } from "./xp"
 
 // Data from Taho Deployer contract
 export type RealmAddressesData = {
@@ -37,7 +37,9 @@ export type LeaderboardData = {
   leaderboard: LeaderboardItemData[]
 }
 
-export type UnclaimedXpData = XpMerkleTreeItem
+export type UnclaimedXpData = XpDistributor & {
+  claim: XpMerkleTreeItem
+}
 
 export type StakingData = { realmContractAddress: string; amount: bigint }
 

@@ -10,10 +10,12 @@ import {
   useDappDispatch,
   selectStakeUnlockTime,
   useDappSelector,
+  selectWalletAddress,
 } from "redux-state"
 import {
   fetchLeaderboardData,
   fetchPopulation,
+  fetchUnclaimedXp,
   initRealmsDataFromContracts,
 } from "redux-state/thunks/island"
 import { SECOND } from "shared/constants"
@@ -39,21 +41,38 @@ export function useIslandContext() {
 export function useFetchRealmsContracts() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
+  const account = useDappSelector(selectWalletAddress)
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
+  const [hasAlreadyFetchedForAccount, setHasAlreadyFetchedForAccount] =
+    useState<string | null>(null)
 
+  // Account agnostic data
   useEffect(() => {
     if (!provider || hasAlreadyFetched) return
 
-    const fetchRealms = async () => {
+    const fetchData = async () => {
       await dispatch(initRealmsDataFromContracts())
-      await dispatch(fetchWalletBalances())
       await dispatch(fetchPopulation())
-      await dispatch(fetchLeaderboardData())
+
       setHasAlreadyFetched(true)
     }
 
-    fetchRealms()
+    fetchData()
   }, [provider, hasAlreadyFetched, dispatch])
+
+  // Account specific data
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchWalletBalances())
+      await dispatch(fetchLeaderboardData())
+      await dispatch(fetchUnclaimedXp())
+
+      setHasAlreadyFetchedForAccount(account)
+    }
+    if (account && account !== hasAlreadyFetchedForAccount) {
+      fetchData()
+    }
+  }, [dispatch, hasAlreadyFetchedForAccount, account])
 }
 
 const calculateTimeLeft = (stakeUnlockTime: number | null) =>

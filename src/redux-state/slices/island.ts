@@ -14,7 +14,7 @@ export type IslandState = {
   overlay: OverlayType
   realms: { [id: string]: RealmData }
   leaderboards: { [id: string]: LeaderboardData }
-  unclaimedXp: { [id: string]: UnclaimedXpData }
+  unclaimedXp: { [id: string]: UnclaimedXpData[] }
   stakingRealmId: string | null
   stakeUnlockTime: number | null
   displayedRealmId: string | null
@@ -98,7 +98,7 @@ const islandSlice = createSlice({
     },
     setUnclaimedXpData: (
       immerState,
-      { payload }: { payload: { id: string; data: UnclaimedXpData } }
+      { payload }: { payload: { id: string; data: UnclaimedXpData[] } }
     ) => {
       immerState.unclaimedXp[payload.id] = payload.data
     },
