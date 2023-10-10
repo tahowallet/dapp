@@ -66,24 +66,43 @@ const NavItemLink = React.forwardRef(
   )
 )
 
+type NavItemProps = {
+  path: string
+  title: string
+  exact?: boolean
+  extraInfo?: string
+}
+
 export default function NavItem({
   path,
   title,
   exact = false,
-}: {
-  path: string
-  title: string
-  exact?: boolean
-}): JSX.Element {
+  extraInfo,
+}: NavItemProps): JSX.Element {
   return (
-    <NavLink
-      className="link"
-      activeClassName="active"
-      component={NavItemLink}
-      to={path}
-      exact={exact}
-    >
-      {title}
-    </NavLink>
+    <>
+      <NavLink
+        className="link"
+        activeClassName="active"
+        component={NavItemLink}
+        to={path}
+        exact={exact}
+      >
+        {title}
+        {extraInfo && <div className="link_extra_info">{extraInfo}</div>}
+      </NavLink>
+      <style jsx>{`
+        .link_extra_info {
+          position: absolute;
+          bottom: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 12px;
+          line-height: 24px;
+          font-weight: 700;
+          color: var(--semantic-attention);
+        }
+      `}</style>
+    </>
   )
 }
