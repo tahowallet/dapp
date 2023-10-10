@@ -1,19 +1,20 @@
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import Icon from "shared/components/Icon"
-import assistant from "shared/assets/assistant.png"
-import { useTimeout } from "shared/hooks"
+import assistantImage from "shared/assets/assistant.png"
 import Portal from "shared/components/Portal"
+import { useAssistant } from "shared/hooks"
 import AssistantWelcome from "./AssistantContent/AssistantWelcome"
-// import AssistantQuests from "./AssistantContent/AssistantQuests"
-// import AssistantJoin from "./AssistantContent/AssistantJoin"
+import AssistantQuests from "./AssistantContent/AssistantQuests"
+import AssistantJoin from "./AssistantContent/AssistantJoin"
 
 export default function Assistant() {
-  const [isContentVisible, setIsContentVisible] = useState(false)
+  const { assistant, updateAssistant } = useAssistant()
 
-  // Delay content popup for nice animation
-  useTimeout(() => setIsContentVisible(true), 500)
+  useEffect(() => {
+    if (!assistant) updateAssistant({ visible: true, type: "welcome" })
+  }, [assistant, updateAssistant])
 
-  const closeAssistant = () => setIsContentVisible(false)
+  if (!assistant) return null
 
   return (
     <>
@@ -22,23 +23,24 @@ export default function Assistant() {
           <button
             type="button"
             className="assistant_trigger button_reset"
-            onClick={() => setIsContentVisible((prevState) => !prevState)}
+            onClick={() =>
+              updateAssistant({
+                visible: !assistant.visible,
+                type: "default",
+              })
+            }
           >
             <Icon
-              src={assistant}
+              src={assistantImage}
               width="62px"
               height="62px"
               type="image"
               color="currentColor"
             />
           </button>
-          {/* TODO: add logic for displaying messages */}
-          <AssistantWelcome
-            isVisible={isContentVisible}
-            close={closeAssistant}
-          />
-          {/* <AssistantQuests isVisible={isContentVisible} close={closeAssistant} /> */}
-          {/* <AssistantJoin isVisible={isContentVisible} close={closeAssistant} /> */}
+          <AssistantWelcome />
+          <AssistantQuests />
+          <AssistantJoin />
         </div>
       </Portal>
       <style jsx>{`
