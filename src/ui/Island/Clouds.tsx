@@ -9,8 +9,8 @@ import cloudTopLeft from "shared/assets/clouds/cloud-top-left.png"
 import cloudTopRight from "shared/assets/clouds/cloud-top-right.png"
 import { FIGMA_FACTOR } from "shared/constants"
 
-const amplitude = 10
-const period = 5000
+const amplitude = 15
+const period = 20000
 
 function Clouds() {
   const [cloudBottomLeftImage] = useImage(cloudBottomLeft)
@@ -27,25 +27,26 @@ function Clouds() {
     const cloudAnimation = new Konva.Animation((frame) => {
       if (!frame) return
 
-      const pos = amplitude * Math.sin((frame.time * 2 * Math.PI) / period)
+      const posX = amplitude * Math.sin((frame.time * 2 * Math.PI) / period)
+      const posY = amplitude * Math.sin((frame.time * 4 * Math.PI) / period)
 
       cloudTopLeftRef.current?.position({
-        x: 27 * FIGMA_FACTOR.X + pos,
-        y: 85 * FIGMA_FACTOR.Y + pos,
+        x: 27 * FIGMA_FACTOR.X + posY,
+        y: 85 * FIGMA_FACTOR.Y + posX,
       })
       cloudBottomLeftRef.current?.position({
-        x: 70 * FIGMA_FACTOR.X + pos,
-        y: 495 * FIGMA_FACTOR.Y + pos,
+        x: 70 * FIGMA_FACTOR.X + posY,
+        y: 495 * FIGMA_FACTOR.Y + posX,
       })
 
       cloudTopRightRef.current?.position({
-        x: 900 * FIGMA_FACTOR.X + pos,
-        y: 251 * FIGMA_FACTOR.Y + pos,
+        x: 900 * FIGMA_FACTOR.X + posX,
+        y: 251 * FIGMA_FACTOR.Y + posY,
       })
 
       cloudBottomRightRef.current?.position({
-        x: 640 * FIGMA_FACTOR.X + pos,
-        y: 340 * FIGMA_FACTOR.Y + pos,
+        x: 640 * FIGMA_FACTOR.X + posX,
+        y: 340 * FIGMA_FACTOR.Y + posY,
       })
     })
 
