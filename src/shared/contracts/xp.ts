@@ -82,16 +82,11 @@ export const getXPDistributorsAddresses: ReadTransactionBuilder<
 export const getUnclaimedXpDistributions: ReadTransactionBuilder<
   {
     realmAddress: string
+    xpAddress: string
     claims: XpByMerkleRoot
   },
   UnclaimedXpData[]
-> = async (provider, { realmAddress, claims }) => {
-  const realmContract = await getRealmContract(provider, {
-    realmContractAddress: realmAddress,
-  })
-
-  const xpAddress = await realmContract.xp()
-
+> = async (provider, { realmAddress, xpAddress, claims }) => {
   const distributorAddresses = await getXPDistributorsAddresses(provider, {
     realmContractAddress: realmAddress,
     xpContractAddress: xpAddress,
