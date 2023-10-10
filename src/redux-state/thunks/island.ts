@@ -1,6 +1,7 @@
 import createDappAsyncThunk from "redux-state/asyncThunk"
 import {
   setRealmPopulation,
+  setRealmXpAllocatable,
   setRealmsData,
   setSeasonInfo,
 } from "redux-state/slices/island"
@@ -23,6 +24,7 @@ import { selectRealmWithIdByAddress } from "redux-state/selectors/island"
 import { TransactionProgressStatus } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { getAllowanceTransactionID } from "shared/utils"
+import { getXpAllocatable } from "shared/contracts/xp"
 import { fetchWalletBalances } from "./wallet"
 
 export const initRealmsDataFromContracts = createDappAsyncThunk(
@@ -119,6 +121,41 @@ export const fetchPopulation = createDappAsyncThunk(
         dispatch(setRealmPopulation({ id: realmId, population }))
       }
     })
+  }
+)
+
+export const fetchXpAllocatable = createDappAsyncThunk(
+  "island/fetchXpAllocatable",
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
+    const {
+      island: { realms },
+    } = getState()
+
+    const result = await Promise.all(
+      Object.entries(realms).map(
+        async ([
+          id,
+          {
+            xpToken: { contractAddress },
+          },
+        ]) => {
+          const xpAllocatable =
+            (await transactionService.read(getXpAllocatable, {
+              xpContractAddress: contractAddress,
+            })) ?? 0n
+
+          return {
+            id,
+            xpAllocatable,
+          }
+        }
+      )
+    )
+
+    if (result) {
+      result.forEach((data) => dispatch(setRealmXpAllocatable(data)))
+    }
+    return !!result
   }
 )
 
