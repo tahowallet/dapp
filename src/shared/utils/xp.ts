@@ -27,7 +27,7 @@ export async function getRealmLeaderboardData(
   return xpData && (xpData.default as XpMerkleTree)
 }
 
-export async function getXpData(
+async function getXpData(
   realmId: string,
   dropIndex: number
 ): Promise<XpMerkleTree | null> {
