@@ -2,20 +2,23 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import Button from "shared/components/Button"
 import discordIcon from "shared/assets/icons/discord.svg"
-import AssistantContent, { AssistantContentProps } from "."
+import { useAssistant } from "shared/hooks"
+import AssistantContent from "."
 
-export default function AssistantJoin({
-  isVisible,
-  close,
-}: AssistantContentProps) {
+export default function AssistantJoin() {
+  const { updateAssistant, assistantVisible } = useAssistant()
+
   const joinHandler = () => {
     // TODO: add link to discord
   }
 
   return (
     <>
-      <AssistantContent isVisible={isVisible} close={close}>
-        <div className="header">I hope you are enjoying The Island Beta</div>
+      <AssistantContent
+        isVisible={assistantVisible("default")}
+        close={() => updateAssistant({ visible: false, type: "default" })}
+      >
+        <div className="header">I hope you are enjoying The Island Beta!</div>
         <p className="paragraph">
           Have any questions or ideas? Join the conversation on Discord to share
           them!

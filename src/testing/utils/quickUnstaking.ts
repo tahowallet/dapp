@@ -1,7 +1,7 @@
 import { ethers } from "ethers"
 import { gameParametersAbi, tahoDeployerAbi } from "shared/contracts/abi"
 
-const TAHO_MULTISIG = "0xe8746F8728D152FCc9F6549C2baBAa79f5BF2E08"
+const TAHO_MULTISIG = "0x6e80164ea60673d64d5d6228beb684a1274bb017"
 
 const localhostProvider = new ethers.providers.JsonRpcProvider(
   process.env.LOCALHOST_RPC_URL
