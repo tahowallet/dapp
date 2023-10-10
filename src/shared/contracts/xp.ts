@@ -1,9 +1,7 @@
-import { Contract, ethers, providers } from "ethers"
+import { Contract, providers } from "ethers"
 import { ReadTransactionBuilder } from "shared/types"
 import { xpAbi, xpMerkleDistributorFactoryAbi } from "./abi"
 import { getGameContract } from "./game"
-
-const ZERO_ADDRESS = ethers.constants.AddressZero
 
 export const getXpContract: ReadTransactionBuilder<
   { xpContractAddress: string },
@@ -30,11 +28,6 @@ export const getXpDetails: ReadTransactionBuilder<
   { name: string; symbol: string }
 > = async (provider, { xpContractAddress }) => {
   const xpContract = await getXpContract(provider, { xpContractAddress })
-
-  // TODO Remove when contracts are deployed
-  if (ZERO_ADDRESS === xpContract.address) {
-    return { name: "XP token", symbol: "XP-01" }
-  }
 
   const name = await xpContract.name()
   const symbol = await xpContract.symbol()

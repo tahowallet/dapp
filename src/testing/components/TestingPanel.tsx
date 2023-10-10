@@ -1,5 +1,6 @@
 import React from "react"
 import { setQuickUnstaking } from "testing/utils/quickUnstaking"
+
 /**
  * This component shouldn't be used in production.
  * It is used to allow manual testing on the blockchain fork.
