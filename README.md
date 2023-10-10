@@ -31,7 +31,7 @@
   # Forking Arbitrum Sepolia
   USE_MAINNET_FORK=true
   MAINNET_FORK_CHAIN_ID="421614"
-  CHAIN_API_URL="https://sepolia-rollup.arbitrum.io/rpc."
+  CHAIN_API_URL="https://sepolia-rollup.arbitrum.io/rpc"
   ```
 - Restart extension's process
 - Install extension as usual in the browser
