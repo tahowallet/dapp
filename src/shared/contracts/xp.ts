@@ -48,7 +48,7 @@ const getDistributorsFromEvents = (
 
     if (!args) return []
 
-    const distributedXpAddress = args.xp // will this work?
+    const distributedXpAddress = args.xp
 
     if (!isSameAddress(distributedXpAddress, xpContractAddress)) {
       return []

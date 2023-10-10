@@ -127,12 +127,12 @@ const selectLeaderboardDataById = createSelector(
 
 export const selectLeaderboardById = createSelector(
   selectLeaderboardDataById,
-  (leaderboard) => leaderboard?.leaderboard ?? []
+  (leaderboardData) => leaderboardData?.leaderboard ?? []
 )
 
 export const selectUserLeaderboardRankById = createSelector(
   selectLeaderboardDataById,
-  (leaderboard) => leaderboard?.currentUser ?? null
+  (leaderboardData) => leaderboardData?.currentUser ?? null
 )
 
 export const selectUnclaimedXpById = createSelector(

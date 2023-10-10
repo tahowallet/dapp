@@ -37,12 +37,12 @@ function RealmDetailsBanner({
 }: RealmDetailsBannerProps) {
   const isConnected = useDappSelector(selectIsWalletConnected)
   const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
-  const displatedRealmId = useDappSelector(selectDisplayedRealmId)
+  const displayedRealmId = useDappSelector(selectDisplayedRealmId)
   const eligibility = useDappSelector(selectEligibility)
   const hasClaimed = useDappSelector(selectHasClaimed)
   const isStakingRealm = useDappSelector(selectIsStakingRealmDisplayed)
   const rewardAmount = useDappSelector((state) =>
-    displatedRealmId ? selectUnclaimedXpSumById(state, displatedRealmId) : 0
+    displayedRealmId ? selectUnclaimedXpSumById(state, displayedRealmId) : 0
   )
 
   if (!isConnected) {
