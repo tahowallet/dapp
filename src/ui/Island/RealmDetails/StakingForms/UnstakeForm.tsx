@@ -19,6 +19,7 @@ import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import ModalLeavingRealm from "ui/Island/Modals/ModalLeavingRealm"
 import {
+  useAssistant,
   useStakeCooldownPeriod,
   useTransactionSuccessCallback,
 } from "shared/hooks"
@@ -43,6 +44,8 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
 
   const [isLeavingRealmModalOpen, setIsLeavingRealmModalOpen] = useState(false)
+
+  const { updateAssistant } = useAssistant()
 
   const unstakeTransactionStatus = useDappSelector((state) =>
     selectTransactionStatusById(state, UNSTAKE_TX_ID)
@@ -79,7 +82,8 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     setIsLeavingRealmModalOpen(false)
     setUnstakeAmount("")
     dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
-  }, [dispatch])
+    updateAssistant({ visible: false, type: "default" })
+  }, [dispatch, updateAssistant])
 
   useTransactionSuccessCallback(
     unstakeTransactionStatus,

@@ -28,6 +28,7 @@ export default function AssistantContent({
           borderRadius: 16,
           padding: "24px 32px 32px",
           width: 375,
+          pointerEvents: isVisible ? "all" : "none",
         }}
       >
         <button

@@ -22,7 +22,7 @@ import {
   getCurrentCanvasPosition,
 } from "shared/utils"
 import Controls from "ui/Controls"
-import Assistant from "ui/Footer/Assistant"
+import Assistant from "ui/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
 import RealmPin from "./RealmPin"
