@@ -9,10 +9,10 @@ export type RealmAddressesData = {
 // Data from Realm contract
 export type RealmContractData = {
   name: string
-  xpTokenNamePrefix: string
-  xpTokenSymbolPrefix: string
   population: number
   merkleDataUrl: string
+  xpAllocatable: bigint
+  xpToken: { name: string; symbol: string; contractAddress: string }
 }
 
 // Questline data from JSON file

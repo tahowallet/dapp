@@ -13,20 +13,25 @@ const NAV_ITEMS = [
     path: ROUTES.HOME,
     title: "The Island",
     exact: true,
+    extraInfo: "BETA",
   },
   {
-    path: ROUTES.REFERRALS,
-    title: "Referrals",
+    path: ROUTES.FEEDBACK,
+    title: "Feedback",
   },
-  {
-    path: ROUTES.CLAIM.HOME,
-    title: "Claim",
-  },
-  // TODO should be removed or defined later
-  {
-    path: ROUTES.LP,
-    title: "LP",
-  },
+  // {
+  //   path: ROUTES.REFERRALS,
+  //   title: "Referrals",
+  // },
+  // {
+  //   path: ROUTES.CLAIM.HOME,
+  //   title: "Claim",
+  // },
+  // // TODO should be removed or defined later
+  // {
+  //   path: ROUTES.LP,
+  //   title: "LP",
+  // },
 ]
 
 export default function Nav(): JSX.Element {
@@ -51,8 +56,14 @@ export default function Nav(): JSX.Element {
         </svg>
         <div className="lhs_container row">
           <nav className="row">
-            {NAV_ITEMS.map(({ path, title, exact }) => (
-              <NavItem key={path} path={path} title={title} exact={exact} />
+            {NAV_ITEMS.map(({ path, title, exact, extraInfo }) => (
+              <NavItem
+                key={path}
+                path={path}
+                title={title}
+                exact={exact}
+                extraInfo={extraInfo}
+              />
             ))}
           </nav>
         </div>

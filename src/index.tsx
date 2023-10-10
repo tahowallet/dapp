@@ -37,7 +37,7 @@ function DApp() {
     <>
       <GlobalStyles />
       <Router>
-        {!isOnboarded && <Onboarding />}
+        {(!isOnboarded || !isConnected) && <Onboarding />}
         {isOnboarded && isConnected && (
           <>
             <IslandComponent />

@@ -25,7 +25,10 @@ export const getSeasonInfo: ReadTransactionBuilder<null, SeasonInfo> = async (
 
   const season = seasonInfo[0].toNumber()
   // TODO: Delete when the season date has been set
-  const seasonStartTimestamp = seasonInfo[1].toNumber() || Date.now()
+  const seasonStartTimestamp = seasonInfo[1].toNumber()
+    ? // Date requires ms, whereas block.timestamp is in s
+      seasonInfo[1].toNumber() * 1000
+    : Date.now()
   const isInterSeason = seasonInfo[2]
 
   const durationInWeeks = Number(process.env.SEASON_LENGTH_IN_WEEKS ?? "8")

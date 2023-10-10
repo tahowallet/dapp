@@ -108,7 +108,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
               color="var(--primary-p1-100)"
             />
             <div className="token_amount">{amount}</div>
-            <div className="token_name">{realm.xpTokenSymbolPrefix}</div>
+            <div className="token_name">{realm.xpToken.symbol}</div>
           </div>
         </div>
         <style jsx>
@@ -150,7 +150,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
         <ClaimCongratulations
           realmId={realmId}
           amount={amount}
-          description={realm.xpTokenSymbolPrefix}
+          description={realm.xpToken.symbol}
           close={() => setCongratulationsModalOpen(false)}
         />
       )}

@@ -17,6 +17,7 @@ import {
   fetchLeaderboardData,
   fetchPopulation,
   fetchUnclaimedXp,
+  fetchXpAllocatable,
   initRealmsDataFromContracts,
   initSeasonInfoData,
 } from "redux-state/thunks/island"
@@ -55,6 +56,7 @@ export function useGameDataFetch() {
       await dispatch(initSeasonInfoData())
       await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchPopulation())
+      await dispatch(fetchXpAllocatable())
 
       setHasAlreadyFetched(true)
     }
