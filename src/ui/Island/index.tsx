@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { memo, useCallback, useEffect, useState } from "react"
 import { selectIsDefaultIslandMode } from "redux-state/selectors/island"
 import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
@@ -18,9 +18,7 @@ import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
 
-const MemoizedInteractiveIsland = React.memo(InteractiveIsland)
-
-export default function IslandWrapper() {
+function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
   const [realmId, setRealmId] = useState<null | string>(null)
 
@@ -59,7 +57,7 @@ export default function IslandWrapper() {
         `}
       </style>
       <IslandContext.Provider value={contextRef}>
-        <MemoizedInteractiveIsland />
+        <InteractiveIsland />
         {realmId && (
           <RealmModal onClose={handleClose}>
             {isDefaultIslandMode ? (
@@ -74,3 +72,5 @@ export default function IslandWrapper() {
     </div>
   )
 }
+
+export default memo(IslandWrapper)
