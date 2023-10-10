@@ -45,7 +45,6 @@ Instruction based on [the system tests readme](https://github.com/tahowallet/con
 - Install contracts
   - `nvm use`
   - `yarn install`
-  - `yarn build`
 - Provide [`.envrc`](https://github.com/tahowallet/contracts/blob/main/system-tests/.envrc.SAMPLE) variables, make sure you have [Direnv](https://direnv.net/) installed
   ```bash
   export FORKING_URL="https://sepolia-rollup.arbitrum.io/rpc"
