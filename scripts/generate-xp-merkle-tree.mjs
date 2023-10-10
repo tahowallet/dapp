@@ -5,7 +5,7 @@ import ethers from "ethers"
 const TEST_DATA = [
   {
     Holding_Amount: "1",
-    Wallet_Address: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    Wallet_Address: "0x6e80164ea60673d64d5d6228beb684a1274bb017",
   },
   {
     Holding_Amount: "2",

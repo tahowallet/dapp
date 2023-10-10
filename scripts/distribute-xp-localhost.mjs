@@ -2,14 +2,14 @@ import { ethers } from "ethers"
 
 // TODO: make it a script argument
 const MERKLE_ROOT =
-  "0xdbc0fb6353c544c5f6f61744b099c6fe6ff51083abb449dee34b25a660d5bcd6"
+  "0x95382c8d5c5293d5227a0e30788ffe1c0c86b2c3fe0abc0a56bf6816b9460613"
 const AMOUNT = 1000
 const MERKLE_DATA_URL = "test.xyz"
 const REALM_ADDRESS = "0x25f59fb6bc988c9af5cbb9e105c20971b4b420db"
 
 const TAHO_MULTISIG = "0x6e80164ea60673d64d5d6228beb684a1274bb017"
 const localhostProvider = new ethers.providers.JsonRpcProvider(
-  "http://localhost:8545"
+  "http://127.0.0.1:8545/"
 )
 
 const impersonate = (address) =>
