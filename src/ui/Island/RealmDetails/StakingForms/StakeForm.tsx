@@ -15,7 +15,7 @@ import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
-import { useTransactionSuccessCallback } from "shared/hooks"
+import { useAssistant, useTransactionSuccessCallback } from "shared/hooks"
 import StakeCongratulationsModal from "./StakeCongratulationsModal"
 
 const STAKE_TX_ID = "stake"
@@ -28,6 +28,8 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const [stakeAmount, setStakeAmount] = useState("")
   const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
+
+  const { updateAssistant } = useAssistant()
 
   const stakeTransactionStatus = useDappSelector((state) =>
     selectTransactionStatusById(state, STAKE_TX_ID)
@@ -70,7 +72,8 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     setIsStakeTransactionModalOpen(false)
     setStakeAmount("")
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
-  }, [dispatch])
+    updateAssistant({ visible: true, type: "quests" })
+  }, [dispatch, updateAssistant])
 
   const onInputChange = (value: string) => {
     setStakeAmount(value)

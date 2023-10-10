@@ -1,15 +1,18 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import realmPointer from "shared/assets/realm-pointer.png"
-import AssistantContent, { AssistantContentProps } from "."
+import { useAssistant } from "shared/hooks"
+import AssistantContent from "."
 
-export default function AssistantWelcome({
-  isVisible,
-  close,
-}: AssistantContentProps) {
+export default function AssistantWelcome() {
+  const { updateAssistant, assistantVisible } = useAssistant()
+
   return (
     <>
-      <AssistantContent isVisible={isVisible} close={close}>
+      <AssistantContent
+        isVisible={assistantVisible("welcome")}
+        close={() => updateAssistant({ visible: false, type: "default" })}
+      >
         <div className="header">Welcome to The Island, Nomad!</div>
         <p className="paragraph">My name is Scout and I&apos;m here to help!</p>
         <p className="paragraph">
