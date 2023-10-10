@@ -14,6 +14,7 @@ import {
 } from "redux-state"
 import { BALANCE_UPDATE_INTERVAL, LOCAL_STORAGE_WALLET } from "shared/constants"
 import { useInterval } from "./helpers"
+import { useAssistant } from "./assistant"
 
 export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
   const [{ wallet }] = useConnectWallet()
@@ -115,6 +116,7 @@ export function useWalletChange() {
   const address = useDappSelector(selectWalletAddress)
   const [currentAddress, setCurrentAddres] = useState("")
   const [_, updateWalletOnboarding] = useWalletOnboarding()
+  const { updateAssistant } = useAssistant()
 
   useEffect(() => {
     if (!currentAddress) setCurrentAddres(address)
@@ -124,7 +126,14 @@ export function useWalletChange() {
       dispatch(resetClaiming())
 
       updateWalletOnboarding("")
+      updateAssistant({ visible: true, type: "welcome" })
       setCurrentAddres(address)
     }
-  }, [currentAddress, address, updateWalletOnboarding, dispatch])
+  }, [
+    currentAddress,
+    address,
+    updateWalletOnboarding,
+    updateAssistant,
+    dispatch,
+  ])
 }
