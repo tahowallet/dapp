@@ -49,10 +49,20 @@ export function getQuestlineData(
 
   return questlineData
 }
-
+// ISLAND_BOX is size of the island image: public/dapp_sland_bg.webp
 export const ISLAND_BOX = {
   width: 6085,
   height: 3944,
+}
+
+const FIGMA_WORKSPACE_SIZE = {
+  width: 1731,
+  height: 1117,
+}
+
+export const FIGMA_FACTOR = {
+  X: ISLAND_BOX.width / FIGMA_WORKSPACE_SIZE.width,
+  Y: ISLAND_BOX.height / FIGMA_WORKSPACE_SIZE.height,
 }
 
 export const REALMS_MAP_DATA = [realm4, realm7, realm9, realm19, realm22]

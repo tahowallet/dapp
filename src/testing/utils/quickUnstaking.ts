@@ -19,7 +19,7 @@ const setBalance = (address: string, balance: string) =>
 // eslint-disable-next-line import/prefer-default-export
 export async function setQuickUnstaking() {
   await impersonate(TAHO_MULTISIG)
-  await setBalance(TAHO_MULTISIG, "0x1000000000000")
+  await setBalance(TAHO_MULTISIG, "0x1000000000000000")
 
   const tahoDeployer = new ethers.Contract(
     CONTRACT_TahoDeployer,

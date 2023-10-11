@@ -14,6 +14,7 @@ import {
 import { SECOND } from "shared/constants"
 import {
   fetchPopulation,
+  fetchXpAllocatable,
   initRealmsDataFromContracts,
   initSeasonInfoData,
 } from "redux-state/thunks/island"
@@ -49,6 +50,7 @@ export function useGameDataFetch() {
       await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchWalletBalances())
       await dispatch(fetchPopulation())
+      await dispatch(fetchXpAllocatable())
       setHasAlreadyFetched(true)
     }
 

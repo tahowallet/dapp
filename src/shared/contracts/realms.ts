@@ -7,6 +7,7 @@ import { Contract } from "ethers"
 import { normalizeAddress } from "shared/utils"
 import { realmAbi } from "./abi"
 import { getTahoDeployerContract } from "./game"
+import { getXpDetails } from "./xp"
 
 export const getRealmContract: ReadTransactionBuilder<
   { realmContractAddress: string },
@@ -59,26 +60,32 @@ export const getRealmData: ReadTransactionBuilder<
       })
 
       const name: string = await realmContract.realmName
-      const xpTokenNamePrefix: string = await realmContract.xpTokenNamePrefix()
-      const xpTokenSymbolPrefix: string =
-        await realmContract.xpTokenSymbolPrefix()
       // TODO: The URL will be related with the XpDistributed event.
       // The function should be updated when the contracts are ready.
       const merkleDataUrl: string = await realmContract.questlineUrl()
+      const xpTokenContractAddress: string = normalizeAddress(
+        await realmContract.xp()
+      )
+      const xpTokenDetails = await getXpDetails(provider, {
+        xpContractAddress: xpTokenContractAddress,
+      })
 
       return {
         id,
         data: {
           ...data,
           name,
-          xpTokenNamePrefix,
-          xpTokenSymbolPrefix,
+          xpToken: {
+            ...xpTokenDetails,
+            contractAddress: xpTokenContractAddress,
+          },
           merkleDataUrl,
-          // Population is fetched after all Realm data is initialized
-          // and contract addresses are saved in the state to ensure that
+          // Population and xpAllocatable are fetched after all Realm data is initialized.
+          // Contract addresses are saved in the state to ensure that
           // calculating population based on the Events is not blocking
           // displaying Island UI
           population: 0,
+          xpAllocatable: 0n,
         },
       }
     })

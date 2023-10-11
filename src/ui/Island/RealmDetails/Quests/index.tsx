@@ -15,10 +15,7 @@ export default function Quests() {
 
   return (
     <div className="realm column">
-      <QuestsDetails
-        realmId={realmId}
-        tokenSymbol={realm.xpTokenSymbolPrefix}
-      />
+      <QuestsDetails realmId={realmId} tokenSymbol={realm.xpToken.symbol} />
       <QuestsRewards quests={realm.quests} />
       <style jsx>{`
         .realm {
