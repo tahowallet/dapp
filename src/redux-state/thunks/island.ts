@@ -48,9 +48,6 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
             data: {
               ...questlineData,
               ...data,
-              // TODO: The name of the realm should be taken from the contracts.
-              // At the moment, these aren't available. Let's use mocked data for this moment.
-              name: data.name || REALMS_WITH_CONTRACT_NAME[id].realmName,
             },
           }
         })

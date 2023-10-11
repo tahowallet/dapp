@@ -59,7 +59,7 @@ export const getRealmData: ReadTransactionBuilder<
         realmContractAddress: data.realmContractAddress,
       })
 
-      const name: string = await realmContract.realmName
+      const name: string = await realmContract.name()
       // TODO: The URL will be related with the XpDistributed event.
       // The function should be updated when the contracts are ready.
       const merkleDataUrl: string = await realmContract.questlineUrl()
