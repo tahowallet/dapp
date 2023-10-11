@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import {
+  LeaderboardData,
+  UnclaimedXpData,
   OverlayType,
   RealmData,
   RealmDataWithId,
@@ -12,6 +14,8 @@ export type IslandState = {
   mode: IslandModeType
   overlay: OverlayType
   realms: { [id: string]: RealmData }
+  leaderboards: { [id: string]: LeaderboardData }
+  unclaimedXp: { [id: string]: UnclaimedXpData[] }
   stakingRealmId: string | null
   stakeUnlockTime: number | null
   displayedRealmId: string | null
@@ -23,6 +27,8 @@ const initialState: IslandState = {
   mode: "default",
   overlay: "dark",
   realms: {},
+  leaderboards: {},
+  unclaimedXp: {},
   stakingRealmId: null,
   stakeUnlockTime: null,
   displayedRealmId: null,
@@ -96,6 +102,18 @@ const islandSlice = createSlice({
     ) => {
       immerState.stakeUnlockTime = stakeUnlockTime
     },
+    setLeaderboardData: (
+      immerState,
+      { payload }: { payload: { id: string; data: LeaderboardData } }
+    ) => {
+      immerState.leaderboards[payload.id] = payload.data
+    },
+    setUnclaimedXpData: (
+      immerState,
+      { payload }: { payload: { id: string; data: UnclaimedXpData[] } }
+    ) => {
+      immerState.unclaimedXp[payload.id] = payload.data
+    },
     setSeasonInfo: (
       immerState,
       { payload: seasonInfo }: { payload: SeasonInfo }
@@ -120,6 +138,8 @@ export const {
   setDisplayedRealmId,
   setStakingRealmId,
   setStakingUnlockTime,
+  setLeaderboardData,
+  setUnclaimedXpData,
   setSeasonInfo,
 } = islandSlice.actions
 

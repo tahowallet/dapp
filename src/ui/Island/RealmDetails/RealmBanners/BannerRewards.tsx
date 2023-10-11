@@ -1,26 +1,68 @@
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Button from "shared/components/Button"
 import RealmBanner from "shared/components/RealmModal/RealmBanner"
 import RealmIcon from "shared/components/RealmIcon"
 import {
+  claimXp,
   selectDisplayedRealmId,
   selectRealmById,
+  selectTransactionStatusById,
+  stopTrackingTransactionStatus,
+  useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
+import { useTransactionSuccessCallback } from "shared/hooks"
+import TransactionsModal from "shared/components/Transactions/TransactionsModal"
+
+const CLAIM_XP_TX_ID = "claim-xp"
 
 export default function BannerRewards({ amount }: { amount: number }) {
+  const dispatch = useDappDispatch()
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   const [congratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
+  const [isClaimTransactionModalOpen, setIsClaimTransactionModalOpen] =
+    useState(false)
 
-  const handleClaimXP = () => {
-    // TODO: add transaction signing window
-    setCongratulationsModalOpen(true)
+  const claimXpTransactionStatus = useDappSelector((state) =>
+    selectTransactionStatusById(state, CLAIM_XP_TX_ID)
+  )
+
+  const claimTransaction = () => {
+    if (realmId) {
+      dispatch(claimXp({ id: CLAIM_XP_TX_ID, realmId }))
+    }
   }
+
+  const claimTransactionData = {
+    id: CLAIM_XP_TX_ID,
+    title: "Sign transaction to claim XP",
+    buttonLabel: "Claim XP",
+    status: claimXpTransactionStatus,
+    onClick: claimTransaction,
+  }
+
+  const claimTransactionSuccessCallback = useCallback(() => {
+    setIsClaimTransactionModalOpen(false)
+    setCongratulationsModalOpen(true)
+    dispatch(stopTrackingTransactionStatus(CLAIM_XP_TX_ID))
+  }, [dispatch])
+
+  useTransactionSuccessCallback(
+    claimXpTransactionStatus,
+    claimTransactionSuccessCallback
+  )
+
+  useEffect(
+    () => () => {
+      dispatch(stopTrackingTransactionStatus(CLAIM_XP_TX_ID))
+    },
+    [dispatch]
+  )
 
   if (!realmId || !realm) return null
 
@@ -50,7 +92,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
           <Button
             size="medium"
             type="secondary"
-            onClick={handleClaimXP}
+            onClick={() => setIsClaimTransactionModalOpen(true)}
             isDisabled={amount === 0}
           >
             Claim XP
@@ -99,6 +141,11 @@ export default function BannerRewards({ amount }: { amount: number }) {
           `}
         </style>
       </RealmBanner>
+      <TransactionsModal
+        isOpen={isClaimTransactionModalOpen}
+        close={() => setIsClaimTransactionModalOpen(false)}
+        transactions={[claimTransactionData]}
+      />
       {congratulationsModalOpen && (
         <ClaimCongratulations
           realmId={realmId}

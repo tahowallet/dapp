@@ -6,6 +6,7 @@ import {
   ReadTransactionBuilder,
   TransactionProgressStatus,
 } from "shared/types"
+import { normalizeAddress } from "shared/utils"
 
 const ERROR_MESSAGE = {
   NO_ARBITRUM_PROVIDER: "Arbitrum provider is not ready, check RPC URL setup",
@@ -40,7 +41,7 @@ class TransactionService {
       throw new Error(ERROR_MESSAGE.NO_ARBITRUM_SIGNER)
     }
 
-    return this.arbitrumSigner.getAddress()
+    return normalizeAddress(await this.arbitrumSigner.getAddress())
   }
 
   async getEthBalance(account?: string): Promise<bigint> {
