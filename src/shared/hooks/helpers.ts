@@ -165,3 +165,37 @@ export function useAssets(assets: string[]) {
 
   return assetsLoaded
 }
+
+// Source: https://sabesh.hashnode.dev/update-components-based-on-localstorage-change-in-react-hooks
+export function useLocalStorageChange<T>(key: string): {
+  value: T | null
+  updateStorage: (newValue: Partial<T>) => void
+} {
+  const initialValue = localStorage.getItem(key) || null
+  const [value, setValue] = useState(
+    initialValue ? JSON.parse(initialValue) : null
+  )
+
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key !== key) return
+      setValue(e.newValue ? JSON.parse(e.newValue) : null)
+    }
+
+    window.addEventListener("storage", handleStorageChange)
+    return () => window.removeEventListener("storage", handleStorageChange)
+  })
+
+  const updateStorage = (newValue: Partial<T>) => {
+    window.localStorage.setItem(key, JSON.stringify(newValue))
+
+    const event = new StorageEvent("storage", {
+      key,
+      newValue: JSON.stringify(newValue),
+    })
+
+    window.dispatchEvent(event)
+  }
+
+  return { value, updateStorage }
+}
