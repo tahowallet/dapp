@@ -9,6 +9,7 @@ import {
   selectWalletAddress,
   fetchWalletBalances,
   resetBalances,
+  connectArbitrumProvider,
 } from "redux-state"
 import {
   ARBITRUM,
@@ -17,39 +18,28 @@ import {
 } from "shared/constants"
 import { useInterval } from "./helpers"
 
-export function useArbitrumProvider(): ethers.providers.Provider | null {
-  const [{ wallet }] = useConnectWallet()
-
-  const arbitrumProvider = useMemo(() => {
-    if (wallet?.provider !== undefined) {
-      if (process.env.USE_ARBITRUM_FORK === "true") {
-        return new ethers.providers.JsonRpcBatchProvider(ARBITRUM.rpcUrl)
-      }
-
-      return new ethers.providers.Web3Provider(wallet.provider)
-    }
-    return null
-  }, [wallet?.provider])
+// To make it possible to start fetching blockchain data before the user
+// connects the wallet let's get the provider from the RPC URL
+export function useArbitrumProvider(): ethers.providers.JsonRpcBatchProvider {
+  const arbitrumProvider = useMemo(
+    () => new ethers.providers.JsonRpcBatchProvider(ARBITRUM.rpcUrl),
+    []
+  )
 
   return arbitrumProvider
 }
 
+// Signing transaction is always done with the signer from the wallet
 export function useArbitrumSigner(): ethers.providers.JsonRpcSigner | null {
   const [{ wallet }] = useConnectWallet()
-  const arbitrumProvider = useArbitrumProvider()
 
   const arbitrumSigner = useMemo(() => {
-    if (
-      process.env.USE_ARBITRUM_FORK === "true" &&
-      wallet?.provider !== undefined
-    ) {
+    if (wallet?.provider !== undefined) {
       return new ethers.providers.Web3Provider(wallet.provider).getSigner()
     }
 
-    return arbitrumProvider instanceof ethers.providers.Web3Provider
-      ? arbitrumProvider?.getSigner() ?? null
-      : null
-  }, [arbitrumProvider, wallet?.provider])
+    return null
+  }, [wallet?.provider])
 
   return arbitrumSigner
 }
@@ -81,12 +71,17 @@ export function useWallet() {
   const avatar = account?.ens?.avatar?.url ?? ""
 
   useEffect(() => {
-    if (address && arbitrumProvider && arbitrumSigner) {
+    if (arbitrumProvider) {
+      dispatch(connectArbitrumProvider({ arbitrumProvider }))
+    }
+  }, [arbitrumProvider, dispatch])
+
+  useEffect(() => {
+    if (address && arbitrumSigner) {
       dispatch(
         connectWalletGlobally({
           address,
           avatar,
-          arbitrumProvider,
           arbitrumSigner,
         })
       )
@@ -95,7 +90,7 @@ export function useWallet() {
       dispatch(disconnectWalletGlobally())
       dispatch(resetBalances())
     }
-  }, [address, arbitrumProvider, arbitrumSigner, avatar, dispatch])
+  }, [address, arbitrumSigner, avatar, dispatch])
 }
 
 // Source: https://sabesh.hashnode.dev/update-components-based-on-localstorage-change-in-react-hooks

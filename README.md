@@ -16,11 +16,11 @@
     ```
 3.  Open [http://localhost:9000](http://localhost:9000) to view it in the browser.
 
-## Working with forked Arbitrum Sepolia chain
+## Working with locally forked Arbitrum Sepolia chain
 
 ### In the dapp:
 
-- Override `USE_ARBITRUM_FORK="true"` in `.env` file.
+- Override `USE_LOCALHOST_FORK="true"` in `.env` file.
 - Run the dapp
 
 ### In the [extension](https://github.com/tahowallet/extension):
