@@ -20,7 +20,7 @@ export default function AssistantJoin() {
           Have any questions or ideas? Join the conversation on Discord to share
           them!
         </p>
-        <Button onClick={() => window.open(LINKS.DISCORD_JOIN)}>
+        <Button onClick={() => window.open(LINKS.DISCORD)}>
           <Icon
             src={discordIcon}
             width="18px"
