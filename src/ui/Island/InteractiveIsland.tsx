@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { memo, useCallback, useRef, useState } from "react"
 import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
 import rafSchd from "raf-schd"
@@ -22,12 +22,13 @@ import {
   getCurrentCanvasPosition,
 } from "shared/utils"
 import Controls from "ui/Controls"
-import Assistant from "ui/Footer/Assistant"
+import Assistant from "ui/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
 import RealmPin from "./RealmPin"
+import Clouds from "./Clouds"
 
-export default function InteractiveIsland() {
+function InteractiveIsland() {
   const settingsRef = useRef({ minScale: 0 })
   const [stageBounds, setStageDimensions] = useState(() =>
     getWindowDimensions()
@@ -164,6 +165,7 @@ export default function InteractiveIsland() {
         <Layer>
           <Background overlay={overlay} />
           <Realms />
+          <Clouds />
           <RealmPin />
         </Layer>
       </Stage>
@@ -175,3 +177,5 @@ export default function InteractiveIsland() {
     </>
   )
 }
+
+export default memo(InteractiveIsland)

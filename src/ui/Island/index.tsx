@@ -1,41 +1,30 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react"
+import React, { memo, useCallback, useEffect, useState } from "react"
 import { selectIsDefaultIslandMode } from "redux-state/selectors/island"
 import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
-import { useValueRef } from "shared/hooks"
+import {
+  useValueRef,
+  IslandContext,
+  useAssistant,
+  useAssets,
+} from "shared/hooks"
 import {
   setDisplayedRealmId,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
+import FullPageLoader from "shared/components/Loaders/FullPage"
 import InteractiveIsland from "./InteractiveIsland"
-import { IslandContext } from "../../shared/hooks/island"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
 
-const MemoizedInteractiveIsland = React.memo(InteractiveIsland)
-
-export default function IslandWrapper() {
-  const [assetsLoaded, setAssetsLoaded] = useState(false)
-
-  useLayoutEffect(() => {
-    const assets = [backgroundImg]
-    let loaded = 0
-    assets.forEach((asset) => {
-      const img = new Image()
-      img.src = asset
-      img.onload = () => {
-        loaded += 1
-        if (loaded === assets.length) {
-          setAssetsLoaded(true)
-        }
-      }
-    })
-  }, [])
-
+function IslandWrapper() {
+  const assetsLoaded = useAssets([backgroundImg])
   const [realmId, setRealmId] = useState<null | string>(null)
 
   const dispatch = useDappDispatch()
+
+  const { updateAssistant, assistantVisible } = useAssistant()
 
   useEffect(() => {
     dispatch(setDisplayedRealmId(realmId))
@@ -44,6 +33,8 @@ export default function IslandWrapper() {
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
       setRealmId(String(id))
+      if (assistantVisible("welcome"))
+        updateAssistant({ visible: false, type: "default" })
     },
   }))
 
@@ -51,9 +42,7 @@ export default function IslandWrapper() {
 
   const handleClose = useCallback(() => setRealmId(null), [])
 
-  if (!assetsLoaded) {
-    return null
-  }
+  if (!assetsLoaded) return <FullPageLoader />
 
   return (
     <div className="island_container">
@@ -68,7 +57,7 @@ export default function IslandWrapper() {
         `}
       </style>
       <IslandContext.Provider value={contextRef}>
-        <MemoizedInteractiveIsland />
+        <InteractiveIsland />
         {realmId && (
           <RealmModal onClose={handleClose}>
             {isDefaultIslandMode ? (
@@ -83,3 +72,5 @@ export default function IslandWrapper() {
     </div>
   )
 }
+
+export default memo(IslandWrapper)

@@ -1,7 +1,7 @@
 import { ethers } from "ethers"
 import { gameParametersAbi, tahoDeployerAbi } from "shared/contracts/abi"
 
-const TAHO_MULTISIG = "0xe8746F8728D152FCc9F6549C2baBAa79f5BF2E08"
+const TAHO_MULTISIG = "0x6e80164ea60673d64d5d6228beb684a1274bb017"
 
 const localhostProvider = new ethers.providers.JsonRpcProvider(
   process.env.LOCALHOST_RPC_URL
@@ -19,7 +19,7 @@ const setBalance = (address: string, balance: string) =>
 // eslint-disable-next-line import/prefer-default-export
 export async function setQuickUnstaking() {
   await impersonate(TAHO_MULTISIG)
-  await setBalance(TAHO_MULTISIG, "0x1000000000000")
+  await setBalance(TAHO_MULTISIG, "0x1000000000000000")
 
   const tahoDeployer = new ethers.Contract(
     CONTRACT_TahoDeployer,
