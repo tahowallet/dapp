@@ -18,7 +18,7 @@ export default function BannerConnect() {
           iconPosition="left"
           onClick={() => connect()}
         >
-          Connect Walet
+          Connect Wallet
         </Button>
       }
     />
