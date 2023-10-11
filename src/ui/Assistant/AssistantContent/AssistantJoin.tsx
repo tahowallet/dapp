@@ -3,14 +3,11 @@ import Icon from "shared/components/Icon"
 import Button from "shared/components/Button"
 import discordIcon from "shared/assets/icons/discord.svg"
 import { useAssistant } from "shared/hooks"
+import { LINKS } from "shared/constants"
 import AssistantContent from "."
 
 export default function AssistantJoin() {
   const { updateAssistant, assistantVisible } = useAssistant()
-
-  const joinHandler = () => {
-    // TODO: add link to discord
-  }
 
   return (
     <>
@@ -23,7 +20,7 @@ export default function AssistantJoin() {
           Have any questions or ideas? Join the conversation on Discord to share
           them!
         </p>
-        <Button onClick={joinHandler}>
+        <Button onClick={() => window.open(LINKS.DISCORD)}>
           <Icon
             src={discordIcon}
             width="18px"

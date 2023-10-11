@@ -9,6 +9,7 @@ import {
   selectTransactionStatusById,
   stopTrackingTransactionStatus,
   selectStakingRealmAddress,
+  selectStakingRealmId,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -25,6 +26,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const displayedRealmAddress = useDappSelector(selectDisplayedRealmAddress)
   const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
+  const stakingRealmId = useDappSelector(selectStakingRealmId)
 
   const [stakeAmount, setStakeAmount] = useState("")
   const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
@@ -72,8 +74,11 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     setIsStakeTransactionModalOpen(false)
     setStakeAmount("")
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
-    updateAssistant({ visible: true, type: "quests" })
-  }, [dispatch, updateAssistant])
+
+    if (!stakingRealmId) {
+      updateAssistant({ visible: true, type: "quests" })
+    }
+  }, [dispatch, updateAssistant, stakingRealmId])
 
   const onInputChange = (value: string) => {
     setStakeAmount(value)

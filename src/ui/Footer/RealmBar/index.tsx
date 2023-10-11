@@ -57,8 +57,8 @@ export default function RealmsBar() {
               <p style={{ color: "var(--secondary-s1-60)" }}>
                 Realms by population
               </p>
-              <Tooltip positionY="top" positionX="center" gap="5px">
-                TBD
+              <Tooltip positionY="top" positionX="right" gap="5px">
+                This graph provides a visual overview each realm's standing in terms of population relative to others. Hover over each Realm's icon to see the exact population count.
               </Tooltip>
             </div>
             <div className="row_center" style={{ gap: 4 }}>
