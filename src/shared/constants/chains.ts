@@ -18,7 +18,7 @@ export const getArbitrumRpcUrl = () => {
     return process.env.TENDERLY_RPC_URL
   }
 
-  if (process.env.USE_ARBITRUM_MAINNET === "true") {
+  if (process.env.USE_ARBITRUM_SEPOLIA === "true") {
     return process.env.ARBITRUM_RPC_URL
   }
 
