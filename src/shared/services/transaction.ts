@@ -8,7 +8,8 @@ import {
 } from "shared/types"
 
 const ERROR_MESSAGE = {
-  NO_ARBITRUM_PROVIDER: "Arbitrum provider is not ready",
+  NO_ARBITRUM_PROVIDER: "Arbitrum provider is not ready, check RPC URL setup",
+  NO_ARBITRUM_SIGNER: "Arbitrum signer is not ready, check wallet connection",
   TRANSACTION_BUILDER_FAILED: "Transaction is not ready",
 }
 
@@ -36,7 +37,7 @@ class TransactionService {
 
   async getSignerAddress(): Promise<string> {
     if (!this.arbitrumSigner) {
-      throw new Error(ERROR_MESSAGE.NO_ARBITRUM_PROVIDER)
+      throw new Error(ERROR_MESSAGE.NO_ARBITRUM_SIGNER)
     }
 
     return this.arbitrumSigner.getAddress()
@@ -53,11 +54,11 @@ class TransactionService {
     return ethBalance.toBigInt()
   }
 
-  async setArbitrumProviderAndSigner(
-    providerOrNull: ethers.providers.Provider | null,
-    signerOrNull: ethers.providers.JsonRpcSigner | null
-  ) {
+  async setArbitrumProvider(providerOrNull: ethers.providers.Provider | null) {
     this.arbitrumProvider = providerOrNull
+  }
+
+  async setArbitrumSigner(signerOrNull: ethers.providers.JsonRpcSigner | null) {
     this.arbitrumSigner = signerOrNull
   }
 
