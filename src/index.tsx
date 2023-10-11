@@ -22,6 +22,7 @@ import IslandComponent from "ui/Island"
 import web3Onboard from "shared/utils/web3Onboard"
 import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
+import FullPageLoader from "shared/components/FullPageLoader"
 import reduxStore from "./redux-state"
 
 function DApp() {
@@ -30,32 +31,39 @@ function DApp() {
   const [isOnboarded] = useWalletOnboarding()
 
   useWallet()
-  useGameDataFetch()
-  useBalanceFetch()
+  const gameDataFetched = useGameDataFetch()
+  const balanceFetched = useBalanceFetch()
 
   return (
     <>
       <GlobalStyles />
       <Router>
-        {(!isOnboarded || !isConnected) && <Onboarding />}
+        {(!isOnboarded || !isConnected) && (
+          <Onboarding balanceFetched={balanceFetched} />
+        )}
         {isOnboarded && isConnected && (
           <>
-            <IslandComponent />
-            <TestingPanel />
-            {islandMode === "default" && <Nav />}
-            <Switch>
-              <Route path={ROUTES.CLAIM.HOME}>
-                <Claim />
-              </Route>
-              <Route path={ROUTES.REFERRALS}>
-                <Referrals />
-              </Route>
-              {/* TODO should be removed or defined later */}
-              <Route path={ROUTES.LP}>
-                <LiquidityPool />
-              </Route>
-            </Switch>
-            <Footer />
+            {(!gameDataFetched || !balanceFetched) && <FullPageLoader />}
+            {gameDataFetched && balanceFetched && (
+              <>
+                <IslandComponent />
+                <TestingPanel />
+                {islandMode === "default" && <Nav />}
+                <Switch>
+                  <Route path={ROUTES.CLAIM.HOME}>
+                    <Claim />
+                  </Route>
+                  <Route path={ROUTES.REFERRALS}>
+                    <Referrals />
+                  </Route>
+                  {/* TODO should be removed or defined later */}
+                  <Route path={ROUTES.LP}>
+                    <LiquidityPool />
+                  </Route>
+                </Switch>
+                <Footer />
+              </>
+            )}
           </>
         )}
       </Router>

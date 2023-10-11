@@ -13,7 +13,7 @@ import {
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import FullPageLoader from "shared/components/Loaders/FullPage"
+import FullPageLoader from "shared/components/FullPageLoader"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"

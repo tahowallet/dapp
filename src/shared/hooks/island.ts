@@ -56,6 +56,8 @@ export function useGameDataFetch() {
 
     fetchData()
   }, [provider, hasAlreadyFetched, dispatch])
+
+  return hasAlreadyFetched
 }
 
 const calculateTimeLeft = (stakeUnlockTime: number | null) =>
