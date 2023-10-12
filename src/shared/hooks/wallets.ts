@@ -92,7 +92,7 @@ export function useConnect() {
 export function useWalletChange() {
   const dispatch = useDappDispatch()
   const address = useDappSelector(selectWalletAddress)
-  const [currentAddress, setCurrentAddres] = useState("")
+  const [currentAddress, setCurrentAddress] = useState("")
   const { updateWalletOnboarding } = useWalletOnboarding()
   const { updateAssistant } = useAssistant()
 
