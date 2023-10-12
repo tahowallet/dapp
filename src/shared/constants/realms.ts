@@ -4,27 +4,22 @@ import QUESTLINE_DATA from "../../data/questline-data.json"
 
 // TODO: names and ids may change
 export const REALMS_WITH_CONTRACT_NAME: {
-  [id: string]: { name: string; realmName: string }
+  [id: string]: { name: string }
 } = {
   "4": {
     name: "VAMPIRE_REALM",
-    realmName: "Smiterin",
   },
   "7": {
     name: "EDUCATE_REALM",
-    realmName: "Blockhaven",
   },
   "9": {
     name: "SOCIAL_REALM",
-    realmName: "SilverTown",
   },
   "19": {
     name: "CREATORS_REALM",
-    realmName: "The Keep",
   },
   "22": {
     name: "DEFI_REALM",
-    realmName: "Brownstone",
   },
 }
 

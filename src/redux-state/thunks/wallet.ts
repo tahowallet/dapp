@@ -41,17 +41,31 @@ export const fetchWalletName = createDappAsyncThunk(
   }
 )
 
+export const connectArbitrumProvider = createDappAsyncThunk(
+  "wallet/connectArbitrumProvider",
+  async (
+    {
+      arbitrumProvider,
+    }: {
+      arbitrumProvider: ethers.providers.JsonRpcBatchProvider
+    },
+    { extra: { transactionService } }
+  ) => {
+    await transactionService.setArbitrumProvider(arbitrumProvider)
+  }
+)
+
 export const connectWalletGlobally = createDappAsyncThunk(
   "wallet/connectWalletGlobally",
   async (
     {
       address,
       avatar,
-      arbitrumProvider,
+      arbitrumSigner,
     }: {
       address: string
       avatar?: string
-      arbitrumProvider: ethers.providers.Web3Provider
+      arbitrumSigner: ethers.providers.JsonRpcSigner
     },
     { dispatch, getState, extra: { transactionService } }
   ) => {
@@ -59,7 +73,7 @@ export const connectWalletGlobally = createDappAsyncThunk(
       claim: { useConnectedWallet },
     } = getState()
 
-    await transactionService.setArbitrumProvider(arbitrumProvider)
+    await transactionService.setArbitrumSigner(arbitrumSigner)
 
     dispatch(
       updateConnectedWallet({
@@ -82,7 +96,7 @@ export const disconnectWalletGlobally = createDappAsyncThunk(
       claim: { useConnectedWallet },
     } = getState()
 
-    await transactionService.setArbitrumProvider(null)
+    await transactionService.setArbitrumSigner(null)
 
     dispatch(updateDisconnectedWallet())
 
