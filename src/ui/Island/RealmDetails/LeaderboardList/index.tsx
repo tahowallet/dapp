@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import placeholderLeaderboard from "shared/assets/placeholder-leaderboard.png"
 
 import {
-  selectDisplayedRealmAddress,
   selectDisplayedRealmId,
+  selectLeaderboardById,
+  selectUserLeaderboardRankById,
   selectWalletAddress,
   useDappSelector,
 } from "redux-state"
-import { XpMerkleTreeItem } from "shared/types/xp"
-import {
-  getRealmXPSorted,
-  getRealmXpData,
-  getUserXPRank,
-} from "shared/utils/xp"
 import LeaderboardItem from "./LeaderboardItem"
 import RealmDetailsPlaceholder from "../Placeholder"
 
@@ -20,40 +15,17 @@ const leaderboardDateAvailable = "Oct 31"
 
 export default function LeaderboardList() {
   const realmId = useDappSelector(selectDisplayedRealmId)
-  const realmAddress = useDappSelector(selectDisplayedRealmAddress)
   const address = useDappSelector(selectWalletAddress)
 
-  const [leaderboardXp, setLeaderboardXp] = useState<XpMerkleTreeItem[] | null>(
-    null
+  const leaderboardList = useDappSelector((state) =>
+    realmId ? selectLeaderboardById(state, realmId) : []
   )
-  const [userXp, setUserXp] = useState<
-    ({ rank: number } & XpMerkleTreeItem) | null
-  >(null)
 
-  useEffect(() => {
-    const fetchXp = async () => {
-      if (realmId && realmAddress && address) {
-        const xpData = await getRealmXpData({
-          id: realmId,
-          address: realmAddress,
-        })
+  const userRank = useDappSelector((state) =>
+    realmId ? selectUserLeaderboardRankById(state, realmId) : null
+  )
 
-        if (xpData) {
-          const sorted = getRealmXPSorted(xpData)
-          const leaderboard = sorted.slice(0, 10)
-
-          const user = getUserXPRank(sorted, address)
-
-          setLeaderboardXp(leaderboard)
-          setUserXp(user)
-        }
-      }
-    }
-
-    fetchXp()
-  }, [realmId, realmAddress, address])
-
-  if (leaderboardXp === null) {
+  if (!leaderboardList.length) {
     return (
       <RealmDetailsPlaceholder
         title={`Available after\n${leaderboardDateAvailable}`}
@@ -65,14 +37,14 @@ export default function LeaderboardList() {
   return (
     <>
       <ul>
-        {userXp && userXp.rank > 10 && (
+        {userRank && userRank.rank > 10 && (
           <LeaderboardItem
-            item={userXp}
-            rank={userXp.rank}
+            item={userRank}
+            rank={userRank.rank}
             currentUser={address}
           />
         )}
-        {leaderboardXp.map((item, index) => (
+        {leaderboardList.map((item, index) => (
           <LeaderboardItem
             item={item}
             rank={index + 1}

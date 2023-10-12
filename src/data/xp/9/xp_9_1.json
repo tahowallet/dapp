@@ -1,0 +1,32 @@
+{
+  "totalAmount": "48780",
+  "merkleRoot": "0x95382c8d5c5293d5227a0e30788ffe1c0c86b2c3fe0abc0a56bf6816b9460613",
+  "claims": {
+    "0x6e80164ea60673d64d5d6228beb684a1274bb017": {
+      "index": 2,
+      "beneficiary": "0x6e80164ea60673d64d5d6228beb684a1274bb017",
+      "amount": "8130",
+      "proof": [
+        "0x8ec0c0c52a46e5bc13c0e6d7923ce3b01155600b870d988692de29e538390103"
+      ]
+    },
+    "0x70997970c51812dc3a010c7d01b50e0d17dc79c8": {
+      "index": 1,
+      "beneficiary": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+      "amount": "16260",
+      "proof": [
+        "0x1364421c30895d0949d8f03614ad49766d67b19169eea8ec69551b7559a1539c",
+        "0xfd2c839ccc5047b31b14f224870dee095e8a72154a87fcc72c578122fb223323"
+      ]
+    },
+    "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc": {
+      "index": 0,
+      "beneficiary": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+      "amount": "24390",
+      "proof": [
+        "0x274996539fafc4b0887fdcfbe1c73bc1147c223b1ebedc6e4e8462a80707d2c7",
+        "0xfd2c839ccc5047b31b14f224870dee095e8a72154a87fcc72c578122fb223323"
+      ]
+    }
+  }
+}

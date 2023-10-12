@@ -10,10 +10,13 @@ import {
   useDappDispatch,
   selectStakeUnlockTime,
   useDappSelector,
+  selectWalletAddress,
 } from "redux-state"
 import { SECOND } from "shared/constants"
 import {
+  fetchLeaderboardData,
   fetchPopulation,
+  fetchUnclaimedXp,
   fetchXpAllocatable,
   initRealmsDataFromContracts,
   initSeasonInfoData,
@@ -40,22 +43,44 @@ export function useIslandContext() {
 export function useGameDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
+  const account = useDappSelector(selectWalletAddress)
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
+  const [hasAlreadyFetchedForAccount, setHasAlreadyFetchedForAccount] =
+    useState<string | null>(null)
 
+  // Account agnostic data
   useEffect(() => {
     if (!provider || hasAlreadyFetched) return
 
     const fetchData = async () => {
       await dispatch(initSeasonInfoData())
       await dispatch(initRealmsDataFromContracts())
-      await dispatch(fetchWalletBalances())
       await dispatch(fetchPopulation())
       await dispatch(fetchXpAllocatable())
+
       setHasAlreadyFetched(true)
     }
 
     fetchData()
   }, [provider, hasAlreadyFetched, dispatch])
+
+  // Account specific data
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchWalletBalances())
+      await dispatch(fetchLeaderboardData())
+      await dispatch(fetchUnclaimedXp())
+
+      setHasAlreadyFetchedForAccount(account)
+    }
+    if (
+      account &&
+      hasAlreadyFetched &&
+      account !== hasAlreadyFetchedForAccount
+    ) {
+      fetchData()
+    }
+  }, [dispatch, hasAlreadyFetchedForAccount, hasAlreadyFetched, account])
 
   return hasAlreadyFetched
 }
