@@ -18,7 +18,7 @@ export function useResetTenderlyFork() {
 
   const handleResetReveal = useCallback(async () => {
     if (
-      process.env.NODE_ENV !== "development" ||
+      process.env.ALLOW_TENDERLY_RESET !== "true" ||
       process.env.USE_TENDERLY_FORK !== "true" ||
       process.env.TENDERLY_FORK_HEAD === undefined ||
       process.env.TENDERLY_FORK_HEAD === ""
