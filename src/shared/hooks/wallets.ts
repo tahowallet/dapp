@@ -11,23 +11,40 @@ import {
   resetBalances,
   resetIsland,
   resetClaiming,
+  connectArbitrumProvider,
 } from "redux-state"
-import { BALANCE_UPDATE_INTERVAL, LOCAL_STORAGE_WALLET } from "shared/constants"
+import {
+  ARBITRUM,
+  BALANCE_UPDATE_INTERVAL,
+  LOCAL_STORAGE_WALLET,
+} from "shared/constants"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
 
-export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
-  const [{ wallet }] = useConnectWallet()
-
+// To make it possible to start fetching blockchain data before the user
+// connects the wallet let's get the provider from the RPC URL
+export function useArbitrumProvider(): ethers.providers.JsonRpcBatchProvider {
   const arbitrumProvider = useMemo(
-    () =>
-      wallet?.provider
-        ? new ethers.providers.Web3Provider(wallet.provider)
-        : null,
-    [wallet?.provider]
+    () => new ethers.providers.JsonRpcBatchProvider(ARBITRUM.rpcUrl),
+    []
   )
 
   return arbitrumProvider
+}
+
+// Signing transaction is always done with the signer from the wallet
+export function useArbitrumSigner(): ethers.providers.JsonRpcSigner | null {
+  const [{ wallet }] = useConnectWallet()
+
+  const arbitrumSigner = useMemo(() => {
+    if (wallet?.provider !== undefined) {
+      return new ethers.providers.Web3Provider(wallet.provider).getSigner()
+    }
+
+    return null
+  }, [wallet?.provider])
+
+  return arbitrumSigner
 }
 
 // Balance update is set to 30 seconds for now to ensure it is not too frequent
@@ -49,6 +66,7 @@ export function useBalanceFetch() {
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
   const arbitrumProvider = useArbitrumProvider()
+  const arbitrumSigner = useArbitrumSigner()
   const dispatch = useDappDispatch()
 
   const account = wallet?.accounts[0]
@@ -56,14 +74,26 @@ export function useWallet() {
   const avatar = account?.ens?.avatar?.url ?? ""
 
   useEffect(() => {
-    if (address && arbitrumProvider) {
-      dispatch(connectWalletGlobally({ address, avatar, arbitrumProvider }))
+    if (arbitrumProvider) {
+      dispatch(connectArbitrumProvider({ arbitrumProvider }))
+    }
+  }, [arbitrumProvider, dispatch])
+
+  useEffect(() => {
+    if (address && arbitrumSigner) {
+      dispatch(
+        connectWalletGlobally({
+          address,
+          avatar,
+          arbitrumSigner,
+        })
+      )
       dispatch(fetchWalletBalances())
     } else {
       dispatch(disconnectWalletGlobally())
       dispatch(resetBalances())
     }
-  }, [address, arbitrumProvider, avatar, dispatch])
+  }, [address, arbitrumSigner, avatar, dispatch])
 }
 
 export function useWalletOnboarding(): {
@@ -97,7 +127,7 @@ export function useWalletChange() {
   const { updateAssistant } = useAssistant()
 
   useEffect(() => {
-    if (!currentAddress) setCurrentAddres(address)
+    if (!currentAddress) setCurrentAddress(address)
 
     if (address !== currentAddress) {
       dispatch(resetIsland())
@@ -105,7 +135,7 @@ export function useWalletChange() {
 
       updateWalletOnboarding("")
       updateAssistant({ visible: true, type: "welcome" })
-      setCurrentAddres(address)
+      setCurrentAddress(address)
     }
   }, [
     currentAddress,
