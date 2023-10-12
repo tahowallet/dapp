@@ -28,7 +28,7 @@ export default function ModalLeavingRealm({
   return (
     <>
       <Modal.Container type="fullscreen" onClickOutside={close}>
-        <Modal.AnimatedContent>
+        <Modal.Content>
           <div className="modal">
             <h1 className="modal_header">Leaving {realm?.name}</h1>
             <div className="modal_infobox">
@@ -58,7 +58,7 @@ export default function ModalLeavingRealm({
               />
             </div>
           </div>
-        </Modal.AnimatedContent>
+        </Modal.Content>
       </Modal.Container>
       <style jsx>{`
         .modal {

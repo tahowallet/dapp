@@ -97,11 +97,11 @@ export default function RealmModal({
             }}
           >
             {transitions((style) => (
-              <animated.div style={{ ...style }}>
+              // <animated.div style={{ ...style }}>
                 <RealmModalContent onClose={onClose}>
                   {children}
                 </RealmModalContent>
-              </animated.div>
+              // </animated.div>
             ))}
           </div>
         </animated.div>

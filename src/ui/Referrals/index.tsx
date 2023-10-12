@@ -29,7 +29,7 @@ export default function Referrals() {
 
   return (
     <Modal.ScrollableContainer topSpacing={176} type="island-without-overlay">
-      <Modal.AnimatedContent>
+      <Modal.Content>
         <div className="referrals_container column_center">
           <div className="referrals_header">
             <h1>Refer & get 5% Bonus</h1>
@@ -152,7 +152,7 @@ export default function Referrals() {
             z-index: -1;
           }
         `}</style>
-      </Modal.AnimatedContent>
+      </Modal.Content>
     </Modal.ScrollableContainer>
   )
 }
