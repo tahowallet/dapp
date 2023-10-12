@@ -48,10 +48,16 @@ Instruction based on [the system tests readme](https://github.com/tahowallet/con
 - Provide [`.envrc`](https://github.com/tahowallet/contracts/blob/main/system-tests/.envrc.SAMPLE) variables, make sure you have [Direnv](https://direnv.net/) installed
   ```bash
   export FORKING_URL="https://sepolia-rollup.arbitrum.io/rpc"
-  export TAHO_DEPLOYER_PRIVATE_KEY="..." # mnemonic or first private key from `testertesting.eth`
+
+  export TAHO_DEPLOYER_PRIVATE_KEY="..." # private key of testertesting.eth    
+  export TAHO_TEST_WALLET_PRIVATE_KEY="..." # private key of testertesting.eth  
+  export GUARDA_PRIVATE_KEY="..." # private key of testertesting.eth  
+
   export FORKING_BLOCK="..." # historical block; optional - setting this var enables cache and speeds up repatable read operations
+  export FORKING_CHAIN_ID="421614" # Arbitrum Sepolia chain id
+  export ARBITRUM_HTTPS_RPC_URL="http://127.0.0.1:8545/"
   ```
-- Open first terminal and run `yarn run test:fork`
+- Open terminal and run `yarn run test:fork`
 
 ---
 
@@ -60,3 +66,52 @@ After all the steps above you should have:
 - the Taho token deployed on the Arbitrum Sepolia forked chain
 - the dapp should be able to interact with the token
 - the extension should be able to display the token's balance
+
+---
+
+### XP allocations deployment
+
+To be able to test XP allocations you need to:
+
+#### Prepare merkle tree file:
+
+1. In the contracts repository create a file with XP allocations in the format:
+   ```json
+   [
+     {
+       "account": "0x...",
+       "amount": "4000"
+     },
+     {
+       "account": "0x...",
+       "amount": "2000"
+     },
+     {
+       "account": "0x...",
+       "amount": "3000"
+     }
+   ]
+   ```
+2. Run `yarn run merkle:generate <path-to-input-file>.json <path-to-output-file>.json`. This command will create an JSON file with a merkle tree of the XP allocations.
+3. Copy the output file to the dapp's `src/data/xp/<realm-id>` directory. Name the file `xp_<realm-id>_<drop-index>.json`. Drop index should start from `1` and be incremented by `1` for each new drop.
+
+#### Deploy XP allocations:
+
+1. In the contracts repository set correct environment variables based on where you want to publish the XP drop.
+   ```bash
+   export GUARDA_PRIVATE_KEY="..." # private key for account that will publish the drop, locally use testertesting.eth
+   export ARBITRUM_HTTPS_RPC_URL="http://127.0.0.1:8545/" # RPC url of the chain where you want to publish the drop
+   ```
+2. Then run:
+   ```
+   yarn run merkle:allocate-xp <realm-address> <merkle-root> <amount> <merkle-data-url>
+   ```
+   Where
+   ```
+   <realm-address> - address of the realm where you want to publish the drop
+   <merkle-root> - merkle root of the merkle tree, copy from the output file
+   <amount> - amount of XP to be distributed, copy from the output file
+   <merkle-data-url> - url to the merkle tree file, can't be empty, doesn't matter locally, on public chain should be set to the actual url of the merkle tree json file
+   ```
+3. Drop should be accessible on the chain now and dapp should be able to fetch info about the drops and claim the XP.
+4. Leaderboard data is just a sum of all drops for a given realm, script to generate leaderboard file is TODO
