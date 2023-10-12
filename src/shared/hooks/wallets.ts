@@ -1,5 +1,5 @@
 import { useConnectWallet } from "@web3-onboard/react"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { ethers } from "ethers"
 import {
   useDappDispatch,
@@ -16,7 +16,7 @@ import {
   BALANCE_UPDATE_INTERVAL,
   LOCAL_STORAGE_WALLET,
 } from "shared/constants"
-import { useInterval } from "./helpers"
+import { useInterval, useLocalStorageChange } from "./helpers"
 
 // To make it possible to start fetching blockchain data before the user
 // connects the wallet let's get the provider from the RPC URL
@@ -93,41 +93,19 @@ export function useWallet() {
   }, [address, arbitrumSigner, avatar, dispatch])
 }
 
-// Source: https://sabesh.hashnode.dev/update-components-based-on-localstorage-change-in-react-hooks
-export function useWalletOnboarding(): [
-  string | null,
-  (newValue: string) => void
-] {
-  const initialValue = localStorage.getItem(LOCAL_STORAGE_WALLET) || null
-  const [walletOnboarded, setWalletOnboarded] = useState(initialValue)
+export function useWalletOnboarding(): {
+  walletOnboarded: string | null
+  updateWalletOnboarding: (newValue: string) => void
+} {
+  const { value, updateStorage } =
+    useLocalStorageChange<string>(LOCAL_STORAGE_WALLET)
 
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key !== LOCAL_STORAGE_WALLET) return
-      setWalletOnboarded(e.newValue)
-    }
-
-    window.addEventListener("storage", handleStorageChange)
-    return () => window.removeEventListener("storage", handleStorageChange)
-  })
-
-  const updateWalletOnboarding = (newValue: string) => {
-    window.localStorage.setItem(LOCAL_STORAGE_WALLET, newValue)
-
-    const event = new StorageEvent("storage", {
-      key: LOCAL_STORAGE_WALLET,
-      newValue,
-    })
-
-    window.dispatchEvent(event)
-  }
-
-  return [walletOnboarded, updateWalletOnboarding]
+  return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
 }
 
 export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
-  const [_, updateWalletOnboarding] = useWalletOnboarding()
+  const { updateWalletOnboarding } = useWalletOnboarding()
 
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")
