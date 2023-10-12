@@ -27,7 +27,7 @@ import reduxStore from "./redux-state"
 function DApp() {
   const islandMode = useDappSelector(selectIslandMode)
   const { isConnected } = useConnect()
-  const [isOnboarded] = useWalletOnboarding()
+  const { walletOnboarded } = useWalletOnboarding()
 
   useWallet()
   useGameDataFetch()
@@ -37,8 +37,8 @@ function DApp() {
     <>
       <GlobalStyles />
       <Router>
-        {(!isOnboarded || !isConnected) && <Onboarding />}
-        {isOnboarded && isConnected && (
+        {(!walletOnboarded || !isConnected) && <Onboarding />}
+        {walletOnboarded && isConnected && (
           <>
             <IslandComponent />
             <TestingPanel />

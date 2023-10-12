@@ -1,5 +1,5 @@
 import { useConnectWallet } from "@web3-onboard/react"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { ethers } from "ethers"
 import {
   useDappDispatch,
@@ -9,22 +9,39 @@ import {
   selectWalletAddress,
   fetchWalletBalances,
   resetBalances,
+  connectArbitrumProvider,
 } from "redux-state"
-import { BALANCE_UPDATE_INTERVAL, LOCAL_STORAGE_WALLET } from "shared/constants"
-import { useInterval } from "./helpers"
+import {
+  ARBITRUM,
+  BALANCE_UPDATE_INTERVAL,
+  LOCAL_STORAGE_WALLET,
+} from "shared/constants"
+import { useInterval, useLocalStorageChange } from "./helpers"
 
-export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
-  const [{ wallet }] = useConnectWallet()
-
+// To make it possible to start fetching blockchain data before the user
+// connects the wallet let's get the provider from the RPC URL
+export function useArbitrumProvider(): ethers.providers.JsonRpcBatchProvider {
   const arbitrumProvider = useMemo(
-    () =>
-      wallet?.provider
-        ? new ethers.providers.Web3Provider(wallet.provider)
-        : null,
-    [wallet?.provider]
+    () => new ethers.providers.JsonRpcBatchProvider(ARBITRUM.rpcUrl),
+    []
   )
 
   return arbitrumProvider
+}
+
+// Signing transaction is always done with the signer from the wallet
+export function useArbitrumSigner(): ethers.providers.JsonRpcSigner | null {
+  const [{ wallet }] = useConnectWallet()
+
+  const arbitrumSigner = useMemo(() => {
+    if (wallet?.provider !== undefined) {
+      return new ethers.providers.Web3Provider(wallet.provider).getSigner()
+    }
+
+    return null
+  }, [wallet?.provider])
+
+  return arbitrumSigner
 }
 
 // Balance update is set to 30 seconds for now to ensure it is not too frequent
@@ -46,6 +63,7 @@ export function useBalanceFetch() {
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
   const arbitrumProvider = useArbitrumProvider()
+  const arbitrumSigner = useArbitrumSigner()
   const dispatch = useDappDispatch()
 
   const account = wallet?.accounts[0]
@@ -53,51 +71,41 @@ export function useWallet() {
   const avatar = account?.ens?.avatar?.url ?? ""
 
   useEffect(() => {
-    if (address && arbitrumProvider) {
-      dispatch(connectWalletGlobally({ address, avatar, arbitrumProvider }))
+    if (arbitrumProvider) {
+      dispatch(connectArbitrumProvider({ arbitrumProvider }))
+    }
+  }, [arbitrumProvider, dispatch])
+
+  useEffect(() => {
+    if (address && arbitrumSigner) {
+      dispatch(
+        connectWalletGlobally({
+          address,
+          avatar,
+          arbitrumSigner,
+        })
+      )
       dispatch(fetchWalletBalances())
     } else {
       dispatch(disconnectWalletGlobally())
       dispatch(resetBalances())
     }
-  }, [address, arbitrumProvider, avatar, dispatch])
+  }, [address, arbitrumSigner, avatar, dispatch])
 }
 
-// Source: https://sabesh.hashnode.dev/update-components-based-on-localstorage-change-in-react-hooks
-export function useWalletOnboarding(): [
-  string | null,
-  (newValue: string) => void
-] {
-  const initialValue = localStorage.getItem(LOCAL_STORAGE_WALLET) || null
-  const [walletOnboarded, setWalletOnboarded] = useState(initialValue)
+export function useWalletOnboarding(): {
+  walletOnboarded: string | null
+  updateWalletOnboarding: (newValue: string) => void
+} {
+  const { value, updateStorage } =
+    useLocalStorageChange<string>(LOCAL_STORAGE_WALLET)
 
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key !== LOCAL_STORAGE_WALLET) return
-      setWalletOnboarded(e.newValue)
-    }
-
-    window.addEventListener("storage", handleStorageChange)
-    return () => window.removeEventListener("storage", handleStorageChange)
-  })
-
-  const updateWalletOnboarding = (newValue: string) => {
-    window.localStorage.setItem(LOCAL_STORAGE_WALLET, newValue)
-
-    const event = new StorageEvent("storage", {
-      key: LOCAL_STORAGE_WALLET,
-      newValue,
-    })
-
-    window.dispatchEvent(event)
-  }
-
-  return [walletOnboarded, updateWalletOnboarding]
+  return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
 }
 
 export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
-  const [_, updateWalletOnboarding] = useWalletOnboarding()
+  const { updateWalletOnboarding } = useWalletOnboarding()
 
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")
