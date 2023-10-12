@@ -5,6 +5,7 @@ import discordIcon from "shared/assets/icons/discord.svg"
 import twitterIcon from "shared/assets/icons/twitter.svg"
 import githubIcon from "shared/assets/icons/github.svg"
 // import ClaimProgressBar from "./ClaimProgressBar" // not used at the moment
+import { LINKS } from "shared/constants"
 import RealmsBar from "./RealmBar"
 
 const ICON_SIZE = "18px"
@@ -14,25 +15,25 @@ export default function Footer() {
     <footer>
       <div className="links">
         <IconLink
-          href="https://chat.taho.xyz"
+          href={LINKS.DISCORD}
           iconWidth={ICON_SIZE}
           iconHeight={ICON_SIZE}
           iconSrc={discordIcon}
         />
         <IconLink
-          href="https://twitter.com/taho_xyz"
+          href={LINKS.TWITTER}
           iconWidth={ICON_SIZE}
           iconHeight={ICON_SIZE}
           iconSrc={twitterIcon}
         />
         <IconLink
-          href="https://github.com/tahowallet/extension"
+          href={LINKS.GITHUB}
           iconWidth={ICON_SIZE}
           iconHeight={ICON_SIZE}
           iconSrc={githubIcon}
         />
       </div>
-      <Link to="/rulebook">Rulebook</Link>
+      <Link to={LINKS.RULEBOOK}>Rulebook</Link>
       <RealmsBar />
       <style jsx>{`
         footer {
