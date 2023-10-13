@@ -44,8 +44,9 @@ export default function AssistantQuests() {
         </div>
         <div className="paragraph row_center">
           <p>
-            You can see this week&apos;s Quests under the <span>Quest Bar</span>
-            . You&apos;ll be able to redeem XP in the future for rewards.
+            You can see this week&apos;s Quests under the{" "}
+            <span>Quests bar</span>. You&apos;ll be able to redeem XP in the
+            future for rewards.
           </p>
         </div>
       </AssistantContent>
