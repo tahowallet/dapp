@@ -70,9 +70,7 @@ export const REALMS_MAP_DATA: RealmMapData[] = [
 
 export const REALMS_COUNT = REALMS_MAP_DATA.length
 
-export function getRealmMapData(
-  realmId: string
-): (typeof REALMS_MAP_DATA)[number] {
+export function getRealmMapData(realmId: string): RealmMapData {
   const pathData = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
 
   if (!pathData) {
