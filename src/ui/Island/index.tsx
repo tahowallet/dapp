@@ -42,8 +42,6 @@ function IslandWrapper() {
 
   const handleClose = useCallback(() => setRealmId(null), [])
 
-  // if (!assetsLoaded) return <FullPageLoader />
-
   return (
     <>
       <FullPageLoader loaded={assetsLoaded} />

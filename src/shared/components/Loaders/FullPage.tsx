@@ -48,17 +48,6 @@ export default function FullPageLoader({ loaded }: { loaded: boolean }) {
       </animated.div>
       <style jsx>
         {`
-          .container {
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(179deg, #0d2321 0.77%, #153d3b 101%);
-            justify-content: center;
-            overflow: hidden;
-            position: fixed;
-            inset: 0;
-            z-index: 999;
-          }
-
           .demo {
             width: 220px;
             height: 224px;
