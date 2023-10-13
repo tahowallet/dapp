@@ -32,6 +32,7 @@ function CloseBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
             color: #588382;
             --fill-opacity: 0.5;
             --stroke-opacity: 0.3;
+            z-index: 100;
           }
           svg * {
             transition: all 0.3s ease-out;
