@@ -4,7 +4,5 @@ export default {
   GITHUB: "https://github.com/tahowallet/extension",
   // TODO: add valid rulebook link
   RULEBOOK: "/rulebook",
-  /* TODO: add valid waitlist link
-  WAITLIST: "/waitlist",
-  */
+  WAITLIST: "https://app.deform.cc/form/320ada2c-43da-4b49-863c-cbd5c5d76ea0",
 }
