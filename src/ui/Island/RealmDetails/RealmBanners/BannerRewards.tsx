@@ -73,17 +73,20 @@ export default function BannerRewards({ amount }: { amount: number }) {
           <div className="row_center">
             Claimable rewards
             <Tooltip>
-              You don&apos;t have to claim your XP until end of season. Unless
-              you plan on trading it.
+              {/* TODO: Change after beta to:
+              You don&apos;t have to claim your XP until end of season, unless
+              you plan on trading it. */}
+              You don&apos;t have to claim your XP until end of season.
+              {/* TODO: Uncomment after beta:
               <br />
               Exchanging XP for $TAHO only happens at the end of seasons.
-              <br />
+              <br /> */}
               <a
                 href="/"
                 target="_blank"
                 style={{ textDecoration: "underline" }}
               >
-                Read more here
+                Read more here.
               </a>
             </Tooltip>
           </div>
