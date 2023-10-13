@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import realms from "shared/constants/realms-data"
 import Icon from "shared/components/Icon"
+import { REALMS_MAP_DATA } from "shared/constants"
 import RealmBarTooltip from "./RealmBarTooltip"
 
 type RealmBarIconProps = {
@@ -17,7 +17,7 @@ export default function RealmBarIcon({
   position,
 }: RealmBarIconProps) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
-  const currentRealm = realms.find((realm) => realm.id === id)
+  const currentRealm = REALMS_MAP_DATA.find((realm) => realm.id === id)
 
   if (!currentRealm) return null
 

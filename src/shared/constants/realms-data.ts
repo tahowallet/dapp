@@ -1,20 +1,5 @@
 import partners from "./partners"
 
-type Realm = {
-  id: string
-  h: number
-  w: number
-  x: number
-  y: number
-  paths: { windingRule: string; data: string }[]
-  realmType: string
-  color: string
-  labelX: number
-  labelY: number
-  partnerLogo: { default: string; shadow: string }
-  partnerColor?: string
-}
-
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 export const realm1 = {
   id: "1",
@@ -526,6 +511,3 @@ export const realm27 = {
   labelX: 0,
   labelY: 0,
 }
-
-const realms: Realm[] = [realm19, realm22, realm4, realm7, realm9]
-export default realms

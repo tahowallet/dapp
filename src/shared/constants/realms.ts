@@ -1,4 +1,4 @@
-import { RealmQuestlineData } from "shared/types"
+import { RealmQuestlineData, RealmMapData } from "shared/types"
 import { realm19, realm22, realm4, realm7, realm9 } from "./realms-data"
 import QUESTLINE_DATA from "../../data/questline-data.json"
 
@@ -60,7 +60,13 @@ export const FIGMA_FACTOR = {
   Y: ISLAND_BOX.height / FIGMA_WORKSPACE_SIZE.height,
 }
 
-export const REALMS_MAP_DATA = [realm4, realm7, realm9, realm19, realm22]
+export const REALMS_MAP_DATA: RealmMapData[] = [
+  realm4,
+  realm7,
+  realm9,
+  realm19,
+  realm22,
+]
 
 export const REALMS_COUNT = REALMS_MAP_DATA.length
 
