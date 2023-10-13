@@ -12,6 +12,7 @@ import {
   resetIsland,
   resetClaiming,
   connectArbitrumProvider,
+  selectDisplayedRealmId,
 } from "redux-state"
 import {
   ARBITRUM,
@@ -121,20 +122,31 @@ export function useConnect() {
 // Hook is invoked when user switches accounts
 export function useWalletChange() {
   const dispatch = useDappDispatch()
+
   const address = useDappSelector(selectWalletAddress)
+  const isStaked = useDappSelector(selectDisplayedRealmId)
+
   const [currentAddress, setCurrentAddress] = useState("")
+
   const { updateWalletOnboarding } = useWalletOnboarding()
-  const { updateAssistant } = useAssistant()
+  const { assistant, updateAssistant } = useAssistant()
 
   useEffect(() => {
-    if (!currentAddress) setCurrentAddress(address)
+    if (!currentAddress) {
+      setCurrentAddress(address)
+      return
+    }
 
     if (address !== currentAddress) {
       dispatch(resetIsland())
       dispatch(resetClaiming())
 
       updateWalletOnboarding("")
-      updateAssistant({ visible: true, type: "welcome" })
+
+      if (!assistant && !isStaked) {
+        updateAssistant({ visible: true, type: "welcome" })
+      }
+
       setCurrentAddress(address)
     }
   }, [
@@ -143,5 +155,7 @@ export function useWalletChange() {
     updateWalletOnboarding,
     updateAssistant,
     dispatch,
+    assistant,
+    isStaked,
   ])
 }
