@@ -18,10 +18,9 @@ export default function Onboarding() {
     useDappSelector((state) => selectTokenBalanceBySymbol(state, TAHO_SYMBOL))
   )
 
-  if (!assetsLoaded) return <FullPageLoader />
-
   return (
     <>
+      <FullPageLoader loaded={assetsLoaded} />
       <div className="onboarding">
         {!isConnected && <ConnectWallet />}
         {isConnected && tahoBalance <= 0 && <JoinWaitlist />}
