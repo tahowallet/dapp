@@ -119,3 +119,10 @@ export function encodeJSON(input: unknown): string {
 export function queueMicrotask<T extends () => unknown>(callback: T) {
   return Promise.resolve().then(callback)
 }
+
+export function createImageElement(source: string) {
+  const image = new Image()
+  image.src = source
+
+  return image
+}

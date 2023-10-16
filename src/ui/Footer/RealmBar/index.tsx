@@ -74,6 +74,7 @@ export default function RealmsBar() {
             {realmsData.map((realm, index) => (
               <RealmBarIcon
                 key={realm.id}
+                id={realm.id}
                 position={positions[index]}
                 population={realm.population}
                 name={realm.name}
