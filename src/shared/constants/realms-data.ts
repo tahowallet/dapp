@@ -1,3 +1,5 @@
+import partners from "./partners"
+
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 export const realm1 = {
   id: "1",
@@ -66,9 +68,11 @@ export const realm4 = {
     },
   ],
   realmType: "realm",
-  color: "#DC7633",
+  color: "#00433A",
   labelX: 380,
   labelY: 216.5,
+  partnerLogo: partners.gitcoin,
+  partnerColor: "#1D4E56",
 }
 
 export const realm5 = {
@@ -120,9 +124,11 @@ export const realm7 = {
     },
   ],
   realmType: "realm",
-  color: "#D7BDE2",
+  color: "#6FE2A5",
   labelX: 540,
   labelY: 400,
+  partnerLogo: partners.cyberconnect,
+  partnerColor: "#fff",
 }
 
 export const realm8 = {
@@ -156,9 +162,10 @@ export const realm9 = {
     },
   ],
   realmType: "realm",
-  color: "#85C1E9",
+  color: "#12AAFF",
   labelX: 700,
   labelY: 350,
+  partnerLogo: partners.arbitrum,
 }
 
 export const realm10 = {
@@ -347,9 +354,10 @@ export const realm19 = {
     },
   ],
   realmType: "realm",
-  color: "#F9E79F",
+  color: "#1E5DFF",
   labelX: 264,
   labelY: 409,
+  partnerLogo: partners.galxe,
 }
 
 export const realm20 = {
@@ -400,9 +408,10 @@ export const realm22 = {
     },
   ],
   realmType: "realm",
-  color: "#CCFFCC",
+  color: "#E4EEEE",
   labelX: 337,
   labelY: 388,
+  partnerLogo: partners.frax,
 }
 
 export const realm23 = {

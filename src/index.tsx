@@ -23,6 +23,7 @@ import web3Onboard from "shared/utils/web3Onboard"
 import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
 import reduxStore from "./redux-state"
+import MobileScreen from "ui/MobileScreen"
 
 function DApp() {
   const islandMode = useDappSelector(selectIslandMode)
@@ -36,6 +37,7 @@ function DApp() {
   return (
     <>
       <GlobalStyles />
+      <MobileScreen />
       <Router>
         {(!walletOnboarded || !isConnected) && <Onboarding />}
         {walletOnboarded && isConnected && (
