@@ -2,21 +2,21 @@ import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
 import { TransactionProgressStatus } from "shared/types"
 import { truncateAddress } from "shared/utils"
+import { createWalletSelector } from "redux-state/selectors"
 
-export const selectWalletAddress = (state: RootState) => state.wallet.address
+/* Base selectors */
+
+export const selectWalletAddress = createWalletSelector("address")
+export const selectWalletAvatar = createWalletSelector("avatar")
+export const selectWalletNameProperty = createWalletSelector("name")
+export const selectIsWalletConnected = createWalletSelector("isConnected")
+export const selectTokenBalances = createWalletSelector("balances")
 
 export const selectWalletTruncatedAddress = (state: RootState) =>
-  truncateAddress(state.wallet.address)
+  truncateAddress(selectWalletAddress(state))
 
 export const selectWalletName = (state: RootState) =>
-  state.wallet.name || truncateAddress(state.wallet.address)
-
-export const selectWalletAvatar = (state: RootState) => state.wallet.avatar
-
-export const selectIsWalletConnected = (state: RootState) =>
-  state.wallet.isConnected
-
-export const selectTokenBalances = (state: RootState) => state.wallet.balances
+  selectWalletNameProperty(state) || truncateAddress(selectWalletAddress(state))
 
 export const selectTokenBalanceByAddress = createSelector(
   [selectTokenBalances, (_, tokenAddress) => tokenAddress],
