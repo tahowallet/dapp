@@ -1,6 +1,12 @@
 // Need to pass spring props to spring abstracted components
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useLayoutEffect, useMemo, useRef, useState } from "react"
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import type Konva from "konva"
 import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
@@ -20,6 +26,7 @@ type RealmProps = {
   y: number
   labelX: number
   labelY: number
+  partnerLogo: HTMLImageElement
 }
 
 export default function Realm({
@@ -34,15 +41,19 @@ export default function Realm({
   imageLayer,
   labelX,
   labelY,
+  partnerLogo,
 }: RealmProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
+  const [partnerLogoTranslate, setPartnerLogoTranslate] = useState(0)
+
   const islandContext = useIslandContext()
   const groupRef = useRef<Konva.Group>(null)
   const pathRef = useRef<Konva.Path>(null)
   const textRef = useRef<Konva.Text>(null)
   const imageLayerRef = useRef<Konva.Image>(null)
   const overlayRef = useRef<Konva.Path>(null)
+  const partnerLogoRef = useRef<Konva.Image>(null)
 
   const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
@@ -73,6 +84,14 @@ export default function Realm({
     return () => pathRealm.off(".hover")
   }, [])
 
+  useEffect(() => {
+    if (!textRef.current || !partnerLogoRef.current) return
+    const textCenter = textRef.current.measureSize(name).width / 2
+    const logoWidth = partnerLogoRef.current.getAttr("width")
+
+    setPartnerLogoTranslate(textCenter - logoWidth * 1.7)
+  }, [textRef, partnerLogoRef, name])
+
   const styles = useMemo(() => {
     const variants = {
       default: {
@@ -89,6 +108,11 @@ export default function Realm({
         pathRealm: {
           stroke: "#FFF",
           strokeWidth: 4,
+        },
+        partnerLogo: {
+          opacity: 0,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 20,
         },
       },
       inactive: {
@@ -128,11 +152,22 @@ export default function Realm({
           stroke: color,
           strokeWidth: 10,
         },
+        partnerLogo: {
+          opacity: 1,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 220,
+        },
       },
     }
 
     return variants
-  }, [color, labelX, labelY, x, y])
+  }, [color, labelX, labelY, x, y, partnerLogoTranslate])
+
+  const transitionConfig = {
+    precision: 0.0001,
+    duration: 200,
+    easing: easings.easeOutCubic,
+  }
 
   const [pathProps] = useSpring(() => {
     const destinationStyle = isHovered
@@ -175,11 +210,19 @@ export default function Realm({
     return {
       from: styles.default.text,
       to: destinationStyle,
-      config: {
-        precision: 0.0001,
-        duration: 200,
-        easing: easings.easeOutCubic,
-      },
+      config: transitionConfig,
+    }
+  }, [isHovered])
+
+  const [partnerLogoProps] = useSpring(() => {
+    const destinationStyle = isHovered
+      ? styles.highlight.partnerLogo
+      : styles.default.partnerLogo
+
+    return {
+      from: styles.default.partnerLogo,
+      to: destinationStyle,
+      config: transitionConfig,
     }
   }, [isHovered])
 
@@ -205,6 +248,17 @@ export default function Realm({
         listening={false}
         {...overlayProps}
       />
+      {/* This layer sets stroke and event handlers */}
+      <animated.Path
+        ref={pathRef}
+        x={x}
+        y={y}
+        data={path}
+        width={width}
+        height={height}
+        onClick={handleRealmClick}
+        {...pathProps}
+      />
       <animated.Text
         ref={textRef}
         text={name}
@@ -222,16 +276,14 @@ export default function Realm({
         shadowEnabled
         {...textProps}
       />
-      {/* This layer sets stroke and event handlers */}
-      <animated.Path
-        ref={pathRef}
-        x={x}
-        y={y}
-        data={path}
-        width={width}
-        height={height}
-        onClick={handleRealmClick}
-        {...pathProps}
+      {/* This is the partner logo image */}
+      <animated.Image
+        ref={partnerLogoRef}
+        listening={false}
+        image={partnerLogo}
+        scaleX={3.5}
+        scaleY={3.5}
+        {...partnerLogoProps}
       />
     </Group>
   )

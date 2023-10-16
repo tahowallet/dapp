@@ -3,7 +3,7 @@ import useImage from "use-image"
 
 import backgroundImg from "public/dapp_island_bg.webp"
 import { REALMS_MAP_DATA } from "shared/constants"
-import { createCutoutFromPath } from "shared/utils"
+import { createCutoutFromPath, createImageElement } from "shared/utils"
 import { selectRealms, useDappSelector } from "redux-state"
 import Realm from "./Realm"
 
@@ -20,13 +20,17 @@ export default function IslandRealms() {
         ...realm,
         name: realms[realm.id]?.name,
       }
-      return { realm: updatedRealm, layer: createCutoutFromPath(realm, bg) }
+      return {
+        realm: updatedRealm,
+        layer: createCutoutFromPath(realm, bg),
+        partnerLogo: createImageElement(realm.partnerLogo.shadow),
+      }
     })
   }, [bg, realms])
 
   return (
     <>
-      {realmImgLayers.map(({ realm, layer: crop }) => (
+      {realmImgLayers.map(({ realm, layer: crop, partnerLogo }) => (
         <Realm
           key={realm.id}
           id={realm.id}
@@ -40,6 +44,7 @@ export default function IslandRealms() {
           labelX={realm.labelX}
           labelY={realm.labelY}
           path={realm.paths[0].data}
+          partnerLogo={partnerLogo}
         />
       ))}
     </>
