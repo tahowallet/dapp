@@ -15,6 +15,7 @@ import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
 import { useTransactionSuccessCallback } from "shared/hooks"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
+import { separateThousandsByComma } from "shared/utils"
 
 const CLAIM_XP_TX_ID = "claim-xp"
 
@@ -110,7 +111,9 @@ export default function BannerRewards({ amount }: { amount: number }) {
               width="32px"
               color="var(--primary-p1-100)"
             />
-            <div className="token_amount">{amount}</div>
+            <div className="token_amount">
+              {separateThousandsByComma(amount)}
+            </div>
             <div className="token_name">{realm.xpToken.symbol}</div>
           </div>
         </div>
