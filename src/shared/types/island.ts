@@ -10,7 +10,6 @@ export type RealmAddressesData = {
 export type RealmContractData = {
   name: string
   population: number
-  merkleDataUrl: string
   xpAllocatable: bigint
   xpToken: { name: string; symbol: string; contractAddress: string }
 }

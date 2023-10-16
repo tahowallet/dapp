@@ -23,9 +23,7 @@ export const getRealmData: ReadTransactionBuilder<
       })
 
       const name: string = await realmContract.name()
-      // TODO: The URL will be related with the XpDistributed event.
-      // The function should be updated when the contracts are ready.
-      const merkleDataUrl: string = await realmContract.questlineUrl()
+      const questlineUrl: string = await realmContract.questlineUrl()
       const xpTokenContractAddress: string = normalizeAddress(
         await realmContract.xp()
       )
@@ -42,7 +40,7 @@ export const getRealmData: ReadTransactionBuilder<
             ...xpTokenDetails,
             contractAddress: xpTokenContractAddress,
           },
-          merkleDataUrl,
+          questlineUrl,
           // Population and xpAllocatable are fetched after all Realm data is initialized.
           // Contract addresses are saved in the state to ensure that
           // calculating population based on the Events is not blocking

@@ -228,7 +228,7 @@ export default [
       {
         indexed: false,
         internalType: "string",
-        name: "questlineUrl",
+        name: "merkleDataUrl",
         type: "string",
       },
       {
@@ -387,6 +387,11 @@ export default [
         internalType: "uint256",
         name: "amount",
         type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "merkleDataUrl",
+        type: "string",
       },
     ],
     name: "distributeXp",
