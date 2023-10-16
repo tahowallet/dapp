@@ -1,20 +1,45 @@
 import { createSelector } from "@reduxjs/toolkit"
-import { RootState } from "redux-state/reducers"
 import { DAY } from "shared/constants"
 import { isSameAddress } from "shared/utils"
+import { createIslandSelector } from "redux-state/selectors"
+import { IslandModeType } from "redux-state/slices/island"
+import { RealmData, SeasonInfo } from "shared/types"
+import { RootState } from "redux-state/reducers"
 
-export const selectIslandMode = (state: RootState) => state.island.mode
+type SeasonInfoProperty = <K extends keyof SeasonInfo>(
+  value: K
+) => (state: RootState) => SeasonInfo[K] | undefined
 
-export const selectIsDefaultIslandMode = (state: RootState) =>
-  state.island.mode === "default"
+type DisplayedRealmProperty = <K extends keyof RealmData>(
+  value: K
+) => (state: RootState) => RealmData[K] | undefined
 
-export const selectIsJoinRealmIslandMode = (state: RootState) =>
-  state.island.mode === "join-realm"
+/* Base selectors */
+export const selectIslandMode = createIslandSelector("mode")
+export const selectIslandOverlay = createIslandSelector("overlay")
+export const selectIslandZoomLevel = createIslandSelector("zoomLevel")
+export const selectRealms = createIslandSelector("realms")
+export const selectSeasonInfo = createIslandSelector("seasonInfo")
+export const selectDisplayedRealmId = createIslandSelector("displayedRealmId")
+export const selectLeaderboards = createIslandSelector("leaderboards")
+export const selectUnclaimedXp = createIslandSelector("unclaimedXp")
+export const selectStakeUnlockTime = createIslandSelector("stakeUnlockTime")
+export const selectStakingRealmId = createIslandSelector("stakingRealmId")
 
-export const selectIslandOverlay = (state: RootState) => state.island.overlay
+/* Helpers */
+const checkIslandMode = (value: IslandModeType) =>
+  createSelector(selectIslandMode, (mode) => mode === value)
 
-export const selectRealms = (state: RootState) => state.island.realms
+const selectSeasonInfoProperty: SeasonInfoProperty = (value) =>
+  createSelector(selectSeasonInfo, (seasonInfo) =>
+    seasonInfo ? seasonInfo[value] : undefined
+  )
 
+/* Island info - selectors */
+export const selectIsDefaultIslandMode = checkIslandMode("default")
+export const selectIsJoinRealmIslandMode = checkIslandMode("join-realm")
+
+/* Realms info - selectors */
 export const selectRealmById = createSelector(
   [selectRealms, (_, realmId: string | null) => realmId],
   (realms, realmId) => (realmId ? realms[realmId] : null)
@@ -29,23 +54,20 @@ export const selectRealmWithIdByAddress = createSelector(
 )
 
 /* Season info  - selectors */
-export const selectSeasonStartTimestamp = (state: RootState) =>
-  state.island.seasonInfo?.seasonStartTimestamp
+export const selectSeasonStartTimestamp = selectSeasonInfoProperty(
+  "seasonStartTimestamp"
+)
 
-export const selectSeasonEndTimestamp = (state: RootState) =>
-  state.island.seasonInfo?.seasonEndTimestamp
+export const selectSeasonEndTimestamp =
+  selectSeasonInfoProperty("seasonEndTimestamp")
 
-export const selectSeasonDurationInWeeks = (state: RootState) =>
-  state.island.seasonInfo?.durationInWeeks
+export const selectSeasonDurationInWeeks =
+  selectSeasonInfoProperty("durationInWeeks")
 
 export const selectIsEndOfSeason = createSelector(
   selectSeasonEndTimestamp,
-  (seasonEndTimestamp) => {
-    if (seasonEndTimestamp) {
-      return Date.now() > seasonEndTimestamp
-    }
-    return null
-  }
+  (seasonEndTimestamp) =>
+    seasonEndTimestamp ? Date.now() > seasonEndTimestamp : null
 )
 
 export const selectSeasonWeek = createSelector(
@@ -88,25 +110,20 @@ export const selectWeekEndDate = createSelector(
 )
 
 /* Displayed Realm - selectors */
-export const selectDisplayedRealmId = (state: RootState) =>
-  state.island.displayedRealmId
+const selectDisplayedRealmProperty: DisplayedRealmProperty = (value) =>
+  createSelector(selectRealms, selectDisplayedRealmId, (realms, realmId) =>
+    realmId && realms[realmId] ? realms[realmId][value] : undefined
+  )
 
-export const selectDisplayedRealmAddress = createSelector(
-  selectRealms,
-  selectDisplayedRealmId,
-  (realms, realmId) => realmId && realms[realmId]?.realmContractAddress
+export const selectDisplayedRealmAddress = selectDisplayedRealmProperty(
+  "realmContractAddress"
 )
 
-export const selectDisplayedRealmVeTokenAddress = createSelector(
-  selectRealms,
-  selectDisplayedRealmId,
-  (realms, realmId) => realmId && realms[realmId]?.veTokenContractAddress
+export const selectDisplayedRealmVeTokenAddress = selectDisplayedRealmProperty(
+  "veTokenContractAddress"
 )
 
 /* Staking Realm - selectors */
-export const selectStakingRealmId = (state: RootState) =>
-  state.island.stakingRealmId
-
 export const selectStakingRealmAddress = createSelector(
   selectRealms,
   selectStakingRealmId,
@@ -114,12 +131,7 @@ export const selectStakingRealmAddress = createSelector(
     stakingRealmId && realms[stakingRealmId]?.realmContractAddress
 )
 
-/* Xp selectors */
-export const selectLeaderboards = (state: RootState) =>
-  state.island.leaderboards
-
-export const selectUnclaimedXp = (state: RootState) => state.island.unclaimedXp
-
+/* Leaderboard selectors */
 const selectLeaderboardDataById = createSelector(
   [(_, realmId: string) => realmId, selectLeaderboards],
   (realmId, leaderboards) => leaderboards[realmId]
@@ -135,6 +147,7 @@ export const selectUserLeaderboardRankById = createSelector(
   (leaderboardData) => leaderboardData?.currentUser ?? null
 )
 
+/* Xp selectors */
 export const selectUnclaimedXpById = createSelector(
   [(_, realmId: string) => realmId, selectUnclaimedXp],
   (realmId, unclaimedXp) => unclaimedXp[realmId]
@@ -188,9 +201,3 @@ export const selectIsStakingRealmDisplayed = createSelector(
     !!displayedAddress &&
     isSameAddress(stakingAddress, displayedAddress)
 )
-
-export const selectStakeUnlockTime = (state: RootState) =>
-  state.island.stakeUnlockTime
-
-export const selectIslandZoomLevel = (state: RootState) =>
-  state.island.zoomLevel

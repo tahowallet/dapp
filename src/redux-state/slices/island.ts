@@ -8,7 +8,7 @@ import {
   SeasonInfo,
 } from "shared/types"
 
-type IslandModeType = "default" | "join-realm"
+export type IslandModeType = "default" | "join-realm"
 
 export type IslandState = {
   mode: IslandModeType
