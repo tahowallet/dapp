@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
 import {
   isSameAddress,
+  resolveAddressToName,
   separateThousandsByComma,
   truncateAddress,
 } from "shared/utils"
@@ -22,6 +23,18 @@ export default function LeaderboardItem({
   const { beneficiary: address, amount } = item
   const isCurrentUser = isSameAddress(address, currentUser)
   const avatar = useDappSelector(selectWalletAvatar)
+  const [username, setUsername] = useState("")
+
+  const getName = useCallback(async () => {
+    const name = await resolveAddressToName(address)
+    if (name) {
+      setUsername(name)
+    }
+  }, [address])
+
+  useEffect(() => {
+    getName()
+  }, [getName])
 
   return (
     <>
@@ -45,7 +58,9 @@ export default function LeaderboardItem({
               style={{ borderRadius: "100%" }}
             />
           )}
-          <span className="address">{truncateAddress(address)}</span>
+          <span className="address">
+            {username || truncateAddress(address)}
+          </span>
           <span className="xp">
             {separateThousandsByComma(BigInt(amount))} XP
           </span>
