@@ -55,7 +55,7 @@ export default function LeaderboardItem({
               type="image"
               src={avatar}
               width="40px"
-              style={{ borderRadius: "100%" }}
+              style={{ borderRadius: "100%", backgroundPosition: "center" }}
             />
           )}
           <span className="address">
@@ -88,15 +88,19 @@ export default function LeaderboardItem({
           background: var(--primary-p1-100) !important;
           padding-left: 23px;
         }
-
+        .address {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
         .xp {
           margin-left: auto;
+          overflow: visible;
+          white-space: nowrap;
         }
-
         .rank {
           width: 20px;
         }
-
         .leaderboard_item[data-rank="1"] {
           color: #ffc700;
           border: 1px solid currentColor;

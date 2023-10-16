@@ -77,11 +77,15 @@ export const resolveAddressToName = async (
   const normalizedAddress = normalizeAddress(address)
   const cachedItem = cachedNames[normalizedAddress]
 
+  console.log('### resolveAddressToName cachedItem', cachedItem, address)
+
   if (cachedItem && cachedItem.lastUpdate + MAX_CACHE_AGE > Date.now()) {
     return cachedItem.ens ?? cachedItem.uns
   }
 
   const name = await resolveAddressToNameWithoutCache(normalizedAddress)
+
+  console.log('### resolveAddressToName name', name)
 
   return name
 }
