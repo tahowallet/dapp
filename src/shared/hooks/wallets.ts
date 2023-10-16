@@ -1,5 +1,5 @@
 import { useConnectWallet } from "@web3-onboard/react"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers } from "ethers"
 import {
   useDappDispatch,
@@ -9,13 +9,17 @@ import {
   selectWalletAddress,
   fetchWalletBalances,
   resetBalances,
+  resetIsland,
+  resetClaiming,
   connectArbitrumProvider,
+  selectDisplayedRealmId,
 } from "redux-state"
 import {
   ARBITRUM,
   BALANCE_UPDATE_INTERVAL,
   LOCAL_STORAGE_WALLET,
 } from "shared/constants"
+import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
 
 // To make it possible to start fetching blockchain data before the user
@@ -113,4 +117,45 @@ export function useConnect() {
   }, [wallet, disconnect, updateWalletOnboarding])
 
   return { isConnected: !!wallet, connect, disconnect: disconnectBound }
+}
+
+// Hook is invoked when user switches accounts
+export function useWalletChange() {
+  const dispatch = useDappDispatch()
+
+  const address = useDappSelector(selectWalletAddress)
+  const isStaked = useDappSelector(selectDisplayedRealmId)
+
+  const [currentAddress, setCurrentAddress] = useState("")
+
+  const { updateWalletOnboarding } = useWalletOnboarding()
+  const { assistant, updateAssistant } = useAssistant()
+
+  useEffect(() => {
+    if (!currentAddress) {
+      setCurrentAddress(address)
+      return
+    }
+
+    if (address !== currentAddress) {
+      dispatch(resetIsland())
+      dispatch(resetClaiming())
+
+      updateWalletOnboarding("")
+
+      if (!assistant && !isStaked) {
+        updateAssistant({ visible: true, type: "welcome" })
+      }
+
+      setCurrentAddress(address)
+    }
+  }, [
+    currentAddress,
+    address,
+    updateWalletOnboarding,
+    updateAssistant,
+    dispatch,
+    assistant,
+    isStaked,
+  ])
 }
