@@ -41,9 +41,6 @@ export default function ModalLeavingRealm({
                 <span>giving up the rewards</span> that you would receive this
                 week.
               </p>
-              <p>
-                You also <span>can&apos;t join another realm for 3 days.</span>
-              </p>
             </div>
             <div className="modal_controls">
               {isPending || (
