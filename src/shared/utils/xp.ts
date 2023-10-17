@@ -1,5 +1,5 @@
-import { LeaderboardItemData } from "shared/types"
-import { XpMerkleTreeItem, XpMerkleTree, XpByMerkleRoot } from "shared/types/xp"
+import { LeaderboardItemData, XpMerkleTreeItemData } from "shared/types"
+import { XpMerkleTree, XpByMerkleRoot } from "shared/types/xp"
 import { isSameAddress, normalizeAddress } from "shared/utils"
 
 type DynamicXPMerkleTreeImport = {
@@ -68,9 +68,7 @@ export async function getUserXpByMerkleRoot(
 }
 
 export function getUserLeaderboardRank(
-  sortedData: (XpMerkleTreeItem & {
-    beneficiary: string
-  })[],
+  sortedData: XpMerkleTreeItemData[],
   address: string
 ): LeaderboardItemData | null {
   if (!address) return null
@@ -88,10 +86,13 @@ export function getUserLeaderboardRank(
     : null
 }
 
-export function getRealmXpSorted(
-  data: (XpMerkleTreeItem & {
-    beneficiary: string
-  })[]
-) {
+export function getRealmXpSorted(data: XpMerkleTreeItemData[]) {
   return data.sort((a, b) => Number(b.amount) - Number(a.amount))
+}
+
+export function convertXpData(xpData: XpMerkleTree): XpMerkleTreeItemData[] {
+  return Object.entries(xpData.claims).map(([beneficiary, data]) => ({
+    beneficiary,
+    ...data,
+  }))
 }

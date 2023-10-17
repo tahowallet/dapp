@@ -29,6 +29,7 @@ import { TransactionProgressStatus } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { getAllowanceTransactionID } from "shared/utils"
 import {
+  convertXpData,
   getRealmLeaderboardData,
   getRealmXpSorted,
   getUserLeaderboardRank,
@@ -307,9 +308,7 @@ export const fetchLeaderboardData = createDappAsyncThunk(
         const xpData = await getRealmLeaderboardData(realmId)
 
         if (xpData) {
-          const converted = Object.entries(xpData.claims).map(
-            ([beneficiary, data]) => ({ beneficiary, ...data })
-          )
+          const converted = convertXpData(xpData)
           const sorted = getRealmXpSorted(converted)
           const leaderboard = sorted.slice(0, 10).map((item, index) => ({
             ...item,
