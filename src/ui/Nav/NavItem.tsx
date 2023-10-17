@@ -98,7 +98,7 @@ export default function NavItem({
           bottom: 100%;
           left: 50%;
           transform: translateX(-50%);
-          font-size: 11px;
+          font-size: 12px;
           line-height: 24px;
           font-weight: 700;
           color: var(--semantic-attention);
