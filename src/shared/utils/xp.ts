@@ -56,11 +56,16 @@ export async function getUserXpByMerkleRoot(
   const xpData = await getXpData(url)
 
   if (xpData) {
-    const { merkleRoot } = xpData
-    const userClaim = xpData.claims[normalizedAddress]
+    try {
+      const { merkleRoot } = xpData
+      const userClaim = xpData.claims[normalizedAddress]
 
-    if (userClaim) {
-      xpItemByMerkleRoot[merkleRoot] = userClaim
+      if (userClaim) {
+        xpItemByMerkleRoot[merkleRoot] = userClaim
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn("Not a correct structure for XP data")
     }
   }
 
