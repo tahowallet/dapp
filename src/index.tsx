@@ -7,6 +7,7 @@ import {
   useBalanceFetch,
   useConnect,
   useGameDataFetch,
+  useGameLoadDataFetch,
   useWallet,
   useWalletChange,
   useWalletOnboarding,
@@ -32,11 +33,13 @@ function DApp() {
   const { isConnected } = useConnect()
   const { walletOnboarded } = useWalletOnboarding()
 
-  useWalletChange()
   useWallet()
 
-  const gameDataFetched = useGameDataFetch()
+  const gameLoadDataFetched = useGameLoadDataFetch()
   const balanceFetched = useBalanceFetch()
+
+  useWalletChange()
+  useGameDataFetch()
 
   return (
     <>
@@ -48,7 +51,7 @@ function DApp() {
         )}
         {walletOnboarded && isConnected && (
           <>
-            <FullPageLoader loaded={gameDataFetched && balanceFetched} />
+            <FullPageLoader loaded={gameLoadDataFetched && balanceFetched} />
             <IslandComponent />
             <TestingPanel />
             {islandMode === "default" && <Nav />}

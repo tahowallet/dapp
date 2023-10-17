@@ -40,6 +40,28 @@ export function useIslandContext() {
   return useContext(IslandContext)
 }
 
+// Used to fetch all necessary data for the game to load
+export function useGameLoadDataFetch() {
+  const dispatch = useDappDispatch()
+  const provider = useArbitrumProvider()
+  const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
+
+  useEffect(() => {
+    if (!provider || hasAlreadyFetched) return
+
+    const fetchData = async () => {
+      await dispatch(initSeasonInfoData())
+      await dispatch(initRealmsDataFromContracts())
+      setHasAlreadyFetched(true)
+    }
+
+    fetchData()
+  }, [provider, hasAlreadyFetched, dispatch])
+
+  return hasAlreadyFetched
+}
+
+// Used to fetch remaining game data
 export function useGameDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
@@ -53,8 +75,6 @@ export function useGameDataFetch() {
     if (!provider || hasAlreadyFetched) return
 
     const fetchData = async () => {
-      await dispatch(initSeasonInfoData())
-      await dispatch(initRealmsDataFromContracts())
       await dispatch(fetchPopulation())
       await dispatch(fetchXpAllocatable())
 
@@ -81,8 +101,6 @@ export function useGameDataFetch() {
       fetchData()
     }
   }, [dispatch, hasAlreadyFetchedForAccount, hasAlreadyFetched, account])
-
-  return hasAlreadyFetched
 }
 
 const calculateTimeLeft = (stakeUnlockTime: number | null) =>
