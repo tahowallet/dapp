@@ -7,19 +7,19 @@ export const REALMS_WITH_CONTRACT_NAME: {
   [id: string]: { name: string }
 } = {
   "4": {
-    name: "VAMPIRE_REALM",
+    name: "GITCOIN_REALM",
   },
   "7": {
-    name: "EDUCATE_REALM",
+    name: "CYBERCONNECT_REALM",
   },
   "9": {
-    name: "SOCIAL_REALM",
+    name: "ARBITRUM_REALM",
   },
   "19": {
-    name: "CREATORS_REALM",
+    name: "GALXE_REALM",
   },
   "22": {
-    name: "DEFI_REALM",
+    name: "FRAX_REALM",
   },
 }
 

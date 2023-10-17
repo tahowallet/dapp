@@ -41,22 +41,22 @@ declare const CONTRACT_XpMerkleDistributorFactoryDeployer: string
 
 declare const CONTRACT_XpTahoConverterFactoryDeployer: string
 
-declare const CONTRACT_DeFiRealmVeTaho: string
+declare const CONTRACT_FraxRealmVeTaho: string
 
-declare const CONTRACT_CreatorsRealmVeTaho: string
+declare const CONTRACT_GalxeRealmVeTaho: string
 
-declare const CONTRACT_SocialRealmVeTaho: string
+declare const CONTRACT_ArbitrumRealmVeTaho: string
 
-declare const CONTRACT_EducateRealmVeTaho: string
+declare const CONTRACT_CyberConnectRealmVeTaho: string
 
-declare const CONTRACT_VampireRealmVeTaho: string
+declare const CONTRACT_GitcoinRealmVeTaho: string
 
-declare const CONTRACT_DeFiRealmDeployer: string
+declare const CONTRACT_FraxRealmDeployer: string
 
-declare const CONTRACT_CreatorsRealmDeployer: string
+declare const CONTRACT_GalxeRealmDeployer: string
 
-declare const CONTRACT_SocialRealmDeployer: string
+declare const CONTRACT_ArbitrumRealmDeployer: string
 
-declare const CONTRACT_EducateRealmDeployer: string
+declare const CONTRACT_CyberConnectRealmDeployer: string
 
-declare const CONTRACT_VampireRealmDeployer: string
+declare const CONTRACT_GitcoinRealmDeployer: string

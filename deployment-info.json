@@ -76,43 +76,43 @@
     "expectedAddress": "0xdC4C7129341C26eA046A46d4B446e22Dba145272"
   },
   {
-    "name": "DeFiRealmVeTaho",
+    "name": "FraxRealmVeTaho",
     "expectedAddress": "0x013A45D32873C252AB9009972178310e3acd714E"
   },
   {
-    "name": "CreatorsRealmVeTaho",
+    "name": "GalxeRealmVeTaho",
     "expectedAddress": "0xa9Ffe6A23728796861910bE68Cb97038a475f775"
   },
   {
-    "name": "SocialRealmVeTaho",
+    "name": "ArbitrumRealmVeTaho",
     "expectedAddress": "0x30E4De39fAF93D1f749405812E283f3b33Aa2Ace"
   },
   {
-    "name": "EducateRealmVeTaho",
+    "name": "CyberConnectRealmVeTaho",
     "expectedAddress": "0x95aF69623d87443FD896A39e072A57822dd5d52D"
   },
   {
-    "name": "VampireRealmVeTaho",
+    "name": "GitcoinRealmVeTaho",
     "expectedAddress": "0xB0Ae3fc5824Ad2d808245D752ff345135De6eab1"
   },
   {
-    "name": "DeFiRealmDeployer",
+    "name": "FraxRealmDeployer",
     "expectedAddress": "0x359CC8C3C386DD7B54E6c516D72A14F74e776a8c"
   },
   {
-    "name": "CreatorsRealmDeployer",
+    "name": "GalxeRealmDeployer",
     "expectedAddress": "0x794D552fd19abBE82F4dbad548145A4874B4403A"
   },
   {
-    "name": "SocialRealmDeployer",
+    "name": "ArbitrumRealmDeployer",
     "expectedAddress": "0x72691900C6f85F619771D3C84D24ED8de8A6a7E3"
   },
   {
-    "name": "EducateRealmDeployer",
+    "name": "CyberConnectRealmDeployer",
     "expectedAddress": "0x87dC874Bc16b1474071420E064DD10D4d636C859"
   },
   {
-    "name": "VampireRealmDeployer",
+    "name": "GitcoinRealmDeployer",
     "expectedAddress": "0xc25c0124122F5CC2689007f9fD83122706d08f9c"
   }
 ]
