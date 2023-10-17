@@ -2,7 +2,7 @@
   "totalAmount": "425",
   "merkleRoot": "0x776cc1ec2e1e74ec24a074ff144e7b20f2f43d0997d0e2d08fc59dbb2cb36ad8",
   "claims": {
-    "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266": {
+    "0x6e80164ea60673D64d5d6228beb684a1274Bb017": {
       "index": 1,
       "amount": "98",
       "proof": [
@@ -10,7 +10,7 @@
         "0xdac00e214f93dbd7bd29e0cad8ad94d94a74d5d5ce2c8b6e5d1fde181ebe3740"
       ]
     },
-    "0x70997970c51812dc3a010c7d01b50e0d17dc79c8": {
+    "0xad23ab2e2ec036a9ec319187e9659fcf8ddd6d38": {
       "index": 2,
       "amount": "147",
       "proof": [
