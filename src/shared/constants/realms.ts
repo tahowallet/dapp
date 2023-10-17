@@ -30,11 +30,9 @@ export const REALMS_WITH_CONTRACT_NAME: {
 export function getQuestlineData(
   realmContractAddress: string
 ): RealmQuestlineData {
-  // TODO: Delete when questline data is ready for use
-  const realmWithQuestline = QUESTLINE_DATA.realms[0]
-  // const realmWithQuestline = QUESTLINE_DATA.realms.find(
-  //   ({ realm }) => realm === realmContractAddress
-  // )
+  const realmWithQuestline = QUESTLINE_DATA.realms.find(
+    ({ realm }) => realm === realmContractAddress
+  )
 
   if (!realmWithQuestline) {
     throw new Error(`Missing data for realm ${realmContractAddress}`)
