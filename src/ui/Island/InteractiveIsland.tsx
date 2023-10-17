@@ -21,7 +21,7 @@ import {
   calculateIslandPosition,
   getCurrentCanvasPosition,
 } from "shared/utils"
-import Controls from "ui/Controls"
+// import Controls from "ui/Controls"
 import Assistant from "ui/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
@@ -170,10 +170,10 @@ function InteractiveIsland() {
         </Layer>
       </Stage>
       <Assistant />
-      <Controls
+      {/* <Controls
         stage={islandRef.current}
         minScale={settingsRef.current.minScale}
-      />
+      /> */}
     </>
   )
 }
