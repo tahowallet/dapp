@@ -25,16 +25,15 @@ export default function LeaderboardItem({
   const avatar = useDappSelector(selectWalletAvatar)
   const [username, setUsername] = useState("")
 
-  const getName = useCallback(async () => {
-    const name = await resolveAddressToName(address)
-    if (name) {
-      setUsername(name)
-    }
-  }, [address])
-
   useEffect(() => {
+    const getName = async () => {
+      const name = await resolveAddressToName(address)
+      if (name) {
+        setUsername(name)
+      }
+    }
     getName()
-  }, [getName])
+  }, [address])
 
   return (
     <>
