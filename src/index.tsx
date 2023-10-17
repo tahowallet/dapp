@@ -7,6 +7,7 @@ import {
   useBalanceFetch,
   useConnect,
   useGameDataFetch,
+  useGameLoadDataFetch,
   useWallet,
   useWalletChange,
   useWalletOnboarding,
@@ -23,27 +24,34 @@ import IslandComponent from "ui/Island"
 import web3Onboard from "shared/utils/web3Onboard"
 import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
-import reduxStore from "./redux-state"
+import FullPageLoader from "shared/components/FullPageLoader"
 import MobileScreen from "ui/MobileScreen"
+import reduxStore from "./redux-state"
 
 function DApp() {
   const islandMode = useDappSelector(selectIslandMode)
   const { isConnected } = useConnect()
   const { walletOnboarded } = useWalletOnboarding()
 
-  useWalletChange()
   useWallet()
+
+  const gameLoadDataFetched = useGameLoadDataFetch()
+  const balanceFetched = useBalanceFetch()
+
+  useWalletChange()
   useGameDataFetch()
-  useBalanceFetch()
 
   return (
     <>
       <GlobalStyles />
       <MobileScreen />
       <Router>
-        {(!walletOnboarded || !isConnected) && <Onboarding />}
+        {(!walletOnboarded || !isConnected) && (
+          <Onboarding balanceFetched={balanceFetched} />
+        )}
         {walletOnboarded && isConnected && (
           <>
+            <FullPageLoader loaded={gameLoadDataFetched && balanceFetched} />
             <IslandComponent />
             <TestingPanel />
             {islandMode === "default" && <Nav />}
