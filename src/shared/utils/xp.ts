@@ -29,7 +29,7 @@ export async function getRealmLeaderboardData(
 
 async function getXpData(
   realmId: string,
-  dropIndex: number
+  url: string
 ): Promise<XpMerkleTree | null> {
   if (!realmId) {
     throw new Error("Missing realm id")
@@ -39,9 +39,7 @@ async function getXpData(
 
   if (realmId) {
     try {
-      xpData = await import(
-        `data/xp/${realmId}/xp_${realmId}_${dropIndex}.json`
-      )
+      xpData = await (await fetch(url)).json()
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("No XP data found for the realm id:", realmId)
@@ -53,27 +51,21 @@ async function getXpData(
 
 export async function getUserXpByMerkleRoot(
   realmId: string,
-  account: string
+  account: string,
+  url: string
 ): Promise<XpByMerkleRoot> {
   const xpItemByMerkleRoot: XpByMerkleRoot = {}
   const normalizedAddress = normalizeAddress(account)
-  let dropIndex = 1
 
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    // eslint-disable-next-line no-await-in-loop
-    const xpData = await getXpData(realmId, dropIndex)
+  const xpData = await getXpData(realmId, url)
 
-    if (!xpData) break
-
+  if (xpData) {
     const { merkleRoot } = xpData
     const userClaim = xpData.claims[normalizedAddress]
 
     if (userClaim) {
       xpItemByMerkleRoot[merkleRoot] = userClaim
     }
-
-    dropIndex += 1
   }
 
   return xpItemByMerkleRoot

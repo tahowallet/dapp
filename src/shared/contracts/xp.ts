@@ -3,11 +3,11 @@ import {
   ReadTransactionBuilder,
   UnclaimedXpData,
   WriteTransactionBuilder,
-  XpByMerkleRoot,
   XpDistributor,
   XpMerkleTreeItem,
 } from "shared/types"
 import { isSameAddress, normalizeAddress } from "shared/utils"
+import { getUserXpByMerkleRoot } from "shared/utils/xp"
 import {
   xpMerkleDistributorAbi,
   xpAbi,
@@ -57,6 +57,7 @@ const getDistributorsFromEvents = (
     return {
       distributorContractAddress: normalizeAddress(args.distributor),
       merkleRoot: args.merkleRoot,
+      merkleDataUrl: args.merkleDataUrl,
     }
   })
 
@@ -83,34 +84,41 @@ export const getUnclaimedXpDistributions: ReadTransactionBuilder<
   {
     realmAddress: string
     xpAddress: string
-    claims: XpByMerkleRoot
+    realmId: string
+    account: string
   },
   UnclaimedXpData[]
-> = async (provider, { realmAddress, xpAddress, claims }) => {
+> = async (provider, { realmAddress, xpAddress, realmId, account }) => {
   const distributorAddresses = await getXPDistributorsAddresses(provider, {
     realmContractAddress: realmAddress,
     xpContractAddress: xpAddress,
   })
 
-  const relevantDistributors = distributorAddresses.filter(
-    ({ merkleRoot }) => !!claims[merkleRoot]
-  )
-
   const unclaimedOrNull = await Promise.all(
-    relevantDistributors.map<Promise<UnclaimedXpData | null>>(
-      async ({ distributorContractAddress, merkleRoot }) => {
-        const hasClaimed = await hasClaimedXp(provider, {
-          distributorContractAddress,
-          index: claims[merkleRoot].index,
-        })
+    distributorAddresses.map<Promise<UnclaimedXpData | null>>(
+      async ({ distributorContractAddress, merkleRoot, merkleDataUrl }) => {
+        const claims = await getUserXpByMerkleRoot(
+          realmId,
+          account,
+          merkleDataUrl
+        )
 
-        return hasClaimed
-          ? null
-          : {
-              distributorContractAddress,
-              merkleRoot,
-              claim: claims[merkleRoot],
-            }
+        if (claims[merkleRoot]) {
+          const hasClaimed = await hasClaimedXp(provider, {
+            distributorContractAddress,
+            index: claims[merkleRoot].index,
+          })
+
+          return hasClaimed
+            ? null
+            : {
+                distributorContractAddress,
+                merkleRoot,
+                merkleDataUrl,
+                claim: claims[merkleRoot],
+              }
+        }
+        return null
       }
     )
   )

@@ -32,7 +32,6 @@ import {
   getRealmLeaderboardData,
   getRealmXpSorted,
   getUserLeaderboardRank,
-  getUserXpByMerkleRoot,
 } from "shared/utils/xp"
 import { getXpAllocatable } from "shared/contracts/xp"
 import { fetchWalletBalances } from "./wallet"
@@ -343,13 +342,13 @@ export const fetchUnclaimedXp = createDappAsyncThunk(
     await Promise.allSettled(
       Object.entries(realms).map(
         async ([realmId, { realmContractAddress, xpToken }]) => {
-          const claims = await getUserXpByMerkleRoot(realmId, account)
           const unclaimedXp = await transactionService.read(
             getUnclaimedXpDistributions,
             {
               realmAddress: realmContractAddress,
               xpAddress: xpToken.contractAddress,
-              claims,
+              realmId,
+              account,
             }
           )
 
