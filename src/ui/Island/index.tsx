@@ -42,34 +42,35 @@ function IslandWrapper() {
 
   const handleClose = useCallback(() => setRealmId(null), [])
 
-  if (!assetsLoaded) return <FullPageLoader />
-
   return (
-    <div className="island_container">
-      <style jsx>
-        {`
-          .island_container {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            z-index: var(--z-island);
-          }
-        `}
-      </style>
-      <IslandContext.Provider value={contextRef}>
-        <InteractiveIsland />
-        {realmId && (
-          <RealmModal onClose={handleClose}>
-            {isDefaultIslandMode ? (
-              <RealmDetails onClose={handleClose} />
-            ) : (
-              // TODO: update if claim flow will be used
-              <Quests />
-            )}
-          </RealmModal>
-        )}
-      </IslandContext.Provider>
-    </div>
+    <>
+      <FullPageLoader loaded={assetsLoaded} />
+      <div className="island_container">
+        <style jsx>
+          {`
+            .island_container {
+              position: absolute;
+              inset: 0;
+              overflow: hidden;
+              z-index: var(--z-island);
+            }
+          `}
+        </style>
+        <IslandContext.Provider value={contextRef}>
+          <InteractiveIsland />
+          {realmId && (
+            <RealmModal onClose={handleClose}>
+              {isDefaultIslandMode ? (
+                <RealmDetails onClose={handleClose} />
+              ) : (
+                // TODO: update if claim flow will be used
+                <Quests />
+              )}
+            </RealmModal>
+          )}
+        </IslandContext.Provider>
+      </div>
+    </>
   )
 }
 

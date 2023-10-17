@@ -54,3 +54,18 @@ export type SeasonInfo = {
   isInterSeason: boolean
   durationInWeeks: number
 }
+
+export type RealmMapData = {
+  id: string
+  h: number
+  w: number
+  x: number
+  y: number
+  paths: { windingRule: string; data: string }[]
+  realmType: string
+  color: string
+  labelX: number
+  labelY: number
+  partnerLogo: { default: string; shadow: string }
+  partnerColor?: string
+}

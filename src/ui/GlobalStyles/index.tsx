@@ -146,6 +146,7 @@ export default function GlobalStyles() {
           font-weight: 500;
           line-height: 24px;
           color: var(--off-white);
+          overflow: hidden;
 
           // TODO: web3onboard modal takes root font size to adjust UI sizes
           // but some UI (for example loaders) look bad with 18px font size

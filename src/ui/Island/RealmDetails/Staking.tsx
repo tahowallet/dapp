@@ -8,7 +8,7 @@ import {
 } from "redux-state"
 import { TAHO_ADDRESS } from "shared/constants"
 
-import BannerEarn from "./RealmBanners/BannerEarn"
+// import BannerEarn from "./RealmBanners/BannerEarn"
 import BannerTakeToRealm from "./RealmBanners/BannerTakeToRealm"
 import UnstakeForm from "./StakingForms/UnstakeForm"
 import StakeForm from "./StakingForms/StakeForm"
@@ -21,10 +21,12 @@ function isFormDisabled(
   return balance === 0n || (hasStakingRealm && !isStakingRealm)
 }
 
-type StakingProps = {
-  close: () => void
-}
-export default function Staking({ close }: StakingProps) {
+// type StakingProps = {
+//   close: () => void
+// }
+
+// export default function Staking({ close }: StakingProps) {
+export default function Staking() {
   const displayedRealmVeTokenAddress = useDappSelector(
     selectDisplayedRealmVeTokenAddress
   )
@@ -51,12 +53,12 @@ export default function Staking({ close }: StakingProps) {
   )
 
   const shouldLinkToRealm = hasStakingRealm && !isStakingRealm
-  const shouldLinkToReferrals = !shouldLinkToRealm && tahoBalance === 0n
+  // const shouldLinkToReferrals = !shouldLinkToRealm && tahoBalance === 0n
 
   return (
     <>
       {shouldLinkToRealm && <BannerTakeToRealm />}
-      {shouldLinkToReferrals && <BannerEarn close={close} />}
+      {/* {shouldLinkToReferrals && <BannerEarn close={close} />} */}
 
       <div className="staking">
         <StakeForm isDisabled={disabledStake} />

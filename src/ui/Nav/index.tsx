@@ -1,9 +1,8 @@
 import React from "react"
-
 import Button from "shared/components/Button"
 import logoIcon from "shared/assets/nav_logo.svg"
 import walletIcon from "shared/assets/icons/wallet.svg"
-import { useConnect } from "shared/hooks"
+import { useConnect, useResetTenderlyFork } from "shared/hooks"
 import { ROUTES } from "shared/constants"
 import NavItem from "./NavItem"
 import AccountInfo from "./AccountInfo"
@@ -36,6 +35,7 @@ const NAV_ITEMS = [
 
 export default function Nav(): JSX.Element {
   const { isConnected, connect } = useConnect()
+  const resetTenderlyFork = useResetTenderlyFork()
 
   return (
     <div className="nav_container">
@@ -68,7 +68,8 @@ export default function Nav(): JSX.Element {
           </nav>
         </div>
         <div className="logo_container">
-          <div className="logo" />
+          {/* eslint-disable-next-line */}
+          <div className="logo" onClick={resetTenderlyFork} />
         </div>
         <div className="rhs_container row">
           <div className="connect_wallet_btn">

@@ -8,6 +8,7 @@ import {
   useConnect,
   useGameDataFetch,
   useWallet,
+  useWalletChange,
   useWalletOnboarding,
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
@@ -24,12 +25,14 @@ import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
 import FullPageLoader from "shared/components/FullPageLoader"
 import reduxStore from "./redux-state"
+import MobileScreen from "ui/MobileScreen"
 
 function DApp() {
   const islandMode = useDappSelector(selectIslandMode)
   const { isConnected } = useConnect()
   const { walletOnboarded } = useWalletOnboarding()
 
+  useWalletChange()
   useWallet()
   const gameDataFetched = useGameDataFetch()
   const balanceFetched = useBalanceFetch()
@@ -37,6 +40,7 @@ function DApp() {
   return (
     <>
       <GlobalStyles />
+      <MobileScreen />
       <Router>
         {(!walletOnboarded || !isConnected) && (
           <Onboarding balanceFetched={balanceFetched} />

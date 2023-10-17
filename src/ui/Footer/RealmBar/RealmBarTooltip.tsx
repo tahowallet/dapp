@@ -19,7 +19,7 @@ export default function RealmBarTooltip({
   return (
     <>
       <animated.div
-        className="tooltip column_center"
+        className="column_center"
         style={{
           ...transition,
           position: "absolute",
@@ -30,6 +30,7 @@ export default function RealmBarTooltip({
           textAlign: "center",
           padding: "4px 16px 0",
           borderRadius: 4,
+          pointerEvents: "none",
         }}
       >
         <div className="tooltip">

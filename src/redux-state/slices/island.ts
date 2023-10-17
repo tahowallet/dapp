@@ -122,7 +122,7 @@ const islandSlice = createSlice({
     },
     resetIsland: (immerState) => {
       immerState.mode = "default"
-      immerState.overlay = "none"
+      immerState.overlay = "dark"
     },
   },
 })

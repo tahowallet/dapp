@@ -9,7 +9,8 @@ import {
 import { normalizeAddress } from "shared/utils"
 
 const ERROR_MESSAGE = {
-  NO_ARBITRUM_PROVIDER: "Arbitrum provider is not ready",
+  NO_ARBITRUM_PROVIDER: "Arbitrum provider is not ready, check RPC URL setup",
+  NO_ARBITRUM_SIGNER: "Arbitrum signer is not ready, check wallet connection",
   TRANSACTION_BUILDER_FAILED: "Transaction is not ready",
 }
 
@@ -21,7 +22,9 @@ type Events = {
 }
 
 class TransactionService {
-  arbitrumProvider: ethers.providers.Web3Provider | null = null
+  arbitrumProvider: ethers.providers.Provider | null = null
+
+  arbitrumSigner: ethers.providers.JsonRpcSigner | null = null
 
   ethereumProvider: ethers.providers.Provider | null = null
 
@@ -34,13 +37,11 @@ class TransactionService {
   }
 
   async getSignerAddress(): Promise<string> {
-    if (!this.arbitrumProvider) {
-      throw new Error(ERROR_MESSAGE.NO_ARBITRUM_PROVIDER)
+    if (!this.arbitrumSigner) {
+      throw new Error(ERROR_MESSAGE.NO_ARBITRUM_SIGNER)
     }
 
-    return normalizeAddress(
-      await this.arbitrumProvider.getSigner().getAddress()
-    )
+    return normalizeAddress(await this.arbitrumSigner.getAddress())
   }
 
   async getEthBalance(account?: string): Promise<bigint> {
@@ -54,10 +55,12 @@ class TransactionService {
     return ethBalance.toBigInt()
   }
 
-  async setArbitrumProvider(
-    providerOrNull: ethers.providers.Web3Provider | null
-  ) {
+  async setArbitrumProvider(providerOrNull: ethers.providers.Provider | null) {
     this.arbitrumProvider = providerOrNull
+  }
+
+  async setArbitrumSigner(signerOrNull: ethers.providers.JsonRpcSigner | null) {
+    this.arbitrumSigner = signerOrNull
   }
 
   async emitTransactionStatus(
@@ -75,11 +78,11 @@ class TransactionService {
     data: T
   ): Promise<ethers.providers.TransactionReceipt | null> {
     try {
-      if (!this.arbitrumProvider) {
+      if (!this.arbitrumProvider || !this.arbitrumSigner) {
         throw new Error(ERROR_MESSAGE.NO_ARBITRUM_PROVIDER)
       }
 
-      const signer = this.arbitrumProvider.getSigner()
+      const signer = this.arbitrumSigner
       const address = await signer.getAddress()
       const nonce = await this.arbitrumProvider.getTransactionCount(
         address,

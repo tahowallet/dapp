@@ -82,6 +82,7 @@ export default function Tooltip({
           .tooltip {
             position: relative;
             margin-left: ${gap};
+            z-index: 50;
           }
           .tooltip_content {
             width: ${width};
