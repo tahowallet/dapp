@@ -24,8 +24,8 @@ import web3Onboard from "shared/utils/web3Onboard"
 import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
 import FullPageLoader from "shared/components/FullPageLoader"
-import reduxStore from "./redux-state"
 import MobileScreen from "ui/MobileScreen"
+import reduxStore from "./redux-state"
 
 function DApp() {
   const islandMode = useDappSelector(selectIslandMode)
@@ -34,6 +34,7 @@ function DApp() {
 
   useWalletChange()
   useWallet()
+
   const gameDataFetched = useGameDataFetch()
   const balanceFetched = useBalanceFetch()
 
@@ -47,27 +48,23 @@ function DApp() {
         )}
         {walletOnboarded && isConnected && (
           <>
-            {(!gameDataFetched || !balanceFetched) && <FullPageLoader />}
-            {gameDataFetched && balanceFetched && (
-              <>
-                <IslandComponent />
-                <TestingPanel />
-                {islandMode === "default" && <Nav />}
-                <Switch>
-                  <Route path={ROUTES.CLAIM.HOME}>
-                    <Claim />
-                  </Route>
-                  <Route path={ROUTES.REFERRALS}>
-                    <Referrals />
-                  </Route>
-                  {/* TODO should be removed or defined later */}
-                  <Route path={ROUTES.LP}>
-                    <LiquidityPool />
-                  </Route>
-                </Switch>
-                <Footer />
-              </>
-            )}
+            <FullPageLoader loaded={gameDataFetched && balanceFetched} />
+            <IslandComponent />
+            <TestingPanel />
+            {islandMode === "default" && <Nav />}
+            <Switch>
+              <Route path={ROUTES.CLAIM.HOME}>
+                <Claim />
+              </Route>
+              <Route path={ROUTES.REFERRALS}>
+                <Referrals />
+              </Route>
+              {/* TODO should be removed or defined later */}
+              <Route path={ROUTES.LP}>
+                <LiquidityPool />
+              </Route>
+            </Switch>
+            <Footer />
           </>
         )}
       </Router>
