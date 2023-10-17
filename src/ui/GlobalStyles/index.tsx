@@ -140,7 +140,9 @@ export default function GlobalStyles() {
 
         html,
         body {
+          position: relative
           height: 100%;
+          width: 100%;
           font-family: var(--sans);
           font-style: normal;
           font-weight: 500;

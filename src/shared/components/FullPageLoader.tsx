@@ -21,7 +21,7 @@ export default function FullPageLoader({ loaded }: { loaded: boolean }) {
           overflow: "hidden",
           position: "fixed",
           inset: 0,
-          zIndex: 9999,
+          zIndex: 900,
           pointerEvents: loaded ? "none" : "all",
         }}
       >

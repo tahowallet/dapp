@@ -6,7 +6,7 @@ import logoIcon from "shared/assets/nav_logo.svg"
 import { useOnResize } from "shared/hooks"
 import { getWindowDimensions } from "shared/utils"
 
-const MOBILE_BREAKPOINT = 768
+const MOBILE_BREAKPOINT = 854 // qHD width
 
 export default function MobileScreen() {
   const [width, setWidth] = useState(window.innerWidth)
@@ -85,6 +85,7 @@ export default function MobileScreen() {
             width: 428px;
             height: 428px;
             background-image: url(${mobileCircle});
+            background-position: center;
           }
           .mobile-screen {
             position: relative;
@@ -146,6 +147,11 @@ export default function MobileScreen() {
           .rhs_container {
             margin-left: auto;
             align-items: center;
+          }
+          @media (max-height: 520px) {
+            .nav_container {
+              display: none;
+            }
           }
         `}
       </style>
