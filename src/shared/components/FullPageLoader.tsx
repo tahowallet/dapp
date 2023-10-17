@@ -2,6 +2,7 @@ import React from "react"
 import { useVisibilityTransition } from "shared/hooks"
 import { animated } from "@react-spring/web"
 import GoldenCircleSpinner from "./Loaders/GoldenCircleSpinner"
+import LoadingText from "./Loaders/LoadingText"
 
 export default function FullPageLoader({ loaded }: { loaded: boolean }) {
   const transition = useVisibilityTransition(!loaded)
@@ -26,9 +27,9 @@ export default function FullPageLoader({ loaded }: { loaded: boolean }) {
         }}
       >
         <GoldenCircleSpinner />
-        <div className="loading_text">
+        <LoadingText>
           <p>Loading your experience...</p>
-        </div>
+        </LoadingText>
       </animated.div>
       <style jsx>
         {`
@@ -40,11 +41,6 @@ export default function FullPageLoader({ loaded }: { loaded: boolean }) {
             overflow: hidden;
             position: fixed;
             inset: 0;
-          }
-          .loading_text {
-            text-align: center;
-            color: var(--secondary-s1-70);
-            margin-top: 20px;
           }
         `}
       </style>
