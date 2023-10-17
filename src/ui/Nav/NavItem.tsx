@@ -93,11 +93,12 @@ export default function NavItem({
       </NavLink>
       <style jsx>{`
         .link_extra_info {
+          white-space: nowrap;
           position: absolute;
           bottom: 100%;
           left: 50%;
           transform: translateX(-50%);
-          font-size: 12px;
+          font-size: 11px;
           line-height: 24px;
           font-weight: 700;
           color: var(--semantic-attention);
