@@ -36,11 +36,22 @@ export async function rename() {
       realmAbi,
       tenderlyProvider
     )
+    const oldName = await realmContract.name()
 
     const populatedTx = await realmContract.populateTransaction.updateName(name)
 
     const tx = await signer.sendTransaction(populatedTx)
 
     await tx.wait()
+
+    const newName = await realmContract.name()
+
+    // eslint-disable-next-line no-console
+    console.log(
+      "Changed realm name from",
+      oldName.toString(),
+      "to",
+      newName.toString()
+    )
   })
 }
