@@ -31,7 +31,10 @@ export type RealmDataWithId = { id: string; data: RealmData }
 
 export type RealmWithStaker = [string, string]
 
-export type LeaderboardItemData = XpMerkleTreeItem & { rank: number }
+export type LeaderboardItemData = XpMerkleTreeItem & {
+  rank: number
+  beneficiary: string
+}
 
 export type LeaderboardData = {
   currentUser: null | LeaderboardItemData

@@ -1,6 +1,5 @@
 export type XpMerkleTreeItem = {
   index: number
-  beneficiary: string
   amount: string
   proof: string[]
 }

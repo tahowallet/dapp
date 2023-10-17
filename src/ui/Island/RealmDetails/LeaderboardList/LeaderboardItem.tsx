@@ -7,25 +7,25 @@ import {
   separateThousandsByComma,
   truncateAddress,
 } from "shared/utils"
-import { XpMerkleTreeItem } from "shared/types/xp"
 import { selectWalletAvatar, useDappSelector } from "redux-state"
+import { LeaderboardItemData } from "shared/types"
 
 export default function LeaderboardItem({
   item,
   rank,
   currentUser,
 }: {
-  item: XpMerkleTreeItem
+  item: LeaderboardItemData
   rank: number
   currentUser: string
 }) {
-  const { beneficiary: address, amount } = item
-  const isCurrentUser = isSameAddress(address, currentUser)
+  const { beneficiary, amount } = item
+  const isCurrentUser = isSameAddress(beneficiary, currentUser)
   const avatar = useDappSelector(selectWalletAvatar)
 
   return (
     <>
-      <li key={item.beneficiary}>
+      <li key={beneficiary}>
         <div
           className={classNames("leaderboard_item", {
             top_item: rank <= 3,
@@ -45,7 +45,7 @@ export default function LeaderboardItem({
               style={{ borderRadius: "100%" }}
             />
           )}
-          <span className="address">{truncateAddress(address)}</span>
+          <span className="address">{truncateAddress(beneficiary)}</span>
           <span className="xp">
             {separateThousandsByComma(BigInt(amount))} XP
           </span>

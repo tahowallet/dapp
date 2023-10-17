@@ -84,11 +84,10 @@ export const getUnclaimedXpDistributions: ReadTransactionBuilder<
   {
     realmAddress: string
     xpAddress: string
-    realmId: string
     account: string
   },
   UnclaimedXpData[]
-> = async (provider, { realmAddress, xpAddress, realmId, account }) => {
+> = async (provider, { realmAddress, xpAddress, account }) => {
   const distributorAddresses = await getXPDistributorsAddresses(provider, {
     realmContractAddress: realmAddress,
     xpContractAddress: xpAddress,
@@ -97,11 +96,7 @@ export const getUnclaimedXpDistributions: ReadTransactionBuilder<
   const unclaimedOrNull = await Promise.all(
     distributorAddresses.map<Promise<UnclaimedXpData | null>>(
       async ({ distributorContractAddress, merkleRoot, merkleDataUrl }) => {
-        const claims = await getUserXpByMerkleRoot(
-          realmId,
-          account,
-          merkleDataUrl
-        )
+        const claims = await getUserXpByMerkleRoot(account, merkleDataUrl)
 
         if (claims[merkleRoot]) {
           const hasClaimed = await hasClaimedXp(provider, {

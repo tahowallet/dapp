@@ -307,7 +307,10 @@ export const fetchLeaderboardData = createDappAsyncThunk(
         const xpData = await getRealmLeaderboardData(realmId)
 
         if (xpData) {
-          const sorted = getRealmXpSorted(xpData)
+          const converted = Object.entries(xpData.claims).map(
+            ([beneficiary, data]) => ({ beneficiary, ...data })
+          )
+          const sorted = getRealmXpSorted(converted)
           const leaderboard = sorted.slice(0, 10).map((item, index) => ({
             ...item,
             rank: index + 1,
@@ -347,7 +350,6 @@ export const fetchUnclaimedXp = createDappAsyncThunk(
             {
               realmAddress: realmContractAddress,
               xpAddress: xpToken.contractAddress,
-              realmId,
               account,
             }
           )

@@ -27,37 +27,33 @@ export async function getRealmLeaderboardData(
   return xpData && (xpData.default as XpMerkleTree)
 }
 
-async function getXpData(
-  realmId: string,
-  url: string
-): Promise<XpMerkleTree | null> {
-  if (!realmId) {
-    throw new Error("Missing realm id")
+async function getXpData(url: string): Promise<XpMerkleTree | null> {
+  if (!url) {
+    throw new Error("Missing url")
   }
 
-  let xpData: null | DynamicXPMerkleTreeImport = null
+  let xpData: null | XpMerkleTree = null
 
-  if (realmId) {
+  if (url) {
+    // debugger
     try {
       xpData = await (await fetch(url)).json()
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.warn("No XP data found for the realm id:", realmId)
+      console.warn("No XP data found for the url:", url)
     }
   }
-
-  return xpData && (xpData.default as XpMerkleTree)
+  return xpData && (xpData as XpMerkleTree)
 }
 
 export async function getUserXpByMerkleRoot(
-  realmId: string,
   account: string,
   url: string
 ): Promise<XpByMerkleRoot> {
   const xpItemByMerkleRoot: XpByMerkleRoot = {}
   const normalizedAddress = normalizeAddress(account)
 
-  const xpData = await getXpData(realmId, url)
+  const xpData = await getXpData(url)
 
   if (xpData) {
     const { merkleRoot } = xpData
@@ -72,7 +68,9 @@ export async function getUserXpByMerkleRoot(
 }
 
 export function getUserLeaderboardRank(
-  sortedData: XpMerkleTreeItem[],
+  sortedData: (XpMerkleTreeItem & {
+    beneficiary: string
+  })[],
   address: string
 ): LeaderboardItemData | null {
   if (!address) return null
@@ -90,8 +88,10 @@ export function getUserLeaderboardRank(
     : null
 }
 
-export function getRealmXpSorted(data: XpMerkleTree) {
-  return Object.values(data.claims).sort(
-    (a, b) => Number(b.amount) - Number(a.amount)
-  )
+export function getRealmXpSorted(
+  data: (XpMerkleTreeItem & {
+    beneficiary: string
+  })[]
+) {
+  return data.sort((a, b) => Number(b.amount) - Number(a.amount))
 }
