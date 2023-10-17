@@ -6,6 +6,7 @@ import {
 } from "shared/types"
 import { normalizeAddress } from "shared/utils"
 import { ethers } from "ethers"
+import { CONTRACT_DEPLOYMENT_BLOCK_NUMBER } from "shared/constants"
 import { getRealmContract } from "./realms"
 import { getGameContract } from "./game"
 
@@ -50,7 +51,8 @@ export const getStakersRegistered: ReadTransactionBuilder<
 
   const stakerRegisteredEventFilter = gameContract.filters.StakerRegistered()
   const stakerRegisteredEvents = await gameContract.queryFilter(
-    stakerRegisteredEventFilter
+    stakerRegisteredEventFilter,
+    CONTRACT_DEPLOYMENT_BLOCK_NUMBER
   )
 
   const registeredStakers = getStakersFromEvents(stakerRegisteredEvents)
@@ -66,7 +68,8 @@ export const getStakersUnregistered: ReadTransactionBuilder<
   const stakerUnregisteredEventFilter =
     gameContract.filters.StakerUnregistered()
   const stakerUnregisteredEvents = await gameContract.queryFilter(
-    stakerUnregisteredEventFilter
+    stakerUnregisteredEventFilter,
+    CONTRACT_DEPLOYMENT_BLOCK_NUMBER
   )
 
   const unregisteredStakers = getStakersFromEvents(stakerUnregisteredEvents)
