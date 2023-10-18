@@ -93,6 +93,7 @@ export default function NavItem({
       </NavLink>
       <style jsx>{`
         .link_extra_info {
+          white-space: nowrap;
           position: absolute;
           bottom: 100%;
           left: 50%;

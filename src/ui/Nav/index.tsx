@@ -12,7 +12,7 @@ const NAV_ITEMS = [
     path: ROUTES.HOME,
     title: "The Island",
     exact: true,
-    extraInfo: "BETA",
+    extraInfo: "Testnet Beta",
   },
   {
     path: ROUTES.FEEDBACK,

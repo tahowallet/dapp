@@ -96,62 +96,35 @@ export default function Realm({
     const variants = {
       default: {
         image: {
-          shadowOpacity: 0,
-          shadowBlur: 40,
-        },
-        overlay: { opacity: 0 },
-        text: {
-          opacity: 0,
-          x: x + labelX,
-          y: y + labelY + 200,
-        },
-        pathRealm: {
-          stroke: "#FFF",
-          strokeWidth: 4,
-        },
-        partnerLogo: {
-          opacity: 0,
-          x: x + labelX + partnerLogoTranslate,
-          y: y + labelY - 20,
-        },
-      },
-      inactive: {
-        image: {},
-        overlay: {
-          fill: "#1F3D3B",
-          opacity: 0.4,
-          globalCompositeOperation: "hard-light",
-        },
-        text: {
-          opacity: 0,
-        },
-        pathRealm: {
-          stroke: "#FFF",
-        },
-      },
-      highlight: {
-        image: {
           shadowColor: "#000",
-          shadowOpacity: 1,
+          shadowOpacity: 0.5,
           shadowBlur: 40,
           shadowOffsetX: 5,
           shadowOffsetY: 5,
           shadowEnabled: true,
         },
         overlay: {
+          opacity: 0.5,
           fill: color,
-          opacity: 0.7,
           globalCompositeOperation: "color",
         },
         text: {
-          opacity: 1,
+          opacity: 0,
           x: x + labelX,
-          y: y + labelY,
+          y: y + labelY + 200,
         },
-        pathRealm: {
-          stroke: color,
-          strokeWidth: 10,
+        pathRealm: { stroke: color, strokeWidth: 8 },
+        partnerLogo: {
+          opacity: 0,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 20,
         },
+      },
+      highlight: {
+        image: { shadowOpacity: 1 },
+        overlay: { opacity: 0.8 },
+        text: { opacity: 1, y: y + labelY },
+        pathRealm: { strokeWidth: 12 },
         partnerLogo: {
           opacity: 1,
           x: x + labelX + partnerLogoTranslate,
