@@ -48,7 +48,7 @@ export default function Assistant() {
           position: absolute;
           bottom: 25px;
           right: 25px;
-          z-index: 999;
+          z-index: 900;
         }
         .assistant_trigger {
           cursor: pointer;
