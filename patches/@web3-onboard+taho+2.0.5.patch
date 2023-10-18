@@ -1,0 +1,18 @@
+diff --git a/node_modules/@web3-onboard/taho/dist/index.js b/node_modules/@web3-onboard/taho/dist/index.js
+index e2e3b4b..3706a5c 100644
+--- a/node_modules/@web3-onboard/taho/dist/index.js
++++ b/node_modules/@web3-onboard/taho/dist/index.js
+@@ -13,8 +13,11 @@ function tahoWallet() {
+             },
+             getIcon: async () => (await import('./icon.js')).default,
+             getInterface: async () => {
+-                const provider = await detectEthereumProvider({ mustBeTallyHo: true });
+-                if (!provider) {
++                // When Taho isn't the default wallet and MetaMask is installed we are unable to connect to the dapp.
++                // Let's force a connection to the Taho wallet and
++                // make sure the user receives the correct message when Taho isn't installed.
++                const provider = await detectEthereumProvider();
++                if (!provider || window.tally === undefined) {
+                     const onboarding = new TallyHoOnboarding();
+                     onboarding.startOnboarding();
+                     throw new Error('Please install Taho to use this wallet');
