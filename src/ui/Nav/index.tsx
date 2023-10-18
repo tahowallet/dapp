@@ -12,11 +12,13 @@ const NAV_ITEMS = [
     path: ROUTES.HOME,
     title: "The Island",
     exact: true,
-    extraInfo: "Testnet Beta",
+    extraInfo: "BETA",
   },
   {
     path: ROUTES.FEEDBACK,
+    exact: true,
     title: "Feedback",
+    target: "blank",
   },
   // {
   //   path: ROUTES.REFERRALS,
@@ -56,13 +58,14 @@ export default function Nav(): JSX.Element {
         </svg>
         <div className="lhs_container row">
           <nav className="row">
-            {NAV_ITEMS.map(({ path, title, exact, extraInfo }) => (
+            {NAV_ITEMS.map(({ path, title, exact, extraInfo, target }) => (
               <NavItem
                 key={path}
                 path={path}
                 title={title}
                 exact={exact}
                 extraInfo={extraInfo}
+                target={target}
               />
             ))}
           </nav>

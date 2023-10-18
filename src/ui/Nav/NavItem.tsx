@@ -1,5 +1,5 @@
 import React from "react"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import crossIcon from "shared/assets/icons/cross.svg"
 
 /**
@@ -9,9 +9,13 @@ const NavItemLink = React.forwardRef(
   (
     {
       navigate,
+      target,
       children,
       ...props
-    }: { navigate: () => void } & React.HTMLProps<HTMLAnchorElement>,
+    }: {
+      navigate: () => void
+      target?: string
+    } & React.HTMLProps<HTMLAnchorElement>,
     ref: React.ForwardedRef<HTMLAnchorElement>
   ) => (
     // on-click handler is also handling keyboard events on this link. this is not an static element
@@ -24,7 +28,9 @@ const NavItemLink = React.forwardRef(
         {...props}
         onClick={(e) => {
           e.preventDefault()
-          navigate()
+          return target === "blank"
+            ? window.open(props.href, target)
+            : navigate()
         }}
       >
         {children}
@@ -71,6 +77,7 @@ type NavItemProps = {
   title: string
   exact?: boolean
   extraInfo?: string
+  target?: string
 }
 
 export default function NavItem({
@@ -78,19 +85,33 @@ export default function NavItem({
   title,
   exact = false,
   extraInfo,
+  target,
 }: NavItemProps): JSX.Element {
   return (
     <>
-      <NavLink
-        className="link"
-        activeClassName="active"
-        component={NavItemLink}
-        to={path}
-        exact={exact}
-      >
-        {title}
-        {extraInfo && <div className="link_extra_info">{extraInfo}</div>}
-      </NavLink>
+      {target === "blank" ? (
+        <Link
+          className="link"
+          component={NavItemLink}
+          to={{ pathname: path }}
+          target={target}
+          rel="noopener noreferrer"
+        >
+          {title}
+          {extraInfo && <div className="link_extra_info">{extraInfo}</div>}
+        </Link>
+      ) : (
+        <NavLink
+          className="link"
+          activeClassName="active"
+          component={NavItemLink}
+          to={path}
+          exact={exact}
+        >
+          {title}
+          {extraInfo && <div className="link_extra_info">{extraInfo}</div>}
+        </NavLink>
+      )}
       <style jsx>{`
         .link_extra_info {
           white-space: nowrap;
