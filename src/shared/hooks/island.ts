@@ -11,6 +11,7 @@ import {
   selectStakeUnlockTime,
   useDappSelector,
   selectWalletAddress,
+  selectRealms,
 } from "redux-state"
 import { SECOND } from "shared/constants"
 import {
@@ -66,13 +67,15 @@ export function useGameDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
   const account = useDappSelector(selectWalletAddress)
+  const realms = useDappSelector(selectRealms)
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
   const [hasAlreadyFetchedForAccount, setHasAlreadyFetchedForAccount] =
     useState<string | null>(null)
 
   // Account agnostic data
   useEffect(() => {
-    if (!provider || hasAlreadyFetched) return
+    if (!provider || hasAlreadyFetched || Object.keys(realms).length === 0)
+      return
 
     const fetchData = async () => {
       await dispatch(fetchPopulation())
@@ -82,7 +85,7 @@ export function useGameDataFetch() {
     }
 
     fetchData()
-  }, [provider, hasAlreadyFetched, dispatch])
+  }, [provider, hasAlreadyFetched, realms, dispatch])
 
   // Account specific data
   useEffect(() => {
