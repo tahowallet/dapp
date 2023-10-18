@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import mobilePlaceholder from "shared/assets/mobile/mobile-bg.png"
+import mobileBg from "shared/assets/mobile/mobile-bg.png"
 import mobileCircle from "shared/assets/mobile/mobile-circle.png"
 import mobileScreen from "shared/assets/mobile/mobile-screen.png"
 import logoIcon from "shared/assets/nav_logo.svg"
@@ -22,7 +22,7 @@ export default function MobileScreen() {
 
   return (
     <>
-      <div className="mobile-placeholder">
+      <div className="mobile-container">
         <div className="nav_container">
           <div className="nav_wrapper">
             <svg className="nav_bg">
@@ -57,17 +57,17 @@ export default function MobileScreen() {
       </div>
       <style jsx>
         {`
-          .mobile-placeholder {
-            position: absolute;
+          .mobile-container {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             background-size: cover;
             background-repeat: no-repeat;
-            z-index: 1000;
-            background-image: url(${mobilePlaceholder});
+            z-index: var(--z-mobile-screen);
+            background-image: url(${mobileBg});
             background-position: center;
             background-size: cover;
             overflow: hidden;
