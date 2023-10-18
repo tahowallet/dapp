@@ -18,6 +18,9 @@ export default function TransactionsModal({
   close,
   transactions = [],
 }: TransactionsModalProps) {
+  // The following code is used to auto trigger the first transaction
+  // when staking (we need to bring it back after beta release and refactor it a bit)
+
   // const [transactionInProgress, setTransactionInProgress] = useState(false)
 
   // // If there is no other transaction in progress, trigger the first transaction immediately
