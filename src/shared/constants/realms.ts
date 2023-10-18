@@ -27,20 +27,16 @@ export const REALMS_WITH_CONTRACT_NAME: {
 // The questline data should be read from a JSON file.
 // Currently, the structure of the file isn't yet known and should be updated later.
 // The data is not yet ready, so it has been mocked.
-export function getQuestlineData(
-  realmContractAddress: string
-): RealmQuestlineData {
+export function getQuestlineData(id: string): RealmQuestlineData {
   const realmWithQuestline = QUESTLINE_DATA.realms.find(
-    ({ realm }) => realm === realmContractAddress
+    ({ realmId }) => realmId === id
   )
 
   if (!realmWithQuestline) {
-    throw new Error(`Missing data for realm ${realmContractAddress}`)
+    throw new Error(`Missing data for realm ${id}`)
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { realm, ...questlineData } = realmWithQuestline
 
-  return questlineData
+  return realmWithQuestline
 }
 // ISLAND_BOX is size of the island image: public/dapp_sland_bg.webp
 export const ISLAND_BOX = {
