@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { isTransactionPending } from "shared/utils"
+import React from "react"
 import Modal from "../Modal"
 import TransactionProgress, {
   TransactionProgressProps,
@@ -18,29 +17,10 @@ export default function TransactionsModal({
   close,
   transactions = [],
 }: TransactionsModalProps) {
-  const [transactionInProgress, setTransactionInProgress] = useState(false)
-
-  // If there is no other transaction in progress, trigger the first transaction immediately
-  useEffect(() => {
-    if (!isOpen || !transactions.length || transactionInProgress) return
-    transactions[0].onClick()
-    setTransactionInProgress(true)
-  }, [isOpen, transactions, transactionInProgress])
-
-  useEffect(() => {
-    if (isTransactionPending(transactions[0].status))
-      setTransactionInProgress(true)
-  }, [transactions])
-
-  const closeModal = useCallback(() => {
-    setTransactionInProgress(false)
-    close()
-  }, [close])
-
   if (!isOpen) return null
 
   return (
-    <Modal.Container type="fullscreen" onClickOutside={closeModal}>
+    <Modal.Container type="fullscreen" onClickOutside={close}>
       <Modal.Content>
         <div className="transactions_container column">
           <h1>{title}</h1>
