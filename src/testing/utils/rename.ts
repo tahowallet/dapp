@@ -2,11 +2,11 @@ import { Wallet, ethers } from "ethers"
 import { realmAbi, tahoDeployerAbi } from "shared/contracts/abi"
 
 const contractsWithNames = [
-  { prefix: "DEFI", name: "Frax" },
-  { prefix: "CREATORS", name: "Galxe" },
-  { prefix: "SOCIAL", name: "Arbitrum" },
-  { prefix: "EDUCATE", name: "Cyberconnect" },
-  { prefix: "VAMPIRE", name: "Gitcoin" },
+  { prefix: "FRAX", name: "Frax" },
+  { prefix: "GALXE", name: "Galxe" },
+  { prefix: "ARBITRUM", name: "Arbitrum" },
+  { prefix: "CYBERCONNECT", name: "Cyberconnect" },
+  { prefix: "GITCOIN", name: "Gitcoin" },
 ]
 const tenderlyProvider = new ethers.providers.JsonRpcProvider(
   process.env.TENDERLY_RPC_URL

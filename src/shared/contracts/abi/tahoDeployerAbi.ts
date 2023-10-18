@@ -155,7 +155,7 @@ export default [
   },
   {
     inputs: [],
-    name: "CREATORS_REALM",
+    name: "GALXE_REALM",
     outputs: [
       {
         internalType: "address",
@@ -168,7 +168,7 @@ export default [
   },
   {
     inputs: [],
-    name: "CREATORS_REALM_DEPLOYER_DEPLOY_HASH",
+    name: "GALXE_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -181,7 +181,7 @@ export default [
   },
   {
     inputs: [],
-    name: "CREATORS_REALM_VETAHO",
+    name: "GALXE_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -194,7 +194,7 @@ export default [
   },
   {
     inputs: [],
-    name: "CREATORS_REALM_VETAHO_DEPLOY_HASH",
+    name: "GALXE_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -207,7 +207,7 @@ export default [
   },
   {
     inputs: [],
-    name: "DEFI_REALM",
+    name: "FRAX_REALM",
     outputs: [
       {
         internalType: "address",
@@ -220,7 +220,7 @@ export default [
   },
   {
     inputs: [],
-    name: "DEFI_REALM_DEPLOYER_DEPLOY_HASH",
+    name: "FRAX_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -233,7 +233,7 @@ export default [
   },
   {
     inputs: [],
-    name: "DEFI_REALM_VETAHO",
+    name: "FRAX_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -246,7 +246,7 @@ export default [
   },
   {
     inputs: [],
-    name: "DEFI_REALM_VETAHO_DEPLOY_HASH",
+    name: "FRAX_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -298,7 +298,7 @@ export default [
   },
   {
     inputs: [],
-    name: "EDUCATE_REALM",
+    name: "CYBERCONNECT_REALM",
     outputs: [
       {
         internalType: "address",
@@ -311,7 +311,7 @@ export default [
   },
   {
     inputs: [],
-    name: "EDUCATE_REALM_DEPLOYER_DEPLOY_HASH",
+    name: "CYBERCONNECT_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -324,7 +324,7 @@ export default [
   },
   {
     inputs: [],
-    name: "EDUCATE_REALM_VETAHO",
+    name: "CYBERCONNECT_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -337,7 +337,7 @@ export default [
   },
   {
     inputs: [],
-    name: "EDUCATE_REALM_VETAHO_DEPLOY_HASH",
+    name: "CYBERCONNECT_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -506,7 +506,7 @@ export default [
   },
   {
     inputs: [],
-    name: "SOCIAL_REALM",
+    name: "ARBITRUM_REALM",
     outputs: [
       {
         internalType: "address",
@@ -519,7 +519,7 @@ export default [
   },
   {
     inputs: [],
-    name: "SOCIAL_REALM_DEPLOYER_DEPLOY_HASH",
+    name: "ARBITRUM_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -532,7 +532,7 @@ export default [
   },
   {
     inputs: [],
-    name: "SOCIAL_REALM_VETAHO",
+    name: "ARBITRUM_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -545,7 +545,7 @@ export default [
   },
   {
     inputs: [],
-    name: "SOCIAL_REALM_VETAHO_DEPLOY_HASH",
+    name: "ARBITRUM_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -662,7 +662,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VAMPIRE_REALM",
+    name: "GITCOIN_REALM",
     outputs: [
       {
         internalType: "address",
@@ -675,7 +675,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VAMPIRE_REALM_DEPLOYER_DEPLOY_HASH",
+    name: "GITCOIN_REALM_DEPLOYER_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
@@ -688,7 +688,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VAMPIRE_REALM_VETAHO",
+    name: "GITCOIN_REALM_VETAHO",
     outputs: [
       {
         internalType: "address",
@@ -701,7 +701,7 @@ export default [
   },
   {
     inputs: [],
-    name: "VAMPIRE_REALM_VETAHO_DEPLOY_HASH",
+    name: "GITCOIN_REALM_VETAHO_DEPLOY_HASH",
     outputs: [
       {
         internalType: "bytes32",
