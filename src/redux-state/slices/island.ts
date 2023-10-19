@@ -120,9 +120,13 @@ const islandSlice = createSlice({
     ) => {
       immerState.seasonInfo = seasonInfo
     },
-    resetIsland: (immerState) => {
+    resetIslandDisplay: (immerState) => {
       immerState.mode = "default"
       immerState.overlay = "dark"
+    },
+    resetIslandAccount: (immerState) => {
+      immerState.stakingRealmId = null
+      immerState.stakeUnlockTime = null
     },
   },
 })
@@ -131,7 +135,8 @@ export const {
   setIslandMode,
   setIslandOverlay,
   setIslandZoomLevel,
-  resetIsland,
+  resetIslandDisplay,
+  resetIslandAccount,
   setRealmPopulation,
   setRealmXpAllocatable,
   setRealmsData,
