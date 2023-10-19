@@ -71,8 +71,8 @@ export default function RealmHeader() {
           }
 
           .realm_details_header {
-            max-width: 385px;
-            gap: 16px;
+            max-width: 671px;
+            gap: 24px;
           }
 
           .realm_header_bg {

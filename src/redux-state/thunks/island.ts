@@ -50,7 +50,7 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
 
       if (realmData !== null) {
         const updatedRealms = realmData.map(({ id, data }) => {
-          const questlineData = getQuestlineData(data.realmContractAddress)
+          const questlineData = getQuestlineData(id)
           return {
             id,
             data: {
