@@ -12,11 +12,16 @@ import ConnectWallet from "./ConnectWallet"
 import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
 import OnboardingModalLoader from "./Loader"
+import Teaser from "./Teaser"
 
-function OnboardingModal() {
+function OnboardingModal({ isTeaser }: { isTeaser: boolean }) {
   const { isConnected } = useConnect()
   const hasBalances = useDappSelector(selectHasLoadedBalances)
   const hasRelevantTokens = useDappSelector(selectHasRelevantTokens)
+
+  if (isTeaser) {
+    return <Teaser />
+  }
 
   if (!isConnected) {
     return <ConnectWallet />
@@ -33,14 +38,14 @@ function OnboardingModal() {
   return <JoinWaitlist />
 }
 
-export default function Onboarding() {
+export default function Onboarding({ isTeaser }: { isTeaser: boolean }) {
   const assetsLoaded = useAssets([portalBackground])
 
   return (
     <>
-      <FullPageLoader loaded={assetsLoaded} />
+      <FullPageLoader loaded={assetsLoaded || isTeaser} />
       <div className="onboarding">
-        <OnboardingModal />
+        <OnboardingModal isTeaser={isTeaser} />
         <video className="onboarding_video" autoPlay muted loop playsInline>
           <source src={portalBackground} />
         </video>
