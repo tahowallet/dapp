@@ -78,6 +78,7 @@ type NavItemProps = {
   exact?: boolean
   extraInfo?: string
   target?: string
+  icon?: string
 }
 
 export default function NavItem({
@@ -86,9 +87,10 @@ export default function NavItem({
   exact = false,
   extraInfo,
   target,
+  icon,
 }: NavItemProps): JSX.Element {
   return (
-    <>
+    <div className="link-wrapper">
       {target === "blank" ? (
         <Link
           className="link"
@@ -98,7 +100,8 @@ export default function NavItem({
           rel="noopener noreferrer"
         >
           {title}
-          {extraInfo && <div className="link_extra_info">{extraInfo}</div>}
+          {extraInfo && <div className="link-extra-info">{extraInfo}</div>}
+          {icon && <span className="link-extra-icon" />}
         </Link>
       ) : (
         <NavLink
@@ -109,11 +112,14 @@ export default function NavItem({
           exact={exact}
         >
           {title}
-          {extraInfo && <div className="link_extra_info">{extraInfo}</div>}
+          {extraInfo && <div className="link-extra-info">{extraInfo}</div>}
         </NavLink>
       )}
       <style jsx>{`
-        .link_extra_info {
+        .link {
+          display: flex;
+        }
+        .link-extra-info {
           white-space: nowrap;
           position: absolute;
           bottom: 100%;
@@ -124,7 +130,28 @@ export default function NavItem({
           font-weight: 700;
           color: var(--semantic-attention);
         }
+        .link-extra-icon {
+          position: relative;
+          display: inline-flex;
+          top: 2px;
+          margin-left: 5px;
+          width: 16px;
+          height: 16px;
+          -webkit-mask-image: url(${icon});
+          mask-image: url(${icon});
+          -webkit-mask-size: cover;
+          mask-size: cover;
+          background-color: var(--secondary-s1-50);
+        }
+
+        .link-wrapper:hover a {
+          color: var(--secondary-s1-80);
+        }
+
+        .link-wrapper:hover .link-extra-icon {
+          background-color: var(--secondary-s1-80);
+        }
       `}</style>
-    </>
+    </div>
   )
 }
