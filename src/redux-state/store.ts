@@ -1,6 +1,6 @@
 import { configureStore, isPlain } from "@reduxjs/toolkit"
 import { encodeJSON } from "shared/utils"
-import { TransactionService } from "shared/services"
+import { StorageService, TransactionService } from "shared/services"
 import mainReducer from "./reducers"
 
 const devToolsSanitizer = (input: unknown) => {
@@ -17,7 +17,10 @@ const devToolsSanitizer = (input: unknown) => {
   }
 }
 
-export const thunkExtraArgument = { transactionService: TransactionService }
+export const thunkExtraArgument = {
+  transactionService: TransactionService,
+  storageService: StorageService,
+}
 
 const store = configureStore({
   middleware: (getDefaultMiddleware) =>

@@ -28,6 +28,11 @@ export type RealmData = RealmAddressesData &
 
 export type RealmDataWithId = { id: string; data: RealmData }
 
+export type RealmContractDataWithId = {
+  id: string
+  data: RealmAddressesData & RealmContractData
+}
+
 export type RealmWithStaker = [string, string]
 
 export type LeaderboardItemData = XpMerkleTreeItem & { rank: number }
