@@ -1,5 +1,5 @@
 import React from "react"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import crossIcon from "shared/assets/icons/cross.svg"
 
 /**
@@ -9,9 +9,13 @@ const NavItemLink = React.forwardRef(
   (
     {
       navigate,
+      target,
       children,
       ...props
-    }: { navigate: () => void } & React.HTMLProps<HTMLAnchorElement>,
+    }: {
+      navigate: () => void
+      target?: string
+    } & React.HTMLProps<HTMLAnchorElement>,
     ref: React.ForwardedRef<HTMLAnchorElement>
   ) => (
     // on-click handler is also handling keyboard events on this link. this is not an static element
@@ -24,7 +28,9 @@ const NavItemLink = React.forwardRef(
         {...props}
         onClick={(e) => {
           e.preventDefault()
-          navigate()
+          return target === "blank"
+            ? window.open(props.href, target)
+            : navigate()
         }}
       >
         {children}
@@ -71,6 +77,8 @@ type NavItemProps = {
   title: string
   exact?: boolean
   extraInfo?: string
+  target?: string
+  icon?: string
 }
 
 export default function NavItem({
@@ -78,21 +86,40 @@ export default function NavItem({
   title,
   exact = false,
   extraInfo,
+  target,
+  icon,
 }: NavItemProps): JSX.Element {
   return (
-    <>
-      <NavLink
-        className="link"
-        activeClassName="active"
-        component={NavItemLink}
-        to={path}
-        exact={exact}
-      >
-        {title}
-        {extraInfo && <div className="link_extra_info">{extraInfo}</div>}
-      </NavLink>
+    <div className="link-wrapper">
+      {target === "blank" ? (
+        <Link
+          className="link"
+          component={NavItemLink}
+          to={{ pathname: path }}
+          target={target}
+          rel="noopener noreferrer"
+        >
+          {title}
+          {extraInfo && <div className="link-extra-info">{extraInfo}</div>}
+          {icon && <span className="link-extra-icon" />}
+        </Link>
+      ) : (
+        <NavLink
+          className="link"
+          activeClassName="active"
+          component={NavItemLink}
+          to={path}
+          exact={exact}
+        >
+          {title}
+          {extraInfo && <div className="link-extra-info">{extraInfo}</div>}
+        </NavLink>
+      )}
       <style jsx>{`
-        .link_extra_info {
+        .link {
+          display: flex;
+        }
+        .link-extra-info {
           white-space: nowrap;
           position: absolute;
           bottom: 100%;
@@ -103,7 +130,28 @@ export default function NavItem({
           font-weight: 700;
           color: var(--semantic-attention);
         }
+        .link-extra-icon {
+          position: relative;
+          display: inline-flex;
+          top: 2px;
+          margin-left: 5px;
+          width: 16px;
+          height: 16px;
+          -webkit-mask-image: url(${icon});
+          mask-image: url(${icon});
+          -webkit-mask-size: cover;
+          mask-size: cover;
+          background-color: var(--secondary-s1-50);
+        }
+
+        .link-wrapper:hover a {
+          color: var(--secondary-s1-80);
+        }
+
+        .link-wrapper:hover .link-extra-icon {
+          background-color: var(--secondary-s1-80);
+        }
       `}</style>
-    </>
+    </div>
   )
 }

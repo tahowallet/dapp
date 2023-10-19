@@ -19,6 +19,9 @@ export const selectIsWalletConnected = (state: RootState) =>
 
 export const selectTokenBalances = (state: RootState) => state.wallet.balances
 
+export const selectHasLoadedBalances = (state: RootState) =>
+  state.wallet.hasLoadedBalances
+
 export const selectTokenBalanceByAddress = createSelector(
   [selectTokenBalances, (_, tokenAddress) => tokenAddress],
   (balances, tokenAddress) => balances[tokenAddress]?.balance ?? 0n

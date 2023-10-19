@@ -25,10 +25,10 @@ export const getArbitrumRpcUrl = () => {
   throw Error("Invalid RPC URL configuration, check env variables")
 }
 
-export const ARBITRUM = {
-  id: "0xa4b1",
+export const ARBITRUM_SEPOLIA = {
+  id: "0x66eee",
   token: "ETH",
-  label: "Arbitrum One",
+  label: "Arbitrum Sepolia",
   rpcUrl: getArbitrumRpcUrl(),
 }
 
