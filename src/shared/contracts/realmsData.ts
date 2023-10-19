@@ -2,6 +2,7 @@ import {
   ReadTransactionBuilder,
   RealmAddressesData,
   RealmContractData,
+  RealmContractDataWithId,
 } from "shared/types"
 import { normalizeAddress } from "shared/utils"
 import { getXpDetails } from "./xp"
@@ -46,7 +47,7 @@ export const getRealmData: ReadTransactionBuilder<
           // Population is fetched separately because it should be updated more frequently than other data for the realm.
           population: 0,
           // XpAllocatable is fetched after all Realm data is initialized.
-          xpAllocatable: 0n,
+          xpAllocatable: "0",
         },
       }
     })
@@ -56,7 +57,7 @@ export const getRealmData: ReadTransactionBuilder<
 
 export const getAllRealmsData: ReadTransactionBuilder<
   { realms: { [id: string]: { name: string } } },
-  { id: string; data: RealmAddressesData & RealmContractData }[]
+  RealmContractDataWithId[]
 > = async (provider, { realms }) => {
   const realmsWithContractData = await getRealmTokenAddresses(provider, {
     realms,

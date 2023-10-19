@@ -79,7 +79,7 @@ const islandSlice = createSlice({
       immerState,
       {
         payload: realmXpAllocatable,
-      }: { payload: { id: string; xpAllocatable: bigint } }
+      }: { payload: { id: string; xpAllocatable: string } }
     ) => {
       immerState.realms[realmXpAllocatable.id].xpAllocatable =
         realmXpAllocatable.xpAllocatable
