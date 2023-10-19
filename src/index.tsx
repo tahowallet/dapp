@@ -26,6 +26,8 @@ import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
 import FullPageLoader from "shared/components/FullPageLoader"
 import MobileScreen from "ui/MobileScreen"
+import { PersistGate } from "redux-persist/integration/react"
+import { persistor } from "redux-state/store"
 import reduxStore from "./redux-state"
 
 function DApp() {
@@ -51,7 +53,7 @@ function DApp() {
         )}
         {walletOnboarded && isConnected && (
           <>
-            <FullPageLoader loaded={gameLoadDataFetched && balanceFetched} />
+            <FullPageLoader loaded={gameLoadDataFetched} />
             <IslandComponent />
             <TestingPanel />
             {islandMode === "default" && <Nav />}
@@ -78,9 +80,11 @@ function DApp() {
 function DAppProviders() {
   return (
     <Provider store={reduxStore}>
-      <Web3OnboardProvider web3Onboard={web3Onboard}>
-        <DApp />
-      </Web3OnboardProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <Web3OnboardProvider web3Onboard={web3Onboard}>
+          <DApp />
+        </Web3OnboardProvider>
+      </PersistGate>
     </Provider>
   )
 }

@@ -116,6 +116,15 @@ export function encodeJSON(input: unknown): string {
   })
 }
 
+export function decodeJSON(input: string): unknown {
+  return JSON.parse(input, (_, value) => {
+    if (typeof value === "object" && "B_I_G_I_N_T" in value) {
+      return BigInt(value.B_I_G_I_N_T)
+    }
+    return value
+  })
+}
+
 export function queueMicrotask<T extends () => unknown>(callback: T) {
   return Promise.resolve().then(callback)
 }

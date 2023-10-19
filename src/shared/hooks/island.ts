@@ -12,7 +12,7 @@ import {
   useDappSelector,
   selectWalletAddress,
 } from "redux-state"
-import { SECOND } from "shared/constants"
+import { SECOND, LOCAL_STORAGE_CACHE_ISLAND } from "shared/constants"
 import {
   fetchLeaderboardData,
   fetchPopulation,
@@ -22,7 +22,7 @@ import {
   initSeasonInfoData,
 } from "redux-state/thunks/island"
 import { useArbitrumProvider } from "./wallets"
-import { useInterval } from "./helpers"
+import { useInterval, usePersistedCache } from "./helpers"
 
 export const IslandContext = React.createContext<
   MutableRefObject<IslandContextType>
@@ -45,6 +45,10 @@ export function useGameLoadDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
+
+  usePersistedCache(LOCAL_STORAGE_CACHE_ISLAND, () =>
+    setHasAlreadyFetched(true)
+  )
 
   useEffect(() => {
     if (!provider || hasAlreadyFetched) return

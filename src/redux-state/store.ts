@@ -1,6 +1,16 @@
 import { configureStore, isPlain } from "@reduxjs/toolkit"
+import { setupListeners } from "@reduxjs/toolkit/query"
 import { encodeJSON } from "shared/utils"
 import { TransactionService } from "shared/services"
+import {
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist"
 import mainReducer from "./reducers"
 
 const devToolsSanitizer = (input: unknown) => {
@@ -24,6 +34,7 @@ const store = configureStore({
     getDefaultMiddleware({
       thunk: { extraArgument: thunkExtraArgument },
       serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         isSerializable: (value: unknown) =>
           isPlain(value) || typeof value === "bigint",
       },
@@ -34,5 +45,9 @@ const store = configureStore({
   },
   reducer: mainReducer,
 })
+
+setupListeners(store.dispatch)
+
+export const persistor = persistStore(store)
 
 export default store

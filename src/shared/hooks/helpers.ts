@@ -218,3 +218,20 @@ export function useLocalStorageChange<T>(key: string): {
 
   return { value, updateStorage }
 }
+
+export function usePersistedCache(key: string, setter: () => void) {
+  const cache = localStorage.getItem(`persist:${key}`)
+
+  useEffect(() => {
+    if (!cache) return
+    const { realms, seasonInfo, stakingRealmId } = JSON.parse(cache)
+
+    if (
+      !JSON.parse(realms) ||
+      !JSON.parse(seasonInfo) ||
+      !JSON.parse(stakingRealmId)
+    )
+      return
+    setter()
+  }, [cache, setter])
+}
