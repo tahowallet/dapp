@@ -15,7 +15,7 @@ import {
   selectDisplayedRealmId,
 } from "redux-state"
 import {
-  ARBITRUM,
+  ARBITRUM_SEPOLIA,
   BALANCE_UPDATE_INTERVAL,
   LOCAL_STORAGE_WALLET,
 } from "shared/constants"
@@ -26,7 +26,7 @@ import { useInterval, useLocalStorageChange } from "./helpers"
 // connects the wallet let's get the provider from the RPC URL
 export function useArbitrumProvider(): ethers.providers.JsonRpcBatchProvider {
   const arbitrumProvider = useMemo(
-    () => new ethers.providers.JsonRpcBatchProvider(ARBITRUM.rpcUrl),
+    () => new ethers.providers.JsonRpcBatchProvider(ARBITRUM_SEPOLIA.rpcUrl),
     []
   )
 
@@ -119,7 +119,7 @@ export function useConnect() {
           wallet.provider
         )
         await walletProvider.send("wallet_switchEthereumChain", [
-          { chainId: ARBITRUM.id },
+          { chainId: ARBITRUM_SEPOLIA.id },
         ])
       }
 

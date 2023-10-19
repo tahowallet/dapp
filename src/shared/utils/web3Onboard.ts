@@ -2,7 +2,7 @@ import tahoWalletModule from "@web3-onboard/taho"
 import trezorModule from "@web3-onboard/trezor"
 import walletConnectModule from "@web3-onboard/walletconnect"
 import { init } from "@web3-onboard/react"
-import { ARBITRUM } from "shared/constants"
+import { ARBITRUM_SEPOLIA } from "shared/constants"
 
 const walletsSetup = {
   taho: tahoWalletModule(),
@@ -13,13 +13,13 @@ const walletsSetup = {
   }),
   walletConnect: walletConnectModule({
     projectId: process.env.WALLET_CONNECT_ID ?? "",
-    requiredChains: [42161],
+    requiredChains: [parseInt(ARBITRUM_SEPOLIA.id, 16)],
   }),
 }
 
 const wallets = [walletsSetup.taho]
 
-const chains = [ARBITRUM]
+const chains = [ARBITRUM_SEPOLIA]
 // TODO: decide what metadata should look like
 const appMetadata = {
   name: "Taho Dapp",
