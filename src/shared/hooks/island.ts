@@ -63,8 +63,6 @@ export function useGameLoadDataFetch() {
 
     fetchData()
   }, [provider, hasAlreadyFetched, dispatch])
-
-  return hasAlreadyFetched
 }
 
 // Used to fetch remaining game data

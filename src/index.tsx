@@ -13,7 +13,12 @@ import {
   useWalletOnboarding,
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
-import { selectIslandMode, useDappSelector } from "redux-state"
+import {
+  selectHasLoadedRealmData,
+  selectHasLoadedSeasonInfo,
+  selectIslandMode,
+  useDappSelector,
+} from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
 import Referrals from "ui/Referrals"
 import Footer from "ui/Footer"
@@ -35,11 +40,12 @@ function DApp() {
   const { isConnected } = useConnect()
   const { walletOnboarded } = useWalletOnboarding()
 
+  const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
+  const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
+
   useWallet()
-
-  const gameLoadDataFetched = useGameLoadDataFetch()
-  const balanceFetched = useBalanceFetch()
-
+  useGameLoadDataFetch()
+  useBalanceFetch()
   useWalletChange()
   useGameDataFetch()
 
@@ -48,12 +54,12 @@ function DApp() {
       <GlobalStyles />
       <MobileScreen />
       <Router>
-        {(!walletOnboarded || !isConnected) && (
-          <Onboarding balanceFetched={balanceFetched} />
-        )}
+        {(!walletOnboarded || !isConnected) && <Onboarding />}
         {walletOnboarded && isConnected && (
           <>
-            <FullPageLoader loaded={gameLoadDataFetched} />
+            <FullPageLoader
+              loaded={hasLoadedRealmData && hasLoadedSeasonInfo}
+            />
             <IslandComponent />
             <TestingPanel />
             {islandMode === "default" && <Nav />}
@@ -92,9 +98,13 @@ function DAppProviders() {
 const root = document.getElementById("root")
 
 if (root) {
-  ReactDOM.createRoot(root).render(
-    <React.StrictMode>
-      <DAppProviders />
-    </React.StrictMode>
-  )
+  if (process.env.SKIP_REACT_STRICT_MODE === "true") {
+    ReactDOM.createRoot(root).render(<DAppProviders />)
+  } else {
+    ReactDOM.createRoot(root).render(
+      <React.StrictMode>
+        <DAppProviders />
+      </React.StrictMode>
+    )
+  }
 }

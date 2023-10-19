@@ -83,3 +83,8 @@ export function getRealmColor(realmId: string): string {
 
   return color
 }
+
+export const REALM_FONT_SIZE = 78
+export const REALM_FONT_FAMILY = "QuincyCF"
+export const REALM_FONT_STYLE = "bold"
+export const REALM_IMAGE_SIZE = 70

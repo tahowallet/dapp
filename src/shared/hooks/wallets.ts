@@ -15,7 +15,7 @@ import {
   selectDisplayedRealmId,
 } from "redux-state"
 import {
-  ARBITRUM,
+  ARBITRUM_SEPOLIA,
   BALANCE_UPDATE_INTERVAL,
   LOCAL_STORAGE_WALLET,
 } from "shared/constants"
@@ -27,7 +27,7 @@ import { useLocalStorageChange } from "./storage"
 // connects the wallet let's get the provider from the RPC URL
 export function useArbitrumProvider(): ethers.providers.JsonRpcBatchProvider {
   const arbitrumProvider = useMemo(
-    () => new ethers.providers.JsonRpcBatchProvider(ARBITRUM.rpcUrl),
+    () => new ethers.providers.JsonRpcBatchProvider(ARBITRUM_SEPOLIA.rpcUrl),
     []
   )
 
@@ -56,18 +56,14 @@ export function useArbitrumSigner(): ethers.providers.JsonRpcSigner | null {
 export function useBalanceFetch() {
   const dispatch = useDappDispatch()
   const account = useDappSelector(selectWalletAddress)
-  const [balanceFetched, setBalanceFetched] = useState(false)
 
   const walletBalancesCallback = useCallback(async () => {
     if (account && dispatch) {
       await dispatch(fetchWalletBalances())
-      setBalanceFetched(true)
     }
   }, [account, dispatch])
 
   useInterval(walletBalancesCallback, account ? BALANCE_UPDATE_INTERVAL : null)
-
-  return balanceFetched
 }
 
 export function useWallet() {
@@ -117,6 +113,21 @@ export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
   const { updateWalletOnboarding } = useWalletOnboarding()
 
+  useEffect(() => {
+    if (wallet?.provider !== undefined) {
+      const setCorrectChain = async () => {
+        const walletProvider = new ethers.providers.Web3Provider(
+          wallet.provider
+        )
+        await walletProvider.send("wallet_switchEthereumChain", [
+          { chainId: ARBITRUM_SEPOLIA.id },
+        ])
+      }
+
+      setCorrectChain()
+    }
+  }, [wallet?.provider])
+
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")
     return wallet && disconnect(wallet)
@@ -144,6 +155,7 @@ export function useWalletChange() {
     }
 
     if (address !== currentAddress) {
+      dispatch(resetBalances())
       dispatch(resetIsland())
       dispatch(resetClaiming())
 
