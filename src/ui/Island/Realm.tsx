@@ -1,17 +1,16 @@
 // Need to pass spring props to spring abstracted components
 /* eslint-disable react/jsx-props-no-spreading */
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import React, { useLayoutEffect, useMemo, useRef, useState } from "react"
 import type Konva from "konva"
 import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
-
-import { REALMS_COUNT } from "shared/constants"
+import { calculatePartnerLogoTranslate } from "shared/utils"
+import {
+  REALMS_COUNT,
+  REALM_FONT_SIZE,
+  REALM_FONT_FAMILY,
+  REALM_FONT_STYLE,
+} from "shared/constants"
 import { useIslandContext } from "../../shared/hooks/island"
 
 type RealmProps = {
@@ -45,7 +44,6 @@ export default function Realm({
 }: RealmProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
-  const [partnerLogoTranslate, setPartnerLogoTranslate] = useState(0)
 
   const islandContext = useIslandContext()
   const groupRef = useRef<Konva.Group>(null)
@@ -84,13 +82,10 @@ export default function Realm({
     return () => pathRealm.off(".hover")
   }, [])
 
-  useEffect(() => {
-    if (!textRef.current || !partnerLogoRef.current) return
-    const textCenter = textRef.current.measureSize(name).width / 2
-    const logoWidth = partnerLogoRef.current.getAttr("width")
-
-    setPartnerLogoTranslate(textCenter - logoWidth * 1.7)
-  }, [textRef, partnerLogoRef, name])
+  const partnerLogoTranslate = useMemo(
+    () => calculatePartnerLogoTranslate(name),
+    [name]
+  )
 
   const styles = useMemo(() => {
     const variants = {
@@ -236,10 +231,10 @@ export default function Realm({
         ref={textRef}
         text={name}
         listening={false}
-        fontStyle="bold"
-        fontSize={78}
+        fontStyle={REALM_FONT_STYLE}
+        fontSize={REALM_FONT_SIZE}
         lineHeight={2}
-        fontFamily="QuincyCF"
+        fontFamily={REALM_FONT_FAMILY}
         fill="#fff"
         shadowColor="#000"
         shadowOpacity={1}
