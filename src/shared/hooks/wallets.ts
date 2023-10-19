@@ -20,7 +20,8 @@ import {
   LOCAL_STORAGE_WALLET,
 } from "shared/constants"
 import { useAssistant } from "./assistant"
-import { useInterval, useLocalStorageChange } from "./helpers"
+import { useInterval } from "./helpers"
+import { useLocalStorageChange } from "./storage"
 
 // To make it possible to start fetching blockchain data before the user
 // connects the wallet let's get the provider from the RPC URL

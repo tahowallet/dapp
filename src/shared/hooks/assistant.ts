@@ -1,5 +1,5 @@
 import { LOCAL_STORAGE_ASSISTANT } from "shared/constants"
-import { useLocalStorageChange } from "./helpers"
+import { useLocalStorageChange } from "./storage"
 
 type AssistantType = "welcome" | "quests" | "default"
 

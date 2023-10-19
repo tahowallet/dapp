@@ -22,7 +22,8 @@ import {
   initSeasonInfoData,
 } from "redux-state/thunks/island"
 import { useArbitrumProvider } from "./wallets"
-import { useInterval, usePersistedCache } from "./helpers"
+import { useInterval } from "./helpers"
+import { usePersistedCache } from "./storage"
 
 export const IslandContext = React.createContext<
   MutableRefObject<IslandContextType>
