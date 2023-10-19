@@ -6,7 +6,7 @@ type ButtonProps = {
   /**
    * @default "primary"
    */
-  type?: "primary" | "secondary" | "tertiary" | "twitter"
+  type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject"
   /**
    * @default "medium"
    */
@@ -47,6 +47,7 @@ export default function Button({
           secondary: type === "secondary",
           tertiary: type === "tertiary",
           twitter: type === "twitter",
+          reject: type === "reject",
           medium: size === "medium",
           large: size === "large",
           reversed: iconPosition === "left",
@@ -199,6 +200,14 @@ export default function Button({
           }
           .tertiary.disabled .icon {
             background-color: var(--secondary-s1-40);
+          }
+
+          .reject {
+            background: none;
+            border-radius: 0;
+            padding: 4px 0;
+            color: var(--semantic-error);
+            height: auto;
           }
 
           .disabled,

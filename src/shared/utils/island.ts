@@ -1,6 +1,12 @@
 import assert from "assert"
 import { Stage } from "konva/lib/Stage"
-import { ISLAND_BOX } from "shared/constants"
+import {
+  ISLAND_BOX,
+  REALM_FONT_FAMILY,
+  REALM_FONT_SIZE,
+  REALM_FONT_STYLE,
+  REALM_IMAGE_SIZE,
+} from "shared/constants"
 import { RealmData } from "shared/types"
 
 type Dimensions = {
@@ -201,4 +207,14 @@ export function calculatePopulationIconsPositions(
   })
 
   return positions
+}
+
+export function calculatePartnerLogoTranslate(text: string): number {
+  const canvas = document.createElement("canvas") as HTMLCanvasElement
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
+
+  ctx.font = `${REALM_FONT_STYLE} ${REALM_FONT_SIZE}px ${REALM_FONT_FAMILY}`
+  const textWidth = ctx.measureText(text).width
+
+  return textWidth / 2 - REALM_IMAGE_SIZE * 1.7
 }

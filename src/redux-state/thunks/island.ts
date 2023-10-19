@@ -16,15 +16,13 @@ import {
   getAllRealmsData,
   getAllowance,
   getSeasonInfo,
-  getStakersRegistered,
-  getStakersUnregistered,
   setAllowance,
   stake,
   unstake,
   getUnclaimedXpDistributions,
   claimXp as claimXpTokens,
+  getPopulations,
 } from "shared/contracts"
-import { selectRealmWithIdByAddress } from "redux-state/selectors/island"
 import { TransactionProgressStatus } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { getAllowanceTransactionID } from "shared/utils"
@@ -52,7 +50,7 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
 
       if (realmData !== null) {
         const updatedRealms = realmData.map(({ id, data }) => {
-          const questlineData = getQuestlineData(data.realmContractAddress)
+          const questlineData = getQuestlineData(id)
           return {
             id,
             data: {
@@ -90,44 +88,18 @@ export const fetchPopulation = createDappAsyncThunk(
     const {
       island: { realms },
     } = getState()
-
-    const registeredStakers = await transactionService.read(
-      getStakersRegistered,
-      null
+    const realmsWithAddress = Object.entries(realms).map(
+      ([id, { realmContractAddress }]) => ({ id, realmContractAddress })
     )
-    const unregisteredStakers = await transactionService.read(
-      getStakersUnregistered,
-      null
-    )
-
-    const mappedRealms: { [address: string]: number } = {}
-
-    Object.values(realms).forEach(({ realmContractAddress }) => {
-      mappedRealms[realmContractAddress] = 0
+    const result = await transactionService.read(getPopulations, {
+      realmsWithAddress,
     })
 
-    registeredStakers?.forEach(([realm]) => {
-      if (mappedRealms[realm] !== undefined) {
-        mappedRealms[realm] += 1
-      }
-    })
+    if (result) {
+      result.forEach((data) => dispatch(setRealmPopulation(data)))
+    }
 
-    unregisteredStakers?.forEach(([realm]) => {
-      if (mappedRealms[realm] !== undefined) {
-        mappedRealms[realm] -= 1
-      }
-    })
-
-    Object.entries(mappedRealms).forEach(([realmAddress, population]) => {
-      const [realmId] = selectRealmWithIdByAddress(
-        getState(),
-        realmAddress
-      ) ?? [null]
-
-      if (realmId !== null) {
-        dispatch(setRealmPopulation({ id: realmId, population }))
-      }
-    })
+    return !!result
   }
 )
 

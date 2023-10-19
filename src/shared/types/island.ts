@@ -16,8 +16,6 @@ export type RealmContractData = {
 
 // Questline data from JSON file
 export type RealmQuestlineData = {
-  questlineUrl: string
-  questlineHash: string
   description: string
   questlineName: string
   quests: { name: string; description: string }[]

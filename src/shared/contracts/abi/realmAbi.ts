@@ -119,6 +119,32 @@ export default [
     inputs: [
       {
         indexed: false,
+        internalType: "uint256",
+        name: "population",
+        type: "uint256",
+      },
+    ],
+    name: "PopulationDecreased",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "population",
+        type: "uint256",
+      },
+    ],
+    name: "PopulationIncreased",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
         internalType: "string",
         name: "newQuestlineUrl",
         type: "string",
@@ -499,6 +525,19 @@ export default [
       },
     ],
     name: "nonces",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "population",
     outputs: [
       {
         internalType: "uint256",

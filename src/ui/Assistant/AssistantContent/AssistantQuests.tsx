@@ -26,7 +26,12 @@ export default function AssistantQuests() {
           here!
         </div>
         <div style={{ height: 40 }}>
-          {realm && <p>Population of {realm.population - 1} + 1 (You!)</p>}
+          {realm && (
+            <p>
+              Population of {realm.population > 0 ? realm.population - 1 : 0} +
+              1 (You!)
+            </p>
+          )}
         </div>
         <div className="hint row">
           <Icon
