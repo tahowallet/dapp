@@ -1,9 +1,7 @@
 {
     "realms": [
         {
-            "realm": "0xca4e99c58beec6c314816e9209293b327942e50a",
-            "questlineUrl": "...",
-            "questlineHash": "0xhashafrash",
+            "realmId": "4",
             "questlineName": "Transact on PGN",
             "description": "Gitcoin is a community that focuses on incentivizing and supporting open-source development. Gitcoin aims to foster collaboration and sustainability within the open-source ecosystem by providing a marketplace for matching developers with projects and funding opportunitie and rewards for their contributions.",
             "quests": [
@@ -18,9 +16,7 @@
             ]
         },
         {
-            "realm": "0xa0e6509aa077e6d9fab24f36bc3837f3c07ba215",
-            "questlineUrl": "...",
-            "questlineHash": "0xhashafrash",
+            "realmId": "7",
             "questlineName": "Use your CyberWallet",
             "description": "Cyberconnect is a Web3 social ecosystem that goes beyond likes and shares. It allows developers to create social applications where users have complete control over their digital identity, content, and connections ",
             "quests": [
@@ -31,9 +27,7 @@
             ]
         },
         {
-            "realm": "0x25f59fb6bc988c9af5cbb9e105c20971b4b420db",
-            "questlineUrl": "...",
-            "questlineHash": "0xhashafrash",
+            "realmId": "9",
             "questlineName": "Transact on Arbitrum",
             "description": "Arbitrum DAO is a decentralized autonomous organization (DAO) built on the Ethereum blockchain. At its core, the Arbitrum DAO is a community-driven governance mechanism that allows $ARB token holders to propose and vote on changes to the organization and the technologies it governs.",
             "quests": [
@@ -44,9 +38,7 @@
             ]
         },
         {
-            "realm": "0x0391b2ae6fd9dca3f862994bf7a4f187a21686eb",
-            "questlineUrl": "...",
-            "questlineHash": "0xhashafrash",
+            "realmId": "19",
             "questlineName": "Eat your OATs",
             "description": "Galxe is the largest web3 credential data network that is helping projects and developers to build robust decentralized products. Earn oat, NFTs, and tokens by contributing to your favorite Web3 communities.",
             "quests": [
@@ -57,9 +49,7 @@
             ]
         },
         {
-            "realm": "0x604d11d9f17b22740a6b32b3d6202847f7c42087",
-            "questlineUrl": "...",
-            "questlineHash": "0xhashafrash",
+            "realmId": "22",
             "questlineName": "The bribes must flow",
             "description": "Frax Finance is a decentralized cross-chain protocol that aims to establish a scalable, digital currency with a flexible supply, backed algorithmically and by collateral.",
             "quests": [
