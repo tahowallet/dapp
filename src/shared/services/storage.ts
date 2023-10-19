@@ -24,8 +24,6 @@ const getStorage = (): Storage => {
       version: STORAGE_SERVICE_VERSION,
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.warn(error)
     localStorage.setItem(STORAGE_SERVICE_KEY, JSON.stringify(initial))
     return initial
   }
@@ -40,9 +38,6 @@ const setStorage = (storage: Storage) => {
 
     return true
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.warn(error)
-
     if (prevStorage) {
       localStorage.setItem(STORAGE_SERVICE_KEY, prevStorage)
     }

@@ -28,7 +28,7 @@ import {
   TransactionProgressStatus,
 } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
-import { getAllowanceTransactionID } from "shared/utils"
+import { bigIntToUserAmount, getAllowanceTransactionID } from "shared/utils"
 import {
   getRealmLeaderboardData,
   getRealmXpSorted,
@@ -138,7 +138,8 @@ export const fetchXpAllocatable = createDappAsyncThunk(
 
           return {
             id,
-            xpAllocatable,
+            // parse xp amount right away t be able to easily save that in the local storage
+            xpAllocatable: bigIntToUserAmount(xpAllocatable),
           }
         }
       )
