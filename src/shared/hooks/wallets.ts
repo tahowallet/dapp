@@ -139,6 +139,7 @@ export function useWalletChange() {
     }
 
     if (address !== currentAddress) {
+      dispatch(resetBalances())
       dispatch(resetIsland())
       dispatch(resetClaiming())
 

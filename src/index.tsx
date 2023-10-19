@@ -49,7 +49,7 @@ function DApp() {
         {(!walletOnboarded || !isConnected) && <Onboarding />}
         {walletOnboarded && isConnected && (
           <>
-            <FullPageLoader loaded={gameLoadDataFetched && balanceFetched} />
+            <FullPageLoader loaded={gameLoadDataFetched} />
             <IslandComponent />
             <TestingPanel />
             {islandMode === "default" && <Nav />}
