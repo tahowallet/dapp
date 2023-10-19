@@ -1,12 +1,12 @@
 import React, { useState } from "react"
-import mobilePlaceholder from "shared/assets/mobile/mobile-bg.png"
+import mobileBg from "shared/assets/mobile/mobile-bg.webp"
 import mobileCircle from "shared/assets/mobile/mobile-circle.png"
 import mobileScreen from "shared/assets/mobile/mobile-screen.png"
 import logoIcon from "shared/assets/nav_logo.svg"
 import { useOnResize } from "shared/hooks"
 import { getWindowDimensions } from "shared/utils"
 
-const MOBILE_BREAKPOINT = 768
+const MOBILE_BREAKPOINT = 854 // qHD width
 
 export default function MobileScreen() {
   const [width, setWidth] = useState(window.innerWidth)
@@ -22,7 +22,7 @@ export default function MobileScreen() {
 
   return (
     <>
-      <div className="mobile-placeholder">
+      <div className="mobile-container">
         <div className="nav_container">
           <div className="nav_wrapper">
             <svg className="nav_bg">
@@ -57,17 +57,17 @@ export default function MobileScreen() {
       </div>
       <style jsx>
         {`
-          .mobile-placeholder {
-            position: absolute;
+          .mobile-container {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             background-size: cover;
             background-repeat: no-repeat;
-            z-index: 1000;
-            background-image: url(${mobilePlaceholder});
+            z-index: var(--z-mobile-screen);
+            background-image: url(${mobileBg});
             background-position: center;
             background-size: cover;
             overflow: hidden;
@@ -85,6 +85,7 @@ export default function MobileScreen() {
             width: 428px;
             height: 428px;
             background-image: url(${mobileCircle});
+            background-position: center;
           }
           .mobile-screen {
             position: relative;
@@ -146,6 +147,11 @@ export default function MobileScreen() {
           .rhs_container {
             margin-left: auto;
             align-items: center;
+          }
+          @media (max-height: 520px) {
+            .nav_container {
+              display: none;
+            }
           }
         `}
       </style>
