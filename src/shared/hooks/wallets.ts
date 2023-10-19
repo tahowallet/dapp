@@ -116,6 +116,21 @@ export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
   const { updateWalletOnboarding } = useWalletOnboarding()
 
+  useEffect(() => {
+    if (wallet?.provider !== undefined) {
+      const setCorrectChain = async () => {
+        const walletProvider = new ethers.providers.Web3Provider(
+          wallet.provider
+        )
+        await walletProvider.send("wallet_switchEthereumChain", [
+          { chainId: ARBITRUM.id },
+        ])
+      }
+
+      setCorrectChain()
+    }
+  }, [wallet?.provider])
+
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")
     return wallet && disconnect(wallet)
