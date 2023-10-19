@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import mobileBg from "shared/assets/mobile/mobile-bg.png"
+import mobileBg from "shared/assets/mobile/mobile-bg.webp"
 import mobileCircle from "shared/assets/mobile/mobile-circle.png"
 import mobileScreen from "shared/assets/mobile/mobile-screen.png"
 import logoIcon from "shared/assets/nav_logo.svg"
