@@ -55,18 +55,14 @@ export function useArbitrumSigner(): ethers.providers.JsonRpcSigner | null {
 export function useBalanceFetch() {
   const dispatch = useDappDispatch()
   const account = useDappSelector(selectWalletAddress)
-  const [balanceFetched, setBalanceFetched] = useState(false)
 
   const walletBalancesCallback = useCallback(async () => {
     if (account && dispatch) {
       await dispatch(fetchWalletBalances())
-      setBalanceFetched(true)
     }
   }, [account, dispatch])
 
   useInterval(walletBalancesCallback, account ? BALANCE_UPDATE_INTERVAL : null)
-
-  return balanceFetched
 }
 
 export function useWallet() {

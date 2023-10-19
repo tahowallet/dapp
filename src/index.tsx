@@ -36,8 +36,8 @@ function DApp() {
   useWallet()
 
   const gameLoadDataFetched = useGameLoadDataFetch()
-  const balanceFetched = useBalanceFetch()
 
+  useBalanceFetch()
   useWalletChange()
   useGameDataFetch()
 
@@ -46,9 +46,7 @@ function DApp() {
       <GlobalStyles />
       <MobileScreen />
       <Router>
-        {(!walletOnboarded || !isConnected) && (
-          <Onboarding balanceFetched={balanceFetched} />
-        )}
+        {(!walletOnboarded || !isConnected) && <Onboarding />}
         {walletOnboarded && isConnected && (
           <>
             <FullPageLoader loaded={gameLoadDataFetched && balanceFetched} />
@@ -88,9 +86,13 @@ function DAppProviders() {
 const root = document.getElementById("root")
 
 if (root) {
-  ReactDOM.createRoot(root).render(
-    <React.StrictMode>
-      <DAppProviders />
-    </React.StrictMode>
-  )
+  if (process.env.SKIP_REACT_STRICT_MODE === "true") {
+    ReactDOM.createRoot(root).render(<DAppProviders />)
+  } else {
+    ReactDOM.createRoot(root).render(
+      <React.StrictMode>
+        <DAppProviders />
+      </React.StrictMode>
+    )
+  }
 }
