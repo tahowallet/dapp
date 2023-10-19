@@ -39,7 +39,7 @@ const NavItemLink = React.forwardRef(
         {`
           a.link {
             position: relative;
-            color: var(--secondary-s1-50);
+            color: var(--secondary-s1-60);
             font-family: var(--sans);
             font-size: 18px;
             font-style: normal;
@@ -49,7 +49,7 @@ const NavItemLink = React.forwardRef(
 
           a.link:hover,
           a.link:focus {
-            color: var(--secondary-s1-80);
+            color: var(--secondary-s1-100);
           }
 
           a.link.active {
@@ -141,7 +141,7 @@ export default function NavItem({
           mask-image: url(${icon});
           -webkit-mask-size: cover;
           mask-size: cover;
-          background-color: var(--secondary-s1-50);
+          background-color: var(--secondary-s1-60);
         }
 
         .link-wrapper:hover a {
