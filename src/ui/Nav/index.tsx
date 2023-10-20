@@ -14,13 +14,13 @@ const NAV_ITEMS = [
     title: "The Island",
     exact: true,
     extraInfo: "BETA",
-  },
-  {
-    path: ROUTES.FEEDBACK,
-    exact: true,
-    title: "Feedback",
-    target: "blank",
-    icon: feedbackIcon,
+  } as {
+    path: string
+    title: string
+    exact: boolean
+    extraInfo?: string
+    target?: string
+    icon?: string
   },
   // {
   //   path: ROUTES.REFERRALS,
@@ -36,6 +36,16 @@ const NAV_ITEMS = [
   //   title: "LP",
   // },
 ]
+
+if (process.env.IS_COMING_SOON !== "true") {
+  NAV_ITEMS.push({
+    path: ROUTES.FEEDBACK,
+    title: "Feedback",
+    exact: true,
+    target: "blank",
+    icon: feedbackIcon,
+  })
+}
 
 function EnvironmentInfo() {
   if (process.env.USE_LOCALHOST_FORK === "true") {
@@ -103,6 +113,7 @@ export default function Nav(): JSX.Element {
                 iconSize="large"
                 iconSrc={walletIcon}
                 onClick={() => connect()}
+                isDisabled={process.env.IS_COMING_SOON === "true"}
               >
                 Connect wallet
               </Button>
