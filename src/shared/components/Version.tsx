@@ -12,9 +12,9 @@ export default function Version() {
       </Portal>
       <style jsx>{`
         .version {
-          color: #0b3a37;
+          color: var(--secondary-s1-40);
           font-size: 12px;
-          right: 27px;
+          right: 24px;
           bottom: 4px;
           position: absolute;
           z-index: var(--z-assistant-icon);
