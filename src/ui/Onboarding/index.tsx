@@ -12,11 +12,16 @@ import ConnectWallet from "./ConnectWallet"
 import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
 import OnboardingModalLoader from "./Loader"
+import Teaser from "./Teaser"
 
 function OnboardingModal() {
   const { isConnected } = useConnect()
   const hasBalances = useDappSelector(selectHasLoadedBalances)
   const hasRelevantTokens = useDappSelector(selectHasRelevantTokens)
+
+  if (process.env.IS_COMING_SOON === "true") {
+    return <Teaser />
+  }
 
   if (!isConnected) {
     return <ConnectWallet />
