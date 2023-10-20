@@ -39,7 +39,7 @@ export default function OnboardingModal({
       <style jsx>{`
         .label {
           font: var(--text-h1);
-          margin-bottom: 24px;
+          margin-bottom: ${buttonLabel ? "24px" : "0"};
         }
       `}</style>
     </>
