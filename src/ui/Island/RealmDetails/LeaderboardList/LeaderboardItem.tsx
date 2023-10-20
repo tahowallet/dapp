@@ -27,7 +27,7 @@ export default function LeaderboardItem({
 
   useEffect(() => {
     const getName = async () => {
-      const [name] = await resolveAddressToWalletData(address)
+      const { name } = await resolveAddressToWalletData(address)
       if (name) setUsername(name)
     }
     getName()

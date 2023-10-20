@@ -22,25 +22,23 @@ export const fetchWalletName = createDappAsyncThunk(
       claim: { useConnectedWallet },
     } = getState()
 
-    const [resolvedName, resolvedAvatar] = await resolveAddressToWalletData(
-      address
-    )
+    const { name, avatar } = await resolveAddressToWalletData(address)
 
-    if (resolvedName) {
+    if (name) {
       dispatch(
         updateConnectedWallet({
           address,
-          name: resolvedName,
-          avatar: resolvedAvatar || undefined,
+          name,
+          avatar,
         })
       )
 
       if (useConnectedWallet) {
-        dispatch(setClaimingUser({ name: resolvedName, address }))
+        dispatch(setClaimingUser({ name, address }))
       }
     }
 
-    return resolvedName
+    return name
   }
 )
 

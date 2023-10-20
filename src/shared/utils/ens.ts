@@ -10,12 +10,16 @@ export const resolveENS = (name: string) => {
 }
 
 export const resolveAddressToENS = async (address: string) => {
-  const name = await ethereumProvider.lookupAddress(address)
-  const avatar = await ethereumProvider.getAvatar(address)
+  try {
+    const name = await ethereumProvider.lookupAddress(address)
+    const avatar = await ethereumProvider.getAvatar(address)
 
-  if (!name) {
-    throw Error("Invalid ENS domain name")
+    if (!name) {
+      throw Error("Invalid ENS domain name")
+    }
+
+    return { name, avatar }
+  } catch {
+    return { name: null, avatar: null }
   }
-
-  return { name, avatar }
 }

@@ -2,17 +2,21 @@ import { isProbablyEVMAddress, normalizeAddress } from "./address"
 import { isValidENSDomainName, resolveENS, resolveAddressToENS } from "./ens"
 import { isValidUNSDomainName, resolveAddressToUNS, resolveUNS } from "./uns"
 
-type NameWithProvider = {
+type WalletData = {
   name: string
   avatar?: string
+}
+
+type NameWithProvider = WalletData & {
   address: string
   type: "ens" | "uns"
 }
+
 const NAMES_CACHE_STRORAGE_KEY = "taho.cachedNames"
 const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 7 // 1 week
 
 const resolveAddressPromiseCache: {
-  [address: string]: Promise<(string | null)[]>
+  [address: string]: Promise<WalletData>
 } = {}
 
 const getCachedNames = () => {
@@ -30,17 +34,25 @@ const addCachedName = ({ name, avatar, address, type }: NameWithProvider) => {
     ...cachedNames,
     [normalizedAddress]: {
       ...(cachedNames[normalizedAddress] ?? {}),
-      [type]: [name, avatar],
+      [type]: { name, avatar },
       lastUpdate: Date.now(),
     },
   })
+
   localStorage.setItem(NAMES_CACHE_STRORAGE_KEY, newCache)
 }
 
 const resolveENSPromise = (address: string) =>
-  resolveAddressToENS(address).then(({ name, avatar }): (string | null)[] => {
-    addCachedName({ type: "ens", address, name, avatar: avatar || "" })
-    return [name, avatar]
+  resolveAddressToENS(address).then(({ name, avatar }): WalletData => {
+    const cachedData = { name: name || "", avatar: avatar || "" }
+
+    addCachedName({
+      type: "ens",
+      address,
+      ...cachedData,
+    })
+
+    return cachedData
   })
 
 const resolveUNSPromise = (address: string) =>
@@ -62,19 +74,17 @@ const resolveAddressToWalletDataWithoutCache = async (address: string) => {
       resolveENSPromise(normalizedAddress),
       resolveUNSPromise(normalizedAddress),
       resolveUnknownNamePromise(),
-    ]) as Promise<(string | null)[]>
+    ]) as Promise<WalletData>
   }
 
-  const [resolvedName, resolvedAddress] = await resolveAddressPromiseCache[
-    normalizedAddress
-  ]
+  const { name, avatar } = await resolveAddressPromiseCache[normalizedAddress]
 
-  return [resolvedName, resolvedAddress]
+  return { name, avatar }
 }
 
 export const resolveAddressToWalletData = async (
   address: string
-): Promise<(string | null)[]> => {
+): Promise<WalletData> => {
   const cachedNames = getCachedNames()
 
   const normalizedAddress = normalizeAddress(address)
@@ -84,10 +94,11 @@ export const resolveAddressToWalletData = async (
     return cachedItem.ens ?? cachedItem.uns
   }
 
-  const [resolvedName, resolvedAddress] =
-    await resolveAddressToWalletDataWithoutCache(normalizedAddress)
+  const { name, avatar } = await resolveAddressToWalletDataWithoutCache(
+    normalizedAddress
+  )
 
-  return [resolvedName, resolvedAddress]
+  return { name, avatar }
 }
 
 export const resolveNameToAddress = async (addressOrName: string) => {
