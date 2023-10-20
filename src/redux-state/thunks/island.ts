@@ -23,9 +23,12 @@ import {
   claimXp as claimXpTokens,
   getPopulations,
 } from "shared/contracts"
-import { TransactionProgressStatus } from "shared/types"
+import {
+  RealmContractDataWithId,
+  TransactionProgressStatus,
+} from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
-import { getAllowanceTransactionID } from "shared/utils"
+import { bigIntToUserAmount, getAllowanceTransactionID } from "shared/utils"
 import {
   convertXpData,
   getRealmLeaderboardData,
@@ -37,18 +40,28 @@ import { fetchWalletBalances } from "./wallet"
 
 export const initRealmsDataFromContracts = createDappAsyncThunk(
   "island/initRealmsDataFromContracts",
-  async (_, { dispatch, getState, extra: { transactionService } }) => {
+  async (
+    _,
+    { dispatch, getState, extra: { transactionService, storageService } }
+  ) => {
     const {
       island: { realms },
     } = getState()
 
     // Run when data isn't set
     if (Object.keys(realms).length === 0) {
-      const realmData = await transactionService.read(getAllRealmsData, {
-        realms: REALMS_WITH_CONTRACT_NAME,
-      })
+      const cachedRealmData =
+        storageService.getData<RealmContractDataWithId[]>("getAllRealmsData")
+
+      const realmData =
+        cachedRealmData ||
+        (await transactionService.read(getAllRealmsData, {
+          realms: REALMS_WITH_CONTRACT_NAME,
+        }))
 
       if (realmData !== null) {
+        storageService.setData("getAllRealmsData", realmData)
+
         const updatedRealms = realmData.map(({ id, data }) => {
           const questlineData = getQuestlineData(id)
           return {
@@ -125,7 +138,8 @@ export const fetchXpAllocatable = createDappAsyncThunk(
 
           return {
             id,
-            xpAllocatable,
+            // parse xp amount right away t be able to easily save that in the local storage
+            xpAllocatable: bigIntToUserAmount(xpAllocatable),
           }
         }
       )
