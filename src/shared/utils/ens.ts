@@ -11,8 +11,11 @@ export const resolveENS = (name: string) => {
 
 export const resolveAddressToENS = async (address: string) => {
   const name = await ethereumProvider.lookupAddress(address)
+  const avatar = await ethereumProvider.getAvatar(address)
+
   if (!name) {
     throw Error("Invalid ENS domain name")
   }
-  return name
+
+  return { name, avatar }
 }

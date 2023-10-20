@@ -1,4 +1,4 @@
-import { resolveAddressToName } from "shared/utils"
+import { resolveAddressToWalletData } from "shared/utils"
 import {
   updateBalances,
   updateConnectedWallet,
@@ -22,13 +22,16 @@ export const fetchWalletName = createDappAsyncThunk(
       claim: { useConnectedWallet },
     } = getState()
 
-    const resolvedName = await resolveAddressToName(address)
+    const [resolvedName, resolvedAvatar] = await resolveAddressToWalletData(
+      address
+    )
 
     if (resolvedName) {
       dispatch(
         updateConnectedWallet({
           address,
           name: resolvedName,
+          avatar: resolvedAvatar || undefined,
         })
       )
 

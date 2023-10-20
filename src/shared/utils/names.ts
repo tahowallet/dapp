@@ -4,6 +4,7 @@ import { isValidUNSDomainName, resolveAddressToUNS, resolveUNS } from "./uns"
 
 type NameWithProvider = {
   name: string
+  avatar?: string
   address: string
   type: "ens" | "uns"
 }
@@ -11,7 +12,7 @@ const NAMES_CACHE_STRORAGE_KEY = "taho.cachedNames"
 const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 7 // 1 week
 
 const resolveAddressPromiseCache: {
-  [address: string]: Promise<string | null>
+  [address: string]: Promise<(string | null)[]>
 } = {}
 
 const getCachedNames = () => {
@@ -21,7 +22,7 @@ const getCachedNames = () => {
   return JSON.parse(cachedNamesUnparsed)
 }
 
-const addCachedName = ({ name, address, type }: NameWithProvider) => {
+const addCachedName = ({ name, avatar, address, type }: NameWithProvider) => {
   const cachedNames = getCachedNames()
   const normalizedAddress = normalizeAddress(address)
 
@@ -29,7 +30,7 @@ const addCachedName = ({ name, address, type }: NameWithProvider) => {
     ...cachedNames,
     [normalizedAddress]: {
       ...(cachedNames[normalizedAddress] ?? {}),
-      [type]: name,
+      [type]: [name, avatar],
       lastUpdate: Date.now(),
     },
   })
@@ -37,9 +38,9 @@ const addCachedName = ({ name, address, type }: NameWithProvider) => {
 }
 
 const resolveENSPromise = (address: string) =>
-  resolveAddressToENS(address).then((name): string => {
-    addCachedName({ type: "ens", address, name })
-    return name
+  resolveAddressToENS(address).then(({ name, avatar }): (string | null)[] => {
+    addCachedName({ type: "ens", address, name, avatar: avatar || "" })
+    return [name, avatar]
   })
 
 const resolveUNSPromise = (address: string) =>
@@ -53,25 +54,27 @@ const resolveUnknownNamePromise = () =>
     setTimeout(() => resolve(null), 15000)
   })
 
-const resolveAddressToNameWithoutCache = async (address: string) => {
+const resolveAddressToWalletDataWithoutCache = async (address: string) => {
   const normalizedAddress = normalizeAddress(address)
 
   if (resolveAddressPromiseCache[normalizedAddress] === undefined) {
-    resolveAddressPromiseCache[normalizedAddress] = Promise.any<string | null>([
+    resolveAddressPromiseCache[normalizedAddress] = Promise.any([
       resolveENSPromise(normalizedAddress),
       resolveUNSPromise(normalizedAddress),
       resolveUnknownNamePromise(),
-    ])
+    ]) as Promise<(string | null)[]>
   }
 
-  const resolvedName = await resolveAddressPromiseCache[normalizedAddress]
+  const [resolvedName, resolvedAddress] = await resolveAddressPromiseCache[
+    normalizedAddress
+  ]
 
-  return resolvedName
+  return [resolvedName, resolvedAddress]
 }
 
-export const resolveAddressToName = async (
+export const resolveAddressToWalletData = async (
   address: string
-): Promise<string | null> => {
+): Promise<(string | null)[]> => {
   const cachedNames = getCachedNames()
 
   const normalizedAddress = normalizeAddress(address)
@@ -81,9 +84,10 @@ export const resolveAddressToName = async (
     return cachedItem.ens ?? cachedItem.uns
   }
 
-  const name = await resolveAddressToNameWithoutCache(normalizedAddress)
+  const [resolvedName, resolvedAddress] =
+    await resolveAddressToWalletDataWithoutCache(normalizedAddress)
 
-  return name
+  return [resolvedName, resolvedAddress]
 }
 
 export const resolveNameToAddress = async (addressOrName: string) => {

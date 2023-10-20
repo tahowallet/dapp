@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
 import {
   isSameAddress,
-  resolveAddressToName,
+  resolveAddressToWalletData,
   separateThousandsByComma,
   truncateAddress,
 } from "shared/utils"
@@ -27,10 +27,8 @@ export default function LeaderboardItem({
 
   useEffect(() => {
     const getName = async () => {
-      const name = await resolveAddressToName(address)
-      if (name) {
-        setUsername(name)
-      }
+      const [name] = await resolveAddressToWalletData(address)
+      if (name) setUsername(name)
     }
     getName()
   }, [address])
