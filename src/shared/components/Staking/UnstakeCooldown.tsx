@@ -31,7 +31,7 @@ export default function UnstakeCooldown({
           <div className="unstake_cooldown_period_header">Cooldown period</div>
           <p className="unstake_cooldown_period_info">
             You can&apos;t <span>leave / unstake</span> for the first 1 hour
-            since joining a realm
+            since your last stake to the realm
           </p>
           <div className="unstake_cooldown_period_time">
             <p style={{ color: "var(--secondary-s1-80)" }}>Time remaining:</p>

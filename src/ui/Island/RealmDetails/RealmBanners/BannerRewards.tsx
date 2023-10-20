@@ -16,6 +16,7 @@ import Tooltip from "shared/components/Tooltip"
 import { useTransactionSuccessCallback } from "shared/hooks"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { separateThousandsByComma } from "shared/utils"
+import { LINKS } from "shared/constants"
 
 const CLAIM_XP_TX_ID = "claim-xp"
 
@@ -83,8 +84,9 @@ export default function BannerRewards({ amount }: { amount: number }) {
               Exchanging XP for $TAHO only happens at the end of seasons.
               <br /> */}
               <a
-                href="/"
+                href={LINKS.DOCS}
                 target="_blank"
+                rel="noreferrer"
                 style={{ textDecoration: "underline" }}
               >
                 Read more here.
