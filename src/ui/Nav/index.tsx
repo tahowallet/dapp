@@ -45,6 +45,7 @@ if (process.env.IS_COMING_SOON !== "true") {
     target: "blank",
     icon: feedbackIcon,
   })
+}
 
 function EnvironmentInfo() {
   if (process.env.USE_LOCALHOST_FORK === "true") {

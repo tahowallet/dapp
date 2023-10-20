@@ -14,12 +14,12 @@ import EnterPortal from "./EnterPortal"
 import OnboardingModalLoader from "./Loader"
 import Teaser from "./Teaser"
 
-function OnboardingModal({ isTeaser }: { isTeaser: boolean }) {
+function OnboardingModal() {
   const { isConnected } = useConnect()
   const hasBalances = useDappSelector(selectHasLoadedBalances)
   const hasRelevantTokens = useDappSelector(selectHasRelevantTokens)
 
-  if (isTeaser) {
+  if (process.env.IS_COMING_SOON === "true") {
     return <Teaser />
   }
 
@@ -38,14 +38,14 @@ function OnboardingModal({ isTeaser }: { isTeaser: boolean }) {
   return <JoinWaitlist />
 }
 
-export default function Onboarding({ isTeaser }: { isTeaser: boolean }) {
+export default function Onboarding() {
   const assetsLoaded = useAssets([portalBackground])
 
   return (
     <>
-      <FullPageLoader loaded={assetsLoaded || isTeaser} />
+      <FullPageLoader loaded={assetsLoaded} />
       <div className="onboarding">
-        <OnboardingModal isTeaser={isTeaser} />
+        <OnboardingModal />
         <video className="onboarding_video" autoPlay muted loop playsInline>
           <source src={portalBackground} />
         </video>

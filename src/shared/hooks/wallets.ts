@@ -159,7 +159,11 @@ export function useConnect() {
     return wallet && disconnect(wallet)
   }, [wallet, disconnect, updateWalletOnboarding])
 
-  return { isConnected: !!wallet, connect, disconnect: disconnectBound }
+  return {
+    isConnected: process.env.IS_COMING_SOON !== "true" && !!wallet,
+    connect,
+    disconnect: disconnectBound,
+  }
 }
 
 // Hook is invoked after user switched accounts

@@ -63,9 +63,7 @@ function DApp() {
       <GlobalStyles />
       <MobileScreen />
       <Router>
-        {(!walletOnboarded || !isConnected) && (
-          <Onboarding isTeaser={islandMode === "teaser"} />
-        )}
+        {(!walletOnboarded || !isConnected) && <Onboarding />}
         {walletOnboarded && isConnected && (
           <>
             <FullPageLoader

@@ -8,7 +8,7 @@ import {
   SeasonInfo,
 } from "shared/types"
 
-type IslandModeType = "default" | "join-realm" | "teaser"
+type IslandModeType = "default" | "join-realm"
 
 export type IslandState = {
   mode: IslandModeType
@@ -24,7 +24,7 @@ export type IslandState = {
 }
 
 const initialState: IslandState = {
-  mode: "teaser",
+  mode: "default",
   overlay: "dark",
   realms: {},
   leaderboards: {},
@@ -121,7 +121,7 @@ const islandSlice = createSlice({
       immerState.seasonInfo = seasonInfo
     },
     resetIslandDisplay: (immerState) => {
-      immerState.mode = "teaser"
+      immerState.mode = "default"
       immerState.overlay = "dark"
     },
     resetIslandAccount: (immerState) => {
