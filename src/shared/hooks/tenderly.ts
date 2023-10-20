@@ -20,6 +20,7 @@ export function useResetTenderlyFork() {
     if (
       process.env.ALLOW_TENDERLY_RESET !== "true" ||
       process.env.USE_TENDERLY_FORK !== "true" ||
+      process.env.TENDERLY_ACCESS_KEY === undefined ||
       process.env.TENDERLY_FORK_HEAD === undefined ||
       process.env.TENDERLY_FORK_HEAD === ""
     ) {
