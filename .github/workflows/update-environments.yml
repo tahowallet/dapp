@@ -38,4 +38,4 @@ jobs:
           TO_BRANCH: "release"
           PULL_REQUEST_TITLE: "Update release branch"
           PULL_REQUEST_BODY: "This is a pull request that upon merging will update production environment with recent `stage-live` changes."
-          TEAM_REVIEWERS: '["tahowallet/extension-devs"]'
+          REVIEWERS: '["andreachapman"]'
