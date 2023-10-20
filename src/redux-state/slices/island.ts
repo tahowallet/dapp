@@ -127,6 +127,7 @@ const islandSlice = createSlice({
     resetIslandAccount: (immerState) => {
       immerState.stakingRealmId = null
       immerState.stakeUnlockTime = null
+      immerState.unclaimedXp = {}
     },
   },
 })
