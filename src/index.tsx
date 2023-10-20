@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
@@ -18,8 +18,6 @@ import {
   selectHasLoadedRealmData,
   selectHasLoadedSeasonInfo,
   selectIslandMode,
-  setIslandMode,
-  useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
@@ -38,19 +36,12 @@ import reduxStore from "./redux-state"
 
 function DApp() {
   const islandMode = useDappSelector(selectIslandMode)
-  const dispatch = useDappDispatch()
   const { isConnected } = useConnect()
   const { walletOnboarded } = useWalletOnboarding()
 
   const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
   const hasBalances = useDappSelector(selectHasLoadedBalances)
-
-  useEffect(() => {
-    if (process.env.IS_COMING_SOON !== "true") {
-      dispatch(setIslandMode("default"))
-    }
-  }, [dispatch])
 
   useWallet()
   useGameLoadDataFetch()
