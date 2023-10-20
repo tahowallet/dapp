@@ -32,6 +32,7 @@ import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
 import FullPageLoader from "shared/components/FullPageLoader"
 import MobileScreen from "ui/MobileScreen"
+import Version from "shared/components/Version"
 import reduxStore from "./redux-state"
 
 function DApp() {
@@ -53,6 +54,7 @@ function DApp() {
     <>
       <GlobalStyles />
       <MobileScreen />
+      <Version />
       <Router>
         {(!walletOnboarded || !isConnected) && <Onboarding />}
         {walletOnboarded && isConnected && (
