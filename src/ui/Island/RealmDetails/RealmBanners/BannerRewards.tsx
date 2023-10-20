@@ -78,7 +78,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
               {/* TODO: Change after beta to:
               You don&apos;t have to claim your XP until end of season, unless
               you plan on trading it. */}
-              You don&apos;t have to claim your XP until end of season.
+              You don&apos;t have to claim your XP until end of season.{" "}
               {/* TODO: Uncomment after beta:
               <br />
               Exchanging XP for $TAHO only happens at the end of seasons.
