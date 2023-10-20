@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - stage-live
 
 jobs:
   sync-main-to-stage-live:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,6 +24,7 @@ jobs:
           PULL_REQUEST_BODY: "This is a pull request that upon merging will update stage environments with recent `main` changes."
           REVIEWERS: '["andreachapman"]'
   sync-stage-live-to-release:
+    if: github.ref == 'refs/heads/stage-live'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
