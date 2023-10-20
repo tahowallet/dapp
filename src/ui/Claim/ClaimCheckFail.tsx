@@ -26,7 +26,7 @@ export default function ClaimCheckFail() {
 
   return (
     <Modal.Container type="island-with-overlay">
-      <Modal.Content>
+      <Modal.AnimatedContent>
         <div className="fail_container column_center">
           <ClaimHeader
             season="Season 1"
@@ -49,7 +49,7 @@ export default function ClaimCheckFail() {
             gap: 40px;
           }
         `}</style>
-      </Modal.Content>
+      </Modal.AnimatedContent>
     </Modal.Container>
   )
 }
