@@ -3,7 +3,7 @@ import { isValidENSDomainName, resolveENS, resolveAddressToENS } from "./ens"
 import { isValidUNSDomainName, resolveAddressToUNS, resolveUNS } from "./uns"
 
 type WalletData = {
-  name: string
+  name?: string
   avatar?: string
 }
 
@@ -43,16 +43,14 @@ const addCachedName = ({ name, avatar, address, type }: NameWithProvider) => {
 }
 
 const resolveENSPromise = (address: string) =>
-  resolveAddressToENS(address).then(({ name, avatar }): WalletData => {
-    const cachedData = { name: name || "", avatar: avatar || "" }
+  resolveAddressToENS(address).then((data): WalletData | null => {
+    if (!data) {
+      addCachedName({ type: "ens", address })
+      return null
+    }
 
-    addCachedName({
-      type: "ens",
-      address,
-      ...cachedData,
-    })
-
-    return cachedData
+    addCachedName({ type: "ens", address, ...data })
+    return data
   })
 
 const resolveUNSPromise = (address: string) =>

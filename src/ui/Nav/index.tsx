@@ -176,6 +176,7 @@ export default function Nav(): JSX.Element {
           .rhs_container {
             margin-left: auto;
             align-items: center;
+            height: 40px;
           }
 
           .connect_wallet_btn {

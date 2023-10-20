@@ -23,12 +23,18 @@ export default function LeaderboardItem({
   const { beneficiary: address, amount } = item
   const isCurrentUser = isSameAddress(address, currentUser)
   const avatar = useDappSelector(selectWalletAvatar)
+
   const [username, setUsername] = useState("")
+  const [walletAvatar, setWalletAvatar] = useState(avatar)
 
   useEffect(() => {
     const getName = async () => {
-      const { name } = await resolveAddressToWalletData(address)
+      const { name, avatar: userAvatar } = await resolveAddressToWalletData(
+        address
+      )
+
       if (name) setUsername(name)
+      if (userAvatar) setWalletAvatar(userAvatar)
     }
     getName()
   }, [address])
@@ -50,7 +56,7 @@ export default function LeaderboardItem({
           {isCurrentUser && (
             <Icon
               type="image"
-              src={avatar}
+              src={walletAvatar}
               width="40px"
               style={{ borderRadius: "100%", backgroundPosition: "center" }}
             />

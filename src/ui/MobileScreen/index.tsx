@@ -147,6 +147,7 @@ export default function MobileScreen() {
           .rhs_container {
             margin-left: auto;
             align-items: center;
+            height: 40px;
           }
           @media (max-height: 520px) {
             .nav_container {

@@ -5,6 +5,7 @@ import {
   selectWalletName,
   selectStakingRealmId,
   selectRealmById,
+  selectHasLoadedBalances,
 } from "redux-state"
 import RealmIcon from "shared/components/RealmIcon"
 import { getRealmColor } from "shared/constants"
@@ -19,6 +20,9 @@ export default function AccountInfo() {
   const realmId = useDappSelector(selectStakingRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
   const color = realmId && getRealmColor(realmId)
+  const hasBalances = useDappSelector(selectHasLoadedBalances)
+
+  if (!hasBalances) return null
 
   return (
     <div className="account_container row">
