@@ -47,7 +47,7 @@ function DApp() {
   const hasBalances = useDappSelector(selectHasLoadedBalances)
 
   useEffect(() => {
-    if (process.env.USE_TENDERLY_FORK === "true") {
+    if (process.env.IS_COMING_SOON !== "true") {
       dispatch(setIslandMode("default"))
     }
   }, [dispatch])

@@ -37,7 +37,7 @@ const NAV_ITEMS = [
   // },
 ]
 
-if (process.env.USE_TENDERLY_FORK === "true") {
+if (process.env.IS_COMING_SOON !== "true") {
   NAV_ITEMS.push({
     path: ROUTES.FEEDBACK,
     title: "Feedback",
@@ -112,7 +112,7 @@ export default function Nav(): JSX.Element {
                 iconSize="large"
                 iconSrc={walletIcon}
                 onClick={() => connect()}
-                isDisabled={process.env.USE_TENDERLY_FORK !== "true"}
+                isDisabled={process.env.IS_COMING_SOON === "true"}
               >
                 Connect wallet
               </Button>
