@@ -9,8 +9,6 @@ import {
   selectWalletAddress,
   fetchWalletBalances,
   resetBalances,
-  resetIsland,
-  resetClaiming,
   connectArbitrumProvider,
   selectDisplayedRealmId,
 } from "redux-state"
@@ -164,7 +162,7 @@ export function useConnect() {
   return { isConnected: !!wallet, connect, disconnect: disconnectBound }
 }
 
-// Hook is invoked when user switches accounts
+// Hook is invoked after user switched accounts
 export function useWalletChange() {
   const dispatch = useDappDispatch()
 
@@ -183,10 +181,6 @@ export function useWalletChange() {
     }
 
     if (address !== currentAddress) {
-      dispatch(resetBalances())
-      dispatch(resetIsland())
-      dispatch(resetClaiming())
-
       updateWalletOnboarding("")
 
       if (!assistant && !isStaked) {

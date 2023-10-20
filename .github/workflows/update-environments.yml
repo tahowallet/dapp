@@ -1,0 +1,41 @@
+name: Update staging and production environments
+
+on:
+  push:
+    branches:
+      - main
+      - stage-live
+
+jobs:
+  sync-main-to-stage-live:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Open/update a PR from `main` to `stage-live`
+        id: pull
+        uses: tretuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: "main"
+          TO_BRANCH: "stage-live"
+          PULL_REQUEST_TITLE: "Update stage environments"
+          PULL_REQUEST_BODY: "This is a pull request that upon merging will update stage environments with recent `main` changes."
+          REVIEWERS: '["andreachapman"]'
+  sync-stage-live-to-release:
+    if: github.ref == 'refs/heads/stage-live'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Open/update a PR from `main` to `stage-live`
+        id: pull
+        uses: tretuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: "stage-live"
+          TO_BRANCH: "release"
+          PULL_REQUEST_TITLE: "Update release branch"
+          PULL_REQUEST_BODY: "This is a pull request that upon merging will update production environment with recent `stage-live` changes."
+          TEAM_REVIEWERS: '["tahowallet/extension-devs"]'

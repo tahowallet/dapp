@@ -45,6 +45,17 @@ if (process.env.USE_TENDERLY_FORK === "true") {
     target: "blank",
     icon: feedbackIcon,
   })
+
+function EnvironmentInfo() {
+  if (process.env.USE_LOCALHOST_FORK === "true") {
+    return <span>🏝️ Using localhost</span>
+  }
+
+  if (process.env.USE_TENDERLY_FORK === "true") {
+    return <span>⚡️ Using fork</span>
+  }
+
+  return null
 }
 
 export default function Nav(): JSX.Element {
@@ -83,6 +94,7 @@ export default function Nav(): JSX.Element {
                 />
               )
             )}
+            <EnvironmentInfo />
           </nav>
         </div>
         <div className="logo_container">
