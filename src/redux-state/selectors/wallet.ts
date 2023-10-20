@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
+import { TAHO_SYMBOL } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
 import { truncateAddress } from "shared/utils"
 import { createWalletSelector } from "redux-state/selectors"
@@ -17,6 +18,9 @@ export const selectWalletTruncatedAddress = (state: RootState) =>
 
 export const selectWalletName = (state: RootState) =>
   selectWalletNameProperty(state) || truncateAddress(selectWalletAddress(state))
+
+export const selectHasLoadedBalances = (state: RootState) =>
+  state.wallet.hasLoadedBalances
 
 export const selectTokenBalanceByAddress = createSelector(
   [selectTokenBalances, (_, tokenAddress) => tokenAddress],
@@ -36,6 +40,20 @@ export const selectTokenBalanceBySymbol = createSelector(
     )
     return tokenBalance?.balance ?? 0n
   }
+)
+
+export const selectHasRelevantTokens = createSelector(
+  selectTokenBalances,
+  (balances) =>
+    Object.values(balances).some((balanceData) => {
+      // relevant tokens are any tokens with "TAHO" symbol
+      // because this group includes both TAHO and veTAHO tokens
+      if (balanceData.symbol === TAHO_SYMBOL && !!balanceData.balance) {
+        return true
+      }
+
+      return false
+    })
 )
 
 export const selectTransactionStatusById = createSelector(

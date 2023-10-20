@@ -15,6 +15,8 @@ import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
 import { useTransactionSuccessCallback } from "shared/hooks"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
+import { separateThousandsByComma } from "shared/utils"
+import { LINKS } from "shared/constants"
 
 const CLAIM_XP_TX_ID = "claim-xp"
 
@@ -76,14 +78,15 @@ export default function BannerRewards({ amount }: { amount: number }) {
               {/* TODO: Change after beta to:
               You don&apos;t have to claim your XP until end of season, unless
               you plan on trading it. */}
-              You don&apos;t have to claim your XP until end of season.
+              You don&apos;t have to claim your XP until end of season.{" "}
               {/* TODO: Uncomment after beta:
               <br />
               Exchanging XP for $TAHO only happens at the end of seasons.
               <br /> */}
               <a
-                href="/"
+                href={LINKS.DOCS}
                 target="_blank"
+                rel="noreferrer"
                 style={{ textDecoration: "underline" }}
               >
                 Read more here.
@@ -110,7 +113,9 @@ export default function BannerRewards({ amount }: { amount: number }) {
               width="32px"
               color="var(--primary-p1-100)"
             />
-            <div className="token_amount">{amount}</div>
+            <div className="token_amount">
+              {separateThousandsByComma(amount)}
+            </div>
             <div className="token_name">{realm.xpToken.symbol}</div>
           </div>
         </div>

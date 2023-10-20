@@ -11,14 +11,12 @@ export type RealmContractData = {
   name: string
   population: number
   merkleDataUrl: string
-  xpAllocatable: bigint
+  xpAllocatable: string
   xpToken: { name: string; symbol: string; contractAddress: string }
 }
 
 // Questline data from JSON file
 export type RealmQuestlineData = {
-  questlineUrl: string
-  questlineHash: string
   description: string
   questlineName: string
   quests: { name: string; description: string }[]
@@ -29,6 +27,11 @@ export type RealmData = RealmAddressesData &
   RealmQuestlineData
 
 export type RealmDataWithId = { id: string; data: RealmData }
+
+export type RealmContractDataWithId = {
+  id: string
+  data: RealmAddressesData & RealmContractData
+}
 
 export type RealmWithStaker = [string, string]
 

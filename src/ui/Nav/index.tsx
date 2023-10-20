@@ -2,6 +2,7 @@ import React from "react"
 import Button from "shared/components/Button"
 import logoIcon from "shared/assets/nav_logo.svg"
 import walletIcon from "shared/assets/icons/wallet.svg"
+import feedbackIcon from "shared/assets/icons/feedback.svg"
 import { useConnect, useResetTenderlyFork } from "shared/hooks"
 import { ROUTES } from "shared/constants"
 import NavItem from "./NavItem"
@@ -16,7 +17,10 @@ const NAV_ITEMS = [
   },
   {
     path: ROUTES.FEEDBACK,
+    exact: true,
     title: "Feedback",
+    target: "blank",
+    icon: feedbackIcon,
   },
   // {
   //   path: ROUTES.REFERRALS,
@@ -56,15 +60,19 @@ export default function Nav(): JSX.Element {
         </svg>
         <div className="lhs_container row">
           <nav className="row">
-            {NAV_ITEMS.map(({ path, title, exact, extraInfo }) => (
-              <NavItem
-                key={path}
-                path={path}
-                title={title}
-                exact={exact}
-                extraInfo={extraInfo}
-              />
-            ))}
+            {NAV_ITEMS.map(
+              ({ path, title, exact, extraInfo, target, icon }) => (
+                <NavItem
+                  key={path}
+                  path={path}
+                  title={title}
+                  exact={exact}
+                  extraInfo={extraInfo}
+                  target={target}
+                  icon={icon}
+                />
+              )
+            )}
           </nav>
         </div>
         <div className="logo_container">

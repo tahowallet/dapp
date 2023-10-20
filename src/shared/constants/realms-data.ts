@@ -68,7 +68,7 @@ export const realm4 = {
     },
   ],
   realmType: "realm",
-  color: "#00433A",
+  color: "#C6CB60",
   labelX: 380,
   labelY: 216.5,
   partnerLogo: partners.gitcoin,

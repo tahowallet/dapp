@@ -1,5 +1,6 @@
 import React from "react"
 import { setQuickUnstaking } from "testing/utils/quickUnstaking"
+import { rename } from "testing/utils/rename"
 
 /**
  * This component shouldn't be used in production.
@@ -14,6 +15,9 @@ export default function TestingPanel() {
     <div className="testing row">
       <button type="button" onClick={setQuickUnstaking}>
         Quick unstaking
+      </button>
+      <button type="button" onClick={rename}>
+        Update names on Tenderly
       </button>
       <style jsx>
         {`

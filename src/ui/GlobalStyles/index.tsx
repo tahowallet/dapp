@@ -16,6 +16,13 @@ export default function GlobalStyles() {
           margin: unset;
         }
 
+        #root{
+          position: relative;
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
+        }
+
         :root {
           --primary-p1-120: #071111;
           --primary-p1-100: #0d2321;
@@ -69,6 +76,9 @@ export default function GlobalStyles() {
           --z-island: 0;
           --z-navigation: 110;
           --z-controls: 115;
+          --z-assistant-icon: 900;
+          --z-full-page-loader: 950;
+          --z-mobile-screen: 1000;
 
           /* Modals */
           --z-modal-island: 100;
@@ -140,7 +150,9 @@ export default function GlobalStyles() {
 
         html,
         body {
+          position: relative
           height: 100%;
+          width: 100%;
           font-family: var(--sans);
           font-style: normal;
           font-weight: 500;
@@ -228,6 +240,7 @@ export default function GlobalStyles() {
           border: none;
           cursor: pointer;
         }
+
       `}
     </style>
   )

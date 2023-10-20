@@ -1,4 +1,5 @@
 import React from "react"
+import Markdown from "react-markdown"
 import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
@@ -34,7 +35,9 @@ export default function QuestsRewards({
             iconColor="var(--semantic-success)"
             type="frame"
           >
-            <div className="rewards_quests_description">{description}</div>
+            <div className="rewards_quests_description">
+              <Markdown>{description}</Markdown>
+            </div>
           </Accordion>
         ))}
       </div>

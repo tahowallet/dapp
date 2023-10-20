@@ -1,14 +1,10 @@
-# Taho Dapp
+# Subscape
 
 ## Installation
 
-1.  Create a `.env` file in the root directory of the project and provide values for the following variables:
-    ```bash
-    WALLET_CONNECT_ID=""
-    UNS_API_KEY=""
-    FILE_DIRECTORY_IPFS_HASH=""
-    PART_GLOSSARY_IPFS_HASH=""
-    ```
+1.  Decide which RPC from the `.env.defaults` to use and create an `.env` file
+    in the root directory with one of the following variables set to `true`:
+    `USE_LOCALHOST_FORK` / `USE_TENDERLY_FORK` / `USE_ARBITRUM_SEPOLIA`.
 2.  Install dependencies and start the app.
     ```bash
     yarn install

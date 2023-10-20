@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
 import {
   isSameAddress,
+  resolveAddressToName,
   separateThousandsByComma,
   truncateAddress,
 } from "shared/utils"
@@ -22,6 +23,17 @@ export default function LeaderboardItem({
   const { beneficiary: address, amount } = item
   const isCurrentUser = isSameAddress(address, currentUser)
   const avatar = useDappSelector(selectWalletAvatar)
+  const [username, setUsername] = useState("")
+
+  useEffect(() => {
+    const getName = async () => {
+      const name = await resolveAddressToName(address)
+      if (name) {
+        setUsername(name)
+      }
+    }
+    getName()
+  }, [address])
 
   return (
     <>
@@ -42,10 +54,12 @@ export default function LeaderboardItem({
               type="image"
               src={avatar}
               width="40px"
-              style={{ borderRadius: "100%" }}
+              style={{ borderRadius: "100%", backgroundPosition: "center" }}
             />
           )}
-          <span className="address">{truncateAddress(address)}</span>
+          <span className="address">
+            {username || truncateAddress(address)}
+          </span>
           <span className="xp">
             {separateThousandsByComma(BigInt(amount))} XP
           </span>
@@ -73,15 +87,19 @@ export default function LeaderboardItem({
           background: var(--primary-p1-100) !important;
           padding-left: 23px;
         }
-
+        .address {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
         .xp {
           margin-left: auto;
+          overflow: visible;
+          white-space: nowrap;
         }
-
         .rank {
           width: 20px;
         }
-
         .leaderboard_item[data-rank="1"] {
           color: #ffc700;
           border: 1px solid currentColor;

@@ -89,7 +89,8 @@ export default function RealmDetails({ onClose }: RealmDetailsProps) {
           },
           {
             label: "Stake",
-            component: <Staking close={onClose} />,
+            // component: <Staking close={onClose} />,
+            component: <Staking />,
           },
           { label: "Leaderboard", component: <Leaderboard /> },
           {
