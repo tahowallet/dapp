@@ -25,10 +25,10 @@ export const getArbitrumRpcUrl = () => {
   throw Error("Invalid RPC URL configuration, check env variables")
 }
 
-export const ARBITRUM = {
-  id: "0xa4b1",
+export const ARBITRUM_SEPOLIA = {
+  id: "0x66eee",
   token: "ETH",
-  label: "Arbitrum One",
+  label: "Arbitrum Sepolia",
   rpcUrl: getArbitrumRpcUrl(),
 }
 
@@ -46,3 +46,8 @@ export const TAHO_SYMBOL = "TAHO"
 export const ETH_SYMBOL = "ETH"
 
 export const BALANCE_UPDATE_INTERVAL = 30 * 1000
+
+export const CONTRACT_DEPLOYMENT_BLOCK_NUMBER = process.env
+  .CONTRACT_DEPLOYMENT_BLOCK_NUMBER
+  ? parseInt(process.env.CONTRACT_DEPLOYMENT_BLOCK_NUMBER, 10)
+  : undefined

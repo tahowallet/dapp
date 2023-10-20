@@ -8,6 +8,7 @@ import {
   XpMerkleTreeItem,
 } from "shared/types"
 import { isSameAddress, normalizeAddress } from "shared/utils"
+import { CONTRACT_DEPLOYMENT_BLOCK_NUMBER } from "shared/constants"
 import {
   xpMerkleDistributorAbi,
   xpAbi,
@@ -73,7 +74,8 @@ export const getXPDistributorsAddresses: ReadTransactionBuilder<
 
   const xpDistributedEventFilter = realmContract.filters.XpDistributed()
   const xpDistributedEvents = await realmContract.queryFilter(
-    xpDistributedEventFilter
+    xpDistributedEventFilter,
+    CONTRACT_DEPLOYMENT_BLOCK_NUMBER
   )
 
   return getDistributorsFromEvents(xpDistributedEvents, xpContractAddress)

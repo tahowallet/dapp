@@ -2,6 +2,7 @@ import {
   ReadTransactionBuilder,
   RealmAddressesData,
   RealmContractData,
+  RealmContractDataWithId,
 } from "shared/types"
 import { normalizeAddress } from "shared/utils"
 import { getXpDetails } from "./xp"
@@ -43,12 +44,10 @@ export const getRealmData: ReadTransactionBuilder<
             contractAddress: xpTokenContractAddress,
           },
           merkleDataUrl,
-          // Population and xpAllocatable are fetched after all Realm data is initialized.
-          // Contract addresses are saved in the state to ensure that
-          // calculating population based on the Events is not blocking
-          // displaying Island UI
+          // Population is fetched separately because it should be updated more frequently than other data for the realm.
           population: 0,
-          xpAllocatable: 0n,
+          // XpAllocatable is fetched after all Realm data is initialized.
+          xpAllocatable: "0",
         },
       }
     })
@@ -58,7 +57,7 @@ export const getRealmData: ReadTransactionBuilder<
 
 export const getAllRealmsData: ReadTransactionBuilder<
   { realms: { [id: string]: { name: string } } },
-  { id: string; data: RealmAddressesData & RealmContractData }[]
+  RealmContractDataWithId[]
 > = async (provider, { realms }) => {
   const realmsWithContractData = await getRealmTokenAddresses(provider, {
     realms,
@@ -67,4 +66,30 @@ export const getAllRealmsData: ReadTransactionBuilder<
   const realmData = await getRealmData(provider, { realmsWithContractData })
 
   return realmData
+}
+
+export const getPopulations: ReadTransactionBuilder<
+  {
+    realmsWithAddress: {
+      id: string
+      realmContractAddress: string
+    }[]
+  },
+  { id: string; population: number }[]
+> = async (provider, { realmsWithAddress }) => {
+  const populations = await Promise.all(
+    realmsWithAddress.map(async ({ id, realmContractAddress }) => {
+      const realmContract = await getRealmContract(provider, {
+        realmContractAddress,
+      })
+      const population = await realmContract.population()
+
+      return {
+        id,
+        population: population.toNumber(),
+      }
+    })
+  )
+
+  return populations
 }

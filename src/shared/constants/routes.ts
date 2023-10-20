@@ -12,6 +12,5 @@ export default {
   },
   REFERRALS: "/referrals",
   LP: "/lp",
-  // TODO: add correct feedback route
-  FEEDBACK: "/feedback",
+  FEEDBACK: "https://tahowallet.typeform.com/subscapebeta",
 }

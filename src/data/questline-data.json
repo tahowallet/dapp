@@ -1,31 +1,61 @@
 {
     "realms": [
         {
-            "realm": "0xhexaddressofrealmcontract",
-            "questlineUrl": "...",
-            "questlineHash": "0xhashafrash",
-            "questlineName": "NFT collector",
-            "description": "The realm is in need of a stronger Threshold Network. Strengthen it by depositing and redeeming tBTC, and staking or LPing T!",
+            "realmId": "4",
+            "questlineName": "Transact on PGN",
+            "description": "Gitcoin is a community that focuses on incentivizing and supporting open-source development. Gitcoin aims to foster collaboration and sustainability within the open-source ecosystem by providing a marketplace for matching developers with projects and funding opportunitie and rewards for their contributions.",
             "quests": [
                 {
-                    "name": "Stake T",
-                    "description": "Stake at least **100 T** for at least **2 days**"
+                    "name": "Execute individual transactions on PGN (Public Goods Network)",
+                    "description": "The more transactions you execute on PGN compared to other members of this realm in a week, the more of the weekly XP drop you will get."
                 },
                 {
-                    "name": "Operate T",
-                    "description": "Stake at least **5000 T** with a running operator for at least **3 weeks**"
-                },
+                    "name": "Spend gas on PGN (Public Goods Network)—more gas is better!",
+                    "description": "The more gas you use on PGN compared to other members of this realm in a week, the more of the weekly XP drop you will get. This means you can still get more XP if you execute fewer bigger transactions!"
+                }
+            ]
+        },
+        {
+            "realmId": "7",
+            "questlineName": "Use your CyberWallet",
+            "description": "Cyberconnect is a Web3 social ecosystem that goes beyond likes and shares. It allows developers to create social applications where users have complete control over their digital identity, content, and connections ",
+            "quests": [
                 {
-                    "name": "Mint tBTC",
-                    "description": "Mint at least **0.1 BTC** into tBTC."
-                },
+                    "name": "Spend gas using the CyberWallet associated with your address",
+                    "description": "The more gas you use with your CyberWallet across networks compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+                }
+            ]
+        },
+        {
+            "realmId": "9",
+            "questlineName": "Transact on Arbitrum",
+            "description": "Arbitrum DAO is a decentralized autonomous organization (DAO) built on the Ethereum blockchain. At its core, the Arbitrum DAO is a community-driven governance mechanism that allows $ARB token holders to propose and vote on changes to the organization and the technologies it governs.",
+            "quests": [
                 {
-                    "name": "Redeem tBTC",
-                    "description": "Redeem at least **0.5 BTC** into tBTC."
-                },
+                    "name": "Execute individual transactions on Arbitrum",
+                    "description": "The more transactions you execute on Arbitrum compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+                }
+            ]
+        },
+        {
+            "realmId": "19",
+            "questlineName": "Eat your OATs",
+            "description": "Galxe is the largest web3 credential data network that is helping projects and developers to build robust decentralized products. Earn oat, NFTs, and tokens by contributing to your favorite Web3 communities.",
+            "quests": [
                 {
-                    "name": "Mint and hold/use tBTC",
-                    "description": "Mint at least **0.1 BTC** into tBTC and hold it or transfer it to known LP contracts."
+                    "name": "Claim OATs during the week",
+                    "description": "The more OATs you claim across networks compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+                }
+            ]
+        },
+        {
+            "realmId": "22",
+            "questlineName": "The bribes must flow",
+            "description": "Frax Finance is a decentralized cross-chain protocol that aims to establish a scalable, digital currency with a flexible supply, backed algorithmically and by collateral.",
+            "quests": [
+                {
+                    "name": "Fund bribes on Votemarket",
+                    "description": "The more total USD value in bribes you commit on Votemarket in a week, the more of the weekly XP drop you will get."
                 }
             ]
         }

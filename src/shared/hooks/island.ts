@@ -11,6 +11,7 @@ import {
   selectStakeUnlockTime,
   useDappSelector,
   selectWalletAddress,
+  selectRealms,
 } from "redux-state"
 import { SECOND } from "shared/constants"
 import {
@@ -40,21 +41,41 @@ export function useIslandContext() {
   return useContext(IslandContext)
 }
 
-export function useGameDataFetch() {
+// Used to fetch all necessary data for the game to load
+export function useGameLoadDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
-  const account = useDappSelector(selectWalletAddress)
   const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
-  const [hasAlreadyFetchedForAccount, setHasAlreadyFetchedForAccount] =
-    useState<string | null>(null)
 
-  // Account agnostic data
   useEffect(() => {
     if (!provider || hasAlreadyFetched) return
 
     const fetchData = async () => {
       await dispatch(initSeasonInfoData())
       await dispatch(initRealmsDataFromContracts())
+      setHasAlreadyFetched(true)
+    }
+
+    fetchData()
+  }, [provider, hasAlreadyFetched, dispatch])
+}
+
+// Used to fetch remaining game data
+export function useGameDataFetch() {
+  const dispatch = useDappDispatch()
+  const provider = useArbitrumProvider()
+  const account = useDappSelector(selectWalletAddress)
+  const realms = useDappSelector(selectRealms)
+  const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
+  const [hasAlreadyFetchedForAccount, setHasAlreadyFetchedForAccount] =
+    useState<string | null>(null)
+
+  // Account agnostic data
+  useEffect(() => {
+    if (!provider || hasAlreadyFetched || Object.keys(realms).length === 0)
+      return
+
+    const fetchData = async () => {
       await dispatch(fetchPopulation())
       await dispatch(fetchXpAllocatable())
 
@@ -62,7 +83,7 @@ export function useGameDataFetch() {
     }
 
     fetchData()
-  }, [provider, hasAlreadyFetched, dispatch])
+  }, [provider, hasAlreadyFetched, realms, dispatch])
 
   // Account specific data
   useEffect(() => {
