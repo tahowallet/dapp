@@ -37,6 +37,18 @@ const NAV_ITEMS = [
   // },
 ]
 
+function EnvironmentInfo() {
+  if (process.env.USE_LOCALHOST_FORK === "true") {
+    return <span>🏝️ Using localhost</span>
+  }
+
+  if (process.env.USE_TENDERLY_FORK === "true") {
+    return <span>⚡️ Using fork</span>
+  }
+
+  return null
+}
+
 export default function Nav(): JSX.Element {
   const { isConnected, connect } = useConnect()
   const resetTenderlyFork = useResetTenderlyFork()
@@ -73,6 +85,7 @@ export default function Nav(): JSX.Element {
                 />
               )
             )}
+            <EnvironmentInfo />
           </nav>
         </div>
         <div className="logo_container">
