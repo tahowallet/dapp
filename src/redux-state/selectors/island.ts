@@ -154,8 +154,7 @@ export const selectUnclaimedXpSumById = createSelector(
   [selectUnclaimedXpById],
   (unclaimedXp) =>
     unclaimedXp?.reduce(
-      // TODO: not sue if final version will be hex or decimal
-      (acc, item) => acc + parseInt(item.claim.amount, 10),
+      (acc, item) => acc + parseInt(item.claim.amount, 16),
       0
     ) ?? 0
 )
