@@ -20,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: "main"
           TO_BRANCH: "stage-live"
-          PULL_REQUEST_TITLE: "Update stage environments"
+          PULL_REQUEST_TITLE: "🪄 [QA] Update stage environments"
           PULL_REQUEST_BODY: "This is a pull request that upon merging will update stage environments with recent `main` changes."
           REVIEWERS: '["andreachapman"]'
   sync-stage-live-to-stage-fork:
@@ -50,6 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: "stage-live"
           TO_BRANCH: "release"
-          PULL_REQUEST_TITLE: "Update release branch"
+          PULL_REQUEST_TITLE: "🚀 [QA] Update release environment"
           PULL_REQUEST_BODY: "This is a pull request that upon merging will update production environment with recent `stage-live` changes."
           TEAM_REVIEWERS: '["tahowallet/extension-devs"]'
