@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { CSSProperties } from "react"
 import classNames from "classnames"
 
@@ -11,6 +10,7 @@ type IconProps = {
   height?: string
   color?: string
   style?: CSSProperties
+  ariaLabel?: string
   onClick?: () => void
 }
 
@@ -21,6 +21,7 @@ export default function Icon({
   src,
   color = "var(--off-white)",
   style,
+  ariaLabel,
   onClick,
 }: IconProps) {
   const isButton = !!onClick
@@ -35,11 +36,9 @@ export default function Icon({
       {isButton ? (
         <button
           onClick={onClick}
+          aria-label={ariaLabel}
           type="button"
-          className={classNames("icon", {
-            [type]: true,
-            button: isButton,
-          })}
+          className={classes}
           style={style}
         />
       ) : (
