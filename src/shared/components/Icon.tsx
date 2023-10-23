@@ -1,13 +1,17 @@
-import classNames from "classnames"
 import React, { CSSProperties } from "react"
+import classNames from "classnames"
+
+type IconType = "mask" | "image"
 
 type IconProps = {
-  type?: "mask" | "image"
+  type?: IconType
   src: string
   width?: string
   height?: string
   color?: string
   style?: CSSProperties
+  ariaLabel?: string
+  onClick?: () => void
 }
 
 export default function Icon({
@@ -17,15 +21,29 @@ export default function Icon({
   src,
   color = "var(--off-white)",
   style,
+  ariaLabel,
+  onClick,
 }: IconProps) {
+  const isButton = !!onClick
+
+  const classes = classNames("icon", {
+    [type]: true,
+    button: isButton,
+  })
+
   return (
     <>
-      <div
-        className={classNames("icon", {
-          [type]: true,
-        })}
-        style={style}
-      />
+      {isButton ? (
+        <button
+          onClick={onClick}
+          aria-label={ariaLabel}
+          type="button"
+          className={classes}
+          style={style}
+        />
+      ) : (
+        <div className={classes} style={style} />
+      )}
       <style jsx>{`
         .icon {
           width: ${width};
@@ -42,6 +60,11 @@ export default function Icon({
           mask-size: cover;
           mask-position: center;
           background-color: ${color};
+        }
+        .icon.button {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
         }
       `}</style>
     </>

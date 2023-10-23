@@ -9,6 +9,8 @@ import CopyPlugin from "copy-webpack-plugin"
 import "dotenv-defaults/config"
 import path from "path"
 import fs from "fs/promises"
+import child_proces from "child_process"
+import packageJson from "./package.json"
 
 const config: Configuration = {
   entry: ["./src/index.tsx"],
@@ -80,6 +82,14 @@ const config: Configuration = {
     }),
     new CopyPlugin({
       patterns: [{ from: "src/data/", to: "assets/" }],
+    }),
+    new DefinePlugin({
+      "process.env.VERSION": JSON.stringify(packageJson.version),
+    }),
+    new DefinePlugin({
+      "process.env.COMMIT_HASH": JSON.stringify(
+        child_proces.execSync("git rev-parse --short HEAD").toString().trim()
+      ),
     }),
   ],
   devServer: {
