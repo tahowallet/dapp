@@ -64,7 +64,7 @@ export default function Onboarding() {
         }
         .onboarding_video {
           position: absolute;
-          height: 100%;
+          height: 107%;
           width: 100%;
           inset: 0;
           object-fit: cover;
