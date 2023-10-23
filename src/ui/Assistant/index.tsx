@@ -20,24 +20,21 @@ export default function Assistant() {
     <>
       <Portal>
         <div className="assistant">
-          <button
-            type="button"
-            className="assistant_trigger button_reset"
-            onClick={() =>
-              updateAssistant({
-                visible: !assistant.visible,
-                type: "default",
-              })
-            }
-          >
+          <div className="assistant_trigger">
             <Icon
               src={assistantImage}
               width="62px"
               height="62px"
               type="image"
               color="currentColor"
+              onClick={() =>
+                updateAssistant({
+                  visible: !assistant.visible,
+                  type: "default",
+                })
+              }
             />
-          </button>
+          </div>
           <AssistantWelcome />
           <AssistantQuests />
           <AssistantJoin />
@@ -59,7 +56,7 @@ export default function Assistant() {
           position: absolute;
           height: 54px;
           width: 54px;
-          left: 14%;
+          left: 7%;
           top: 6%;
           background: #043937;
           z-index: -1;
