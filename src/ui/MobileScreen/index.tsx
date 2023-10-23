@@ -5,6 +5,7 @@ import mobileScreen from "shared/assets/mobile/mobile-screen.png"
 import logoIcon from "shared/assets/nav_logo.svg"
 import { useOnResize } from "shared/hooks"
 import { getWindowDimensions } from "shared/utils"
+import MobileNav from "ui/Nav/MobileNav"
 
 const MOBILE_BREAKPOINT = 854 // qHD width
 
@@ -23,29 +24,7 @@ export default function MobileScreen() {
   return (
     <>
       <div className="mobile-container">
-        <div className="nav_container">
-          <div className="nav_wrapper">
-            <svg className="nav_bg">
-              <defs>
-                <mask id="bg_mask">
-                  <rect width="100%" height="100px" fill="#fff" />
-                  <circle cx="50%" cy="50%" r="80" fill="#000" />
-                </mask>
-              </defs>
-              <rect
-                width="100%"
-                height="100%"
-                fill="var(--primary-p1-100)"
-                mask="url(#bg_mask)"
-              />
-            </svg>
-            <div className="lhs_container row" />
-            <div className="logo_container">
-              <div className="logo" />
-            </div>
-            <div className="rhs_container row" />
-          </div>
-        </div>
+        <MobileNav />
         <div className="mobile-circle">
           <img src={mobileScreen} className="mobile-screen" alt="Screen icon" />
           <h1 className="mobile-title">
