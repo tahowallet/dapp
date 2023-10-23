@@ -8,7 +8,7 @@ import {
 } from "redux-state"
 import classNames from "classnames"
 import { useHistory } from "react-router-dom"
-import { resetIsland } from "redux-state/slices/island"
+import { resetIslandDisplay } from "redux-state/slices/island"
 import { setSelectedRealmId } from "redux-state/slices/claim"
 import { ROUTES } from "shared/constants"
 import RealmHeader from "./RealmHeader"
@@ -31,7 +31,7 @@ export default function RealmModalContent({
 
   const handleClose = () => {
     onClose()
-    dispatch(resetIsland())
+    dispatch(resetIslandDisplay())
     dispatch(setSelectedRealmId(realmId))
     location.push(ROUTES.CLAIM.DETAILS_SIGN)
   }

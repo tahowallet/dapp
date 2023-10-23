@@ -3,9 +3,10 @@ import { gameParametersAbi, tahoDeployerAbi } from "shared/contracts/abi"
 
 const TAHO_MULTISIG = "0x6e80164ea60673d64d5d6228beb684a1274bb017"
 
-const localhostProvider = process.env.USE_LOCALHOST_FORK
-  ? new ethers.providers.JsonRpcProvider(process.env.LOCALHOST_RPC_URL)
-  : null
+const localhostProvider =
+  process.env.USE_LOCALHOST_FORK === "true"
+    ? new ethers.providers.JsonRpcProvider(process.env.LOCALHOST_RPC_URL)
+    : null
 
 const impersonate = (address: string) =>
   localhostProvider?.send("hardhat_impersonateAccount", [address])
