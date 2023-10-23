@@ -14,6 +14,7 @@ import {
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
 import {
+  selectHasLoadedBalances,
   selectHasLoadedRealmData,
   selectHasLoadedSeasonInfo,
   selectIslandMode,
@@ -40,12 +41,13 @@ function DApp() {
 
   const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
+  const hasBalances = useDappSelector(selectHasLoadedBalances)
 
   useWallet()
   useGameLoadDataFetch()
   useBalanceFetch()
-  useWalletChange()
   useGameDataFetch()
+  useWalletChange()
 
   return (
     <>
@@ -56,7 +58,7 @@ function DApp() {
         {walletOnboarded && isConnected && (
           <>
             <FullPageLoader
-              loaded={hasLoadedRealmData && hasLoadedSeasonInfo}
+              loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
             />
             <IslandComponent />
             <TestingPanel />

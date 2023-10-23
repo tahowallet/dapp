@@ -1,6 +1,6 @@
 import { useConnectWallet } from "@web3-onboard/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { ethers } from "ethers"
+import { ethers, logger } from "ethers"
 import {
   useDappDispatch,
   connectWalletGlobally,
@@ -9,8 +9,6 @@ import {
   selectWalletAddress,
   fetchWalletBalances,
   resetBalances,
-  resetIsland,
-  resetClaiming,
   connectArbitrumProvider,
   selectDisplayedRealmId,
 } from "redux-state"
@@ -19,14 +17,43 @@ import {
   BALANCE_UPDATE_INTERVAL,
   LOCAL_STORAGE_WALLET,
 } from "shared/constants"
+import { Logger, defineReadOnly } from "ethers/lib/utils"
+import { Network } from "@ethersproject/networks"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
+
+class StaticJsonBatchRpcProvider extends ethers.providers.JsonRpcBatchProvider {
+  override async detectNetwork(): Promise<Network> {
+    let { network } = this
+    if (network == null) {
+      network = await super.detectNetwork()
+
+      if (!network) {
+        logger.throwError(
+          "no network detected",
+          Logger.errors.UNKNOWN_ERROR,
+          {}
+        )
+      }
+
+      // If still not set, set it
+      // eslint-disable-next-line no-underscore-dangle
+      if (this._network == null) {
+        // A static network does not support "any"
+        defineReadOnly(this, "_network", network)
+
+        this.emit("network", network, null)
+      }
+    }
+    return network
+  }
+}
 
 // To make it possible to start fetching blockchain data before the user
 // connects the wallet let's get the provider from the RPC URL
 export function useArbitrumProvider(): ethers.providers.JsonRpcBatchProvider {
   const arbitrumProvider = useMemo(
-    () => new ethers.providers.JsonRpcBatchProvider(ARBITRUM_SEPOLIA.rpcUrl),
+    () => new StaticJsonBatchRpcProvider(ARBITRUM_SEPOLIA.rpcUrl),
     []
   )
 
@@ -132,10 +159,14 @@ export function useConnect() {
     return wallet && disconnect(wallet)
   }, [wallet, disconnect, updateWalletOnboarding])
 
-  return { isConnected: !!wallet, connect, disconnect: disconnectBound }
+  return {
+    isConnected: process.env.IS_COMING_SOON !== "true" && !!wallet,
+    connect,
+    disconnect: disconnectBound,
+  }
 }
 
-// Hook is invoked when user switches accounts
+// Hook is invoked after user switched accounts
 export function useWalletChange() {
   const dispatch = useDappDispatch()
 
@@ -154,10 +185,6 @@ export function useWalletChange() {
     }
 
     if (address !== currentAddress) {
-      dispatch(resetBalances())
-      dispatch(resetIsland())
-      dispatch(resetClaiming())
-
       updateWalletOnboarding("")
 
       if (!assistant && !isStaked) {
