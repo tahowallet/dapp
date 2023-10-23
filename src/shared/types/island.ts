@@ -10,7 +10,6 @@ export type RealmAddressesData = {
 export type RealmContractData = {
   name: string
   population: number
-  merkleDataUrl: string
   xpAllocatable: string
   xpToken: { name: string; symbol: string; contractAddress: string }
 }
@@ -35,7 +34,13 @@ export type RealmContractDataWithId = {
 
 export type RealmWithStaker = [string, string]
 
-export type LeaderboardItemData = XpMerkleTreeItem & { rank: number }
+export type XpMerkleTreeItemData = XpMerkleTreeItem & {
+  beneficiary: string
+}
+
+export type LeaderboardItemData = XpMerkleTreeItemData & {
+  rank: number
+}
 
 export type LeaderboardData = {
   currentUser: null | LeaderboardItemData
