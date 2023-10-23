@@ -30,10 +30,10 @@ import {
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { bigIntToUserAmount, getAllowanceTransactionID } from "shared/utils"
 import {
+  convertXpData,
   getRealmLeaderboardData,
   getRealmXpSorted,
   getUserLeaderboardRank,
-  getUserXpByMerkleRoot,
 } from "shared/utils/xp"
 import { getXpAllocatable } from "shared/contracts/xp"
 import { fetchWalletBalances } from "./wallet"
@@ -294,7 +294,8 @@ export const fetchLeaderboardData = createDappAsyncThunk(
         const xpData = await getRealmLeaderboardData(realmId)
 
         if (xpData) {
-          const sorted = getRealmXpSorted(xpData)
+          const converted = convertXpData(xpData)
+          const sorted = getRealmXpSorted(converted)
           const leaderboard = sorted.slice(0, 10).map((item, index) => ({
             ...item,
             rank: index + 1,
@@ -329,13 +330,12 @@ export const fetchUnclaimedXp = createDappAsyncThunk(
     await Promise.allSettled(
       Object.entries(realms).map(
         async ([realmId, { realmContractAddress, xpToken }]) => {
-          const claims = await getUserXpByMerkleRoot(realmId, account)
           const unclaimedXp = await transactionService.read(
             getUnclaimedXpDistributions,
             {
               realmAddress: realmContractAddress,
               xpAddress: xpToken.contractAddress,
-              claims,
+              account,
             }
           )
 

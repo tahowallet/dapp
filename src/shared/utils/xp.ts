@@ -1,5 +1,5 @@
-import { LeaderboardItemData } from "shared/types"
-import { XpMerkleTreeItem, XpMerkleTree, XpByMerkleRoot } from "shared/types/xp"
+import { LeaderboardItemData, XpMerkleTreeItemData } from "shared/types"
+import { XpMerkleTree, XpByMerkleRoot } from "shared/types/xp"
 import { isSameAddress, normalizeAddress } from "shared/utils"
 
 type DynamicXPMerkleTreeImport = {
@@ -27,60 +27,53 @@ export async function getRealmLeaderboardData(
   return xpData && (xpData.default as XpMerkleTree)
 }
 
-async function getXpData(
-  realmId: string,
-  dropIndex: number
-): Promise<XpMerkleTree | null> {
-  if (!realmId) {
-    throw new Error("Missing realm id")
+async function getXpData(url: string): Promise<XpMerkleTree | null> {
+  if (!url) {
+    throw new Error("Missing url")
   }
 
-  let xpData: null | DynamicXPMerkleTreeImport = null
+  let xpData: null | XpMerkleTree = null
 
-  if (realmId) {
+  if (url) {
+    // debugger
     try {
-      xpData = await import(
-        `data/xp/${realmId}/xp_${realmId}_${dropIndex}.json`
-      )
+      xpData = await (await fetch(url)).json()
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.warn("No XP data found for the realm id:", realmId)
+      console.warn("No XP data found for the url:", url)
     }
   }
-
-  return xpData && (xpData.default as XpMerkleTree)
+  return xpData && (xpData as XpMerkleTree)
 }
 
 export async function getUserXpByMerkleRoot(
-  realmId: string,
-  account: string
+  account: string,
+  url: string
 ): Promise<XpByMerkleRoot> {
   const xpItemByMerkleRoot: XpByMerkleRoot = {}
   const normalizedAddress = normalizeAddress(account)
-  let dropIndex = 1
 
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    // eslint-disable-next-line no-await-in-loop
-    const xpData = await getXpData(realmId, dropIndex)
+  const xpData = await getXpData(url)
 
-    if (!xpData) break
+  if (xpData) {
+    try {
+      const { merkleRoot } = xpData
+      const userClaim = xpData.claims[normalizedAddress]
 
-    const { merkleRoot } = xpData
-    const userClaim = xpData.claims[normalizedAddress]
-
-    if (userClaim) {
-      xpItemByMerkleRoot[merkleRoot] = userClaim
+      if (userClaim) {
+        xpItemByMerkleRoot[merkleRoot] = userClaim
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn("Not a correct structure for XP data")
     }
-
-    dropIndex += 1
   }
 
   return xpItemByMerkleRoot
 }
 
 export function getUserLeaderboardRank(
-  sortedData: XpMerkleTreeItem[],
+  sortedData: XpMerkleTreeItemData[],
   address: string
 ): LeaderboardItemData | null {
   if (!address) return null
@@ -98,8 +91,13 @@ export function getUserLeaderboardRank(
     : null
 }
 
-export function getRealmXpSorted(data: XpMerkleTree) {
-  return Object.values(data.claims).sort(
-    (a, b) => Number(b.amount) - Number(a.amount)
-  )
+export function getRealmXpSorted(data: XpMerkleTreeItemData[]) {
+  return data.sort((a, b) => Number(b.amount) - Number(a.amount))
+}
+
+export function convertXpData(xpData: XpMerkleTree): XpMerkleTreeItemData[] {
+  return Object.entries(xpData.claims).map(([beneficiary, data]) => ({
+    beneficiary,
+    ...data,
+  }))
 }

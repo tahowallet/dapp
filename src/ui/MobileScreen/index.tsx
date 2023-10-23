@@ -2,9 +2,9 @@ import React, { useState } from "react"
 import mobileBg from "shared/assets/mobile/mobile-bg.webp"
 import mobileCircle from "shared/assets/mobile/mobile-circle.png"
 import mobileScreen from "shared/assets/mobile/mobile-screen.png"
-import logoIcon from "shared/assets/nav_logo.svg"
 import { useOnResize } from "shared/hooks"
 import { getWindowDimensions } from "shared/utils"
+import MobileNav from "ui/Nav/MobileNav"
 
 const MOBILE_BREAKPOINT = 854 // qHD width
 
@@ -23,29 +23,7 @@ export default function MobileScreen() {
   return (
     <>
       <div className="mobile-container">
-        <div className="nav_container">
-          <div className="nav_wrapper">
-            <svg className="nav_bg">
-              <defs>
-                <mask id="bg_mask">
-                  <rect width="100%" height="100px" fill="#fff" />
-                  <circle cx="50%" cy="50%" r="80" fill="#000" />
-                </mask>
-              </defs>
-              <rect
-                width="100%"
-                height="100%"
-                fill="var(--primary-p1-100)"
-                mask="url(#bg_mask)"
-              />
-            </svg>
-            <div className="lhs_container row" />
-            <div className="logo_container">
-              <div className="logo" />
-            </div>
-            <div className="rhs_container row" />
-          </div>
-        </div>
+        <MobileNav />
         <div className="mobile-circle">
           <img src={mobileScreen} className="mobile-screen" alt="Screen icon" />
           <h1 className="mobile-title">
@@ -95,64 +73,6 @@ export default function MobileScreen() {
           .mobile-title {
             font: var(--text-h1);
             text-align: center;
-          }
-          .nav_bg {
-            pointer-events: none;
-            z-index: -1;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            inset: 0;
-          }
-          .nav_container {
-            position: absolute;
-            top: 42px;
-            left: 0;
-            right: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: var(--z-navigation);
-            filter: drop-shadow(0px 14px 16px rgba(7, 17, 17, 0.24));
-            --logo-size: 112px;
-            user-select: none;
-          }
-          .logo_container {
-            position: absolute;
-            top: 0;
-            left: calc(50% - 112px / 2);
-          }
-          .logo {
-            border-radius: 50%;
-            margin-top: -18px;
-            background: white;
-            background: url(${logoIcon}) no-repeat center 0/160px;
-            width: var(--logo-size);
-            height: var(--logo-size);
-          }
-          .nav_wrapper {
-            position: relative;
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            z-index: var(--navigation);
-            border-radius: 48px;
-            padding: 16px 28px;
-            height: 72px;
-          }
-          .lhs_container {
-            margin-right: auto;
-            align-items: center;
-          }
-          .rhs_container {
-            margin-left: auto;
-            align-items: center;
-            height: 40px;
-          }
-          @media (max-height: 520px) {
-            .nav_container {
-              display: none;
-            }
           }
         `}
       </style>
