@@ -56,7 +56,9 @@ export default function QuestsDetails({
               width="32px"
               color="var(--primary-p1-100)"
             />
-            {separateThousandsByComma(realm?.xpAllocatable ?? "0")}
+            {separateThousandsByComma(
+              Math.round(parseFloat(realm?.xpAllocatable ?? "0"))
+            )}
           </h1>
           {tokenSymbol}
         </div>
