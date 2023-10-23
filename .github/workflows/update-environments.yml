@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Open/update a PR from `main` to `stage-live`
         id: pr
-        uses: tretuna/sync-branches@ea58ab6 # 1.4.0
+        uses: tretuna/sync-branches@ea58ab6e406fd3ad016a064b31270bbb41127f41 # 1.4.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: "main"
@@ -25,7 +25,7 @@ jobs:
           PULL_REQUEST_TITLE: "🪄 [QA] Update stage environments"
           PULL_REQUEST_BODY: "This is a pull request that upon merging will update stage environments with recent `main` changes."
           REVIEWERS: '["andreachapman"]'
-      - uses: studroid/label-pr-or-issue-action@ff48a93 # v1.0.1
+      - uses: studroid/label-pr-or-issue-action@ff48a93f6e1a8d8a6befdae900f54da173b17215 # v1.0.1
         with:
           pr-or-issue-number: ${{ steps.pr.outputs.PULL_REQUEST_NUMBER }}
           label: "⚙️ deployment"
@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Open/update a PR from `main` to `stage-live`
         id: pr
-        uses: tretuna/sync-branches@ea58ab6 # 1.4.0
+        uses: tretuna/sync-branches@ea58ab6e406fd3ad016a064b31270bbb41127f41 # 1.4.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: "stage-live"
@@ -60,7 +60,7 @@ jobs:
           PULL_REQUEST_TITLE: "🚀 [QA] Update release environment"
           PULL_REQUEST_BODY: "This is a pull request that upon merging will update production environment with recent `stage-live` changes."
           REVIEWERS: '["andreachapman"]'
-      - uses: studroid/label-pr-or-issue-action@ff48a93 # v1.0.1
+      - uses: studroid/label-pr-or-issue-action@ff48a93f6e1a8d8a6befdae900f54da173b17215 # v1.0.1
         with:
           pr-or-issue-number: ${{ steps.pr.outputs.PULL_REQUEST_NUMBER }}
           label: "⚙️ deployment"
