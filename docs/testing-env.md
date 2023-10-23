@@ -64,9 +64,9 @@ flowchart
 	style 788810 fill:#64e3db
 	788810 -->|"Auto deploy"| 588961(("PR-preview"))
 	style 588961 fill:#e3c464
-	140433 -->|"Auto deploy"| 836305(("stage-fork\n"))
+	140433 -->|"Auto deploy"| 836305(("stage-live\n"))
 	style 836305 fill:#e3c464
-	809682{"stage-fork\nbranch"} -->|"Auto deploy"| 490721(("stage-live\n"))
+	809682{"stage-fork\nbranch"} -->|"Auto deploy"| 490721(("stage-fork\n"))
 	style 809682 fill:#64e3db
 	style 490721 fill:#e36464
 	804724{"release\nbranch"} -->|"Auto deploy"| 389165(("app.taho.xyz"))
