@@ -24,6 +24,7 @@ export default function RealmDetailsPlaceholder({
           margin: 24px 0;
           border-radius: 24px;
           background: var(--primary-p1-40);
+          height: 373px;
         }
         .placeholder_title {
           position: absolute;
@@ -33,6 +34,11 @@ export default function RealmDetailsPlaceholder({
           text-align: center;
           letter-spacing: 0.84px;
           white-space: pre-wrap;
+        }
+        .placeholder_image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
         }
       `}</style>
     </>
