@@ -16,6 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Open/update a PR from `main` to `stage-live`
+        id: pr
         uses: tretuna/sync-branches@1.4.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -24,6 +25,10 @@ jobs:
           PULL_REQUEST_TITLE: "🪄 [QA] Update stage environments"
           PULL_REQUEST_BODY: "This is a pull request that upon merging will update stage environments with recent `main` changes."
           REVIEWERS: '["andreachapman"]'
+      - uses: studroid/label-pr-or-issue-action@ff48a93 # v1.0.1
+        with:
+          pr-or-issue-number: ${{ steps.pr.outputs.PULL_REQUEST_NUMBER }}
+          label: "⚙️ deployment"
   sync-stage-live-to-stage-fork:
     if: github.ref == 'refs/heads/stage-live'
     runs-on: ubuntu-latest
@@ -46,6 +51,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Open/update a PR from `main` to `stage-live`
+        id: pr
         uses: tretuna/sync-branches@1.4.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -54,3 +60,7 @@ jobs:
           PULL_REQUEST_TITLE: "🚀 [QA] Update release environment"
           PULL_REQUEST_BODY: "This is a pull request that upon merging will update production environment with recent `stage-live` changes."
           REVIEWERS: '["andreachapman"]'
+      - uses: studroid/label-pr-or-issue-action@ff48a93 # v1.0.1
+        with:
+          pr-or-issue-number: ${{ steps.pr.outputs.PULL_REQUEST_NUMBER }}
+          label: "⚙️ deployment"
