@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - stage-live
+  workflow_dispatch:
 
 jobs:
   sync-main-to-stage-live:
