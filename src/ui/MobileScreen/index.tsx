@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import mobileBg from "shared/assets/mobile/mobile-bg.webp"
 import mobileCircle from "shared/assets/mobile/mobile-circle.png"
 import mobileScreen from "shared/assets/mobile/mobile-screen.png"
-import logoIcon from "shared/assets/nav_logo.svg"
 import { useOnResize } from "shared/hooks"
 import { getWindowDimensions } from "shared/utils"
 import MobileNav from "ui/Nav/MobileNav"
@@ -74,63 +73,6 @@ export default function MobileScreen() {
           .mobile-title {
             font: var(--text-h1);
             text-align: center;
-          }
-          .nav_bg {
-            pointer-events: none;
-            z-index: -1;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            inset: 0;
-          }
-          .nav_container {
-            position: absolute;
-            top: 42px;
-            left: 0;
-            right: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: var(--z-navigation);
-            filter: drop-shadow(0px 14px 16px rgba(7, 17, 17, 0.24));
-            --logo-size: 112px;
-            user-select: none;
-          }
-          .logo_container {
-            position: absolute;
-            top: 0;
-            left: calc(50% - 112px / 2);
-          }
-          .logo {
-            border-radius: 50%;
-            margin-top: -18px;
-            background: white;
-            background: url(${logoIcon}) no-repeat center 0/160px;
-            width: var(--logo-size);
-            height: var(--logo-size);
-          }
-          .nav_wrapper {
-            position: relative;
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            z-index: var(--navigation);
-            border-radius: 48px;
-            padding: 16px 28px;
-            height: 72px;
-          }
-          .lhs_container {
-            margin-right: auto;
-            align-items: center;
-          }
-          .rhs_container {
-            margin-left: auto;
-            align-items: center;
-          }
-          @media (max-height: 520px) {
-            .nav_container {
-              display: none;
-            }
           }
         `}
       </style>
