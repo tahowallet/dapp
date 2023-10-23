@@ -13,7 +13,7 @@ export default function ClaimFinish() {
 
   return (
     <Modal.Container type="island-without-overlay">
-      <Modal.Content>
+      <Modal.AnimatedContent>
         <div className="finish_container column_center">
           <ClaimHeader header="You have landed" subheader="You just claimed:" />
           <TahoAmount amount={eligibility?.amount} hasBackground size="large" />
@@ -38,7 +38,7 @@ export default function ClaimFinish() {
             gap: 16px;
           }
         `}</style>
-      </Modal.Content>
+      </Modal.AnimatedContent>
     </Modal.Container>
   )
 }

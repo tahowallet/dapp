@@ -13,7 +13,7 @@ export default function ClaimAlreadyClaimed() {
 
   return (
     <Modal.Container type="island-without-overlay">
-      <Modal.Content>
+      <Modal.AnimatedContent>
         <div className="claimed_container column_center">
           <ClaimHeader header="Already claimed" />
           <TahoAmount amount={eligibility?.amount} hasBackground size="large" />
@@ -37,7 +37,7 @@ export default function ClaimAlreadyClaimed() {
             gap: 16px;
           }
         `}</style>
-      </Modal.Content>
+      </Modal.AnimatedContent>
     </Modal.Container>
   )
 }

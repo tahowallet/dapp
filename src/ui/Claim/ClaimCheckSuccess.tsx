@@ -45,7 +45,7 @@ export default function ClaimCheckSuccess() {
 
   return (
     <Modal.Container type="island-with-overlay">
-      <Modal.Content>
+      <Modal.AnimatedContent>
         <div className="success_container column_center">
           <ClaimHeader
             season="Season 1"
@@ -98,7 +98,7 @@ export default function ClaimCheckSuccess() {
             }
           `}
         </style>
-      </Modal.Content>
+      </Modal.AnimatedContent>
     </Modal.Container>
   )
 }

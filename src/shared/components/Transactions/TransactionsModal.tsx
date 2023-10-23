@@ -44,7 +44,7 @@ export default function TransactionsModal({
 
   return (
     <Modal.Container type="fullscreen" onClickOutside={close}>
-      <Modal.Content>
+      <Modal.AnimatedContent>
         <div className="transactions_container column">
           <h1>{title}</h1>
           {transactions.map(
@@ -68,7 +68,7 @@ export default function TransactionsModal({
             font-weight: 500;
           }
         `}</style>
-      </Modal.Content>
+      </Modal.AnimatedContent>
     </Modal.Container>
   )
 }

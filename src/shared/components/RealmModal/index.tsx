@@ -1,14 +1,8 @@
 import React from "react"
-import {
-  useSpring,
-  animated,
-  easings,
-  useTransition as useSpringTransition,
-} from "@react-spring/web"
+import { useSpring, animated, easings } from "@react-spring/web"
 import Modal from "shared/components/Modal"
 // import { REALMS_MAP_DATA } from "shared/constants"
 // import { useIslandContext } from "shared/hooks"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import RealmModalContent from "./RealmModalContent"
 
 export default function RealmModal({
@@ -18,8 +12,6 @@ export default function RealmModal({
   onClose: () => void
   children: React.ReactNode
 }) {
-  const initialRealmId = useDappSelector(selectDisplayedRealmId)
-
   // const islandContext = useIslandContext()
 
   // const [prevRealm, nextRealm] = useMemo(() => {
@@ -54,15 +46,6 @@ export default function RealmModal({
     []
   )
 
-  const transitions = useSpringTransition(initialRealmId, {
-    initial: { backdropFilter: "blur(26px)" },
-    from: { opacity: 0, backdropFilter: "blur(0)" },
-    enter: { opacity: 1, backdropFilter: "blur(26px)" },
-    leave: { opacity: 0, backdropFilter: "blur(0)" },
-    exitBeforeEnter: true,
-    config: { duration: 200, easing: easings.easeOutQuad },
-  })
-
   return (
     <Modal.Container type="fullscreen" onClickOutside={onClose}>
       <animated.div style={{ position: "relative" }}>
@@ -96,13 +79,7 @@ export default function RealmModal({
               paddingBottom: 90,
             }}
           >
-            {transitions((style) => (
-              <animated.div style={{ ...style }}>
-                <RealmModalContent onClose={onClose}>
-                  {children}
-                </RealmModalContent>
-              </animated.div>
-            ))}
+            <RealmModalContent onClose={onClose}>{children}</RealmModalContent>
           </div>
         </animated.div>
       </animated.div>
