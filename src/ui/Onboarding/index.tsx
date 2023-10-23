@@ -1,34 +1,58 @@
 import React from "react"
 import { useAssets, useConnect } from "shared/hooks"
-import { useDappSelector, selectTokenBalanceBySymbol } from "redux-state"
-import { parseTahoAmount } from "shared/utils"
-import FullPageLoader from "shared/components/Loaders/FullPage"
+import {
+  useDappSelector,
+  selectHasRelevantTokens,
+  selectHasLoadedBalances,
+} from "redux-state"
+import FullPageLoader from "shared/components/FullPageLoader"
 import Nav from "ui/Nav"
-import { TAHO_SYMBOL } from "shared/constants"
 import portalBackground from "shared/assets/portal-background.mp4"
+import Version from "shared/components/Version"
 import ConnectWallet from "./ConnectWallet"
 import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
+import OnboardingModalLoader from "./Loader"
+import Teaser from "./Teaser"
+
+function OnboardingModal() {
+  const { isConnected } = useConnect()
+  const hasBalances = useDappSelector(selectHasLoadedBalances)
+  const hasRelevantTokens = useDappSelector(selectHasRelevantTokens)
+
+  if (process.env.IS_COMING_SOON === "true") {
+    return <Teaser />
+  }
+
+  if (!isConnected) {
+    return <ConnectWallet />
+  }
+
+  if (!hasBalances) {
+    return <OnboardingModalLoader />
+  }
+
+  if (hasRelevantTokens) {
+    return <EnterPortal />
+  }
+
+  return <JoinWaitlist />
+}
 
 export default function Onboarding() {
-  const { isConnected } = useConnect()
   const assetsLoaded = useAssets([portalBackground])
-
-  const tahoBalance = parseTahoAmount(
-    useDappSelector((state) => selectTokenBalanceBySymbol(state, TAHO_SYMBOL))
-  )
-
-  if (!assetsLoaded) return <FullPageLoader />
 
   return (
     <>
+      <FullPageLoader loaded={assetsLoaded} />
       <div className="onboarding">
-        {!isConnected && <ConnectWallet />}
-        {isConnected && tahoBalance <= 0 && <JoinWaitlist />}
-        {isConnected && tahoBalance > 0 && <EnterPortal />}
+        <OnboardingModal />
         <video className="onboarding_video" autoPlay muted loop playsInline>
           <source src={portalBackground} />
         </video>
+        <div style={{ position: "absolute", right: 27, bottom: 4 }}>
+          <Version />
+        </div>
       </div>
       <Nav />
       <style jsx>{`
@@ -40,7 +64,7 @@ export default function Onboarding() {
         }
         .onboarding_video {
           position: absolute;
-          height: 100%;
+          height: 107%;
           width: 100%;
           inset: 0;
           object-fit: cover;

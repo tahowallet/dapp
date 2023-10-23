@@ -4,8 +4,13 @@ import React, { useLayoutEffect, useMemo, useRef, useState } from "react"
 import type Konva from "konva"
 import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
-
-import { REALMS_COUNT } from "shared/constants"
+import { calculatePartnerLogoTranslate } from "shared/utils"
+import {
+  REALMS_COUNT,
+  REALM_FONT_SIZE,
+  REALM_FONT_FAMILY,
+  REALM_FONT_STYLE,
+} from "shared/constants"
 import { useIslandContext } from "../../shared/hooks/island"
 
 type RealmProps = {
@@ -20,6 +25,7 @@ type RealmProps = {
   y: number
   labelX: number
   labelY: number
+  partnerLogo: HTMLImageElement
 }
 
 export default function Realm({
@@ -34,15 +40,18 @@ export default function Realm({
   imageLayer,
   labelX,
   labelY,
+  partnerLogo,
 }: RealmProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
+
   const islandContext = useIslandContext()
   const groupRef = useRef<Konva.Group>(null)
   const pathRef = useRef<Konva.Path>(null)
   const textRef = useRef<Konva.Text>(null)
   const imageLayerRef = useRef<Konva.Image>(null)
   const overlayRef = useRef<Konva.Path>(null)
+  const partnerLogoRef = useRef<Konva.Image>(null)
 
   const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
@@ -73,66 +82,60 @@ export default function Realm({
     return () => pathRealm.off(".hover")
   }, [])
 
+  const partnerLogoTranslate = useMemo(
+    () => calculatePartnerLogoTranslate(name),
+    [name]
+  )
+
   const styles = useMemo(() => {
     const variants = {
       default: {
         image: {
-          shadowOpacity: 0,
-          shadowBlur: 40,
-        },
-        overlay: { opacity: 0 },
-        text: {
-          opacity: 0,
-          x: x + labelX,
-          y: y + labelY + 200,
-        },
-        pathRealm: {
-          stroke: "#FFF",
-          strokeWidth: 4,
-        },
-      },
-      inactive: {
-        image: {},
-        overlay: {
-          fill: "#1F3D3B",
-          opacity: 0.4,
-          globalCompositeOperation: "hard-light",
-        },
-        text: {
-          opacity: 0,
-        },
-        pathRealm: {
-          stroke: "#FFF",
-        },
-      },
-      highlight: {
-        image: {
           shadowColor: "#000",
-          shadowOpacity: 1,
+          shadowOpacity: 0.5,
           shadowBlur: 40,
           shadowOffsetX: 5,
           shadowOffsetY: 5,
           shadowEnabled: true,
         },
         overlay: {
+          opacity: 0.5,
           fill: color,
-          opacity: 0.7,
           globalCompositeOperation: "color",
         },
         text: {
-          opacity: 1,
+          opacity: 0,
           x: x + labelX,
-          y: y + labelY,
+          y: y + labelY + 200,
         },
-        pathRealm: {
-          stroke: color,
-          strokeWidth: 10,
+        pathRealm: { stroke: color, strokeWidth: 8 },
+        partnerLogo: {
+          opacity: 0,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 20,
+        },
+      },
+      highlight: {
+        image: { shadowOpacity: 1 },
+        overlay: { opacity: 0.8 },
+        text: { opacity: 1, y: y + labelY },
+        pathRealm: { strokeWidth: 12 },
+        partnerLogo: {
+          opacity: 1,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 220,
         },
       },
     }
 
     return variants
-  }, [color, labelX, labelY, x, y])
+  }, [color, labelX, labelY, x, y, partnerLogoTranslate])
+
+  const transitionConfig = {
+    precision: 0.0001,
+    duration: 200,
+    easing: easings.easeOutCubic,
+  }
 
   const [pathProps] = useSpring(() => {
     const destinationStyle = isHovered
@@ -175,11 +178,19 @@ export default function Realm({
     return {
       from: styles.default.text,
       to: destinationStyle,
-      config: {
-        precision: 0.0001,
-        duration: 200,
-        easing: easings.easeOutCubic,
-      },
+      config: transitionConfig,
+    }
+  }, [isHovered])
+
+  const [partnerLogoProps] = useSpring(() => {
+    const destinationStyle = isHovered
+      ? styles.highlight.partnerLogo
+      : styles.default.partnerLogo
+
+    return {
+      from: styles.default.partnerLogo,
+      to: destinationStyle,
+      config: transitionConfig,
     }
   }, [isHovered])
 
@@ -205,23 +216,6 @@ export default function Realm({
         listening={false}
         {...overlayProps}
       />
-      <animated.Text
-        ref={textRef}
-        text={name}
-        listening={false}
-        fontStyle="bold"
-        fontSize={78}
-        lineHeight={2}
-        fontFamily="QuincyCF"
-        fill="#fff"
-        shadowColor="#000"
-        shadowOpacity={1}
-        shadowBlur={10}
-        shadowOffsetX={5}
-        shadowOffsetY={5}
-        shadowEnabled
-        {...textProps}
-      />
       {/* This layer sets stroke and event handlers */}
       <animated.Path
         ref={pathRef}
@@ -232,6 +226,32 @@ export default function Realm({
         height={height}
         onClick={handleRealmClick}
         {...pathProps}
+      />
+      <animated.Text
+        ref={textRef}
+        text={name}
+        listening={false}
+        fontStyle={REALM_FONT_STYLE}
+        fontSize={REALM_FONT_SIZE}
+        lineHeight={2}
+        fontFamily={REALM_FONT_FAMILY}
+        fill="#fff"
+        shadowColor="#000"
+        shadowOpacity={1}
+        shadowBlur={10}
+        shadowOffsetX={5}
+        shadowOffsetY={5}
+        shadowEnabled
+        {...textProps}
+      />
+      {/* This is the partner logo image */}
+      <animated.Image
+        ref={partnerLogoRef}
+        listening={false}
+        image={partnerLogo}
+        scaleX={3.5}
+        scaleY={3.5}
+        {...partnerLogoProps}
       />
     </Group>
   )

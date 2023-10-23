@@ -9,6 +9,7 @@ export type WalletState = {
   address: string
   name: string
   avatar: string
+  hasLoadedBalances: boolean
   balances: TokenBalances
   transactionStatus: { [id: string]: TransactionProgressStatus }
 }
@@ -18,6 +19,7 @@ const initialState: WalletState = {
   address: "",
   name: "",
   avatar: portrait,
+  hasLoadedBalances: false,
   balances: {
     [TAHO_ADDRESS]: {
       symbol: "TAHO",
@@ -46,7 +48,7 @@ const walletSlice = createSlice({
       immerState.name = payload.name || immerState.name || ""
       immerState.avatar = payload.avatar || immerState.avatar || portrait
     },
-    updateDisconnectedWallet: () => initialState,
+    resetWalletState: () => initialState,
     updateBalances: (
       immerState,
       { payload: balances }: { payload: TokenBalances }
@@ -55,9 +57,13 @@ const walletSlice = createSlice({
         ...immerState.balances,
         ...balances,
       }
+      // First we are getting balances of ETH and TAHO, then veTAHO - to consider
+      // balances as fully loaded we need to know veTAHO as well
+      immerState.hasLoadedBalances = Object.keys(immerState.balances).length > 2
     },
     resetBalances: (immerState) => {
       immerState.balances = initialState.balances
+      immerState.hasLoadedBalances = false
     },
     updateTransactionStatus: (
       immerState,
@@ -81,7 +87,7 @@ const walletSlice = createSlice({
 
 export const {
   updateConnectedWallet,
-  updateDisconnectedWallet,
+  resetWalletState,
   updateBalances,
   resetBalances,
   updateTransactionStatus,

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { debounce } from "lodash"
 import { useSpring } from "@react-spring/web"
@@ -171,15 +172,28 @@ export function useLocalStorageChange<T>(key: string): {
   value: T | null
   updateStorage: (newValue: Partial<T>) => void
 } {
-  const initialValue = localStorage.getItem(key) || null
-  const [value, setValue] = useState(
-    initialValue ? JSON.parse(initialValue) : null
-  )
+  const getInitialValue = () => {
+    try {
+      return localStorage.getItem(key)
+        ? JSON.parse(localStorage.getItem(key)!)
+        : null
+    } catch (err) {
+      console.error(err)
+      return null
+    }
+  }
+
+  const [value, setValue] = useState(getInitialValue())
 
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key !== key) return
-      setValue(e.newValue ? JSON.parse(e.newValue) : null)
+      try {
+        setValue(e.newValue ? JSON.parse(e.newValue) : null)
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+      }
     }
 
     window.addEventListener("storage", handleStorageChange)
@@ -187,14 +201,19 @@ export function useLocalStorageChange<T>(key: string): {
   })
 
   const updateStorage = (newValue: Partial<T>) => {
-    window.localStorage.setItem(key, JSON.stringify(newValue))
+    try {
+      window.localStorage.setItem(key, JSON.stringify(newValue))
 
-    const event = new StorageEvent("storage", {
-      key,
-      newValue: JSON.stringify(newValue),
-    })
+      const event = new StorageEvent("storage", {
+        key,
+        newValue: JSON.stringify(newValue),
+      })
 
-    window.dispatchEvent(event)
+      window.dispatchEvent(event)
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+    }
   }
 
   return { value, updateStorage }

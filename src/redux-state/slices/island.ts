@@ -79,7 +79,7 @@ const islandSlice = createSlice({
       immerState,
       {
         payload: realmXpAllocatable,
-      }: { payload: { id: string; xpAllocatable: bigint } }
+      }: { payload: { id: string; xpAllocatable: string } }
     ) => {
       immerState.realms[realmXpAllocatable.id].xpAllocatable =
         realmXpAllocatable.xpAllocatable
@@ -120,9 +120,14 @@ const islandSlice = createSlice({
     ) => {
       immerState.seasonInfo = seasonInfo
     },
-    resetIsland: (immerState) => {
+    resetIslandDisplay: (immerState) => {
       immerState.mode = "default"
-      immerState.overlay = "none"
+      immerState.overlay = "dark"
+    },
+    resetIslandAccount: (immerState) => {
+      immerState.stakingRealmId = null
+      immerState.stakeUnlockTime = null
+      immerState.unclaimedXp = {}
     },
   },
 })
@@ -131,7 +136,8 @@ export const {
   setIslandMode,
   setIslandOverlay,
   setIslandZoomLevel,
-  resetIsland,
+  resetIslandDisplay,
+  resetIslandAccount,
   setRealmPopulation,
   setRealmXpAllocatable,
   setRealmsData,

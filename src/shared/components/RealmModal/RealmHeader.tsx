@@ -13,6 +13,7 @@ import {
   selectRealmById,
   useDappSelector,
 } from "redux-state"
+import { separateThousandsByComma } from "shared/utils"
 
 export default function RealmHeader() {
   const realmId = useDappSelector(selectDisplayedRealmId)
@@ -42,7 +43,7 @@ export default function RealmHeader() {
               />
               Population
             </span>
-            <span>{realm?.population}</span>
+            <span>{separateThousandsByComma(realm?.population ?? 0)}</span>
           </div>
           <div className="tag column">
             <span
@@ -70,8 +71,8 @@ export default function RealmHeader() {
           }
 
           .realm_details_header {
-            max-width: 385px;
-            gap: 16px;
+            max-width: 671px;
+            gap: 24px;
           }
 
           .realm_header_bg {

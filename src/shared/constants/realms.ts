@@ -1,4 +1,4 @@
-import { RealmQuestlineData } from "shared/types"
+import { RealmQuestlineData, RealmMapData } from "shared/types"
 import { realm19, realm22, realm4, realm7, realm9 } from "./realms-data"
 import QUESTLINE_DATA from "../../data/questline-data.json"
 
@@ -27,22 +27,16 @@ export const REALMS_WITH_CONTRACT_NAME: {
 // The questline data should be read from a JSON file.
 // Currently, the structure of the file isn't yet known and should be updated later.
 // The data is not yet ready, so it has been mocked.
-export function getQuestlineData(
-  realmContractAddress: string
-): RealmQuestlineData {
-  // TODO: Delete when questline data is ready for use
-  const realmWithQuestline = QUESTLINE_DATA.realms[0]
-  // const realmWithQuestline = QUESTLINE_DATA.realms.find(
-  //   ({ realm }) => realm === realmContractAddress
-  // )
+export function getQuestlineData(id: string): RealmQuestlineData {
+  const realmWithQuestline = QUESTLINE_DATA.realms.find(
+    ({ realmId }) => realmId === id
+  )
 
   if (!realmWithQuestline) {
-    throw new Error(`Missing data for realm ${realmContractAddress}`)
+    throw new Error(`Missing data for realm ${id}`)
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { realm, ...questlineData } = realmWithQuestline
 
-  return questlineData
+  return realmWithQuestline
 }
 // ISLAND_BOX is size of the island image: public/dapp_sland_bg.webp
 export const ISLAND_BOX = {
@@ -60,13 +54,17 @@ export const FIGMA_FACTOR = {
   Y: ISLAND_BOX.height / FIGMA_WORKSPACE_SIZE.height,
 }
 
-export const REALMS_MAP_DATA = [realm4, realm7, realm9, realm19, realm22]
+export const REALMS_MAP_DATA: RealmMapData[] = [
+  realm4,
+  realm7,
+  realm9,
+  realm19,
+  realm22,
+]
 
 export const REALMS_COUNT = REALMS_MAP_DATA.length
 
-export function getRealmMapData(
-  realmId: string
-): (typeof REALMS_MAP_DATA)[number] {
+export function getRealmMapData(realmId: string): RealmMapData {
   const pathData = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
 
   if (!pathData) {
@@ -85,3 +83,8 @@ export function getRealmColor(realmId: string): string {
 
   return color
 }
+
+export const REALM_FONT_SIZE = 78
+export const REALM_FONT_FAMILY = "QuincyCF"
+export const REALM_FONT_STYLE = "bold"
+export const REALM_IMAGE_SIZE = 70

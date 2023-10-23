@@ -26,7 +26,12 @@ export default function AssistantQuests() {
           here!
         </div>
         <div style={{ height: 40 }}>
-          {realm && <p>Population of {realm.population - 1} + 1 (You!)</p>}
+          {realm && (
+            <p>
+              Population of {realm.population > 0 ? realm.population - 1 : 0} +
+              1 (You!)
+            </p>
+          )}
         </div>
         <div className="hint row">
           <Icon
@@ -44,8 +49,9 @@ export default function AssistantQuests() {
         </div>
         <div className="paragraph row_center">
           <p>
-            You can see this week&apos;s Quests under the <span>Quest Bar</span>
-            . You&apos;ll be able to redeem XP in the future for rewards.
+            You can see this week&apos;s Quests under the{" "}
+            <span>Quests bar</span>. You&apos;ll be able to redeem XP in the
+            future for rewards.
           </p>
         </div>
       </AssistantContent>

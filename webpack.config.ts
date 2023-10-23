@@ -4,9 +4,13 @@ import { merge } from "webpack-merge"
 import Dotenv from "dotenv-webpack"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin"
+import CopyPlugin from "copy-webpack-plugin"
+
 import "dotenv-defaults/config"
 import path from "path"
 import fs from "fs/promises"
+import child_proces from "child_process"
+import packageJson from "./package.json"
 
 const config: Configuration = {
   entry: ["./src/index.tsx"],
@@ -75,6 +79,17 @@ const config: Configuration = {
     new ProvidePlugin({
       process: "process/browser",
       Buffer: ["buffer", "Buffer"],
+    }),
+    new CopyPlugin({
+      patterns: [{ from: "src/data/", to: "assets/" }],
+    }),
+    new DefinePlugin({
+      "process.env.VERSION": JSON.stringify(packageJson.version),
+    }),
+    new DefinePlugin({
+      "process.env.COMMIT_HASH": JSON.stringify(
+        child_proces.execSync("git rev-parse --short HEAD").toString().trim()
+      ),
     }),
   ],
   devServer: {

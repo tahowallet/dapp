@@ -7,11 +7,19 @@ import {
   useBalanceFetch,
   useConnect,
   useGameDataFetch,
+  useGameLoadDataFetch,
   useWallet,
+  useWalletChange,
   useWalletOnboarding,
 } from "shared/hooks"
 import LiquidityPool from "ui/LiquidityPool"
-import { selectIslandMode, useDappSelector } from "redux-state"
+import {
+  selectHasLoadedBalances,
+  selectHasLoadedRealmData,
+  selectHasLoadedSeasonInfo,
+  selectIslandMode,
+  useDappSelector,
+} from "redux-state"
 import TestingPanel from "testing/components/TestingPanel"
 import Referrals from "ui/Referrals"
 import Footer from "ui/Footer"
@@ -22,6 +30,8 @@ import IslandComponent from "ui/Island"
 import web3Onboard from "shared/utils/web3Onboard"
 import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
+import FullPageLoader from "shared/components/FullPageLoader"
+import MobileScreen from "ui/MobileScreen"
 import reduxStore from "./redux-state"
 
 function DApp() {
@@ -29,17 +39,27 @@ function DApp() {
   const { isConnected } = useConnect()
   const { walletOnboarded } = useWalletOnboarding()
 
+  const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
+  const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
+  const hasBalances = useDappSelector(selectHasLoadedBalances)
+
   useWallet()
-  useGameDataFetch()
+  useGameLoadDataFetch()
   useBalanceFetch()
+  useGameDataFetch()
+  useWalletChange()
 
   return (
     <>
       <GlobalStyles />
+      <MobileScreen />
       <Router>
         {(!walletOnboarded || !isConnected) && <Onboarding />}
         {walletOnboarded && isConnected && (
           <>
+            <FullPageLoader
+              loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
+            />
             <IslandComponent />
             <TestingPanel />
             {islandMode === "default" && <Nav />}
@@ -76,9 +96,13 @@ function DAppProviders() {
 const root = document.getElementById("root")
 
 if (root) {
-  ReactDOM.createRoot(root).render(
-    <React.StrictMode>
-      <DAppProviders />
-    </React.StrictMode>
-  )
+  if (process.env.SKIP_REACT_STRICT_MODE === "true") {
+    ReactDOM.createRoot(root).render(<DAppProviders />)
+  } else {
+    ReactDOM.createRoot(root).render(
+      <React.StrictMode>
+        <DAppProviders />
+      </React.StrictMode>
+    )
+  }
 }

@@ -1,5 +1,9 @@
 import React from "react"
-import { bigIntToUserAmount, userAmountToBigInt } from "shared/utils"
+import {
+  bigIntToUserAmount,
+  userAmountToBigInt,
+  separateThousandsByComma,
+} from "shared/utils"
 import {
   selectTokenBalanceByAddress,
   selectTokenSymbolByAddress,
@@ -68,7 +72,9 @@ export default function TokenAmountInput({
   return (
     <div>
       {label && (
-        <div className="label">{`${label} ${maxAmount} ${symbol}`}</div>
+        <div className="label">{`${label} ${separateThousandsByComma(
+          maxAmount
+        )} ${symbol}`}</div>
       )}
       <SharedInput
         type="number"

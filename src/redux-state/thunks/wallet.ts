@@ -2,7 +2,7 @@ import { resolveAddressToName } from "shared/utils"
 import {
   updateBalances,
   updateConnectedWallet,
-  updateDisconnectedWallet,
+  resetWalletState,
 } from "redux-state/slices/wallet"
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
 import { getBalance, getStakeUnlockTime } from "shared/contracts"
@@ -10,6 +10,8 @@ import { ethers } from "ethers"
 import { ETH_ADDRESS, SECOND, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances } from "shared/types"
 import {
+  resetIslandAccount,
+  resetIslandDisplay,
   setStakingRealmId,
   setStakingUnlockTime,
 } from "redux-state/slices/island"
@@ -41,17 +43,42 @@ export const fetchWalletName = createDappAsyncThunk(
   }
 )
 
+export const connectArbitrumProvider = createDappAsyncThunk(
+  "wallet/connectArbitrumProvider",
+  async (
+    {
+      arbitrumProvider,
+    }: {
+      arbitrumProvider: ethers.providers.JsonRpcBatchProvider
+    },
+    { extra: { transactionService } }
+  ) => {
+    await transactionService.setArbitrumProvider(arbitrumProvider)
+  }
+)
+
+export const prepareForWalletChange = createDappAsyncThunk(
+  "wallet/prepareForWalletChange",
+  async (_, { dispatch }) => {
+    // reseting whole thing, with balances
+    dispatch(resetWalletState())
+    dispatch(resetIslandDisplay())
+    dispatch(resetIslandAccount())
+    dispatch(resetClaiming())
+  }
+)
+
 export const connectWalletGlobally = createDappAsyncThunk(
   "wallet/connectWalletGlobally",
   async (
     {
       address,
       avatar,
-      arbitrumProvider,
+      arbitrumSigner,
     }: {
       address: string
       avatar?: string
-      arbitrumProvider: ethers.providers.Web3Provider
+      arbitrumSigner: ethers.providers.JsonRpcSigner
     },
     { dispatch, getState, extra: { transactionService } }
   ) => {
@@ -59,7 +86,9 @@ export const connectWalletGlobally = createDappAsyncThunk(
       claim: { useConnectedWallet },
     } = getState()
 
-    await transactionService.setArbitrumProvider(arbitrumProvider)
+    await transactionService.setArbitrumSigner(arbitrumSigner)
+
+    dispatch(prepareForWalletChange())
 
     dispatch(
       updateConnectedWallet({
@@ -77,18 +106,15 @@ export const connectWalletGlobally = createDappAsyncThunk(
 
 export const disconnectWalletGlobally = createDappAsyncThunk(
   "wallet/disconnectWalletGlobally",
-  async (_, { dispatch, getState, extra: { transactionService } }) => {
-    const {
-      claim: { useConnectedWallet },
-    } = getState()
+  async (_, { dispatch, extra: { transactionService } }) => {
+    await transactionService.setArbitrumSigner(null)
 
-    await transactionService.setArbitrumProvider(null)
+    dispatch(prepareForWalletChange())
 
-    dispatch(updateDisconnectedWallet())
-
-    if (useConnectedWallet) {
-      dispatch(resetClaiming())
-    }
+    // TODO: stale, fix it once we are back to claiming
+    // if (useConnectedWallet) {
+    //   dispatch(resetClaiming())
+    // }
   }
 )
 

@@ -1,9 +1,9 @@
 import React from "react"
-
 import Button from "shared/components/Button"
 import logoIcon from "shared/assets/nav_logo.svg"
 import walletIcon from "shared/assets/icons/wallet.svg"
-import { useConnect } from "shared/hooks"
+import feedbackIcon from "shared/assets/icons/feedback.svg"
+import { useConnect, useResetTenderlyFork } from "shared/hooks"
 import { ROUTES } from "shared/constants"
 import NavItem from "./NavItem"
 import AccountInfo from "./AccountInfo"
@@ -14,10 +14,13 @@ const NAV_ITEMS = [
     title: "The Island",
     exact: true,
     extraInfo: "BETA",
-  },
-  {
-    path: ROUTES.FEEDBACK,
-    title: "Feedback",
+  } as {
+    path: string
+    title: string
+    exact: boolean
+    extraInfo?: string
+    target?: string
+    icon?: string
   },
   // {
   //   path: ROUTES.REFERRALS,
@@ -34,8 +37,31 @@ const NAV_ITEMS = [
   // },
 ]
 
+if (process.env.IS_COMING_SOON !== "true") {
+  NAV_ITEMS.push({
+    path: ROUTES.FEEDBACK,
+    title: "Feedback",
+    exact: true,
+    target: "blank",
+    icon: feedbackIcon,
+  })
+}
+
+function EnvironmentInfo() {
+  if (process.env.USE_LOCALHOST_FORK === "true") {
+    return <span>🏝️ Using localhost</span>
+  }
+
+  if (process.env.USE_TENDERLY_FORK === "true") {
+    return <span>⚡️ Using fork</span>
+  }
+
+  return null
+}
+
 export default function Nav(): JSX.Element {
   const { isConnected, connect } = useConnect()
+  const resetTenderlyFork = useResetTenderlyFork()
 
   return (
     <div className="nav_container">
@@ -56,19 +82,25 @@ export default function Nav(): JSX.Element {
         </svg>
         <div className="lhs_container row">
           <nav className="row">
-            {NAV_ITEMS.map(({ path, title, exact, extraInfo }) => (
-              <NavItem
-                key={path}
-                path={path}
-                title={title}
-                exact={exact}
-                extraInfo={extraInfo}
-              />
-            ))}
+            {NAV_ITEMS.map(
+              ({ path, title, exact, extraInfo, target, icon }) => (
+                <NavItem
+                  key={path}
+                  path={path}
+                  title={title}
+                  exact={exact}
+                  extraInfo={extraInfo}
+                  target={target}
+                  icon={icon}
+                />
+              )
+            )}
+            <EnvironmentInfo />
           </nav>
         </div>
         <div className="logo_container">
-          <div className="logo" />
+          {/* eslint-disable-next-line */}
+          <div className="logo" onClick={resetTenderlyFork} />
         </div>
         <div className="rhs_container row">
           <div className="connect_wallet_btn">
@@ -81,6 +113,7 @@ export default function Nav(): JSX.Element {
                 iconSize="large"
                 iconSrc={walletIcon}
                 onClick={() => connect()}
+                isDisabled={process.env.IS_COMING_SOON === "true"}
               >
                 Connect wallet
               </Button>

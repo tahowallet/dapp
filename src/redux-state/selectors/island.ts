@@ -28,6 +28,16 @@ export const selectRealmWithIdByAddress = createSelector(
     )
 )
 
+export const selectHasLoadedRealmData = createSelector(
+  selectRealms,
+  (realms) => Object.keys(realms).length !== 0
+)
+
+export const selectHasLoadedSeasonInfo = createSelector(
+  (state: RootState) => state.island.seasonInfo,
+  (seasonInfo) => seasonInfo !== null
+)
+
 /* Season info  - selectors */
 export const selectSeasonStartTimestamp = (state: RootState) =>
   state.island.seasonInfo?.seasonStartTimestamp

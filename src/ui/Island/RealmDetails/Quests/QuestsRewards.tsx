@@ -1,8 +1,10 @@
 import React from "react"
+import Markdown from "react-markdown"
 import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
 import starIcon from "shared/assets/icons/star.svg"
+import { LINKS } from "shared/constants"
 
 export default function QuestsRewards({
   quests,
@@ -19,7 +21,9 @@ export default function QuestsRewards({
             src={contactsIcon}
             width="18px"
           />
-          Rulebook
+          <a href={LINKS.RULEBOOK} target="_blank" rel="noreferrer">
+            Rulebook
+          </a>
         </div>
       </h3>
       <div className="rewards_quests column">
@@ -31,7 +35,9 @@ export default function QuestsRewards({
             iconColor="var(--semantic-success)"
             type="frame"
           >
-            <div className="rewards_quests_description">{description}</div>
+            <div className="rewards_quests_description">
+              <Markdown>{description}</Markdown>
+            </div>
           </Accordion>
         ))}
       </div>

@@ -9,7 +9,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import RealmIcon from "shared/components/RealmIcon"
-import { bigIntToUserAmount, formatDate } from "shared/utils"
+import { formatDate, separateThousandsByComma } from "shared/utils"
 
 export default function QuestsDetails({
   realmId,
@@ -56,7 +56,7 @@ export default function QuestsDetails({
               width="32px"
               color="var(--primary-p1-100)"
             />
-            {bigIntToUserAmount(realm?.xpAllocatable ?? 0n)}
+            {separateThousandsByComma(realm?.xpAllocatable ?? "0")}
           </h1>
           {tokenSymbol}
         </div>

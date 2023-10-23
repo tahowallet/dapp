@@ -6,6 +6,7 @@ import twitterIcon from "shared/assets/icons/twitter.svg"
 import githubIcon from "shared/assets/icons/github.svg"
 // import ClaimProgressBar from "./ClaimProgressBar" // not used at the moment
 import { LINKS } from "shared/constants"
+import Version from "shared/components/Version"
 import RealmsBar from "./RealmBar"
 
 const ICON_SIZE = "18px"
@@ -34,6 +35,7 @@ export default function Footer() {
         />
       </div>
       <Link to={LINKS.RULEBOOK}>Rulebook</Link>
+      <Version />
       <RealmsBar />
       <style jsx>{`
         footer {

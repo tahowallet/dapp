@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useRef, useState } from "react"
 import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
-import rafSchd from "raf-schd"
+// import rafSchd from "raf-schd"
 import {
   setIslandZoomLevel,
   useDappDispatch,
@@ -17,11 +17,11 @@ import {
   getWindowDimensions,
   getMinimumScale,
   limitToBounds,
-  calculateNewIslandScale,
-  calculateIslandPosition,
-  getCurrentCanvasPosition,
+  // calculateNewIslandScale,
+  // calculateIslandPosition,
+  // getCurrentCanvasPosition,
 } from "shared/utils"
-import Controls from "ui/Controls"
+// import Controls from "ui/Controls"
 import Assistant from "ui/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
@@ -66,59 +66,59 @@ function InteractiveIsland() {
     return { centerIsland, resetZoom }
   })
 
-  useBeforeFirstPaint(() => {
-    const stage = islandRef.current
-    if (!stage) return () => {}
+  // useBeforeFirstPaint(() => {
+  //   const stage = islandRef.current
+  //   if (!stage) return () => {}
 
-    let acc = 0
+  //   let acc = 0
 
-    const handleZoom = rafSchd((delta: number) => {
-      const zoom = stage.scaleX()
-      const zoomFactor = 0.001
-      const { minScale } = settingsRef.current
+  //   const handleZoom = rafSchd((delta: number) => {
+  //     const zoom = stage.scaleX()
+  //     const zoomFactor = 0.001
+  //     const { minScale } = settingsRef.current
 
-      const newScale = calculateNewIslandScale(
-        zoom + delta * -zoomFactor,
-        minScale
-      )
+  //     const newScale = calculateNewIslandScale(
+  //       zoom + delta * -zoomFactor,
+  //       minScale
+  //     )
 
-      const stagePos = stage.absolutePosition()
-      const pointer = stage.getPointerPosition()
+  //     const stagePos = stage.absolutePosition()
+  //     const pointer = stage.getPointerPosition()
 
-      if (pointer && newScale !== zoom) {
-        // Get current mouse position in the canvas
-        const pointerCanvasPos = getCurrentCanvasPosition(
-          -(pointer.x - stagePos.x),
-          -(pointer.y - stagePos.y),
-          zoom
-        )
+  //     if (pointer && newScale !== zoom) {
+  //       // Get current mouse position in the canvas
+  //       const pointerCanvasPos = getCurrentCanvasPosition(
+  //         -(pointer.x - stagePos.x),
+  //         -(pointer.y - stagePos.y),
+  //         zoom
+  //       )
 
-        // Add back pointer position to retrieve "same canvas position" offset
-        const targetX = pointerCanvasPos.x * newScale + pointer.x
-        const targetY = pointerCanvasPos.y * newScale + pointer.y
+  //       // Add back pointer position to retrieve "same canvas position" offset
+  //       const targetX = pointerCanvasPos.x * newScale + pointer.x
+  //       const targetY = pointerCanvasPos.y * newScale + pointer.y
 
-        // Force bounds while zooming in/out
-        stage.absolutePosition(
-          calculateIslandPosition(stage, newScale, targetX, targetY)
-        )
+  //       // Force bounds while zooming in/out
+  //       stage.absolutePosition(
+  //         calculateIslandPosition(stage, newScale, targetX, targetY)
+  //       )
 
-        // Update the stage scale
-        dispatch(setIslandZoomLevel(newScale))
-      }
-      acc = 0
-    })
+  //       // Update the stage scale
+  //       dispatch(setIslandZoomLevel(newScale))
+  //     }
+  //     acc = 0
+  //   })
 
-    const handler: Konva.KonvaEventListener<Konva.Stage, WheelEvent> = ({
-      evt: domEvent,
-    }) => {
-      domEvent.preventDefault()
-      acc += domEvent.deltaY
-      handleZoom(acc)
-    }
+  //   const handler: Konva.KonvaEventListener<Konva.Stage, WheelEvent> = ({
+  //     evt: domEvent,
+  //   }) => {
+  //     domEvent.preventDefault()
+  //     acc += domEvent.deltaY
+  //     handleZoom(acc)
+  //   }
 
-    stage.on("wheel", handler)
-    return () => stage.off("wheel", handler)
-  })
+  //   stage.on("wheel", handler)
+  //   return () => stage.off("wheel", handler)
+  // })
 
   useOnResize(() => {
     const windowSize = getWindowDimensions()
@@ -170,10 +170,10 @@ function InteractiveIsland() {
         </Layer>
       </Stage>
       <Assistant />
-      <Controls
+      {/* <Controls
         stage={islandRef.current}
         minScale={settingsRef.current.minScale}
-      />
+      /> */}
     </>
   )
 }

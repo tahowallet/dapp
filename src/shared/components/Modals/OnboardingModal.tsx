@@ -4,8 +4,8 @@ import Button from "../Button"
 
 type OnboardingModalProps = {
   children: ReactNode
-  buttonLabel: ReactNode
-  onClick: () => void
+  buttonLabel?: ReactNode
+  onClick?: () => void
 }
 
 export default function OnboardingModal({
@@ -28,16 +28,18 @@ export default function OnboardingModal({
         >
           <div className="column_center">
             <div className="label">{children}</div>
-            <Button size="large" onClick={onClick}>
-              {buttonLabel}
-            </Button>
+            {buttonLabel && (
+              <Button size="large" onClick={onClick}>
+                {buttonLabel}
+              </Button>
+            )}
           </div>
         </Modal.Content>
       </Modal.Container>
       <style jsx>{`
         .label {
           font: var(--text-h1);
-          margin-bottom: 24px;
+          margin-bottom: ${buttonLabel ? "24px" : "0"};
         }
       `}</style>
     </>

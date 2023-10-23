@@ -1,0 +1,66 @@
+# Refer to docs/testing-env.md to learn more about deployments configuration.
+name: Update staging and production environments
+
+on:
+  push:
+    branches:
+      - main
+      - stage-live
+  workflow_dispatch:
+
+jobs:
+  sync-main-to-stage-live:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Open/update a PR from `main` to `stage-live`
+        id: pr
+        uses: tretuna/sync-branches@ea58ab6e406fd3ad016a064b31270bbb41127f41 # 1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: "main"
+          TO_BRANCH: "stage-live"
+          PULL_REQUEST_TITLE: "🪄 [QA] Update stage environments"
+          PULL_REQUEST_BODY: "This is a pull request that upon merging will update stage environments with recent `main` changes."
+          REVIEWERS: '["andreachapman"]'
+      - uses: studroid/label-pr-or-issue-action@ff48a93f6e1a8d8a6befdae900f54da173b17215 # v1.0.1
+        with:
+          pr-or-issue-number: ${{ steps.pr.outputs.PULL_REQUEST_NUMBER }}
+          label: "⚙️ deployment"
+  sync-stage-live-to-stage-fork:
+    if: github.ref == 'refs/heads/stage-live'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      - name: Sync `stage-fork` with `stage-live`
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          git checkout stage-fork
+          git merge origin/stage-live
+          git push origin stage-fork
+  sync-stage-live-to-release:
+    if: github.ref == 'refs/heads/stage-live'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Open/update a PR from `main` to `stage-live`
+        id: pr
+        uses: tretuna/sync-branches@ea58ab6e406fd3ad016a064b31270bbb41127f41 # 1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: "stage-live"
+          TO_BRANCH: "release"
+          PULL_REQUEST_TITLE: "🚀 [QA] Update release environment"
+          PULL_REQUEST_BODY: "This is a pull request that upon merging will update production environment with recent `stage-live` changes."
+          REVIEWERS: '["andreachapman"]'
+      - uses: studroid/label-pr-or-issue-action@ff48a93f6e1a8d8a6befdae900f54da173b17215 # v1.0.1
+        with:
+          pr-or-issue-number: ${{ steps.pr.outputs.PULL_REQUEST_NUMBER }}
+          label: "⚙️ deployment"

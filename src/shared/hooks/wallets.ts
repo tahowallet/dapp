@@ -1,6 +1,6 @@
 import { useConnectWallet } from "@web3-onboard/react"
-import { useCallback, useEffect, useMemo } from "react"
-import { ethers } from "ethers"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { ethers, logger } from "ethers"
 import {
   useDappDispatch,
   connectWalletGlobally,
@@ -9,22 +9,70 @@ import {
   selectWalletAddress,
   fetchWalletBalances,
   resetBalances,
+  connectArbitrumProvider,
+  selectDisplayedRealmId,
 } from "redux-state"
-import { BALANCE_UPDATE_INTERVAL, LOCAL_STORAGE_WALLET } from "shared/constants"
+import {
+  ARBITRUM_SEPOLIA,
+  BALANCE_UPDATE_INTERVAL,
+  LOCAL_STORAGE_WALLET,
+} from "shared/constants"
+import { Logger, defineReadOnly } from "ethers/lib/utils"
+import { Network } from "@ethersproject/networks"
+import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
 
-export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
-  const [{ wallet }] = useConnectWallet()
+class StaticJsonBatchRpcProvider extends ethers.providers.JsonRpcBatchProvider {
+  override async detectNetwork(): Promise<Network> {
+    let { network } = this
+    if (network == null) {
+      network = await super.detectNetwork()
 
+      if (!network) {
+        logger.throwError(
+          "no network detected",
+          Logger.errors.UNKNOWN_ERROR,
+          {}
+        )
+      }
+
+      // If still not set, set it
+      // eslint-disable-next-line no-underscore-dangle
+      if (this._network == null) {
+        // A static network does not support "any"
+        defineReadOnly(this, "_network", network)
+
+        this.emit("network", network, null)
+      }
+    }
+    return network
+  }
+}
+
+// To make it possible to start fetching blockchain data before the user
+// connects the wallet let's get the provider from the RPC URL
+export function useArbitrumProvider(): ethers.providers.JsonRpcBatchProvider {
   const arbitrumProvider = useMemo(
-    () =>
-      wallet?.provider
-        ? new ethers.providers.Web3Provider(wallet.provider)
-        : null,
-    [wallet?.provider]
+    () => new StaticJsonBatchRpcProvider(ARBITRUM_SEPOLIA.rpcUrl),
+    []
   )
 
   return arbitrumProvider
+}
+
+// Signing transaction is always done with the signer from the wallet
+export function useArbitrumSigner(): ethers.providers.JsonRpcSigner | null {
+  const [{ wallet }] = useConnectWallet()
+
+  const arbitrumSigner = useMemo(() => {
+    if (wallet?.provider !== undefined) {
+      return new ethers.providers.Web3Provider(wallet.provider).getSigner()
+    }
+
+    return null
+  }, [wallet?.provider])
+
+  return arbitrumSigner
 }
 
 // Balance update is set to 30 seconds for now to ensure it is not too frequent
@@ -34,9 +82,10 @@ export function useArbitrumProvider(): ethers.providers.Web3Provider | null {
 export function useBalanceFetch() {
   const dispatch = useDappDispatch()
   const account = useDappSelector(selectWalletAddress)
-  const walletBalancesCallback = useCallback(() => {
+
+  const walletBalancesCallback = useCallback(async () => {
     if (account && dispatch) {
-      dispatch(fetchWalletBalances())
+      await dispatch(fetchWalletBalances())
     }
   }, [account, dispatch])
 
@@ -46,6 +95,7 @@ export function useBalanceFetch() {
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
   const arbitrumProvider = useArbitrumProvider()
+  const arbitrumSigner = useArbitrumSigner()
   const dispatch = useDappDispatch()
 
   const account = wallet?.accounts[0]
@@ -53,14 +103,26 @@ export function useWallet() {
   const avatar = account?.ens?.avatar?.url ?? ""
 
   useEffect(() => {
-    if (address && arbitrumProvider) {
-      dispatch(connectWalletGlobally({ address, avatar, arbitrumProvider }))
+    if (arbitrumProvider) {
+      dispatch(connectArbitrumProvider({ arbitrumProvider }))
+    }
+  }, [arbitrumProvider, dispatch])
+
+  useEffect(() => {
+    if (address && arbitrumSigner) {
+      dispatch(
+        connectWalletGlobally({
+          address,
+          avatar,
+          arbitrumSigner,
+        })
+      )
       dispatch(fetchWalletBalances())
     } else {
       dispatch(disconnectWalletGlobally())
       dispatch(resetBalances())
     }
-  }, [address, arbitrumProvider, avatar, dispatch])
+  }, [address, arbitrumSigner, avatar, dispatch])
 }
 
 export function useWalletOnboarding(): {
@@ -77,10 +139,67 @@ export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
   const { updateWalletOnboarding } = useWalletOnboarding()
 
+  useEffect(() => {
+    if (wallet?.provider !== undefined) {
+      const setCorrectChain = async () => {
+        const walletProvider = new ethers.providers.Web3Provider(
+          wallet.provider
+        )
+        await walletProvider.send("wallet_switchEthereumChain", [
+          { chainId: ARBITRUM_SEPOLIA.id },
+        ])
+      }
+
+      setCorrectChain()
+    }
+  }, [wallet?.provider])
+
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")
     return wallet && disconnect(wallet)
   }, [wallet, disconnect, updateWalletOnboarding])
 
-  return { isConnected: !!wallet, connect, disconnect: disconnectBound }
+  return {
+    isConnected: process.env.IS_COMING_SOON !== "true" && !!wallet,
+    connect,
+    disconnect: disconnectBound,
+  }
+}
+
+// Hook is invoked after user switched accounts
+export function useWalletChange() {
+  const dispatch = useDappDispatch()
+
+  const address = useDappSelector(selectWalletAddress)
+  const isStaked = useDappSelector(selectDisplayedRealmId)
+
+  const [currentAddress, setCurrentAddress] = useState("")
+
+  const { updateWalletOnboarding } = useWalletOnboarding()
+  const { assistant, updateAssistant } = useAssistant()
+
+  useEffect(() => {
+    if (!currentAddress) {
+      setCurrentAddress(address)
+      return
+    }
+
+    if (address !== currentAddress) {
+      updateWalletOnboarding("")
+
+      if (!assistant && !isStaked) {
+        updateAssistant({ visible: true, type: "welcome" })
+      }
+
+      setCurrentAddress(address)
+    }
+  }, [
+    currentAddress,
+    address,
+    updateWalletOnboarding,
+    updateAssistant,
+    dispatch,
+    assistant,
+    isStaked,
+  ])
 }
