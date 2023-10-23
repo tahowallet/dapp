@@ -1,6 +1,5 @@
 import React from "react"
 import { Link, NavLink } from "react-router-dom"
-import crossIcon from "shared/assets/icons/cross.svg"
 
 /**
  * This Link is specific to the NavItem component
@@ -57,10 +56,12 @@ const NavItemLink = React.forwardRef(
           }
 
           a.active:after {
-            content: url(${crossIcon});
-            width: 26px;
+            content: "";
+            background: var(--primary-p2-100);
+            width: 32px;
+            height: 2px;
             position: absolute;
-            bottom: -42px;
+            top: -9px;
             right: 0;
             left: 0;
             margin: 0 auto;
@@ -72,7 +73,7 @@ const NavItemLink = React.forwardRef(
   )
 )
 
-type NavItemProps = {
+export type NavItemProps = {
   path: string
   title: string
   exact?: boolean
@@ -122,7 +123,7 @@ export default function NavItem({
         .link-extra-info {
           white-space: nowrap;
           position: absolute;
-          bottom: 100%;
+          top: 100%;
           left: 50%;
           transform: translateX(-50%);
           font-size: 12px;

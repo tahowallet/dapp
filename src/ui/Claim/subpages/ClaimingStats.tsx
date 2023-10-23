@@ -18,7 +18,7 @@ export default function ClaimingStats() {
   const eligibility = useDappSelector(selectEligibility)
 
   return (
-    <Modal.Content>
+    <Modal.AnimatedContent>
       <div className="stats column">
         <div className="stats_header">You can claim</div>
         <TahoAmount amount={eligibility?.amount ?? 0n} />
@@ -101,6 +101,6 @@ export default function ClaimingStats() {
           left: 50%;
         }
       `}</style>
-    </Modal.Content>
+    </Modal.AnimatedContent>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
@@ -8,15 +8,15 @@ import {
   separateThousandsByComma,
   truncateAddress,
 } from "shared/utils"
-import { XpMerkleTreeItem } from "shared/types/xp"
 import { selectWalletAvatar, useDappSelector } from "redux-state"
+import { LeaderboardItemData } from "shared/types"
 
 export default function LeaderboardItem({
   item,
   rank,
   currentUser,
 }: {
-  item: XpMerkleTreeItem
+  item: LeaderboardItemData
   rank: number
   currentUser: string
 }) {
@@ -37,7 +37,7 @@ export default function LeaderboardItem({
 
   return (
     <>
-      <li key={item.beneficiary}>
+      <li key={address}>
         <div
           className={classNames("leaderboard_item", {
             top_item: rank <= 3,
