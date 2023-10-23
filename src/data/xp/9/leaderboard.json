@@ -4,7 +4,6 @@
   "claims": {
     "0x6e80164ea60673D64d5d6228beb684a1274Bb017": {
       "index": 1,
-      "beneficiary": "0x6e80164ea60673D64d5d6228beb684a1274Bb017",
       "amount": "98",
       "proof": [
         "0x24e1385387ca486e079e9435a84f0a78b299c3b9ce9cd52f8cf23ba009ccd002",
@@ -13,7 +12,6 @@
     },
     "0xad23ab2e2ec036a9ec319187e9659fcf8ddd6d38": {
       "index": 2,
-      "beneficiary": "0xad23ab2e2ec036a9ec319187e9659fcf8ddd6d38",
       "amount": "147",
       "proof": [
         "0xd268bbf69994cea70057deab58c962836c02f65a1474d718cf7b8ecb87aa5721"
@@ -21,7 +19,6 @@
     },
     "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc": {
       "index": 0,
-      "beneficiary": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
       "amount": "180",
       "proof": [
         "0x547b2845cc7b23ebb4ec1d0b0843f3e1f7f150da11542a41377ed869ac4f0700",
