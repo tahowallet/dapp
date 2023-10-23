@@ -2,7 +2,7 @@ import { resolveAddressToName } from "shared/utils"
 import {
   updateBalances,
   updateConnectedWallet,
-  updateDisconnectedWallet,
+  resetWalletState,
 } from "redux-state/slices/wallet"
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
 import { getBalance, getStakeUnlockTime } from "shared/contracts"
@@ -10,6 +10,8 @@ import { ethers } from "ethers"
 import { ETH_ADDRESS, SECOND, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances } from "shared/types"
 import {
+  resetIslandAccount,
+  resetIslandDisplay,
   setStakingRealmId,
   setStakingUnlockTime,
 } from "redux-state/slices/island"
@@ -55,6 +57,17 @@ export const connectArbitrumProvider = createDappAsyncThunk(
   }
 )
 
+export const prepareForWalletChange = createDappAsyncThunk(
+  "wallet/prepareForWalletChange",
+  async (_, { dispatch }) => {
+    // reseting whole thing, with balances
+    dispatch(resetWalletState())
+    dispatch(resetIslandDisplay())
+    dispatch(resetIslandAccount())
+    dispatch(resetClaiming())
+  }
+)
+
 export const connectWalletGlobally = createDappAsyncThunk(
   "wallet/connectWalletGlobally",
   async (
@@ -75,6 +88,8 @@ export const connectWalletGlobally = createDappAsyncThunk(
 
     await transactionService.setArbitrumSigner(arbitrumSigner)
 
+    dispatch(prepareForWalletChange())
+
     dispatch(
       updateConnectedWallet({
         address,
@@ -91,18 +106,15 @@ export const connectWalletGlobally = createDappAsyncThunk(
 
 export const disconnectWalletGlobally = createDappAsyncThunk(
   "wallet/disconnectWalletGlobally",
-  async (_, { dispatch, getState, extra: { transactionService } }) => {
-    const {
-      claim: { useConnectedWallet },
-    } = getState()
-
+  async (_, { dispatch, extra: { transactionService } }) => {
     await transactionService.setArbitrumSigner(null)
 
-    dispatch(updateDisconnectedWallet())
+    dispatch(prepareForWalletChange())
 
-    if (useConnectedWallet) {
-      dispatch(resetClaiming())
-    }
+    // TODO: stale, fix it once we are back to claiming
+    // if (useConnectedWallet) {
+    //   dispatch(resetClaiming())
+    // }
   }
 )
 
