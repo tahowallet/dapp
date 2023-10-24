@@ -6,22 +6,23 @@ import { truncateAddress } from "shared/utils"
 import { createWalletSelector } from "redux-state/selectors"
 
 /* Base selectors */
-
 export const selectWalletAddress = createWalletSelector("address")
 export const selectWalletAvatar = createWalletSelector("avatar")
 export const selectWalletNameProperty = createWalletSelector("name")
 export const selectIsWalletConnected = createWalletSelector("isConnected")
 export const selectTokenBalances = createWalletSelector("balances")
+export const selectHasLoadedBalances = createWalletSelector("hasLoadedBalances")
+export const selectWalletTransactionStatus =
+  createWalletSelector("transactionStatus")
 
+/* Wallet identification selectors */
 export const selectWalletTruncatedAddress = (state: RootState) =>
   truncateAddress(selectWalletAddress(state))
 
 export const selectWalletName = (state: RootState) =>
-  selectWalletNameProperty(state) || truncateAddress(selectWalletAddress(state))
+  selectWalletNameProperty(state) || selectWalletTruncatedAddress(state)
 
-export const selectHasLoadedBalances = (state: RootState) =>
-  state.wallet.hasLoadedBalances
-
+/* Token selectors */
 export const selectTokenBalanceByAddress = createSelector(
   [selectTokenBalances, (_, tokenAddress) => tokenAddress],
   (balances, tokenAddress) => balances[tokenAddress]?.balance ?? 0n
@@ -56,8 +57,9 @@ export const selectHasRelevantTokens = createSelector(
     })
 )
 
+/* Transaction selectors */
 export const selectTransactionStatusById = createSelector(
-  [(_, id: string) => id, (state: RootState) => state.wallet.transactionStatus],
+  [(_, id: string) => id, selectWalletTransactionStatus],
   (id, transactionStatus) =>
     transactionStatus[id] ?? TransactionProgressStatus.Idle
 )

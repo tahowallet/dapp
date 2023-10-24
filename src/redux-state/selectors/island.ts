@@ -35,6 +35,14 @@ const selectSeasonInfoProperty: SeasonInfoProperty = (value) =>
     seasonInfo ? seasonInfo[value] : undefined
   )
 
+const selectDisplayedRealmProperty: DisplayedRealmProperty = (value) =>
+  createSelector(selectRealms, selectDisplayedRealmId, (realms, realmId) =>
+    realmId && realms[realmId] ? realms[realmId][value] : undefined
+  )
+
+const getPopulationOfRealms = (realms: RealmData[]) =>
+  realms.map((realm) => realm.population)
+
 /* Island info - selectors */
 export const selectIsDefaultIslandMode = checkIslandMode("default")
 export const selectIsJoinRealmIslandMode = checkIslandMode("join-realm")
@@ -59,7 +67,7 @@ export const selectHasLoadedRealmData = createSelector(
 )
 
 export const selectHasLoadedSeasonInfo = createSelector(
-  (state: RootState) => state.island.seasonInfo,
+  selectSeasonInfo,
   (seasonInfo) => seasonInfo !== null
 )
 
@@ -120,11 +128,6 @@ export const selectWeekEndDate = createSelector(
 )
 
 /* Displayed Realm - selectors */
-const selectDisplayedRealmProperty: DisplayedRealmProperty = (value) =>
-  createSelector(selectRealms, selectDisplayedRealmId, (realms, realmId) =>
-    realmId && realms[realmId] ? realms[realmId][value] : undefined
-  )
-
 export const selectDisplayedRealmAddress = selectDisplayedRealmProperty(
   "realmContractAddress"
 )
@@ -171,15 +174,14 @@ export const selectUnclaimedXpSumById = createSelector(
       0
     ) ?? 0
 )
-/* Population - selectors */
+/* Population selectors */
 export const selectSortedPopulation = createSelector(selectRealms, (realms) => {
   const realmsData = Object.entries(realms).map(([id, data]) => ({
     id,
     ...data,
   }))
 
-  const sortedRealms = realmsData.sort((a, b) => a.population - b.population)
-  return sortedRealms
+  return realmsData.sort((a, b) => a.population - b.population)
 })
 
 export const selectPopulationById = createSelector(
@@ -190,15 +192,12 @@ export const selectPopulationById = createSelector(
 export const selectTotalPopulation = createSelector(
   selectSortedPopulation,
   (realms) =>
-    realms.length
-      ? realms.map((realm) => realm.population).reduce((a, b) => a + b)
-      : 0
+    realms.length ? getPopulationOfRealms(realms).reduce((a, b) => a + b) : 0
 )
 
 export const selectMaxPopulation = createSelector(
   selectSortedPopulation,
-  (realms) =>
-    realms.length ? Math.max(...realms.map((realm) => realm.population)) : 0
+  (realms) => (realms.length ? Math.max(...getPopulationOfRealms(realms)) : 0)
 )
 
 /* Helpful selectors */
