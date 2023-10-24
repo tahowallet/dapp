@@ -4,7 +4,11 @@ import Icon from "shared/components/Icon"
 import newTab from "shared/assets/icons/m/new-tab.svg"
 import { LINKS } from "shared/constants"
 
-export default function JoinWaitlist() {
+export default function JoinWaitlist({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <OnboardingModal
       buttonLabel={
@@ -15,8 +19,7 @@ export default function JoinWaitlist() {
       }
       onClick={() => window.open(LINKS.WAITLIST)}
     >
-      The portal
-      <br /> is closed at the <br /> moment.
+      {children}
     </OnboardingModal>
   )
 }
