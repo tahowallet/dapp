@@ -29,12 +29,13 @@ const getCachedNames = () => {
 const addCachedName = ({ name, avatar, address, type }: NameWithProvider) => {
   const cachedNames = getCachedNames()
   const normalizedAddress = normalizeAddress(address)
+  const newCachedData = name ? { [type]: { name, avatar } } : {}
 
   const newCache = JSON.stringify({
     ...cachedNames,
     [normalizedAddress]: {
       ...(cachedNames[normalizedAddress] ?? {}),
-      [type]: { name, avatar },
+      ...newCachedData,
       lastUpdate: Date.now(),
     },
   })
