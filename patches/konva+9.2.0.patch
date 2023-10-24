@@ -1,70 +1,37 @@
-diff --git a/node_modules/konva/lib/Stage.d.ts b/node_modules/konva/lib/Stage.d.ts
-index 4da96e8..22457c2 100644
---- a/node_modules/konva/lib/Stage.d.ts
-+++ b/node_modules/konva/lib/Stage.d.ts
-@@ -49,6 +49,9 @@ export declare class Stage extends Container<Layer> {
-     getContent(): HTMLDivElement;
-     _toKonvaCanvas(config: any): SceneCanvas;
-     getIntersection(pos: Vector2d): Shape<import("./Shape.js").ShapeConfig>;
-+    _calculateCustomPosition(shape: Shape, pos: Vector2d): Vector2d;
-+    _isCustomIntersection(pos: Vector2d): boolean;
-+    _customGetIntersection(layer: Shape, pos: Vector2d): Shape<import("./Shape.js").ShapeConfig>;
-     _resizeDOM(): void;
-     add(layer: Layer, ...rest: any[]): this;
-     getParent(): any;
-diff --git a/node_modules/konva/lib/Stage.js b/node_modules/konva/lib/Stage.js
-index eda7368..f6927fe 100644
---- a/node_modules/konva/lib/Stage.js
-+++ b/node_modules/konva/lib/Stage.js
-@@ -233,19 +233,45 @@ class Stage extends Container_1.Container {
-         });
-         return canvas;
+diff --git a/node_modules/konva/lib/Context.d.ts b/node_modules/konva/lib/Context.d.ts
+index 04f8f3c..204575c 100644
+--- a/node_modules/konva/lib/Context.d.ts
++++ b/node_modules/konva/lib/Context.d.ts
+@@ -44,6 +44,7 @@ export declare class Context {
+     strokeRect(x: number, y: number, width: number, height: number): void;
+     fillText(text: string, x: number, y: number, maxWidth?: number): void;
+     measureText(text: string): TextMetrics;
++    getImageDataBraveCompatible(a0: number, a1: number, a2: number, a3: number): ImageData;
+     getImageData(a0: number, a1: number, a2: number, a3: number): ImageData;
+     lineTo(a0: number, a1: number): void;
+     moveTo(a0: number, a1: number): void;
+diff --git a/node_modules/konva/lib/Context.js b/node_modules/konva/lib/Context.js
+index 574ed4f..c17e834 100644
+--- a/node_modules/konva/lib/Context.js
++++ b/node_modules/konva/lib/Context.js
+@@ -263,8 +263,19 @@ class Context {
+     measureText(text) {
+         return this._context.measureText(text);
      }
++    getImageDataBraveCompatible(a0, a1, a2, a3) {
++        const canvas = document.createElement('canvas');
++        canvas.width = a2;
++        canvas.height = a3;
++        const context = canvas.getContext('2d');
 +
++        const layer = this;
++        context.drawImage(layer.getCanvas()._canvas, a0, a1, a2, a3, 0, 0, a2, a3);
 +
-+
-+
-+
-     getIntersection(pos) {
--        if (!pos) {
--            return null;
--        }
-+        if (!pos) return null;
-         var layers = this.children, len = layers.length, end = len - 1, n;
-         for (n = end; n >= 0; n--) {
--            const shape = layers[n].getIntersection(pos);
--            if (shape) {
--                return shape;
-+            var shape
-+            if (navigator.brave === undefined) {
-+                shape = layers[n].getIntersection(pos);
-+            } else {
-+                shape = this._customGetIntersection(layers[n], pos)
-             }
-+            if (shape) return shape;
-         }
-         return null;
++        return context.getImageData(0, 0, a2, a3);
++    }
+     getImageData(a0, a1, a2, a3) {
+-        return this._context.getImageData(a0, a1, a2, a3);
++        return this.getImageDataBraveCompatible(a0, a1, a2, a3)
      }
-+    _calculateCustomPosition(shape, pos) {
-+        return { x: pos.x - shape.x(), y: pos.y - shape.y() }
-+      }
-+    _isCustomIntersection(pos) {
-+        return pos.x >= 0 && pos.y >= 0
-+    }
-+    _customGetIntersection(layer, pos) {
-+        for (var i = layer.length - 1; i >= 0; i--) {
-+          var shape = layer[i]
-+          var customPosition = this._calculateCustomPosition(shape, pos)
-+
-+          if (this._isCustomIntersection(customPosition)) return shape
-+        }
-+        return null
-+    }
-+
-+
-+
-+
-+
-     _resizeDOM() {
-         var width = this.width();
-         var height = this.height();
+     lineTo(a0, a1) {
+         this._context.lineTo(a0, a1);
