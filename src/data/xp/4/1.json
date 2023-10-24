@@ -1,0 +1,21 @@
+{
+  "totalAmount": "0x1e",
+  "merkleDistributor": "0x2F3b9De8b80294b6096dE7f036f621bC62ef7AE0",
+  "merkleRoot": "0x4208988e67d4ceac20ad6c3d1fc5002ff76c2d39c14a31718a07253eaa974ea9",
+  "claims": {
+    "0x5ca23512120e636f134b010e0b9a8c148d8ed2ea": {
+      "index": "0x0",
+      "amount": "0x0a",
+      "proof": [
+        "0x94bcb09674cfc935fb2bc43eb7511610a691e685af49aaffde87152f4b173add"
+      ]
+    },
+    "0x6e80164ea60673d64d5d6228beb684a1274bb017": {
+      "index": "0x1",
+      "amount": "0x14",
+      "proof": [
+        "0x535faee8794ecc326a3d4a78dec4381ce261c52190f3b7b65a25c95b5207f737"
+      ]
+    }
+  }
+}

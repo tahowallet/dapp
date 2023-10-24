@@ -1,103 +1,81 @@
-import { LeaderboardItemData, XpMerkleTreeItemData } from "shared/types"
-import { XpMerkleTree, XpByMerkleRoot } from "shared/types/xp"
-import { isSameAddress, normalizeAddress } from "shared/utils"
+import { LeaderboardItemData, XPLeaderboard } from "shared/types"
+import { XpMerkleTree } from "shared/types/xp"
+import { isSameAddress, normalizeAddress } from "shared/utils/address"
+import XP_DATA from "../../data/xp-data.json"
 
-type DynamicXPMerkleTreeImport = {
-  default: XpMerkleTree
+// TODO: remove mocks
+import leaderboardMock from "../../data/xp/4/leaderboard.json"
+import xpMock from "../../data/xp/4/1.json"
+
+type XpDataType = {
+  [realmId: string]: { leaderboard: string | null; xp: string[] }
 }
 
 export async function getRealmLeaderboardData(
   realmId: string
-): Promise<XpMerkleTree | null> {
+): Promise<XPLeaderboard | null> {
   if (!realmId) {
     throw new Error("Missing realm id")
   }
 
-  let xpData: null | DynamicXPMerkleTreeImport = null
+  let xpData: null | XPLeaderboard = null
 
   if (realmId) {
     try {
-      xpData = await import(`data/xp/${realmId}/leaderboard.json`)
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("No XP data found for the realm id:", realmId)
-    }
-  }
+      const leaderboardUrl = (XP_DATA as XpDataType)[realmId]?.leaderboard
 
-  return xpData && (xpData.default as XpMerkleTree)
-}
-
-async function getXpData(url: string): Promise<XpMerkleTree | null> {
-  if (!url) {
-    throw new Error("Missing url")
-  }
-
-  let xpData: null | XpMerkleTree = null
-
-  if (url) {
-    // debugger
-    try {
-      xpData = await (await fetch(url)).json()
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("No XP data found for the url:", url)
-    }
-  }
-  return xpData && (xpData as XpMerkleTree)
-}
-
-export async function getUserXpByMerkleRoot(
-  account: string,
-  url: string
-): Promise<XpByMerkleRoot> {
-  const xpItemByMerkleRoot: XpByMerkleRoot = {}
-  const normalizedAddress = normalizeAddress(account)
-
-  const xpData = await getXpData(url)
-
-  if (xpData) {
-    try {
-      const { merkleRoot } = xpData
-      const userClaim = xpData.claims[normalizedAddress]
-
-      if (userClaim) {
-        xpItemByMerkleRoot[merkleRoot] = userClaim
+      if (!leaderboardUrl) {
+        throw new Error("Missing leaderboard url")
       }
+      // xpData = await (await fetch(leaderboardUrl)).json()
+      xpData = leaderboardMock
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.warn("Not a correct structure for XP data")
+      console.warn("No XP data found for the realm id:", realmId, error)
     }
   }
 
-  return xpItemByMerkleRoot
+  return xpData
+}
+
+export async function getXpDataForRealmId(
+  realmId: string
+): Promise<XpMerkleTree[] | null> {
+  if (!realmId) {
+    throw new Error("Missing realm id")
+  }
+
+  let xpData: null | XpMerkleTree[] = null
+
+  try {
+    const xpLinks = (XP_DATA as XpDataType)[realmId]?.xp
+
+    xpData = await Promise.all(
+      xpLinks.map(async (url) => {
+        // const data = await (await fetch(url)).json()
+        const data = xpMock
+
+        return data
+      })
+    )
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn("No XP data found for the url:", realmId, error)
+  }
+
+  return xpData
 }
 
 export function getUserLeaderboardRank(
-  sortedData: XpMerkleTreeItemData[],
+  leaderboard: XPLeaderboard,
   address: string
 ): LeaderboardItemData | null {
   if (!address) return null
 
   const normalizedAddress = normalizeAddress(address)
-  const index = sortedData.findIndex((item) =>
+  const index = leaderboard.findIndex((item) =>
     isSameAddress(item.beneficiary, normalizedAddress)
   )
 
-  return index > -1
-    ? {
-        rank: index + 1,
-        ...sortedData[index],
-      }
-    : null
-}
-
-export function getRealmXpSorted(data: XpMerkleTreeItemData[]) {
-  return data.sort((a, b) => Number(b.amount) - Number(a.amount))
-}
-
-export function convertXpData(xpData: XpMerkleTree): XpMerkleTreeItemData[] {
-  return Object.entries(xpData.claims).map(([beneficiary, data]) => ({
-    beneficiary,
-    ...data,
-  }))
+  return index > -1 ? leaderboard[index] : null
 }

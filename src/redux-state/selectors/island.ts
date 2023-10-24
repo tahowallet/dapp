@@ -154,6 +154,8 @@ export const selectUnclaimedXpSumById = createSelector(
   [selectUnclaimedXpById],
   (unclaimedXp) =>
     unclaimedXp?.reduce(
+      // TODO: fix - amount is a big int turned into a string, we should add this as bigints,
+      // adjust precision and display as readable number
       (acc, item) => acc + parseInt(item.claim.amount, 16),
       0
     ) ?? 0

@@ -30,9 +30,7 @@ import {
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { bigIntToUserAmount, getAllowanceTransactionID } from "shared/utils"
 import {
-  convertXpData,
   getRealmLeaderboardData,
-  getRealmXpSorted,
   getUserLeaderboardRank,
 } from "shared/utils/xp"
 import { getXpAllocatable } from "shared/contracts/xp"
@@ -291,17 +289,18 @@ export const fetchLeaderboardData = createDappAsyncThunk(
 
     await Promise.allSettled(
       Object.keys(realms).map(async (realmId) => {
-        const xpData = await getRealmLeaderboardData(realmId)
+        const leaderboardData = await getRealmLeaderboardData(realmId)
 
-        if (xpData) {
-          const converted = convertXpData(xpData)
-          const sorted = getRealmXpSorted(converted)
-          const leaderboard = sorted.slice(0, 10).map((item, index) => ({
-            ...item,
-            rank: index + 1,
-          }))
+        if (leaderboardData) {
+          const leaderboard = leaderboardData
+            .slice(0, 10)
+            .map((item, index) => ({
+              ...item,
+              amount: item.amount,
+              rank: index + 1,
+            }))
 
-          const currentUser = getUserLeaderboardRank(sorted, address)
+          const currentUser = getUserLeaderboardRank(leaderboardData, address)
 
           dispatch(
             setLeaderboardData({
@@ -328,27 +327,24 @@ export const fetchUnclaimedXp = createDappAsyncThunk(
     if (!account) return false
 
     await Promise.allSettled(
-      Object.entries(realms).map(
-        async ([realmId, { realmContractAddress, xpToken }]) => {
-          const unclaimedXp = await transactionService.read(
-            getUnclaimedXpDistributions,
-            {
-              realmAddress: realmContractAddress,
-              xpAddress: xpToken.contractAddress,
-              account,
-            }
-          )
-
-          if (unclaimedXp) {
-            dispatch(
-              setUnclaimedXpData({
-                id: realmId,
-                data: unclaimedXp,
-              })
-            )
+      Object.keys(realms).map(async (realmId) => {
+        const unclaimedXp = await transactionService.read(
+          getUnclaimedXpDistributions,
+          {
+            realmId,
+            account,
           }
+        )
+
+        if (unclaimedXp) {
+          dispatch(
+            setUnclaimedXpData({
+              id: realmId,
+              data: unclaimedXp,
+            })
+          )
         }
-      )
+      })
     )
 
     return true
