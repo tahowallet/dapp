@@ -29,13 +29,13 @@ const getCachedNames = () => {
 const addCachedName = ({ name, avatar, address, type }: NameWithProvider) => {
   const cachedNames = getCachedNames()
   const normalizedAddress = normalizeAddress(address)
-  const newCachedData = name ? { [type]: { name, avatar } } : {}
+  const newData = name ? { [type]: { name, avatar } } : {}
 
   const newCache = JSON.stringify({
     ...cachedNames,
     [normalizedAddress]: {
       ...(cachedNames[normalizedAddress] ?? {}),
-      ...newCachedData,
+      ...newData,
       lastUpdate: Date.now(),
     },
   })
@@ -45,10 +45,7 @@ const addCachedName = ({ name, avatar, address, type }: NameWithProvider) => {
 
 const resolveENSPromise = (address: string) =>
   resolveAddressToENS(address).then((data): WalletData | null => {
-    if (!data) {
-      addCachedName({ type: "ens", address })
-      return null
-    }
+    if (!data) return null
 
     addCachedName({ type: "ens", address, ...data })
     return data
