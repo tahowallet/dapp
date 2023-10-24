@@ -45,19 +45,19 @@ export function useIslandContext() {
 export function useGameLoadDataFetch() {
   const dispatch = useDappDispatch()
   const provider = useArbitrumProvider()
-  const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
+  const [hasAlreadyCalled, setHasAlreadyCalled] = useState(false)
 
   useEffect(() => {
-    if (!provider || hasAlreadyFetched) return
+    if (!provider || hasAlreadyCalled) return
 
     const fetchData = async () => {
       await dispatch(initSeasonInfoData())
       await dispatch(initRealmsDataFromContracts())
-      setHasAlreadyFetched(true)
     }
 
     fetchData()
-  }, [provider, hasAlreadyFetched, dispatch])
+    setHasAlreadyCalled(true)
+  }, [provider, hasAlreadyCalled, dispatch])
 }
 
 // Used to fetch remaining game data
@@ -66,24 +66,23 @@ export function useGameDataFetch() {
   const provider = useArbitrumProvider()
   const account = useDappSelector(selectWalletAddress)
   const realms = useDappSelector(selectRealms)
-  const [hasAlreadyFetched, setHasAlreadyFetched] = useState(false)
+  const [hasAlreadyCalled, setHasAlreadyCalled] = useState(false)
   const [hasAlreadyFetchedForAccount, setHasAlreadyFetchedForAccount] =
     useState<string | null>(null)
 
   // Account agnostic data
   useEffect(() => {
-    if (!provider || hasAlreadyFetched || Object.keys(realms).length === 0)
+    if (!provider || hasAlreadyCalled || Object.keys(realms).length === 0)
       return
 
     const fetchData = async () => {
       await dispatch(fetchPopulation())
       await dispatch(fetchXpAllocatable())
-
-      setHasAlreadyFetched(true)
     }
 
     fetchData()
-  }, [provider, hasAlreadyFetched, realms, dispatch])
+    setHasAlreadyCalled(true)
+  }, [provider, hasAlreadyCalled, realms, dispatch])
 
   // Account specific data
   useEffect(() => {
@@ -91,17 +90,17 @@ export function useGameDataFetch() {
       await dispatch(fetchWalletBalances())
       await dispatch(fetchLeaderboardData())
       await dispatch(fetchUnclaimedXp())
-
-      setHasAlreadyFetchedForAccount(account)
     }
+
     if (
       account &&
-      hasAlreadyFetched &&
+      hasAlreadyCalled &&
       account !== hasAlreadyFetchedForAccount
     ) {
       fetchData()
+      setHasAlreadyFetchedForAccount(account)
     }
-  }, [dispatch, hasAlreadyFetchedForAccount, hasAlreadyFetched, account])
+  }, [dispatch, hasAlreadyFetchedForAccount, hasAlreadyCalled, account])
 }
 
 const calculateTimeLeft = (stakeUnlockTime: number | null) =>

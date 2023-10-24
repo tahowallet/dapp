@@ -1,0 +1,13 @@
+diff --git a/node_modules/@ethersproject/providers/src.ts/json-rpc-batch-provider.ts b/node_modules/@ethersproject/providers/src.ts/json-rpc-batch-provider.ts
+index d2bf8c8..2a57f65 100644
+--- a/node_modules/@ethersproject/providers/src.ts/json-rpc-batch-provider.ts
++++ b/node_modules/@ethersproject/providers/src.ts/json-rpc-batch-provider.ts
+@@ -89,7 +89,7 @@ export class JsonRpcBatchProvider extends JsonRpcProvider {
+                     });
+                 });
+ 
+-            }, 10);
++            }, 5);
+         }
+ 
+         return promise;
