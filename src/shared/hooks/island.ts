@@ -90,15 +90,15 @@ export function useGameDataFetch() {
       await dispatch(fetchWalletBalances())
       await dispatch(fetchLeaderboardData())
       await dispatch(fetchUnclaimedXp())
-
-      setHasAlreadyFetchedForAccount(account)
     }
+
     if (
       account &&
       hasAlreadyCalled &&
       account !== hasAlreadyFetchedForAccount
     ) {
       fetchData()
+      setHasAlreadyFetchedForAccount(account)
     }
   }, [dispatch, hasAlreadyFetchedForAccount, hasAlreadyCalled, account])
 }
