@@ -20,7 +20,13 @@ import { LINKS } from "shared/constants"
 
 const CLAIM_XP_TX_ID = "claim-xp"
 
-export default function BannerRewards({ amount }: { amount: bigint }) {
+export default function BannerRewards({
+  amount,
+  setJustClaimed,
+}: {
+  amount: bigint
+  setJustClaimed: (hasClaimed: boolean) => void
+}) {
   const dispatch = useDappDispatch()
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
@@ -37,6 +43,7 @@ export default function BannerRewards({ amount }: { amount: bigint }) {
   const claimTransaction = () => {
     if (realmId) {
       dispatch(claimXp({ id: CLAIM_XP_TX_ID, realmId }))
+      setJustClaimed(true) // to keep the banner + congratulation modal open
     }
   }
 
@@ -159,7 +166,10 @@ export default function BannerRewards({ amount }: { amount: bigint }) {
           realmId={realmId}
           amount={parsedAmount}
           description={realm.xpToken.symbol}
-          close={() => setCongratulationsModalOpen(false)}
+          close={() => {
+            setCongratulationsModalOpen(false)
+            setJustClaimed(false)
+          }}
         />
       )}
     </>

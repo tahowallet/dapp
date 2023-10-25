@@ -1,7 +1,7 @@
 import { LeaderboardItemData, XPLeaderboard } from "shared/types"
 import { XpMerkleTree } from "shared/types/xp"
 import { isSameAddress, normalizeAddress } from "shared/utils/address"
-import XP_DATA from "../../data/xp-data.json"
+import XP_DATA from "../../assets/xp-data.json"
 
 type XpDataType = {
   [realmId: string]: { leaderboard: string | null; xp: string[] }
