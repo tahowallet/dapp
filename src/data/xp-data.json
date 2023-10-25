@@ -1,7 +1,7 @@
 {
     "4": {
-        "xp": [],
-        "leaderboard": null
+        "xp": ["/data/xp/4/1.json"],
+        "leaderboard": "/data/xp/4/leaderboard.json"
     },
     "7": {
         "xp": [],
