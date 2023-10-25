@@ -5,7 +5,7 @@ import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
 import RealmIcon from "shared/components/RealmIcon"
 
 type ClaimCongratulationsProps = {
-  amount: number
+  amount: string
   description: string
   realmId: string
   close: () => void

@@ -15,12 +15,12 @@ import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
 import { useTransactionSuccessCallback } from "shared/hooks"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
-import { separateThousandsByComma } from "shared/utils"
+import { bigIntToUserAmount, separateThousandsByComma } from "shared/utils"
 import { LINKS } from "shared/constants"
 
 const CLAIM_XP_TX_ID = "claim-xp"
 
-export default function BannerRewards({ amount }: { amount: number }) {
+export default function BannerRewards({ amount }: { amount: bigint }) {
   const dispatch = useDappDispatch()
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
@@ -68,6 +68,8 @@ export default function BannerRewards({ amount }: { amount: number }) {
 
   if (!realmId || !realm) return null
 
+  const parsedAmount = separateThousandsByComma(bigIntToUserAmount(amount))
+
   return (
     <>
       <RealmBanner
@@ -99,7 +101,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
             size="medium"
             type="secondary"
             onClick={() => setIsClaimTransactionModalOpen(true)}
-            isDisabled={amount === 0}
+            isDisabled={amount === 0n}
           >
             Claim XP
           </Button>
@@ -113,9 +115,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
               width="32px"
               color="var(--primary-p1-100)"
             />
-            <div className="token_amount">
-              {separateThousandsByComma(amount)}
-            </div>
+            <div className="token_amount">{parsedAmount}</div>
             <div className="token_name">{realm.xpToken.symbol}</div>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
       {congratulationsModalOpen && (
         <ClaimCongratulations
           realmId={realmId}
-          amount={amount}
+          amount={parsedAmount}
           description={realm.xpToken.symbol}
           close={() => setCongratulationsModalOpen(false)}
         />
