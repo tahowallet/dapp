@@ -1,12 +1,12 @@
 import Emittery from "emittery"
 import { ethers } from "ethers"
-import { ETHEREUM } from "shared/constants"
+import { ARBITRUM_SEPOLIA_RPC_FALLBACK, ETHEREUM } from "shared/constants"
 import {
   WriteTransactionBuilder,
   ReadTransactionBuilder,
   TransactionProgressStatus,
 } from "shared/types"
-import { normalizeAddress } from "shared/utils"
+import { StaticJsonBatchRpcProvider, normalizeAddress } from "shared/utils"
 
 const ERROR_MESSAGE = {
   NO_ARBITRUM_PROVIDER: "Arbitrum provider is not ready, check RPC URL setup",
@@ -136,6 +136,18 @@ class TransactionService {
 
       return response
     } catch (error) {
+      if (
+        process.env.USE_ARBITRUM_SEPOLIA === "true" &&
+        ARBITRUM_SEPOLIA_RPC_FALLBACK
+      ) {
+        const providerFallback = new StaticJsonBatchRpcProvider(
+          ARBITRUM_SEPOLIA_RPC_FALLBACK
+        )
+
+        const response = await transactionBuilder(providerFallback, data)
+        return response
+      }
+
       // eslint-disable-next-line no-console
       console.error("Failed to read data from the blockchain", error)
       return null

@@ -1,6 +1,6 @@
 import { useConnectWallet } from "@web3-onboard/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { ethers, logger } from "ethers"
+import { ethers } from "ethers"
 import {
   useDappDispatch,
   connectWalletGlobally,
@@ -17,37 +17,9 @@ import {
   BALANCE_UPDATE_INTERVAL,
   LOCAL_STORAGE_WALLET,
 } from "shared/constants"
-import { Logger, defineReadOnly } from "ethers/lib/utils"
-import { Network } from "@ethersproject/networks"
+import { StaticJsonBatchRpcProvider } from "shared/utils"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
-
-class StaticJsonBatchRpcProvider extends ethers.providers.JsonRpcBatchProvider {
-  override async detectNetwork(): Promise<Network> {
-    let { network } = this
-    if (network == null) {
-      network = await super.detectNetwork()
-
-      if (!network) {
-        logger.throwError(
-          "no network detected",
-          Logger.errors.UNKNOWN_ERROR,
-          {}
-        )
-      }
-
-      // If still not set, set it
-      // eslint-disable-next-line no-underscore-dangle
-      if (this._network == null) {
-        // A static network does not support "any"
-        defineReadOnly(this, "_network", network)
-
-        this.emit("network", network, null)
-      }
-    }
-    return network
-  }
-}
 
 // To make it possible to start fetching blockchain data before the user
 // connects the wallet let's get the provider from the RPC URL
