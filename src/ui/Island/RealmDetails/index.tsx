@@ -44,6 +44,7 @@ function RealmDetailsBanner({
   const rewardAmount = useDappSelector((state) =>
     displayedRealmId ? selectUnclaimedXpSumById(state, displayedRealmId) : 0n
   )
+  const [justClaimed, setJustClaimed] = useState(false) // used to keep claim rewards congrats modal open
 
   if (!isConnected) {
     return <BannerConnect />
@@ -62,8 +63,13 @@ function RealmDetailsBanner({
     )
   }
 
-  if (isStakingRealm || (!isStakingRealm && rewardAmount > 0n)) {
-    return <BannerRewards amount={rewardAmount} />
+  if (
+    isStakingRealm ||
+    (!isStakingRealm && (rewardAmount > 0n || justClaimed))
+  ) {
+    return (
+      <BannerRewards amount={rewardAmount} setJustClaimed={setJustClaimed} />
+    )
   }
 
   return null
