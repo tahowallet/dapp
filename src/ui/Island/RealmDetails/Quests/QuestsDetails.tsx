@@ -25,6 +25,10 @@ export default function QuestsDetails({
   const isEndOfSeason = useDappSelector(selectIsEndOfSeason)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
+  // 1_000_000 is hard-coded here since the season start does not match with
+  // the season start in contracts (one week difference)
+  const adjustedXpAllocatable = Number(realm?.xpAllocatable) - 1_000_000
+
   return (
     <div className="content">
       <div className="content_details row">
@@ -57,7 +61,7 @@ export default function QuestsDetails({
               color="var(--primary-p1-100)"
             />
             {separateThousandsByComma(
-              Math.round(parseFloat(realm?.xpAllocatable ?? "0"))
+              Math.round(adjustedXpAllocatable > 0 ? adjustedXpAllocatable : 0)
             )}
           </h1>
           {tokenSymbol}
