@@ -81,7 +81,7 @@ const config: Configuration = {
       Buffer: ["buffer", "Buffer"],
     }),
     new CopyPlugin({
-      patterns: [{ from: "src/data/", to: "assets/" }],
+      patterns: [{ from: "src/assets/", to: "assets/" }],
     }),
     new DefinePlugin({
       "process.env.VERSION": JSON.stringify(packageJson.version),
