@@ -3,10 +3,6 @@ import { XpMerkleTree } from "shared/types/xp"
 import { isSameAddress, normalizeAddress } from "shared/utils/address"
 import XP_DATA from "../../data/xp-data.json"
 
-// TODO: remove mocks
-import leaderboardMock from "../../data/xp/4/leaderboard.json"
-import xpMock from "../../data/xp/4/1.json"
-
 type XpDataType = {
   [realmId: string]: { leaderboard: string | null; xp: string[] }
 }
@@ -27,9 +23,12 @@ export async function getRealmLeaderboardData(
       if (!leaderboardUrl) {
         return null
       }
-
-      // xpData = await (await fetch(leaderboardUrl)).json()
-      xpData = leaderboardMock
+      if (process.env.NODE_ENV === "development") {
+        // TODO: fix it - not working locally
+        xpData = (await import(`${leaderboardUrl}`)).default
+      } else {
+        xpData = await (await fetch(leaderboardUrl)).json()
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn("No XP data found for the realm id:", realmId, error)
@@ -57,8 +56,14 @@ export async function getXpDataForRealmId(
 
     xpData = await Promise.all(
       xpLinks.map(async (url) => {
-        // const data = await (await fetch(url)).json()
-        const data = xpMock
+        let data
+
+        if (process.env.NODE_ENV === "development") {
+          // TODO: fix it - not working locally
+          data = (await import(`${url}`)).default
+        } else {
+          data = await (await fetch(url)).json()
+        }
 
         return data
       })
