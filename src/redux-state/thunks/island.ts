@@ -292,13 +292,7 @@ export const fetchLeaderboardData = createDappAsyncThunk(
         const leaderboardData = await getRealmLeaderboardData(realmId)
 
         if (leaderboardData) {
-          const leaderboard = leaderboardData
-            .slice(0, 10)
-            .map((item, index) => ({
-              ...item,
-              amount: item.amount,
-              rank: index + 1,
-            }))
+          const leaderboard = leaderboardData.slice(0, 10)
 
           const currentUser = getUserLeaderboardRank(leaderboardData, address)
 
