@@ -1,12 +1,12 @@
 import Emittery from "emittery"
 import { ethers } from "ethers"
-import { ARBITRUM_SEPOLIA_RPC_FALLBACK, ETHEREUM } from "shared/constants"
+import { ETHEREUM } from "shared/constants"
 import {
   WriteTransactionBuilder,
   ReadTransactionBuilder,
   TransactionProgressStatus,
 } from "shared/types"
-import { StaticJsonBatchRpcProvider, normalizeAddress } from "shared/utils"
+import { normalizeAddress } from "shared/utils"
 
 const ERROR_MESSAGE = {
   NO_ARBITRUM_PROVIDER: "Arbitrum provider is not ready, check RPC URL setup",
@@ -23,6 +23,8 @@ type Events = {
 
 class TransactionService {
   arbitrumProvider: ethers.providers.Provider | null = null
+
+  arbitrumProviderFallback: ethers.providers.Provider | null = null
 
   arbitrumSigner: ethers.providers.JsonRpcSigner | null = null
 
@@ -57,6 +59,12 @@ class TransactionService {
 
   async setArbitrumProvider(providerOrNull: ethers.providers.Provider | null) {
     this.arbitrumProvider = providerOrNull
+  }
+
+  async setArbitrumProviderFallback(
+    providerOrNull: ethers.providers.Provider | null
+  ) {
+    this.arbitrumProviderFallback = providerOrNull
   }
 
   async setArbitrumSigner(signerOrNull: ethers.providers.JsonRpcSigner | null) {
@@ -125,29 +133,28 @@ class TransactionService {
 
   async read<T, Response>(
     transactionBuilder: ReadTransactionBuilder<T, Response>,
-    data: T
+    data: T,
+    providerFallback?: ethers.providers.Provider
   ): Promise<Response | null> {
     try {
-      if (!this.arbitrumProvider) {
+      const provider = providerFallback ?? this.arbitrumProvider
+
+      if (!provider) {
         throw new Error(ERROR_MESSAGE.NO_ARBITRUM_PROVIDER)
       }
 
-      const response = await transactionBuilder(this.arbitrumProvider, data)
+      const response = await transactionBuilder(provider, data)
 
       return response
     } catch (error) {
-      if (
-        process.env.USE_ARBITRUM_SEPOLIA === "true" &&
-        ARBITRUM_SEPOLIA_RPC_FALLBACK
-      ) {
-        const providerFallback = new StaticJsonBatchRpcProvider(
-          ARBITRUM_SEPOLIA_RPC_FALLBACK
+      if (this.arbitrumProviderFallback) {
+        const response = this.read(
+          transactionBuilder,
+          data,
+          this.arbitrumProviderFallback
         )
-
-        const response = await transactionBuilder(providerFallback, data)
         return response
       }
-
       // eslint-disable-next-line no-console
       console.error("Failed to read data from the blockchain", error)
       return null
