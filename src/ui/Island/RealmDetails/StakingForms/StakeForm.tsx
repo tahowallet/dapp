@@ -17,6 +17,10 @@ import { TAHO_ADDRESS } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import { useAssistant, useTransactionSuccessCallback } from "shared/hooks"
+// Unfortunately the PostHog React package structure does not play nice with
+// no-extraneous-dependencies.
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { usePostHog } from "posthog-js/react"
 import StakeCongratulationsModal from "./StakeCongratulationsModal"
 
 const STAKE_TX_ID = "stake"
@@ -43,6 +47,8 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const [isCongratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
 
+  const posthog = usePostHog()
+
   const stakeTransaction = () => {
     const amount = userAmountToBigInt(stakeAmount)
     if (displayedRealmAddress && amount) {
@@ -53,6 +59,9 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
           amount,
         })
       )
+      posthog?.capture("Realm stake started", {
+        realmId: displayedRealmAddress,
+      })
     }
   }
 
@@ -71,14 +80,23 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   }
 
   const stakeTransactionSuccessCallback = useCallback(() => {
+    posthog?.capture("Realm stake completed", {
+      realmId: displayedRealmAddress,
+    })
+
     setIsStakeTransactionModalOpen(false)
     setStakeAmount("")
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
-
     if (!stakingRealmId) {
       updateAssistant({ visible: true, type: "quests" })
     }
-  }, [dispatch, updateAssistant, stakingRealmId])
+  }, [
+    dispatch,
+    posthog,
+    displayedRealmAddress,
+    stakingRealmId,
+    updateAssistant,
+  ])
 
   const onInputChange = (value: string) => {
     setStakeAmount(value)

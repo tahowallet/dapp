@@ -23,6 +23,10 @@ import {
   useStakeCooldownPeriod,
   useTransactionSuccessCallback,
 } from "shared/hooks"
+// Unfortunately the PostHog React package structure does not play nice with
+// no-extraneous-dependencies.
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { usePostHog } from "posthog-js/react"
 
 const UNSTAKE_TX_ID = "unstake"
 
@@ -56,6 +60,8 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const { timeRemaining, hasCooldown } = useStakeCooldownPeriod()
 
+  const posthog = usePostHog()
+
   const unstakeTransaction = () => {
     if (displayedRealmAddress && displayedRealmVeTokenAddress && amount) {
       dispatch(
@@ -67,6 +73,9 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
         })
       )
     }
+    posthog?.capture("Realm stake started", {
+      realmId: displayedRealmAddress,
+    })
   }
 
   const unstakeTransactionData = {
@@ -78,12 +87,16 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   }
 
   const unstakeTransactionSuccessCallback = useCallback(() => {
+    posthog?.capture("Realm unstake completed", {
+      realmId: displayedRealmAddress,
+    })
+
     setIsUnstakeTransactionModalOpen(false)
     setIsLeavingRealmModalOpen(false)
     setUnstakeAmount("")
     dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
     updateAssistant({ visible: false, type: "default" })
-  }, [dispatch, updateAssistant])
+  }, [dispatch, displayedRealmAddress, posthog, updateAssistant])
 
   useTransactionSuccessCallback(
     unstakeTransactionStatus,
