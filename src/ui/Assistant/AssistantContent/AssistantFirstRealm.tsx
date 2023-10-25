@@ -1,10 +1,13 @@
 import React from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
+import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
 import AssistantContent from "."
 
 export default function AssistantFirstRealm() {
   const { updateAssistant, assistantVisible } = useAssistant()
-  const { updateStorage } = useLocalStorageChange<boolean>("taho.visitedRealm")
+  const { updateStorage } = useLocalStorageChange<boolean>(
+    LOCAL_STORAGE_VISITED_REALM
+  )
 
   const closeAssistant = () => {
     updateStorage(true)
