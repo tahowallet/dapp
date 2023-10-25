@@ -27,6 +27,7 @@ import Background from "./Background"
 import Realms from "./IslandRealms"
 import RealmPin from "./RealmPin"
 import Clouds from "./Clouds"
+import NetOverlay from "./NetOverlay"
 
 function InteractiveIsland() {
   const settingsRef = useRef({ minScale: 0 })
@@ -165,6 +166,7 @@ function InteractiveIsland() {
         <Layer>
           <Background overlay={overlay} />
           <Realms />
+          <NetOverlay />
           <Clouds />
           <RealmPin />
         </Layer>
