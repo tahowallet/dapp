@@ -1,6 +1,6 @@
 import { providers, Contract } from "ethers"
 import { ReadTransactionBuilder, SeasonInfo } from "shared/types"
-import { DAY, SEASON_START_DATE } from "shared/constants"
+import { DAY } from "shared/constants"
 import { gameAbi, tahoDeployerAbi } from "./abi"
 
 export const getTahoDeployerContract: ReadTransactionBuilder<
@@ -24,7 +24,15 @@ export const getSeasonInfo: ReadTransactionBuilder<null, SeasonInfo> = async (
   const seasonInfo = await gameContract.seasonInfo()
 
   const season = seasonInfo[0].toNumber()
-  const seasonStartTimestamp = new Date(SEASON_START_DATE).getTime()
+
+  // Season start data is accessible throught .env
+  // Date requires ms, whereas block.timestamp is in s
+  // const seasonStartTimestamp = seasonInfo[1].toNumber() * 1000
+
+  const seasonStartTimestamp = process.env.SEASON_START_DATE
+    ? new Date(process.env.SEASON_START_DATE).getTime()
+    : Date.now()
+
   const isInterSeason = seasonInfo[2]
 
   const durationInWeeks = Number(process.env.SEASON_LENGTH_IN_WEEKS ?? "8")
