@@ -25,8 +25,9 @@ export async function getRealmLeaderboardData(
       const leaderboardUrl = (XP_DATA as XpDataType)[realmId]?.leaderboard
 
       if (!leaderboardUrl) {
-        throw new Error("Missing leaderboard url")
+        return null
       }
+
       // xpData = await (await fetch(leaderboardUrl)).json()
       xpData = leaderboardMock
     } catch (error) {
@@ -49,6 +50,10 @@ export async function getXpDataForRealmId(
 
   try {
     const xpLinks = (XP_DATA as XpDataType)[realmId]?.xp
+
+    if (!xpLinks || !xpLinks.length) {
+      return null
+    }
 
     xpData = await Promise.all(
       xpLinks.map(async (url) => {
