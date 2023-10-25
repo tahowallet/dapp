@@ -34,3 +34,7 @@ declare namespace NodeJS {
     ARBITRUM_RPC_URL: string
   }
 }
+
+interface Navigator {
+  brave?: { isBrave: () => boolean }
+}
