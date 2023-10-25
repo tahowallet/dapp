@@ -30,6 +30,8 @@ export default function BannerRewards({
   const dispatch = useDappDispatch()
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
+  const parsedAmount = separateThousandsByComma(bigIntToUserAmount(amount))
+  const [savedAmount] = useState(() => parsedAmount)
 
   const [congratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
@@ -74,8 +76,6 @@ export default function BannerRewards({
   )
 
   if (!realmId || !realm) return null
-
-  const parsedAmount = separateThousandsByComma(bigIntToUserAmount(amount))
 
   return (
     <>
@@ -164,7 +164,7 @@ export default function BannerRewards({
       {congratulationsModalOpen && (
         <ClaimCongratulations
           realmId={realmId}
-          amount={parsedAmount}
+          amount={savedAmount}
           description={realm.xpToken.symbol}
           close={() => {
             setCongratulationsModalOpen(false)
