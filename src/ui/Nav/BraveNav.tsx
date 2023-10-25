@@ -1,6 +1,7 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import braveIcon from "shared/assets/brave.png"
+import { LINKS } from "shared/constants"
 
 export default function BraveNav() {
   if (!navigator.brave?.isBrave()) return null
@@ -17,7 +18,7 @@ export default function BraveNav() {
         />
         <p>
           We detected you are using Brave, for a smooth experience we advice{" "}
-          <a href="brave://settings/shields" rel="noreferrer" target="_blank">
+          <a href={LINKS.BRAVE_SUPPORT} rel="noreferrer" target="_blank">
             disabling the shield
           </a>
         </p>
