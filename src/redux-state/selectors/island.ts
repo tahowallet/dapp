@@ -66,6 +66,9 @@ export const selectSeasonWeek = createSelector(
     if (isEndOfSeason) return durationInWeeks
 
     if (seasonStartTimestamp && durationInWeeks) {
+      const hasSeasonStarted = seasonStartTimestamp < Date.now()
+      if (!hasSeasonStarted) return 1 // if the start date is placed in the future, set season week to 1
+
       return Math.trunc((Date.now() - seasonStartTimestamp) / (7 * DAY) + 1)
     }
 

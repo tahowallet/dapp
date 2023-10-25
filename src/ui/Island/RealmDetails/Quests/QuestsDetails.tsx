@@ -43,7 +43,7 @@ export default function QuestsDetails({
           </div>
           {startDate && endDate && !isEndOfSeason && (
             <div className="content_details_range">
-              {`${formatDate(startDate)}  - ${formatDate(endDate)}`}
+              {`${formatDate(startDate)} - ${formatDate(endDate)}`}
             </div>
           )}
         </div>
