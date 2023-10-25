@@ -22,7 +22,7 @@ export default function BraveNav() {
           style={{ marginRight: 8 }}
         />
         <p>
-          We detected you are using Brave, for a smooth experience we advice{" "}
+          We detected you are using Brave, for a smooth experience we advise{" "}
           <a href={LINKS.BRAVE_SUPPORT} rel="noreferrer" target="_blank">
             disabling the shield
           </a>
