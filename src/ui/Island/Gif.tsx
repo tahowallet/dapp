@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react"
+import React, { memo, useEffect, useMemo, useRef } from "react"
 import { Image } from "react-konva"
 import type Konva from "konva"
 import "gifler"
@@ -6,12 +6,15 @@ import { isBrowser } from "shared/utils"
 
 type GifProps = {
   src: string
+  width: number
+  height: number
   x?: number
   y?: number
+  scaleY?: number
 }
 
-export default function Gif(props: GifProps) {
-  const { src, x = 0, y = 0 } = props
+function Gif(props: GifProps) {
+  const { src, x = 0, y = 0, width, height, scaleY } = props
   const imageRef = useRef<Konva.Image | null>(null)
   const canvas = useMemo(() => document.createElement("canvas"), [])
 
@@ -30,5 +33,17 @@ export default function Gif(props: GifProps) {
     return () => anim?.stop()
   }, [src, canvas])
 
-  return <Image x={x} y={y} image={canvas} ref={imageRef} />
+  return (
+    <Image
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      scaleY={scaleY}
+      image={canvas}
+      ref={imageRef}
+    />
+  )
 }
+
+export default memo(Gif)
