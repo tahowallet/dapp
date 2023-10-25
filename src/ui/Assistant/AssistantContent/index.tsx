@@ -54,7 +54,7 @@ export default function AssistantContent({
           width: 12px;
           position: absolute;
           bottom: -4px;
-          right: 31px;
+          right: 26px;
           border-radius: 2px;
           rotate: 45deg;
         }

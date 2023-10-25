@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useSpring, animated, easings } from "@react-spring/web"
+import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import Modal from "shared/components/Modal"
 // import { REALMS_MAP_DATA } from "shared/constants"
 // import { useIslandContext } from "shared/hooks"
@@ -29,6 +30,16 @@ export default function RealmModal({
   //       : REALMS_MAP_DATA[index + 1].id
   //   return [prev, next]
   // }, [initialRealmId])
+
+  const { updateAssistant } = useAssistant()
+  const { value, updateStorage } =
+    useLocalStorageChange<boolean>("taho.visitedRealm")
+
+  useEffect(() => {
+    if (value) return
+    updateStorage(true)
+    updateAssistant({ visible: true, type: "first-realm" })
+  }, [value, updateStorage, updateAssistant])
 
   const [props] = useSpring(
     () => ({
