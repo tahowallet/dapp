@@ -1,9 +1,12 @@
 import React from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
+import { selectStakingRealmId, useDappSelector } from "redux-state"
 import AssistantContent from "."
 
 export default function AssistantFirstRealm() {
+  const isStakedInRealm = useDappSelector(selectStakingRealmId)
+
   const { updateAssistant, assistantVisible } = useAssistant()
   const { updateStorage } = useLocalStorageChange<boolean>(
     LOCAL_STORAGE_VISITED_REALM
@@ -17,7 +20,7 @@ export default function AssistantFirstRealm() {
   return (
     <>
       <AssistantContent
-        isVisible={assistantVisible("first-realm")}
+        isVisible={assistantVisible("first-realm") && !isStakedInRealm}
         close={closeAssistant}
       >
         <div className="header">How to choose a realm?</div>
