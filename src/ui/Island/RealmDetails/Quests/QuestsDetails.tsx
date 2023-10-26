@@ -1,7 +1,6 @@
 import React from "react"
 import {
   selectIsEndOfSeason,
-  selectRealmById,
   selectSeasonDurationInWeeks,
   selectSeasonWeek,
   selectWeekEndDate,
@@ -9,6 +8,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import RealmIcon from "shared/components/RealmIcon"
+import { WEEKLY_XP_ALLOCATION } from "shared/constants"
 import { formatDate, separateThousandsByComma } from "shared/utils"
 
 export default function QuestsDetails({
@@ -23,11 +23,6 @@ export default function QuestsDetails({
   const seasonWeek = useDappSelector(selectSeasonWeek)
   const duration = useDappSelector(selectSeasonDurationInWeeks)
   const isEndOfSeason = useDappSelector(selectIsEndOfSeason)
-  const realm = useDappSelector((state) => selectRealmById(state, realmId))
-
-  // 1_000_000 is hard-coded here since the season start does not match with
-  // the season start in contracts (one week difference)
-  const adjustedXpAllocatable = Number(realm?.xpAllocatable) - 1_000_000
 
   return (
     <div className="content">
@@ -60,8 +55,9 @@ export default function QuestsDetails({
               width="32px"
               color="var(--primary-p1-100)"
             />
+            {/* TODO: recalculate the xp allocation */}
             {separateThousandsByComma(
-              Math.round(adjustedXpAllocatable > 0 ? adjustedXpAllocatable : 0)
+              seasonWeek ? seasonWeek * WEEKLY_XP_ALLOCATION : 0
             )}
           </h1>
           {tokenSymbol}
