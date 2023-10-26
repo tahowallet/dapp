@@ -9,7 +9,7 @@ export default function EnterPortal() {
 
   return (
     <OnboardingModal
-      buttonLabel="Enter the portal"
+      buttonLabel="Enter Subscape"
       onClick={() => updateWalletOnboarding(walletAddress)}
     >
       You have been
