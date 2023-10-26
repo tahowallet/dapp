@@ -148,7 +148,7 @@ class TransactionService {
       return response
     } catch (error) {
       if (this.arbitrumProviderFallback) {
-        const response = this.read(
+        const response = await this.read(
           transactionBuilder,
           data,
           this.arbitrumProviderFallback
