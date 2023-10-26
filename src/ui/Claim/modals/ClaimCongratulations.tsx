@@ -5,7 +5,7 @@ import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
 import RealmIcon from "shared/components/RealmIcon"
 
 type ClaimCongratulationsProps = {
-  amount: number
+  amount: string
   description: string
   realmId: string
   close: () => void
@@ -26,7 +26,7 @@ export default function ClaimCongratulations({
         subheader="You just claimed"
         buttons={
           <Button size="large" onClick={close}>
-            Go to settlement
+            Go to realm
           </Button>
         }
         close={close}

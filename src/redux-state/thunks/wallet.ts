@@ -58,6 +58,22 @@ export const connectArbitrumProvider = createDappAsyncThunk(
   }
 )
 
+export const connectArbitrumProviderFallback = createDappAsyncThunk(
+  "wallet/connectArbitrumProviderFallback",
+  async (
+    {
+      arbitrumProviderFallback,
+    }: {
+      arbitrumProviderFallback: ethers.providers.JsonRpcBatchProvider
+    },
+    { extra: { transactionService } }
+  ) => {
+    await transactionService.setArbitrumProviderFallback(
+      arbitrumProviderFallback
+    )
+  }
+)
+
 export const prepareForWalletChange = createDappAsyncThunk(
   "wallet/prepareForWalletChange",
   async (_, { dispatch }) => {

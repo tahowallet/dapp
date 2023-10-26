@@ -1,6 +1,11 @@
-import React from "react"
+import React, { ReactNode, useEffect } from "react"
 import ReactDOM from "react-dom/client"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+} from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
 import {
@@ -32,7 +37,22 @@ import { ROUTES } from "shared/constants"
 import Onboarding from "ui/Onboarding"
 import FullPageLoader from "shared/components/FullPageLoader"
 import MobileScreen from "ui/MobileScreen"
+// Unfortunately the PostHog React package structure does not play nice with
+// no-extraneous-dependencies.
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { PostHogProvider, usePostHog } from "posthog-js/react"
 import reduxStore from "./redux-state"
+
+function TrackEvents({ children }: { children: ReactNode[] }) {
+  const location = useLocation()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture("$pageview", { url: location.pathname })
+  }, [])
+
+  return children
+}
 
 function DApp() {
   const islandMode = useDappSelector(selectIslandMode)
@@ -56,7 +76,7 @@ function DApp() {
       <Router>
         {(!walletOnboarded || !isConnected) && <Onboarding />}
         {walletOnboarded && isConnected && (
-          <>
+          <TrackEvents>
             <FullPageLoader
               loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
             />
@@ -76,7 +96,7 @@ function DApp() {
               </Route>
             </Switch>
             <Footer />
-          </>
+          </TrackEvents>
         )}
       </Router>
     </>
@@ -87,7 +107,25 @@ function DAppProviders() {
   return (
     <Provider store={reduxStore}>
       <Web3OnboardProvider web3Onboard={web3Onboard}>
-        <DApp />
+        <PostHogProvider
+          apiKey={process.env.POSTHOG_API_KEY}
+          options={{
+            persistence: "localStorage",
+            autocapture: false,
+            capture_pageview: false,
+            disable_session_recording: true,
+            sanitize_properties(properties) {
+              return {
+                ...properties,
+                // The extension has set an expectation that the lib is set to
+                // the analytics env.
+                $lib: process.env.ANALYTICS_ENV,
+              }
+            },
+          }}
+        >
+          <DApp />
+        </PostHogProvider>
       </Web3OnboardProvider>
     </Provider>
   )

@@ -7,8 +7,8 @@ export default function ConnectWallet() {
 
   return (
     <OnboardingModal buttonLabel="Connect wallet" onClick={() => connect()}>
-      Connect wallet
-      <br /> to reach the portal.
+      Connect Taho
+      <br /> to open the portal.
     </OnboardingModal>
   )
 }
