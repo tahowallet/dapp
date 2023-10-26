@@ -37,14 +37,8 @@ function RealmDetailsBanner({
 }: RealmDetailsBannerProps) {
   const isConnected = useDappSelector(selectIsWalletConnected)
   const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
-  const displayedRealmId = useDappSelector(selectDisplayedRealmId)
   const eligibility = useDappSelector(selectEligibility)
   const hasClaimed = useDappSelector(selectHasClaimed)
-  const isStakingRealm = useDappSelector(selectIsStakingRealmDisplayed)
-  const rewardAmount = useDappSelector((state) =>
-    displayedRealmId ? selectUnclaimedXpSumById(state, displayedRealmId) : 0n
-  )
-  const [justClaimed, setJustClaimed] = useState(false) // used to keep claim rewards congrats modal open
 
   if (!isConnected) {
     return <BannerConnect />
@@ -62,6 +56,17 @@ function RealmDetailsBanner({
       />
     )
   }
+
+  return null
+}
+
+function RewardsBannerWrapper() {
+  const displayedRealmId = useDappSelector(selectDisplayedRealmId)
+  const isStakingRealm = useDappSelector(selectIsStakingRealmDisplayed)
+  const rewardAmount = useDappSelector((state) =>
+    displayedRealmId ? selectUnclaimedXpSumById(state, displayedRealmId) : 0n
+  )
+  const [justClaimed, setJustClaimed] = useState(false) // used to keep claim rewards congrats modal open
 
   if (
     isStakingRealm ||
@@ -85,6 +90,7 @@ export default function RealmDetails({ onClose }: RealmDetailsProps) {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
+      <RewardsBannerWrapper />
       <TabPanel
         activeTab={activeTab}
         setActiveTab={setActiveTab}
