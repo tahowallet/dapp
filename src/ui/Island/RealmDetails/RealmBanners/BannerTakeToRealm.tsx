@@ -10,7 +10,7 @@ export default function BannerTakeToRealm() {
 
   return (
     <RealmBanner
-      label="You are already staked in another realm,"
+      label="You are already staked in another realm"
       showHint
       style={{ marginTop: 24, marginBottom: 0 }}
       button={
