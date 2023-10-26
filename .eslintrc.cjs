@@ -25,6 +25,7 @@ module.exports = {
         ignore: ["jsx", "global"],
       },
     ],
+    "no-restricted-globals": ["self"],
   },
   ignorePatterns: ["dist", "typechain"],
 }

@@ -9,6 +9,7 @@ import web3Onboard from "shared/utils/web3Onboard"
 import { PostHogProvider } from "posthog-js/react"
 import DApp from "shared/components/DApps"
 import reduxStore from "./redux-state"
+import * as ServiceWorker from "./shared/service-worker"
 
 function DAppProviders() {
   return (
@@ -50,4 +51,6 @@ if (root) {
       </React.StrictMode>
     )
   }
+
+  ServiceWorker.register()
 }
