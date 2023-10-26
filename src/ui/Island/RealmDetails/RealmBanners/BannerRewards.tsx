@@ -15,15 +15,23 @@ import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
 import { useTransactionSuccessCallback } from "shared/hooks"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
-import { separateThousandsByComma } from "shared/utils"
+import { bigIntToUserAmount, separateThousandsByComma } from "shared/utils"
 import { LINKS } from "shared/constants"
 
 const CLAIM_XP_TX_ID = "claim-xp"
 
-export default function BannerRewards({ amount }: { amount: number }) {
+export default function BannerRewards({
+  amount,
+  setJustClaimed,
+}: {
+  amount: bigint
+  setJustClaimed: (hasClaimed: boolean) => void
+}) {
   const dispatch = useDappDispatch()
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
+  const parsedAmount = separateThousandsByComma(bigIntToUserAmount(amount))
+  const [savedAmount] = useState(() => parsedAmount)
 
   const [congratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
@@ -37,6 +45,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
   const claimTransaction = () => {
     if (realmId) {
       dispatch(claimXp({ id: CLAIM_XP_TX_ID, realmId }))
+      setJustClaimed(true) // to keep the banner + congratulation modal open
     }
   }
 
@@ -99,7 +108,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
             size="medium"
             type="secondary"
             onClick={() => setIsClaimTransactionModalOpen(true)}
-            isDisabled={amount === 0}
+            isDisabled={amount === 0n}
           >
             Claim XP
           </Button>
@@ -113,9 +122,7 @@ export default function BannerRewards({ amount }: { amount: number }) {
               width="32px"
               color="var(--primary-p1-100)"
             />
-            <div className="token_amount">
-              {separateThousandsByComma(amount)}
-            </div>
+            <div className="token_amount">{parsedAmount}</div>
             <div className="token_name">{realm.xpToken.symbol}</div>
           </div>
         </div>
@@ -157,9 +164,12 @@ export default function BannerRewards({ amount }: { amount: number }) {
       {congratulationsModalOpen && (
         <ClaimCongratulations
           realmId={realmId}
-          amount={amount}
+          amount={savedAmount}
           description={realm.xpToken.symbol}
-          close={() => setCongratulationsModalOpen(false)}
+          close={() => {
+            setCongratulationsModalOpen(false)
+            setJustClaimed(false)
+          }}
         />
       )}
     </>

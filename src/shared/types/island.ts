@@ -38,9 +38,13 @@ export type XpMerkleTreeItemData = XpMerkleTreeItem & {
   beneficiary: string
 }
 
-export type LeaderboardItemData = XpMerkleTreeItemData & {
+export type LeaderboardItemData = {
   rank: number
+  beneficiary: string
+  amount: string
 }
+
+export type XPLeaderboard = LeaderboardItemData[]
 
 export type LeaderboardData = {
   currentUser: null | LeaderboardItemData
