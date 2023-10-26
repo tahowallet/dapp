@@ -12,5 +12,4 @@ export default {
   },
   REFERRALS: "/referrals",
   LP: "/lp",
-  FEEDBACK: "https://tahowallet.typeform.com/subscapebeta",
 }

@@ -66,6 +66,9 @@ export const selectSeasonWeek = createSelector(
     if (isEndOfSeason) return durationInWeeks
 
     if (seasonStartTimestamp && durationInWeeks) {
+      const hasSeasonStarted = seasonStartTimestamp < Date.now()
+      if (!hasSeasonStarted) return 1 // if the start date is placed in the future, set season week to 1
+
       return Math.trunc((Date.now() - seasonStartTimestamp) / (7 * DAY) + 1)
     }
 
@@ -153,10 +156,8 @@ export const selectUnclaimedXpById = createSelector(
 export const selectUnclaimedXpSumById = createSelector(
   [selectUnclaimedXpById],
   (unclaimedXp) =>
-    unclaimedXp?.reduce(
-      (acc, item) => acc + parseInt(item.claim.amount, 16),
-      0
-    ) ?? 0
+    unclaimedXp?.reduce((acc, item) => acc + BigInt(item.claim.amount), 0n) ??
+    0n
 )
 /* Population - selectors */
 export const selectSortedPopulation = createSelector(selectRealms, (realms) => {

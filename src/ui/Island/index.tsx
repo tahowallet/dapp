@@ -14,6 +14,10 @@ import {
   useDappSelector,
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
+// Unfortunately the PostHog React package structure does not play nice with
+// no-extraneous-dependencies.
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { usePostHog } from "posthog-js/react"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
@@ -25,6 +29,12 @@ function IslandWrapper() {
   const dispatch = useDappDispatch()
 
   const { updateAssistant, assistantVisible } = useAssistant()
+
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture("Realm opened", { realmId })
+  }, [posthog, realmId])
 
   useEffect(() => {
     dispatch(setDisplayedRealmId(realmId))

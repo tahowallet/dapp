@@ -3,6 +3,7 @@ import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
 import {
+  bigIntToUserAmount,
   isSameAddress,
   resolveAddressToWalletData,
   separateThousandsByComma,
@@ -65,7 +66,7 @@ export default function LeaderboardItem({
             {username || truncateAddress(address)}
           </span>
           <span className="xp">
-            {separateThousandsByComma(BigInt(amount))} XP
+            {separateThousandsByComma(bigIntToUserAmount(BigInt(amount)))} XP
           </span>
         </div>
       </li>

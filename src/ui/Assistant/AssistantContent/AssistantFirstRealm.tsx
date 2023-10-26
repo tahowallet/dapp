@@ -1,9 +1,12 @@
 import React from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
+import { selectStakingRealmId, useDappSelector } from "redux-state"
 import AssistantContent from "."
 
 export default function AssistantFirstRealm() {
+  const isStakedInRealm = useDappSelector(selectStakingRealmId)
+
   const { updateAssistant, assistantVisible } = useAssistant()
   const { updateStorage } = useLocalStorageChange<boolean>(
     LOCAL_STORAGE_VISITED_REALM
@@ -17,19 +20,20 @@ export default function AssistantFirstRealm() {
   return (
     <>
       <AssistantContent
-        isVisible={assistantVisible("first-realm")}
+        isVisible={assistantVisible("first-realm") && !isStakedInRealm}
         close={closeAssistant}
       >
-        <div className="header">How to choose a realm?</div>
+        <div className="header">Why join a Realm?</div>
         <p className="paragraph">
-          Rewards are shared based on population and Quest completion.
-        </p>
-        <p className="paragraph">
-          So choose your realm based on quests you want and can complete.
+          Realm Citizens can complete <strong>Quests</strong>, earn{" "}
+          <strong>$XP</strong>, and rank on the Realm&apos;s{" "}
+          <strong>Leaderboard</strong>. Prizes await Citizens that top the
+          boards.
         </p>
         <p className="paragraph" style={{ marginBottom: 0 }}>
-          But also be mind-full, that a popular realm might yield less
-          individual rewards
+          Survey our 5 Beta Realms and choose the one you can dominate. The more
+          $TAHO you stake, the more $XP you earn. The more Citizens in each
+          Realm, the more your weekly $XP reward gets diluted.
         </p>
       </AssistantContent>
       <style jsx>{`
