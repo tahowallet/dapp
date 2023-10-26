@@ -24,6 +24,8 @@ type Events = {
 class TransactionService {
   arbitrumProvider: ethers.providers.Provider | null = null
 
+  arbitrumProviderFallback: ethers.providers.Provider | null = null
+
   arbitrumSigner: ethers.providers.JsonRpcSigner | null = null
 
   ethereumProvider: ethers.providers.Provider | null = null
@@ -57,6 +59,12 @@ class TransactionService {
 
   async setArbitrumProvider(providerOrNull: ethers.providers.Provider | null) {
     this.arbitrumProvider = providerOrNull
+  }
+
+  async setArbitrumProviderFallback(
+    providerOrNull: ethers.providers.Provider | null
+  ) {
+    this.arbitrumProviderFallback = providerOrNull
   }
 
   async setArbitrumSigner(signerOrNull: ethers.providers.JsonRpcSigner | null) {
@@ -125,17 +133,30 @@ class TransactionService {
 
   async read<T, Response>(
     transactionBuilder: ReadTransactionBuilder<T, Response>,
-    data: T
+    data: T,
+    providerFallback?: ethers.providers.Provider
   ): Promise<Response | null> {
     try {
-      if (!this.arbitrumProvider) {
+      const provider = providerFallback ?? this.arbitrumProvider
+
+      if (!provider) {
         throw new Error(ERROR_MESSAGE.NO_ARBITRUM_PROVIDER)
       }
 
-      const response = await transactionBuilder(this.arbitrumProvider, data)
+      const response = await transactionBuilder(provider, data)
 
       return response
     } catch (error) {
+      // Use providerFallback only once.
+      // The next attempt should return null.
+      if (this.arbitrumProviderFallback && !providerFallback) {
+        const response = await this.read(
+          transactionBuilder,
+          data,
+          this.arbitrumProviderFallback
+        )
+        return response
+      }
       // eslint-disable-next-line no-console
       console.error("Failed to read data from the blockchain", error)
       return null
