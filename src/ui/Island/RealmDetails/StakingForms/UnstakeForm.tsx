@@ -73,7 +73,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
         })
       )
     }
-    posthog?.capture("Realm stake started", {
+    posthog?.capture("Realm unstake started", {
       realmId: displayedRealmAddress,
     })
   }
