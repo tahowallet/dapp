@@ -13,6 +13,7 @@ import {
   useConnect,
   useGameDataFetch,
   useGameLoadDataFetch,
+  usePopulationFetch,
   useWallet,
   useWalletChange,
   useWalletOnboarding,
@@ -66,6 +67,7 @@ function DApp() {
   useWallet()
   useGameLoadDataFetch()
   useBalanceFetch()
+  usePopulationFetch()
   useGameDataFetch()
   useWalletChange()
 
