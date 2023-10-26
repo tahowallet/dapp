@@ -17,7 +17,7 @@ import BannerJoin from "./RealmBanners/BannerJoin"
 import BannerClaim from "./RealmBanners/BannerClaim"
 import Quests from "./Quests"
 import BannerRewards from "./RealmBanners/BannerRewards"
-import Council from "./Council"
+import Guardians from "./Guardians"
 
 type RealmDetailsProps = {
   onClose: () => void
@@ -94,8 +94,8 @@ export default function RealmDetails({ onClose }: RealmDetailsProps) {
           },
           { label: "Leaderboard", component: <Leaderboard /> },
           {
-            label: "Council",
-            component: <Council />,
+            label: "Guardians",
+            component: <Guardians />,
           },
         ]}
       />
