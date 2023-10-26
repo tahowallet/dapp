@@ -53,4 +53,4 @@ export const CONTRACT_DEPLOYMENT_BLOCK_NUMBER = process.env
   : undefined
 
 export const ARBITRUM_SEPOLIA_RPC_FALLBACK =
-  "https://arbitrum-sepolia.blockpi.network/v1/rpc/public"
+  process.env.ARBITRUM_RPC_FALLBACK_URL
