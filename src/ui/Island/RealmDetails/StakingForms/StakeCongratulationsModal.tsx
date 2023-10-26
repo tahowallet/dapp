@@ -28,7 +28,7 @@ export default function StakeCongratulationsModal({
       subheader={`You are now a citizen of ${realm?.name}!`}
       buttons={
         <Button size="large" onClick={close}>
-          Go to your region
+          Go to your realm
         </Button>
       }
       close={close}

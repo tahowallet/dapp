@@ -16,7 +16,7 @@ export default function GlobalStyles() {
           margin: unset;
         }
 
-        #root{
+        #root {
           position: relative;
           width: 100vw;
           height: 100vh;
@@ -150,7 +150,7 @@ export default function GlobalStyles() {
 
         html,
         body {
-          position: relative
+          position: relative;
           height: 100%;
           width: 100%;
           font-family: var(--sans);
@@ -240,7 +240,6 @@ export default function GlobalStyles() {
           border: none;
           cursor: pointer;
         }
-
       `}
     </style>
   )

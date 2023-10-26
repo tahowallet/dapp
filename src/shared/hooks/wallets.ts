@@ -11,14 +11,16 @@ import {
   resetBalances,
   connectArbitrumProvider,
   selectDisplayedRealmId,
+  connectArbitrumProviderFallback,
 } from "redux-state"
 import {
   ARBITRUM_SEPOLIA,
+  ARBITRUM_SEPOLIA_RPC_FALLBACK,
   BALANCE_UPDATE_INTERVAL,
   LOCAL_STORAGE_WALLET,
 } from "shared/constants"
-import { Logger, defineReadOnly } from "ethers/lib/utils"
 import { Network } from "@ethersproject/networks"
+import { Logger, defineReadOnly } from "ethers/lib/utils"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
 
@@ -60,6 +62,18 @@ export function useArbitrumProvider(): ethers.providers.JsonRpcBatchProvider {
   return arbitrumProvider
 }
 
+export function useArbitrumProviderFallback(): ethers.providers.JsonRpcBatchProvider | null {
+  const arbitrumProviderFallback = useMemo(
+    () =>
+      process.env.USE_ARBITRUM_SEPOLIA === "true"
+        ? new StaticJsonBatchRpcProvider(ARBITRUM_SEPOLIA_RPC_FALLBACK)
+        : null,
+    []
+  )
+
+  return arbitrumProviderFallback
+}
+
 // Signing transaction is always done with the signer from the wallet
 export function useArbitrumSigner(): ethers.providers.JsonRpcSigner | null {
   const [{ wallet }] = useConnectWallet()
@@ -95,6 +109,7 @@ export function useBalanceFetch() {
 export function useWallet() {
   const [{ wallet }] = useConnectWallet()
   const arbitrumProvider = useArbitrumProvider()
+  const arbitrumProviderFallback = useArbitrumProviderFallback()
   const arbitrumSigner = useArbitrumSigner()
   const dispatch = useDappDispatch()
 
@@ -106,7 +121,10 @@ export function useWallet() {
     if (arbitrumProvider) {
       dispatch(connectArbitrumProvider({ arbitrumProvider }))
     }
-  }, [arbitrumProvider, dispatch])
+    if (arbitrumProviderFallback) {
+      dispatch(connectArbitrumProviderFallback({ arbitrumProviderFallback }))
+    }
+  }, [arbitrumProvider, arbitrumProviderFallback, dispatch])
 
   useEffect(() => {
     if (address && arbitrumSigner) {
