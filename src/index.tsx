@@ -43,6 +43,7 @@ import MobileScreen from "ui/MobileScreen"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PostHogProvider, usePostHog } from "posthog-js/react"
 import reduxStore from "./redux-state"
+import * as ServiceWorker from "./shared/service-worker"
 
 function TrackEvents({ children }: { children: ReactNode[] }) {
   const location = useLocation()
@@ -145,4 +146,6 @@ if (root) {
       </React.StrictMode>
     )
   }
+
+  ServiceWorker.register()
 }

@@ -81,7 +81,7 @@ const config: Configuration = {
       Buffer: ["buffer", "Buffer"],
     }),
     new CopyPlugin({
-      patterns: [{ from: "src/assets/", to: "assets/" }],
+      patterns: [{ from: "src/assets/", to: "assets/" }, {from: "src/shared/service-worker/", to: "service-workers/"}],
     }),
     new DefinePlugin({
       "process.env.VERSION": JSON.stringify(packageJson.version),
@@ -93,6 +93,11 @@ const config: Configuration = {
     }),
   ],
   devServer: {
+    https: {
+      key: "./localhost-key.pem",
+      cert: "./localhost.pem",
+      ca: "/Users/pk/Library/Application Support/mkcert",
+    },
     static: {
       directory: path.join(__dirname, "public"),
     },
