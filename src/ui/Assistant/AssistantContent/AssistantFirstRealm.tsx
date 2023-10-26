@@ -20,16 +20,16 @@ export default function AssistantFirstRealm() {
         isVisible={assistantVisible("first-realm")}
         close={closeAssistant}
       >
-        <div className="header">How to choose a realm?</div>
+        <div className="header">Why join a Realm?</div>
         <p className="paragraph">
-          Rewards are shared based on population and Quest completion.
-        </p>
-        <p className="paragraph">
-          So choose your realm based on quests you want and can complete.
+          Realm Citizens can complete <strong>Quests</strong>, earn $XP, and
+          rank on the Realm&apos;s <strong>Leaderboard</strong>. Prizes await
+          Citizens that top the boards.
         </p>
         <p className="paragraph" style={{ marginBottom: 0 }}>
-          But also be mind-full, that a popular realm might yield less
-          individual rewards
+          Survey our 5 Beta Realms and choose the one you can dominate. The more
+          $TAHO you stake, the more $XP you earn. The more Citizens in each
+          Realm, the more your weekly $XP reward gets diluted.
         </p>
       </AssistantContent>
       <style jsx>{`
