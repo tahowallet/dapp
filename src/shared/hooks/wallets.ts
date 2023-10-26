@@ -12,6 +12,7 @@ import {
   connectArbitrumProvider,
   selectDisplayedRealmId,
   connectArbitrumProviderFallback,
+  fetchPopulation,
 } from "redux-state"
 import {
   ARBITRUM_SEPOLIA,
@@ -104,6 +105,22 @@ export function useBalanceFetch() {
   }, [account, dispatch])
 
   useInterval(walletBalancesCallback, account ? BALANCE_UPDATE_INTERVAL : null)
+}
+
+export function usePopulationFetch() {
+  const dispatch = useDappDispatch()
+  const account = useDappSelector(selectWalletAddress)
+
+  const populationFetchCallback = useCallback(async () => {
+    if (account && dispatch) {
+      await dispatch(fetchPopulation())
+    }
+  }, [account, dispatch])
+
+  useInterval(
+    populationFetchCallback,
+    account ? BALANCE_UPDATE_INTERVAL * 2 : null
+  )
 }
 
 export function useWallet() {
