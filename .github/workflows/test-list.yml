@@ -15,7 +15,7 @@ on:
 jobs:
   add-release-test-list:
     runs-on: ubuntu-latest
-    if: github.head_ref == 'refs/heads/stage-live'
+    if: github.head_ref == 'stage-live'
     permissions:
       pull-requests: write
     steps:
