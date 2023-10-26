@@ -6,6 +6,7 @@ import Modal from "shared/components/Modal"
 // import { REALMS_MAP_DATA } from "shared/constants"
 // import { useIslandContext } from "shared/hooks"
 import RealmModalContent from "./RealmModalContent"
+import ClickableModalOverlay from "../Modals/ClickableModalOverlay"
 
 export default function RealmModal({
   onClose,
@@ -85,6 +86,7 @@ export default function RealmModal({
               paddingBottom: 90,
             }}
           >
+            <ClickableModalOverlay close={onClose} />
             <RealmModalContent onClose={onClose}>{children}</RealmModalContent>
           </div>
         </animated.div>
