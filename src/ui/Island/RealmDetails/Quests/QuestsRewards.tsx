@@ -14,7 +14,7 @@ export default function QuestsRewards({
   return (
     <div>
       <h3 className="header row">
-        Your weekly action needed to receive rewards
+        Weekly Quests
         <div className="header_icon row_center">
           <Icon
             color="var(--secondary-s1-60)"
