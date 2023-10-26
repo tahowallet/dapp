@@ -30,8 +30,8 @@ export default function AssistantQuests() {
         </p>
         <p className="paragraph">
           Your <strong>Guardians</strong> will airdrop you{" "}
-          <strong>$XP every Tuesday</strong>... so stay tuned and let let us
-          know on Discord if you have any questions.
+          <strong>$XP every Tuesday</strong>... so stay tuned and let us know on
+          Discord if you have any questions.
         </p>
       </AssistantContent>
       <style jsx>{`

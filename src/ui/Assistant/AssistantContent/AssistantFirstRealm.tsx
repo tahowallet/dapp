@@ -22,9 +22,10 @@ export default function AssistantFirstRealm() {
       >
         <div className="header">Why join a Realm?</div>
         <p className="paragraph">
-          Realm Citizens can complete <strong>Quests</strong>, earn $XP, and
-          rank on the Realm&apos;s <strong>Leaderboard</strong>. Prizes await
-          Citizens that top the boards.
+          Realm Citizens can complete <strong>Quests</strong>, earn{" "}
+          <strong>$XP</strong>, and rank on the Realm&apos;s{" "}
+          <strong>Leaderboard</strong>. Prizes await Citizens that top the
+          boards.
         </p>
         <p className="paragraph" style={{ marginBottom: 0 }}>
           Survey our 5 Beta Realms and choose the one you can dominate. The more

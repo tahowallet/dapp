@@ -19,7 +19,7 @@ export default function AssistantJoin() {
           <a
             href={LINKS.FEEDBACK}
             className="link"
-            target="_blank"
+            target="blank"
             rel="noreferrer"
           >
             Let us know
@@ -33,22 +33,24 @@ export default function AssistantJoin() {
           <a
             href={LINKS.RULEBOOK}
             className="link"
-            target="_blank"
+            target="blank"
             rel="noreferrer"
           >
             Rulebook
           </a>
+          .
         </p>
         <p className="paragraph">
           Want to chat?{" "}
           <a
             href={LINKS.DISCORD}
             className="link"
-            target="_blank"
+            target="blank"
             rel="noreferrer"
           >
-            Join us on Discord.
+            Join us on Discord
           </a>
+          .
         </p>
       </AssistantContent>
       <style jsx>{`
