@@ -147,7 +147,9 @@ class TransactionService {
 
       return response
     } catch (error) {
-      if (this.arbitrumProviderFallback) {
+      // Use providerFallback only once.
+      // The next attempt should return null.
+      if (this.arbitrumProviderFallback && !providerFallback) {
         const response = await this.read(
           transactionBuilder,
           data,
