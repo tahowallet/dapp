@@ -55,10 +55,7 @@ export default function QuestsDetails({
               width="32px"
               color="var(--primary-p1-100)"
             />
-            {/* TODO: recalculate the xp allocation */}
-            {separateThousandsByComma(
-              seasonWeek ? seasonWeek * WEEKLY_XP_ALLOCATION : 0
-            )}
+            {separateThousandsByComma(WEEKLY_XP_ALLOCATION)}
           </h1>
           {tokenSymbol}
         </div>

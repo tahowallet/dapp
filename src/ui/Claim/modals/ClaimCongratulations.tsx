@@ -26,7 +26,7 @@ export default function ClaimCongratulations({
         subheader="You just claimed"
         buttons={
           <Button size="large" onClick={close}>
-            Go to settlement
+            Go to realm
           </Button>
         }
         close={close}

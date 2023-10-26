@@ -37,7 +37,7 @@ export default function RealmModalContent({
   }
 
   return (
-    <Modal.AnimatedContent>
+    <Modal.Content>
       <div className="modal">
         <div
           className={classNames("modal_header", {
@@ -88,6 +88,6 @@ export default function RealmModalContent({
           }
         `}
       </style>
-    </Modal.AnimatedContent>
+    </Modal.Content>
   )
 }
