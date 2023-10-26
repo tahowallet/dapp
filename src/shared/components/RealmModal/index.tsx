@@ -45,15 +45,8 @@ export default function RealmModal({
 
   const [props] = useSpring(
     () => ({
-      from: {
-        transform: "translate3d(0,38.5%,0) scale(0.8)",
-        opacity: 0,
-      },
-      to: {
-        transform: "translate3d(0,0,0) scale(1)",
-        opacity: 1,
-        position: "relative",
-      },
+      from: { opacity: 0 },
+      to: { opacity: 1, position: "relative" },
       config: { duration: 300, easing: easings.easeInOutCubic },
     }),
     []
