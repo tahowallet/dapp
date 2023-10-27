@@ -51,11 +51,11 @@
         {
             "realmId": "22",
             "questlineName": "The bribes must flow",
-            "description": "Frax Finance is a decentralized cross-chain protocol that aims to establish a scalable, digital currency with a flexible supply, backed algorithmically and by collateral.",
+            "description": "Frax Finance is a protocol that issues decentralized stablecoins and the subprotocols to support them, creating a unique self-sufficient DeFi ecosystem",
             "quests": [
                 {
-                    "name": "Fund bribes on Votemarket",
-                    "description": "The more total USD value in bribes you commit on Votemarket in a week, the more of the weekly XP drop you will get."
+                    "name": "Claim bribes on Votemarket",
+                    "description": "Earn $XP by voting for gauges and claiming bribes if available."
                 }
             ]
         }
