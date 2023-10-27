@@ -33,7 +33,9 @@ function IslandWrapper() {
   const posthog = usePostHog()
 
   useEffect(() => {
-    posthog?.capture("Realm opened", { realmId })
+    if (realmId) {
+      posthog?.capture("Realm opened", { realmId })
+    }
   }, [posthog, realmId])
 
   useEffect(() => {
