@@ -65,7 +65,7 @@ function DApp() {
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
   const hasBalances = useDappSelector(selectHasLoadedBalances)
 
-  const isMobile = useMobileScreen()
+  const isMobileScreen = useMobileScreen()
 
   useWallet()
   useGameLoadDataFetch()
@@ -77,8 +77,8 @@ function DApp() {
   return (
     <>
       <GlobalStyles />
-      {isMobile && <MobileScreen />}
-      {!isMobile && (
+      {isMobileScreen && <MobileScreen />}
+      {!isMobileScreen && (
         <Router>
           {(!walletOnboarded || !isConnected) && <Onboarding />}
           {walletOnboarded && isConnected && (
