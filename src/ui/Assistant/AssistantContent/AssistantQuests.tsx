@@ -1,18 +1,10 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import starIcon from "shared/assets/icons/star-2.svg"
-import {
-  selectRealmById,
-  selectStakingRealmId,
-  useDappSelector,
-} from "redux-state"
 import { useAssistant } from "shared/hooks"
 import AssistantContent from "."
 
 export default function AssistantQuests() {
-  const stakedRealm = useDappSelector(selectStakingRealmId)
-  const realm = useDappSelector((state) => selectRealmById(state, stakedRealm))
-
   const { updateAssistant, assistantVisible } = useAssistant()
 
   return (
@@ -21,18 +13,7 @@ export default function AssistantQuests() {
         isVisible={assistantVisible("quests")}
         close={() => updateAssistant({ visible: false, type: "default" })}
       >
-        <div className="header">
-          You are now a Citizen of {realm?.name}, I think you&apos;ll like it
-          here!
-        </div>
-        <div style={{ height: 40 }}>
-          {realm && (
-            <p>
-              Population of {realm.population > 0 ? realm.population - 1 : 0} +
-              1 (You!)
-            </p>
-          )}
-        </div>
+        <div className="header">Congrats Citizen!</div>
         <div className="hint row">
           <Icon
             src={starIcon}
@@ -42,18 +23,16 @@ export default function AssistantQuests() {
             type="image"
             color="var(--semantic-success)"
           />
-          <p>
-            Let&apos;s start earning XP
-            <br /> by completing Quests
-          </p>
+          <p>Now it&apos;s time to complete Quests and earn $XP.</p>
         </div>
-        <div className="paragraph row_center">
-          <p>
-            You can see this week&apos;s Quests under the{" "}
-            <span>Quests bar</span>. You&apos;ll be able to redeem XP in the
-            future for rewards.
-          </p>
-        </div>
+        <p className="paragraph">
+          Check out the <strong>Quests tab</strong> for details.
+        </p>
+        <p className="paragraph">
+          Your <strong>Guardians</strong> will airdrop you{" "}
+          <strong>$XP every Tuesday</strong>... so stay tuned and let us know on
+          Discord if you have any questions.
+        </p>
       </AssistantContent>
       <style jsx>{`
         .header {
@@ -65,10 +44,7 @@ export default function AssistantQuests() {
         }
         .paragraph {
           color: var(--secondary-s1-80);
-          height: 96px;
-        }
-        .paragraph span {
-          color: var(--secondary-s1-100);
+          margin-bottom: 24px;
         }
         .hint {
           margin-bottom: 16px;

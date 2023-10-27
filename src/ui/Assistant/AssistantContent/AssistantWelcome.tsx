@@ -13,16 +13,19 @@ export default function AssistantWelcome() {
         isVisible={assistantVisible("welcome")}
         close={() => updateAssistant({ visible: false, type: "default" })}
       >
-        <div className="header">Welcome to The Island, Nomad!</div>
-        <p className="paragraph">My name is Scout and I&apos;m here to help!</p>
+        <div className="header">Welcome to Subscape, Nomad</div>
+        <p className="paragraph">We&apos;ve been waiting for you...</p>
         <p className="paragraph">
-          There are 5 realms for you to explore and choose from
+          In the &apos;scape, Realms compete for your allegiance. And
+          you&apos;re free to become a Citizen wherever you wish.
         </p>
         <div className="hint row_center">
           <Icon src={realmPointer} type="image" height="37px" width="30px" />
           <p>
-            Start exploring by hovering
-            <br /> over the 5 realms
+            <strong>
+              Start exploring by hovering
+              <br /> over our 5 Beta Realms
+            </strong>
           </p>
         </div>
       </AssistantContent>

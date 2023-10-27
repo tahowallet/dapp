@@ -1,5 +1,5 @@
 import React from "react"
-import { ROUTES } from "shared/constants"
+import { LINKS, ROUTES } from "shared/constants"
 import feedbackIcon from "shared/assets/icons/feedback.svg"
 import NavItem, { NavItemProps } from "./NavItem"
 
@@ -27,7 +27,7 @@ const NAV_ITEMS: NavItemProps[] = [
 
 if (process.env.IS_COMING_SOON !== "true") {
   NAV_ITEMS.push({
-    path: ROUTES.FEEDBACK,
+    path: LINKS.FEEDBACK,
     title: "Feedback",
     exact: true,
     target: "blank",
