@@ -1,9 +1,19 @@
-self.addEventListener("install", (e) => {
+self.addEventListener("install", async (e) => {
   console.log("### Notification service worker installed")
-  new Notification("Example notification")
+  self.skipWaiting()
 })
 
-self.addEventListener("activate", (e) => {
+self.addEventListener("activate", async (e) => {
   console.log("### Notification service worker activated")
-  new Notification("Example notification")
+  try {
+    const options = {}
+    const subscription = await self.registration.pushManager.subscribe(options)
+    console.log(JSON.stringify(subscription))
+  } catch (err) {
+    console.log("Error", err)
+  }
+})
+
+self.addEventListener("push", (e) => {
+  console.log("### Notification service worker pushed")
 })
