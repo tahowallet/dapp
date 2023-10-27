@@ -11,6 +11,7 @@ import {
   selectTransactionStatusById,
   stopTrackingTransactionStatus,
   selectTokenBalanceByAddress,
+  selectRealmNameById,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -38,6 +39,9 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     selectDisplayedRealmVeTokenAddress
   )
   const displayedRealmId = useDappSelector(selectDisplayedRealmId)
+  const realmName = useDappSelector((state) =>
+    selectRealmNameById(state, displayedRealmId)
+  )
 
   const veTahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
@@ -74,7 +78,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
       )
     }
     posthog?.capture("Realm unstake started", {
-      realmId: displayedRealmAddress,
+      realmName,
     })
   }
 
@@ -88,7 +92,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const unstakeTransactionSuccessCallback = useCallback(() => {
     posthog?.capture("Realm unstake completed", {
-      realmId: displayedRealmAddress,
+      realmName,
     })
 
     setIsUnstakeTransactionModalOpen(false)
@@ -96,7 +100,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     setUnstakeAmount("")
     dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
     updateAssistant({ visible: false, type: "default" })
-  }, [dispatch, displayedRealmAddress, posthog, updateAssistant])
+  }, [dispatch, realmName, posthog, updateAssistant])
 
   useTransactionSuccessCallback(
     unstakeTransactionStatus,
