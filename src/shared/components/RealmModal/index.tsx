@@ -1,12 +1,10 @@
 import React, { useEffect } from "react"
-import { useSpring, animated, easings } from "@react-spring/web"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
 import Modal from "shared/components/Modal"
 // import { REALMS_MAP_DATA } from "shared/constants"
 // import { useIslandContext } from "shared/hooks"
 import RealmModalContent from "./RealmModalContent"
-import ClickableModalOverlay from "../Modals/ClickableModalOverlay"
 
 export default function RealmModal({
   onClose,
@@ -44,19 +42,13 @@ export default function RealmModal({
     updateAssistant({ visible: true, type: "first-realm" })
   }, [value, updateStorage, updateAssistant])
 
-  const [props] = useSpring(
-    () => ({
-      from: { opacity: 0 },
-      to: { opacity: 1, position: "relative" },
-      config: { duration: 300, easing: easings.easeInOutCubic },
-    }),
-    []
-  )
-
   return (
-    <Modal.Container type="fullscreen" onClickOutside={onClose}>
-      <animated.div style={{ position: "relative" }}>
-        {/* <PrevBtn
+    <Modal.ScrollableContainer
+      type="fullscreen"
+      bottomSpacing="90px"
+      onClickOutside={onClose}
+    >
+      {/* <PrevBtn
           style={{
             position: "absolute",
             top: 187,
@@ -76,21 +68,7 @@ export default function RealmModal({
           }}
           onClick={() => islandContext.current.onRealmClick(nextRealm)}
         /> */}
-        <animated.div style={props}>
-          <div
-            className="no_scrollbar"
-            style={{
-              height: "100vh",
-              overflow: "hidden auto",
-              paddingTop: 104,
-              paddingBottom: 90,
-            }}
-          >
-            <ClickableModalOverlay close={onClose} />
-            <RealmModalContent onClose={onClose}>{children}</RealmModalContent>
-          </div>
-        </animated.div>
-      </animated.div>
-    </Modal.Container>
+      <RealmModalContent onClose={onClose}>{children}</RealmModalContent>
+    </Modal.ScrollableContainer>
   )
 }
