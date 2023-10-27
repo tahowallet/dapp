@@ -64,6 +64,7 @@ const config: Configuration = {
     new HtmlWebpackPlugin({
       template: "./src/public/index.html",
       favicon: "./src/public/favicon.svg",
+      manifest: "./src/public/manifest.json",
       inject: true,
       publicPath: "/",
     }),
@@ -81,7 +82,7 @@ const config: Configuration = {
       Buffer: ["buffer", "Buffer"],
     }),
     new CopyPlugin({
-      patterns: [{ from: "src/assets/", to: "assets/" }, {from: "src/shared/service-worker/", to: "service-workers/"}],
+      patterns: [{ from: "src/assets/", to: "assets/" }, { from: "src/public/manifest.json", to: "manifest.json" }, {from: "src/shared/services/notificationService.ts", to: "service-workers/notificationService.js"}, {from: "src/shared/service-worker/", to: "service-workers/"}],
     }),
     new DefinePlugin({
       "process.env.VERSION": JSON.stringify(packageJson.version),
@@ -93,11 +94,7 @@ const config: Configuration = {
     }),
   ],
   devServer: {
-    https: {
-      key: "./localhost-key.pem",
-      cert: "./localhost.pem",
-      ca: "/Users/pk/Library/Application Support/mkcert",
-    },
+    https: true,
     static: {
       directory: path.join(__dirname, "public"),
     },

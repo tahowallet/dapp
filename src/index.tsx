@@ -10,6 +10,7 @@ import { PostHogProvider } from "posthog-js/react"
 import DApp from "shared/components/DApps"
 import reduxStore from "./redux-state"
 import * as ServiceWorker from "./shared/service-worker"
+import notificationService from "shared/services/notificationService"
 
 function DAppProviders() {
   return (
@@ -52,5 +53,5 @@ if (root) {
     )
   }
 
-  ServiceWorker.register()
+  ServiceWorker.registerServiceWorker()
 }
