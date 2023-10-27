@@ -13,6 +13,7 @@ import {
   useConnect,
   useGameDataFetch,
   useGameLoadDataFetch,
+  useMobileScreen,
   usePopulationFetch,
   useWallet,
   useWalletChange,
@@ -64,6 +65,8 @@ function DApp() {
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
   const hasBalances = useDappSelector(selectHasLoadedBalances)
 
+  const isMobile = useMobileScreen()
+
   useWallet()
   useGameLoadDataFetch()
   useBalanceFetch()
@@ -74,33 +77,37 @@ function DApp() {
   return (
     <>
       <GlobalStyles />
-      <MobileScreen />
-      <Router>
-        {(!walletOnboarded || !isConnected) && <Onboarding />}
-        {walletOnboarded && isConnected && (
-          <TrackEvents>
-            <FullPageLoader
-              loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
-            />
-            <IslandComponent />
-            <TestingPanel />
-            {islandMode === "default" && <Nav />}
-            <Switch>
-              <Route path={ROUTES.CLAIM.HOME}>
-                <Claim />
-              </Route>
-              <Route path={ROUTES.REFERRALS}>
-                <Referrals />
-              </Route>
-              {/* TODO should be removed or defined later */}
-              <Route path={ROUTES.LP}>
-                <LiquidityPool />
-              </Route>
-            </Switch>
-            <Footer />
-          </TrackEvents>
-        )}
-      </Router>
+      {isMobile && <MobileScreen />}
+      {!isMobile && (
+        <Router>
+          {(!walletOnboarded || !isConnected) && <Onboarding />}
+          {walletOnboarded && isConnected && (
+            <TrackEvents>
+              <FullPageLoader
+                loaded={
+                  hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances
+                }
+              />
+              <IslandComponent />
+              <TestingPanel />
+              {islandMode === "default" && <Nav />}
+              <Switch>
+                <Route path={ROUTES.CLAIM.HOME}>
+                  <Claim />
+                </Route>
+                <Route path={ROUTES.REFERRALS}>
+                  <Referrals />
+                </Route>
+                {/* TODO should be removed or defined later */}
+                <Route path={ROUTES.LP}>
+                  <LiquidityPool />
+                </Route>
+              </Switch>
+              <Footer />
+            </TrackEvents>
+          )}
+        </Router>
+      )}
     </>
   )
 }
