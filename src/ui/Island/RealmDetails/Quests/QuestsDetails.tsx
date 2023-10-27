@@ -32,7 +32,7 @@ export default function QuestsDetails({
             {!!seasonWeek && (
               <>
                 <div className="content_details_weeks">
-                  Total real rewards Week {seasonWeek}
+                  Total realm rewards Week {seasonWeek}
                 </div>
                 <span style={{ color: "var(--secondary-s1-70)" }}>
                   / {duration}
