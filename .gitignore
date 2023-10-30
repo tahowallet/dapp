@@ -34,3 +34,6 @@ yarn-error.log
 
 # Dist directory
 dist
+
+# Webpack Bundle Analyzer
+stats.json
