@@ -17,7 +17,7 @@ const config: Configuration = {
   devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "[name].js",
     clean: true,
   },
   resolve: {
@@ -110,7 +110,16 @@ const config: Configuration = {
     },
   },
   optimization: {
-    splitChunks: { automaticNameDelimiter: "-" },
+    splitChunks: {
+      automaticNameDelimiter: "-",
+      cacheGroups: {
+        nodeModules: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "node-modules",
+          chunks: "all",
+        },
+      },
+    },
   },
 }
 
