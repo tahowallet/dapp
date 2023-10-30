@@ -82,7 +82,7 @@ const config: Configuration = {
       Buffer: ["buffer", "Buffer"],
     }),
     new CopyPlugin({
-      patterns: [{ from: "src/assets/", to: "assets/" }, { from: "src/public/manifest.json", to: "manifest.json" }, {from: "src/shared/services/notificationService.ts", to: "service-workers/notificationService.js"}, {from: "src/shared/service-worker/", to: "service-workers/"}],
+      patterns: [{ from: "src/assets/", to: "assets/" }, { from: "src/public/manifest.json", to: "manifest.json" }, {from: "src/service-workers", to: "service-workers/"}],
     }),
     new DefinePlugin({
       "process.env.VERSION": JSON.stringify(packageJson.version),

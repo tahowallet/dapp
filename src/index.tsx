@@ -9,8 +9,8 @@ import web3Onboard from "shared/utils/web3Onboard"
 import { PostHogProvider } from "posthog-js/react"
 import DApp from "shared/components/DApps"
 import reduxStore from "./redux-state"
-import * as ServiceWorker from "./shared/service-worker"
-import notificationService from "shared/services/notificationService"
+import * as ServiceWorker from "./service-workers"
+import notificationService from "service-workers/Notification/notification.service"
 
 function DAppProviders() {
   return (
