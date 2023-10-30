@@ -11,7 +11,31 @@ import XP_DATA from "../../assets/xp-data.json"
 const XP_HOSTING_BASE_URL = process.env.XP_HOSTING_BASE_URL
 
 type XpDataType = {
-  [realmId: string]: { leaderboard: string | null; xp: string[] }
+  [realmId: string]: {
+    rootFolder?: string
+    claimsFolder?: string
+    leaderboard: string | null
+    xpGlossary: string[]
+  }
+}
+
+async function fetchOrImport(url: string) {
+  if (process.env.NODE_ENV === "development") {
+    // We need to give webpack a hint where these files are located in the filesystem
+    // so we remove parts of the path and file extension - including this directly in a dynamic import
+    // string template will make webpack include all files in the bundle
+    const fileWithoutExtension = url
+      .replace("/assets/xp/", "")
+      .replace(/.json$/, "")
+    return (
+      await import(
+        /* webpackInclude: /\.json$/ */ `../../../src/assets/xp/${fileWithoutExtension}.json`
+      )
+    ).default
+  }
+  // For production we fetch the data from the XP hosting server - by default we can use
+  // json files from "assets" folder as they are copied to the build folder during the build process
+  return (await fetch(`${XP_HOSTING_BASE_URL}${url}`)).json()
 }
 
 export async function getRealmLeaderboardData(
@@ -21,30 +45,30 @@ export async function getRealmLeaderboardData(
     throw new Error("Missing realm id")
   }
 
-  let xpData: null | XPLeaderboard = null
+  const xpData = (XP_DATA as XpDataType)[realmId]
 
-  if (realmId) {
-    try {
-      const leaderboardUrl = (XP_DATA as XpDataType)[realmId]?.leaderboard
-
-      if (!leaderboardUrl) {
-        return null
-      }
-      if (process.env.NODE_ENV === "development") {
-        // TODO: fix it - not working locally
-        xpData = (await import(`${leaderboardUrl}`)).default
-      } else {
-        xpData = await (
-          await fetch(`${XP_HOSTING_BASE_URL}${leaderboardUrl}`)
-        ).json()
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("No XP data found for the realm id:", realmId, error)
-    }
+  if (!xpData) {
+    throw new Error("Missing data in xp-data.json")
   }
 
-  return xpData
+  let leaderboardData: null | XPLeaderboard = null
+
+  const { rootFolder, leaderboard } = xpData
+
+  if (!rootFolder || !leaderboard) {
+    return null
+  }
+
+  const leaderboardUrl = `${rootFolder}/${leaderboard}`
+
+  try {
+    leaderboardData = await fetchOrImport(leaderboardUrl)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn("No leaderboard data found for the realm id:", realmId, error)
+  }
+
+  return leaderboardData
 }
 
 export async function getXpDataForRealmId(
@@ -58,43 +82,45 @@ export async function getXpDataForRealmId(
   const normalizedAddress = normalizeAddress(account)
 
   const targetAddress = BigInt(normalizedAddress)
-  let xpData: (null | XpMerkleTree)[] = []
+  let claimsData: (null | XpMerkleTree)[] = []
+
+  const xpData = (XP_DATA as XpDataType)[realmId]
 
   try {
-    const xpLinks = (XP_DATA as XpDataType)[realmId]?.xp
+    const { rootFolder, claimsFolder, xpGlossary } = xpData
 
-    if (!xpLinks || !xpLinks.length) {
+    if (!rootFolder || !claimsFolder || !xpGlossary || !xpGlossary.length) {
       return []
     }
 
-    xpData = await Promise.all(
-      xpLinks.map(async (url) => {
-        let glossaryFile: XpMerkleTreeGlossary
+    claimsData = await Promise.all(
+      xpGlossary.map(async (file) => {
+        const glossaryUrl = `${rootFolder}/${file}`
 
-        if (process.env.NODE_ENV === "development") {
-          // TODO: fix it - not working locally
-          glossaryFile = (await import(`${url}`)).default
-        } else {
-          glossaryFile = await (
-            await fetch(`${XP_HOSTING_BASE_URL}${url}`)
-          ).json()
-        }
+        const glossaryFile: XpMerkleTreeGlossary = await fetchOrImport(
+          glossaryUrl
+        )
 
         if (!glossaryFile) {
-          throw new Error(`Failed to fetch glossaryFile from ${url}`)
+          throw new Error(`Failed to fetch glossaryFile from ${glossaryUrl}`)
         }
 
-        const claimLink = glossaryFile.glossary.find(
-          ({ startAddress }) => BigInt(startAddress ?? 0) >= targetAddress
-        )?.file
+        const claimFileIndex =
+          glossaryFile.glossary.findIndex(
+            ({ startAddress }) => BigInt(startAddress ?? 0) > targetAddress
+          ) - 1
+        const claimFile = glossaryFile.glossary[claimFileIndex]?.file
 
-        if (!claimLink) {
-          throw new Error(`Failed to find claim link for ${normalizedAddress}`)
+        if (!claimFile) {
+          // No claim file found for the user
+          return null
         }
 
-        const claims = (await (
-          await fetch(`${XP_HOSTING_BASE_URL}${claimLink}`)
-        ).json()) as XpMerkleTreeClaims | undefined
+        const claimLink = `${claimsFolder}/${claimFile}`
+
+        const claims: XpMerkleTreeClaims | undefined = await fetchOrImport(
+          claimLink
+        )
 
         if (!claims) {
           throw new Error(`Failed to fetch claims from ${claimLink}`)
@@ -102,16 +128,19 @@ export async function getXpDataForRealmId(
 
         const userClaim = claims[normalizedAddress]
 
-        return userClaim
-          ? ({
-              totalAmount: glossaryFile.totalAmount,
-              merkleRoot: glossaryFile.merkleRoot,
-              merkleDistributor: glossaryFile.merkleDistributor,
-              claims: {
-                [normalizedAddress]: userClaim,
-              },
-            } as XpMerkleTree)
-          : null
+        if (userClaim) {
+          return {
+            totalAmount: glossaryFile.totalAmount,
+            merkleRoot: glossaryFile.merkleRoot,
+            merkleDistributor: glossaryFile.merkleDistributor,
+            claims: {
+              [normalizedAddress]: userClaim,
+            },
+          } as XpMerkleTree
+        }
+
+        // No claim found for the user
+        return null
       })
     )
   } catch (error) {
@@ -119,7 +148,7 @@ export async function getXpDataForRealmId(
     console.warn("No XP data found for the realm id:", realmId, error)
   }
 
-  return xpData.flatMap((item) => (item ? [item] : []))
+  return claimsData.flatMap((item) => (item ? [item] : []))
 }
 
 export function getUserLeaderboardRank(
