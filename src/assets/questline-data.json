@@ -6,10 +6,6 @@
             "description": "Gitcoin is a community that focuses on incentivizing and supporting open-source development. Gitcoin aims to foster collaboration and sustainability within the open-source ecosystem by providing a marketplace for matching developers with projects and funding opportunitie and rewards for their contributions.",
             "quests": [
                 {
-                    "name": "Execute individual transactions on PGN (Public Goods Network)",
-                    "description": "The more transactions you execute on PGN compared to other members of this realm in a week, the more of the weekly XP drop you will get."
-                },
-                {
                     "name": "Spend gas on PGN (Public Goods Network)—more gas is better!",
                     "description": "The more gas you use on PGN compared to other members of this realm in a week, the more of the weekly XP drop you will get. This means you can still get more XP if you execute fewer bigger transactions!"
                 }
