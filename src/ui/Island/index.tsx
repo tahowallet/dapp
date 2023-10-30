@@ -1,5 +1,8 @@
 import React, { memo, useCallback, useEffect, useState } from "react"
-import { selectIsDefaultIslandMode } from "redux-state/selectors/island"
+import {
+  selectIsDefaultIslandMode,
+  selectRealmNameById,
+} from "redux-state/selectors/island"
 import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
@@ -25,6 +28,9 @@ import Quests from "./RealmDetails/Quests"
 function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
   const [realmId, setRealmId] = useState<null | string>(null)
+  const realmName = useDappSelector((state) =>
+    selectRealmNameById(state, realmId)
+  )
 
   const dispatch = useDappDispatch()
 
@@ -33,8 +39,10 @@ function IslandWrapper() {
   const posthog = usePostHog()
 
   useEffect(() => {
-    posthog?.capture("Realm opened", { realmId })
-  }, [posthog, realmId])
+    if (realmName) {
+      posthog?.capture("Realm opened", { realmName })
+    }
+  }, [posthog, realmName])
 
   useEffect(() => {
     dispatch(setDisplayedRealmId(realmId))

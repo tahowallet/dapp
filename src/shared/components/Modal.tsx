@@ -4,6 +4,7 @@ import { easings, useSpring, animated } from "@react-spring/web"
 
 import Portal from "./Portal"
 import { noop } from "../utils"
+import ClickableModalOverlay from "./Modals/ClickableModalOverlay"
 
 function CloseBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   return (
@@ -159,29 +160,45 @@ type ScrollableContainerProps = {
   /**
    * position of the modal from top of the screen
    */
-  topSpacing: number
+  topSpacing?: string
+  bottomSpacing?: string
 } & ModalProps
 
 /**
  * Modal container, allows for scrolling when modal does not fit the window
  */
 function ScrollableContainer({
-  topSpacing,
+  topSpacing = "104px",
+  bottomSpacing = "160px",
   children,
   type = "freeform",
   onClickOutside = noop,
 }: ScrollableContainerProps) {
+  const [props] = useSpring(
+    () => ({
+      from: { opacity: 0 },
+      to: { opacity: 1, position: "relative" },
+      config: { duration: 300, easing: easings.easeInOutCubic },
+    }),
+    []
+  )
+
   return (
     <>
       <Container type={type} onClickOutside={onClickOutside}>
-        <div className="no_scrollbar scrollable_modal">{children}</div>
+        <animated.div style={props}>
+          <div className="no_scrollbar scrollable_modal">
+            <ClickableModalOverlay close={onClickOutside} />
+            {children}
+          </div>
+        </animated.div>
       </Container>
       <style jsx>
         {`
           .scrollable_modal {
             height: 100vh;
-            padding-top: ${topSpacing}px;
-            padding-bottom: 160px;
+            padding-top: ${topSpacing};
+            padding-bottom: ${bottomSpacing};
             overflow: hidden auto;
           }
         `}

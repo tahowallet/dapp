@@ -2,6 +2,8 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { debounce } from "lodash"
 import { useSpring } from "@react-spring/web"
+import { getWindowDimensions } from "shared/utils"
+import { MOBILE_BREAKPOINT } from "shared/constants"
 
 type VoidFn = () => unknown
 
@@ -219,4 +221,15 @@ export function useLocalStorageChange<T>(key: string): {
   }
 
   return { value, updateStorage }
+}
+
+export function useMobileScreen() {
+  const [width, setWidth] = useState(window.innerWidth)
+
+  useOnResize(() => {
+    const windowSize = getWindowDimensions()
+    setWidth(windowSize.width)
+  })
+
+  return width < MOBILE_BREAKPOINT
 }
