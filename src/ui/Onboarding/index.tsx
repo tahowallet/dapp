@@ -1,4 +1,4 @@
-import React from "react"
+import React, { lazy } from "react"
 import { useAssets, useConnect } from "shared/hooks"
 import {
   useDappSelector,
@@ -10,10 +10,11 @@ import Nav from "ui/Nav"
 import portalBackground from "shared/assets/portal-background.mp4"
 import Version from "shared/components/Version"
 import OnboardingFooter from "ui/Footer/OnboardingFooter"
-import ConnectWallet from "./ConnectWallet"
-import JoinWaitlist from "./JoinWaitlist"
-import EnterPortal from "./EnterPortal"
-import OnboardingModalLoader from "./Loader"
+
+const JoinWaitlist = lazy(() => import("./JoinWaitlist"))
+const ConnectWallet = lazy(() => import("./ConnectWallet"))
+const OnboardingModalLoader = lazy(() => import("./Loader"))
+const EnterPortal = lazy(() => import("./EnterPortal"))
 
 function OnboardingModal() {
   const { isConnected } = useConnect()
