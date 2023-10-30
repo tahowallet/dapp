@@ -16,11 +16,13 @@ const config: Configuration = {
   entry: {
     main: "./src/index.tsx",
     DesktopDApp: "./src/shared/components/DApps/DesktopDApp.tsx",
+    Onboarding: "./src/ui/Onboarding/index.tsx",
+    IslandView: "./src/shared/components/DApps/IslandView.tsx",
   },
   devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].[hash:8].js",
+    filename: "[name].[contenthash:8].js",
     clean: true,
   },
   resolve: {
