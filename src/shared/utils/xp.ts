@@ -24,8 +24,11 @@ export async function getRealmLeaderboardData(
         return null
       }
       if (process.env.NODE_ENV === "development") {
-        // TODO: fix it - not working locally
-        xpData = (await import(`${leaderboardUrl}`)).default
+        xpData = (
+          await import(
+            /* webpackInclude: /\.json$/ */ `../../../src${leaderboardUrl}`
+          )
+        ).default
       } else {
         xpData = await (await fetch(leaderboardUrl)).json()
       }
@@ -59,8 +62,9 @@ export async function getXpDataForRealmId(
         let data
 
         if (process.env.NODE_ENV === "development") {
-          // TODO: fix it - not working locally
-          data = (await import(`${url}`)).default
+          data = (
+            await import(/* webpackInclude: /\.json$/ */ `../../../src${url}`)
+          ).default
         } else {
           data = await (await fetch(url)).json()
         }
