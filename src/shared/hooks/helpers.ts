@@ -162,7 +162,9 @@ export function useAssets(assets: string[]) {
         img.onload = checkAssetsLoaded
       }
     })
-  }, [assets])
+    // The useLayoutEffect hook should only run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return assetsLoaded
 }
