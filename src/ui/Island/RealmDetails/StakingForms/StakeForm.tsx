@@ -10,6 +10,7 @@ import {
   stopTrackingTransactionStatus,
   selectStakingRealmAddress,
   selectStakingRealmId,
+  selectRealmNameById,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -31,6 +32,9 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const displayedRealmAddress = useDappSelector(selectDisplayedRealmAddress)
   const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
+  const realmName = useDappSelector((state) =>
+    selectRealmNameById(state, stakingRealmId)
+  )
 
   const [stakeAmount, setStakeAmount] = useState("")
   const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
@@ -60,7 +64,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
         })
       )
       posthog?.capture("Realm stake started", {
-        realmId: displayedRealmAddress,
+        realmName,
       })
     }
   }
@@ -81,7 +85,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const stakeTransactionSuccessCallback = useCallback(() => {
     posthog?.capture("Realm stake completed", {
-      realmId: displayedRealmAddress,
+      realmName,
     })
 
     setIsStakeTransactionModalOpen(false)
@@ -90,13 +94,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     if (!stakingRealmId) {
       updateAssistant({ visible: true, type: "quests" })
     }
-  }, [
-    dispatch,
-    posthog,
-    displayedRealmAddress,
-    stakingRealmId,
-    updateAssistant,
-  ])
+  }, [posthog, realmName, dispatch, stakingRealmId, updateAssistant])
 
   const onInputChange = (value: string) => {
     setStakeAmount(value)
