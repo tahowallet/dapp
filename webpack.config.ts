@@ -13,11 +13,14 @@ import child_proces from "child_process"
 import packageJson from "./package.json"
 
 const config: Configuration = {
-  entry: ["./src/index.tsx"],
+  entry: {
+    main: "./src/index.tsx",
+    DesktopDApp: "./src/shared/components/DApps/DesktopDApp.tsx",
+  },
   devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "[name].[hash:8].js",
     clean: true,
   },
   resolve: {
@@ -110,7 +113,25 @@ const config: Configuration = {
     },
   },
   optimization: {
-    splitChunks: { automaticNameDelimiter: "-" },
+    runtimeChunk: "single",
+    splitChunks: {
+      chunks: "all",
+      automaticNameDelimiter: "-",
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module: { context: { match: (arg0: RegExp) => string[] } }) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1]
+
+            return `npm.${packageName.replace("@", "")}`
+          },
+        },
+      },
+    },
   },
 }
 
@@ -144,9 +165,8 @@ export default async (
       ],
     },
     production: {
-      output: {
-        chunkLoading: false,
-      },
+      output: { chunkLoading: false },
+      devtool: false,
     },
   }
 
