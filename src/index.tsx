@@ -43,8 +43,8 @@ import MobileScreen from "ui/MobileScreen"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PostHogProvider, usePostHog } from "posthog-js/react"
 import reduxStore from "./redux-state"
-import * as ServiceWorker from "./shared/service-worker"
-import notificationService from "shared/services/notificationService"
+import * as ServiceWorker from "./service-workers"
+import notificationService from "service-workers/Notification/notification.service"
 
 function TrackEvents({ children }: { children: ReactNode[] }) {
   const location = useLocation()
