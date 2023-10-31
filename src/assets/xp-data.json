@@ -23,7 +23,8 @@
     "rootFolder": "/assets/xp/galxe",
     "claimsFolder": "/assets/xp/galxe/claims",
     "xpGlossary": [
-      "0x5a45b05eb07cf4281a33f5411ccb32209a100f5dc18436fa7ae62bf4b40c6521.json"
+      "0x5a45b05eb07cf4281a33f5411ccb32209a100f5dc18436fa7ae62bf4b40c6521.json",
+      "0x1b55fc84ecc25ba30e2ca537b6ffeeb2adc948324100bb8e5695f8d26f8391a4.json"
     ],
     "leaderboard": "leaderboard.json"
   },
