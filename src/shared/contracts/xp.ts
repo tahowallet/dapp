@@ -43,7 +43,7 @@ export const getUnclaimedXpDistributions: ReadTransactionBuilder<
   },
   UnclaimedXpData[]
 > = async (provider, { realmId, account }) => {
-  const xpData = (await getXpDataForRealmId(realmId)) ?? []
+  const xpData = await getXpDataForRealmId(realmId, account)
 
   const unclaimedOrNull = await Promise.all(
     xpData.map<Promise<UnclaimedXpData | null>>(
