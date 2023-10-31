@@ -1,0 +1,16 @@
+{
+  "0x2d215e6911ad32d2bb5a6240c97540ae4c7ee3e8": {
+    "index": "0x0",
+    "amount": "0x0de0b6b3a7640000",
+    "proof": [
+      "0x4d2ed50ea97d0891073d043c230dd7aa792f64c94deac36a130d87cbfecfadf9"
+    ]
+  },
+  "0x5ca23512120e636f134b010e0b9a8c148d8ed2ea": {
+    "index": "0x1",
+    "amount": "0x0de0b6b3a7640000",
+    "proof": [
+      "0xc615078a3537b8f37a7b122d0e4ac3ff3fe25670708061cef6265adb17245abd"
+    ]
+  }
+}

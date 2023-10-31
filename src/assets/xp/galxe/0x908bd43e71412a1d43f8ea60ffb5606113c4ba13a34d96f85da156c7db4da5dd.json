@@ -1,0 +1,11 @@
+{
+  "totalAmount": "0x53444835ec580000",
+  "merkleRoot": "0x908bd43e71412a1d43f8ea60ffb5606113c4ba13a34d96f85da156c7db4da5dd",
+  "glossary": [
+    {
+      "startAddress": "0x149ba6d083baffdc9d7d80bb23cfc94d89502d73",
+      "file": "/0x908bd43e71412a1d43f8ea60ffb5606113c4ba13a34d96f85da156c7db4da5dd-0.json"
+    }
+  ],
+  "merkleDistributor": "0xB19Cb4b04c018522B53D8cAEF08CBCd02685b6C8"
+}
