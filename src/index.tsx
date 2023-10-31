@@ -44,7 +44,6 @@ import MobileScreen from "ui/MobileScreen"
 import { PostHogProvider, usePostHog } from "posthog-js/react"
 import reduxStore from "./redux-state"
 import * as ServiceWorker from "./service-workers"
-import notificationService from "service-workers/Notification/notification.service"
 
 function TrackEvents({ children }: { children: ReactNode[] }) {
   const location = useLocation()

@@ -12,6 +12,12 @@ export default function MobileScreen() {
   const [width, setWidth] = useState(window.innerWidth)
 
   useOnResize(() => {
+    // navigator?.serviceWorker?.controller?.postMessage({"type": "push", "title": "sprawdzamy", "options": {}})
+    navigator?.serviceWorker?.controller?.postMessage({"type": "unregister"})
+
+    console.log('### navigator?.serviceWorker?.controller', navigator?.serviceWorker?.controller)
+
+
     const windowSize = getWindowDimensions()
     setWidth(windowSize.width)
   })
