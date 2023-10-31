@@ -3,6 +3,7 @@ import { ethers } from "ethers"
 export enum TransactionProgressStatus {
   Idle,
   Approving,
+  Approved,
   Signing,
   Sending,
   Done,

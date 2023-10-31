@@ -1,5 +1,8 @@
 import React, { memo, useCallback, useEffect, useState } from "react"
-import { selectIsDefaultIslandMode } from "redux-state/selectors/island"
+import {
+  selectIsDefaultIslandMode,
+  selectRealmNameById,
+} from "redux-state/selectors/island"
 import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
@@ -14,6 +17,10 @@ import {
   useDappSelector,
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
+// Unfortunately the PostHog React package structure does not play nice with
+// no-extraneous-dependencies.
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { usePostHog } from "posthog-js/react"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
@@ -21,10 +28,21 @@ import Quests from "./RealmDetails/Quests"
 function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
   const [realmId, setRealmId] = useState<null | string>(null)
+  const realmName = useDappSelector((state) =>
+    selectRealmNameById(state, realmId)
+  )
 
   const dispatch = useDappDispatch()
 
   const { updateAssistant, assistantVisible } = useAssistant()
+
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    if (realmName) {
+      posthog?.capture("Realm opened", { realmName })
+    }
+  }, [posthog, realmName])
 
   useEffect(() => {
     dispatch(setDisplayedRealmId(realmId))

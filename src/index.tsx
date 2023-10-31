@@ -1,93 +1,38 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
-import {
-  useBalanceFetch,
-  useConnect,
-  useGameDataFetch,
-  useGameLoadDataFetch,
-  useWallet,
-  useWalletChange,
-  useWalletOnboarding,
-} from "shared/hooks"
-import LiquidityPool from "ui/LiquidityPool"
-import {
-  selectHasLoadedBalances,
-  selectHasLoadedRealmData,
-  selectHasLoadedSeasonInfo,
-  selectIslandMode,
-  useDappSelector,
-} from "redux-state"
-import TestingPanel from "testing/components/TestingPanel"
-import Referrals from "ui/Referrals"
-import Footer from "ui/Footer"
-import Nav from "ui/Nav"
-import Claim from "ui/Claim"
-import GlobalStyles from "ui/GlobalStyles"
-import IslandComponent from "ui/Island"
 import web3Onboard from "shared/utils/web3Onboard"
-import { ROUTES } from "shared/constants"
-import Onboarding from "ui/Onboarding"
-import FullPageLoader from "shared/components/FullPageLoader"
-import MobileScreen from "ui/MobileScreen"
+// Unfortunately the PostHog React package structure does not play nice with
+// no-extraneous-dependencies.
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { PostHogProvider } from "posthog-js/react"
+import DApp from "shared/components/DApps"
 import reduxStore from "./redux-state"
-
-function DApp() {
-  const islandMode = useDappSelector(selectIslandMode)
-  const { isConnected } = useConnect()
-  const { walletOnboarded } = useWalletOnboarding()
-
-  const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
-  const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
-  const hasBalances = useDappSelector(selectHasLoadedBalances)
-
-  useWallet()
-  useGameLoadDataFetch()
-  useBalanceFetch()
-  useGameDataFetch()
-  useWalletChange()
-
-  return (
-    <>
-      <GlobalStyles />
-      <MobileScreen />
-      <Router>
-        {(!walletOnboarded || !isConnected) && <Onboarding />}
-        {walletOnboarded && isConnected && (
-          <>
-            <FullPageLoader
-              loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
-            />
-            <IslandComponent />
-            <TestingPanel />
-            {islandMode === "default" && <Nav />}
-            <Switch>
-              <Route path={ROUTES.CLAIM.HOME}>
-                <Claim />
-              </Route>
-              <Route path={ROUTES.REFERRALS}>
-                <Referrals />
-              </Route>
-              {/* TODO should be removed or defined later */}
-              <Route path={ROUTES.LP}>
-                <LiquidityPool />
-              </Route>
-            </Switch>
-            <Footer />
-          </>
-        )}
-      </Router>
-    </>
-  )
-}
 
 function DAppProviders() {
   return (
     <Provider store={reduxStore}>
       <Web3OnboardProvider web3Onboard={web3Onboard}>
-        <DApp />
+        <PostHogProvider
+          apiKey={process.env.POSTHOG_API_KEY}
+          options={{
+            persistence: "localStorage",
+            autocapture: false,
+            capture_pageview: false,
+            disable_session_recording: true,
+            sanitize_properties(properties) {
+              return {
+                ...properties,
+                // The extension has set an expectation that the lib is set to
+                // the analytics env.
+                $lib: process.env.ANALYTICS_ENV,
+              }
+            },
+          }}
+        >
+          <DApp />
+        </PostHogProvider>
       </Web3OnboardProvider>
     </Provider>
   )
