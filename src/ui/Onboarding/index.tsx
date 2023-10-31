@@ -9,6 +9,7 @@ import FullPageLoader from "shared/components/FullPageLoader"
 import Nav from "ui/Nav"
 import portalBackground from "shared/assets/portal-background.mp4"
 import Version from "shared/components/Version"
+import OnboardingFooter from "ui/Footer/OnboardingFooter"
 
 const JoinWaitlist = lazy(() => import("./JoinWaitlist"))
 const ConnectWallet = lazy(() => import("./ConnectWallet"))
@@ -66,6 +67,7 @@ export default function Onboarding() {
         </div>
       </div>
       <Nav />
+      <OnboardingFooter />
       <style jsx>{`
         .onboarding {
           height: 100vh;
