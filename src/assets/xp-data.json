@@ -2,8 +2,10 @@
   "4": {
     "rootFolder": "/assets/xp/gitcoin",
     "claimsFolder": "/assets/xp/gitcoin/claims",
-    "xpGlossary": [],
-    "leaderboard": null
+    "xpGlossary": [
+      "0x55813d319d7f508e039664de93c027401f2dc9ac6269aaf31e4b38aa8dfa690a.json"
+    ],
+    "leaderboard": "leaderboard.json"
   },
   "7": {
     "rootFolder": "/assets/xp/cyberconnect",
