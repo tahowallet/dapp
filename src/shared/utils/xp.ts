@@ -110,7 +110,7 @@ export async function getXpDataForRealmId(
         // * If `startAddress` > `targetAddress` then we know that the address is in the previous file.
         // Edge cases are:
         // * `targetAddress` === `startAddress` - this is covered by the same logic as the regular case,
-        //   becuase we will come back to the previous file, because while cheking next claim file startAddress > targetAddress
+        //   because we will come back to the previous file, because while checking next claim file startAddress > targetAddress
         // * `targetAddress` is in the first file - this is covered by defaulting to the first file is none of the files match
         // * `targetAddress` is not in the drop at all - not a problem, we will return null
         const suspectedNextClaimFileIndex = glossaryFile.glossary.findIndex(
@@ -125,7 +125,7 @@ export async function getXpDataForRealmId(
           return null
         }
 
-        const claimLink = `${claimsFolder}/${claimFile}`
+        const claimLink = `${claimsFolder}${claimFile}`
 
         const claims: XpMerkleTreeClaims | undefined = await fetchOrImport(
           claimLink
