@@ -2,7 +2,7 @@
 
 ### On chain allocation
 
-Allocation is done using the script from the [contracts](https://github.com/tahowallet/contracts) repository, please use documentation written for the script there. This documentation assumes you've already generated all the files and the drop already happened. The only thing left to do is to provide the dapp source merkle tree data for given allocation.
+Allocation is done using the script from the [contracts](https://github.com/tahowallet/contracts) repository, please use [documentation](https://github.com/tahowallet/contracts/blob/main/merkle/README.adoc) written for the script there. This documentation assumes you've already generated all the files and the drop already happened. The only thing left to do is to provide the dapp source merkle tree data for given allocation.
 
 ### Providing XP data in the dapp
 
