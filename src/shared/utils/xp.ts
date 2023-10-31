@@ -103,10 +103,21 @@ export async function getXpDataForRealmId(
           throw new Error(`Failed to fetch glossaryFile from ${glossaryUrl}`)
         }
 
+        // Addresses in the claim files are sorted in ascending order,
+        // we only know about the address that the file starts with and our `targetAddress`.
+        // * If `startAddress` < `targetAddress` then we don't know if the address
+        //   is in the current claim file or the next one. We assume that it's in the one of the upcoming files.
+        // * If `startAddress` > `targetAddress` then we know that the address is in the previous file.
+        // Edge cases are:
+        // * `targetAddress` === `startAddress` - this is covered by the same logic as the regular case,
+        //   becuase we will come back to the previous file, because while cheking next claim file startAddress > targetAddress
+        // * `targetAddress` is in the first file - this is covered by defaulting to the first file is none of the files match
+        // * `targetAddress` is not in the drop at all - not a problem, we will return null
+        const suspectedNextClaimFileIndex = glossaryFile.glossary.findIndex(
+          ({ startAddress }) => BigInt(startAddress ?? 0) > targetAddress
+        )
         const claimFileIndex =
-          glossaryFile.glossary.findIndex(
-            ({ startAddress }) => BigInt(startAddress ?? 0) > targetAddress
-          ) - 1
+          suspectedNextClaimFileIndex <= 0 ? 0 : suspectedNextClaimFileIndex - 1
         const claimFile = glossaryFile.glossary[claimFileIndex]?.file
 
         if (!claimFile) {
