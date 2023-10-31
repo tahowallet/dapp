@@ -103,6 +103,7 @@ const config: Configuration = {
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers":
         "X-Requested-With, content-type, Authorization",
+      "Service-Worker-Allowed": "/",
     },
     historyApiFallback: true,
     compress: true,

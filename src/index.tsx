@@ -10,7 +10,6 @@ import { PostHogProvider } from "posthog-js/react"
 import DApp from "shared/components/DApps"
 import reduxStore from "./redux-state"
 import * as ServiceWorker from "./service-workers"
-import notificationService from "service-workers/Notification/notification.service"
 
 function DAppProviders() {
   return (
