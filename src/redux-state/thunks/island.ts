@@ -375,14 +375,18 @@ export const claimXp = createDappAsyncThunk(
       return false
     }
 
-    await Promise.allSettled(
-      claims.map(async ({ distributorContractAddress, claim }) => {
-        await transactionService.send(id, claimXpTokens, {
-          distributorContractAddress,
-          claim,
-        })
+    // eslint-disable-next-line no-restricted-syntax
+    for (const { claim, distributorContractAddress } of claims) {
+      // eslint-disable-next-line no-await-in-loop
+      const receipt = await transactionService.send(id, claimXpTokens, {
+        distributorContractAddress,
+        claim,
       })
-    )
+
+      if (!receipt) {
+        break
+      }
+    }
 
     dispatch(fetchUnclaimedXp())
 
