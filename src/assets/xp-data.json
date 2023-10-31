@@ -22,8 +22,10 @@
   "19": {
     "rootFolder": "/assets/xp/galxe",
     "claimsFolder": "/assets/xp/galxe/claims",
-    "xpGlossary": [],
-    "leaderboard": null
+    "xpGlossary": [
+      "0x5a45b05eb07cf4281a33f5411ccb32209a100f5dc18436fa7ae62bf4b40c6521.json"
+    ],
+    "leaderboard": "leaderboard.json"
   },
   "22": {
     "rootFolder": "/assets/xp/frax",
