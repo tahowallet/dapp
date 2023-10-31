@@ -51,8 +51,6 @@ export async function getRealmLeaderboardData(
     throw new Error("Missing data in xp-data.json")
   }
 
-  let leaderboardData: null | XPLeaderboard = null
-
   const { rootFolder, leaderboard } = xpData
 
   if (!rootFolder || !leaderboard) {
@@ -62,13 +60,13 @@ export async function getRealmLeaderboardData(
   const leaderboardUrl = `${rootFolder}/${leaderboard}`
 
   try {
-    leaderboardData = await fetchOrImport(leaderboardUrl)
+    return await fetchOrImport(leaderboardUrl)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn("No leaderboard data found for the realm id:", realmId, error)
-  }
 
-  return leaderboardData
+    return null
+  }
 }
 
 export async function getXpDataForRealmId(
