@@ -7,7 +7,12 @@ import FooterWrapper from "./FooterWrapper"
 
 export default function Footer() {
   return (
-    <FooterWrapper>
+    <FooterWrapper
+      style={{
+        background:
+          "linear-gradient(0deg, #032c2a 0%, rgba(0, 29, 27, 0) 100%)",
+      }}
+    >
       <FooterLinks />
       <Version />
       <RealmsBar />

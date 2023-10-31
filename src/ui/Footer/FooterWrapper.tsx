@@ -1,9 +1,14 @@
-import React, { ReactNode } from "react"
+import React, { CSSProperties, ReactNode } from "react"
 
-export default function FooterWrapper({ children }: { children: ReactNode }) {
+type FooterWrapperProps = {
+  children: ReactNode
+  style?: CSSProperties
+}
+
+export default function FooterWrapper({ children, style }: FooterWrapperProps) {
   return (
     <>
-      <footer>{children}</footer>
+      <footer style={style}>{children}</footer>
       <style jsx>{`
         footer {
           position: absolute;
@@ -15,11 +20,6 @@ export default function FooterWrapper({ children }: { children: ReactNode }) {
           padding: 63px 41px 0;
           height: 114px;
           width: 100%;
-          background: linear-gradient(
-            0deg,
-            #032c2a 0%,
-            rgba(0, 29, 27, 0) 100%
-          );
         }
       `}</style>
     </>
