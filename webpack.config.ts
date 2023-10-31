@@ -6,7 +6,6 @@ import Dotenv from "dotenv-webpack"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin"
 import CopyPlugin from "copy-webpack-plugin"
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer"
 
 import "dotenv-defaults/config"
 import path from "path"
@@ -98,7 +97,6 @@ const config: Configuration = {
         child_proces.execSync("git rev-parse --short HEAD").toString().trim()
       ),
     }),
-    new BundleAnalyzerPlugin(),
   ],
   devServer: {
     static: {
