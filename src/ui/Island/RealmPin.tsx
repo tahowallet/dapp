@@ -9,7 +9,22 @@ import {
 } from "redux-state"
 import { FIGMA_FACTOR, getRealmMapData } from "shared/constants"
 
-const PIN_TRANSLATE = 200
+function getPinShift(realmId: string) {
+  switch (realmId) {
+    case "4":
+      return { x: 200, y: 300 }
+    case "7":
+      return { x: 500, y: 300 }
+    case "9":
+      return { x: 500, y: 300 }
+    case "19":
+      return { x: 250, y: 250 }
+    case "22":
+      return { x: 200, y: 250 }
+    default:
+      return { x: 250, y: 250 }
+  }
+}
 
 export default function RealmPin() {
   const stakingRealmId = useDappSelector(selectStakingRealmId)
@@ -22,8 +37,9 @@ export default function RealmPin() {
 
   if (!stakingRealmId || !stakingRealm) return null
 
-  const pinX = stakingRealm.x + stakingRealm.w * 0.75 - PIN_TRANSLATE
-  const pinY = stakingRealm.y + stakingRealm.h / 2 - PIN_TRANSLATE
+  const pinShift = getPinShift(stakingRealmId)
+  const pinX = stakingRealm.x + stakingRealm.w * 0.75 - pinShift.x
+  const pinY = stakingRealm.y + stakingRealm.h / 2 - pinShift.y
 
   return (
     <Group listening={false}>
