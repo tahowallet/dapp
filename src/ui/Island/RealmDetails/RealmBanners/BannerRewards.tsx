@@ -123,6 +123,7 @@ export default function BannerRewards({
       </RealmBanner>
       <XpClaimModal
         isOpen={isClaimTransactionModalOpen}
+        amount={savedAmount}
         onClaim={onClaim}
         onClose={onClose}
       />
