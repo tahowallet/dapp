@@ -99,7 +99,7 @@ export const selectWeekEndDate = createSelector(
   (startDate) => {
     if (!startDate) return null
 
-    const endDate = new Date()
+    const endDate = new Date(startDate)
     endDate.setDate(startDate.getDate() + 6)
     return endDate
   }
