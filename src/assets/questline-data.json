@@ -29,7 +29,7 @@
             "quests": [
                 {
                     "name": "Execute individual transactions on Arbitrum",
-                    "description": "The more transactions you execute on Arbitrum compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+                    "description": "The more contract interactions you execute on Arbitrum compared to other members of this realm in a week, the more of the weekly XP drop you will get."
                 }
             ]
         },

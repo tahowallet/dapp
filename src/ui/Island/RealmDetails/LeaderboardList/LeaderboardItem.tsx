@@ -112,12 +112,12 @@ export default function LeaderboardItem({
         }
 
         .leaderboard_item[data-rank="2"] {
-          color: #d99e45;
+          color: #d0d6d6;
           border: 1px solid currentColor;
         }
 
         .leaderboard_item[data-rank="3"] {
-          color: #d0d6d6;
+          color: #d99e45;
           border: 1px solid currentColor;
           margin-bottom: 14px;
         }
