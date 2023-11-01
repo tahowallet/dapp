@@ -2,6 +2,7 @@ import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
 import { DAY } from "shared/constants"
 import { isSameAddress } from "shared/utils"
+import { selectTransactionStatusById } from "./wallet"
 
 export const selectIslandMode = (state: RootState) => state.island.mode
 
@@ -99,7 +100,7 @@ export const selectWeekEndDate = createSelector(
   (startDate) => {
     if (!startDate) return null
 
-    const endDate = new Date()
+    const endDate = new Date(startDate)
     endDate.setDate(startDate.getDate() + 6)
     return endDate
   }
@@ -155,7 +156,7 @@ export const selectUserLeaderboardRankById = createSelector(
 
 export const selectUnclaimedXpById = createSelector(
   [(_, realmId: string) => realmId, selectUnclaimedXp],
-  (realmId, unclaimedXp) => unclaimedXp[realmId]
+  (realmId, unclaimedXp) => unclaimedXp[realmId] ?? []
 )
 
 export const selectUnclaimedXpSumById = createSelector(
@@ -163,6 +164,17 @@ export const selectUnclaimedXpSumById = createSelector(
   (unclaimedXp) =>
     unclaimedXp?.reduce((acc, item) => acc + BigInt(item.claim.amount), 0n) ??
     0n
+)
+
+export const selectXpClaimTransactionStatuses = createSelector(
+  [selectUnclaimedXpById, (state) => state.wallet],
+  (unclaimedXp, walletState) =>
+    Object.fromEntries(
+      unclaimedXp.map((data) => {
+        const id = `claim-xp-${data.merkleRoot}`
+        return [id, selectTransactionStatusById({ wallet: walletState }, id)]
+      })
+    )
 )
 /* Population - selectors */
 export const selectSortedPopulation = createSelector(selectRealms, (realms) => {

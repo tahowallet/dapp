@@ -26,6 +26,7 @@ import {
 import {
   RealmContractDataWithId,
   TransactionProgressStatus,
+  UnclaimedXpData,
 } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
 import { bigIntToUserAmount, getAllowanceTransactionID } from "shared/utils"
@@ -359,37 +360,25 @@ export const claimXp = createDappAsyncThunk(
   async (
     {
       id,
-      realmId,
+      claimData,
     }: {
       id: string
-      realmId: string
+      claimData: UnclaimedXpData
     },
-    { dispatch, getState, extra: { transactionService } }
+    { dispatch, extra: { transactionService } }
   ) => {
-    const {
-      island: { unclaimedXp },
-    } = getState()
-    const claims = unclaimedXp[realmId] ?? []
+    const { distributorContractAddress, claim } = claimData
 
-    if (!claims.length) {
+    const receipt = await transactionService.send(id, claimXpTokens, {
+      distributorContractAddress,
+      claim,
+    })
+
+    if (!receipt) {
       return false
     }
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const { claim, distributorContractAddress } of claims) {
-      // eslint-disable-next-line no-await-in-loop
-      const receipt = await transactionService.send(id, claimXpTokens, {
-        distributorContractAddress,
-        claim,
-      })
-
-      if (!receipt) {
-        break
-      }
-    }
-
     dispatch(fetchUnclaimedXp())
-
     return true
   }
 )
