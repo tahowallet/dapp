@@ -2,6 +2,7 @@ import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
 import { getClaimXpTransactionID, isSameAddress } from "shared/utils"
 import { DAY } from "shared/constants"
+import { UnclaimedXpData } from "shared/types"
 import { selectTransactionStatusById } from "./wallet"
 
 export const selectIslandMode = (state: RootState) => state.island.mode
@@ -166,8 +167,13 @@ export const selectUnclaimedXpSumById = createSelector(
     0n
 )
 
+// We need to use stable instance of unclaimed drops array to ensure they are not causing
+// rerenders while claims transaction modal is visible
 export const selectXpClaimTransactionStatuses = createSelector(
-  [selectUnclaimedXpById, (state) => state.wallet],
+  [
+    (_, savedUnclaimedDrops: UnclaimedXpData[]) => savedUnclaimedDrops,
+    (state) => state.wallet,
+  ],
   (unclaimedXp, walletState) =>
     Object.fromEntries(
       unclaimedXp.map((data) => {
