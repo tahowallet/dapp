@@ -1,21 +1,17 @@
-import { Contract, ethers, providers } from "ethers"
+import { Contract, providers } from "ethers"
 import {
   ReadTransactionBuilder,
   UnclaimedXpData,
   WriteTransactionBuilder,
-  XpDistributor,
   XpMerkleTreeItem,
 } from "shared/types"
-import { isSameAddress, normalizeAddress } from "shared/utils"
-import { getUserXpByMerkleRoot } from "shared/utils/xp"
-import { CONTRACT_DEPLOYMENT_BLOCK_NUMBER } from "shared/constants"
+import { normalizeAddress } from "shared/utils"
+import { getXpDataForRealmId } from "shared/utils/xp"
 import {
   xpMerkleDistributorAbi,
   xpAbi,
   xpMerkleDistributorFactoryAbi,
 } from "./abi"
-import { getRealmContract } from "./realms"
-
 import { getGameContract } from "./game"
 
 export const getXpMerkleDistributorContract: ReadTransactionBuilder<
@@ -27,7 +23,7 @@ export const getXpMerkleDistributorContract: ReadTransactionBuilder<
 export const hasClaimedXp: ReadTransactionBuilder<
   {
     distributorContractAddress: string
-    index: number
+    index: string
   },
   boolean
 > = async (provider, { distributorContractAddress, index }) => {
@@ -40,79 +36,32 @@ export const hasClaimedXp: ReadTransactionBuilder<
   return hasClaimed
 }
 
-const getDistributorsFromEvents = (
-  events: ethers.Event[],
-  xpContractAddress: string
-) =>
-  events.flatMap<XpDistributor>((event) => {
-    const { args } = event
-
-    if (!args) return []
-
-    const distributedXpAddress = args.xp
-
-    if (!isSameAddress(distributedXpAddress, xpContractAddress)) {
-      return []
-    }
-
-    return {
-      distributorContractAddress: normalizeAddress(args.distributor),
-      merkleRoot: args.merkleRoot,
-      merkleDataUrl: args.merkleDataUrl,
-    }
-  })
-
-export const getXPDistributorsAddresses: ReadTransactionBuilder<
-  {
-    realmContractAddress: string
-    xpContractAddress: string
-  },
-  XpDistributor[]
-> = async (provider, { realmContractAddress, xpContractAddress }) => {
-  const realmContract = await getRealmContract(provider, {
-    realmContractAddress,
-  })
-
-  const xpDistributedEventFilter = realmContract.filters.XpDistributed()
-  const xpDistributedEvents = await realmContract.queryFilter(
-    xpDistributedEventFilter,
-    CONTRACT_DEPLOYMENT_BLOCK_NUMBER
-  )
-
-  return getDistributorsFromEvents(xpDistributedEvents, xpContractAddress)
-}
-
 export const getUnclaimedXpDistributions: ReadTransactionBuilder<
   {
-    realmAddress: string
-    xpAddress: string
+    realmId: string
     account: string
   },
   UnclaimedXpData[]
-> = async (provider, { realmAddress, xpAddress, account }) => {
-  const distributorAddresses = await getXPDistributorsAddresses(provider, {
-    realmContractAddress: realmAddress,
-    xpContractAddress: xpAddress,
-  })
+> = async (provider, { realmId, account }) => {
+  const xpData = await getXpDataForRealmId(realmId, account)
 
   const unclaimedOrNull = await Promise.all(
-    distributorAddresses.map<Promise<UnclaimedXpData | null>>(
-      async ({ distributorContractAddress, merkleRoot, merkleDataUrl }) => {
-        const claims = await getUserXpByMerkleRoot(account, merkleDataUrl)
+    xpData.map<Promise<UnclaimedXpData | null>>(
+      async ({ merkleDistributor, merkleRoot, claims }) => {
+        const claim = claims[normalizeAddress(account)]
 
-        if (claims[merkleRoot]) {
+        if (claim) {
           const hasClaimed = await hasClaimedXp(provider, {
-            distributorContractAddress,
-            index: claims[merkleRoot].index,
+            distributorContractAddress: merkleDistributor,
+            index: claim.index,
           })
 
           return hasClaimed
             ? null
             : {
-                distributorContractAddress,
+                distributorContractAddress: merkleDistributor,
                 merkleRoot,
-                merkleDataUrl,
-                claim: claims[merkleRoot],
+                claim,
               }
         }
         return null

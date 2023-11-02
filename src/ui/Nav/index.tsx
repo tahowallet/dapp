@@ -7,6 +7,7 @@ import Icon from "shared/components/Icon"
 import AccountInfo from "./AccountInfo"
 import NavItems from "./NavItems"
 import NavContainer from "./NavContainer"
+import BraveNav from "./BraveNav"
 
 export default function Nav(): JSX.Element {
   const { isConnected, connect } = useConnect()
@@ -45,6 +46,7 @@ export default function Nav(): JSX.Element {
           </div>
         </div>
       </NavContainer>
+      <BraveNav />
       <style jsx>
         {`
           .lhs_container {
@@ -55,6 +57,7 @@ export default function Nav(): JSX.Element {
           .rhs_container {
             margin-left: auto;
             align-items: center;
+            height: 40px;
           }
 
           .connect_wallet_btn {

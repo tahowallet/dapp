@@ -1,4 +1,4 @@
-import { resolveAddressToName } from "shared/utils"
+import { resolveAddressToWalletData } from "shared/utils"
 import {
   updateBalances,
   updateConnectedWallet,
@@ -24,22 +24,23 @@ export const fetchWalletName = createDappAsyncThunk(
       claim: { useConnectedWallet },
     } = getState()
 
-    const resolvedName = await resolveAddressToName(address)
+    const { name, avatar } = await resolveAddressToWalletData(address)
 
-    if (resolvedName) {
+    if (name) {
       dispatch(
         updateConnectedWallet({
           address,
-          name: resolvedName,
+          name,
+          avatar,
         })
       )
 
       if (useConnectedWallet) {
-        dispatch(setClaimingUser({ name: resolvedName, address }))
+        dispatch(setClaimingUser({ name, address }))
       }
     }
 
-    return resolvedName
+    return name
   }
 )
 
@@ -54,6 +55,22 @@ export const connectArbitrumProvider = createDappAsyncThunk(
     { extra: { transactionService } }
   ) => {
     await transactionService.setArbitrumProvider(arbitrumProvider)
+  }
+)
+
+export const connectArbitrumProviderFallback = createDappAsyncThunk(
+  "wallet/connectArbitrumProviderFallback",
+  async (
+    {
+      arbitrumProviderFallback,
+    }: {
+      arbitrumProviderFallback: ethers.providers.JsonRpcBatchProvider
+    },
+    { extra: { transactionService } }
+  ) => {
+    await transactionService.setArbitrumProviderFallback(
+      arbitrumProviderFallback
+    )
   }
 )
 

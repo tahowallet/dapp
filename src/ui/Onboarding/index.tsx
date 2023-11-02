@@ -9,11 +9,11 @@ import FullPageLoader from "shared/components/FullPageLoader"
 import Nav from "ui/Nav"
 import portalBackground from "shared/assets/portal-background.mp4"
 import Version from "shared/components/Version"
+import OnboardingFooter from "ui/Footer/OnboardingFooter"
 import ConnectWallet from "./ConnectWallet"
 import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
 import OnboardingModalLoader from "./Loader"
-import Teaser from "./Teaser"
 
 function OnboardingModal() {
   const { isConnected } = useConnect()
@@ -21,7 +21,13 @@ function OnboardingModal() {
   const hasRelevantTokens = useDappSelector(selectHasRelevantTokens)
 
   if (process.env.IS_COMING_SOON === "true") {
-    return <Teaser />
+    return (
+      <JoinWaitlist>
+        Portal opens
+        <br />
+        soon
+      </JoinWaitlist>
+    )
   }
 
   if (!isConnected) {
@@ -36,7 +42,12 @@ function OnboardingModal() {
     return <EnterPortal />
   }
 
-  return <JoinWaitlist />
+  return (
+    <JoinWaitlist>
+      The portal
+      <br /> is closed at the <br /> moment.
+    </JoinWaitlist>
+  )
 }
 
 export default function Onboarding() {
@@ -55,6 +66,7 @@ export default function Onboarding() {
         </div>
       </div>
       <Nav />
+      <OnboardingFooter />
       <style jsx>{`
         .onboarding {
           height: 100vh;

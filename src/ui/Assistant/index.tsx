@@ -6,6 +6,7 @@ import { useAssistant } from "shared/hooks"
 import AssistantWelcome from "./AssistantContent/AssistantWelcome"
 import AssistantQuests from "./AssistantContent/AssistantQuests"
 import AssistantJoin from "./AssistantContent/AssistantJoin"
+import AssistantFirstRealm from "./AssistantContent/AssistantFirstRealm"
 
 export default function Assistant() {
   const { assistant, updateAssistant } = useAssistant()
@@ -38,6 +39,7 @@ export default function Assistant() {
           <AssistantWelcome />
           <AssistantQuests />
           <AssistantJoin />
+          <AssistantFirstRealm />
         </div>
       </Portal>
       <style jsx>{`

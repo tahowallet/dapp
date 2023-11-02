@@ -1,19 +1,23 @@
 export type XpMerkleTreeItem = {
-  index: number
+  index: string
   amount: string
   proof: string[]
+}
+export type XpMerkleTreeClaims = {
+  [address: string]: XpMerkleTreeItem
 }
 export type XpMerkleTree = {
   totalAmount: string
   merkleRoot: string
-  claims: {
-    [address: string]: XpMerkleTreeItem
-  }
+  merkleDistributor: string
+  claims: XpMerkleTreeClaims
+}
+export type XpMerkleTreeGlossary = Omit<XpMerkleTree, "claims"> & {
+  glossary: { startAddress: string; file: string }[]
 }
 export type XpDistributor = {
   distributorContractAddress: string
   merkleRoot: string
-  merkleDataUrl: string
 }
 export type XpByMerkleRoot = {
   [merkleRoot: string]: XpMerkleTreeItem

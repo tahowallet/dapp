@@ -7,7 +7,7 @@ import ClaimingSignTx from "./ClaimingSignTx"
 
 export default function ClaimingFlow() {
   return (
-    <Modal.Content>
+    <Modal.AnimatedContent>
       <div className="flow column">
         <Switch>
           <Route path={ROUTES.CLAIM.DETAILS_PLEDGE}>
@@ -46,6 +46,6 @@ export default function ClaimingFlow() {
           line-height: 32px;
         }
       `}</style>
-    </Modal.Content>
+    </Modal.AnimatedContent>
   )
 }

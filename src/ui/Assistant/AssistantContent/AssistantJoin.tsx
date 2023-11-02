@@ -1,7 +1,4 @@
 import React from "react"
-import Icon from "shared/components/Icon"
-import Button from "shared/components/Button"
-import discordIcon from "shared/assets/icons/discord.svg"
 import { useAssistant } from "shared/hooks"
 import { LINKS } from "shared/constants"
 import AssistantContent from "."
@@ -15,21 +12,46 @@ export default function AssistantJoin() {
         isVisible={assistantVisible("default")}
         close={() => updateAssistant({ visible: false, type: "default" })}
       >
-        <div className="header">I hope you are enjoying The Island Beta!</div>
+        <div className="header">Hang in there, Nomad</div>
         <p className="paragraph">
-          Have any questions or ideas? Join the conversation on Discord to share
-          them!
+          Have feedback?
+          <br />
+          <a
+            href={LINKS.FEEDBACK}
+            className="link"
+            target="blank"
+            rel="noreferrer"
+          >
+            Let us know
+          </a>{" "}
+          so we can act on it.
         </p>
-        <Button onClick={() => window.open(LINKS.DISCORD)}>
-          <Icon
-            src={discordIcon}
-            width="18px"
-            height="16px"
-            type="image"
-            color="var(--primary-p1-100)"
-          />
-          <span>Join Discord</span>
-        </Button>
+        <p className="paragraph">
+          Have a question?
+          <br />
+          Check out the{" "}
+          <a
+            href={LINKS.RULEBOOK}
+            className="link"
+            target="blank"
+            rel="noreferrer"
+          >
+            Rulebook
+          </a>
+          .
+        </p>
+        <p className="paragraph">
+          Want to chat?{" "}
+          <a
+            href={LINKS.DISCORD}
+            className="link"
+            target="blank"
+            rel="noreferrer"
+          >
+            Join us on Discord
+          </a>
+          .
+        </p>
       </AssistantContent>
       <style jsx>{`
         .header {
@@ -42,6 +64,14 @@ export default function AssistantJoin() {
         .paragraph {
           color: var(--secondary-s1-80);
           margin-bottom: 16px;
+        }
+        .link {
+          color: var(--primary-p2-100);
+          transition: color 250ms ease;
+          text-decoration: underline;
+        }
+        .link:hover {
+          color: var(--primary-p2-80);
         }
       `}</style>
     </>

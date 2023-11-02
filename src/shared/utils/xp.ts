@@ -1,103 +1,175 @@
-import { LeaderboardItemData, XpMerkleTreeItemData } from "shared/types"
-import { XpMerkleTree, XpByMerkleRoot } from "shared/types/xp"
-import { isSameAddress, normalizeAddress } from "shared/utils"
+import { LeaderboardItemData, XPLeaderboard } from "shared/types"
+import {
+  XpMerkleTree,
+  XpMerkleTreeClaims,
+  XpMerkleTreeGlossary,
+} from "shared/types/xp"
+import { isSameAddress, normalizeAddress } from "shared/utils/address"
+import XP_DATA from "../../assets/xp-data.json"
 
-type DynamicXPMerkleTreeImport = {
-  default: XpMerkleTree
+// eslint-disable-next-line prefer-destructuring
+const XP_HOSTING_BASE_URL = process.env.XP_HOSTING_BASE_URL
+
+type XpDataType = {
+  [realmId: string]: {
+    rootFolder?: string
+    claimsFolder?: string
+    leaderboard: string | null
+    xpGlossary: string[]
+  }
+}
+
+async function fetchOrImport(url: string) {
+  if (process.env.NODE_ENV === "development") {
+    // We need to give webpack a hint where these files are located in the filesystem
+    // so we remove parts of the path and file extension - including this directly in a dynamic import
+    // string template will make webpack include all files in the bundle
+    const fileWithoutExtension = url
+      .replace("/assets/xp/", "")
+      .replace(/.json$/, "")
+    return (
+      await import(
+        /* webpackInclude: /\.json$/ */ `../../../src/assets/xp/${fileWithoutExtension}.json`
+      )
+    ).default
+  }
+  // For production we fetch the data from the XP hosting server - by default we can use
+  // json files from "assets" folder as they are copied to the build folder during the build process
+  return (await fetch(`${XP_HOSTING_BASE_URL}${url}`)).json()
 }
 
 export async function getRealmLeaderboardData(
   realmId: string
-): Promise<XpMerkleTree | null> {
+): Promise<XPLeaderboard | null> {
   if (!realmId) {
     throw new Error("Missing realm id")
   }
 
-  let xpData: null | DynamicXPMerkleTreeImport = null
+  const xpData = (XP_DATA as XpDataType)[realmId]
 
-  if (realmId) {
-    try {
-      xpData = await import(`data/xp/${realmId}/leaderboard.json`)
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("No XP data found for the realm id:", realmId)
-    }
+  if (!xpData) {
+    throw new Error("Missing data in xp-data.json")
   }
 
-  return xpData && (xpData.default as XpMerkleTree)
+  const { rootFolder, leaderboard } = xpData
+
+  if (!rootFolder || !leaderboard) {
+    return null
+  }
+
+  const leaderboardUrl = `${rootFolder}/${leaderboard}`
+
+  try {
+    return await fetchOrImport(leaderboardUrl)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn("No leaderboard data found for the realm id:", realmId, error)
+
+    return null
+  }
 }
 
-async function getXpData(url: string): Promise<XpMerkleTree | null> {
-  if (!url) {
-    throw new Error("Missing url")
+export async function getXpDataForRealmId(
+  realmId: string,
+  account: string
+): Promise<XpMerkleTree[]> {
+  if (!realmId) {
+    throw new Error("Missing realm id")
   }
 
-  let xpData: null | XpMerkleTree = null
-
-  if (url) {
-    // debugger
-    try {
-      xpData = await (await fetch(url)).json()
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("No XP data found for the url:", url)
-    }
-  }
-  return xpData && (xpData as XpMerkleTree)
-}
-
-export async function getUserXpByMerkleRoot(
-  account: string,
-  url: string
-): Promise<XpByMerkleRoot> {
-  const xpItemByMerkleRoot: XpByMerkleRoot = {}
   const normalizedAddress = normalizeAddress(account)
 
-  const xpData = await getXpData(url)
+  const targetAddress = BigInt(normalizedAddress)
+  let claimsData: (null | XpMerkleTree)[] = []
 
-  if (xpData) {
-    try {
-      const { merkleRoot } = xpData
-      const userClaim = xpData.claims[normalizedAddress]
+  const xpData = (XP_DATA as XpDataType)[realmId]
 
-      if (userClaim) {
-        xpItemByMerkleRoot[merkleRoot] = userClaim
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("Not a correct structure for XP data")
+  try {
+    const { rootFolder, claimsFolder, xpGlossary } = xpData
+
+    if (!rootFolder || !claimsFolder || !xpGlossary || !xpGlossary.length) {
+      return []
     }
+
+    claimsData = await Promise.all(
+      xpGlossary.map(async (file) => {
+        const glossaryUrl = `${rootFolder}/${file}`
+
+        const glossaryFile: XpMerkleTreeGlossary = await fetchOrImport(
+          glossaryUrl
+        )
+
+        if (!glossaryFile) {
+          throw new Error(`Failed to fetch glossaryFile from ${glossaryUrl}`)
+        }
+
+        // Addresses in the claim files are sorted in ascending order,
+        // we only know about the address that the file starts with and our `targetAddress`.
+        // * If `startAddress` < `targetAddress` then we don't know if the address
+        //   is in the current claim file or the next one. We assume that it's in the one of the upcoming files.
+        // * If `startAddress` > `targetAddress` then we know that the address is in the previous file.
+        // Edge cases are:
+        // * `targetAddress` === `startAddress` - this is covered by the same logic as the regular case,
+        //   because we will come back to the previous file, because while checking next claim file startAddress > targetAddress
+        // * `targetAddress` is in the first file - this is covered by defaulting to the first file is none of the files match
+        // * `targetAddress` is not in the drop at all - not a problem, we will return null
+        const suspectedNextClaimFileIndex = glossaryFile.glossary.findIndex(
+          ({ startAddress }) => BigInt(startAddress ?? 0) > targetAddress
+        )
+        const claimFileIndex =
+          suspectedNextClaimFileIndex <= 0 ? 0 : suspectedNextClaimFileIndex - 1
+        const claimFile = glossaryFile.glossary[claimFileIndex]?.file
+
+        if (!claimFile) {
+          // No claim file found for the user
+          return null
+        }
+
+        const claimLink = `${claimsFolder}${claimFile}`
+
+        const claims: XpMerkleTreeClaims | undefined = await fetchOrImport(
+          claimLink
+        )
+
+        if (!claims) {
+          throw new Error(`Failed to fetch claims from ${claimLink}`)
+        }
+
+        const userClaim = claims[normalizedAddress]
+
+        if (userClaim) {
+          return {
+            totalAmount: glossaryFile.totalAmount,
+            merkleRoot: glossaryFile.merkleRoot,
+            merkleDistributor: glossaryFile.merkleDistributor,
+            claims: {
+              [normalizedAddress]: userClaim,
+            },
+          } as XpMerkleTree
+        }
+
+        // No claim found for the user
+        return null
+      })
+    )
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn("No XP data found for the realm id:", realmId, error)
   }
 
-  return xpItemByMerkleRoot
+  return claimsData.flatMap((item) => (item ? [item] : []))
 }
 
 export function getUserLeaderboardRank(
-  sortedData: XpMerkleTreeItemData[],
+  leaderboard: XPLeaderboard,
   address: string
 ): LeaderboardItemData | null {
   if (!address) return null
 
   const normalizedAddress = normalizeAddress(address)
-  const index = sortedData.findIndex((item) =>
+  const index = leaderboard.findIndex((item) =>
     isSameAddress(item.beneficiary, normalizedAddress)
   )
 
-  return index > -1
-    ? {
-        rank: index + 1,
-        ...sortedData[index],
-      }
-    : null
-}
-
-export function getRealmXpSorted(data: XpMerkleTreeItemData[]) {
-  return data.sort((a, b) => Number(b.amount) - Number(a.amount))
-}
-
-export function convertXpData(xpData: XpMerkleTree): XpMerkleTreeItemData[] {
-  return Object.entries(xpData.claims).map(([beneficiary, data]) => ({
-    beneficiary,
-    ...data,
-  }))
+  return index > -1 ? leaderboard[index] : null
 }

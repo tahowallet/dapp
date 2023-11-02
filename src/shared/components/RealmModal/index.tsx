@@ -1,14 +1,9 @@
-import React from "react"
-import {
-  useSpring,
-  animated,
-  easings,
-  useTransition as useSpringTransition,
-} from "@react-spring/web"
+import React, { useEffect } from "react"
+import { useAssistant, useLocalStorageChange } from "shared/hooks"
+import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
 import Modal from "shared/components/Modal"
 // import { REALMS_MAP_DATA } from "shared/constants"
 // import { useIslandContext } from "shared/hooks"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import RealmModalContent from "./RealmModalContent"
 
 export default function RealmModal({
@@ -18,8 +13,6 @@ export default function RealmModal({
   onClose: () => void
   children: React.ReactNode
 }) {
-  const initialRealmId = useDappSelector(selectDisplayedRealmId)
-
   // const islandContext = useIslandContext()
 
   // const [prevRealm, nextRealm] = useMemo(() => {
@@ -38,35 +31,24 @@ export default function RealmModal({
   //   return [prev, next]
   // }, [initialRealmId])
 
-  const [props] = useSpring(
-    () => ({
-      from: {
-        transform: "translate3d(0,38.5%,0) scale(0.8)",
-        opacity: 0,
-      },
-      to: {
-        transform: "translate3d(0,0,0) scale(1)",
-        opacity: 1,
-        position: "relative",
-      },
-      config: { duration: 300, easing: easings.easeInOutCubic },
-    }),
-    []
+  const { updateAssistant } = useAssistant()
+  const { value, updateStorage } = useLocalStorageChange<boolean>(
+    LOCAL_STORAGE_VISITED_REALM
   )
 
-  const transitions = useSpringTransition(initialRealmId, {
-    initial: { backdropFilter: "blur(26px)" },
-    from: { opacity: 0, backdropFilter: "blur(0)" },
-    enter: { opacity: 1, backdropFilter: "blur(26px)" },
-    leave: { opacity: 0, backdropFilter: "blur(0)" },
-    exitBeforeEnter: true,
-    config: { duration: 200, easing: easings.easeOutQuad },
-  })
+  useEffect(() => {
+    if (value) return
+    updateStorage(true)
+    updateAssistant({ visible: true, type: "first-realm" })
+  }, [value, updateStorage, updateAssistant])
 
   return (
-    <Modal.Container type="fullscreen" onClickOutside={onClose}>
-      <animated.div style={{ position: "relative" }}>
-        {/* <PrevBtn
+    <Modal.ScrollableContainer
+      type="fullscreen"
+      bottomSpacing="90px"
+      onClickOutside={onClose}
+    >
+      {/* <PrevBtn
           style={{
             position: "absolute",
             top: 187,
@@ -86,26 +68,7 @@ export default function RealmModal({
           }}
           onClick={() => islandContext.current.onRealmClick(nextRealm)}
         /> */}
-        <animated.div style={props}>
-          <div
-            className="no_scrollbar"
-            style={{
-              height: "100vh",
-              overflow: "hidden auto",
-              paddingTop: 104,
-              paddingBottom: 90,
-            }}
-          >
-            {transitions((style) => (
-              <animated.div style={{ ...style }}>
-                <RealmModalContent onClose={onClose}>
-                  {children}
-                </RealmModalContent>
-              </animated.div>
-            ))}
-          </div>
-        </animated.div>
-      </animated.div>
-    </Modal.Container>
+      <RealmModalContent onClose={onClose}>{children}</RealmModalContent>
+    </Modal.ScrollableContainer>
   )
 }

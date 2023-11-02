@@ -3,8 +3,9 @@ import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
 import {
+  bigIntToUserAmount,
   isSameAddress,
-  resolveAddressToName,
+  resolveAddressToWalletData,
   separateThousandsByComma,
   truncateAddress,
 } from "shared/utils"
@@ -23,14 +24,18 @@ export default function LeaderboardItem({
   const { beneficiary: address, amount } = item
   const isCurrentUser = isSameAddress(address, currentUser)
   const avatar = useDappSelector(selectWalletAvatar)
+
   const [username, setUsername] = useState("")
+  const [walletAvatar, setWalletAvatar] = useState(avatar)
 
   useEffect(() => {
     const getName = async () => {
-      const name = await resolveAddressToName(address)
-      if (name) {
-        setUsername(name)
-      }
+      const { name, avatar: userAvatar } = await resolveAddressToWalletData(
+        address
+      )
+
+      if (name) setUsername(name)
+      if (userAvatar) setWalletAvatar(userAvatar)
     }
     getName()
   }, [address])
@@ -52,7 +57,7 @@ export default function LeaderboardItem({
           {isCurrentUser && (
             <Icon
               type="image"
-              src={avatar}
+              src={walletAvatar}
               width="40px"
               style={{ borderRadius: "100%", backgroundPosition: "center" }}
             />
@@ -61,7 +66,7 @@ export default function LeaderboardItem({
             {username || truncateAddress(address)}
           </span>
           <span className="xp">
-            {separateThousandsByComma(BigInt(amount))} XP
+            {separateThousandsByComma(bigIntToUserAmount(BigInt(amount)))} XP
           </span>
         </div>
       </li>
@@ -107,12 +112,12 @@ export default function LeaderboardItem({
         }
 
         .leaderboard_item[data-rank="2"] {
-          color: #d99e45;
+          color: #d0d6d6;
           border: 1px solid currentColor;
         }
 
         .leaderboard_item[data-rank="3"] {
-          color: #d0d6d6;
+          color: #d99e45;
           border: 1px solid currentColor;
           margin-bottom: 14px;
         }
