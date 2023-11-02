@@ -8,7 +8,12 @@ import {
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
 import { getBalance, getStakeUnlockTime } from "shared/contracts"
 import { ethers } from "ethers"
-import { ETH_ADDRESS, SECOND, TAHO_ADDRESS } from "shared/constants"
+import {
+  CLAIM_XP_TX_ID_PREFIX,
+  ETH_ADDRESS,
+  SECOND,
+  TAHO_ADDRESS,
+} from "shared/constants"
 import { TokenBalances } from "shared/types"
 import {
   resetIslandAccount,
@@ -217,7 +222,7 @@ export const stopTrackingClaimTransactions = createDappAsyncThunk(
     } = getState()
 
     const claimTransactionIds = Object.keys(transactionStatus).filter((id) =>
-      id.startsWith("claim-xp-")
+      id.startsWith(CLAIM_XP_TX_ID_PREFIX)
     )
 
     claimTransactionIds.forEach((id) => {

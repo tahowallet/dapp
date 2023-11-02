@@ -14,10 +14,10 @@ import { useTransactionSuccessCallback } from "shared/hooks"
 import { TransactionProgressStatus, UnclaimedXpData } from "shared/types"
 import { bigIntToUserAmount, separateThousandsByComma } from "shared/utils"
 
-const CLAIM_XP_TX_ID = "claim-xp"
+const CLAIM_XP_TX_ID_PREFIX = "claim-xp"
 
 const getClaimTxID = (data: UnclaimedXpData) =>
-  `${CLAIM_XP_TX_ID}-${data.merkleRoot}`
+  `${CLAIM_XP_TX_ID_PREFIX}-${data.merkleRoot}`
 
 const getAggregatedStatus = (statusArray: TransactionProgressStatus[]) => {
   if (!statusArray.length) {
@@ -32,13 +32,14 @@ const getAggregatedStatus = (statusArray: TransactionProgressStatus[]) => {
 
 export default function XpClaimModal({
   isOpen,
-  amount,
+  displayAmount,
   onClaim,
   onClose,
 }: {
   isOpen: boolean
-  // this is constant amount that won't be changed after each claim
-  amount: string
+  // displayAmount - it is alerady parsed to be displayed,
+  // constant amount that won't be changed after each claim
+  displayAmount: string
   onClaim: () => void
   onClose: () => void
 }) {
@@ -94,7 +95,7 @@ export default function XpClaimModal({
         <>
           Claiming{" "}
           <span style={{ color: "var(--primary-p2-100)", fontSize: "inherit" }}>
-            {amount} XP
+            {displayAmount} XP
           </span>
         </>
       }

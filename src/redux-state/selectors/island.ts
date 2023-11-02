@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
-import { DAY } from "shared/constants"
+import { CLAIM_XP_TX_ID_PREFIX, DAY } from "shared/constants"
 import { isSameAddress } from "shared/utils"
 import { selectTransactionStatusById } from "./wallet"
 
@@ -171,7 +171,7 @@ export const selectXpClaimTransactionStatuses = createSelector(
   (unclaimedXp, walletState) =>
     Object.fromEntries(
       unclaimedXp.map((data) => {
-        const id = `claim-xp-${data.merkleRoot}`
+        const id = `${CLAIM_XP_TX_ID_PREFIX}${data.merkleRoot}`
         return [id, selectTransactionStatusById({ wallet: walletState }, id)]
       })
     )
