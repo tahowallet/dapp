@@ -12,6 +12,7 @@ import {
   useDappSelector,
   selectWalletAddress,
   selectRealms,
+  selectPopulationById,
 } from "redux-state"
 import { SECOND } from "shared/constants"
 import {
@@ -136,4 +137,20 @@ export function useStakeCooldownPeriod() {
   useInterval(intervalCallback, intervalTime)
 
   return { hasCooldown: !!timeRemaining && timeRemaining > 0, timeRemaining }
+}
+
+export function usePopulationBubble(realmId: string): {
+  showBubble: boolean
+  setShowBubble: (newValue: boolean) => void
+} {
+  const population = useDappSelector((state) =>
+    selectPopulationById(state, realmId)
+  )
+  const [showBubble, setShowBubble] = useState(false)
+
+  useEffect(() => {
+    setShowBubble(true)
+  }, [population])
+
+  return { showBubble, setShowBubble }
 }

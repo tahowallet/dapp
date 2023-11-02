@@ -11,8 +11,10 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
-import { useInterval } from "shared/hooks"
-import { useIslandContext } from "../../shared/hooks/island"
+import {
+  useIslandContext,
+  usePopulationBubble,
+} from "../../shared/hooks/island"
 
 type RealmProps = {
   id: string
@@ -208,14 +210,10 @@ export default function Realm({
     }
   }, [isHovered])
 
-  const [showPopulationBubble, setShowPopulationBubble] = useState(false)
-
-  useInterval(() => {
-    setShowPopulationBubble(true)
-  }, 5000)
+  const { showBubble, setShowBubble } = usePopulationBubble(id)
 
   const [bubbleProps] = useSpring(() => {
-    const destinationStyle = showPopulationBubble
+    const destinationStyle = showBubble
       ? styles.highlight.population
       : styles.default.population
 
@@ -229,9 +227,9 @@ export default function Realm({
       from: styles.default.population,
       to: destinationStyle,
       config,
-      onRest: () => setShowPopulationBubble(false),
+      onRest: () => setShowBubble(false),
     }
-  }, [showPopulationBubble])
+  }, [showBubble])
 
   return (
     <Group ref={groupRef}>
