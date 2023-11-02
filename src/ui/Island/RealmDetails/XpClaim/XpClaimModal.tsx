@@ -8,6 +8,7 @@ import {
   selectUnclaimedXpById,
   selectXpClaimTransactionStatuses,
   stopTrackingClaimTransactions,
+  selectRealmById,
 } from "redux-state"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { useTransactionSuccessCallback } from "shared/hooks"
@@ -45,6 +46,7 @@ export default function XpClaimModal({
 }) {
   const dispatch = useDappDispatch()
   const realmId = useDappSelector(selectDisplayedRealmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   const unclaimedDrops = useDappSelector((state) =>
     realmId ? selectUnclaimedXpById(state, realmId) : []
@@ -95,7 +97,7 @@ export default function XpClaimModal({
         <>
           Claiming{" "}
           <span style={{ color: "var(--primary-p2-100)", fontSize: "inherit" }}>
-            {displayAmount} XP
+            {displayAmount} {realm?.xpToken.symbol}
           </span>
         </>
       }
