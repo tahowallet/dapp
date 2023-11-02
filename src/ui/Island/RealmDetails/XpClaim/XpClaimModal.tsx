@@ -41,7 +41,7 @@ export default function XpClaimModal({
   const [savedUnclaimedDrops] = useState(() => unclaimedDrops)
 
   const claimXpTransactionStatus = useDappSelector((state) =>
-    realmId ? selectXpClaimTransactionStatuses(state, realmId) : {}
+    selectXpClaimTransactionStatuses(state, savedUnclaimedDrops)
   )
 
   const claimTransactionSuccessCallback = useCallback(() => {
