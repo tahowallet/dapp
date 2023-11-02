@@ -1,6 +1,6 @@
 import React from "react"
 
-import { bigIntToUserAmount, formatTime } from "shared/utils"
+import { bigIntToDisplayUserAmount, formatTime } from "shared/utils"
 import {
   selectDisplayedRealmVeTokenAddress,
   selectTokenBalanceByAddress,
@@ -18,7 +18,7 @@ export default function UnstakeCooldown({
   const veTahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
   )
-  const veTahoUserAmount = bigIntToUserAmount(veTahoBalance)
+  const veTahoUserAmount = bigIntToDisplayUserAmount(veTahoBalance)
 
   return (
     <>

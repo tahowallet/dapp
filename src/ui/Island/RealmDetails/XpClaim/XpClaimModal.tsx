@@ -13,9 +13,8 @@ import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { useTransactionSuccessCallback } from "shared/hooks"
 import { TransactionProgressStatus } from "shared/types"
 import {
-  bigIntToUserAmount,
+  bigIntToDisplayUserAmount,
   getClaimXpTransactionID,
-  separateThousandsByComma,
 } from "shared/utils"
 
 const getAggregatedTransactionStatus = (
@@ -79,8 +78,8 @@ export default function XpClaimModal({
         const id = getClaimXpTransactionID(data)
         return {
           id,
-          title: `${index + 1}. Claim ${separateThousandsByComma(
-            bigIntToUserAmount(BigInt(data.claim.amount))
+          title: `${index + 1}. Claim ${bigIntToDisplayUserAmount(
+            data.claim.amount
           )} XP`,
           buttonLabel: "Claim XP",
           status: claimXpTransactionStatus[id],

@@ -9,7 +9,7 @@ import {
 } from "redux-state"
 import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
-import { bigIntToUserAmount, separateThousandsByComma } from "shared/utils"
+import { bigIntToDisplayUserAmount } from "shared/utils"
 import { LINKS } from "shared/constants"
 import XpClaimModal from "../XpClaim/XpClaimModal"
 
@@ -23,7 +23,7 @@ export default function BannerRewards({
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
-  const parsedAmount = separateThousandsByComma(bigIntToUserAmount(amount))
+  const parsedAmount = bigIntToDisplayUserAmount(amount)
   const [savedAndParsedAmount] = useState(() => parsedAmount)
 
   const [congratulationsModalOpen, setCongratulationsModalOpen] =
