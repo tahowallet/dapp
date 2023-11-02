@@ -1,4 +1,7 @@
-import { resolveAddressToWalletData } from "shared/utils"
+import {
+  isClaimXpTransactionID,
+  resolveAddressToWalletData,
+} from "shared/utils"
 import {
   updateBalances,
   updateConnectedWallet,
@@ -8,12 +11,7 @@ import {
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
 import { getBalance, getStakeUnlockTime } from "shared/contracts"
 import { ethers } from "ethers"
-import {
-  CLAIM_XP_TX_ID_PREFIX,
-  ETH_ADDRESS,
-  SECOND,
-  TAHO_ADDRESS,
-} from "shared/constants"
+import { ETH_ADDRESS, SECOND, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances } from "shared/types"
 import {
   resetIslandAccount,
@@ -221,8 +219,8 @@ export const stopTrackingClaimTransactions = createDappAsyncThunk(
       wallet: { transactionStatus },
     } = getState()
 
-    const claimTransactionIds = Object.keys(transactionStatus).filter((id) =>
-      id.startsWith(CLAIM_XP_TX_ID_PREFIX)
+    const claimTransactionIds = Object.keys(transactionStatus).filter(
+      isClaimXpTransactionID
     )
 
     claimTransactionIds.forEach((id) => {

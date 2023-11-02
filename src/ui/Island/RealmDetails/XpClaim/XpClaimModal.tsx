@@ -11,15 +11,16 @@ import {
 } from "redux-state"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { useTransactionSuccessCallback } from "shared/hooks"
-import { TransactionProgressStatus, UnclaimedXpData } from "shared/types"
-import { bigIntToUserAmount, separateThousandsByComma } from "shared/utils"
+import { TransactionProgressStatus } from "shared/types"
+import {
+  bigIntToUserAmount,
+  getClaimXpTransactionID,
+  separateThousandsByComma,
+} from "shared/utils"
 
-const CLAIM_XP_TX_ID_PREFIX = "claim-xp"
-
-const getClaimTxID = (data: UnclaimedXpData) =>
-  `${CLAIM_XP_TX_ID_PREFIX}-${data.merkleRoot}`
-
-const getAggregatedStatus = (statusArray: TransactionProgressStatus[]) => {
+const getAggregatedTransactionStatus = (
+  statusArray: TransactionProgressStatus[]
+) => {
   if (!statusArray.length) {
     return TransactionProgressStatus.Idle
   }
@@ -61,7 +62,7 @@ export default function XpClaimModal({
   }, [onClose, onClaim, dispatch])
 
   useTransactionSuccessCallback(
-    getAggregatedStatus(Object.values(claimXpTransactionStatus)),
+    getAggregatedTransactionStatus(Object.values(claimXpTransactionStatus)),
     claimTransactionSuccessCallback
   )
 
@@ -75,7 +76,7 @@ export default function XpClaimModal({
   const claimTransactionsData = useMemo(
     () =>
       unclaimedDrops.map((data, index) => {
-        const id = getClaimTxID(data)
+        const id = getClaimXpTransactionID(data)
         return {
           id,
           title: `${index + 1}. Claim ${separateThousandsByComma(
