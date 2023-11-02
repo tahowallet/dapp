@@ -12,24 +12,11 @@ import {
 } from "redux-state"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { useTransactionSuccessCallback } from "shared/hooks"
-import { TransactionProgressStatus } from "shared/types"
 import {
   bigIntToDisplayUserAmount,
+  getAggregatedTransactionStatus,
   getClaimXpTransactionID,
 } from "shared/utils"
-
-const getAggregatedTransactionStatus = (
-  statusArray: TransactionProgressStatus[]
-) => {
-  if (!statusArray.length) {
-    return TransactionProgressStatus.Idle
-  }
-  return statusArray.every(
-    (status) => status === TransactionProgressStatus.Done
-  )
-    ? TransactionProgressStatus.Done
-    : TransactionProgressStatus.Idle
-}
 
 export default function XpClaimModal({
   isOpen,
