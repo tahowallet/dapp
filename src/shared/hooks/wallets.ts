@@ -113,7 +113,7 @@ export function usePopulationFetch() {
 
   const populationFetchCallback = useCallback(async () => {
     if (account && dispatch) {
-      await dispatch(fetchPopulation())
+      await dispatch(fetchPopulation(false))
     }
   }, [account, dispatch])
 

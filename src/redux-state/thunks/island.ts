@@ -6,6 +6,7 @@ import {
   setRealmXpAllocatable,
   setRealmsData,
   setSeasonInfo,
+  setRealmDisplayedPopulation,
 } from "redux-state/slices/island"
 import {
   REALMS_WITH_CONTRACT_NAME,
@@ -95,7 +96,10 @@ export const initSeasonInfoData = createDappAsyncThunk(
 
 export const fetchPopulation = createDappAsyncThunk(
   "island/fetchPopulation",
-  async (_, { getState, dispatch, extra: { transactionService } }) => {
+  async (
+    isInitFetch: boolean,
+    { getState, dispatch, extra: { transactionService } }
+  ) => {
     const {
       island: { realms },
     } = getState()
@@ -107,7 +111,10 @@ export const fetchPopulation = createDappAsyncThunk(
     })
 
     if (result) {
-      result.forEach((data) => dispatch(setRealmPopulation(data)))
+      result.forEach((data) => {
+        dispatch(setRealmPopulation(data))
+        if (isInitFetch) dispatch(setRealmDisplayedPopulation(data))
+      })
     }
 
     return !!result
@@ -238,7 +245,7 @@ export const stakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
-      dispatch(fetchPopulation())
+      dispatch(fetchPopulation(false))
     }
 
     return !!receipt
@@ -281,7 +288,7 @@ export const unstakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
-      dispatch(fetchPopulation())
+      dispatch(fetchPopulation(false))
     }
 
     return !!receipt

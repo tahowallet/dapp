@@ -171,27 +171,31 @@ export const selectSortedPopulation = createSelector(selectRealms, (realms) => {
     ...data,
   }))
 
-  const sortedRealms = realmsData.sort((a, b) => a.population - b.population)
+  const sortedRealms = realmsData.sort(
+    (a, b) => a.displayedPopulation - b.displayedPopulation
+  )
   return sortedRealms
 })
 
 export const selectPopulationById = createSelector(
   selectRealmById,
-  (realm) => realm?.population ?? 0
+  (realm) => realm?.displayedPopulation ?? 0
 )
 
 export const selectTotalPopulation = createSelector(
   selectSortedPopulation,
   (realms) =>
     realms.length
-      ? realms.map((realm) => realm.population).reduce((a, b) => a + b)
+      ? realms.map((realm) => realm.displayedPopulation).reduce((a, b) => a + b)
       : 0
 )
 
 export const selectMaxPopulation = createSelector(
   selectSortedPopulation,
   (realms) =>
-    realms.length ? Math.max(...realms.map((realm) => realm.population)) : 0
+    realms.length
+      ? Math.max(...realms.map((realm) => realm.displayedPopulation))
+      : 0
 )
 
 /* Helpful selectors */

@@ -75,6 +75,15 @@ const islandSlice = createSlice({
       immerState.realms[realmPopulation.id].population =
         realmPopulation.population
     },
+    setRealmDisplayedPopulation: (
+      immerState,
+      {
+        payload: realmPopulation,
+      }: { payload: { id: string; population: number } }
+    ) => {
+      immerState.realms[realmPopulation.id].displayedPopulation =
+        realmPopulation.population
+    },
     setRealmXpAllocatable: (
       immerState,
       {
@@ -139,6 +148,7 @@ export const {
   resetIslandDisplay,
   resetIslandAccount,
   setRealmPopulation,
+  setRealmDisplayedPopulation,
   setRealmXpAllocatable,
   setRealmsData,
   setDisplayedRealmId,

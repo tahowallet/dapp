@@ -10,6 +10,7 @@ export type RealmAddressesData = {
 export type RealmContractData = {
   name: string
   population: number
+  displayedPopulation: number
   xpAllocatable: string
   xpToken: { name: string; symbol: string; contractAddress: string }
 }

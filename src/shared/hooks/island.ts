@@ -77,7 +77,7 @@ export function useGameDataFetch() {
       return
 
     const fetchData = async () => {
-      await dispatch(fetchPopulation())
+      await dispatch(fetchPopulation(true))
       await dispatch(fetchXpAllocatable())
     }
 
