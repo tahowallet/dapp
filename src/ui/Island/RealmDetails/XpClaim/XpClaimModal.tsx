@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 
 import {
   useDappDispatch,
@@ -38,6 +38,7 @@ export default function XpClaimModal({
   const unclaimedDrops = useDappSelector((state) =>
     realmId ? selectUnclaimedXpById(state, realmId) : []
   )
+  const [savedUnclaimedDrops] = useState(() => unclaimedDrops)
 
   const claimXpTransactionStatus = useDappSelector((state) =>
     realmId ? selectXpClaimTransactionStatuses(state, realmId) : {}
@@ -63,7 +64,7 @@ export default function XpClaimModal({
 
   const claimTransactionsData = useMemo(
     () =>
-      unclaimedDrops.map((data, index) => {
+      savedUnclaimedDrops.map((data, index) => {
         const id = getClaimXpTransactionID(data)
         return {
           id,
@@ -75,7 +76,7 @@ export default function XpClaimModal({
           onClick: () => realmId && dispatch(claimXp({ id, claimData: data })),
         }
       }),
-    [claimXpTransactionStatus, dispatch, realmId, unclaimedDrops]
+    [claimXpTransactionStatus, dispatch, realmId, savedUnclaimedDrops]
   )
 
   return (
