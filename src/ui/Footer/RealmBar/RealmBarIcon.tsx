@@ -29,7 +29,7 @@ export default function RealmBarIcon({
         onMouseLeave={() => setIsTooltipVisible(false)}
       >
         <Icon
-          src={currentRealm.partnerLogo.default}
+          src={currentRealm.partnerIcons.default}
           type="image"
           height="100%"
           width="100%"

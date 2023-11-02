@@ -11,6 +11,7 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
+import { useInterval } from "shared/hooks"
 import { useIslandContext } from "../../shared/hooks/island"
 
 type RealmProps = {
@@ -26,6 +27,7 @@ type RealmProps = {
   labelX: number
   labelY: number
   partnerLogo: HTMLImageElement
+  populationIcon: HTMLImageElement
 }
 
 export default function Realm({
@@ -41,6 +43,7 @@ export default function Realm({
   labelX,
   labelY,
   partnerLogo,
+  populationIcon,
 }: RealmProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
@@ -52,6 +55,7 @@ export default function Realm({
   const imageLayerRef = useRef<Konva.Image>(null)
   const overlayRef = useRef<Konva.Path>(null)
   const partnerLogoRef = useRef<Konva.Image>(null)
+  const bubbleRef = useRef<Konva.Image>(null)
 
   const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
@@ -114,6 +118,11 @@ export default function Realm({
           x: x + labelX + partnerLogoTranslate,
           y: y + labelY - 20,
         },
+        population: {
+          opacity: 0,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 20,
+        },
       },
       highlight: {
         image: { shadowOpacity: 1 },
@@ -121,6 +130,11 @@ export default function Realm({
         text: { opacity: 1, y: y + labelY },
         pathRealm: { strokeWidth: 12 },
         partnerLogo: {
+          opacity: 1,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 220,
+        },
+        population: {
           opacity: 1,
           x: x + labelX + partnerLogoTranslate,
           y: y + labelY - 220,
@@ -194,6 +208,31 @@ export default function Realm({
     }
   }, [isHovered])
 
+  const [showPopulationBubble, setShowPopulationBubble] = useState(false)
+
+  useInterval(() => {
+    setShowPopulationBubble(true)
+  }, 5000)
+
+  const [bubbleProps] = useSpring(() => {
+    const destinationStyle = showPopulationBubble
+      ? styles.highlight.population
+      : styles.default.population
+
+    const config = {
+      precision: 0.0001,
+      duration: 2000,
+      easing: easings.easeOutCubic,
+    }
+
+    return {
+      from: styles.default.population,
+      to: destinationStyle,
+      config,
+      onRest: () => setShowPopulationBubble(false),
+    }
+  }, [showPopulationBubble])
+
   return (
     <Group ref={groupRef}>
       {/* @ts-expect-error FIXME: @react-spring-types */}
@@ -252,6 +291,15 @@ export default function Realm({
         scaleX={3.5}
         scaleY={3.5}
         {...partnerLogoProps}
+      />
+      {/* This is the population bubble image */}
+      <animated.Image
+        ref={bubbleRef}
+        listening={false}
+        image={populationIcon}
+        scaleX={1}
+        scaleY={1}
+        {...bubbleProps}
       />
     </Group>
   )

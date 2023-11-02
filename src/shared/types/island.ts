@@ -78,6 +78,6 @@ export type RealmMapData = {
   color: string
   labelX: number
   labelY: number
-  partnerLogo: { default: string; shadow: string }
+  partnerIcons: { default: string; shadow: string; population: string }
   partnerColor?: string
 }
