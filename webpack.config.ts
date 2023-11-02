@@ -51,7 +51,38 @@ const config: Configuration = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|webp|svg|jpg|gif|woff2|mp4)$/,
+        test: /\.(png|jpe?g|gif)$/,
+        type: "asset/resource",
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[contenthash:8].[ext]",
+            },
+          },
+          {
+            loader: "image-webpack-loader",
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 80,
+              },
+              optipng: {
+                optimizationLevel: 8,
+              },
+              pngquant: {
+                quality: [0.8, 0.9],
+                speed: 4,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(webp|svg|woff2|mp4)$/,
         type: "asset/resource",
       },
     ],
