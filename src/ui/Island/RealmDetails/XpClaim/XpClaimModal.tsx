@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 
 import {
   useDappDispatch,
@@ -8,46 +8,37 @@ import {
   selectUnclaimedXpById,
   selectXpClaimTransactionStatuses,
   stopTrackingClaimTransactions,
+  selectRealmById,
 } from "redux-state"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { useTransactionSuccessCallback } from "shared/hooks"
-import { TransactionProgressStatus, UnclaimedXpData } from "shared/types"
-import { bigIntToUserAmount, separateThousandsByComma } from "shared/utils"
-
-const CLAIM_XP_TX_ID = "claim-xp"
-
-const getClaimTxID = (data: UnclaimedXpData) =>
-  `${CLAIM_XP_TX_ID}-${data.merkleRoot}`
-
-const getAggregatedStatus = (statusArray: TransactionProgressStatus[]) => {
-  if (!statusArray.length) {
-    return TransactionProgressStatus.Idle
-  }
-  return statusArray.every(
-    (status) => status === TransactionProgressStatus.Done
-  )
-    ? TransactionProgressStatus.Done
-    : TransactionProgressStatus.Idle
-}
+import {
+  bigIntToDisplayUserAmount,
+  getAggregatedTransactionStatus,
+  getClaimXpTransactionID,
+} from "shared/utils"
 
 export default function XpClaimModal({
   isOpen,
-  amount,
+  displayAmount,
   onClaim,
   onClose,
 }: {
   isOpen: boolean
-  // this is constant amount that won't be changed after each claim
-  amount: string
+  // displayAmount - it is already parsed to be displayed,
+  // constant amount that won't be changed after each claim
+  displayAmount: string
   onClaim: () => void
   onClose: () => void
 }) {
   const dispatch = useDappDispatch()
   const realmId = useDappSelector(selectDisplayedRealmId)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   const unclaimedDrops = useDappSelector((state) =>
     realmId ? selectUnclaimedXpById(state, realmId) : []
   )
+  const [savedUnclaimedDrops] = useState(() => unclaimedDrops)
 
   const claimXpTransactionStatus = useDappSelector((state) =>
     realmId ? selectXpClaimTransactionStatuses(state, realmId) : {}
@@ -60,7 +51,7 @@ export default function XpClaimModal({
   }, [onClose, onClaim, dispatch])
 
   useTransactionSuccessCallback(
-    getAggregatedStatus(Object.values(claimXpTransactionStatus)),
+    getAggregatedTransactionStatus(Object.values(claimXpTransactionStatus)),
     claimTransactionSuccessCallback
   )
 
@@ -73,19 +64,19 @@ export default function XpClaimModal({
 
   const claimTransactionsData = useMemo(
     () =>
-      unclaimedDrops.map((data, index) => {
-        const id = getClaimTxID(data)
+      savedUnclaimedDrops.map((data, index) => {
+        const id = getClaimXpTransactionID(data)
         return {
           id,
-          title: `${index + 1}. Claim ${separateThousandsByComma(
-            bigIntToUserAmount(BigInt(data.claim.amount))
+          title: `${index + 1}. Claim ${bigIntToDisplayUserAmount(
+            data.claim.amount
           )} XP`,
           buttonLabel: "Claim XP",
           status: claimXpTransactionStatus[id],
           onClick: () => realmId && dispatch(claimXp({ id, claimData: data })),
         }
       }),
-    [claimXpTransactionStatus, dispatch, realmId, unclaimedDrops]
+    [claimXpTransactionStatus, dispatch, realmId, savedUnclaimedDrops]
   )
 
   return (
@@ -94,7 +85,7 @@ export default function XpClaimModal({
         <>
           Claiming{" "}
           <span style={{ color: "var(--primary-p2-100)", fontSize: "inherit" }}>
-            {amount} XP
+            {displayAmount} {realm?.xpToken.symbol}
           </span>
         </>
       }

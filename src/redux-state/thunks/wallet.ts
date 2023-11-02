@@ -1,4 +1,7 @@
-import { resolveAddressToWalletData } from "shared/utils"
+import {
+  isClaimXpTransactionID,
+  resolveAddressToWalletData,
+} from "shared/utils"
 import {
   updateBalances,
   updateConnectedWallet,
@@ -216,8 +219,8 @@ export const stopTrackingClaimTransactions = createDappAsyncThunk(
       wallet: { transactionStatus },
     } = getState()
 
-    const claimTransactionIds = Object.keys(transactionStatus).filter((id) =>
-      id.startsWith("claim-xp-")
+    const claimTransactionIds = Object.keys(transactionStatus).filter(
+      isClaimXpTransactionID
     )
 
     claimTransactionIds.forEach((id) => {

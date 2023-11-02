@@ -3,10 +3,9 @@ import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
 import {
-  bigIntToUserAmount,
+  bigIntToDisplayUserAmount,
   isSameAddress,
   resolveAddressToWalletData,
-  separateThousandsByComma,
   truncateAddress,
 } from "shared/utils"
 import { selectWalletAvatar, useDappSelector } from "redux-state"
@@ -65,9 +64,7 @@ export default function LeaderboardItem({
           <span className="address">
             {username || truncateAddress(address)}
           </span>
-          <span className="xp">
-            {separateThousandsByComma(bigIntToUserAmount(BigInt(amount)))} XP
-          </span>
+          <span className="xp">{bigIntToDisplayUserAmount(amount)} XP</span>
         </div>
       </li>
       <style jsx>{`

@@ -1,7 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
+import { getClaimXpTransactionID, isSameAddress } from "shared/utils"
 import { DAY } from "shared/constants"
-import { isSameAddress } from "shared/utils"
 import { selectTransactionStatusById } from "./wallet"
 
 export const selectIslandMode = (state: RootState) => state.island.mode
@@ -171,7 +171,7 @@ export const selectXpClaimTransactionStatuses = createSelector(
   (unclaimedXp, walletState) =>
     Object.fromEntries(
       unclaimedXp.map((data) => {
-        const id = `claim-xp-${data.merkleRoot}`
+        const id = getClaimXpTransactionID(data)
         return [id, selectTransactionStatusById({ wallet: walletState }, id)]
       })
     )
