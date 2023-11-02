@@ -16,8 +16,12 @@
   "9": {
     "rootFolder": "/assets/xp/arbitrum",
     "claimsFolder": "/assets/xp/arbitrum/claims",
-    "xpGlossary": [],
-    "leaderboard": null
+    "xpGlossary": [
+      "0xd3647eb61612bdfb1b6b802d5b39413b9d8e85651eae7d9da2dce57a9ae34ad4.json",
+      "0x067d0f5bd80448cf5e374bbec6edef2e0f5f12fe8d2365654d988e94a9269353.json",
+      "0xdcde317a0527cf8e7ce439626eb27b731b5efa700e7d07d4775344aea993fc77.json"
+    ],
+    "leaderboard": "leaderboard.json"
   },
   "19": {
     "rootFolder": "/assets/xp/galxe",
