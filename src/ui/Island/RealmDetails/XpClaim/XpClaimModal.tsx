@@ -38,7 +38,7 @@ export default function XpClaimModal({
   onClose,
 }: {
   isOpen: boolean
-  // displayAmount - it is alerady parsed to be displayed,
+  // displayAmount - it is already parsed to be displayed,
   // constant amount that won't be changed after each claim
   displayAmount: string
   onClaim: () => void
