@@ -179,6 +179,11 @@ export const selectSortedPopulation = createSelector(selectRealms, (realms) => {
 
 export const selectPopulationById = createSelector(
   selectRealmById,
+  (realm) => realm?.population ?? 0
+)
+
+export const selectDisplayedPopulationById = createSelector(
+  selectRealmById,
   (realm) => realm?.displayedPopulation ?? 0
 )
 

@@ -76,7 +76,7 @@ export default function RealmsBar() {
                 key={realm.id}
                 id={realm.id}
                 position={positions[index]}
-                population={realm.population}
+                population={realm.displayedPopulation}
                 name={realm.name}
               />
             ))}

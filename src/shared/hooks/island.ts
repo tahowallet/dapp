@@ -13,6 +13,8 @@ import {
   selectWalletAddress,
   selectRealms,
   selectPopulationById,
+  selectDisplayedPopulationById,
+  setRealmDisplayedPopulation,
 } from "redux-state"
 import { SECOND } from "shared/constants"
 import {
@@ -146,11 +148,32 @@ export function usePopulationBubble(realmId: string): {
   const population = useDappSelector((state) =>
     selectPopulationById(state, realmId)
   )
+  const displayedPopulation = useDappSelector((state) =>
+    selectDisplayedPopulationById(state, realmId)
+  )
+  const dispatch = useDappDispatch()
+
   const [showBubble, setShowBubble] = useState(false)
 
-  useEffect(() => {
-    setShowBubble(true)
-  }, [population])
+  const populationCallback = useCallback(async () => {
+    if (population < displayedPopulation) {
+      await dispatch(
+        setRealmDisplayedPopulation({
+          id: realmId,
+          population,
+        })
+      )
+    } else if (population > displayedPopulation) {
+      setShowBubble(true)
+      await dispatch(
+        setRealmDisplayedPopulation({
+          id: realmId,
+          population: displayedPopulation + 1,
+        })
+      )
+    }
+  }, [population, displayedPopulation, dispatch, realmId])
 
+  useInterval(populationCallback, population ? SECOND * 10 : null)
   return { showBubble, setShowBubble }
 }
