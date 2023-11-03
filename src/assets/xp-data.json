@@ -39,7 +39,11 @@
   "22": {
     "rootFolder": "/assets/xp/frax",
     "claimsFolder": "/assets/xp/frax/claims",
-    "xpGlossary": [],
-    "leaderboard": null
+    "xpGlossary": [
+      "0x92ee8fba8c1e144f9c426eadf86a0c88784809100e6f0f9958c2b3a11ba444fd.json",
+      "0xf4cca371d1748b89c3fac431d4b465b87543b08f056e9be67e5ddd14c70d46d5.json",
+      "0xb15a0edff128cf5b61de8f548ab0f1c3b9237095ddb234535ba1875cd4141074.json"
+    ],
+    "leaderboard": "leaderboard.json"
   }
 }
