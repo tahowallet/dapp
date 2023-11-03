@@ -12,7 +12,7 @@ import {
   selectIslandMode,
   useDappSelector,
 } from "redux-state"
-import TrackEvent from "./TrackEvent"
+import useTrackEvents from "shared/hooks/helpers"
 import FullPageLoader from "../../shared/components/FullPageLoader"
 
 const Claim = lazy(() => import("ui/Claim"))
@@ -25,8 +25,10 @@ export default function IslandView() {
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
   const hasBalances = useDappSelector(selectHasLoadedBalances)
 
+  useTrackEvents()
+
   return (
-    <TrackEvent>
+    <>
       <FullPageLoader
         loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
       />
@@ -46,6 +48,6 @@ export default function IslandView() {
         </Route>
       </Switch>
       <Footer />
-    </TrackEvent>
+    </>
   )
 }
