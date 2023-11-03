@@ -5,10 +5,12 @@ self.addEventListener("install", (event) => {
 })
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim())
+  // event.waitUntil(self.clients.claim())
   NotificationService.log("activated")
 
-  const { vapidKey } = JSON.parse(new URL(location).searchParams.get("config"))
+  const config = JSON.parse(new URL(location).searchParams.get("config"))
+
+  const { vapidKey } = config
 
   const options = {
     userVisibleOnly: true,

@@ -12,6 +12,8 @@ import reduxStore from "./redux-state"
 import * as ServiceWorker from "./service-workers"
 
 function DAppProviders() {
+  ServiceWorker.registerServiceWorker()
+
   return (
     <Provider store={reduxStore}>
       <Web3OnboardProvider web3Onboard={web3Onboard}>
@@ -51,6 +53,4 @@ if (root) {
       </React.StrictMode>
     )
   }
-
-  ServiceWorker.registerServiceWorker()
 }
