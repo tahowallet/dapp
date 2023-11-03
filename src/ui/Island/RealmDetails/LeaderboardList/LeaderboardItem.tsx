@@ -102,6 +102,9 @@ export default function LeaderboardItem({
         .rank {
           width: 20px;
         }
+        .is_user .rank {
+          width: auto;
+        }
         .leaderboard_item[data-rank="1"] {
           color: #ffc700;
           border: 1px solid currentColor;
