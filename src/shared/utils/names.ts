@@ -16,7 +16,7 @@ const NAMES_CACHE_STRORAGE_KEY = "taho.cachedNames"
 const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 7 // 1 week
 
 const resolveAddressPromiseCache: {
-  [address: string]: Promise<WalletData>
+  [address: string]: Promise<WalletData | null>
 } = {}
 
 const getCachedNames = () => {
@@ -72,10 +72,13 @@ const resolveAddressToWalletDataWithoutCache = async (address: string) => {
       resolveENSPromise(normalizedAddress),
       resolveUNSPromise(normalizedAddress),
       resolveUnknownNamePromise(),
-    ]) as Promise<WalletData>
+    ])
   }
 
-  const { name, avatar } = await resolveAddressPromiseCache[normalizedAddress]
+  const cachedResult =
+    (await resolveAddressPromiseCache[normalizedAddress]) ?? {}
+
+  const { name, avatar } = cachedResult
 
   return name ? { name, avatar } : null
 }
