@@ -1,3 +1,3 @@
-const mutators = {}
+export const mutators = {}
 
-export default mutators
+export type ReflectMutators = typeof mutators

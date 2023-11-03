@@ -1,5 +1,9 @@
-import mutators from "./mutators"
+import type { ReflectServerOptions } from "@rocicorp/reflect/server"
+import { mutators, ReflectMutators } from "./mutators"
 
-const makeOptions = () => ({ mutators, logLevel: "debug" })
+const makeOptions = (): ReflectServerOptions<ReflectMutators> => ({
+  mutators,
+  logLevel: "debug",
+})
 
 export default makeOptions
