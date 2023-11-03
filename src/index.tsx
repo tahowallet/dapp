@@ -1,107 +1,14 @@
-import React, { ReactNode, useEffect } from "react"
+import React from "react"
 import ReactDOM from "react-dom/client"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useLocation,
-} from "react-router-dom"
 import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
-import {
-  useBalanceFetch,
-  useConnect,
-  useGameDataFetch,
-  useGameLoadDataFetch,
-  useWallet,
-  useWalletChange,
-  useWalletOnboarding,
-} from "shared/hooks"
-import LiquidityPool from "ui/LiquidityPool"
-import {
-  selectHasLoadedBalances,
-  selectHasLoadedRealmData,
-  selectHasLoadedSeasonInfo,
-  selectIslandMode,
-  useDappSelector,
-} from "redux-state"
-import TestingPanel from "testing/components/TestingPanel"
-import Referrals from "ui/Referrals"
-import Footer from "ui/Footer"
-import Nav from "ui/Nav"
-import Claim from "ui/Claim"
-import GlobalStyles from "ui/GlobalStyles"
-import IslandComponent from "ui/Island"
 import web3Onboard from "shared/utils/web3Onboard"
-import { ROUTES } from "shared/constants"
-import Onboarding from "ui/Onboarding"
-import FullPageLoader from "shared/components/FullPageLoader"
-import MobileScreen from "ui/MobileScreen"
 // Unfortunately the PostHog React package structure does not play nice with
 // no-extraneous-dependencies.
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { PostHogProvider, usePostHog } from "posthog-js/react"
+import { PostHogProvider } from "posthog-js/react"
+import DApp from "shared/components/DApps"
 import reduxStore from "./redux-state"
-
-function TrackEvents({ children }: { children: ReactNode[] }) {
-  const location = useLocation()
-  const posthog = usePostHog()
-
-  useEffect(() => {
-    posthog?.capture("$pageview", { url: location.pathname })
-  }, [])
-
-  return children
-}
-
-function DApp() {
-  const islandMode = useDappSelector(selectIslandMode)
-  const { isConnected } = useConnect()
-  const { walletOnboarded } = useWalletOnboarding()
-
-  const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
-  const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
-  const hasBalances = useDappSelector(selectHasLoadedBalances)
-
-  useWallet()
-  useGameLoadDataFetch()
-  useBalanceFetch()
-  useGameDataFetch()
-  useWalletChange()
-
-  return (
-    <>
-      <GlobalStyles />
-      <MobileScreen />
-      <Router>
-        {(!walletOnboarded || !isConnected) && <Onboarding />}
-        {walletOnboarded && isConnected && (
-          <TrackEvents>
-            <FullPageLoader
-              loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
-            />
-            <IslandComponent />
-            <TestingPanel />
-            {islandMode === "default" && <Nav />}
-            <Switch>
-              <Route path={ROUTES.CLAIM.HOME}>
-                <Claim />
-              </Route>
-              <Route path={ROUTES.REFERRALS}>
-                <Referrals />
-              </Route>
-              {/* TODO should be removed or defined later */}
-              <Route path={ROUTES.LP}>
-                <LiquidityPool />
-              </Route>
-            </Switch>
-            <Footer />
-          </TrackEvents>
-        )}
-      </Router>
-    </>
-  )
-}
 
 function DAppProviders() {
   return (

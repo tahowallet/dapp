@@ -1,22 +1,40 @@
 {
-    "4": {
-        "xp": [],
-        "leaderboard": null
-    },
-    "7": {
-        "xp": [],
-        "leaderboard": null
-    },
-    "9": {
-        "xp": [],
-        "leaderboard": null
-    },
-    "19": {
-        "xp": [],
-        "leaderboard": null
-    },
-    "22": {
-        "xp": [],
-        "leaderboard": null
-    }
+  "4": {
+    "rootFolder": "/assets/xp/gitcoin",
+    "claimsFolder": "/assets/xp/gitcoin/claims",
+    "xpGlossary": [
+      "0x1bbc8ebb6165940208273b52a9bc625dcdd040caae1c01acaf2168a27a8f9de5.json"
+    ],
+    "leaderboard": "leaderboard.json"
+  },
+  "7": {
+    "rootFolder": "/assets/xp/cyberconnect",
+    "claimsFolder": "/assets/xp/cyberconnect/claims",
+    "xpGlossary": [
+      "0x3823909a2038c7175915de1053ab41de3634b6b9d9b273151f55dfe3c22a361f.json"
+    ],
+    "leaderboard": "leaderboard.json"
+  },
+  "9": {
+    "rootFolder": "/assets/xp/arbitrum",
+    "claimsFolder": "/assets/xp/arbitrum/claims",
+    "xpGlossary": [
+      "0xccf3c79aefe494173c6673a8382c40bcf60528539e78353315b4892de0c9cd76.json"
+    ],
+    "leaderboard": "leaderboard.json"
+  },
+  "19": {
+    "rootFolder": "/assets/xp/galxe",
+    "claimsFolder": "/assets/xp/galxe/claims",
+    "xpGlossary": [
+      "0x9374e0cc26272296a252fb4f02c6bc24c47c712a916627b30652486e58dc4e90.json"
+    ],
+    "leaderboard": "leaderboard.json"
+  },
+  "22": {
+    "rootFolder": "/assets/xp/frax",
+    "claimsFolder": "/assets/xp/frax/claims",
+    "xpGlossary": [],
+    "leaderboard": null
+  }
 }

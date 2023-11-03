@@ -192,6 +192,15 @@ export const ensureAllowance = createDappAsyncThunk(
         }
       )
 
+      // Update on "parent transaction" to make it possible to track them together in the UI
+      dispatch(
+        updateTransactionStatus({
+          id,
+          status: receipt
+            ? TransactionProgressStatus.Approved
+            : TransactionProgressStatus.Failed,
+        })
+      )
       return !!receipt
     }
 
@@ -209,7 +218,7 @@ export const stakeTaho = createDappAsyncThunk(
     }: { id: string; realmContractAddress: string; amount: bigint },
     { dispatch, extra: { transactionService } }
   ) => {
-    const allowanceCorrect = await dispatch(
+    const { payload } = await dispatch(
       ensureAllowance({
         id,
         tokenAddress: TAHO_ADDRESS,
@@ -218,7 +227,7 @@ export const stakeTaho = createDappAsyncThunk(
       })
     )
 
-    if (!allowanceCorrect) {
+    if (!payload) {
       return false
     }
 
@@ -252,7 +261,7 @@ export const unstakeTaho = createDappAsyncThunk(
     },
     { dispatch, extra: { transactionService } }
   ) => {
-    const allowanceCorrect = await dispatch(
+    const { payload } = await dispatch(
       ensureAllowance({
         id,
         tokenAddress: veTokenContractAddress,
@@ -261,7 +270,7 @@ export const unstakeTaho = createDappAsyncThunk(
       })
     )
 
-    if (!allowanceCorrect) {
+    if (!payload) {
       return false
     }
 

@@ -1,25 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
 import mobileBg from "shared/assets/mobile/mobile-bg.webp"
 import mobileCircle from "shared/assets/mobile/mobile-circle.png"
 import mobileScreen from "shared/assets/mobile/mobile-screen.png"
-import { useOnResize } from "shared/hooks"
-import { getWindowDimensions } from "shared/utils"
 import MobileNav from "ui/Nav/MobileNav"
 
-const MOBILE_BREAKPOINT = 854 // qHD width
-
 export default function MobileScreen() {
-  const [width, setWidth] = useState(window.innerWidth)
-
-  useOnResize(() => {
-    const windowSize = getWindowDimensions()
-    setWidth(windowSize.width)
-  })
-
-  if (width >= MOBILE_BREAKPOINT) {
-    return null
-  }
-
   return (
     <>
       <div className="mobile-container">
