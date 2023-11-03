@@ -25,6 +25,7 @@ import {
   initRealmsDataFromContracts,
   initSeasonInfoData,
 } from "redux-state/thunks/island"
+import { randomInteger } from "shared/utils"
 import { useArbitrumProvider } from "./wallets"
 import { useInterval } from "./helpers"
 
@@ -154,6 +155,8 @@ export function usePopulationBubble(realmId: string): {
   const dispatch = useDappDispatch()
 
   const [showBubble, setShowBubble] = useState(false)
+  // Generate random intervals for realms
+  const [delay] = useState(randomInteger(5, 15) * SECOND)
 
   const populationCallback = useCallback(async () => {
     if (population < displayedPopulation) {
@@ -174,6 +177,6 @@ export function usePopulationBubble(realmId: string): {
     }
   }, [population, displayedPopulation, dispatch, realmId])
 
-  useInterval(populationCallback, population ? SECOND * 10 : null)
+  useInterval(populationCallback, population ? delay : null)
   return { showBubble, setShowBubble }
 }
