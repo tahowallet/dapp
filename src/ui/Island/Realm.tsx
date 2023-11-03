@@ -11,6 +11,8 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
+import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
+import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import {
   useIslandContext,
   usePopulationBubble,
@@ -47,6 +49,7 @@ export default function Realm({
   partnerLogo,
   populationIcon,
 }: RealmProps) {
+  const realmId = useDappSelector(selectDisplayedRealmId)
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
 
@@ -213,23 +216,20 @@ export default function Realm({
   const { showBubble, setShowBubble } = usePopulationBubble(id)
 
   const [bubbleProps] = useSpring(() => {
-    const destinationStyle = showBubble
-      ? styles.highlight.population
-      : styles.default.population
-
-    const config = {
-      precision: 0.0001,
-      duration: 2000,
-      easing: easings.easeOutCubic,
-    }
+    // To prevent lag in animation, let's show only one babel for the realm.
+    // When a modal for the realm is open, do not show a bubble on the map.
+    const destinationStyle =
+      showBubble && !(realmId === id)
+        ? styles.highlight.population
+        : styles.default.population
 
     return {
       from: styles.default.population,
       to: destinationStyle,
-      config,
+      config: BUBBLE_CONFIG,
       onRest: () => setShowBubble(false),
     }
-  }, [showBubble])
+  }, [showBubble, realmId, id])
 
   return (
     <Group ref={groupRef}>
