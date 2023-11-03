@@ -19,6 +19,7 @@
     "@react-spring/konva": "^9.7.3",
     "@react-spring/web": "^9.7.3",
     "@reduxjs/toolkit": "^1.9.5",
+    "@rocicorp/reflect": "^0.36.202310310758",
     "@web3-onboard/core": "^2.21.0",
     "@web3-onboard/react": "^2.8.11",
     "@web3-onboard/taho": "^2.0.5",
