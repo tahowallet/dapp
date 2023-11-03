@@ -2347,6 +2347,11 @@
   resolved "https://registry.yarnpkg.com/@rocicorp/logger/-/logger-5.2.1.tgz#bcb41d55ba6b2e5a5c1e2cbdf907ccf0935e7df5"
   integrity sha512-/co4DJq3opjULOHe7hMAho/E2WJuv6rMOJ1QDlCKsPHZ09XkkKHDM8dPu+odmDHWBb5aMnnzC92WQLd05CTxnA==
 
+"@rocicorp/rails@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@rocicorp/rails/-/rails-0.8.0.tgz#ee8f3826c640f1fc8cb4b8de97b952378098c052"
+  integrity sha512-BX/Owk5ikuLcXghQxlfPgcBWou5TWoGxktSxqUQZdCrsiP0CHEjOPJVhli4TuwRbxuzqS4MaHSeHa//PuwchGQ==
+
 "@rocicorp/reflect@^0.36.202310310758":
   version "0.36.202310310758"
   resolved "https://registry.yarnpkg.com/@rocicorp/reflect/-/reflect-0.36.202310310758.tgz#16a1cbe86b416a4dd23820d24dc0cf2d6d5df197"
@@ -10476,7 +10481,7 @@ youch@^3.2.2:
     mustache "^4.2.0"
     stacktracey "^2.1.8"
 
-zod@^3.20.6:
+zod@^3.20.6, zod@^3.22.4:
   version "3.22.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
