@@ -4,3 +4,8 @@
   command = "yarn build"
   functions = "functions"
   publish = "./dist/"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Service-Worker-Allowed = "/"

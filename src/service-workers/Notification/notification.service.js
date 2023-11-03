@@ -3,6 +3,7 @@ class NotificationServiceClass {
   #title = "Welcome to Subscape, Nomad"
   #options = {
     dir: "ltr",
+    icon: "https://raw.githubusercontent.com/tahowallet/taho.xyz/29a091abf919b5cfcf511fd10c41d73490ce4f23/src/shared/favicon.svg",
     body: "We've been waiting for you...",
     silent: false,
     requireInteraction: true,
@@ -29,7 +30,7 @@ class NotificationServiceClass {
   push(title = this.#title, options = this.#options) {
     const permission = this.getPermission()
     if (permission === "granted") {
-      self.registration.showNotification(title, options)
+      self.registration.showNotification(title, { ...this.options, ...options })
     } else if (permission === "denied") {
       this.log("permission denied", true)
     }
