@@ -8,9 +8,7 @@ self.addEventListener("activate", (event) => {
   // event.waitUntil(self.clients.claim())
   NotificationService.log("activated")
 
-  const config = JSON.parse(new URL(location).searchParams.get("config"))
-
-  const { vapidKey } = config
+  const { vapidKey } = JSON.parse(new URL(location).searchParams.get("config"))
 
   const options = {
     userVisibleOnly: true,
