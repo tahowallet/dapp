@@ -16,9 +16,9 @@ import packageJson from "./package.json"
 const config: Configuration = {
   entry: {
     main: "./src/index.tsx",
-    DesktopDApp: "./src/shared/components/DApps/DesktopDApp.tsx",
+    DesktopDApp: "./src/ui/DApps/DesktopDApp.tsx",
     Onboarding: "./src/ui/Onboarding/index.tsx",
-    IslandView: "./src/shared/components/DApps/IslandView.tsx",
+    IslandView: "./src/ui/DApps/IslandView.tsx",
   },
   devtool: "source-map",
   output: {

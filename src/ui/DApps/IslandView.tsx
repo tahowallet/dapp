@@ -13,7 +13,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import TrackEvent from "./TrackEvent"
-import FullPageLoader from "../FullPageLoader"
+import FullPageLoader from "../../shared/components/FullPageLoader"
 
 const Claim = lazy(() => import("ui/Claim"))
 const Referrals = lazy(() => import("ui/Referrals"))
