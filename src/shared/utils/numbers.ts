@@ -1,5 +1,8 @@
 import { FixedPointNumber } from "shared/types/stake"
 
+// Matches floating point numbers with optional thousands separators
+const FLOATING_POINT_REGEX = /^[^0-9]*([0-9,]+)(?:\.([0-9]*))?$/
+
 export const separateThousandsByComma = (
   value: number | bigint | string
 ): string => {
@@ -10,7 +13,7 @@ export const separateThousandsByComma = (
 function parseToFixedPointNumber(
   floatingPointString: string
 ): FixedPointNumber | undefined {
-  if (!floatingPointString.match(/^[^0-9]*([0-9,]+)(?:\.([0-9]*))?$/)) {
+  if (!floatingPointString.match(FLOATING_POINT_REGEX)) {
     return undefined
   }
 

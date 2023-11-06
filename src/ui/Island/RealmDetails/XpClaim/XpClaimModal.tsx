@@ -73,7 +73,8 @@ export default function XpClaimModal({
           )} XP`,
           buttonLabel: "Claim XP",
           status: claimXpTransactionStatus[id],
-          onClick: () => realmId && dispatch(claimXp({ id, claimData: data })),
+          onClick: () =>
+            realmId && dispatch(claimXp({ id, unclaimedXpData: data })),
         }
       }),
     [claimXpTransactionStatus, dispatch, realmId, savedUnclaimedDrops]
@@ -90,7 +91,7 @@ export default function XpClaimModal({
         </>
       }
       isOpen={isOpen}
-      close={() => onClose()}
+      close={onClose}
       transactions={claimTransactionsData}
     />
   )

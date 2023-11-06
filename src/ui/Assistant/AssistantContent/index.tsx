@@ -7,12 +7,14 @@ import closeIcon from "shared/assets/icons/s/close.svg"
 export type AssistantContentProps = {
   isVisible: boolean
   close: () => void
+  style?: React.CSSProperties
 }
 
 export default function AssistantContent({
   children,
   isVisible,
   close,
+  style,
 }: AssistantContentProps & { children: ReactNode }) {
   const transition = useVisibilityTransition(isVisible)
 
@@ -29,6 +31,7 @@ export default function AssistantContent({
           padding: "24px 32px 32px",
           width: 375,
           pointerEvents: isVisible ? "all" : "none",
+          ...style,
         }}
       >
         <button
