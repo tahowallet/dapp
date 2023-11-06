@@ -9,7 +9,7 @@ export const STYLE = {
 }
 
 export const BUBBLE_CONFIG = {
-  precision: 0.0001,
+  precision: 0.1,
   duration: 2000,
   easing: easings.easeOutCubic,
 }

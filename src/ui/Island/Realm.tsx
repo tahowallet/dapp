@@ -142,6 +142,13 @@ export default function Realm({
         population: {
           opacity: 1,
           x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 120,
+        },
+      },
+      finish: {
+        population: {
+          opacity: 0,
+          x: x + labelX + partnerLogoTranslate,
           y: y + labelY - 220,
         },
       },
@@ -215,19 +222,26 @@ export default function Realm({
 
   const { showBubble, setShowBubble } = usePopulationBubble(id)
 
-  const [bubbleProps] = useSpring(() => {
+  const [bubbleProps, set] = useSpring(() => {
     // To prevent lag in animation, let's show only one babel for the realm.
     // When a modal for the realm is open, do not show a bubble on the map.
     const destinationStyle =
       showBubble && !(realmId === id)
-        ? styles.highlight.population
-        : styles.default.population
+        ? [styles.highlight.population, styles.finish.population]
+        : { opacity: 0 }
 
     return {
       from: styles.default.population,
       to: destinationStyle,
       config: BUBBLE_CONFIG,
-      onRest: () => setShowBubble(false),
+      onRest: () => {
+        setShowBubble(false)
+
+        // Restore bubble's initial position after animation has finished
+        if (!showBubble) {
+          set({ to: styles.default.population })
+        }
+      },
     }
   }, [showBubble, realmId, id])
 
