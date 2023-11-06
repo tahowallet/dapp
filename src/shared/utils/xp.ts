@@ -106,19 +106,20 @@ export async function getXpDataForRealmId(
         // Addresses in the claim files are sorted in ascending order,
         // we only know about the address that the file starts with and our `targetAddress`.
         // * If `startAddress` < `targetAddress` then we don't know if the address
-        //   is in the current claim file or the next one. We assume that it's in the one of the upcoming files.
-        // * If `startAddress` > `targetAddress` then we know that the address is in the previous file.
-        // Edge cases are:
-        // * `targetAddress` === `startAddress` - this is covered by the same logic as the regular case,
-        //   because we will come back to the previous file, because while checking next claim file startAddress > targetAddress
-        // * `targetAddress` is in the first file - this is covered by defaulting to the first file is none of the files match
-        // * `targetAddress` is not in the drop at all - not a problem, we will return null
-        const suspectedNextClaimFileIndex = glossaryFile.glossary.findIndex(
-          ({ startAddress }) => BigInt(startAddress ?? 0) > targetAddress
-        )
-        const claimFileIndex =
-          suspectedNextClaimFileIndex <= 0 ? 0 : suspectedNextClaimFileIndex - 1
-        const claimFile = glossaryFile.glossary[claimFileIndex]?.file
+        //   is in the current claim file or the next one. We assume that it's
+        //   in the one of the upcoming files.
+        // * If `startAddress` > `targetAddress` then we know that the address
+        //   is in the previous file.
+        // * If this heuristic produces no matching entry, then the last file
+        //   is the only one that could include the address.
+        const claimFileEntry =
+          glossaryFile.glossary.find(
+            (_, i, glossary) =>
+              // If the next glossary entry's start address > the target, this
+              // file will contain the claim or there is no claim.
+              BigInt(glossary[i + 1]?.startAddress ?? 0) > targetAddress
+          ) ?? glossaryFile.glossary.slice(-1)[0] // default to the last entry if no other entry is found
+        const claimFile = claimFileEntry?.file
 
         if (!claimFile) {
           // No claim file found for the user
