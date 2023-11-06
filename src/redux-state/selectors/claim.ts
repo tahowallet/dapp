@@ -1,31 +1,22 @@
-import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "redux-state/reducers"
 import { truncateAddress } from "shared/utils"
-import { RealmData } from "shared/types"
-import { selectRealmById } from "./island"
+import { createClaimSelector } from "redux-state/selectors"
+
+export const selectHasClaimed = createClaimSelector("hasClaimed")
+export const selectEligibility = createClaimSelector("eligibility")
+export const selectRealmId = createClaimSelector("selectedRealmId")
+export const selectClaimingStakeAmount = createClaimSelector("stakeAmount")
+export const selectClaimAdress = createClaimSelector("address")
+export const selectClaimName = createClaimSelector("name")
+export const selectUseConnectedWalletToClaim =
+  createClaimSelector("useConnectedWallet")
+export const selectRepresentativeAddress = createClaimSelector(
+  "representativeAddress"
+)
+export const selectClaimingSelectedRealmId =
+  createClaimSelector("selectedRealmId")
 
 export const selectClaimingUser = (state: RootState) => ({
-  name: state.claim.name || truncateAddress(state.claim.address),
-  address: state.claim.address,
+  name: selectClaimName(state) || truncateAddress(selectClaimAdress(state)),
+  address: selectClaimAdress(state),
 })
-
-export const selectHasClaimed = (state: RootState) => state.claim.hasClaimed
-
-export const selectEligibility = (state: RootState) => state.claim.eligibility
-
-export const selectUseConnectedWalletToClaim = (state: RootState) =>
-  state.claim.useConnectedWallet
-
-export const selectStakingData = createSelector(
-  (state: RootState) => selectRealmById(state, state.claim.selectedRealmId),
-  (state: RootState) => state.claim.stakeAmount,
-  (realmData: RealmData | null, stakeAmount) => ({
-    realmContractAddress: realmData ? realmData.realmContractAddress : null,
-    stakeAmount,
-  })
-)
-
-export const selectRepresentativeAddress = (state: RootState) =>
-  state.claim.representativeAddress
-
-export const selectRealmId = (state: RootState) => state.claim.selectedRealmId
