@@ -91,7 +91,7 @@ export default function XpClaimModal({
         </>
       }
       isOpen={isOpen}
-      close={() => onClose()}
+      close={onClose}
       transactions={claimTransactionsData}
     />
   )
