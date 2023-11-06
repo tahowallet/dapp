@@ -360,14 +360,14 @@ export const claimXp = createDappAsyncThunk(
   async (
     {
       id,
-      claimData,
+      unclaimedXpData,
     }: {
       id: string
-      claimData: UnclaimedXpData
+      unclaimedXpData: UnclaimedXpData
     },
     { dispatch, extra: { transactionService } }
   ) => {
-    const { distributorContractAddress, claim } = claimData
+    const { distributorContractAddress, claim } = unclaimedXpData
 
     const receipt = await transactionService.send(id, claimXpTokens, {
       distributorContractAddress,
