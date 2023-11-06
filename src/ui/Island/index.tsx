@@ -1,8 +1,4 @@
 import React, { memo, useCallback, useEffect, useState } from "react"
-import {
-  selectIsDefaultIslandMode,
-  selectRealmNameById,
-} from "redux-state/selectors/island"
 import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
@@ -12,6 +8,8 @@ import {
   useAssets,
 } from "shared/hooks"
 import {
+  selectRealmNameById,
+  selectIsDefaultIslandMode,
   setDisplayedRealmId,
   useDappDispatch,
   useDappSelector,

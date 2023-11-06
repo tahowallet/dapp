@@ -16,7 +16,7 @@ const NAMES_CACHE_STRORAGE_KEY = "taho.cachedNames"
 const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 7 // 1 week
 
 const resolveAddressPromiseCache: {
-  [address: string]: Promise<WalletData>
+  [address: string]: Promise<WalletData | null>
 } = {}
 
 const getCachedNames = () => {
@@ -52,9 +52,11 @@ const resolveENSPromise = (address: string) =>
   })
 
 const resolveUNSPromise = (address: string) =>
-  resolveAddressToUNS(address).then((name): string => {
+  resolveAddressToUNS(address).then((name): WalletData | null => {
+    if (!name) return null
+
     addCachedName({ type: "uns", address, name })
-    return name
+    return { name }
   })
 
 const resolveUnknownNamePromise = () =>
@@ -70,17 +72,20 @@ const resolveAddressToWalletDataWithoutCache = async (address: string) => {
       resolveENSPromise(normalizedAddress),
       resolveUNSPromise(normalizedAddress),
       resolveUnknownNamePromise(),
-    ]) as Promise<WalletData>
+    ])
   }
 
-  const { name, avatar } = await resolveAddressPromiseCache[normalizedAddress]
+  const cachedResult =
+    (await resolveAddressPromiseCache[normalizedAddress]) ?? {}
 
-  return { name, avatar }
+  const { name, avatar } = cachedResult
+
+  return name ? { name, avatar } : null
 }
 
 export const resolveAddressToWalletData = async (
   address: string
-): Promise<WalletData> => {
+): Promise<WalletData | null> => {
   const cachedNames = getCachedNames()
 
   const normalizedAddress = normalizeAddress(address)
@@ -90,11 +95,9 @@ export const resolveAddressToWalletData = async (
     return cachedItem.ens ?? cachedItem.uns
   }
 
-  const { name, avatar } = await resolveAddressToWalletDataWithoutCache(
-    normalizedAddress
-  )
+  const data = await resolveAddressToWalletDataWithoutCache(normalizedAddress)
 
-  return { name, avatar }
+  return data ? { name: data.name, avatar: data.avatar } : null
 }
 
 export const resolveNameToAddress = async (addressOrName: string) => {
