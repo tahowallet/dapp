@@ -8,7 +8,7 @@ type AssistantContentProps = {
   style?: CSSProperties
 }
 
-export default function AsisstantContent({
+export default function AssistantContent({
   children,
   isVisible,
   close,

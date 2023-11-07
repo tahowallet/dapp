@@ -2,14 +2,14 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import realmPointer from "shared/assets/realm-pointer.png"
 import { useAssistant } from "shared/hooks"
-import AsisstantContent from "."
+import AssistantContent from "."
 
 export default function AssistantWelcome() {
   const { updateAssistant, assistantVisible } = useAssistant()
 
   return (
     <>
-      <AsisstantContent
+      <AssistantContent
         isVisible={assistantVisible("welcome")}
         style={{ width: 620 }}
         close={() => updateAssistant({ visible: false, type: "default" })}
@@ -26,7 +26,7 @@ export default function AssistantWelcome() {
             <strong>Start exploring by hovering over our 5 Beta Realms</strong>
           </p>
         </div>
-      </AsisstantContent>
+      </AssistantContent>
       <style jsx>{`
         .header {
           font-size: 36px;

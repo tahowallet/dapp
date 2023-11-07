@@ -1,7 +1,7 @@
 import React from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
-import AsisstantContent from "."
+import AssistantContent from "."
 
 export default function AssistantFirstRealm() {
   const { updateAssistant, assistantVisible } = useAssistant()
@@ -16,7 +16,7 @@ export default function AssistantFirstRealm() {
 
   return (
     <>
-      <AsisstantContent
+      <AssistantContent
         isVisible={assistantVisible("first-realm")}
         close={closeAssistant}
       >
@@ -32,7 +32,7 @@ export default function AssistantFirstRealm() {
           $TAHO you stake, the more $XP you earn. The more Citizens in each
           Realm, the more your weekly $XP reward gets diluted.
         </p>
-      </AsisstantContent>
+      </AssistantContent>
       <style jsx>{`
         .header {
           font: var(--text-h1);
