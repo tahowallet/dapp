@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit"
-import { createIslandSelector } from "redux-state/selectors"
+import { createIslandSelector, selectWallet } from "redux-state/selectors"
 import { UnclaimedXpData } from "shared/types"
 import { getClaimXpTransactionID } from "shared/utils"
 import { selectTransactionStatusById } from "./wallet"
@@ -23,7 +23,7 @@ export const selectUnclaimedXpSumById = createSelector(
 export const selectXpClaimTransactionStatuses = createSelector(
   [
     (_, savedUnclaimedDrops: UnclaimedXpData[]) => savedUnclaimedDrops,
-    (state) => state.wallet,
+    selectWallet,
   ],
   (unclaimedXp, walletState) =>
     Object.fromEntries(
