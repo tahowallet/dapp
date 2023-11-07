@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { CSSProperties, ReactNode } from "react"
 import classnames from "classnames"
 
 type ButtonProps = {
@@ -21,6 +21,7 @@ type ButtonProps = {
   iconSrc?: string
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
   onMouseDown?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  style?: CSSProperties
 }
 
 export default function Button({
@@ -34,6 +35,7 @@ export default function Button({
   iconSrc,
   onClick,
   onMouseDown,
+  style,
 }: ButtonProps) {
   return (
     <>
@@ -54,6 +56,7 @@ export default function Button({
           disabled: isDisabled,
           inactive: isInactive,
         })}
+        style={style}
       >
         {children}
         {iconSrc && (
