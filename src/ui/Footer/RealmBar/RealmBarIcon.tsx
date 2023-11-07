@@ -27,14 +27,15 @@ export default function RealmBarIcon({
     setDisplayedPosition(position)
   }, [displayedPosition, position])
 
-  const [props] = useSpring(
-    () => ({
-      from: { left: `${prevPosition}px` },
-      to: { left: `${displayedPosition}px` },
-      config: { duration: 1000, easing: easings.easeOutCubic },
-    }),
-    [prevPosition, displayedPosition]
-  )
+  const [props] = useSpring(() => {
+    if (Number.isNaN(prevPosition) || Number.isNaN(displayedPosition)) return {}
+
+    return {
+      from: { left: prevPosition ?? 0 },
+      to: { left: displayedPosition ?? 0 },
+      config: { duration: 2000, easing: easings.easeOutCubic },
+    }
+  }, [prevPosition, displayedPosition])
 
   if (!currentRealm) return null
 
@@ -42,16 +43,17 @@ export default function RealmBarIcon({
     <animated.div
       className="icon"
       style={{
-        ...props,
         height: 24,
         width: 24,
         padding: 3,
         background: currentRealm.partnerColor ?? currentRealm.color,
         position: "absolute",
         top: "50%",
+        left: displayedPosition ?? 0,
         transform: "translateY(-50%)",
         borderRadius: "50%",
         zIndex: 999,
+        ...props,
       }}
       onMouseEnter={() => setIsTooltipVisible(true)}
       onMouseLeave={() => setIsTooltipVisible(false)}
