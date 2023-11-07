@@ -173,7 +173,7 @@ export function calculatePopulationIconsPositions(
   const positions: number[] = []
 
   realmsData.forEach((realm, index) => {
-    const populationShare = realm.population / maxValue
+    const populationShare = realm.displayedPopulation / maxValue
     let iconPosition = Math.max(
       populationShare * width + POPULATION_BAR_GAP,
       POPULATION_BAR_GAP + index * POPULATION_ICON_SIZE

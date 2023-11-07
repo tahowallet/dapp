@@ -13,10 +13,7 @@ import {
 } from "shared/constants"
 import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
 import { selectDisplayedRealmId, useDappSelector } from "redux-state"
-import {
-  useIslandContext,
-  usePopulationBubble,
-} from "../../shared/hooks/island"
+import { useIslandContext, usePopulationBubble } from "../../shared/hooks"
 
 type RealmProps = {
   id: string

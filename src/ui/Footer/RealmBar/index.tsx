@@ -1,44 +1,27 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef } from "react"
 import populationIcon from "shared/assets/icons/people.svg"
 import Icon from "shared/components/Icon"
 import Tooltip from "shared/components/Tooltip"
+import { separateThousandsByComma } from "shared/utils"
 import {
-  calculatePopulationIconsPositions,
-  separateThousandsByComma,
-} from "shared/utils"
-import {
-  selectMaxPopulation,
-  selectSortedPopulation,
-  selectTotalPopulation,
+  selectSortedDisplayedPopulation,
+  selectTotalDisplayedPopulation,
   useDappSelector,
 } from "redux-state"
-import { useVisibilityTransition } from "shared/hooks"
+import {
+  useVisibilityTransition,
+  usePopulationIconPositions,
+} from "shared/hooks"
 import { animated } from "@react-spring/web"
 import RealmBarIcon from "./RealmBarIcon"
 
 export default function RealmsBar() {
-  const realmsData = useDappSelector(selectSortedPopulation)
-  const totalPopulation = useDappSelector(selectTotalPopulation)
-  const maxPopulation = useDappSelector(selectMaxPopulation)
-
-  const [positions, setPositions] = useState<number[]>([])
+  const realmsData = useDappSelector(selectSortedDisplayedPopulation)
+  const totalPopulation = useDappSelector(selectTotalDisplayedPopulation)
   const progressBarRef = useRef<HTMLDivElement>(null)
 
   const transition = useVisibilityTransition(totalPopulation > 0)
-
-  useEffect(() => {
-    if (!realmsData.length || !progressBarRef.current) return
-
-    const { width } = progressBarRef.current.getBoundingClientRect()
-
-    const pos = calculatePopulationIconsPositions(
-      width,
-      realmsData,
-      maxPopulation
-    )
-
-    setPositions(pos)
-  }, [realmsData, maxPopulation, progressBarRef])
+  const positions = usePopulationIconPositions(progressBarRef)
 
   return (
     <>
@@ -76,7 +59,7 @@ export default function RealmsBar() {
                 key={realm.id}
                 id={realm.id}
                 position={positions[index]}
-                population={realm.population}
+                population={realm.displayedPopulation}
                 name={realm.name}
               />
             ))}

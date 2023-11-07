@@ -12,9 +12,6 @@ import {
   useDappSelector,
   selectWalletAddress,
   selectRealms,
-  selectPopulationById,
-  selectDisplayedPopulationById,
-  setRealmDisplayedPopulation,
 } from "redux-state"
 import { SECOND } from "shared/constants"
 import {
@@ -25,7 +22,6 @@ import {
   initRealmsDataFromContracts,
   initSeasonInfoData,
 } from "redux-state/thunks/island"
-import { randomInteger } from "shared/utils"
 import { useArbitrumProvider } from "./wallets"
 import { useInterval } from "./helpers"
 
@@ -140,43 +136,4 @@ export function useStakeCooldownPeriod() {
   useInterval(intervalCallback, intervalTime)
 
   return { hasCooldown: !!timeRemaining && timeRemaining > 0, timeRemaining }
-}
-
-export function usePopulationBubble(realmId: string): {
-  showBubble: boolean
-  setShowBubble: (newValue: boolean) => void
-} {
-  const population = useDappSelector((state) =>
-    selectPopulationById(state, realmId)
-  )
-  const displayedPopulation = useDappSelector((state) =>
-    selectDisplayedPopulationById(state, realmId)
-  )
-  const dispatch = useDappDispatch()
-
-  const [showBubble, setShowBubble] = useState(false)
-  // Generate random intervals for realms
-  const [delay] = useState(randomInteger(5, 15) * SECOND)
-
-  const populationCallback = useCallback(async () => {
-    if (population < displayedPopulation) {
-      await dispatch(
-        setRealmDisplayedPopulation({
-          id: realmId,
-          population,
-        })
-      )
-    } else if (population > displayedPopulation) {
-      setShowBubble(true)
-      await dispatch(
-        setRealmDisplayedPopulation({
-          id: realmId,
-          population: displayedPopulation + 1,
-        })
-      )
-    }
-  }, [population, displayedPopulation, dispatch, realmId])
-
-  useInterval(populationCallback, population ? delay : null)
-  return { showBubble, setShowBubble }
 }
