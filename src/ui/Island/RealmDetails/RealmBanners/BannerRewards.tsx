@@ -1,24 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 import Button from "shared/components/Button"
 import RealmBanner from "shared/components/RealmModal/RealmBanner"
 import RealmIcon from "shared/components/RealmIcon"
 import {
-  claimXp,
   selectDisplayedRealmId,
   selectRealmById,
-  selectTransactionStatusById,
-  stopTrackingTransactionStatus,
-  useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
-import { useTransactionSuccessCallback } from "shared/hooks"
-import TransactionsModal from "shared/components/Transactions/TransactionsModal"
-import { bigIntToUserAmount, separateThousandsByComma } from "shared/utils"
+import { bigIntToDisplayUserAmount } from "shared/utils"
 import { LINKS } from "shared/constants"
-
-const CLAIM_XP_TX_ID = "claim-xp"
+import XpClaimModal from "../XpClaim/XpClaimModal"
 
 export default function BannerRewards({
   amount,
@@ -27,53 +20,25 @@ export default function BannerRewards({
   amount: bigint
   setJustClaimed: (hasClaimed: boolean) => void
 }) {
-  const dispatch = useDappDispatch()
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
-  const parsedAmount = separateThousandsByComma(bigIntToUserAmount(amount))
-  const [savedAmount] = useState(() => parsedAmount)
+
+  const parsedAmount = bigIntToDisplayUserAmount(amount)
+  const [savedAndParsedAmount] = useState(() => parsedAmount)
 
   const [congratulationsModalOpen, setCongratulationsModalOpen] =
     useState(false)
   const [isClaimTransactionModalOpen, setIsClaimTransactionModalOpen] =
     useState(false)
 
-  const claimXpTransactionStatus = useDappSelector((state) =>
-    selectTransactionStatusById(state, CLAIM_XP_TX_ID)
-  )
-
-  const claimTransaction = () => {
-    if (realmId) {
-      dispatch(claimXp({ id: CLAIM_XP_TX_ID, realmId }))
-      setJustClaimed(true) // to keep the banner + congratulation modal open
-    }
-  }
-
-  const claimTransactionData = {
-    id: CLAIM_XP_TX_ID,
-    title: "Sign transaction to claim XP",
-    buttonLabel: "Claim XP",
-    status: claimXpTransactionStatus,
-    onClick: claimTransaction,
-  }
-
-  const claimTransactionSuccessCallback = useCallback(() => {
-    setIsClaimTransactionModalOpen(false)
+  const onClaim = useCallback(() => {
+    setJustClaimed(true) // to keep the banner + congratulation modal open
     setCongratulationsModalOpen(true)
-    dispatch(stopTrackingTransactionStatus(CLAIM_XP_TX_ID))
-  }, [dispatch])
+  }, [setJustClaimed])
 
-  useTransactionSuccessCallback(
-    claimXpTransactionStatus,
-    claimTransactionSuccessCallback
-  )
-
-  useEffect(
-    () => () => {
-      dispatch(stopTrackingTransactionStatus(CLAIM_XP_TX_ID))
-    },
-    [dispatch]
-  )
+  const onClose = useCallback(() => {
+    setIsClaimTransactionModalOpen(false)
+  }, [])
 
   if (!realmId || !realm) return null
 
@@ -156,15 +121,16 @@ export default function BannerRewards({
           `}
         </style>
       </RealmBanner>
-      <TransactionsModal
+      <XpClaimModal
         isOpen={isClaimTransactionModalOpen}
-        close={() => setIsClaimTransactionModalOpen(false)}
-        transactions={[claimTransactionData]}
+        displayAmount={savedAndParsedAmount}
+        onClaim={onClaim}
+        onClose={onClose}
       />
       {congratulationsModalOpen && (
         <ClaimCongratulations
           realmId={realmId}
-          amount={savedAmount}
+          displayAmount={savedAndParsedAmount}
           description={realm.xpToken.symbol}
           close={() => {
             setCongratulationsModalOpen(false)

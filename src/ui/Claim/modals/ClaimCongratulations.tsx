@@ -5,14 +5,14 @@ import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
 import RealmIcon from "shared/components/RealmIcon"
 
 type ClaimCongratulationsProps = {
-  amount: string
+  displayAmount: string
   description: string
   realmId: string
   close: () => void
 }
 
 export default function ClaimCongratulations({
-  amount,
+  displayAmount,
   description,
   realmId,
   close,
@@ -37,7 +37,7 @@ export default function ClaimCongratulations({
           type="circle"
           width="48px"
         />
-        <div className="taho_amount">{amount}</div>
+        <div className="taho_amount">{displayAmount}</div>
         <p className="taho_description">{description}</p>
         <p className="taho_realm">from {realm?.name}</p>
       </CongratulationsModal>

@@ -1,8 +1,12 @@
-import { resolveAddressToWalletData } from "shared/utils"
+import {
+  isClaimXpTransactionID,
+  resolveAddressToWalletData,
+} from "shared/utils"
 import {
   updateBalances,
   updateConnectedWallet,
   resetWalletState,
+  stopTrackingTransactionStatus,
 } from "redux-state/slices/wallet"
 import { resetClaiming, setClaimingUser } from "redux-state/slices/claim"
 import { getBalance, getStakeUnlockTime } from "shared/contracts"
@@ -205,5 +209,22 @@ export const fetchWalletBalances = createDappAsyncThunk(
     }
 
     return balances
+  }
+)
+
+export const stopTrackingClaimTransactions = createDappAsyncThunk(
+  "wallet/stopTrackingClaimTransactions",
+  async (_, { getState, dispatch }) => {
+    const {
+      wallet: { transactionStatus },
+    } = getState()
+
+    const claimTransactionIds = Object.keys(transactionStatus).filter(
+      isClaimXpTransactionID
+    )
+
+    claimTransactionIds.forEach((id) => {
+      dispatch(stopTrackingTransactionStatus(id))
+    })
   }
 )
