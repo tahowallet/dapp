@@ -8,10 +8,16 @@ export type PopupProps = {
   children: ReactNode
   isVisible: boolean
   close: () => void
-  bottomPosition: string | number
+  leftPosition?: string | number
+  bottomPosition?: string | number
   rightPosition: string | number
   width: string | number
   style?: React.CSSProperties
+}
+
+type XAxisPsition = {
+  left?: string | number
+  right?: string | number
 }
 
 export default function Popup({
@@ -19,25 +25,30 @@ export default function Popup({
   isVisible,
   close,
   bottomPosition,
+  leftPosition,
   rightPosition,
   width,
   style,
 }: PopupProps) {
   const transition = useVisibilityTransition(isVisible)
+  const xPosition: XAxisPsition = {}
+
+  if (leftPosition) xPosition.left = leftPosition
+  if (rightPosition) xPosition.right = rightPosition
 
   return (
     <>
       <animated.div
         style={{
-          ...transition,
           position: "absolute",
           bottom: bottomPosition,
-          right: rightPosition,
           background: "#043937",
           borderRadius: 16,
           padding: "24px 32px 32px",
           width,
           pointerEvents: isVisible ? "all" : "none",
+          ...transition,
+          ...xPosition,
           ...style,
         }}
       >
