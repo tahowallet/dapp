@@ -34,6 +34,7 @@ import LiquidityPool from "ui/LiquidityPool"
 import Footer from "ui/Footer"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { usePostHog } from "posthog-js/react"
+import PrivacyPolicy from "../PrivacyPolicy"
 
 function TrackEvents({ children }: { children: ReactNode[] }) {
   const location = useLocation()
@@ -65,30 +66,33 @@ export default function DesktopDApp() {
 
   return (
     <Router>
-      {(!walletOnboarded || !isConnected) && <Onboarding />}
-      {walletOnboarded && isConnected && (
-        <TrackEvents>
-          <FullPageLoader
-            loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
-          />
-          <IslandComponent />
-          <TestingPanel />
-          {islandMode === "default" && <Nav />}
-          <Switch>
-            <Route path={ROUTES.CLAIM.HOME}>
-              <Claim />
-            </Route>
-            <Route path={ROUTES.REFERRALS}>
-              <Referrals />
-            </Route>
-            {/* TODO should be removed or defined later */}
-            <Route path={ROUTES.LP}>
-              <LiquidityPool />
-            </Route>
-          </Switch>
-          <Footer />
-        </TrackEvents>
-      )}
+      <TrackEvents>
+        {(!walletOnboarded || !isConnected) && <Onboarding />}
+        {walletOnboarded && isConnected && (
+          <>
+            <FullPageLoader
+              loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
+            />
+            <IslandComponent />
+            <TestingPanel />
+            {islandMode === "default" && <Nav />}
+            <Switch>
+              <Route path={ROUTES.CLAIM.HOME}>
+                <Claim />
+              </Route>
+              <Route path={ROUTES.REFERRALS}>
+                <Referrals />
+              </Route>
+              {/* TODO should be removed or defined later */}
+              <Route path={ROUTES.LP}>
+                <LiquidityPool />
+              </Route>
+            </Switch>
+            <Footer />
+          </>
+        )}
+        <PrivacyPolicy />
+      </TrackEvents>
     </Router>
   )
 }

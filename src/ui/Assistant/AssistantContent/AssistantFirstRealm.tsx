@@ -1,7 +1,7 @@
 import React from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
-import Popup from "shared/components/Popup"
+import AsisstantContent from "."
 
 export default function AssistantFirstRealm() {
   const { updateAssistant, assistantVisible } = useAssistant()
@@ -16,7 +16,10 @@ export default function AssistantFirstRealm() {
 
   return (
     <>
-      <Popup isVisible={assistantVisible("first-realm")} close={closeAssistant}>
+      <AsisstantContent
+        isVisible={assistantVisible("first-realm")}
+        close={closeAssistant}
+      >
         <div className="header">Why join a Realm?</div>
         <p className="paragraph">
           Realm Citizens can complete <strong>Quests</strong>, earn{" "}
@@ -29,7 +32,7 @@ export default function AssistantFirstRealm() {
           $TAHO you stake, the more $XP you earn. The more Citizens in each
           Realm, the more your weekly $XP reward gets diluted.
         </p>
-      </Popup>
+      </AsisstantContent>
       <style jsx>{`
         .header {
           font: var(--text-h1);

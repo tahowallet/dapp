@@ -5,8 +5,12 @@ import Icon from "shared/components/Icon"
 import closeIcon from "shared/assets/icons/s/close.svg"
 
 export type PopupProps = {
+  children: ReactNode
   isVisible: boolean
   close: () => void
+  bottomPosition: string | number
+  rightPosition: string | number
+  width: string | number
   style?: React.CSSProperties
 }
 
@@ -14,8 +18,11 @@ export default function Popup({
   children,
   isVisible,
   close,
+  bottomPosition,
+  rightPosition,
+  width,
   style,
-}: PopupProps & { children: ReactNode }) {
+}: PopupProps) {
   const transition = useVisibilityTransition(isVisible)
 
   return (
@@ -24,12 +31,12 @@ export default function Popup({
         style={{
           ...transition,
           position: "absolute",
-          bottom: "calc(100% + 16px)",
-          right: 0,
+          bottom: bottomPosition,
+          right: rightPosition,
           background: "#043937",
           borderRadius: 16,
           padding: "24px 32px 32px",
-          width: 375,
+          width,
           pointerEvents: isVisible ? "all" : "none",
           ...style,
         }}
