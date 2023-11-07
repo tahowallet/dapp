@@ -2,16 +2,23 @@ import React from "react"
 import Popup from "shared/components/Popup"
 import cookiesIcon from "shared/assets/icons/cookies.svg"
 import newTabIcon from "shared/assets/icons/s/new-tab.svg"
-import { LINKS } from "shared/constants"
+import { LINKS, LOCAL_STORAGE_COOKIES } from "shared/constants"
+import { useLocalStorageChange } from "shared/hooks"
 import Icon from "./Icon"
 import Button from "./Button"
 
 export default function PrivacyPolicy() {
+  const { value, updateStorage } = useLocalStorageChange<boolean>(
+    LOCAL_STORAGE_COOKIES
+  )
+
+  const closePopup = () => updateStorage(true)
+
   return (
     <>
       <Popup
-        isVisible
-        close={() => {}}
+        isVisible={value === null}
+        close={closePopup}
         bottomPosition={16}
         leftPosition={19}
         width={419}
@@ -27,7 +34,7 @@ export default function PrivacyPolicy() {
           policy.
         </p>
         <div className="row_center" style={{ gap: 38 }}>
-          <Button type="border" style={{ width: 85 }}>
+          <Button type="border" onClick={closePopup} style={{ width: 85 }}>
             OK
           </Button>
           <a
