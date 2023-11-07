@@ -34,7 +34,7 @@ export default function PrivacyPolicy() {
           policy.
         </p>
         <div className="row_center" style={{ gap: 38 }}>
-          <Button type="border" onClick={closePopup} style={{ width: 85 }}>
+          <Button type="secondary" onClick={closePopup}>
             OK
           </Button>
           <a

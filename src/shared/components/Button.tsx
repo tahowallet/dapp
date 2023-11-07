@@ -6,7 +6,7 @@ type ButtonProps = {
   /**
    * @default "primary"
    */
-  type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject" | "border"
+  type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject"
   /**
    * @default "medium"
    */
@@ -50,7 +50,6 @@ export default function Button({
           tertiary: type === "tertiary",
           twitter: type === "twitter",
           reject: type === "reject",
-          border: type === "border",
           medium: size === "medium",
           large: size === "large",
           reversed: iconPosition === "left",
@@ -212,18 +211,6 @@ export default function Button({
             padding: 4px 0;
             color: var(--semantic-error);
             height: auto;
-          }
-
-          .border {
-            color: var(--primary-p2-100);
-            background: transparent;
-            padding: 4px;
-            border: 2px solid var(--primary-p2-100);
-            transition: all 0.2s;
-          }
-          .border:hover {
-            background: var(--primary-p2-100);
-            color: var(--secondary-s1-90);
           }
 
           .disabled,
