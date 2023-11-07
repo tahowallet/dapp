@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { CSSProperties, ReactNode } from "react"
 import classnames from "classnames"
 
 type ButtonProps = {
@@ -6,7 +6,7 @@ type ButtonProps = {
   /**
    * @default "primary"
    */
-  type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject"
+  type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject" | "border"
   /**
    * @default "medium"
    */
@@ -21,6 +21,7 @@ type ButtonProps = {
   iconSrc?: string
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
   onMouseDown?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  style?: CSSProperties
 }
 
 export default function Button({
@@ -34,6 +35,7 @@ export default function Button({
   iconSrc,
   onClick,
   onMouseDown,
+  style,
 }: ButtonProps) {
   return (
     <>
@@ -48,12 +50,14 @@ export default function Button({
           tertiary: type === "tertiary",
           twitter: type === "twitter",
           reject: type === "reject",
+          border: type === "border",
           medium: size === "medium",
           large: size === "large",
           reversed: iconPosition === "left",
           disabled: isDisabled,
           inactive: isInactive,
         })}
+        style={style}
       >
         {children}
         {iconSrc && (
@@ -208,6 +212,18 @@ export default function Button({
             padding: 4px 0;
             color: var(--semantic-error);
             height: auto;
+          }
+
+          .border {
+            color: var(--primary-p2-100);
+            background: transparent;
+            padding: 4px;
+            border: 2px solid var(--primary-p2-100);
+            transition: all 0.2s;
+          }
+          .border:hover {
+            background: var(--primary-p2-100);
+            color: var(--secondary-s1-90);
           }
 
           .disabled,

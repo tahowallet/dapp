@@ -9,9 +9,10 @@ export type PopupProps = {
   isVisible: boolean
   close: () => void
   leftPosition?: string | number
-  bottomPosition?: string | number
-  rightPosition: string | number
+  bottomPosition: string | number
+  rightPosition?: string | number
   width: string | number
+  hasPointer?: boolean
   style?: React.CSSProperties
 }
 
@@ -28,6 +29,7 @@ export default function Popup({
   leftPosition,
   rightPosition,
   width,
+  hasPointer = true,
   style,
 }: PopupProps) {
   const transition = useVisibilityTransition(isVisible)
@@ -69,6 +71,7 @@ export default function Popup({
           padding: 0;
         }
         .content::after {
+          display: ${hasPointer ? "block" : "none"};
           content: "";
           background: #043937;
           height: 12px;
