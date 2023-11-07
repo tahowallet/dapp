@@ -35,8 +35,8 @@ export default function Popup({
   const transition = useVisibilityTransition(isVisible)
   const xPosition: XAxisPsition = {}
 
-  if (leftPosition) xPosition.left = leftPosition
-  if (rightPosition) xPosition.right = rightPosition
+  if (leftPosition !== null) xPosition.left = leftPosition
+  if (rightPosition !== null) xPosition.right = rightPosition
 
   return (
     <>
