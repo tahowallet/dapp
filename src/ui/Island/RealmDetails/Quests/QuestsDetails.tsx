@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   selectIsEndOfSeason,
   selectRealmById,
@@ -57,7 +57,7 @@ export default function QuestsDetails({
               width="32px"
               color="var(--primary-p1-100)"
             />
-            {separateThousandsByComma(realm?.xpAllocatable ?? WEEKLY_XP_ALLOCATION)}
+            {separateThousandsByComma(realm?.xpAllocatable || WEEKLY_XP_ALLOCATION)}
           </h1>
           {tokenSymbol}
         </div>
