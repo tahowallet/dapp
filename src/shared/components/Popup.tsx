@@ -4,18 +4,18 @@ import { useVisibilityTransition } from "shared/hooks"
 import Icon from "shared/components/Icon"
 import closeIcon from "shared/assets/icons/s/close.svg"
 
-export type AssistantContentProps = {
+export type PopupProps = {
   isVisible: boolean
   close: () => void
   style?: React.CSSProperties
 }
 
-export default function AssistantContent({
+export default function Popup({
   children,
   isVisible,
   close,
   style,
-}: AssistantContentProps & { children: ReactNode }) {
+}: PopupProps & { children: ReactNode }) {
   const transition = useVisibilityTransition(isVisible)
 
   return (

@@ -1,14 +1,14 @@
 import React from "react"
 import { useAssistant } from "shared/hooks"
 import { LINKS } from "shared/constants"
-import AssistantContent from "."
+import Popup from "shared/components/Popup"
 
 export default function AssistantJoin() {
   const { updateAssistant, assistantVisible } = useAssistant()
 
   return (
     <>
-      <AssistantContent
+      <Popup
         isVisible={assistantVisible("default")}
         close={() => updateAssistant({ visible: false, type: "default" })}
       >
@@ -52,7 +52,7 @@ export default function AssistantJoin() {
           </a>
           .
         </p>
-      </AssistantContent>
+      </Popup>
       <style jsx>{`
         .header {
           font-size: 22px;

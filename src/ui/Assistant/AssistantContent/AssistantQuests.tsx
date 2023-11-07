@@ -2,14 +2,14 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import starIcon from "shared/assets/icons/star-2.svg"
 import { useAssistant } from "shared/hooks"
-import AssistantContent from "."
+import Popup from "shared/components/Popup"
 
 export default function AssistantQuests() {
   const { updateAssistant, assistantVisible } = useAssistant()
 
   return (
     <>
-      <AssistantContent
+      <Popup
         isVisible={assistantVisible("quests")}
         close={() => updateAssistant({ visible: false, type: "default" })}
       >
@@ -33,7 +33,7 @@ export default function AssistantQuests() {
           <strong>$XP every Tuesday</strong>... so stay tuned and let us know on
           Discord if you have any questions.
         </p>
-      </AssistantContent>
+      </Popup>
       <style jsx>{`
         .header {
           font-size: 22px;
