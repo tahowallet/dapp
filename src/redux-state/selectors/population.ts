@@ -1,10 +1,24 @@
 import { createSelector } from "@reduxjs/toolkit"
 import {
   getDisplayedPopulationOfRealms,
-  getPopulationById,
   getPopulationOfRealms,
-  sortPopulation,
 } from "redux-state/utils/population"
+import { selectRealmById, selectRealms } from "./realm"
+
+type PopulationKey = "population" | "displayedPopulation"
+
+const getPopulationById = (key: PopulationKey) =>
+  createSelector(selectRealmById, (realm) => realm?.[key] ?? 0)
+
+const sortPopulation = (key: PopulationKey) =>
+  createSelector(selectRealms, (realms) => {
+    const realmsData = Object.entries(realms).map(([id, data]) => ({
+      id,
+      ...data,
+    }))
+
+    return realmsData.sort((a, b) => a[key] - b[key])
+  })
 
 export const selectSortedPopulation = sortPopulation("population")
 export const selectSortedDisplayedPopulation = sortPopulation(
@@ -32,11 +46,14 @@ export const selectTotalDisplayedPopulation = createSelector(
 
 export const selectMaxPopulation = createSelector(
   selectSortedPopulation,
-  (realms) => (realms.length ? Math.max(...getPopulationOfRealms(realms)) : 0)
+  (realms) =>
+    realms.length ? getPopulationOfRealms(realms)[realms.length - 1] : 0
 )
 
 export const selectMaxDisplayedPopulation = createSelector(
   selectSortedDisplayedPopulation,
   (realms) =>
-    realms.length ? Math.max(...getDisplayedPopulationOfRealms(realms)) : 0
+    realms.length
+      ? getDisplayedPopulationOfRealms(realms)[realms.length - 1]
+      : 0
 )
