@@ -242,7 +242,10 @@ export function useTrackEvents() {
   const isMobile = useMobileScreen()
 
   useEffect(() => {
-    posthog?.capture("$pageview", { url: location.pathname, isMobile })
+    posthog?.capture("$pageview", {
+      url: location.pathname,
+      data: { isMobile },
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }
