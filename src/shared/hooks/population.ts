@@ -25,12 +25,11 @@ export function usePopulationBubble(realmId: string): {
   const dispatch = useDappDispatch()
 
   const [showBubble, setShowBubble] = useState(false)
-  // Generate random intervals for realms
-  const [delay] = useState(randomInteger(5, 15) * SECOND)
+  const [delay] = useState(randomInteger(5, 15) * SECOND) // Generate random intervals for realms
 
-  const populationCallback = useCallback(async () => {
+  const populationCallback = useCallback(() => {
     if (population < displayedPopulation) {
-      await dispatch(
+      dispatch(
         setRealmDisplayedPopulation({
           id: realmId,
           population,
@@ -38,7 +37,7 @@ export function usePopulationBubble(realmId: string): {
       )
     } else if (population > displayedPopulation) {
       setShowBubble(true)
-      await dispatch(
+      dispatch(
         setRealmDisplayedPopulation({
           id: realmId,
           population: displayedPopulation + 1,
