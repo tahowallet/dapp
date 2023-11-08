@@ -9,17 +9,20 @@ export default function JoinWaitlist({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <OnboardingModal
-      buttonLabel={
-        <>
-          Join waitlist{" "}
-          <Icon src={newTab} color="#000" height="24px" width="24px" />
-        </>
-      }
-      onClick={() => window.open(LINKS.WAITLIST)}
-    >
-      {children}
-    </OnboardingModal>
-  )
+  if (process.env.SHOW_WAITLIST === "true")
+    return (
+      <OnboardingModal
+        buttonLabel={
+          <>
+            Join waitlist{" "}
+            <Icon src={newTab} color="#000" height="24px" width="24px" />
+          </>
+        }
+        onClick={() => window.open(LINKS.WAITLIST)}
+      >
+        {children}
+      </OnboardingModal>
+    )
+
+  return <OnboardingModal>{children}</OnboardingModal>
 }
