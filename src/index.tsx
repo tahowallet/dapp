@@ -7,6 +7,7 @@ import web3Onboard from "shared/utils/web3Onboard"
 // no-extraneous-dependencies.
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PostHogProvider } from "posthog-js/react"
+import { BrowserRouter as Router } from "react-router-dom"
 import DApp from "ui/DApps"
 import reduxStore from "./redux-state"
 
@@ -31,7 +32,9 @@ function DAppProviders() {
             },
           }}
         >
-          <DApp />
+          <Router>
+            <DApp />
+          </Router>
         </PostHogProvider>
       </Web3OnboardProvider>
     </Provider>
