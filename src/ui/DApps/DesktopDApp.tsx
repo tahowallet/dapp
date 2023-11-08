@@ -6,7 +6,6 @@ import {
   useGameDataFetch,
   useGameLoadDataFetch,
   usePopulationFetch,
-  useTrackEvents,
   useWallet,
   useWalletChange,
   useWalletOnboarding,
@@ -25,7 +24,6 @@ export default function DesktopDApp() {
   usePopulationFetch()
   useGameDataFetch()
   useWalletChange()
-  useTrackEvents()
 
   return (
     <>
