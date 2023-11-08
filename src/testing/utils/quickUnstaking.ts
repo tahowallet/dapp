@@ -1,7 +1,7 @@
 import { ethers } from "ethers"
 import { gameParametersAbi, tahoDeployerAbi } from "shared/contracts/abi"
 
-const TAHO_MULTISIG = "0x6e80164ea60673d64d5d6228beb684a1274bb017"
+const TAHO_MULTISIG = process.env.TAHO_MULTISIG_ADDRESS
 
 const localhostProvider =
   process.env.USE_LOCALHOST_FORK === "true"
@@ -22,6 +22,12 @@ export async function setQuickUnstaking() {
   if (!localhostProvider) {
     throw new Error(
       "Can't test quick unstaking without a localhost fork, set USE_LOCALHOST_FORK=true"
+    )
+  }
+
+  if (!TAHO_MULTISIG) {
+    throw new Error(
+      "Can't test quick unstaking without a TAHO_MULTISIG_ADDRESS set in .env"
     )
   }
 
