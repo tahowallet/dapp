@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   selectIsEndOfSeason,
+  selectRealmById,
   selectSeasonDurationInWeeks,
   selectSeasonWeek,
   selectWeekEndDate,
@@ -23,6 +24,7 @@ export default function QuestsDetails({
   const seasonWeek = useDappSelector(selectSeasonWeek)
   const duration = useDappSelector(selectSeasonDurationInWeeks)
   const isEndOfSeason = useDappSelector(selectIsEndOfSeason)
+  const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
   return (
     <div className="content">
@@ -55,7 +57,7 @@ export default function QuestsDetails({
               width="32px"
               color="var(--primary-p1-100)"
             />
-            {separateThousandsByComma(WEEKLY_XP_ALLOCATION)}
+            {separateThousandsByComma(realm?.xpAllocatable || WEEKLY_XP_ALLOCATION)}
           </h1>
           {tokenSymbol}
         </div>

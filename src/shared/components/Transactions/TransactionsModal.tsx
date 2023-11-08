@@ -6,7 +6,7 @@ import TransactionProgress, {
 } from "./TransactionProgress"
 
 type TransactionsModalProps = {
-  title?: string
+  title?: React.ReactNode
   isOpen: boolean
   close: () => void
   transactions?: ({ id: string } & TransactionProgressProps)[]
@@ -62,6 +62,7 @@ export default function TransactionsModal({
         <style jsx>{`
           .transactions_container {
             padding: 48px;
+            min-width: 500px;
             gap: 40px;
           }
           .transactions_container h1 {
