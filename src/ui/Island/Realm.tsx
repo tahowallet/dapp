@@ -220,7 +220,7 @@ export default function Realm({
   const { showBubble, setShowBubble } = usePopulationBubble(id)
 
   const [bubbleProps, set] = useSpring(() => {
-    // To prevent lag in animation, let's show only one babel for the realm.
+    // To prevent lag in animation, let's show only one bubble for the realm.
     // When a modal for the realm is open, do not show a bubble on the map.
     const destinationStyle =
       showBubble && !(realmId === id)

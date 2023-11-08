@@ -1,4 +1,4 @@
-import partners from "./partners"
+import partners from "./partners-icons"
 
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 export const realm1 = {
