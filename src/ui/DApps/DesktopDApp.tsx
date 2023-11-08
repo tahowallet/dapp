@@ -31,8 +31,8 @@ function TrackEvents({ children }: { children: ReactNode[] }) {
 }
 
 export default function DesktopDApp() {
-  const { isConnected } = useConnect()
   const { walletOnboarded } = useWalletOnboarding()
+  const { isConnected } = useConnect()
 
   useWallet()
   useGameLoadDataFetch()
@@ -44,7 +44,7 @@ export default function DesktopDApp() {
   return (
     <Router>
       <TrackEvents>
-        {(!walletOnboarded || !isConnected) && <Onboarding />}
+        {!walletOnboarded && <Onboarding />}
         {walletOnboarded && isConnected && <IslandView />}
         <PrivacyPolicy />
       </TrackEvents>
