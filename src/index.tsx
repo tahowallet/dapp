@@ -3,9 +3,6 @@ import ReactDOM from "react-dom/client"
 import { Web3OnboardProvider } from "@web3-onboard/react"
 import { Provider } from "react-redux"
 import web3Onboard from "shared/utils/web3Onboard"
-// Unfortunately the PostHog React package structure does not play nice with
-// no-extraneous-dependencies.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { PostHogProvider } from "posthog-js/react"
 import { BrowserRouter as Router } from "react-router-dom"
 import DApp from "ui/DApps"
