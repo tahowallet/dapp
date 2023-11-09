@@ -4,7 +4,7 @@ import {
   useReflectCursorPosition,
   useReflectUserInfo,
 } from "shared/hooks/reflect"
-import { ReflectInstance } from "../../../reflect/mutators"
+import { ReflectInstance } from "shared/services"
 
 export default function IslandCursor({
   reflect,

@@ -19,11 +19,11 @@ import FullPageLoader from "shared/components/FullPageLoader"
 // no-extraneous-dependencies.
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { usePostHog } from "posthog-js/react"
+import { ReflectInstance } from "shared/services"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
 import IslandCursor from "./Cursor"
-import { ReflectInstance } from "../../../reflect/mutators"
 
 function IslandWrapper({ reflect }: { reflect: ReflectInstance }) {
   const assetsLoaded = useAssets([backgroundImg])

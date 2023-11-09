@@ -13,7 +13,7 @@ import {
   ReflectMutators,
   mutators,
   getClientState,
-} from "../../../reflect/mutators"
+} from "shared/services"
 
 export function useReflect() {
   const name = useDappSelector(selectWalletName)
