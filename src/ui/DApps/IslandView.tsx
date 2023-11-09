@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import IslandComponent from "ui/Island"
 import TestingPanel from "testing/components/TestingPanel"
 import Nav from "ui/Nav"
@@ -17,7 +17,7 @@ import {
 import FullPageLoader from "shared/components/FullPageLoader"
 import { Route, Switch } from "react-router-dom"
 
-import { reflectInstance } from "shared/services"
+import { useReflect } from "shared/hooks"
 
 export default function IslandView() {
   const islandMode = useDappSelector(selectIslandMode)
@@ -25,31 +25,16 @@ export default function IslandView() {
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
   const hasBalances = useDappSelector(selectHasLoadedBalances)
 
-  useEffect(() => {
-    const initReflect = async () => {
-      await reflectInstance.mutate.initClientState({
-        id: reflectInstance.clientID,
-        cursor: null,
-        userInfo: { name: "test", avatar: null },
-      })
-    }
+  const reflect = useReflect()
 
-    const handleReflectCursor = async (e: MouseEvent) => {
-      await reflectInstance.mutate.setCursor({ x: e.clientX, y: e.clientY })
-    }
-
-    initReflect()
-
-    window.addEventListener("mousemove", handleReflectCursor)
-    return () => window.removeEventListener("mousemove", handleReflectCursor)
-  }, [])
+  if (!reflect) return null
 
   return (
     <>
       <FullPageLoader
         loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
       />
-      <IslandComponent />
+      <IslandComponent reflect={reflect} />
       <TestingPanel />
       {islandMode === "default" && <Nav />}
       <Switch>

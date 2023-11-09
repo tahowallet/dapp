@@ -22,8 +22,10 @@ import { usePostHog } from "posthog-js/react"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
+import IslandCursor from "./Cursor"
+import { ReflectInstance } from "../../../reflect/mutators"
 
-function IslandWrapper() {
+function IslandWrapper({ reflect }: { reflect: ReflectInstance }) {
   const assetsLoaded = useAssets([backgroundImg])
   const [realmId, setRealmId] = useState<null | string>(null)
   const realmName = useDappSelector((state) =>
@@ -74,6 +76,7 @@ function IslandWrapper() {
         </style>
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
+          <IslandCursor reflect={reflect} />
           {realmId && (
             <RealmModal onClose={handleClose}>
               {isDefaultIslandMode ? (
