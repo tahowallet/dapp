@@ -36,13 +36,14 @@ export function usePopulationBubble(realmId: string): {
         })
       )
     } else if (population > displayedPopulation) {
-      setShowBubble(true)
       dispatch(
         setRealmDisplayedPopulation({
           id: realmId,
           population: displayedPopulation + 1,
         })
       )
+
+      setShowBubble(true)
     }
   }, [population, displayedPopulation, dispatch, realmId])
 
