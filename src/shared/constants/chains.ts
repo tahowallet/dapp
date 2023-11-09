@@ -19,6 +19,9 @@ export const getArbitrumRpcUrl = () => {
   }
 
   if (process.env.USE_ARBITRUM_SEPOLIA === "true") {
+    if (process.env.ARBITRUM_SEPOLIA_ALCHEMY_KEY) {
+      return `https://arb-sepolia.g.alchemy.com/v2/${process.env.ARBITRUM_SEPOLIA_ALCHEMY_KEY}`
+    }
     return process.env.ARBITRUM_RPC_URL
   }
 
