@@ -3,10 +3,9 @@ import Icon from "shared/components/Icon"
 import crossIcon from "shared/assets/icons/plus.svg"
 import classNames from "classnames"
 import {
-  bigIntToUserAmount,
+  bigIntToDisplayUserAmount,
   isSameAddress,
   resolveAddressToWalletData,
-  separateThousandsByComma,
   truncateAddress,
 } from "shared/utils"
 import { selectWalletAvatar, useDappSelector } from "redux-state"
@@ -30,12 +29,12 @@ export default function LeaderboardItem({
 
   useEffect(() => {
     const getName = async () => {
-      const { name, avatar: userAvatar } = await resolveAddressToWalletData(
-        address
-      )
+      const data = await resolveAddressToWalletData(address)
 
-      if (name) setUsername(name)
-      if (userAvatar) setWalletAvatar(userAvatar)
+      if (!data) return
+
+      if (data.name) setUsername(data.name)
+      if (data.avatar) setWalletAvatar(data.avatar)
     }
     getName()
   }, [address])
@@ -65,9 +64,7 @@ export default function LeaderboardItem({
           <span className="address">
             {username || truncateAddress(address)}
           </span>
-          <span className="xp">
-            {separateThousandsByComma(bigIntToUserAmount(BigInt(amount)))} XP
-          </span>
+          <span className="xp">{bigIntToDisplayUserAmount(amount)} XP</span>
         </div>
       </li>
       <style jsx>{`

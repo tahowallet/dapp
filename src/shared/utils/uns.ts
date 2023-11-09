@@ -50,23 +50,27 @@ export const resolveUNS = async (name: string) => {
 }
 
 export const resolveAddressToUNS = async (address: string) => {
-  const response: UNSReverseResponse = await fetchJson({
-    url: `https://resolve.unstoppabledomains.com/domains/?owners=${address}&sortBy=id&sortDirection=ASC`,
-    headers: {
-      Authorization: `Bearer ${process.env.UNS_API_KEY}`,
-    },
-  })
+  try {
+    const response: UNSReverseResponse = await fetchJson({
+      url: `https://resolve.unstoppabledomains.com/domains/?owners=${address}&sortBy=id&sortDirection=ASC`,
+      headers: {
+        Authorization: `Bearer ${process.env.UNS_API_KEY}`,
+      },
+    })
 
-  const { data }: UNSReverseResponse = response
+    const { data }: UNSReverseResponse = response
 
-  const name = data[0]?.id ?? null
+    const name = data[0]?.id ?? null
 
-  if (!name) {
-    throw new Error("Invalid UNS domain name")
+    if (!name) {
+      throw new Error("Invalid UNS domain name")
+    }
+
+    // FIXME: UNS tend to resolve faster than ENS, so to prefer ENS names let's wait a bit
+    await wait(10000)
+
+    return name
+  } catch {
+    return null
   }
-
-  // FIXME: UNS tend to resolve faster than ENS, so to prefer ENS names let's wait a bit
-  await wait(10000)
-
-  return name
 }

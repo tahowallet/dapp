@@ -11,6 +11,7 @@ export default function AssistantWelcome() {
     <>
       <AssistantContent
         isVisible={assistantVisible("welcome")}
+        style={{ width: 620 }}
         close={() => updateAssistant({ visible: false, type: "default" })}
       >
         <div className="header">Welcome to Subscape, Nomad</div>
@@ -22,10 +23,7 @@ export default function AssistantWelcome() {
         <div className="hint row_center">
           <Icon src={realmPointer} type="image" height="37px" width="30px" />
           <p>
-            <strong>
-              Start exploring by hovering
-              <br /> over our 5 Beta Realms
-            </strong>
+            <strong>Start exploring by hovering over our 5 Beta Realms</strong>
           </p>
         </div>
       </AssistantContent>
