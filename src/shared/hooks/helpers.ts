@@ -4,6 +4,8 @@ import { debounce } from "lodash"
 import { useSpring } from "@react-spring/web"
 import { getWindowDimensions } from "shared/utils"
 import { MOBILE_BREAKPOINT } from "shared/constants"
+import { usePostHog } from "posthog-js/react"
+import { useLocation } from "react-router-dom"
 
 type VoidFn = () => unknown
 
@@ -232,4 +234,18 @@ export function useMobileScreen() {
   })
 
   return width < MOBILE_BREAKPOINT
+}
+
+export function useTrackEvents() {
+  const location = useLocation()
+  const posthog = usePostHog()
+  const isMobile = useMobileScreen()
+
+  useEffect(() => {
+    posthog?.capture("$pageview", {
+      url: location.pathname,
+      data: { isMobile },
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }

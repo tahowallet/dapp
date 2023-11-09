@@ -8072,10 +8072,10 @@ pngjs@^5.0.0:
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-5.0.0.tgz#e79dd2b215767fd9c04561c01236df960bce7fbb"
   integrity sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==
 
-posthog-js@^1.85.3:
-  version "1.85.3"
-  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.85.3.tgz#540f26d224b1a345a226d8f105f442bbeb5eb91a"
-  integrity sha512-RHWLDamFU1k4SjolS/DWr8tYbuWQaJUJywxlKTUJp/ESIe9bJz9SkWuDNqgTV58fJnxdjCCtD89o+gMimfOSGw==
+posthog-js@^1.88.2:
+  version "1.88.2"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.88.2.tgz#be1f0a9df6cf462886a8168b7d957e72a8df4986"
+  integrity sha512-lwYQMIvOmC1K+Y+8lMF+QnGIPMZsVvtZ28YxZrRlDrTlwVGt+/Is5BtD/25AUuU7KE1zNIBxmrXSEiNJrN1OiA==
   dependencies:
     fflate "^0.4.1"
 
