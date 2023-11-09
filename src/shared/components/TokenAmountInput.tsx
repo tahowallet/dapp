@@ -1,5 +1,9 @@
 import React from "react"
-import { userAmountToBigInt, bigIntToDisplayUserAmount } from "shared/utils"
+import {
+  userAmountToBigInt,
+  bigIntToDisplayUserAmount,
+  bigIntToUserAmount,
+} from "shared/utils"
 import {
   selectTokenBalanceByAddress,
   selectTokenSymbolByAddress,
@@ -55,8 +59,6 @@ export default function TokenAmountInput({
     selectTokenSymbolByAddress(state, tokenAddress)
   )
 
-  const maxAmount = bigIntToDisplayUserAmount(balance)
-
   const validate = (value: string) => {
     const result = handleValidate(value, balance)
     const hasError = "error" in result
@@ -68,7 +70,9 @@ export default function TokenAmountInput({
   return (
     <div>
       {label && (
-        <div className="label">{`${label} ${maxAmount} ${symbol}`}</div>
+        <div className="label">{`${label} ${bigIntToDisplayUserAmount(
+          balance
+        )} ${symbol}`}</div>
       )}
       <SharedInput
         type="number"
@@ -84,7 +88,7 @@ export default function TokenAmountInput({
             isDisabled={disabled}
             onMouseDown={(event) => {
               event.preventDefault()
-              onChange(maxAmount)
+              onChange(bigIntToUserAmount(balance))
             }}
           >
             Max
