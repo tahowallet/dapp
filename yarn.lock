@@ -2352,10 +2352,10 @@
   resolved "https://registry.yarnpkg.com/@rocicorp/rails/-/rails-0.8.0.tgz#ee8f3826c640f1fc8cb4b8de97b952378098c052"
   integrity sha512-BX/Owk5ikuLcXghQxlfPgcBWou5TWoGxktSxqUQZdCrsiP0CHEjOPJVhli4TuwRbxuzqS4MaHSeHa//PuwchGQ==
 
-"@rocicorp/reflect@^0.36.202310310758":
-  version "0.36.202310310758"
-  resolved "https://registry.yarnpkg.com/@rocicorp/reflect/-/reflect-0.36.202310310758.tgz#16a1cbe86b416a4dd23820d24dc0cf2d6d5df197"
-  integrity sha512-+RxhJUhLj/3ZOP4Igc7cCn50Z0Yt1nyVfN1NZDXRr4AbCmO1fZUXWLsTghsVIcPBql5BdiN/ELU3/gZQ3VJZxQ==
+"@rocicorp/reflect@^0.37.202311060940":
+  version "0.37.202311060940"
+  resolved "https://registry.yarnpkg.com/@rocicorp/reflect/-/reflect-0.37.202311060940.tgz#bb85c241d48be855da6f3b2ded8a875b002b234b"
+  integrity sha512-oX7/SErPaJXKxBqxaGqX9PdTVlTIzQGzqBCALon0vcjBiLmLk4ofWKEBH+cZ8I8TKCoqfoytr1yJJXBnMODPqg==
   dependencies:
     "@badrap/valita" "^0.3.0"
     "@rocicorp/lock" "^1.0.3"

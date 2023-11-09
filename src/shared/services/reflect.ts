@@ -3,7 +3,7 @@ import { mutators } from "../../../reflect/mutators"
 
 const reflectInstance = new Reflect({
   userID: "user-id",
-  roomID: "my-room",
+  roomID: "/",
   server: "http://localhost:8080",
   mutators,
 })
