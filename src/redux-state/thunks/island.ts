@@ -29,7 +29,11 @@ import {
   TransactionProgressStatus,
 } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
-import { bigIntToUserAmount, getAllowanceTransactionID } from "shared/utils"
+import {
+  bigIntToUserAmount,
+  getAllowanceTransactionID,
+  isDisplayedPopulationAvailable,
+} from "shared/utils"
 import {
   getRealmLeaderboardData,
   getUserLeaderboardRank,
@@ -96,10 +100,7 @@ export const initSeasonInfoData = createDappAsyncThunk(
 
 export const fetchPopulation = createDappAsyncThunk(
   "island/fetchPopulation",
-  async (
-    isInitFetch: boolean,
-    { getState, dispatch, extra: { transactionService } }
-  ) => {
+  async (_, { getState, dispatch, extra: { transactionService } }) => {
     const {
       island: { realms },
     } = getState()
@@ -110,10 +111,13 @@ export const fetchPopulation = createDappAsyncThunk(
       realmsWithAddress,
     })
 
+    const displayedPopulationAvailable = isDisplayedPopulationAvailable(realms)
+
     if (result) {
       result.forEach((data) => {
         dispatch(setRealmPopulation(data))
-        if (isInitFetch) dispatch(setRealmDisplayedPopulation(data))
+        if (!displayedPopulationAvailable)
+          dispatch(setRealmDisplayedPopulation(data))
       })
     }
 
@@ -245,7 +249,7 @@ export const stakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
-      dispatch(fetchPopulation(false))
+      dispatch(fetchPopulation())
     }
 
     return !!receipt
@@ -288,7 +292,7 @@ export const unstakeTaho = createDappAsyncThunk(
 
     if (receipt) {
       dispatch(fetchWalletBalances())
-      dispatch(fetchPopulation(false))
+      dispatch(fetchPopulation())
     }
 
     return !!receipt
