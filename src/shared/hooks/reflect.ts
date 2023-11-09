@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import {
+  selectRealms,
   selectStakingRealmId,
   selectWalletName,
   useDappSelector,
 } from "redux-state"
-import { getRealmMapData } from "shared/constants"
 import { Reflect } from "@rocicorp/reflect/client"
 import { nanoid } from "@reduxjs/toolkit"
 import { useSubscribe } from "@rocicorp/reflect/react"
@@ -14,15 +14,19 @@ import {
   mutators,
   getClientState,
 } from "shared/services"
+import { getRealmMapData } from "shared/constants"
 
 export function useReflect() {
   const name = useDappSelector(selectWalletName)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
-
-  const realmData = stakingRealmId ? getRealmMapData(stakingRealmId) : null
-  const avatar = realmData?.partnerLogo.default ?? null
+  const realms = useDappSelector(selectRealms)
 
   const [reflect, setReflect] = useState<ReflectInstance | null>(null)
+
+  const stakingRealm = stakingRealmId ? realms[stakingRealmId].name : null
+  const stakingRealmColor = stakingRealmId
+    ? getRealmMapData(stakingRealmId).color
+    : null
 
   useEffect(() => {
     const reflectInstance = new Reflect<ReflectMutators>({
@@ -42,12 +46,16 @@ export function useReflect() {
       await reflect.mutate.initClientState({
         id: reflect.clientID,
         cursor: null,
-        userInfo: { name, avatar },
+        userInfo: { name, stakingRealm, stakingRealmColor },
       })
     }
 
     const updateUserInfo = async () => {
-      await reflect.mutate.setUserInfo({ name, avatar })
+      await reflect.mutate.setUserInfo({
+        name,
+        stakingRealm,
+        stakingRealmColor,
+      })
     }
 
     initReflect()
@@ -59,7 +67,7 @@ export function useReflect() {
 
     window.addEventListener("mousemove", handleReflectCursor)
     return () => window.removeEventListener("mousemove", handleReflectCursor)
-  }, [name, avatar, reflect])
+  }, [name, reflect, stakingRealm, stakingRealmColor])
 
   return reflect
 }

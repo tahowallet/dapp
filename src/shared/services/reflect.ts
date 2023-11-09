@@ -14,7 +14,8 @@ export const cursorSchema = z.union([
 
 const userInfoSchema = z.object({
   name: z.string(),
-  avatar: z.union([z.string(), z.null()]),
+  stakingRealm: z.union([z.string(), z.null()]),
+  stakingRealmColor: z.union([z.string(), z.null()]),
 })
 
 const clientStateSchema = z.object({
@@ -22,6 +23,9 @@ const clientStateSchema = z.object({
   cursor: cursorSchema,
   userInfo: userInfoSchema,
 })
+
+type Cursor = z.infer<typeof cursorSchema>
+type UserInfo = z.infer<typeof userInfoSchema>
 
 function getParse<T>(schema: z.Schema<T>) {
   return process.env.NODE_ENV !== "production" ? schema.parse : (val: T) => val
@@ -35,14 +39,14 @@ export const {
 
 async function setCursor(
   tx: WriteTransaction,
-  coordinates: z.infer<typeof cursorSchema>
+  coordinates: Cursor
 ): Promise<void> {
   await updateClientState(tx, { id: tx.clientID, cursor: coordinates })
 }
 
 async function setUserInfo(
   tx: WriteTransaction,
-  userInfo: { name: string; avatar: string | null }
+  userInfo: UserInfo
 ): Promise<void> {
   await updateClientState(tx, {
     id: tx.clientID,

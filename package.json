@@ -12,7 +12,8 @@
     "lint:fix:eslint": "eslint . --fix",
     "lint:config": "prettier -c '**/*.@(json|yaml|toml)'",
     "lint:config:fix": "prettier -w '**/*.@(json|yaml|toml)'",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "reflect:dev": "npx reflect dev"
   },
   "dependencies": {
     "@ethersproject/networks": "^5.7.1",

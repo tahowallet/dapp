@@ -1,9 +1,5 @@
 import React from "react"
-import Icon from "shared/components/Icon"
-import {
-  useReflectCursorPosition,
-  useReflectUserInfo,
-} from "shared/hooks/reflect"
+import { useReflectCursorPosition, useReflectUserInfo } from "shared/hooks"
 import { ReflectInstance } from "shared/services"
 
 export default function IslandCursor({
@@ -16,20 +12,20 @@ export default function IslandCursor({
 
   if (!cursorPosition || !userInfo) return null
 
-  const { name, avatar } = userInfo
+  const { name, stakingRealm, stakingRealmColor } = userInfo
 
   return (
     <>
-      <div className="cursor_container row_center">
-        {avatar && (
-          <Icon src={avatar} height="12px" width="12px" type="image" />
-        )}
-        <span>{name}</span>
+      <div className="cursor_container">
+        <div>{name}</div>
+        <div>{stakingRealm}</div>
       </div>
       <style jsx>{`
         .cursor_container {
-          background: #000;
-          gap: 8px;
+          background: ${stakingRealmColor ?? "var(--secondary-s1-100)"};
+          color: ${stakingRealmColor
+            ? "var(--secondary-s1-100)"
+            : "var(--primary-p1-100)"};
           font-size: 10px;
           padding: 4px 8px;
           position: absolute;
