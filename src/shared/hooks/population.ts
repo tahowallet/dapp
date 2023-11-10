@@ -28,7 +28,7 @@ export function usePopulationBubble(realmId: string): {
   const [delay] = useState(randomInteger(5, 15) * SECOND) // Generate random intervals for realms
 
   const populationCallback = useCallback(() => {
-    if (population < displayedPopulation) {
+    if (population < displayedPopulation || !displayedPopulation) {
       dispatch(
         setRealmDisplayedPopulation({
           id: realmId,
