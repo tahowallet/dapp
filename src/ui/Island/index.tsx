@@ -23,7 +23,7 @@ import { ReflectInstance } from "shared/services"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
-import IslandCursor from "./Cursor"
+import IslandPresence from "./IslandPresence"
 
 function IslandWrapper({ reflect }: { reflect: ReflectInstance }) {
   const assetsLoaded = useAssets([backgroundImg])
@@ -76,7 +76,7 @@ function IslandWrapper({ reflect }: { reflect: ReflectInstance }) {
         </style>
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
-          <IslandCursor reflect={reflect} />
+          <IslandPresence reflect={reflect} />
           {realmId && (
             <RealmModal onClose={handleClose}>
               {isDefaultIslandMode ? (

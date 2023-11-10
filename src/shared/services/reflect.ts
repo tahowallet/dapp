@@ -24,8 +24,9 @@ const clientStateSchema = z.object({
   userInfo: userInfoSchema,
 })
 
-type Cursor = z.infer<typeof cursorSchema>
-type UserInfo = z.infer<typeof userInfoSchema>
+export type ReflectCursor = z.infer<typeof cursorSchema>
+export type ReflectUserInfo = z.infer<typeof userInfoSchema>
+export type ReflectClient = z.infer<typeof clientStateSchema>
 
 function getParse<T>(schema: z.Schema<T>) {
   return process.env.NODE_ENV !== "production" ? schema.parse : (val: T) => val
@@ -39,14 +40,14 @@ export const {
 
 async function setCursor(
   tx: WriteTransaction,
-  coordinates: Cursor
+  coordinates: ReflectCursor
 ): Promise<void> {
   await updateClientState(tx, { id: tx.clientID, cursor: coordinates })
 }
 
 async function setUserInfo(
   tx: WriteTransaction,
-  userInfo: UserInfo
+  userInfo: ReflectUserInfo
 ): Promise<void> {
   await updateClientState(tx, {
     id: tx.clientID,

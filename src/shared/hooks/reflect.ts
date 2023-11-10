@@ -7,12 +7,13 @@ import {
 } from "redux-state"
 import { Reflect } from "@rocicorp/reflect/client"
 import { nanoid } from "@reduxjs/toolkit"
-import { useSubscribe } from "@rocicorp/reflect/react"
+import { usePresence, useSubscribe } from "@rocicorp/reflect/react"
 import {
   ReflectInstance,
   ReflectMutators,
   mutators,
   getClientState,
+  ReflectClient,
 } from "shared/services"
 import { getRealmMapData } from "shared/constants"
 
@@ -72,23 +73,33 @@ export function useReflect() {
   return reflect
 }
 
-export function useReflectUserInfo(reflect: ReflectInstance) {
-  return useSubscribe(
+export function useReflectPresence(reflect: ReflectInstance) {
+  const presentClientsdIds = usePresence(reflect)
+  const presentClients = useSubscribe(
     reflect,
     async (tx) => {
-      const clientState = await getClientState(tx, tx.clientID)
-      return clientState ? clientState.userInfo : null
+      const clients: ReflectClient[] = []
+
+      presentClientsdIds.forEach(async (clientID) => {
+        const presentClient = await getClientState(tx, clientID)
+        if (presentClient) clients.push(presentClient)
+      })
+
+      return clients
     },
-    null
+    [],
+    [presentClientsdIds]
   )
+
+  return presentClients
 }
 
-export function useReflectCursorPosition(reflect: ReflectInstance) {
+export function useReflectCurrentUserId(reflect: ReflectInstance) {
   return useSubscribe(
     reflect,
     async (tx) => {
-      const clientState = await getClientState(tx, tx.clientID)
-      return clientState ? clientState.cursor : null
+      const currentUser = await getClientState(tx, tx.clientID)
+      return currentUser ? currentUser.id : null
     },
     null
   )
