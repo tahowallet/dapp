@@ -33,7 +33,7 @@ export function useReflect() {
     const reflectInstance = new Reflect<ReflectMutators>({
       userID: nanoid(),
       roomID: "/",
-      server: "http://localhost:8080",
+      server: process.env.REFLECT_SERVER ?? "",
       mutators,
     })
 
