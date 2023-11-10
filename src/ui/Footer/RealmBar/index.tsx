@@ -8,11 +8,7 @@ import {
   selectTotalDisplayedPopulation,
   useDappSelector,
 } from "redux-state"
-import {
-  useVisibilityTransition,
-  usePopulationIconPositions,
-} from "shared/hooks"
-import { animated } from "@react-spring/web"
+import { usePopulationIconPositions } from "shared/hooks"
 import RealmBarIcon from "./RealmBarIcon"
 
 export default function RealmsBar() {
@@ -20,52 +16,49 @@ export default function RealmsBar() {
   const totalPopulation = useDappSelector(selectTotalDisplayedPopulation)
   const progressBarRef = useRef<HTMLDivElement>(null)
 
-  const transition = useVisibilityTransition(!!totalPopulation)
   const positions = usePopulationIconPositions(progressBarRef)
 
   return (
     <>
-      <animated.div style={{ ...transition }}>
-        <div className="bar">
-          <div className="top_bar">
-            <div className="row_center">
-              <Icon
-                src={populationIcon}
-                type="image"
-                color="currentColor"
-                width="24px"
-                height="24px"
-                style={{ marginRight: 5 }}
-              />
-              <p style={{ color: "var(--secondary-s1-60)" }}>
-                Realms by population
-              </p>
-              <Tooltip positionY="top" positionX="right" gap="5px">
-                This graph provides a visual overview each realm&apos;s standing
-                in terms of population relative to others. Hover over each
-                Realm&apos;s icon to see the exact population count.
-              </Tooltip>
-            </div>
-            <div className="row_center" style={{ gap: 4 }}>
-              <p style={{ color: "var(--secondary-s1-60)" }}>Total:</p>
-              <p className="total_value">
-                {separateThousandsByComma(totalPopulation)}
-              </p>
-            </div>
+      <div className="bar">
+        <div className="top_bar">
+          <div className="row_center">
+            <Icon
+              src={populationIcon}
+              type="image"
+              color="currentColor"
+              width="24px"
+              height="24px"
+              style={{ marginRight: 5 }}
+            />
+            <p style={{ color: "var(--secondary-s1-60)" }}>
+              Realms by population
+            </p>
+            <Tooltip positionY="top" positionX="right" gap="5px">
+              This graph provides a visual overview each realm&apos;s standing
+              in terms of population relative to others. Hover over each
+              Realm&apos;s icon to see the exact population count.
+            </Tooltip>
           </div>
-          <div className="progress_bar" ref={progressBarRef}>
-            {realmsData.map((realm, index) => (
-              <RealmBarIcon
-                key={realm.id}
-                id={realm.id}
-                position={positions[index]}
-                population={realm.displayedPopulation}
-                name={realm.name}
-              />
-            ))}
+          <div className="row_center" style={{ gap: 4 }}>
+            <p style={{ color: "var(--secondary-s1-60)" }}>Total:</p>
+            <p className="total_value">
+              {separateThousandsByComma(totalPopulation)}
+            </p>
           </div>
         </div>
-      </animated.div>
+        <div className="progress_bar" ref={progressBarRef}>
+          {realmsData.map((realm, index) => (
+            <RealmBarIcon
+              key={realm.id}
+              id={realm.id}
+              position={positions[index]}
+              population={realm.displayedPopulation}
+              name={realm.name}
+            />
+          ))}
+        </div>
+      </div>
       <style jsx>
         {`
           .bar {
