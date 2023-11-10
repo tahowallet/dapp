@@ -1,17 +1,19 @@
 // Need to pass spring props to spring abstracted components
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useLayoutEffect, useMemo, useRef, useState } from "react"
+import React, { useMemo, useRef, useState } from "react"
 import type Konva from "konva"
 import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
 import { calculatePartnerLogoTranslate } from "shared/utils"
 import {
-  REALMS_COUNT,
   REALM_FONT_SIZE,
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
-import { useIslandContext } from "../../shared/hooks/island"
+import {
+  useIslandContext,
+  useIslandRealmsPaths,
+} from "../../shared/hooks/island"
 
 type RealmProps = {
   id: string
@@ -58,29 +60,7 @@ export default function Realm({
     islandContext.current.onRealmClick(id)
   }
 
-  useLayoutEffect(() => {
-    const pathRealm = pathRef.current
-    const group = groupRef.current
-    const stage = pathRef.current?.getStage()
-    if (!stage || !pathRealm || !group) return () => {}
-    const defaultZ = group.zIndex()
-
-    const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
-      if (evt.type === "mouseenter") {
-        stage.container().style.cursor = "pointer"
-        group.zIndex(REALMS_COUNT)
-        setIsHovered(true)
-      } else if (evt.type === "mouseleave") {
-        stage.container().style.cursor = "default"
-        group.zIndex(defaultZ)
-        setIsHovered(false)
-      }
-    }
-
-    pathRealm.on("mouseenter.hover mouseleave.hover", handleHover)
-
-    return () => pathRealm.off(".hover")
-  }, [])
+  useIslandRealmsPaths(pathRef, groupRef, setIsHovered)
 
   const partnerLogoTranslate = useMemo(
     () => calculatePartnerLogoTranslate(name),

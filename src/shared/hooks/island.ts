@@ -4,6 +4,10 @@ import React, {
   useEffect,
   useState,
   useCallback,
+  useLayoutEffect,
+  RefObject,
+  SetStateAction,
+  Dispatch,
 } from "react"
 import {
   fetchWalletBalances,
@@ -13,7 +17,7 @@ import {
   selectWalletAddress,
   selectRealms,
 } from "redux-state"
-import { SECOND } from "shared/constants"
+import { REALMS_COUNT, SECOND } from "shared/constants"
 import {
   fetchLeaderboardData,
   fetchPopulation,
@@ -22,6 +26,9 @@ import {
   initRealmsDataFromContracts,
   initSeasonInfoData,
 } from "redux-state/thunks/island"
+import Konva from "konva"
+import { Path } from "konva/lib/shapes/Path"
+import { Group } from "konva/lib/Group"
 import { useArbitrumProvider } from "./wallets"
 import { useInterval } from "./helpers"
 
@@ -136,4 +143,34 @@ export function useStakeCooldownPeriod() {
   useInterval(intervalCallback, intervalTime)
 
   return { hasCooldown: !!timeRemaining && timeRemaining > 0, timeRemaining }
+}
+
+export function useIslandRealmsPaths(
+  pathRef: RefObject<Path>,
+  groupRef: RefObject<Group>,
+  setHover: Dispatch<SetStateAction<boolean>>
+) {
+  useLayoutEffect(() => {
+    const pathRealm = pathRef.current
+    const group = groupRef.current
+    const stage = pathRef.current?.getStage()
+    if (!stage || !pathRealm || !group) return () => {}
+    const defaultZ = group.zIndex()
+
+    const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
+      if (evt.type === "mouseenter") {
+        stage.container().style.cursor = "pointer"
+        group.zIndex(REALMS_COUNT)
+        setHover(true)
+      } else if (evt.type === "mouseleave") {
+        stage.container().style.cursor = "default"
+        group.zIndex(defaultZ)
+        setHover(false)
+      }
+    }
+
+    pathRealm.on("mouseenter.hover mouseleave.hover", handleHover)
+
+    return () => pathRealm.off(".hover")
+  }, [pathRef, groupRef, setHover])
 }
