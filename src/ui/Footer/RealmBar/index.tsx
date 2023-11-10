@@ -14,6 +14,7 @@ import RealmBarIcon from "./RealmBarIcon"
 export default function RealmsBar() {
   const realmsData = useDappSelector(selectSortedDisplayedPopulation)
   const totalPopulation = useDappSelector(selectTotalDisplayedPopulation)
+
   const progressBarRef = useRef<HTMLDivElement>(null)
 
   const positions = usePopulationIconPositions(progressBarRef)

@@ -3,6 +3,7 @@ import {
   selectDisplayedPopulationById,
   selectMaxDisplayedPopulation,
   selectPopulationById,
+  selectRealms,
   selectSortedDisplayedPopulation,
   setRealmDisplayedPopulation,
   useDappDispatch,
@@ -11,6 +12,21 @@ import {
 import { SECOND } from "shared/constants"
 import { calculatePopulationIconsPositions, randomInteger } from "shared/utils"
 import { useInterval } from "./helpers"
+
+export function useDisplayedPopulation() {
+  const realms = useDappSelector(selectRealms)
+  const dispatch = useDappDispatch()
+
+  useEffect(() => {
+    Object.entries(realms).forEach(
+      ([id, { population, displayedPopulation }]) => {
+        if (population < displayedPopulation || !displayedPopulation) {
+          dispatch(setRealmDisplayedPopulation({ id, population }))
+        }
+      }
+    )
+  }, [realms, dispatch])
+}
 
 export function usePopulationBubble(realmId: string): {
   showBubble: boolean
@@ -28,14 +44,7 @@ export function usePopulationBubble(realmId: string): {
   const [delay] = useState(randomInteger(5, 15) * SECOND) // Generate random intervals for realms
 
   const populationCallback = useCallback(() => {
-    if (population < displayedPopulation || !displayedPopulation) {
-      dispatch(
-        setRealmDisplayedPopulation({
-          id: realmId,
-          population,
-        })
-      )
-    } else if (population > displayedPopulation) {
+    if (population > displayedPopulation) {
       dispatch(
         setRealmDisplayedPopulation({
           id: realmId,
@@ -47,10 +56,7 @@ export function usePopulationBubble(realmId: string): {
     }
   }, [population, displayedPopulation, dispatch, realmId])
 
-  useInterval(
-    populationCallback,
-    population && displayedPopulation ? delay : null
-  )
+  useInterval(populationCallback, population ? delay : null)
   return { showBubble, setShowBubble }
 }
 

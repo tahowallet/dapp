@@ -16,12 +16,15 @@ import {
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
 import { Route, Switch } from "react-router-dom"
+import { useDisplayedPopulation } from "shared/hooks"
 
 export default function IslandView() {
   const islandMode = useDappSelector(selectIslandMode)
   const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
   const hasBalances = useDappSelector(selectHasLoadedBalances)
+
+  useDisplayedPopulation()
 
   return (
     <>
