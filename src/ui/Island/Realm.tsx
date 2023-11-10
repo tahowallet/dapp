@@ -229,7 +229,8 @@ export default function Realm({
       />
       <animated.Text
         ref={textRef}
-        text={name}
+        // TODO: remove conditon when name is accessible
+        text={name ?? "TestRealm"}
         listening={false}
         fontStyle={REALM_FONT_STYLE}
         fontSize={REALM_FONT_SIZE}

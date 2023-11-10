@@ -1,5 +1,12 @@
 import { RealmQuestlineData, RealmMapData } from "shared/types"
-import { realm19, realm22, realm4, realm7, realm9 } from "./realms-data"
+import {
+  realm19,
+  realm22,
+  realm4,
+  realm7,
+  realm9,
+  realm16,
+} from "./realms-data"
 import QUESTLINE_DATA from "../../assets/questline-data.json"
 
 // TODO: names and ids may change
@@ -58,6 +65,7 @@ export const REALMS_MAP_DATA: RealmMapData[] = [
   realm4,
   realm7,
   realm9,
+  realm16,
   realm19,
   realm22,
 ]
