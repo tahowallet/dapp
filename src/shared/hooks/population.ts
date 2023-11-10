@@ -47,7 +47,10 @@ export function usePopulationBubble(realmId: string): {
     }
   }, [population, displayedPopulation, dispatch, realmId])
 
-  useInterval(populationCallback, population ? delay : null)
+  useInterval(
+    populationCallback,
+    population && displayedPopulation ? delay : null
+  )
   return { showBubble, setShowBubble }
 }
 

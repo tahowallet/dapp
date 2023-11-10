@@ -20,7 +20,7 @@ export default function RealmsBar() {
   const totalPopulation = useDappSelector(selectTotalDisplayedPopulation)
   const progressBarRef = useRef<HTMLDivElement>(null)
 
-  const transition = useVisibilityTransition(totalPopulation > 0)
+  const transition = useVisibilityTransition(!!totalPopulation)
   const positions = usePopulationIconPositions(progressBarRef)
 
   return (
