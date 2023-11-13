@@ -43,7 +43,9 @@ export default function RealmHeader() {
               />
               Population
             </span>
-            <span>{separateThousandsByComma(realm?.population ?? 0)}</span>
+            <span>
+              {separateThousandsByComma(realm?.population ?? 0, true)}
+            </span>
           </div>
           <div className="tag column">
             <span

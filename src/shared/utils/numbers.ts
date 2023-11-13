@@ -4,10 +4,14 @@ import { FixedPointNumber } from "shared/types/stake"
 const FLOATING_POINT_REGEX = /^[^0-9]*([0-9,]+)(?:\.([0-9]*))?$/
 
 export const separateThousandsByComma = (
-  value: number | bigint | string
+  value: number | bigint | string,
+  noDecimals: boolean = false
 ): string => {
   const adjustedValue = typeof value === "string" ? +value : value
-  return adjustedValue.toLocaleString("en-US", { maximumFractionDigits: 2 })
+
+  return adjustedValue.toLocaleString("en-US", {
+    minimumFractionDigits: noDecimals ? 0 : 2,
+  })
 }
 
 function parseToFixedPointNumber(
