@@ -2,8 +2,11 @@ import React, { useMemo } from "react"
 import useImage from "use-image"
 
 import backgroundImg from "public/dapp_island_bg.webp"
-import { REALMS_MAP_DATA } from "shared/constants"
-import { createCutoutFromPath, createImageElement } from "shared/utils"
+import {
+  createCutoutFromPath,
+  createImageElement,
+  getMapRealmsData,
+} from "shared/utils"
 import { selectRealms, useDappSelector } from "redux-state"
 import Realm from "./Realm"
 
@@ -15,7 +18,9 @@ export default function IslandRealms() {
       return []
     }
 
-    return REALMS_MAP_DATA.map((realm) => {
+    const realmsData = getMapRealmsData()
+
+    return realmsData.map((realm) => {
       const updatedRealm = {
         ...realm,
         name: realms[realm.id]?.name,
