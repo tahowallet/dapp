@@ -23,7 +23,8 @@ export const selectRealmById = createSelector(
 
 export const selectRealmNameById = createSelector(
   [selectRealms, (_, realmId: string | null) => realmId],
-  (realms, realmId) => (realmId ? realms[realmId].name : null)
+  (realms, realmId) =>
+    realmId && realms[realmId] ? realms[realmId].name : "Test"
 )
 
 export const selectRealmWithIdByAddress = createSelector(

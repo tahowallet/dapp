@@ -58,9 +58,6 @@ export default function Realm({
 
   const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
-
-    if (id === "16") return // TODO: remove when realm fully implemented
-
     islandContext.current.onRealmClick(id)
   }
 
