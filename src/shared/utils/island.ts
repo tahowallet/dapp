@@ -73,33 +73,37 @@ export function createCutoutFromPath(
   image: HTMLImageElement
 ) {
   const { x, y, w, h, paths } = realmData
-  const path = paths[0].data
+  const crops: HTMLCanvasElement[] = []
 
-  const canvas = document.createElement("canvas")
+  paths.forEach((path) => {
+    const canvas = document.createElement("canvas")
 
-  canvas.width = image.width
-  canvas.height = image.height
+    canvas.width = image.width
+    canvas.height = image.height
 
-  const ctx = canvas.getContext("2d")
+    const ctx = canvas.getContext("2d")
 
-  assert(ctx)
+    assert(ctx)
 
-  ctx.translate(x, y)
-  ctx.clip(new Path2D(path))
-  ctx.translate(-x, -y)
-  ctx.drawImage(image, 0, 0)
+    ctx.translate(x, y)
+    ctx.clip(new Path2D(path.data))
+    ctx.translate(-x, -y)
+    ctx.drawImage(image, 0, 0)
 
-  const crop = document.createElement("canvas")
-  crop.width = w
-  crop.height = h
+    const crop = document.createElement("canvas")
+    crop.width = w
+    crop.height = h
 
-  const cropCtx = crop.getContext("2d")
+    const cropCtx = crop.getContext("2d")
 
-  assert(cropCtx)
+    assert(cropCtx)
 
-  cropCtx.drawImage(canvas, -x, -y)
+    cropCtx.drawImage(canvas, -x, -y)
 
-  return crop
+    crops.push(crop)
+  })
+
+  return crops
 }
 
 export function createBackgroundMask(

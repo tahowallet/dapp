@@ -146,31 +146,33 @@ export function useStakeCooldownPeriod() {
 }
 
 export function useIslandRealmsPaths(
-  pathRef: RefObject<Path>,
+  pathRef: MutableRefObject<(Path | null)[]>,
   groupRef: RefObject<Group>,
   setHover: Dispatch<SetStateAction<boolean>>
 ) {
   useLayoutEffect(() => {
-    const pathRealm = pathRef.current
     const group = groupRef.current
-    const stage = pathRef.current?.getStage()
-    if (!stage || !pathRealm || !group) return () => {}
-    const defaultZ = group.zIndex()
 
-    const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
-      if (evt.type === "mouseenter") {
-        stage.container().style.cursor = "pointer"
-        group.zIndex(REALMS_COUNT)
-        setHover(true)
-      } else if (evt.type === "mouseleave") {
-        stage.container().style.cursor = "default"
-        group.zIndex(defaultZ)
-        setHover(false)
+    pathRef.current.forEach((ref) => {
+      const stage = ref?.getStage()
+      if (!stage || !ref || !group) return () => {}
+      const defaultZ = group.zIndex()
+
+      const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
+        if (evt.type === "mouseenter") {
+          stage.container().style.cursor = "pointer"
+          group.zIndex(REALMS_COUNT)
+          setHover(true)
+        } else if (evt.type === "mouseleave") {
+          stage.container().style.cursor = "default"
+          group.zIndex(defaultZ)
+          setHover(false)
+        }
       }
-    }
 
-    pathRealm.on("mouseenter.hover mouseleave.hover", handleHover)
+      ref.on("mouseenter.hover mouseleave.hover", handleHover)
 
-    return () => pathRealm.off(".hover")
+      return () => ref.off(".hover")
+    })
   }, [pathRef, groupRef, setHover])
 }

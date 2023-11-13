@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 // Need to pass spring props to spring abstracted components
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useMemo, useRef, useState } from "react"
@@ -10,6 +11,7 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
+import { useMultiRef } from "shared/hooks"
 import {
   useIslandContext,
   useIslandRealmsPaths,
@@ -17,8 +19,8 @@ import {
 
 type RealmProps = {
   id: string
-  imageLayer: HTMLCanvasElement
-  path: string
+  imageLayers: HTMLCanvasElement[]
+  paths: string[]
   width: number
   color: string
   name: string
@@ -31,7 +33,7 @@ type RealmProps = {
 }
 
 export default function Realm({
-  path,
+  paths,
   width,
   height,
   x,
@@ -39,7 +41,7 @@ export default function Realm({
   id,
   color,
   name,
-  imageLayer,
+  imageLayers,
   labelX,
   labelY,
   partnerLogo,
@@ -49,23 +51,27 @@ export default function Realm({
 
   const islandContext = useIslandContext()
   const groupRef = useRef<Konva.Group>(null)
-  const pathRef = useRef<Konva.Path>(null)
   const textRef = useRef<Konva.Text>(null)
-  const imageLayerRef = useRef<Konva.Image>(null)
-  const overlayRef = useRef<Konva.Path>(null)
   const partnerLogoRef = useRef<Konva.Image>(null)
+
+  const [pathRefs, addPathRef] = useMultiRef<Konva.Path>()
+  const [, addOverlayRefs] = useMultiRef<Konva.Path>()
+  const [, addImageLayerRef] = useMultiRef<Konva.Image>()
 
   const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
+
+    if (id === "16") return // TODO: remove when realm fully implemented
+
     islandContext.current.onRealmClick(id)
   }
-
-  useIslandRealmsPaths(pathRef, groupRef, setIsHovered)
 
   const partnerLogoTranslate = useMemo(
     () => calculatePartnerLogoTranslate(name),
     [name]
   )
+
+  useIslandRealmsPaths(pathRefs, groupRef, setIsHovered)
 
   const styles = useMemo(() => {
     const variants = {
@@ -176,41 +182,49 @@ export default function Realm({
 
   return (
     <Group ref={groupRef}>
-      {/* @ts-expect-error FIXME: @react-spring-types */}
-      <animated.Image
-        ref={imageLayerRef}
-        listening={false}
-        image={imageLayer}
-        x={x}
-        y={y}
-        {...imageProps}
-      />
+      {imageLayers.map((imageLayer, index) => (
+        // @ts-expect-error FIXME: @react-spring-types
+        <animated.Image
+          key={index}
+          ref={(element) => addImageLayerRef(element, index)}
+          listening={false}
+          image={imageLayer}
+          x={x}
+          y={y}
+          {...imageProps}
+        />
+      ))}
       {/* This path is used to create the overlay effect */}
-      <animated.Path
-        ref={overlayRef}
-        x={x}
-        y={y}
-        data={path}
-        width={width}
-        height={height}
-        listening={false}
-        {...overlayProps}
-      />
+      {paths.map((path, index) => (
+        <animated.Path
+          key={index}
+          ref={(element) => addOverlayRefs(element, index)}
+          x={x}
+          y={y}
+          data={path}
+          width={width}
+          height={height}
+          listening={false}
+          {...overlayProps}
+        />
+      ))}
       {/* This layer sets stroke and event handlers */}
-      <animated.Path
-        ref={pathRef}
-        x={x}
-        y={y}
-        data={path}
-        width={width}
-        height={height}
-        onClick={handleRealmClick}
-        {...pathProps}
-      />
+      {paths.map((path, index) => (
+        <animated.Path
+          key={index}
+          ref={(element) => addPathRef(element, index)}
+          x={x}
+          y={y}
+          data={path}
+          width={width}
+          height={height}
+          onClick={handleRealmClick}
+          {...pathProps}
+        />
+      ))}
       <animated.Text
         ref={textRef}
-        // TODO: remove conditon when name is accessible
-        text={name ?? "TestRealm"}
+        text={name ?? "TestRealm"} // TODO: remove conditon when name is accessible
         listening={false}
         fontStyle={REALM_FONT_STYLE}
         fontSize={REALM_FONT_SIZE}
