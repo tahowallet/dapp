@@ -222,3 +222,22 @@ export function calculatePartnerLogoTranslate(text: string): number {
 
   return textWidth / 2 - REALM_IMAGE_SIZE * 1.7
 }
+
+export function getPinShift(realmId: string) {
+  switch (realmId) {
+    case "4":
+      return { x: 200, y: 300 }
+    case "7":
+      return { x: 500, y: 300 }
+    case "9":
+      return { x: 500, y: 300 }
+    case "16":
+      return { x: 200, y: 600 }
+    case "19":
+      return { x: 250, y: 250 }
+    case "22":
+      return { x: 200, y: 250 }
+    default:
+      return { x: 250, y: 250 }
+  }
+}
