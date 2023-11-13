@@ -55,8 +55,6 @@ export default function Realm({
   const partnerLogoRef = useRef<Konva.Image>(null)
 
   const [pathRefs, addPathRef] = useMultiRef<Konva.Path>()
-  const [, addOverlayRefs] = useMultiRef<Konva.Path>()
-  const [, addImageLayerRef] = useMultiRef<Konva.Image>()
 
   const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
@@ -186,7 +184,6 @@ export default function Realm({
         // @ts-expect-error FIXME: @react-spring-types
         <animated.Image
           key={index}
-          ref={(element) => addImageLayerRef(element, index)}
           listening={false}
           image={imageLayer}
           x={x}
@@ -198,7 +195,6 @@ export default function Realm({
       {paths.map((path, index) => (
         <animated.Path
           key={index}
-          ref={(element) => addOverlayRefs(element, index)}
           x={x}
           y={y}
           data={path}
