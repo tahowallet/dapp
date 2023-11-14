@@ -71,7 +71,9 @@ export default function TokenAmountInput({
     <div>
       {label && (
         <div className="label">{`${label} ${bigIntToDisplayUserAmount(
-          balance
+          balance,
+          18,
+          5
         )} ${symbol}`}</div>
       )}
       <SharedInput
@@ -88,7 +90,7 @@ export default function TokenAmountInput({
             isDisabled={disabled}
             onMouseDown={(event) => {
               event.preventDefault()
-              onChange(bigIntToUserAmount(balance))
+              onChange(bigIntToUserAmount(balance, 18, 18))
             }}
           >
             Max
