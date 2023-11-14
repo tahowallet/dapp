@@ -49,13 +49,13 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const posthog = usePostHog()
 
   const stakeTransaction = () => {
-    const bigIntStakeAccount = userAmountToBigInt(stakeAmount)
-    if (displayedRealmAddress && bigIntStakeAccount) {
+    const stakeAccountBigInt = userAmountToBigInt(stakeAmount)
+    if (displayedRealmAddress && stakeAccountBigInt) {
       dispatch(
         stakeTaho({
           id: STAKE_TX_ID,
           realmContractAddress: displayedRealmAddress,
-          amount: bigIntStakeAccount,
+          amount: stakeAccountBigInt,
         })
       )
       posthog?.capture("Realm stake started", {

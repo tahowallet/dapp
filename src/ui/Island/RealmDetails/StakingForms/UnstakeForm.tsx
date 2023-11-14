@@ -13,7 +13,7 @@ import {
   selectTokenBalanceByAddress,
   selectDisplayedRealmName,
 } from "redux-state"
-import { isValidInputAmount } from "shared/utils"
+import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
 import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import { TransactionProgressStatus } from "shared/types"
@@ -61,17 +61,18 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   const posthog = usePostHog()
 
   const unstakeTransaction = () => {
+    const unstakeAccountBigInt = userAmountToBigInt(unstakeAmount)
     if (
       displayedRealmAddress &&
       displayedRealmVeTokenAddress &&
-      unstakeAmount
+      unstakeAccountBigInt
     ) {
       dispatch(
         unstakeTaho({
           id: UNSTAKE_TX_ID,
           realmContractAddress: displayedRealmAddress,
           veTokenContractAddress: displayedRealmVeTokenAddress,
-          amount: BigInt(unstakeAmount),
+          amount: unstakeAccountBigInt,
         })
       )
     }
@@ -157,7 +158,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
             disabled={
               isDisabled ||
               !isUnstakeAmountValid ||
-              !isValidInputAmount(`${unstakeAmount}`)
+              !isValidInputAmount(unstakeAmount)
             }
             onClick={onClickUnstake}
           />
