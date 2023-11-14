@@ -4,6 +4,24 @@
 
 Allocation is done using the script from the [contracts](https://github.com/tahowallet/contracts) repository, please use [documentation](https://github.com/tahowallet/contracts/blob/main/merkle/README.adoc) written for the script there. This documentation assumes you've already generated all the files and the drop already happened. The only thing left to do is to provide the dapp source merkle tree data for given allocation.
 
+#### Prepare merkle tree source file:
+
+In the contracts repository create a file with XP allocations in the format:
+   ```
+   [
+     {
+       "account": "0x...", // account address, normalized - lower case letters
+       "amount": "0x" // XP amount, 18 decimal places
+     },
+   ]
+   ```
+
+#### Generate merkle trees and allocate XP
+
+Generate merkle trees and do the allocations. There are 2 scripts that can be used:
+   1. Do the allocation on a single realm using `merkle:allocate-xp`
+   2. Do the allocation on multiple realms using `merkle:multi-allocate-xp`
+
 ### Providing XP data in the dapp
 
 1. In the `src/assets/xp-data.json` find out where is the folder for the realm that you did the XP drop on. Should be `assets/xp/<realm-name>/`
