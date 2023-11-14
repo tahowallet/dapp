@@ -12,7 +12,7 @@ import {
   selectStakingRealmId,
   selectDisplayedRealmName,
 } from "redux-state"
-import { bigIntToUserAmount, isValidInputAmount } from "shared/utils"
+import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
@@ -31,7 +31,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
 
-  const [stakeAmount, setStakeAmount] = useState<bigint>()
+  const [stakeAmount, setStakeAmount] = useState("")
   const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
 
   const { updateAssistant } = useAssistant()
@@ -49,12 +49,13 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const posthog = usePostHog()
 
   const stakeTransaction = () => {
-    if (displayedRealmAddress && stakeAmount) {
+    const bigIntStakeAccount = userAmountToBigInt(stakeAmount)
+    if (displayedRealmAddress && bigIntStakeAccount) {
       dispatch(
         stakeTaho({
           id: STAKE_TX_ID,
           realmContractAddress: displayedRealmAddress,
-          amount: stakeAmount,
+          amount: bigIntStakeAccount,
         })
       )
       posthog?.capture("Realm stake started", {
@@ -81,9 +82,8 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     posthog?.capture("Realm stake completed", {
       realmName: displayedRealmName,
     })
-
     setIsStakeTransactionModalOpen(false)
-    setStakeAmount(-0n)
+    setStakeAmount("")
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
     if (!stakingRealmId) {
       updateAssistant({ visible: true, type: "quests" })
@@ -91,7 +91,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   }, [posthog, displayedRealmName, dispatch, stakingRealmId, updateAssistant])
 
   const onInputChange = (value: string) => {
-    setStakeAmount(BigInt(value))
+    setStakeAmount(value)
 
     if (stakeTransactionStatus === TransactionProgressStatus.Failed) {
       dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
@@ -123,7 +123,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
             label="Wallet balance:"
             inputLabel="Stake amount"
             disabled={isDisabled}
-            amount={stakeAmount ? bigIntToUserAmount(stakeAmount) : ""}
+            amount={stakeAmount}
             tokenAddress={TAHO_ADDRESS}
             onChange={onInputChange}
             onValidate={(isValid) => setIsStakeAmountValid(isValid)}
@@ -136,7 +136,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
           disabled={
             isDisabled ||
             !isStakeAmountValid ||
-            !isValidInputAmount(`${stakeAmount}`)
+            !isValidInputAmount(stakeAmount)
           }
           onClick={() => setIsStakeTransactionModalOpen(true)}
         />

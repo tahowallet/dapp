@@ -78,7 +78,7 @@ export function userAmountToBigInt(
 export function bigIntToUserAmount(
   amount: bigint,
   decimals = 18,
-  desiredDecimals = 2
+  desiredDecimals = 4
 ): string {
   const desiredDecimalsAmount =
     amount / 10n ** BigInt(Math.max(1, decimals - desiredDecimals))
