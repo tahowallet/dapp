@@ -58,7 +58,7 @@ environment 🚀**
 6. Population
    - [ ] shows on each realm
    - [ ] shows on the bottom bar
-   - [ ] is updated approriately if a new account stakes
+   - [ ] is updated appropriately if a new account stakes
 
 7. Quests/Questline
    - [ ] shows on each realm as expected
@@ -70,11 +70,11 @@ environment 🚀**
 9. Connect Wallet
    - [ ] with Taho installed and default wallet
    - [ ] with Taho installed and not default
-   - [ ] with Taho not installed and no other
-   - [ ] with Taho not installed and MM installed
+   - [ ] with Taho not installed and no other - should be directed to the Chrome store to download Taho & given a message in the dapp to do so
+   - [ ] with Taho not installed and MM installed - should be directed to the Chrome store to download Taho & given a message in the dapp to do so
 
 10. XP
-   - [ ] an account with XP to claim sees that under Claimable Rewards on the Realm modal
-   - [ ] account can claim XP and sees the wallet balance of VETAHO change accordingly
+   - [ ] an account with XP to claim sees that under Claimable Rewards on the Realm modal (in pre-prod we can see this on stage-live but might be easiest to only test this when we're testing XP drops)
+   - [ ] account can claim XP and sees the wallet balance of VETAHO change accordingly (requires that the account earned XP and hasn't claimed it yet so this could be hard to test on each release but when we're testing XP drops, we should do this)
    - [ ] leaderboard shows the top 10 earners in the realm - the connected account is shown at the top with their place on the board shown
 
