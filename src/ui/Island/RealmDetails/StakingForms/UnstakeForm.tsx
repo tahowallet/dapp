@@ -13,7 +13,7 @@ import {
   selectTokenBalanceByAddress,
   selectDisplayedRealmName,
 } from "redux-state"
-import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
+import { bigIntToUserAmount, isValidInputAmount } from "shared/utils"
 import classNames from "classnames"
 import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import { TransactionProgressStatus } from "shared/types"
@@ -41,8 +41,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   const veTahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
   )
-  const [unstakeAmount, setUnstakeAmount] = useState("")
-  const amount = userAmountToBigInt(unstakeAmount)
+  const [unstakeAmount, setUnstakeAmount] = useState<bigint>()
 
   const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
 
@@ -62,13 +61,17 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   const posthog = usePostHog()
 
   const unstakeTransaction = () => {
-    if (displayedRealmAddress && displayedRealmVeTokenAddress && amount) {
+    if (
+      displayedRealmAddress &&
+      displayedRealmVeTokenAddress &&
+      unstakeAmount
+    ) {
       dispatch(
         unstakeTaho({
           id: UNSTAKE_TX_ID,
           realmContractAddress: displayedRealmAddress,
           veTokenContractAddress: displayedRealmVeTokenAddress,
-          amount,
+          amount: unstakeAmount,
         })
       )
     }
@@ -92,7 +95,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
 
     setIsUnstakeTransactionModalOpen(false)
     setIsLeavingRealmModalOpen(false)
-    setUnstakeAmount("")
+    setUnstakeAmount(-0n)
     dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
     updateAssistant({ visible: false, type: "default" })
   }, [dispatch, displayedRealmName, posthog, updateAssistant])
@@ -110,7 +113,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   )
 
   const onInputChange = (value: string) => {
-    setUnstakeAmount(value)
+    setUnstakeAmount(BigInt(value))
 
     if (unstakeTransactionStatus === TransactionProgressStatus.Failed) {
       dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
@@ -118,7 +121,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   }
 
   const onClickUnstake = () => {
-    if (amount === veTahoBalance) {
+    if (unstakeAmount === veTahoBalance) {
       setIsLeavingRealmModalOpen(true)
     } else {
       setIsUnstakeTransactionModalOpen(true)
@@ -141,7 +144,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
               label="Staked amount:"
               inputLabel="Unstake amount"
               disabled={isDisabled}
-              amount={unstakeAmount}
+              amount={unstakeAmount ? bigIntToUserAmount(unstakeAmount) : ""}
               tokenAddress={displayedRealmVeTokenAddress ?? ""}
               onChange={onInputChange}
               onValidate={(isValid) => setIsUnstakeAmountValid(isValid)}
@@ -154,7 +157,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
             disabled={
               isDisabled ||
               !isUnstakeAmountValid ||
-              !isValidInputAmount(unstakeAmount)
+              !isValidInputAmount(`${unstakeAmount}`)
             }
             onClick={onClickUnstake}
           />

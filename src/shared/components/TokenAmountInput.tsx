@@ -88,7 +88,7 @@ export default function TokenAmountInput({
             isDisabled={disabled}
             onMouseDown={(event) => {
               event.preventDefault()
-              onChange(bigIntToUserAmount(balance))
+              onChange(`${balance}`)
             }}
           >
             Max
