@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import {
   userAmountToBigInt,
   bigIntToDisplayUserAmount,
@@ -49,9 +49,11 @@ export default function TokenAmountInput({
   amount: bigint | null
   tokenAddress: string
   disabled?: boolean
-  onChange: (value: bigint) => void
+  onChange: (value: bigint | null) => void
   onValidate?: (value: boolean) => void
 }) {
+  const [textAmount, setTextAmount] = useState("")
+
   const balance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, tokenAddress)
   )
@@ -59,16 +61,45 @@ export default function TokenAmountInput({
     selectTokenSymbolByAddress(state, tokenAddress)
   )
 
-  const validate = (value: string) => {
-    const result = handleValidate(value, balance)
-    const hasError = "error" in result
+  const validate = useCallback(
+    (value: string) => {
+      const result = handleValidate(value, balance)
+      const hasError = "error" in result
 
-    onValidate?.(!hasError)
-    return result
-  }
+      onValidate?.(!hasError)
+      return result
+    },
+    [balance, onValidate]
+  )
 
-  const parsedAmount = amount === null ? "" : bigIntToUserAmount(amount, 18, 5)
-  const parsedBalance = bigIntToDisplayUserAmount(balance, 18, 5)
+  useEffect(() => {
+    const textToBigIntAmount =
+      textAmount === "" ? null : userAmountToBigInt(textAmount) ?? 0n
+
+    const bigIntToTextAmount = bigIntToUserAmount(balance, 18, 4)
+
+    // As we may be loosing some precision, we need to compare the values.
+    // Clicking "Max" button may result in bigint that is too big to be
+    // represented as a float number. In this case we need to compare values to
+    // not override the external value that stores the bigint using greater precision.
+    if (textToBigIntAmount !== amount && textAmount !== bigIntToTextAmount) {
+      onChange(textToBigIntAmount)
+    }
+
+    // Make sure this is working only one way:
+    // from the text provided by input to the parent component
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textAmount, onChange])
+
+  useEffect(() => {
+    // Allow clearing the input from parent componentthis should be the only case
+    // where parent component is allowed to change the value
+    if (amount === null) {
+      setTextAmount("")
+    }
+  }, [amount])
+
+  const parsedBalance = bigIntToDisplayUserAmount(balance, 18, 4)
 
   return (
     <div>
@@ -78,9 +109,9 @@ export default function TokenAmountInput({
       <SharedInput
         type="number"
         label={inputLabel}
-        value={parsedAmount}
+        value={textAmount}
         disabled={disabled}
-        onChange={(value: string) => onChange(userAmountToBigInt(value) ?? 0n)}
+        onChange={setTextAmount}
         validate={validate}
         rightComponent={
           <Button
@@ -89,6 +120,7 @@ export default function TokenAmountInput({
             isDisabled={disabled}
             onMouseDown={(event) => {
               event.preventDefault()
+              setTextAmount(bigIntToUserAmount(balance, 18, 4))
               onChange(balance)
             }}
           >

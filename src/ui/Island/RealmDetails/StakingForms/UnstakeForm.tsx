@@ -112,7 +112,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     [dispatch]
   )
 
-  const onInputChange = (value: bigint) => {
+  const onInputChange = (value: bigint | null) => {
     setUnstakeAmount(value)
 
     if (unstakeTransactionStatus === TransactionProgressStatus.Failed) {

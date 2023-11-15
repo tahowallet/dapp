@@ -90,7 +90,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     }
   }, [posthog, displayedRealmName, dispatch, stakingRealmId, updateAssistant])
 
-  const onInputChange = (value: bigint) => {
+  const onInputChange = (value: bigint | null) => {
     setStakeAmount(value)
 
     if (stakeTransactionStatus === TransactionProgressStatus.Failed) {
