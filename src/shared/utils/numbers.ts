@@ -101,6 +101,26 @@ export function bigIntToUserAmount(
   ).toString()
 }
 
+export function bigIntToPreciseUserAmount(
+  amount: bigint,
+  decimals = 18
+): string {
+  let currentPrecision = decimals
+
+  while (currentPrecision >= 0) {
+    const desiredDecimalsAmount =
+      amount / 10n ** BigInt(Math.max(0, decimals - currentPrecision))
+
+    if (desiredDecimalsAmount <= BigInt(Number.MAX_SAFE_INTEGER)) {
+      return bigIntToUserAmount(amount, decimals, currentPrecision)
+    }
+
+    currentPrecision -= 1
+  }
+
+  return "0"
+}
+
 // Parse token amount by moving the decimal point and separate thousands by comma.
 // Gracefully handle amounts smaller than desired precision.
 export function bigIntToDisplayUserAmount(

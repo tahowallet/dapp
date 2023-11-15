@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react"
 import {
   userAmountToBigInt,
   bigIntToDisplayUserAmount,
-  bigIntToUserAmount,
+  bigIntToPreciseUserAmount,
 } from "shared/utils"
 import {
   selectTokenBalanceByAddress,
@@ -76,7 +76,7 @@ export default function TokenAmountInput({
     const textToBigIntAmount =
       textAmount === "" ? null : userAmountToBigInt(textAmount) ?? 0n
 
-    const bigIntToTextAmount = bigIntToUserAmount(balance, 18, 4)
+    const bigIntToTextAmount = bigIntToPreciseUserAmount(balance)
 
     // As we may be loosing some precision, we need to compare the values.
     // Clicking "Max" button may result in bigint that is too big to be
@@ -120,7 +120,7 @@ export default function TokenAmountInput({
             isDisabled={disabled}
             onMouseDown={(event) => {
               event.preventDefault()
-              setTextAmount(bigIntToUserAmount(balance, 18, 4))
+              setTextAmount(bigIntToPreciseUserAmount(balance))
               onChange(balance)
             }}
           >
