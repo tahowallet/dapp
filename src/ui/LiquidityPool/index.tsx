@@ -7,7 +7,7 @@ import {
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
+import { isValidInputAmount } from "shared/utils"
 import { useArbitrumProvider } from "shared/hooks"
 import Button from "shared/components/Button"
 import Modal from "shared/components/Modal"
@@ -23,8 +23,8 @@ export default function LiquidityPool() {
   const provider = useArbitrumProvider()
   const isConnected = useDappSelector(selectIsWalletConnected)
 
-  const [tahoAmount, setTahoAmount] = useState("")
-  const [ethAmount, setEthAmount] = useState("")
+  const [tahoAmount, setTahoAmount] = useState<bigint | null>(null)
+  const [ethAmount, setEthAmount] = useState<bigint | null>(null)
 
   const joinPool = async () => {
     try {
@@ -32,18 +32,15 @@ export default function LiquidityPool() {
         throw new Error("No provider or address")
       }
 
-      const targetTahoAmount = userAmountToBigInt(tahoAmount)
-      const targetEthAmount = userAmountToBigInt(ethAmount)
-
-      if (!targetTahoAmount || !targetEthAmount) {
+      if (tahoAmount === null || ethAmount === null) {
         throw new Error("Invalid token amount")
       }
 
       const receipt = await dispatch(
         joinTahoPool({
           id: LP_TX_ID,
-          tahoAmount: targetTahoAmount,
-          ethAmount: targetEthAmount,
+          tahoAmount,
+          ethAmount,
         })
       )
 
@@ -52,8 +49,8 @@ export default function LiquidityPool() {
         // eslint-disable-next-line no-console
         console.log(receipt)
         dispatch(stopTrackingTransactionStatus(LP_TX_ID))
-        setTahoAmount("")
-        setEthAmount("")
+        setTahoAmount(null)
+        setEthAmount(null)
       }
     } catch (err) {
       // TODO Add error handing

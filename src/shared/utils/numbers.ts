@@ -88,6 +88,13 @@ export function bigIntToUserAmount(
   const desiredDecimalsAmount =
     amount / 10n ** BigInt(Math.max(0, decimals - desiredDecimals))
 
+  if (desiredDecimalsAmount > BigInt(Number.MAX_SAFE_INTEGER)) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `bigIntToUserAmount: amount ${amount}is too big to be represented as a number`
+    )
+  }
+
   return (
     Number(desiredDecimalsAmount) /
     10 ** Math.min(desiredDecimals, decimals)

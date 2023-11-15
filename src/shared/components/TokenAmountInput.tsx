@@ -46,10 +46,10 @@ export default function TokenAmountInput({
 }: {
   label?: string
   inputLabel: string
-  amount: string
+  amount: bigint | null
   tokenAddress: string
   disabled?: boolean
-  onChange: (value: string) => void
+  onChange: (value: bigint) => void
   onValidate?: (value: boolean) => void
 }) {
   const balance = useDappSelector((state) =>
@@ -67,21 +67,20 @@ export default function TokenAmountInput({
     return result
   }
 
+  const parsedAmount = amount === null ? "" : bigIntToUserAmount(amount, 18, 5)
+  const parsedBalance = bigIntToDisplayUserAmount(balance, 18, 5)
+
   return (
     <div>
       {label && (
-        <div className="label">{`${label} ${bigIntToDisplayUserAmount(
-          balance,
-          18,
-          5
-        )} ${symbol}`}</div>
+        <div className="label">{`${label} ${parsedBalance} ${symbol}`}</div>
       )}
       <SharedInput
         type="number"
         label={inputLabel}
-        value={amount}
+        value={parsedAmount}
         disabled={disabled}
-        onChange={onChange}
+        onChange={(value: string) => onChange(userAmountToBigInt(value) ?? 0n)}
         validate={validate}
         rightComponent={
           <Button
@@ -90,7 +89,7 @@ export default function TokenAmountInput({
             isDisabled={disabled}
             onMouseDown={(event) => {
               event.preventDefault()
-              onChange(bigIntToUserAmount(balance, 18, 18))
+              onChange(balance)
             }}
           >
             Max
