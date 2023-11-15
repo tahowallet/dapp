@@ -1,5 +1,5 @@
 import React from "react"
-import { useReflectCurrentUser, useReflectPresence } from "shared/hooks"
+import { useReflectCursors } from "shared/hooks"
 import {
   ReflectCursor,
   ReflectInstance,
@@ -48,18 +48,9 @@ export default function IslandPresence({
 }: {
   reflect: ReflectInstance
 }) {
-  const reflectClients = useReflectPresence(reflect)
-  const currentUser = useReflectCurrentUser(reflect)
+  const visibleCursors = useReflectCursors(reflect)
 
-  if (!currentUser) return null
-
-  // Get 9 recently entered users
-  const otherClients = reflectClients
-    .filter((client) => client.id !== currentUser.id)
-    .slice(-9)
-
-  // Visible cursor limited to 10 (current user and 9 recently joined)
-  const visibleCursors = [currentUser, ...otherClients]
+  if (!visibleCursors || !visibleCursors.length) return null
 
   return visibleCursors.map(({ id, cursor, userInfo }) => (
     <IslandCursor key={id} cursor={cursor} userInfo={userInfo} />

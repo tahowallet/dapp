@@ -104,3 +104,18 @@ export function useReflectCurrentUser(reflect: ReflectInstance) {
     null
   )
 }
+
+export function useReflectCursors(reflect: ReflectInstance) {
+  const reflectClients = useReflectPresence(reflect)
+  const currentUser = useReflectCurrentUser(reflect)
+
+  if (!currentUser) return null
+
+  // Get 9 recently entered users
+  const otherClients = reflectClients
+    .filter((client) => client.id !== currentUser.id)
+    .slice(-9)
+
+  // Visible cursor limited to 10 (current user and 9 recently joined)
+  return [currentUser, ...otherClients]
+}
