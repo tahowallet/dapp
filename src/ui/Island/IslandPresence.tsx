@@ -1,5 +1,5 @@
 import React from "react"
-import { useReflectCurrentUserId, useReflectPresence } from "shared/hooks"
+import { useReflectCurrentUser, useReflectPresence } from "shared/hooks"
 import {
   ReflectCursor,
   ReflectInstance,
@@ -7,21 +7,12 @@ import {
 } from "shared/services"
 
 type IslandCursorProps = {
-  id: string
   cursor: ReflectCursor
   userInfo: ReflectUserInfo
-  currentUser: string | null
 }
 
-function IslandCursor({
-  id,
-  cursor,
-  userInfo,
-  currentUser,
-}: IslandCursorProps) {
-  const isCurrentUserCursor = id === currentUser
-
-  if (isCurrentUserCursor || !cursor) return null
+function IslandCursor({ cursor, userInfo }: IslandCursorProps) {
+  if (!cursor) return null
 
   const { name, stakingRealm, stakingRealmColor } = userInfo
 
@@ -58,15 +49,19 @@ export default function IslandPresence({
   reflect: ReflectInstance
 }) {
   const reflectClients = useReflectPresence(reflect)
-  const currentUser = useReflectCurrentUserId(reflect)
+  const currentUser = useReflectCurrentUser(reflect)
 
-  return reflectClients.map(({ id, cursor, userInfo }) => (
-    <IslandCursor
-      key={id}
-      id={id}
-      cursor={cursor}
-      userInfo={userInfo}
-      currentUser={currentUser}
-    />
+  if (!currentUser) return null
+
+  // Get 9 recently entered users
+  const otherClients = reflectClients
+    .filter((client) => client.id !== currentUser.id)
+    .slice(-9)
+
+  // Visible cursor limited to 10 (current user and 9 recently joined)
+  const visibleCursors = [currentUser, ...otherClients]
+
+  return visibleCursors.map(({ id, cursor, userInfo }) => (
+    <IslandCursor key={id} cursor={cursor} userInfo={userInfo} />
   ))
 }

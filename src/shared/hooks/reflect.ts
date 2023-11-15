@@ -94,12 +94,12 @@ export function useReflectPresence(reflect: ReflectInstance) {
   return presentClients
 }
 
-export function useReflectCurrentUserId(reflect: ReflectInstance) {
+export function useReflectCurrentUser(reflect: ReflectInstance) {
   return useSubscribe(
     reflect,
     async (tx) => {
       const currentUser = await getClientState(tx, tx.clientID)
-      return currentUser ? currentUser.id : null
+      return currentUser
     },
     null
   )
