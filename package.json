@@ -6,7 +6,7 @@
   "prettier": "@thesis/prettier-config",
   "scripts": {
     "start": "yarn write-types && patch-package && concurrently \"npx reflect dev\" \"webpack serve --mode=development --https\"",
-    "build": "yarn write-types && patch-package && npx reflect publish && webpack build --mode=production",
+    "build": "yarn write-types && patch-package && webpack build --mode=production",
     "write-types": "node scripts/write-taho-types.mjs",
     "lint:eslint": "eslint .",
     "lint:fix:eslint": "eslint . --fix",
@@ -20,7 +20,7 @@
     "@react-spring/web": "^9.7.3",
     "@reduxjs/toolkit": "^1.9.5",
     "@rocicorp/rails": "^0.8.0",
-    "@rocicorp/reflect": "^0.37.202311060940",
+    "@rocicorp/reflect": "^0.38.202311130825",
     "@web3-onboard/core": "^2.21.0",
     "@web3-onboard/react": "^2.8.11",
     "@web3-onboard/taho": "^2.0.5",

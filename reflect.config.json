@@ -1,3 +1,8 @@
 {
-  "server": "./src/shared/services/reflect.ts"
+  "server": "./src/shared/services/reflect.ts",
+  "apps": {
+    "default": {
+      "appID": "loztnkex"
+    }
+  }
 }
