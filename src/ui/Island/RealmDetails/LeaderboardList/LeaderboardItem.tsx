@@ -64,7 +64,9 @@ export default function LeaderboardItem({
           <span className="address">
             {username || truncateAddress(address)}
           </span>
-          <span className="xp">{bigIntToDisplayUserAmount(amount)} XP</span>
+          <span className="xp">
+            {bigIntToDisplayUserAmount(amount, 18, 0)} XP
+          </span>
         </div>
       </li>
       <style jsx>{`

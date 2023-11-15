@@ -3,6 +3,18 @@ import { FixedPointNumber } from "shared/types/stake"
 // Matches floating point numbers with optional thousands separators
 const FLOATING_POINT_REGEX = /^[^0-9]*([0-9,]+)(?:\.([0-9]*))?$/
 
+export function separateThousandsByComma(
+  value: number | bigint | string,
+  decimals = 2
+): string {
+  const adjustedValue = typeof value === "string" ? +value : value
+  return adjustedValue.toLocaleString("en-US", {
+    // @ts-expect-error - `maximumFractionDigits` wants to get number less than 21,
+    // but as the tokens have 18 decimals have, we can safely pass a parameter
+    maximumFractionDigits: decimals < 21 ? decimals : 2,
+  })
+}
+
 function parseToFixedPointNumber(
   floatingPointString: string
 ): FixedPointNumber | undefined {
@@ -52,13 +64,6 @@ function convertFixedPointNumber(
   }
 }
 
-export function separateThousandsByComma(
-  value: number | bigint | string
-): string {
-  const adjustedValue = typeof value === "string" ? +value : value
-  return adjustedValue.toLocaleString("en-US", { maximumFractionDigits: 2 })
-}
-
 // Generates a random integer in min-max range (inclusively)
 export function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -86,7 +91,7 @@ export function bigIntToUserAmount(
   desiredDecimals = 2
 ): string {
   const desiredDecimalsAmount =
-    amount / 10n ** BigInt(Math.max(1, decimals - desiredDecimals))
+    amount / 10n ** BigInt(Math.max(0, decimals - desiredDecimals))
 
   return (
     Number(desiredDecimalsAmount) /
@@ -103,6 +108,7 @@ export function bigIntToDisplayUserAmount(
   const amountBigInt = typeof amount === "string" ? BigInt(amount) : amount
 
   return separateThousandsByComma(
-    bigIntToUserAmount(amountBigInt, decimals, desiredDecimals)
+    bigIntToUserAmount(amountBigInt, decimals, desiredDecimals),
+    desiredDecimals
   )
 }
