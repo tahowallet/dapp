@@ -11,7 +11,7 @@ import {
   selectTransactionStatusById,
   stopTrackingTransactionStatus,
   selectTokenBalanceByAddress,
-  selectRealmNameById,
+  selectDisplayedRealmName,
 } from "redux-state"
 import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
 import classNames from "classnames"
@@ -24,9 +24,6 @@ import {
   useStakeCooldownPeriod,
   useTransactionSuccessCallback,
 } from "shared/hooks"
-// Unfortunately the PostHog React package structure does not play nice with
-// no-extraneous-dependencies.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { usePostHog } from "posthog-js/react"
 
 const UNSTAKE_TX_ID = "unstake"
@@ -39,9 +36,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     selectDisplayedRealmVeTokenAddress
   )
   const displayedRealmId = useDappSelector(selectDisplayedRealmId)
-  const realmName = useDappSelector((state) =>
-    selectRealmNameById(state, displayedRealmId)
-  )
+  const displayedRealmName = useDappSelector(selectDisplayedRealmName)
 
   const veTahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
@@ -78,7 +73,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
       )
     }
     posthog?.capture("Realm unstake started", {
-      realmName,
+      realmName: displayedRealmName,
     })
   }
 
@@ -92,7 +87,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const unstakeTransactionSuccessCallback = useCallback(() => {
     posthog?.capture("Realm unstake completed", {
-      realmName,
+      realmName: displayedRealmName,
     })
 
     setIsUnstakeTransactionModalOpen(false)
@@ -100,7 +95,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     setUnstakeAmount("")
     dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
     updateAssistant({ visible: false, type: "default" })
-  }, [dispatch, realmName, posthog, updateAssistant])
+  }, [dispatch, displayedRealmName, posthog, updateAssistant])
 
   useTransactionSuccessCallback(
     unstakeTransactionStatus,
