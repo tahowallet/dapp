@@ -61,14 +61,19 @@ export const FIGMA_FACTOR = {
   Y: ISLAND_BOX.height / FIGMA_WORKSPACE_SIZE.height,
 }
 
-export const REALMS_MAP_DATA: RealmMapData[] = [
+export const BASE_REALMS_MAP_DATA: RealmMapData[] = [
   realm4,
   realm7,
   realm9,
-  realm16,
   realm19,
   realm22,
 ]
+
+export const ADDITIONAL_REALMS_MAP_DATA: RealmMapData[] = [realm16]
+
+export const REALMS_MAP_DATA = process.env.SHOW_ADDITIONAL_REALMS
+  ? [...BASE_REALMS_MAP_DATA, ...ADDITIONAL_REALMS_MAP_DATA]
+  : BASE_REALMS_MAP_DATA
 
 export const REALMS_COUNT = REALMS_MAP_DATA.length
 

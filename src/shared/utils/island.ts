@@ -2,7 +2,6 @@ import assert from "assert"
 import { Stage } from "konva/lib/Stage"
 import {
   ISLAND_BOX,
-  REALMS_MAP_DATA,
   REALM_FONT_FAMILY,
   REALM_FONT_SIZE,
   REALM_FONT_STYLE,
@@ -241,16 +240,4 @@ export function getPinShift(realmId: string) {
     default:
       return { x: 250, y: 250 }
   }
-}
-
-export function getMapRealmsData() {
-  let realmsData = REALMS_MAP_DATA
-
-  if (!process.env.SHOW_ADDITIONAL_REALM && process.env.ADDITONAL_REALM_ID) {
-    realmsData = REALMS_MAP_DATA.filter(
-      (realm) => realm.id !== process.env.ADDITONAL_REALM_ID
-    )
-  }
-
-  return realmsData
 }
