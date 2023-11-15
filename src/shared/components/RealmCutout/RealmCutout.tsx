@@ -1,4 +1,5 @@
-import React from "react"
+/* eslint-disable react/no-array-index-key */
+import React, { Fragment } from "react"
 import { ISLAND_BOX, getRealmMapData } from "shared/constants"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
@@ -24,6 +25,7 @@ export default function RealmCutout() {
   const pathDataRatio = pathData.h / pathData.w
 
   const pathCutoutXref = `cutout_${realmId}_path`
+
   return (
     <>
       <div className="realm_cutout">
@@ -42,41 +44,49 @@ export default function RealmCutout() {
           }}
         >
           <defs>
-            <path
-              id={pathCutoutXref}
-              d={pathData.paths[0].data}
-              width={pathData.w}
-              height={pathData.h}
-            />
-            <mask id={`cutout_${realmId}`}>
-              <use
-                href={`#${pathCutoutXref}`}
-                fill="#fff"
-                transform={`translate(${pathData.x}, ${pathData.y})`}
-              />
-            </mask>
+            {pathData.paths.map((path, index) => (
+              <Fragment key={index}>
+                <path
+                  id={`${pathCutoutXref}_${index}`}
+                  d={path.data}
+                  width={pathData.w}
+                  height={pathData.h}
+                />
+                <mask id={`cutout_${realmId}_${index}`}>
+                  <use
+                    href={`#${pathCutoutXref}_${index}`}
+                    fill="#fff"
+                    transform={`translate(${pathData.x}, ${pathData.y})`}
+                  />
+                </mask>
+              </Fragment>
+            ))}
           </defs>
-          <image
-            transform={`scale(0.25) translate(-${pathData.x}, -${pathData.y})`}
-            width={ISLAND_BOX.width}
-            height={ISLAND_BOX.height}
-            href={backgroundImg}
-            mask={`url(#cutout_${realmId})`}
-          />
-          <use
-            href={`#${pathCutoutXref}`}
-            transform="scale(0.25)"
-            fill="transparent"
-            stroke={pathData.color}
-            strokeWidth="10"
-          />
-          <use
-            href={`#${pathCutoutXref}`}
-            transform="scale(0.25)"
-            fill={pathData.color}
-            opacity={0.7}
-            style={{ mixBlendMode: "color" }}
-          />
+          {pathData.paths.map((_, index) => (
+            <Fragment key={index}>
+              <image
+                transform={`scale(0.25) translate(-${pathData.x}, -${pathData.y})`}
+                width={ISLAND_BOX.width}
+                height={ISLAND_BOX.height}
+                href={backgroundImg}
+                mask={`url(#cutout_${realmId}_${index})`}
+              />
+              <use
+                href={`#${pathCutoutXref}_${index}`}
+                transform="scale(0.25)"
+                fill="transparent"
+                stroke={pathData.color}
+                strokeWidth="10"
+              />
+              <use
+                href={`#${pathCutoutXref}_${index}`}
+                transform="scale(0.25)"
+                fill={pathData.color}
+                opacity={0.7}
+                style={{ mixBlendMode: "color" }}
+              />
+            </Fragment>
+          ))}
         </svg>
       </div>
       <style jsx>
