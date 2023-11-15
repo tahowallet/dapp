@@ -1,9 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
-import { RealmData } from "shared/types"
+import { getPopulationOfRealms } from "redux-state/utils"
 import { selectRealmById, selectRealms } from "./realm"
-
-const getPopulationOfRealms = (realms: RealmData[]) =>
-  realms.map((realm) => realm.population)
 
 export const selectSortedPopulation = createSelector(selectRealms, (realms) => {
   const realmsData = Object.entries(realms).map(([id, data]) => ({
