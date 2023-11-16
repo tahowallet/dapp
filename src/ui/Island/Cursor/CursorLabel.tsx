@@ -14,6 +14,7 @@ export default function CursorLabel({
   extraCursor,
 }: CursorLabelProps) {
   if (!cursor) return null
+
   const { name, avatar, stakingRealmColor } = userInfo
 
   return (

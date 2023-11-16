@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReflectClient, ReflectCursor, ReflectUserInfo } from "shared/types"
 
-export function validateReflectCursor(value: any): ReflectCursor {
+export function validateReflectCursor(value: unknown): ReflectCursor {
   if (
+    value !== null &&
     typeof value === "object" &&
+    "x" in value &&
     typeof value.x === "number" &&
+    "y" in value &&
     typeof value.y === "number"
   ) {
     return value as ReflectCursor
@@ -13,25 +15,29 @@ export function validateReflectCursor(value: any): ReflectCursor {
   return null
 }
 
-export function validateReflectUserInfo(value: any): ReflectUserInfo {
+export function validateReflectUserInfo(value: unknown): ReflectUserInfo {
+  const userInfo = value as ReflectUserInfo
+
   return {
-    name: value.name || "",
+    name: userInfo?.name || "",
     avatar:
-      typeof value.avatar === "string" || value.avatar === null
-        ? value.avatar
+      typeof userInfo?.avatar === "string" || userInfo?.avatar === null
+        ? userInfo.avatar
         : null,
     stakingRealmColor:
-      typeof value.stakingRealmColor === "string" ||
-      value.stakingRealmColor === null
-        ? value.stakingRealmColor
+      typeof userInfo?.stakingRealmColor === "string" ||
+      userInfo?.stakingRealmColor === null
+        ? userInfo.stakingRealmColor
         : null,
   }
 }
 
-export function validateReflectClientState(value: any): ReflectClient {
+export function validateReflectClientState(value: unknown): ReflectClient {
+  const clientInfo = value as ReflectClient
+
   return {
-    id: value.id || "",
-    cursor: validateReflectCursor(value.cursor),
-    userInfo: validateReflectUserInfo(value.userInfo),
+    id: clientInfo?.id || "",
+    cursor: validateReflectCursor(clientInfo?.cursor),
+    userInfo: validateReflectUserInfo(clientInfo?.userInfo),
   }
 }
