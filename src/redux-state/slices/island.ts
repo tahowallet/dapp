@@ -3,9 +3,9 @@ import {
   LeaderboardData,
   UnclaimedXpData,
   OverlayType,
-  RealmData,
   RealmDataWithId,
   SeasonInfo,
+  RealmDataById,
 } from "shared/types"
 
 export type IslandModeType = "default" | "join-realm"
@@ -13,7 +13,7 @@ export type IslandModeType = "default" | "join-realm"
 export type IslandState = {
   mode: IslandModeType
   overlay: OverlayType
-  realms: { [id: string]: RealmData }
+  realms: RealmDataById
   leaderboards: { [id: string]: LeaderboardData }
   unclaimedXp: { [id: string]: UnclaimedXpData[] }
   stakingRealmId: string | null
@@ -73,6 +73,15 @@ const islandSlice = createSlice({
       }: { payload: { id: string; population: number } }
     ) => {
       immerState.realms[realmPopulation.id].population =
+        realmPopulation.population
+    },
+    setRealmDisplayedPopulation: (
+      immerState,
+      {
+        payload: realmPopulation,
+      }: { payload: { id: string; population: number } }
+    ) => {
+      immerState.realms[realmPopulation.id].displayedPopulation =
         realmPopulation.population
     },
     setRealmXpAllocatable: (
@@ -139,6 +148,7 @@ export const {
   resetIslandDisplay,
   resetIslandAccount,
   setRealmPopulation,
+  setRealmDisplayedPopulation,
   setRealmXpAllocatable,
   setRealmsData,
   setDisplayedRealmId,

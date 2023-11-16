@@ -19,6 +19,7 @@ import {
   ARBITRUM_SEPOLIA_RPC_FALLBACK,
   BALANCE_UPDATE_INTERVAL,
   LOCAL_STORAGE_WALLET,
+  POPULATION_FETCH_INTERVAL,
 } from "shared/constants"
 import { Network } from "@ethersproject/networks"
 import { Logger, defineReadOnly } from "ethers/lib/utils"
@@ -119,7 +120,7 @@ export function usePopulationFetch() {
 
   useInterval(
     populationFetchCallback,
-    account ? BALANCE_UPDATE_INTERVAL * 2 : null
+    account ? POPULATION_FETCH_INTERVAL : null
   )
 }
 
