@@ -93,13 +93,41 @@ export function bigIntToUserAmount(
   const desiredDecimalsAmount =
     amount / 10n ** BigInt(Math.max(0, decimals - desiredDecimals))
 
+  if (desiredDecimalsAmount > BigInt(Number.MAX_SAFE_INTEGER)) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `bigIntToUserAmount: amount ${amount} is too big to be represented as a number`
+    )
+  }
+
   return (
     Number(desiredDecimalsAmount) /
     10 ** Math.min(desiredDecimals, decimals)
   ).toString()
 }
 
-// Parse token amount by moving the decimal point and separate thousands by comma
+export function bigIntToPreciseUserAmount(
+  amount: bigint,
+  decimals = 18
+): string {
+  let currentPrecision = decimals
+
+  while (currentPrecision >= 0) {
+    const desiredDecimalsAmount =
+      amount / 10n ** BigInt(Math.max(0, decimals - currentPrecision))
+
+    if (desiredDecimalsAmount <= BigInt(Number.MAX_SAFE_INTEGER)) {
+      return bigIntToUserAmount(amount, decimals, currentPrecision)
+    }
+
+    currentPrecision -= 1
+  }
+
+  return "0"
+}
+
+// Parse token amount by moving the decimal point and separate thousands by comma.
+// Gracefully handle amounts smaller than desired precision.
 export function bigIntToDisplayUserAmount(
   amount: bigint | string,
   decimals = 18,
@@ -107,8 +135,14 @@ export function bigIntToDisplayUserAmount(
 ): string {
   const amountBigInt = typeof amount === "string" ? BigInt(amount) : amount
 
-  return separateThousandsByComma(
+  const parsed = separateThousandsByComma(
     bigIntToUserAmount(amountBigInt, decimals, desiredDecimals),
     desiredDecimals
   )
+
+  if (parsed === "0" && amountBigInt > 0n) {
+    return `<${1 / 10 ** desiredDecimals}`
+  }
+
+  return parsed
 }
