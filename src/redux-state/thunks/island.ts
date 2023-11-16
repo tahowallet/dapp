@@ -6,6 +6,7 @@ import {
   setRealmXpAllocatable,
   setRealmsData,
   setSeasonInfo,
+  setRealmDisplayedPopulation,
 } from "redux-state/slices/island"
 import {
   REALMS_WITH_CONTRACT_NAME,
@@ -29,7 +30,11 @@ import {
   UnclaimedXpData,
 } from "shared/types"
 import { updateTransactionStatus } from "redux-state/slices/wallet"
-import { bigIntToUserAmount, getAllowanceTransactionID } from "shared/utils"
+import {
+  bigIntToUserAmount,
+  getAllowanceTransactionID,
+  isDisplayedPopulationAvailable,
+} from "shared/utils"
 import {
   getRealmLeaderboardData,
   getUserLeaderboardRank,
@@ -107,8 +112,14 @@ export const fetchPopulation = createDappAsyncThunk(
       realmsWithAddress,
     })
 
+    const displayedPopulationAvailable = isDisplayedPopulationAvailable(realms)
+
     if (result) {
-      result.forEach((data) => dispatch(setRealmPopulation(data)))
+      result.forEach((data) => {
+        dispatch(setRealmPopulation(data))
+        if (!displayedPopulationAvailable)
+          dispatch(setRealmDisplayedPopulation(data))
+      })
     }
 
     return !!result

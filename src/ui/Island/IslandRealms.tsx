@@ -23,30 +23,34 @@ export default function IslandRealms() {
       return {
         realm: updatedRealm,
         layer: createCutoutFromPath(realm, bg),
-        partnerLogo: createImageElement(realm.partnerLogo.shadow),
+        partnerLogo: createImageElement(realm.partnerIcons.shadow),
+        populationIcon: createImageElement(realm.partnerIcons.population),
       }
     })
   }, [bg, realms])
 
   return (
     <>
-      {realmImgLayers.map(({ realm, layer: crop, partnerLogo }) => (
-        <Realm
-          key={realm.id}
-          id={realm.id}
-          imageLayer={crop}
-          color={realm.color}
-          name={realm.name}
-          width={realm.w}
-          height={realm.h}
-          x={realm.x}
-          y={realm.y}
-          labelX={realm.labelX}
-          labelY={realm.labelY}
-          path={realm.paths[0].data}
-          partnerLogo={partnerLogo}
-        />
-      ))}
+      {realmImgLayers.map(
+        ({ realm, layer: crop, partnerLogo, populationIcon }) => (
+          <Realm
+            key={realm.id}
+            id={realm.id}
+            imageLayer={crop}
+            color={realm.color}
+            name={realm.name}
+            width={realm.w}
+            height={realm.h}
+            x={realm.x}
+            y={realm.y}
+            labelX={realm.labelX}
+            labelY={realm.labelY}
+            path={realm.paths[0].data}
+            partnerLogo={partnerLogo}
+            populationIcon={populationIcon}
+          />
+        )
+      )}
     </>
   )
 }

@@ -3,10 +3,10 @@ import { FixedPointNumber } from "shared/types/stake"
 // Matches floating point numbers with optional thousands separators
 const FLOATING_POINT_REGEX = /^[^0-9]*([0-9,]+)(?:\.([0-9]*))?$/
 
-export const separateThousandsByComma = (
+export function separateThousandsByComma(
   value: number | bigint | string,
   decimals = 2
-): string => {
+): string {
   const adjustedValue = typeof value === "string" ? +value : value
   return adjustedValue.toLocaleString("en-US", {
     // @ts-expect-error - `maximumFractionDigits` wants to get number less than 21,
@@ -62,6 +62,11 @@ function convertFixedPointNumber(
     amount: convertFixedPoint(amount, decimals, targetDecimals),
     decimals: targetDecimals,
   }
+}
+
+// Generates a random integer in min-max range (inclusively)
+export function randomInteger(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 export function userAmountToBigInt(
