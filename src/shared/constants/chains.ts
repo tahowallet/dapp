@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { ethers } from "ethers"
+import { SECOND } from "./time"
 
 export const getArbitrumRpcUrl = () => {
   if (process.env.USE_LOCALHOST_FORK === "true") {
@@ -48,7 +49,8 @@ export const TAHO_ADDRESS = CONTRACT_Taho
 export const TAHO_SYMBOL = "TAHO"
 export const ETH_SYMBOL = "ETH"
 
-export const BALANCE_UPDATE_INTERVAL = 30 * 1000
+export const BALANCE_UPDATE_INTERVAL = 30 * SECOND
+export const POPULATION_FETCH_INTERVAL = 15 * SECOND
 
 export const CONTRACT_DEPLOYMENT_BLOCK_NUMBER = process.env
   .CONTRACT_DEPLOYMENT_BLOCK_NUMBER

@@ -36,7 +36,7 @@ export default function RealmBarTooltip({
         <div className="tooltip">
           <p className="tooltip_name">{name}</p>
           <p className="tooltip_population">
-            {separateThousandsByComma(population)}
+            {separateThousandsByComma(population ?? 0)}
           </p>
         </div>
       </animated.div>

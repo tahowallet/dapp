@@ -1,22 +1,33 @@
 import { createSelector } from "@reduxjs/toolkit"
-import { RealmData } from "shared/types"
+import {
+  getDisplayedPopulationOfRealms,
+  getPopulationOfRealms,
+} from "redux-state/utils/population"
 import { selectRealmById, selectRealms } from "./realm"
 
-const getPopulationOfRealms = (realms: RealmData[]) =>
-  realms.map((realm) => realm.population)
+type PopulationKey = "population" | "displayedPopulation"
 
-export const selectSortedPopulation = createSelector(selectRealms, (realms) => {
-  const realmsData = Object.entries(realms).map(([id, data]) => ({
-    id,
-    ...data,
-  }))
+const getPopulationById = (key: PopulationKey) =>
+  createSelector(selectRealmById, (realm) => realm?.[key] ?? 0)
 
-  return realmsData.sort((a, b) => a.population - b.population)
-})
+const sortPopulation = (key: PopulationKey) =>
+  createSelector(selectRealms, (realms) => {
+    const realmsData = Object.entries(realms).map(([id, data]) => ({
+      id,
+      ...data,
+    }))
 
-export const selectPopulationById = createSelector(
-  selectRealmById,
-  (realm) => realm?.population ?? 0
+    return realmsData.sort((a, b) => a[key] - b[key])
+  })
+
+export const selectSortedPopulation = sortPopulation("population")
+export const selectSortedDisplayedPopulation = sortPopulation(
+  "displayedPopulation"
+)
+
+export const selectPopulationById = getPopulationById("population")
+export const selectDisplayedPopulationById = getPopulationById(
+  "displayedPopulation"
 )
 
 export const selectTotalPopulation = createSelector(
@@ -25,7 +36,24 @@ export const selectTotalPopulation = createSelector(
     realms.length ? getPopulationOfRealms(realms).reduce((a, b) => a + b) : 0
 )
 
+export const selectTotalDisplayedPopulation = createSelector(
+  selectSortedDisplayedPopulation,
+  (realms) =>
+    realms.length
+      ? getDisplayedPopulationOfRealms(realms).reduce((a, b) => a + b)
+      : 0
+)
+
 export const selectMaxPopulation = createSelector(
   selectSortedPopulation,
-  (realms) => (realms.length ? Math.max(...getPopulationOfRealms(realms)) : 0)
+  (realms) =>
+    realms.length ? getPopulationOfRealms(realms)[realms.length - 1] : 0
+)
+
+export const selectMaxDisplayedPopulation = createSelector(
+  selectSortedDisplayedPopulation,
+  (realms) =>
+    realms.length
+      ? getDisplayedPopulationOfRealms(realms)[realms.length - 1]
+      : 0
 )

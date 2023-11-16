@@ -11,7 +11,9 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
-import { useIslandContext } from "../../shared/hooks/island"
+import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
+import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import { useIslandContext, usePopulationBubble } from "../../shared/hooks"
 
 type RealmProps = {
   id: string
@@ -26,6 +28,7 @@ type RealmProps = {
   labelX: number
   labelY: number
   partnerLogo: HTMLImageElement
+  populationIcon: HTMLImageElement
 }
 
 export default function Realm({
@@ -41,7 +44,9 @@ export default function Realm({
   labelX,
   labelY,
   partnerLogo,
+  populationIcon,
 }: RealmProps) {
+  const realmId = useDappSelector(selectDisplayedRealmId)
   const [isHovered, setIsHovered] = useState(false)
   const [, setIsSelected] = useState(false)
 
@@ -52,6 +57,7 @@ export default function Realm({
   const imageLayerRef = useRef<Konva.Image>(null)
   const overlayRef = useRef<Konva.Path>(null)
   const partnerLogoRef = useRef<Konva.Image>(null)
+  const bubbleRef = useRef<Konva.Image>(null)
 
   const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
@@ -114,6 +120,11 @@ export default function Realm({
           x: x + labelX + partnerLogoTranslate,
           y: y + labelY - 20,
         },
+        population: {
+          opacity: 0,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 20,
+        },
       },
       highlight: {
         image: { shadowOpacity: 1 },
@@ -122,6 +133,18 @@ export default function Realm({
         pathRealm: { strokeWidth: 12 },
         partnerLogo: {
           opacity: 1,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 220,
+        },
+        population: {
+          opacity: 1,
+          x: x + labelX + partnerLogoTranslate,
+          y: y + labelY - 120,
+        },
+      },
+      finish: {
+        population: {
+          opacity: 0,
           x: x + labelX + partnerLogoTranslate,
           y: y + labelY - 220,
         },
@@ -194,6 +217,31 @@ export default function Realm({
     }
   }, [isHovered])
 
+  const { showBubble, setShowBubble } = usePopulationBubble(id)
+
+  const [bubbleProps, set] = useSpring(() => {
+    // To prevent lag in animation, let's show only one bubble for the realm.
+    // When a modal for the realm is open, do not show a bubble on the map.
+    const destinationStyle =
+      showBubble && !(realmId === id)
+        ? [styles.highlight.population, styles.finish.population]
+        : { opacity: 0 }
+
+    return {
+      from: styles.default.population,
+      to: destinationStyle,
+      config: BUBBLE_CONFIG,
+      onRest: () => {
+        setShowBubble(false)
+
+        // Restore bubble's initial position after animation has finished
+        if (!showBubble) {
+          set({ to: styles.default.population })
+        }
+      },
+    }
+  }, [showBubble, realmId, id])
+
   return (
     <Group ref={groupRef}>
       {/* @ts-expect-error FIXME: @react-spring-types */}
@@ -252,6 +300,15 @@ export default function Realm({
         scaleX={3.5}
         scaleY={3.5}
         {...partnerLogoProps}
+      />
+      {/* This is the population bubble image */}
+      <animated.Image
+        ref={bubbleRef}
+        listening={false}
+        image={populationIcon}
+        scaleX={1}
+        scaleY={1}
+        {...bubbleProps}
       />
     </Group>
   )
