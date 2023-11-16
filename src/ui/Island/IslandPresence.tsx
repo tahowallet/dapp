@@ -1,6 +1,6 @@
 import React from "react"
 import { useReflectCursors } from "shared/hooks"
-import { ReflectInstance } from "shared/services"
+import { ReflectInstance } from "shared/utils"
 import IslandCursor from "./Cursor"
 
 export default function IslandPresence({

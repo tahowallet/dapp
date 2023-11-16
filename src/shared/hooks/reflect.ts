@@ -12,7 +12,7 @@ import {
   ReflectMutators,
   mutators,
   getClientState,
-} from "shared/services"
+} from "shared/utils"
 import { getRealmMapData } from "shared/constants"
 import { ReflectClient } from "shared/types"
 
@@ -23,7 +23,7 @@ export function useReflect() {
   const [reflect, setReflect] = useState<ReflectInstance | null>(null)
 
   const avatar = stakingRealmId
-    ? getRealmMapData(stakingRealmId).partnerLogo.default
+    ? getRealmMapData(stakingRealmId).partnerIcons.default
     : null
 
   const stakingRealmColor = stakingRealmId

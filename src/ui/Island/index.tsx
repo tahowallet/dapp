@@ -16,7 +16,7 @@ import {
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
-import { ReflectInstance } from "shared/services"
+import { ReflectInstance } from "shared/utils"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
