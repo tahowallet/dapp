@@ -1,42 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ReflectServerOptions } from "@rocicorp/reflect/server"
 import { WriteTransaction } from "@rocicorp/reflect"
 import { generate } from "@rocicorp/rails"
 import { Reflect } from "@rocicorp/reflect/client"
-import { z } from "zod"
+import { validateReflectClientState } from "shared/utils/validators"
+import { ReflectCursor, ReflectUserInfo } from "shared/types"
 
-export const cursorSchema = z.union([
-  z.object({
-    x: z.number(),
-    y: z.number(),
-  }),
-  z.null(),
-])
-
-const userInfoSchema = z.object({
-  name: z.string(),
-  avatar: z.union([z.string(), z.null()]),
-  stakingRealmColor: z.union([z.string(), z.null()]),
-})
-
-const clientStateSchema = z.object({
-  id: z.string(),
-  cursor: cursorSchema,
-  userInfo: userInfoSchema,
-})
-
-export type ReflectCursor = z.infer<typeof cursorSchema>
-export type ReflectUserInfo = z.infer<typeof userInfoSchema>
-export type ReflectClient = z.infer<typeof clientStateSchema>
-
-function getParse<T>(schema: z.Schema<T>) {
-  return process.env.NODE_ENV !== "production" ? schema.parse : (val: T) => val
+function getParse<T>(validator: (val: any) => T) {
+  return process.env.NODE_ENV !== "production" ? validator : (val: T) => val
 }
 
 export const {
   init: initClientState,
   get: getClientState,
   update: updateClientState,
-} = generate("client-state", getParse(clientStateSchema))
+} = generate("client-state", getParse(validateReflectClientState))
 
 async function setCursor(
   tx: WriteTransaction,

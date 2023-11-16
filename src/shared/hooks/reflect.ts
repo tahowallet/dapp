@@ -12,9 +12,9 @@ import {
   ReflectMutators,
   mutators,
   getClientState,
-  ReflectClient,
 } from "shared/services"
 import { getRealmMapData } from "shared/constants"
+import { ReflectClient } from "shared/types"
 
 export function useReflect() {
   const name = useDappSelector(selectWalletName)

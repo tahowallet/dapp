@@ -1,6 +1,6 @@
 import React from "react"
 import Icon from "shared/components/Icon"
-import { ReflectCursor, ReflectUserInfo } from "shared/services"
+import { ReflectCursor, ReflectUserInfo } from "shared/types"
 
 export type CursorLabelProps = {
   cursor: ReflectCursor
