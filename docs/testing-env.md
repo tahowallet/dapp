@@ -3,7 +3,7 @@
 ### Branches
 
 - `main`
-  - branch `main` is the base branch for current developement
+  - branch `main` is the base branch for current development
   - every feature branch should be merged into `main` via pull request
 - `stage-live`
   - base for running the staging environment that is running on the live chain
