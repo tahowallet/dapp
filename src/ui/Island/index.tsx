@@ -15,9 +15,6 @@ import {
   useDappSelector,
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
-// Unfortunately the PostHog React package structure does not play nice with
-// no-extraneous-dependencies.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { usePostHog } from "posthog-js/react"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"

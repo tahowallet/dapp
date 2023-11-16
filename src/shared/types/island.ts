@@ -10,6 +10,7 @@ export type RealmAddressesData = {
 export type RealmContractData = {
   name: string
   population: number
+  displayedPopulation: number
   xpAllocatable: string
   xpToken: { name: string; symbol: string; contractAddress: string }
 }
@@ -26,6 +27,8 @@ export type RealmData = RealmAddressesData &
   RealmQuestlineData
 
 export type RealmDataWithId = { id: string; data: RealmData }
+
+export type RealmDataById = { [id: string]: RealmData }
 
 export type RealmContractDataWithId = {
   id: string
@@ -78,6 +81,6 @@ export type RealmMapData = {
   color: string
   labelX: number
   labelY: number
-  partnerLogo: { default: string; shadow: string }
+  partnerIcons: { default: string; shadow: string; population: string }
   partnerColor?: string
 }

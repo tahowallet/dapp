@@ -18,7 +18,7 @@ export default function UnstakeCooldown({
   const veTahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
   )
-  const veTahoUserAmount = bigIntToDisplayUserAmount(veTahoBalance)
+  const veTahoUserAmount = bigIntToDisplayUserAmount(veTahoBalance, 18, 5)
 
   return (
     <>

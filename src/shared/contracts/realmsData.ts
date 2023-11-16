@@ -44,6 +44,7 @@ export const getRealmData: ReadTransactionBuilder<
           questlineUrl,
           // Population is fetched separately because it should be updated more frequently than other data for the realm.
           population: 0,
+          displayedPopulation: 0,
           // XpAllocatable is fetched after all Realm data is initialized.
           xpAllocatable: "0",
         },

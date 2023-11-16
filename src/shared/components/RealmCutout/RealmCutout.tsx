@@ -9,6 +9,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import RealmPin from "./RealmPin"
+import Bubble from "./Bubble"
 
 const CUTOUT_HEIGHT = 208
 const CUTOUT_WIDTH = 356
@@ -29,6 +30,7 @@ export default function RealmCutout() {
   return (
     <>
       <div className="realm_cutout">
+        <Bubble realmId={realmId} />
         {isStakedRealm && <RealmPin avatar={walletAvatar} />}
         <svg
           viewBox={`0 0 ${Math.ceil(pathData.w * 0.25)} ${Math.ceil(

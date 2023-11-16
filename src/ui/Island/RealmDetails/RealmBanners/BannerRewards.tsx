@@ -11,6 +11,7 @@ import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import Tooltip from "shared/components/Tooltip"
 import { bigIntToDisplayUserAmount } from "shared/utils"
 import { LINKS } from "shared/constants"
+import { usePostHog } from "posthog-js/react"
 import XpClaimModal from "../XpClaim/XpClaimModal"
 
 export default function BannerRewards({
@@ -20,6 +21,8 @@ export default function BannerRewards({
   amount: bigint
   setJustClaimed: (hasClaimed: boolean) => void
 }) {
+  const posthog = usePostHog()
+
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
 
@@ -34,11 +37,21 @@ export default function BannerRewards({
   const onClaim = useCallback(() => {
     setJustClaimed(true) // to keep the banner + congratulation modal open
     setCongratulationsModalOpen(true)
-  }, [setJustClaimed])
+    posthog?.capture("Realm XP claim completed", {
+      realmName: realm?.name,
+    })
+  }, [setJustClaimed, realm?.name, posthog])
 
   const onClose = useCallback(() => {
     setIsClaimTransactionModalOpen(false)
   }, [])
+
+  const onOpen = useCallback(() => {
+    posthog?.capture("Realm XP claim started", {
+      realmName: realm?.name,
+    })
+    setIsClaimTransactionModalOpen(true)
+  }, [posthog, realm?.name])
 
   if (!realmId || !realm) return null
 
@@ -72,7 +85,7 @@ export default function BannerRewards({
           <Button
             size="medium"
             type="secondary"
-            onClick={() => setIsClaimTransactionModalOpen(true)}
+            onClick={onOpen}
             isDisabled={amount === 0n}
           >
             Claim XP

@@ -40,6 +40,8 @@ export const selectHasLoadedRealmData = createSelector(
   (realms) => Object.keys(realms).length !== 0
 )
 
+export const selectDisplayedRealmName = selectDisplayedRealmProperty("name")
+
 export const selectDisplayedRealmAddress = selectDisplayedRealmProperty(
   "realmContractAddress"
 )

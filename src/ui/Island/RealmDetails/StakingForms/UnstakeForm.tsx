@@ -11,9 +11,9 @@ import {
   selectTransactionStatusById,
   stopTrackingTransactionStatus,
   selectTokenBalanceByAddress,
-  selectRealmNameById,
+  selectDisplayedRealmName,
 } from "redux-state"
-import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
+import { isValidInputAmount } from "shared/utils"
 import classNames from "classnames"
 import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
 import { TransactionProgressStatus } from "shared/types"
@@ -24,9 +24,6 @@ import {
   useStakeCooldownPeriod,
   useTransactionSuccessCallback,
 } from "shared/hooks"
-// Unfortunately the PostHog React package structure does not play nice with
-// no-extraneous-dependencies.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { usePostHog } from "posthog-js/react"
 
 const UNSTAKE_TX_ID = "unstake"
@@ -39,15 +36,12 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     selectDisplayedRealmVeTokenAddress
   )
   const displayedRealmId = useDappSelector(selectDisplayedRealmId)
-  const realmName = useDappSelector((state) =>
-    selectRealmNameById(state, displayedRealmId)
-  )
+  const displayedRealmName = useDappSelector(selectDisplayedRealmName)
 
   const veTahoBalance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, displayedRealmVeTokenAddress)
   )
-  const [unstakeAmount, setUnstakeAmount] = useState("")
-  const amount = userAmountToBigInt(unstakeAmount)
+  const [unstakeAmount, setUnstakeAmount] = useState<bigint | null>(null)
 
   const [isUnstakeAmountValid, setIsUnstakeAmountValid] = useState(false)
 
@@ -67,18 +61,22 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   const posthog = usePostHog()
 
   const unstakeTransaction = () => {
-    if (displayedRealmAddress && displayedRealmVeTokenAddress && amount) {
+    if (
+      displayedRealmAddress &&
+      displayedRealmVeTokenAddress &&
+      unstakeAmount
+    ) {
       dispatch(
         unstakeTaho({
           id: UNSTAKE_TX_ID,
           realmContractAddress: displayedRealmAddress,
           veTokenContractAddress: displayedRealmVeTokenAddress,
-          amount,
+          amount: unstakeAmount,
         })
       )
     }
     posthog?.capture("Realm unstake started", {
-      realmName,
+      realmName: displayedRealmName,
     })
   }
 
@@ -92,15 +90,15 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const unstakeTransactionSuccessCallback = useCallback(() => {
     posthog?.capture("Realm unstake completed", {
-      realmName,
+      realmName: displayedRealmName,
     })
 
     setIsUnstakeTransactionModalOpen(false)
     setIsLeavingRealmModalOpen(false)
-    setUnstakeAmount("")
+    setUnstakeAmount(null)
     dispatch(stopTrackingTransactionStatus(UNSTAKE_TX_ID))
     updateAssistant({ visible: false, type: "default" })
-  }, [dispatch, realmName, posthog, updateAssistant])
+  }, [dispatch, displayedRealmName, posthog, updateAssistant])
 
   useTransactionSuccessCallback(
     unstakeTransactionStatus,
@@ -114,7 +112,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
     [dispatch]
   )
 
-  const onInputChange = (value: string) => {
+  const onInputChange = (value: bigint | null) => {
     setUnstakeAmount(value)
 
     if (unstakeTransactionStatus === TransactionProgressStatus.Failed) {
@@ -123,7 +121,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
   }
 
   const onClickUnstake = () => {
-    if (amount === veTahoBalance) {
+    if (unstakeAmount === veTahoBalance) {
       setIsLeavingRealmModalOpen(true)
     } else {
       setIsUnstakeTransactionModalOpen(true)

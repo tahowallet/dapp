@@ -10,17 +10,14 @@ import {
   stopTrackingTransactionStatus,
   selectStakingRealmAddress,
   selectStakingRealmId,
-  selectRealmNameById,
+  selectDisplayedRealmName,
 } from "redux-state"
-import { isValidInputAmount, userAmountToBigInt } from "shared/utils"
+import { isValidInputAmount } from "shared/utils"
 import classNames from "classnames"
 import { TAHO_ADDRESS } from "shared/constants"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import { useAssistant, useTransactionSuccessCallback } from "shared/hooks"
-// Unfortunately the PostHog React package structure does not play nice with
-// no-extraneous-dependencies.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { usePostHog } from "posthog-js/react"
 import StakeCongratulationsModal from "./StakeCongratulationsModal"
 
@@ -30,13 +27,11 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const dispatch = useDappDispatch()
 
   const displayedRealmAddress = useDappSelector(selectDisplayedRealmAddress)
+  const displayedRealmName = useDappSelector(selectDisplayedRealmName)
   const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
-  const realmName = useDappSelector((state) =>
-    selectRealmNameById(state, stakingRealmId)
-  )
 
-  const [stakeAmount, setStakeAmount] = useState("")
+  const [stakeAmount, setStakeAmount] = useState<bigint | null>(null)
   const [isStakeAmountValid, setIsStakeAmountValid] = useState(false)
 
   const { updateAssistant } = useAssistant()
@@ -54,17 +49,16 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
   const posthog = usePostHog()
 
   const stakeTransaction = () => {
-    const amount = userAmountToBigInt(stakeAmount)
-    if (displayedRealmAddress && amount) {
+    if (displayedRealmAddress && stakeAmount) {
       dispatch(
         stakeTaho({
           id: STAKE_TX_ID,
           realmContractAddress: displayedRealmAddress,
-          amount,
+          amount: stakeAmount,
         })
       )
       posthog?.capture("Realm stake started", {
-        realmName,
+        realmName: displayedRealmName,
       })
     }
   }
@@ -85,18 +79,18 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
 
   const stakeTransactionSuccessCallback = useCallback(() => {
     posthog?.capture("Realm stake completed", {
-      realmName,
+      realmName: displayedRealmName,
     })
 
     setIsStakeTransactionModalOpen(false)
-    setStakeAmount("")
+    setStakeAmount(null)
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
     if (!stakingRealmId) {
       updateAssistant({ visible: true, type: "quests" })
     }
-  }, [posthog, realmName, dispatch, stakingRealmId, updateAssistant])
+  }, [posthog, displayedRealmName, dispatch, stakingRealmId, updateAssistant])
 
-  const onInputChange = (value: string) => {
+  const onInputChange = (value: bigint | null) => {
     setStakeAmount(value)
 
     if (stakeTransactionStatus === TransactionProgressStatus.Failed) {

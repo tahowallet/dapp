@@ -177,7 +177,7 @@ export function calculatePopulationIconsPositions(
   const positions: number[] = []
 
   realmsData.forEach((realm, index) => {
-    const populationShare = realm.population / maxValue
+    const populationShare = realm.displayedPopulation / maxValue
     let iconPosition = Math.max(
       populationShare * width + POPULATION_BAR_GAP,
       POPULATION_BAR_GAP + index * POPULATION_ICON_SIZE
@@ -189,7 +189,7 @@ export function calculatePopulationIconsPositions(
     }
 
     // Realm with biggest population
-    if (realm.population === maxValue) {
+    if (realm.displayedPopulation === maxValue) {
       iconPosition = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
     }
 
