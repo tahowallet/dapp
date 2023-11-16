@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import {
-  selectRealms,
   selectStakingRealmId,
   selectWalletName,
   useDappSelector,
@@ -20,11 +19,13 @@ import { getRealmMapData } from "shared/constants"
 export function useReflect() {
   const name = useDappSelector(selectWalletName)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
-  const realms = useDappSelector(selectRealms)
 
   const [reflect, setReflect] = useState<ReflectInstance | null>(null)
 
-  const stakingRealm = stakingRealmId ? realms[stakingRealmId].name : null
+  const avatar = stakingRealmId
+    ? getRealmMapData(stakingRealmId).partnerLogo.default
+    : null
+
   const stakingRealmColor = stakingRealmId
     ? getRealmMapData(stakingRealmId).color
     : null
@@ -47,14 +48,14 @@ export function useReflect() {
       await reflect.mutate.initClientState({
         id: reflect.clientID,
         cursor: null,
-        userInfo: { name, stakingRealm, stakingRealmColor },
+        userInfo: { name, avatar, stakingRealmColor },
       })
     }
 
     const updateUserInfo = async () => {
       await reflect.mutate.setUserInfo({
         name,
-        stakingRealm,
+        avatar,
         stakingRealmColor,
       })
     }
@@ -68,7 +69,7 @@ export function useReflect() {
 
     window.addEventListener("mousemove", handleReflectCursor)
     return () => window.removeEventListener("mousemove", handleReflectCursor)
-  }, [name, reflect, stakingRealm, stakingRealmColor])
+  }, [name, reflect, avatar, stakingRealmColor])
 
   return reflect
 }
@@ -109,13 +110,15 @@ export function useReflectCursors(reflect: ReflectInstance) {
   const reflectClients = useReflectPresence(reflect)
   const currentUser = useReflectCurrentUser(reflect)
 
-  if (!currentUser) return null
+  // Set max number of visible cursors in .env
+  const maxNumberOfVisibleCursors = process.env.REFLECT_MAX_CAPACITY
 
-  // Get 9 recently entered users
+  if (!currentUser || maxNumberOfVisibleCursors === undefined) return null
+
+  // Get recently entered users (without current user)
   const otherClients = reflectClients
     .filter((client) => client.id !== currentUser.id)
-    .slice(-9)
+    .slice(-(+maxNumberOfVisibleCursors - 1))
 
-  // Visible cursor limited to 10 (current user and 9 recently joined)
   return [currentUser, ...otherClients]
 }

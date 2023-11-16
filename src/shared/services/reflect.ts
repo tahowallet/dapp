@@ -14,7 +14,7 @@ export const cursorSchema = z.union([
 
 const userInfoSchema = z.object({
   name: z.string(),
-  stakingRealm: z.union([z.string(), z.null()]),
+  avatar: z.union([z.string(), z.null()]),
   stakingRealmColor: z.union([z.string(), z.null()]),
 })
 
