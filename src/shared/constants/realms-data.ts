@@ -1,4 +1,4 @@
-import partners from "./partners"
+import partners from "./partners-icons"
 
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 export const realm1 = {
@@ -71,7 +71,7 @@ export const realm4 = {
   color: "#D1F5F5",
   labelX: 380,
   labelY: 216.5,
-  partnerLogo: partners.gitcoin,
+  partnerIcons: partners.gitcoin,
   partnerColor: "#1D4E56",
 }
 
@@ -127,7 +127,7 @@ export const realm7 = {
   color: "#6FE2A5",
   labelX: 540,
   labelY: 400,
-  partnerLogo: partners.cyberconnect,
+  partnerIcons: partners.cyberconnect,
   partnerColor: "#fff",
 }
 
@@ -165,7 +165,7 @@ export const realm9 = {
   color: "#12AAFF",
   labelX: 700,
   labelY: 350,
-  partnerLogo: partners.arbitrum,
+  partnerIcons: partners.arbitrum,
 }
 
 export const realm10 = {
@@ -357,7 +357,7 @@ export const realm19 = {
   color: "#1E5DFF",
   labelX: 264,
   labelY: 409,
-  partnerLogo: partners.galxe,
+  partnerIcons: partners.galxe,
 }
 
 export const realm20 = {
@@ -411,7 +411,7 @@ export const realm22 = {
   color: "#E4EEEE",
   labelX: 337,
   labelY: 388,
-  partnerLogo: partners.frax,
+  partnerIcons: partners.frax,
 }
 
 export const realm23 = {

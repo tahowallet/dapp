@@ -15,11 +15,26 @@ export function wait(ms: number): Promise<void> {
 /**
  * Checks the validity of the entered value from input for token amount.
  * The value shouldn't be:
- * - a empty string
- * - a string or other non-numeric value
+ * - null
  * - equal or less than zero.
+ * - an empty string
+ * - a string or other non-numeric value
  */
-export function isValidInputAmount(amount: string): boolean {
+export function isValidInputAmount(
+  amount: string | number | bigint | null
+): boolean {
+  if (amount === null) {
+    return false
+  }
+
+  if (typeof amount === "bigint") {
+    return amount > 0n
+  }
+
+  if (typeof amount === "number") {
+    return amount > 0
+  }
+
   return (
     !!amount.trim() &&
     !Number.isNaN(parseFloat(amount)) &&
