@@ -71,9 +71,10 @@ export const BASE_REALMS_MAP_DATA: RealmMapData[] = [
 
 export const ADDITIONAL_REALMS_MAP_DATA: RealmMapData[] = [realm16]
 
-export const REALMS_MAP_DATA = process.env.SHOW_ADDITIONAL_REALMS
-  ? [...BASE_REALMS_MAP_DATA, ...ADDITIONAL_REALMS_MAP_DATA]
-  : BASE_REALMS_MAP_DATA
+export const REALMS_MAP_DATA =
+  process.env.SHOW_ADDITIONAL_REALMS === "true"
+    ? [...BASE_REALMS_MAP_DATA, ...ADDITIONAL_REALMS_MAP_DATA]
+    : BASE_REALMS_MAP_DATA
 
 export const REALMS_COUNT = REALMS_MAP_DATA.length
 
