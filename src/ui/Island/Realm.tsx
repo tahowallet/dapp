@@ -1,24 +1,29 @@
+/* eslint-disable react/no-array-index-key */
 // Need to pass spring props to spring abstracted components
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useLayoutEffect, useMemo, useRef, useState } from "react"
+import React, { useMemo, useRef, useState } from "react"
 import type Konva from "konva"
 import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
 import { calculatePartnerLogoTranslate } from "shared/utils"
 import {
-  REALMS_COUNT,
   REALM_FONT_SIZE,
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
+import { useMultiRef } from "shared/hooks"
 import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
 import { selectDisplayedRealmId, useDappSelector } from "redux-state"
-import { useIslandContext, usePopulationBubble } from "../../shared/hooks"
+import {
+  useIslandContext,
+  useIslandRealmsPaths,
+  usePopulationBubble,
+} from "../../shared/hooks"
 
 type RealmProps = {
   id: string
-  imageLayer: HTMLCanvasElement
-  path: string
+  imageLayers: HTMLCanvasElement[]
+  paths: string[]
   width: number
   color: string
   name: string
@@ -32,7 +37,7 @@ type RealmProps = {
 }
 
 export default function Realm({
-  path,
+  paths,
   width,
   height,
   x,
@@ -40,7 +45,7 @@ export default function Realm({
   id,
   color,
   name,
-  imageLayer,
+  imageLayers,
   labelX,
   labelY,
   partnerLogo,
@@ -52,46 +57,23 @@ export default function Realm({
 
   const islandContext = useIslandContext()
   const groupRef = useRef<Konva.Group>(null)
-  const pathRef = useRef<Konva.Path>(null)
   const textRef = useRef<Konva.Text>(null)
-  const imageLayerRef = useRef<Konva.Image>(null)
-  const overlayRef = useRef<Konva.Path>(null)
   const partnerLogoRef = useRef<Konva.Image>(null)
   const bubbleRef = useRef<Konva.Image>(null)
+
+  const [pathRefs, addPathRef] = useMultiRef<Konva.Path>()
 
   const handleRealmClick = () => {
     setIsSelected((prev) => !prev)
     islandContext.current.onRealmClick(id)
   }
 
-  useLayoutEffect(() => {
-    const pathRealm = pathRef.current
-    const group = groupRef.current
-    const stage = pathRef.current?.getStage()
-    if (!stage || !pathRealm || !group) return () => {}
-    const defaultZ = group.zIndex()
-
-    const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
-      if (evt.type === "mouseenter") {
-        stage.container().style.cursor = "pointer"
-        group.zIndex(REALMS_COUNT)
-        setIsHovered(true)
-      } else if (evt.type === "mouseleave") {
-        stage.container().style.cursor = "default"
-        group.zIndex(defaultZ)
-        setIsHovered(false)
-      }
-    }
-
-    pathRealm.on("mouseenter.hover mouseleave.hover", handleHover)
-
-    return () => pathRealm.off(".hover")
-  }, [])
-
   const partnerLogoTranslate = useMemo(
     () => calculatePartnerLogoTranslate(name),
     [name]
   )
+
+  useIslandRealmsPaths(pathRefs, groupRef, setIsHovered)
 
   const styles = useMemo(() => {
     const variants = {
@@ -244,40 +226,47 @@ export default function Realm({
 
   return (
     <Group ref={groupRef}>
-      {/* @ts-expect-error FIXME: @react-spring-types */}
-      <animated.Image
-        ref={imageLayerRef}
-        listening={false}
-        image={imageLayer}
-        x={x}
-        y={y}
-        {...imageProps}
-      />
+      {imageLayers.map((imageLayer, index) => (
+        // @ts-expect-error FIXME: @react-spring-types
+        <animated.Image
+          key={index}
+          listening={false}
+          image={imageLayer}
+          x={x}
+          y={y}
+          {...imageProps}
+        />
+      ))}
       {/* This path is used to create the overlay effect */}
-      <animated.Path
-        ref={overlayRef}
-        x={x}
-        y={y}
-        data={path}
-        width={width}
-        height={height}
-        listening={false}
-        {...overlayProps}
-      />
+      {paths.map((path, index) => (
+        <animated.Path
+          key={index}
+          x={x}
+          y={y}
+          data={path}
+          width={width}
+          height={height}
+          listening={false}
+          {...overlayProps}
+        />
+      ))}
       {/* This layer sets stroke and event handlers */}
-      <animated.Path
-        ref={pathRef}
-        x={x}
-        y={y}
-        data={path}
-        width={width}
-        height={height}
-        onClick={handleRealmClick}
-        {...pathProps}
-      />
+      {paths.map((path, index) => (
+        <animated.Path
+          key={index}
+          ref={(element) => addPathRef(element, index)}
+          x={x}
+          y={y}
+          data={path}
+          width={width}
+          height={height}
+          onClick={handleRealmClick}
+          {...pathProps}
+        />
+      ))}
       <animated.Text
         ref={textRef}
-        text={name}
+        text={name ?? "TestRealm"} // TODO: remove conditon when name is accessible
         listening={false}
         fontStyle={REALM_FONT_STYLE}
         fontSize={REALM_FONT_SIZE}

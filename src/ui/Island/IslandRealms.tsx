@@ -2,9 +2,9 @@ import React, { useMemo } from "react"
 import useImage from "use-image"
 
 import backgroundImg from "public/dapp_island_bg.webp"
-import { REALMS_MAP_DATA } from "shared/constants"
 import { createCutoutFromPath, createImageElement } from "shared/utils"
 import { selectRealms, useDappSelector } from "redux-state"
+import { REALMS_MAP_DATA } from "shared/constants"
 import Realm from "./Realm"
 
 export default function IslandRealms() {
@@ -14,7 +14,6 @@ export default function IslandRealms() {
     if (!bg) {
       return []
     }
-
     return REALMS_MAP_DATA.map((realm) => {
       const updatedRealm = {
         ...realm,
@@ -22,7 +21,7 @@ export default function IslandRealms() {
       }
       return {
         realm: updatedRealm,
-        layer: createCutoutFromPath(realm, bg),
+        layers: createCutoutFromPath(realm, bg),
         partnerLogo: createImageElement(realm.partnerIcons.shadow),
         populationIcon: createImageElement(realm.partnerIcons.population),
       }
@@ -32,11 +31,11 @@ export default function IslandRealms() {
   return (
     <>
       {realmImgLayers.map(
-        ({ realm, layer: crop, partnerLogo, populationIcon }) => (
+        ({ realm, layers: crops, partnerLogo, populationIcon }) => (
           <Realm
             key={realm.id}
             id={realm.id}
-            imageLayer={crop}
+            imageLayers={crops}
             color={realm.color}
             name={realm.name}
             width={realm.w}
@@ -45,7 +44,7 @@ export default function IslandRealms() {
             y={realm.y}
             labelX={realm.labelX}
             labelY={realm.labelY}
-            path={realm.paths[0].data}
+            paths={realm.paths.map((path) => path.data)}
             partnerLogo={partnerLogo}
             populationIcon={populationIcon}
           />
