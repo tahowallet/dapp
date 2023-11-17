@@ -1,12 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit"
-import { RootState } from "redux-state/reducers"
 import { createIslandSelector } from "redux-state/selectors"
-import { RealmData } from "shared/types"
+import { DisplayedRealmProperty } from "shared/types/selectors"
 import { isSameAddress } from "shared/utils"
-
-type DisplayedRealmProperty = <K extends keyof RealmData>(
-  value: K
-) => (state: RootState) => RealmData[K] | undefined
 
 export const selectRealms = createIslandSelector("realms")
 export const selectDisplayedRealmId = createIslandSelector("displayedRealmId")
