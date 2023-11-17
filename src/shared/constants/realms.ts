@@ -84,6 +84,17 @@ export function getRealmColor(realmId: string): string {
   return color
 }
 
+export function getRealmPopulationIcon(realmId: string): string {
+  const populationIcon = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
+    ?.partnerIcons.population
+
+  if (!populationIcon) {
+    throw new Error(`Missing population icon for realm ${realmId}`)
+  }
+
+  return populationIcon
+}
+
 export const REALM_FONT_SIZE = 78
 export const REALM_FONT_FAMILY = "QuincyCF"
 export const REALM_FONT_STYLE = "bold"
