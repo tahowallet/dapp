@@ -25,7 +25,8 @@
     "xpGlossary": [
       "0xccf3c79aefe494173c6673a8382c40bcf60528539e78353315b4892de0c9cd76.json",
       "0x823bd7f1c36fe10cd440e190850f69ec7a8d3fa1fac105c223befad1bb193fab.json",
-      "0x1b387cacb27052e3e5576848ce71979e0177e140466481134a01f3877f67838e.json"
+      "0x1b387cacb27052e3e5576848ce71979e0177e140466481134a01f3877f67838e.json",
+      "0x96709300b725c2c6984500e0d402f8d2f33f19674bbea087cf27831aedf779cb.json"
     ],
     "leaderboard": "leaderboard.json"
   },
@@ -35,7 +36,8 @@
     "xpGlossary": [
       "0x9374e0cc26272296a252fb4f02c6bc24c47c712a916627b30652486e58dc4e90.json",
       "0xa72ed1f1c91e909a27da3242fbe3080c0d9520b73f75673007ca9e164768b381.json",
-      "0x4c98014763abc933133f49e4ce1146d79311dcfc1c28628a287b4658a86293d2.json"
+      "0x4c98014763abc933133f49e4ce1146d79311dcfc1c28628a287b4658a86293d2.json",
+      "0x7e9b018d9798647a667e725a310b74f66b2ab94987631e585428b9bec792ae3b.json"
     ],
     "leaderboard": "leaderboard.json"
   },
@@ -44,7 +46,8 @@
     "claimsFolder": "/assets/xp/frax/claims",
     "xpGlossary": [
       "0x08cb87568f0f067408729a093e2c14082212f368b05aa7d27c15a66bb416c6e5.json",
-      "0xbb96bd7e3d3c87bd3f9aef6fc5d27096732ea1e24336ad5be140232bfadfac64.json"
+      "0xbb96bd7e3d3c87bd3f9aef6fc5d27096732ea1e24336ad5be140232bfadfac64.json",
+      "0xb8a8f2bd05d37aeb0ceadaa013adbd2741bd3ee1f2fcb202b4dbad0240df420b.json"
     ],
     "leaderboard": "leaderboard.json"
   }

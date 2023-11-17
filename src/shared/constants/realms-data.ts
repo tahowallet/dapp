@@ -301,9 +301,10 @@ export const realm16 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
-  labelX: 0,
-  labelY: 0,
+  color: "#F7DC6F",
+  labelX: 160,
+  labelY: 350,
+  partnerIcons: partners.arbitrum, // TODO: change to valid partner logo
 }
 
 export const realm17 = {

@@ -8,23 +8,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import { FIGMA_FACTOR, getRealmMapData } from "shared/constants"
-
-function getPinShift(realmId: string) {
-  switch (realmId) {
-    case "4":
-      return { x: 200, y: 300 }
-    case "7":
-      return { x: 500, y: 300 }
-    case "9":
-      return { x: 500, y: 300 }
-    case "19":
-      return { x: 250, y: 250 }
-    case "22":
-      return { x: 200, y: 250 }
-    default:
-      return { x: 250, y: 250 }
-  }
-}
+import { getPinShift } from "shared/utils"
 
 export default function RealmPin() {
   const stakingRealmId = useDappSelector(selectStakingRealmId)
