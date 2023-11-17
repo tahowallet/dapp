@@ -45,9 +45,9 @@ export default function RealmCutout() {
               "drop-shadow(0px 2px 4px rgba(7, 17, 17, 0.34)) drop-shadow(0px 6px 8px rgba(7, 17, 17, 0.24)) drop-shadow(0px 16px 16px rgba(7, 17, 17, 0.30))",
           }}
         >
-          <defs>
-            {pathData.paths.map((path, index) => (
-              <Fragment key={index}>
+          {pathData.paths.map((path, index) => (
+            <Fragment key={index}>
+              <defs>
                 <path
                   id={`${pathCutoutXref}_${index}`}
                   d={path.data}
@@ -61,11 +61,7 @@ export default function RealmCutout() {
                     transform={`translate(${pathData.x}, ${pathData.y})`}
                   />
                 </mask>
-              </Fragment>
-            ))}
-          </defs>
-          {pathData.paths.map((_, index) => (
-            <Fragment key={index}>
+              </defs>
               <image
                 transform={`scale(0.25) translate(-${pathData.x}, -${pathData.y})`}
                 width={ISLAND_BOX.width}
