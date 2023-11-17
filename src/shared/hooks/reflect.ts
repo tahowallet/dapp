@@ -110,8 +110,8 @@ export function useReflectCursors(reflect: ReflectInstance) {
   const reflectClients = useReflectPresence(reflect)
   const currentUser = useReflectCurrentUser(reflect)
 
-  // Set max number of visible cursors in .env
-  const maxNumberOfVisibleCursors = process.env.REFLECT_MAX_CAPACITY
+  // Set max number of visible cursors in .env (or default to 10)
+  const maxNumberOfVisibleCursors = process.env.REFLECT_MAX_CAPACITY || 10
 
   if (!currentUser || maxNumberOfVisibleCursors === undefined) return null
 
