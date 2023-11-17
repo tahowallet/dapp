@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import {
+  selectDisplayedRealmId,
   selectStakingRealmId,
   selectWalletName,
   useDappSelector,
@@ -109,6 +110,7 @@ export function useReflectCurrentUser(reflect: ReflectInstance) {
 export function useReflectCursors(reflect: ReflectInstance) {
   const reflectClients = useReflectPresence(reflect)
   const currentUser = useReflectCurrentUser(reflect)
+  const realmModalOpened = useDappSelector(selectDisplayedRealmId)
 
   // Set max number of visible cursors in .env (or default to 10)
   const maxNumberOfVisibleCursors = process.env.REFLECT_MAX_CAPACITY || 10
@@ -120,5 +122,6 @@ export function useReflectCursors(reflect: ReflectInstance) {
     .filter((client) => client.id !== currentUser.id)
     .slice(-(+maxNumberOfVisibleCursors - 1))
 
-  return [currentUser, ...otherClients]
+  // Hide current user cursor when the realm modal is opened
+  return realmModalOpened ? otherClients : [currentUser, ...otherClients]
 }

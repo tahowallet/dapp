@@ -26,7 +26,9 @@ export default function CursorLabel({
           top: cursor.y + (extraCursor ? 15 : 12),
         }}
       >
-        <div className="elipsis">{name}</div>
+        <div className="elipsis" style={{ whiteSpace: "nowrap" }}>
+          {name}
+        </div>
         {avatar && (
           <Icon src={avatar} type="image" height="16px" width="16px" />
         )}
@@ -34,6 +36,9 @@ export default function CursorLabel({
       <style jsx>{`
         .cursor_container {
           background: ${stakingRealmColor ?? "var(--secondary-s1-100)"};
+          color: ${avatar
+            ? "var(--secondary-s1-100)"
+            : "var(--primary-p1-100)"};
           font-size: 14px !important;
           padding: 6px;
           gap: 6px;
