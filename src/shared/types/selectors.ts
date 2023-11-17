@@ -29,3 +29,5 @@ export type SeasonInfoProperty = <K extends keyof SeasonInfo>(
 export type DisplayedRealmProperty = <K extends keyof RealmData>(
   value: K
 ) => (state: RootState) => RealmData[K] | undefined
+
+export type PopulationKey = "population" | "displayedPopulation"

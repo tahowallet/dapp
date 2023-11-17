@@ -1,9 +1,10 @@
 import { createSelector } from "@reduxjs/toolkit"
-import { getPopulationOfRealms } from "redux-state/utils"
-import { getDisplayedPopulationOfRealms } from "redux-state/utils/population"
+import {
+  getPopulationOfRealms,
+  getDisplayedPopulationOfRealms,
+} from "redux-state/utils"
+import { PopulationKey } from "shared/types/selectors"
 import { selectRealmById, selectRealms } from "./realm"
-
-type PopulationKey = "population" | "displayedPopulation"
 
 const getPopulationById = (key: PopulationKey) =>
   createSelector(selectRealmById, (realm) => realm?.[key] ?? 0)
