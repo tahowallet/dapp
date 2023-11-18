@@ -2,56 +2,80 @@
     "realms": [
         {
             "realmId": "4",
-            "questlineName": "Transact on PGN",
+            "questlineName": "Transact on PGN, human!",
             "description": "Gitcoin is a community that focuses on incentivizing and supporting open-source development. Gitcoin aims to foster collaboration and sustainability within the open-source ecosystem by providing a marketplace for matching developers with projects and funding opportunitie and rewards for their contributions.",
             "quests": [
                 {
                     "name": "Spend gas on PGN (Public Goods Network)—more gas is better!",
                     "description": "The more gas you use on PGN compared to other members of this realm in a week, the more of the weekly XP drop you will get. This means you can still get more XP if you execute fewer bigger transactions!"
+                },
+                {
+                    "name": "Incraease your Gitcoin Passport score",
+                    "description": "The more you increase your Gitcoin Passport score in a week, the more of the weekly XP drop you will get."
                 }
             ]
         },
         {
             "realmId": "7",
-            "questlineName": "Use your CyberWallet",
+            "questlineName": "Use your CyberWallet, collect essence, and mint W3ST",
             "description": "Cyberconnect is a Web3 social ecosystem that goes beyond likes and shares. It allows developers to create social applications where users have complete control over their digital identity, content, and connections ",
             "quests": [
                 {
                     "name": "Spend gas using the CyberWallet associated with your address",
                     "description": "The more gas you use with your CyberWallet across networks compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+                },
+                {
+                    "name": "Mint W3ST",
+                    "description": "The more W3ST you mint, the more of the weekly XP drop you will get."
+                },
+                {
+                    "name": "Collect post essence",
+                    "description": "The more post essence you collect, the more of the weekly XP drop you will get."
                 }
             ]
         },
         {
             "realmId": "9",
-            "questlineName": "Transact on Arbitrum",
+            "questlineName": "Transact on Arbitrum---especially on Fluidity",
             "description": "Arbitrum DAO is a decentralized autonomous organization (DAO) built on the Ethereum blockchain. At its core, the Arbitrum DAO is a community-driven governance mechanism that allows $ARB token holders to propose and vote on changes to the organization and the technologies it governs.",
             "quests": [
                 {
-                    "name": "Execute individual transactions on Arbitrum",
-                    "description": "The more contract interactions you execute on Arbitrum compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+                    "name": "Interact with unique contracts on Arbitrum",
+                    "description": "The more interactions you execute with different unique contracts on Arbitrum compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+                },
+                {
+                    "name": "Earn fUSDC rewards using Fluidity",
+                    "description": "The more fUSDC rewards you earn using Fluidity in a week, the more of the weekly XP drop you will get."
                 }
             ]
         },
         {
             "realmId": "19",
-            "questlineName": "Eat your OATs",
+            "questlineName": "Eat your OATs, unless they're minty NFTs",
             "description": "Galxe is the largest web3 credential data network that is helping projects and developers to build robust decentralized products. Earn oat, NFTs, and tokens by contributing to your favorite Web3 communities.",
             "quests": [
                 {
                     "name": "Claim OATs during the week",
                     "description": "The more OATs you claim across networks compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+                },
+                {
+                    "name": "Mint NFTs during the week using the Galxe space station",
+                    "description": "The more NFTs you mint via a Galxe [`SpaceStation` contract](https://docs.galxe.com/developer/smart-contract/contracts/spacestation/), the more of the weekly XP drop you will get."
                 }
             ]
         },
         {
             "realmId": "22",
-            "questlineName": "The bribes must flow",
+            "questlineName": "The bribes must flow, over the FraxFerry and far away",
             "description": "Frax Finance is a protocol that issues decentralized stablecoins and the subprotocols to support them, creating a unique self-sufficient DeFi ecosystem",
             "quests": [
                 {
                     "name": "Claim bribes on Votemarket",
                     "description": "Earn $XP by voting for gauges and claiming bribes if available."
+                },
+                {
+                    "name": "Bridge tokens using FraxFerry",
+                    "description": "The more unique tokens you bridge over FraxFerry, the more of the weekly XP drop you will get."
                 }
             ]
         }
