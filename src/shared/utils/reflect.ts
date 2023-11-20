@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ReflectServerOptions } from "@rocicorp/reflect/server"
 import { WriteTransaction } from "@rocicorp/reflect"
 import { generate } from "@rocicorp/rails"
 import { Reflect } from "@rocicorp/reflect/client"
-import { validateReflectClientState } from "shared/utils/validators"
-import { ReflectCursor, ReflectUserInfo } from "shared/types"
+import { ReflectClient, ReflectCursor, ReflectUserInfo } from "shared/types"
 import { nanoid } from "@reduxjs/toolkit"
-
-function getParse<T>(validator: (val: any) => T) {
-  return process.env.NODE_ENV !== "production" ? validator : (val: T) => val
-}
 
 export const {
   init: initClientState,
@@ -17,7 +11,7 @@ export const {
   update: updateClientState,
   delete: deleteClientState,
   list: listClientState,
-} = generate("client-state", getParse(validateReflectClientState))
+} = generate<ReflectClient>("client-state")
 
 async function setCursor(
   tx: WriteTransaction,
