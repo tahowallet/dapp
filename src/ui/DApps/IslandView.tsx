@@ -24,17 +24,15 @@ export default function IslandView() {
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
   const hasBalances = useDappSelector(selectHasLoadedBalances)
 
-  const reflect = useReflect()
+  useReflect()
   useDisplayedPopulation()
-
-  if (!reflect) return null
 
   return (
     <>
       <FullPageLoader
         loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
       />
-      <IslandComponent reflect={reflect} />
+      <IslandComponent />
       <TestingPanel />
       {islandMode === "default" && <Nav />}
       <Switch>

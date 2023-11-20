@@ -6,7 +6,8 @@ export type ReflectCursor = {
 export type ReflectUserInfo = {
   name: string
   avatar: string | null
-  stakingRealmColor: string | null
+  stakingRealmColor: string
+  cursorTextColor: string
 }
 
 export type ReflectClient = {

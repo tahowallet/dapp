@@ -1,14 +1,9 @@
 import React from "react"
 import { useReflectCursors } from "shared/hooks"
-import { ReflectInstance } from "shared/utils"
 import IslandCursor from "./Cursor"
 
-export default function IslandPresence({
-  reflect,
-}: {
-  reflect: ReflectInstance
-}) {
-  const visibleCursors = useReflectCursors(reflect)
+export default function IslandPresence() {
+  const visibleCursors = useReflectCursors()
 
   if (!visibleCursors || !visibleCursors.length) return null
 

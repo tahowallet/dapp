@@ -24,11 +24,8 @@ export function validateReflectUserInfo(value: unknown): ReflectUserInfo {
       typeof userInfo?.avatar === "string" || userInfo?.avatar === null
         ? userInfo.avatar
         : null,
-    stakingRealmColor:
-      typeof userInfo?.stakingRealmColor === "string" ||
-      userInfo?.stakingRealmColor === null
-        ? userInfo.stakingRealmColor
-        : null,
+    stakingRealmColor: userInfo?.stakingRealmColor || "",
+    cursorTextColor: userInfo?.cursorTextColor || "",
   }
 }
 

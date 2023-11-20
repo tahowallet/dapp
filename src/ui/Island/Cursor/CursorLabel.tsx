@@ -15,7 +15,7 @@ export default function CursorLabel({
 }: CursorLabelProps) {
   if (!cursor) return null
 
-  const { name, avatar, stakingRealmColor } = userInfo
+  const { name, avatar, stakingRealmColor, cursorTextColor } = userInfo
 
   return (
     <>
@@ -35,10 +35,8 @@ export default function CursorLabel({
       </div>
       <style jsx>{`
         .cursor_container {
-          background: ${stakingRealmColor ?? "var(--secondary-s1-100)"};
-          color: ${avatar
-            ? "var(--secondary-s1-100)"
-            : "var(--primary-p1-100)"};
+          background: ${stakingRealmColor};
+          color: ${cursorTextColor};
           font-size: 14px !important;
           padding: 6px;
           gap: 6px;

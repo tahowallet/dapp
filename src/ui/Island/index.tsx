@@ -16,13 +16,12 @@ import {
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
-import { ReflectInstance } from "shared/utils"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
 import IslandPresence from "./IslandPresence"
 
-function IslandWrapper({ reflect }: { reflect: ReflectInstance }) {
+function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
   const [realmId, setRealmId] = useState<null | string>(null)
   const realmName = useDappSelector((state) =>
@@ -73,7 +72,7 @@ function IslandWrapper({ reflect }: { reflect: ReflectInstance }) {
         </style>
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
-          <IslandPresence reflect={reflect} />
+          <IslandPresence />
           {realmId && (
             <RealmModal onClose={handleClose}>
               {isDefaultIslandMode ? (

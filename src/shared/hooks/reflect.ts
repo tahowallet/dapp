@@ -1,19 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import {
   selectDisplayedRealmId,
   selectStakingRealmId,
   selectWalletName,
   useDappSelector,
 } from "redux-state"
-import { Reflect } from "@rocicorp/reflect/client"
-import { nanoid } from "@reduxjs/toolkit"
 import { usePresence, useSubscribe } from "@rocicorp/reflect/react"
-import {
-  ReflectInstance,
-  ReflectMutators,
-  mutators,
-  getClientState,
-} from "shared/utils"
+import { getClientState, reflectInstance } from "shared/utils"
 import { getRealmMapData } from "shared/constants"
 import { ReflectClient } from "shared/types"
 
@@ -21,43 +14,33 @@ export function useReflect() {
   const name = useDappSelector(selectWalletName)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
 
-  const [reflect, setReflect] = useState<ReflectInstance | null>(null)
-
   const avatar = stakingRealmId
     ? getRealmMapData(stakingRealmId).partnerIcons.default
     : null
 
   const stakingRealmColor = stakingRealmId
     ? getRealmMapData(stakingRealmId).color
-    : null
+    : "#2C2C2C"
+
+  const cursorTextColor = stakingRealmId
+    ? getRealmMapData(stakingRealmId).cursorText
+    : "#FFF"
 
   useEffect(() => {
-    const reflectInstance = new Reflect<ReflectMutators>({
-      userID: nanoid(),
-      roomID: "/",
-      server: process.env.REFLECT_SERVER ?? "",
-      mutators,
-    })
-
-    setReflect(reflectInstance)
-  }, [])
-
-  useEffect(() => {
-    if (!reflect) return () => {}
-
     const initReflect = async () => {
-      await reflect.mutate.initClientState({
-        id: reflect.clientID,
+      await reflectInstance.mutate.initClientState({
+        id: reflectInstance.clientID,
         cursor: null,
-        userInfo: { name, avatar, stakingRealmColor },
+        userInfo: { name, avatar, stakingRealmColor, cursorTextColor },
       })
     }
 
     const updateUserInfo = async () => {
-      await reflect.mutate.setUserInfo({
+      await reflectInstance.mutate.setUserInfo({
         name,
         avatar,
         stakingRealmColor,
+        cursorTextColor,
       })
     }
 
@@ -65,20 +48,18 @@ export function useReflect() {
     updateUserInfo()
 
     const handleReflectCursor = async (e: MouseEvent) => {
-      await reflect.mutate.setCursor({ x: e.clientX, y: e.clientY })
+      await reflectInstance.mutate.setCursor({ x: e.clientX, y: e.clientY })
     }
 
     window.addEventListener("mousemove", handleReflectCursor)
     return () => window.removeEventListener("mousemove", handleReflectCursor)
-  }, [name, reflect, avatar, stakingRealmColor])
-
-  return reflect
+  }, [name, avatar, stakingRealmColor, cursorTextColor])
 }
 
-export function useReflectPresence(reflect: ReflectInstance) {
-  const presentClientsdIds = usePresence(reflect)
+export function useReflectPresence() {
+  const presentClientsdIds = usePresence(reflectInstance)
   const presentClients = useSubscribe(
-    reflect,
+    reflectInstance,
     async (tx) => {
       const clients: ReflectClient[] = []
 
@@ -96,9 +77,9 @@ export function useReflectPresence(reflect: ReflectInstance) {
   return presentClients
 }
 
-export function useReflectCurrentUser(reflect: ReflectInstance) {
+export function useReflectCurrentUser() {
   return useSubscribe(
-    reflect,
+    reflectInstance,
     async (tx) => {
       const currentUser = await getClientState(tx, tx.clientID)
       return currentUser
@@ -107,9 +88,9 @@ export function useReflectCurrentUser(reflect: ReflectInstance) {
   )
 }
 
-export function useReflectCursors(reflect: ReflectInstance) {
-  const reflectClients = useReflectPresence(reflect)
-  const currentUser = useReflectCurrentUser(reflect)
+export function useReflectCursors() {
+  const reflectClients = useReflectPresence()
+  const currentUser = useReflectCurrentUser()
   const realmModalOpened = useDappSelector(selectDisplayedRealmId)
 
   // Set max number of visible cursors in .env (or default to 10)

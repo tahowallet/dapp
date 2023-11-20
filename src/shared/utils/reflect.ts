@@ -5,6 +5,7 @@ import { generate } from "@rocicorp/rails"
 import { Reflect } from "@rocicorp/reflect/client"
 import { validateReflectClientState } from "shared/utils/validators"
 import { ReflectCursor, ReflectUserInfo } from "shared/types"
+import { nanoid } from "@reduxjs/toolkit"
 
 function getParse<T>(validator: (val: any) => T) {
   return process.env.NODE_ENV !== "production" ? validator : (val: T) => val
@@ -14,6 +15,8 @@ export const {
   init: initClientState,
   get: getClientState,
   update: updateClientState,
+  delete: deleteClientState,
+  list: listClientState,
 } = generate("client-state", getParse(validateReflectClientState))
 
 async function setCursor(
@@ -33,10 +36,30 @@ async function setUserInfo(
   })
 }
 
-export const mutators = { initClientState, setCursor, setUserInfo }
+async function deleteUser(tx: WriteTransaction): Promise<void> {
+  await deleteClientState(tx, tx.clientID)
+}
+
+export const mutators = {
+  initClientState,
+  getClientState,
+  updateClientState,
+  deleteClientState,
+  listClientState,
+  setCursor,
+  setUserInfo,
+  deleteUser,
+}
 
 export type ReflectMutators = typeof mutators
 export type ReflectInstance = Reflect<ReflectMutators>
+
+export const reflectInstance = new Reflect<ReflectMutators>({
+  userID: nanoid(),
+  roomID: "/",
+  server: process.env.REFLECT_SERVER ?? "",
+  mutators,
+})
 
 const makeOptions = (): ReflectServerOptions<ReflectMutators> => ({
   mutators,
