@@ -57,7 +57,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          # Needed so that we could create PR with `THESIS-VALKYRIE_PAT`,
+          # Needed so that we could create PR with `THESIS_VALKYRIE_PAT`,
           # otherwise it doesn't trigger `test-list.yml`.
           persist-credentials: false
       - name: Open/update a PR from `main` to `stage-live`
@@ -68,7 +68,7 @@ jobs:
           # token are not triggering other workflows (and we want trigger the
           # `test-list.yml` workflow after `sync-stage-live-to-release` creates
           # a PR).
-          GITHUB_TOKEN: ${{secrets.THESIS-VALKYRIE_PAT}}
+          GITHUB_TOKEN: ${{secrets.THESIS_VALKYRIE_PAT}}
           FROM_BRANCH: "stage-live"
           TO_BRANCH: "release"
           PULL_REQUEST_TITLE: "🚀 [QA] Update release environment"
