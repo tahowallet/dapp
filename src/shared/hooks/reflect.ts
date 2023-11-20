@@ -89,6 +89,8 @@ export function useReflectCurrentUser() {
 }
 
 export function useReflectCursors() {
+  useReflect()
+
   const reflectClients = useReflectPresence()
   const currentUser = useReflectCurrentUser()
   const realmModalOpened = useDappSelector(selectDisplayedRealmId)
