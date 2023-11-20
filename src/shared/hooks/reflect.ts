@@ -116,7 +116,7 @@ export function useReflectCursors() {
 
   const currentRoomValue = currentUserRoom * maxNumberOfVisibleCursors
 
-  // We want users to always have a change to interact with each other so we split them
+  // We want users to always have a chance to interact with each other so we split them
   // into "rooms" based on their index in the reflectClients array. This way map stays interactive
   // while still being not overcrowded.
   const visibleClients = reflectClients.slice(
