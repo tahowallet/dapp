@@ -1,6 +1,6 @@
 import { ReflectClient, ReflectCursor, ReflectUserInfo } from "shared/types"
 
-export function validateReflectCursor(value: unknown): ReflectCursor {
+export function validateReflectCursor(value: unknown): ReflectCursor | null {
   if (
     value !== null &&
     typeof value === "object" &&
@@ -20,9 +20,9 @@ export function validateReflectUserInfo(value: unknown): ReflectUserInfo {
 
   return {
     name: userInfo?.name || "",
-    avatar:
-      typeof userInfo?.avatar === "string" || userInfo?.avatar === null
-        ? userInfo.avatar
+    realmIcon:
+      typeof userInfo?.realmIcon === "string" || userInfo?.realmIcon === null
+        ? userInfo.realmIcon
         : null,
     stakingRealmColor: userInfo?.stakingRealmColor || "",
     cursorTextColor: userInfo?.cursorTextColor || "",

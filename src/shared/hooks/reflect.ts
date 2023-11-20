@@ -14,7 +14,7 @@ export function useReflect() {
   const name = useDappSelector(selectWalletName)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
 
-  const avatar = stakingRealmId
+  const realmIcon = stakingRealmId
     ? getRealmMapData(stakingRealmId).partnerIcons.default
     : null
 
@@ -31,14 +31,14 @@ export function useReflect() {
       await reflectInstance.mutate.initClientState({
         id: reflectInstance.clientID,
         cursor: null,
-        userInfo: { name, avatar, stakingRealmColor, cursorTextColor },
+        userInfo: { name, realmIcon, stakingRealmColor, cursorTextColor },
       })
     }
 
     const updateUserInfo = async () => {
       await reflectInstance.mutate.setUserInfo({
         name,
-        avatar,
+        realmIcon,
         stakingRealmColor,
         cursorTextColor,
       })
@@ -53,7 +53,7 @@ export function useReflect() {
 
     window.addEventListener("mousemove", handleReflectCursor)
     return () => window.removeEventListener("mousemove", handleReflectCursor)
-  }, [name, avatar, stakingRealmColor, cursorTextColor])
+  }, [name, realmIcon, stakingRealmColor, cursorTextColor])
 }
 
 export function useReflectPresence() {

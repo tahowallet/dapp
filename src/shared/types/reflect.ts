@@ -1,17 +1,17 @@
 export type ReflectCursor = {
   x: number
   y: number
-} | null
+}
 
 export type ReflectUserInfo = {
   name: string
-  avatar: string | null
+  realmIcon: string | null
   stakingRealmColor: string
   cursorTextColor: string
 }
 
 export type ReflectClient = {
   id: string
-  cursor: ReflectCursor
+  cursor: ReflectCursor | null
   userInfo: ReflectUserInfo
 }

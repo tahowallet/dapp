@@ -15,7 +15,7 @@ export default function CursorLabel({
 }: CursorLabelProps) {
   if (!cursor) return null
 
-  const { name, avatar, stakingRealmColor, cursorTextColor } = userInfo
+  const { name, realmIcon, stakingRealmColor, cursorTextColor } = userInfo
 
   return (
     <>
@@ -29,8 +29,8 @@ export default function CursorLabel({
         <div className="elipsis" style={{ whiteSpace: "nowrap" }}>
           {name}
         </div>
-        {avatar && (
-          <Icon src={avatar} type="image" height="16px" width="16px" />
+        {realmIcon && (
+          <Icon src={realmIcon} type="image" height="16px" width="16px" />
         )}
       </div>
       <style jsx>{`

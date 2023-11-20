@@ -7,12 +7,16 @@ export default function IslandPresence() {
 
   if (!visibleCursors || !visibleCursors.length) return null
 
-  return visibleCursors.map(({ id, cursor, userInfo }, index) => (
-    <IslandCursor
-      key={id}
-      cursor={cursor}
-      userInfo={userInfo}
-      extraCursor={index !== 0}
-    />
-  ))
+  return visibleCursors.map(({ id, cursor, userInfo }, index) => {
+    if (!cursor) return null
+
+    return (
+      <IslandCursor
+        key={id}
+        cursor={cursor}
+        userInfo={userInfo}
+        extraCursor={index !== 0}
+      />
+    )
+  })
 }
