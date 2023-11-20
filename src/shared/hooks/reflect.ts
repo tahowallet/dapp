@@ -101,16 +101,31 @@ export function useReflectCursors() {
   const currentUser = useReflectCurrentUser()
   const realmModalOpened = useDappSelector(selectDisplayedRealmId)
 
+  // Find index of current user to determine the "room" placement
+  const currentUserIndex = reflectClients.findIndex(
+    (client) => client.id === currentUser?.id
+  )
+
   // Set max number of visible cursors in .env (or default to 10)
-  const maxNumberOfVisibleCursors = process.env.REFLECT_MAX_CAPACITY || 10
+  const maxNumberOfVisibleCursors =
+    Number(process.env.REFLECT_MAX_CAPACITY) || 10
 
-  if (!currentUser || maxNumberOfVisibleCursors === undefined) return []
+  const currentUserRoom = Math.floor(
+    currentUserIndex / maxNumberOfVisibleCursors
+  )
 
-  // Get recently entered users (without current user)
-  const otherClients = reflectClients
-    .filter((client) => client.id !== currentUser.id)
-    .slice(-(+maxNumberOfVisibleCursors - 1))
+  const currentRoomValue = currentUserRoom * maxNumberOfVisibleCursors
+
+  // We want users to always have a change to interact with each other so we split them
+  // into "rooms" based on their index in the reflectClients array. This way map stays interactive
+  // while still being not overcrowded.
+  const visibleClients = reflectClients.slice(
+    currentRoomValue,
+    currentRoomValue + maxNumberOfVisibleCursors
+  )
 
   // Hide current user cursor when the realm modal is opened
-  return realmModalOpened ? otherClients : [currentUser, ...otherClients]
+  return !realmModalOpened
+    ? visibleClients
+    : visibleClients.filter((client) => client.id !== currentUser?.id)
 }
