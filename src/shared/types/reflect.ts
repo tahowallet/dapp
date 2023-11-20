@@ -14,4 +14,5 @@ export type ReflectClient = {
   id: string
   cursor: ReflectCursor | null
   userInfo: ReflectUserInfo
+  isPresent: boolean
 }

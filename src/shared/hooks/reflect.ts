@@ -33,6 +33,7 @@ export function useReflect() {
           stakingRealmColor,
           cursorTextColor,
         },
+        isPresent: true,
       })
 
       setReflectInitialized(true)
@@ -71,7 +72,9 @@ export function useReflectPresence() {
         })
       )
 
-      return clients.flatMap((client) => client)
+      return clients
+        .flatMap((client) => client)
+        .filter((client) => client.isPresent)
     },
     [],
     [presentClientsdIds]

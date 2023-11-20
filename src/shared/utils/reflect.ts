@@ -9,8 +9,6 @@ export const {
   init: initClientState,
   get: getClientState,
   update: updateClientState,
-  delete: deleteClientState,
-  list: listClientState,
 } = generate<ReflectClient>("client-state")
 
 async function setCursor(
@@ -30,19 +28,22 @@ async function setUserInfo(
   })
 }
 
-async function deleteUser(tx: WriteTransaction): Promise<void> {
-  await deleteClientState(tx, tx.clientID)
+async function setUserPresence(tx: WriteTransaction, isPresent: boolean) {
+  const clientState = await getClientState(tx, tx.clientID)
+  await updateClientState(tx, {
+    id: tx.clientID,
+    ...clientState,
+    isPresent,
+  })
 }
 
 export const mutators = {
   initClientState,
   getClientState,
   updateClientState,
-  deleteClientState,
-  listClientState,
   setCursor,
   setUserInfo,
-  deleteUser,
+  setUserPresence,
 }
 
 export type ReflectMutators = typeof mutators
