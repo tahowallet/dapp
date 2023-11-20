@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import {
   selectDisplayedRealmId,
   selectStakingRealmId,
@@ -8,31 +8,34 @@ import {
 import { usePresence, useSubscribe } from "@rocicorp/reflect/react"
 import { getClientState, reflectInstance } from "shared/utils"
 import { getRealmMapData } from "shared/constants"
-import { ReflectClient } from "shared/types"
 
 export function useReflect() {
   const name = useDappSelector(selectWalletName)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
+  const realmMapData = stakingRealmId ? getRealmMapData(stakingRealmId) : null
 
-  const realmIcon = stakingRealmId
-    ? getRealmMapData(stakingRealmId).partnerIcons.default
-    : null
+  const [reflectInitialized, setReflectInitialized] = useState(false)
 
-  const stakingRealmColor = stakingRealmId
-    ? getRealmMapData(stakingRealmId).color
-    : "#2C2C2C"
-
-  const cursorTextColor = stakingRealmId
-    ? getRealmMapData(stakingRealmId).cursorText
-    : "#FFF"
+  const realmIcon = realmMapData?.partnerIcons.default ?? null
+  const stakingRealmColor = realmMapData?.color ?? "#2C2C2C"
+  const cursorTextColor = realmMapData?.cursorText ?? "#FFF"
 
   useEffect(() => {
     const initReflect = async () => {
+      if (reflectInitialized) return
+
       await reflectInstance.mutate.initClientState({
         id: reflectInstance.clientID,
         cursor: null,
-        userInfo: { name, realmIcon, stakingRealmColor, cursorTextColor },
+        userInfo: {
+          name,
+          realmIcon,
+          stakingRealmColor,
+          cursorTextColor,
+        },
       })
+
+      setReflectInitialized(true)
     }
 
     const updateUserInfo = async () => {
@@ -53,7 +56,7 @@ export function useReflect() {
 
     window.addEventListener("mousemove", handleReflectCursor)
     return () => window.removeEventListener("mousemove", handleReflectCursor)
-  }, [name, realmIcon, stakingRealmColor, cursorTextColor])
+  }, [reflectInitialized, name, realmIcon, stakingRealmColor, cursorTextColor])
 }
 
 export function useReflectPresence() {
@@ -61,14 +64,14 @@ export function useReflectPresence() {
   const presentClients = useSubscribe(
     reflectInstance,
     async (tx) => {
-      const clients: ReflectClient[] = []
+      const clients = await Promise.all(
+        presentClientsdIds.map(async (clientID) => {
+          const presentClient = await getClientState(tx, clientID)
+          return presentClient ? [presentClient] : []
+        })
+      )
 
-      presentClientsdIds.forEach(async (clientID) => {
-        const presentClient = await getClientState(tx, clientID)
-        if (presentClient) clients.push(presentClient)
-      })
-
-      return clients
+      return clients.flatMap((client) => client)
     },
     [],
     [presentClientsdIds]
@@ -98,7 +101,7 @@ export function useReflectCursors() {
   // Set max number of visible cursors in .env (or default to 10)
   const maxNumberOfVisibleCursors = process.env.REFLECT_MAX_CAPACITY || 10
 
-  if (!currentUser || maxNumberOfVisibleCursors === undefined) return null
+  if (!currentUser || maxNumberOfVisibleCursors === undefined) return []
 
   // Get recently entered users (without current user)
   const otherClients = reflectClients

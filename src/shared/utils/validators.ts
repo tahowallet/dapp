@@ -21,9 +21,7 @@ export function validateReflectUserInfo(value: unknown): ReflectUserInfo {
   return {
     name: userInfo?.name || "",
     realmIcon:
-      typeof userInfo?.realmIcon === "string" || userInfo?.realmIcon === null
-        ? userInfo.realmIcon
-        : null,
+      typeof userInfo?.realmIcon === "string" ? userInfo.realmIcon : null,
     stakingRealmColor: userInfo?.stakingRealmColor || "",
     cursorTextColor: userInfo?.cursorTextColor || "",
   }
