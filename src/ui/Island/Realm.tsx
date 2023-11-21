@@ -11,7 +11,7 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
-import { useClickedRealms, useMultiRef } from "shared/hooks"
+import { useDisplayedRealms, useMultiRef } from "shared/hooks"
 import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
 import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import {
@@ -65,7 +65,7 @@ export default function Realm({
   const bubbleRef = useRef<Konva.Image>(null)
   const [pathRefs, addPathRef] = useMultiRef<Konva.Path>()
 
-  const { clickedRealmUpdate, isRealmClicked } = useClickedRealms()
+  const { clickedRealmUpdate, isRealmDisplayed } = useDisplayedRealms()
 
   const handleRealmClick = useCallback(() => {
     setIsSelected((prev) => !prev)
@@ -281,7 +281,7 @@ export default function Realm({
         />
       ))}
       {/* This path is used to create the blinking effect */}
-      {isNew && !isRealmClicked(id) && (
+      {isNew && !isRealmDisplayed(id) && (
         <>
           {paths.map((path, index) => (
             <animated.Path

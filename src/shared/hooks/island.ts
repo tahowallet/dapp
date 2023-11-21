@@ -181,25 +181,25 @@ export function useIslandRealmsPaths(
   }, [pathRef, groupRef, setHover])
 }
 
-export function useClickedRealms() {
-  const { value: clickedRealms, updateStorage: updateClickedRealms } =
+export function useDisplayedRealms() {
+  const { value: displayedRealm, updateStorage: updateDisplayedRealms } =
     useLocalStorageChange<string[]>(LOCAL_STORAGE_CLICKED_REALMS)
 
   const clickedRealmUpdate = useCallback(
     (id: string) => {
-      if (clickedRealms) {
-        updateClickedRealms([...new Set([...clickedRealms, id])])
+      if (displayedRealm) {
+        updateDisplayedRealms([...new Set([...displayedRealm, id])])
       } else {
-        updateClickedRealms([id])
+        updateDisplayedRealms([id])
       }
     },
-    [clickedRealms, updateClickedRealms]
+    [displayedRealm, updateDisplayedRealms]
   )
 
-  const isRealmClicked = useCallback(
-    (id: string) => clickedRealms?.find((realm) => realm === id),
-    [clickedRealms]
+  const isRealmDisplayed = useCallback(
+    (id: string) => displayedRealm?.find((realm) => realm === id),
+    [displayedRealm]
   )
 
-  return { isRealmClicked, clickedRealmUpdate }
+  return { isRealmDisplayed, clickedRealmUpdate }
 }
