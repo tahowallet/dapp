@@ -4,6 +4,7 @@ import cyberconnect from "shared/assets/partners/cyberconnect.svg"
 import gitcoin from "shared/assets/partners/gitcoin.svg"
 import galxe from "shared/assets/partners/galxe.svg"
 import frax from "shared/assets/partners/frax.svg"
+import base from "shared/assets/partners/base.svg"
 import { realm4, realm7, realm8, realm9, realm19, realm22 } from "./realms-data"
 import QUESTLINE_DATA from "../../assets/questline-data.json"
 
@@ -118,4 +119,11 @@ export const REALM_FONT_FAMILY = "QuincyCF"
 export const REALM_FONT_STYLE = "bold"
 export const REALM_IMAGE_SIZE = 70
 
-export const REALM_ICONS = { arbitrum, cyberconnect, gitcoin, galxe, frax }
+export const REALM_ICONS = {
+  arbitrum,
+  cyberconnect,
+  gitcoin,
+  galxe,
+  frax,
+  base,
+}
