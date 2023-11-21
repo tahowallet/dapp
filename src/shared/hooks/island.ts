@@ -17,7 +17,11 @@ import {
   selectWalletAddress,
   selectRealms,
 } from "redux-state"
-import { REALMS_COUNT, SECOND } from "shared/constants"
+import {
+  LOCAL_STORAGE_CLICKED_REALMS,
+  REALMS_COUNT,
+  SECOND,
+} from "shared/constants"
 import {
   fetchLeaderboardData,
   fetchPopulation,
@@ -30,7 +34,7 @@ import Konva from "konva"
 import { Path } from "konva/lib/shapes/Path"
 import { Group } from "konva/lib/Group"
 import { useArbitrumProvider } from "./wallets"
-import { useInterval } from "./helpers"
+import { useInterval, useLocalStorageChange } from "./helpers"
 
 export const IslandContext = React.createContext<
   MutableRefObject<IslandContextType>
@@ -175,4 +179,27 @@ export function useIslandRealmsPaths(
       return () => ref.off(".hover")
     })
   }, [pathRef, groupRef, setHover])
+}
+
+export function useClickedRealms() {
+  const { value: clickedRealms, updateStorage: updateClickedRealms } =
+    useLocalStorageChange<string[]>(LOCAL_STORAGE_CLICKED_REALMS)
+
+  const clickedRealmUpdate = useCallback(
+    (id: string) => {
+      if (clickedRealms) {
+        updateClickedRealms([...new Set([...clickedRealms, id])])
+      } else {
+        updateClickedRealms([id])
+      }
+    },
+    [clickedRealms, updateClickedRealms]
+  )
+
+  const isRealmClicked = useCallback(
+    (id: string) => clickedRealms?.find((realm) => realm === id),
+    [clickedRealms]
+  )
+
+  return { isRealmClicked, clickedRealmUpdate }
 }

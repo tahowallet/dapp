@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 // Need to pass spring props to spring abstracted components
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useMemo, useRef, useState } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 import type Konva from "konva"
 import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
@@ -11,7 +11,7 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
-import { useMultiRef } from "shared/hooks"
+import { useClickedRealms, useMultiRef } from "shared/hooks"
 import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
 import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import {
@@ -63,13 +63,16 @@ export default function Realm({
   const textRef = useRef<Konva.Text>(null)
   const partnerLogoRef = useRef<Konva.Image>(null)
   const bubbleRef = useRef<Konva.Image>(null)
-
   const [pathRefs, addPathRef] = useMultiRef<Konva.Path>()
 
-  const handleRealmClick = () => {
+  const { clickedRealmUpdate, isRealmClicked } = useClickedRealms()
+
+  const handleRealmClick = useCallback(() => {
     setIsSelected((prev) => !prev)
+
+    clickedRealmUpdate(id)
     islandContext.current.onRealmClick(id)
-  }
+  }, [clickedRealmUpdate, id, islandContext])
 
   const partnerLogoTranslate = useMemo(
     () => calculatePartnerLogoTranslate(name),
@@ -168,16 +171,6 @@ export default function Realm({
   }, [isHovered])
 
   const [overlayProps] = useSpring(() => {
-    // Blinking animation for new realm
-    if (isNew) {
-      return {
-        from: { ...styles.default.overlay, opacity: 0.2 },
-        to: { ...styles.default.overlay, opacity: 0.8 },
-        loop: { reverse: true },
-        config: { duration: 600, easing: easings.easeOutCubic },
-      }
-    }
-
     const destinationStyle = isHovered
       ? styles.highlight.overlay
       : styles.default.overlay
@@ -187,6 +180,16 @@ export default function Realm({
       to: destinationStyle,
     }
   }, [isHovered])
+
+  const [blinkingProps] = useSpring(
+    () => ({
+      from: { ...styles.default.overlay, opacity: 0.2 },
+      to: { ...styles.default.overlay, opacity: 0.8 },
+      loop: { reverse: true },
+      config: { duration: 600, easing: easings.easeOutCubic },
+    }),
+    []
+  )
 
   const [textProps] = useSpring(() => {
     const destinationStyle = isHovered
@@ -277,6 +280,26 @@ export default function Realm({
           {...pathProps}
         />
       ))}
+      {/* This path is used to create the blinking effect */}
+      {isNew && !isRealmClicked(id) && (
+        <>
+          {paths.map((path, index) => (
+            <animated.Path
+              key={index}
+              x={x}
+              y={y}
+              data={path}
+              width={width}
+              height={height}
+              listening={false}
+              onClick={handleRealmClick}
+              {...blinkingProps}
+            />
+          ))}
+          {/* This is the "New realm" label */}
+          <NewRealmLabel realmId={id} x={x} y={y} />
+        </>
+      )}
       <animated.Text
         ref={textRef}
         text={name ?? "TestRealm"} // TODO: remove conditon when name is accessible
@@ -294,8 +317,6 @@ export default function Realm({
         shadowEnabled
         {...textProps}
       />
-      {/* This is the "New realm" label */}
-      {isNew && <NewRealmLabel realmId={id} x={x} y={y} />}
       {/* This is the partner logo image */}
       <animated.Image
         ref={partnerLogoRef}
