@@ -30,8 +30,8 @@ export default function CursorLabel({
         }}
       >
         <div
-          className="elipsis"
-          style={{ whiteSpace: "nowrap", fontSize: "16px" }}
+          className="ellipsis"
+          style={{ whiteSpace: "nowrap", fontSize: "16px", maxWidth: "250px" }}
         >
           {name}
         </div>
