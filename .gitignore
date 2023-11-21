@@ -24,6 +24,7 @@ node_modules
 yarn-error.log
 .pnp/
 .pnp.js
+
 # Yarn Integrity file
 .yarn-integrity
 
@@ -34,3 +35,6 @@ yarn-error.log
 
 # Dist directory
 dist
+
+# Reflect files
+.reflect
