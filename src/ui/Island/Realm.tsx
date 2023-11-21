@@ -19,6 +19,7 @@ import {
   useIslandRealmsPaths,
   usePopulationBubble,
 } from "../../shared/hooks"
+import NewRealmLabel from "./IslandRealmsDetails/NewRealmLabel"
 
 type RealmProps = {
   id: string
@@ -34,6 +35,7 @@ type RealmProps = {
   labelY: number
   partnerLogo: HTMLImageElement
   populationIcon: HTMLImageElement
+  isNew?: boolean
 }
 
 export default function Realm({
@@ -50,6 +52,7 @@ export default function Realm({
   labelY,
   partnerLogo,
   populationIcon,
+  isNew,
 }: RealmProps) {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const [isHovered, setIsHovered] = useState(false)
@@ -281,6 +284,8 @@ export default function Realm({
         shadowEnabled
         {...textProps}
       />
+      {/* This is the "New realm" label */}
+      {isNew && <NewRealmLabel realmId={id} x={x} y={y} />}
       {/* This is the partner logo image */}
       <animated.Image
         ref={partnerLogoRef}

@@ -243,3 +243,12 @@ export function getPinShift(realmId: string) {
       return { x: 250, y: 250 }
   }
 }
+
+export function getNewRealmLabelShift(realmId: string) {
+  switch (realmId) {
+    case "8":
+      return { x: 20, y: 170 }
+    default:
+      return { x: 0, y: 0 }
+  }
+}
