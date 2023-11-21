@@ -26,7 +26,10 @@ export default function CursorLabel({
           top: cursor.y + (extraCursor ? 15 : 12),
         }}
       >
-        <div className="elipsis" style={{ whiteSpace: "nowrap" }}>
+        <div
+          className="elipsis"
+          style={{ whiteSpace: "nowrap", fontSize: "16px" }}
+        >
           {name}
         </div>
         {realmIcon && (
