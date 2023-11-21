@@ -106,9 +106,9 @@ export function useReflectCursors() {
     (client) => client.id === currentUser?.id
   )
 
-  // Set max number of visible cursors in .env (or default to 10)
+  // Set max number of visible cursors in .env (or default to 5)
   const maxNumberOfVisibleCursors =
-    Number(process.env.REFLECT_MAX_CAPACITY) || 10
+    Number(process.env.REFLECT_MAX_CAPACITY) || 5
 
   const currentUserRoom = Math.floor(
     currentUserIndex / maxNumberOfVisibleCursors
