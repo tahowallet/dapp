@@ -1,16 +1,8 @@
 import React from "react"
-import {
-  selectIsEndOfSeason,
-  // selectRealmById,
-  selectSeasonDurationInWeeks,
-  selectSeasonWeek,
-  selectWeekEndDate,
-  selectWeekStartDate,
-  useDappSelector,
-} from "redux-state"
 import RealmIcon from "shared/components/RealmIcon"
 import { WEEKLY_XP_ALLOCATION } from "shared/constants"
-import { formatDate, separateThousandsByComma } from "shared/utils"
+import { separateThousandsByComma } from "shared/utils"
+import XPCountdown from "./XPCountdown"
 
 export default function QuestsDetails({
   realmId,
@@ -19,36 +11,10 @@ export default function QuestsDetails({
   realmId: string
   tokenSymbol: string
 }) {
-  const startDate = useDappSelector(selectWeekStartDate)
-  const endDate = useDappSelector(selectWeekEndDate)
-  const seasonWeek = useDappSelector(selectSeasonWeek)
-  const duration = useDappSelector(selectSeasonDurationInWeeks)
-  const isEndOfSeason = useDappSelector(selectIsEndOfSeason)
-  // const realm = useDappSelector((state) => selectRealmById(state, realmId))
-
   return (
     <div className="content">
-      <div className="content_details row">
-        <div className="column gap">
-          <div className="row">
-            {!!seasonWeek && (
-              <>
-                <div className="content_details_weeks">
-                  Total realm rewards Week {seasonWeek}
-                </div>
-                <span style={{ color: "var(--secondary-s1-70)" }}>
-                  / {duration}
-                </span>
-              </>
-            )}
-          </div>
-          {startDate && endDate && !isEndOfSeason && (
-            <div className="content_details_range">
-              {`${formatDate(startDate)} - ${formatDate(endDate)}`}
-            </div>
-          )}
-        </div>
-
+      <div className="content_details row_center">
+        <XPCountdown />
         <div className="content_details_token column">
           <h1 className="amount row_center">
             <RealmIcon
@@ -91,9 +57,6 @@ export default function QuestsDetails({
           font-family: var(--serif);
           color: var(--off-white);
           font-weight: 500;
-        }
-        .gap {
-          gap: 4px;
         }
       `}</style>
     </div>
