@@ -1,4 +1,9 @@
 import { RealmQuestlineData, RealmMapData } from "shared/types"
+import arbitrum from "shared/assets/partners/arbitrum.svg"
+import cyberconnect from "shared/assets/partners/cyberconnect.svg"
+import gitcoin from "shared/assets/partners/gitcoin.svg"
+import galxe from "shared/assets/partners/galxe.svg"
+import frax from "shared/assets/partners/frax.svg"
 import {
   realm19,
   realm22,
@@ -113,3 +118,5 @@ export const REALM_FONT_SIZE = 78
 export const REALM_FONT_FAMILY = "QuincyCF"
 export const REALM_FONT_STYLE = "bold"
 export const REALM_IMAGE_SIZE = 70
+
+export const REALM_ICONS = { arbitrum, cyberconnect, gitcoin, galxe, frax }
