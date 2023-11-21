@@ -229,6 +229,8 @@ export function getPinShift(realmId: string) {
       return { x: 200, y: 300 }
     case "7":
       return { x: 500, y: 300 }
+    case "8":
+      return { x: 700, y: 450 }
     case "9":
       return { x: 500, y: 300 }
     case "16":
