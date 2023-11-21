@@ -73,6 +73,7 @@ export const realm4 = {
   labelY: 216.5,
   partnerIcons: partners.gitcoin,
   partnerColor: "#1D4E56",
+  cursorText: "var(--primary-p1-100)",
 }
 
 export const realm5 = {
@@ -128,6 +129,7 @@ export const realm7 = {
   labelX: 540,
   labelY: 400,
   partnerIcons: partners.cyberconnect,
+  cursorText: "var(--primary-p1-100)",
   partnerColor: "#fff",
 }
 
@@ -166,6 +168,7 @@ export const realm9 = {
   labelX: 700,
   labelY: 350,
   partnerIcons: partners.arbitrum,
+  cursorText: "#FFF",
 }
 
 export const realm10 = {
@@ -359,6 +362,7 @@ export const realm19 = {
   labelX: 264,
   labelY: 409,
   partnerIcons: partners.galxe,
+  cursorText: "#FFF",
 }
 
 export const realm20 = {
@@ -413,6 +417,7 @@ export const realm22 = {
   labelX: 337,
   labelY: 388,
   partnerIcons: partners.frax,
+  cursorText: "var(--primary-p1-100)",
 }
 
 export const realm23 = {
