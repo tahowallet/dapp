@@ -1,6 +1,7 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import { ReflectCursor, ReflectUserInfo } from "shared/types"
+import { REALM_ICONS } from "shared/constants"
 
 export type CursorLabelProps = {
   cursor: ReflectCursor | null
@@ -15,7 +16,8 @@ export default function CursorLabel({
 }: CursorLabelProps) {
   if (!cursor) return null
 
-  const { name, realmIcon, stakingRealmColor, cursorTextColor } = userInfo
+  const { name, realmName, stakingRealmColor, cursorTextColor } = userInfo
+  const iconKey = realmName?.toLowerCase() as keyof typeof REALM_ICONS
 
   return (
     <>
@@ -32,8 +34,13 @@ export default function CursorLabel({
         >
           {name}
         </div>
-        {realmIcon && (
-          <Icon src={realmIcon} type="image" height="16px" width="16px" />
+        {realmName && (
+          <Icon
+            src={REALM_ICONS[iconKey]}
+            type="image"
+            height="16px"
+            width="16px"
+          />
         )}
       </div>
       <style jsx>{`

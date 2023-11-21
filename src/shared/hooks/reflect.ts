@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import {
   selectDisplayedRealmId,
+  selectRealmNameById,
   selectStakingRealmId,
   selectWalletName,
   useDappSelector,
@@ -8,15 +9,20 @@ import {
 import { usePresence, useSubscribe } from "@rocicorp/reflect/react"
 import { getClientState, reflectInstance } from "shared/utils"
 import { getRealmMapData } from "shared/constants"
+import { RootState } from "redux-state/reducers"
 
 export function useReflect() {
   const name = useDappSelector(selectWalletName)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
+  const realmName =
+    useDappSelector((state: RootState) =>
+      selectRealmNameById(state, stakingRealmId)
+    ) ?? null
+
   const realmMapData = stakingRealmId ? getRealmMapData(stakingRealmId) : null
 
   const [reflectInitialized, setReflectInitialized] = useState(false)
 
-  const realmIcon = realmMapData?.partnerIcons.default ?? null
   const stakingRealmColor = realmMapData?.color ?? "#2C2C2C"
   const cursorTextColor = realmMapData?.cursorText ?? "#FFF"
 
@@ -29,7 +35,7 @@ export function useReflect() {
         cursor: null,
         userInfo: {
           name,
-          realmIcon,
+          realmName,
           stakingRealmColor,
           cursorTextColor,
         },
@@ -44,7 +50,7 @@ export function useReflect() {
 
       await reflectInstance.mutate.setUserInfo({
         name,
-        realmIcon,
+        realmName,
         stakingRealmColor,
         cursorTextColor,
       })
@@ -52,7 +58,7 @@ export function useReflect() {
 
     initReflect()
     updateUserInfo()
-  }, [reflectInitialized, name, realmIcon, stakingRealmColor, cursorTextColor])
+  }, [reflectInitialized, name, realmName, stakingRealmColor, cursorTextColor])
 
   useEffect(() => {
     const handleReflectCursor = async (e: MouseEvent) => {
