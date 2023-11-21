@@ -49,12 +49,15 @@ export const mutators = {
 export type ReflectMutators = typeof mutators
 export type ReflectInstance = Reflect<ReflectMutators>
 
-export const reflectInstance = new Reflect<ReflectMutators>({
-  userID: nanoid(),
-  roomID: "/",
-  server: process.env.REFLECT_SERVER ?? "",
-  mutators,
-})
+export const reflectInstance =
+  process.env.DISABLE_REFLECT === "true"
+    ? null
+    : new Reflect<ReflectMutators>({
+        userID: nanoid(),
+        roomID: "/",
+        server: process.env.REFLECT_SERVER ?? "",
+        mutators,
+      })
 
 const makeOptions = (): ReflectServerOptions<ReflectMutators> => ({
   mutators,

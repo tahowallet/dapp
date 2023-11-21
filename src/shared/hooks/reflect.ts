@@ -22,7 +22,7 @@ export function useReflect() {
 
   useEffect(() => {
     const initReflect = async () => {
-      if (reflectInitialized) return
+      if (reflectInitialized || !reflectInstance) return
 
       await reflectInstance.mutate.initClientState({
         id: reflectInstance.clientID,
@@ -40,6 +40,8 @@ export function useReflect() {
     }
 
     const updateUserInfo = async () => {
+      if (!reflectInstance) return
+
       await reflectInstance.mutate.setUserInfo({
         name,
         realmIcon,
@@ -54,6 +56,8 @@ export function useReflect() {
 
   useEffect(() => {
     const handleReflectCursor = async (e: MouseEvent) => {
+      if (!reflectInstance) return
+
       await reflectInstance.mutate.setCursor({ x: e.clientX, y: e.clientY })
     }
 

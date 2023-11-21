@@ -171,6 +171,8 @@ export function useWalletOnboarding(): {
 
   useEffect(() => {
     const updateReflectPresence = async () => {
+      if (!reflectInstance) return
+
       await reflectInstance.mutate.setUserPresence(!!value)
     }
 
