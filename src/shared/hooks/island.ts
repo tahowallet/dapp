@@ -18,7 +18,7 @@ import {
   selectRealms,
 } from "redux-state"
 import {
-  LOCAL_STORAGE_CLICKED_REALMS,
+  LOCAL_STORAGE_DISPLAYED_REALMS,
   REALMS_COUNT,
   SECOND,
 } from "shared/constants"
@@ -183,7 +183,7 @@ export function useIslandRealmsPaths(
 
 export function useDisplayedRealms() {
   const { value: displayedRealm, updateStorage: updateDisplayedRealms } =
-    useLocalStorageChange<string[]>(LOCAL_STORAGE_CLICKED_REALMS)
+    useLocalStorageChange<string[]>(LOCAL_STORAGE_DISPLAYED_REALMS)
 
   const clickedRealmUpdate = useCallback(
     (id: string) => {
