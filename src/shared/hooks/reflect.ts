@@ -50,14 +50,16 @@ export function useReflect() {
 
     initReflect()
     updateUserInfo()
+  }, [reflectInitialized, name, realmIcon, stakingRealmColor, cursorTextColor])
 
+  useEffect(() => {
     const handleReflectCursor = async (e: MouseEvent) => {
       await reflectInstance.mutate.setCursor({ x: e.clientX, y: e.clientY })
     }
 
     window.addEventListener("mousemove", handleReflectCursor)
     return () => window.removeEventListener("mousemove", handleReflectCursor)
-  }, [reflectInitialized, name, realmIcon, stakingRealmColor, cursorTextColor])
+  }, [])
 }
 
 export function useReflectPresence() {

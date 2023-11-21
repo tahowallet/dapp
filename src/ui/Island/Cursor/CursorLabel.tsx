@@ -3,7 +3,7 @@ import Icon from "shared/components/Icon"
 import { ReflectCursor, ReflectUserInfo } from "shared/types"
 
 export type CursorLabelProps = {
-  cursor: ReflectCursor
+  cursor: ReflectCursor | null
   userInfo: ReflectUserInfo
   extraCursor: boolean
 }
