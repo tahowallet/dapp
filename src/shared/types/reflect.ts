@@ -5,7 +5,7 @@ export type ReflectCursor = {
 
 export type ReflectUserInfo = {
   name: string
-  realmIcon: string | null
+  realmName: string | null
   stakingRealmColor: string
   cursorTextColor: string
 }
