@@ -168,6 +168,16 @@ export default function Realm({
   }, [isHovered])
 
   const [overlayProps] = useSpring(() => {
+    // Blinking animation for new realm
+    if (isNew) {
+      return {
+        from: { ...styles.default.overlay, opacity: 0.2 },
+        to: { ...styles.default.overlay, opacity: 0.8 },
+        loop: { reverse: true },
+        config: { duration: 600, easing: easings.easeOutCubic },
+      }
+    }
+
     const destinationStyle = isHovered
       ? styles.highlight.overlay
       : styles.default.overlay
