@@ -47,7 +47,7 @@ function Clouds() {
 
       cloudBottomRightRef.current?.position({
         x: 640 * FIGMA_FACTOR.X + posX,
-        y: 340 * FIGMA_FACTOR.Y + posY,
+        y: 380 * FIGMA_FACTOR.Y + posY,
       })
     })
 

@@ -84,4 +84,5 @@ export type RealmMapData = {
   partnerIcons: { default: string; shadow: string; population: string }
   partnerColor?: string
   isNew?: boolean
+  cursorText: string
 }
