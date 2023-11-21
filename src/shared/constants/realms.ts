@@ -1,12 +1,5 @@
 import { RealmQuestlineData, RealmMapData } from "shared/types"
-import {
-  realm19,
-  realm22,
-  realm4,
-  realm7,
-  realm9,
-  realm16,
-} from "./realms-data"
+import { realm19, realm22, realm4, realm7, realm9, realm8 } from "./realms-data"
 import QUESTLINE_DATA from "../../assets/questline-data.json"
 
 // TODO: names and ids may change
@@ -69,11 +62,17 @@ export const BASE_REALMS_MAP_DATA: RealmMapData[] = [
   realm22,
 ]
 
-export const ADDITIONAL_REALMS_MAP_DATA: RealmMapData[] = [realm16]
+export const NEW_REALMS_MAP_DATA: RealmMapData[] = [realm8]
 
 export const REALMS_MAP_DATA =
   process.env.SHOW_ADDITIONAL_REALMS === "true"
-    ? [...BASE_REALMS_MAP_DATA, ...ADDITIONAL_REALMS_MAP_DATA]
+    ? [
+        ...BASE_REALMS_MAP_DATA,
+        ...NEW_REALMS_MAP_DATA.map((realm) => ({
+          ...realm,
+          isNew: true, // adding this property to new realms to display "New realm" label
+        })),
+      ]
     : BASE_REALMS_MAP_DATA
 
 export const REALMS_COUNT = REALMS_MAP_DATA.length
