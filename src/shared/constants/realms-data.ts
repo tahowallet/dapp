@@ -149,6 +149,7 @@ export const realm8 = {
   color: "#000",
   labelX: 0,
   labelY: 0,
+  cursorText: "#FFF",
 }
 
 export const realm9 = {
@@ -307,6 +308,7 @@ export const realm16 = {
   color: "#F7DC6F",
   labelX: 160,
   labelY: 350,
+  cursorText: "#FFF",
   partnerIcons: partners.arbitrum, // TODO: change to valid partner logo
 }
 
