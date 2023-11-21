@@ -1,11 +1,7 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import { ReflectCursor, ReflectUserInfo } from "shared/types"
-import arbitrum from "shared/assets/partners/arbitrum.svg"
-import cyberconnect from "shared/assets/partners/cyberconnect.svg"
-import gitcoin from "shared/assets/partners/gitcoin.svg"
-import galxe from "shared/assets/partners/galxe.svg"
-import frax from "shared/assets/partners/frax.svg"
+import { REALM_ICONS } from "shared/constants"
 
 export type CursorLabelProps = {
   cursor: ReflectCursor | null
@@ -21,11 +17,7 @@ export default function CursorLabel({
   if (!cursor) return null
 
   const { name, realmName, stakingRealmColor, cursorTextColor } = userInfo
-
-  const realmIcons = { arbitrum, cyberconnect, gitcoin, galxe, frax }
-  const realmIcon = Object.entries(realmIcons).find(
-    ([key]) => key === realmName?.toLowerCase()
-  )
+  const iconKey = realmName?.toLowerCase() as keyof typeof REALM_ICONS
 
   return (
     <>
@@ -42,8 +34,13 @@ export default function CursorLabel({
         >
           {name}
         </div>
-        {realmIcon && (
-          <Icon src={realmIcon[1]} type="image" height="16px" width="16px" />
+        {realmName && (
+          <Icon
+            src={REALM_ICONS[iconKey]}
+            type="image"
+            height="16px"
+            width="16px"
+          />
         )}
       </div>
       <style jsx>{`
