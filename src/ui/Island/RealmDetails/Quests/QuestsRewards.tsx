@@ -11,6 +11,8 @@ export default function QuestsRewards({
 }: {
   quests: { name: string; description: string }[]
 }) {
+  if (!quests.length) return null
+
   return (
     <div>
       <h3 className="header row">
