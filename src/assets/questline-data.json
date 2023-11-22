@@ -82,7 +82,7 @@
     {
       "realmId": "8",
       "questlineName": "Transact on Base",
-      "description": "",
+      "description": "Base is a secure, low-cost, builder-friendly Ethereum L2 built to bring the next billion users onchain. Base is incubated within Coinbase and plans to progressively decentralize in the years ahead. The Base Realm believes that decentralization is critical to creating an open, global cryptoeconomy that is accessible to everyone.",
       "quests": [
         {
           "name": "Interact with unique contracts on Base",
