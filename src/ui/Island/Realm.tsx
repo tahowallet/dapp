@@ -20,6 +20,7 @@ import {
   usePopulationBubble,
 } from "../../shared/hooks"
 import NewRealmLabel from "./IslandRealmsDetails/NewRealmLabel"
+import NewQuestLabel from "./IslandRealmsDetails/NewQuestLabel"
 
 type RealmProps = {
   id: string
@@ -299,6 +300,7 @@ export default function Realm({
           <NewRealmLabel realmId={id} x={x} y={y} />
         </>
       )}
+      <NewQuestLabel realmId={id} x={x} y={y} />
       <animated.Text
         ref={textRef}
         text={name ?? "TestRealm"} // TODO: remove conditon when name is accessible

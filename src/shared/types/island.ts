@@ -19,7 +19,7 @@ export type RealmContractData = {
 export type RealmQuestlineData = {
   description: string
   questlineName: string
-  quests: { name: string; description: string }[]
+  quests: { name: string; description: string; isNew?: boolean }[]
 }
 
 export type RealmData = RealmAddressesData &
