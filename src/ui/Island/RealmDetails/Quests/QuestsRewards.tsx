@@ -1,10 +1,8 @@
 import React from "react"
-import Markdown from "react-markdown"
-import Accordion from "shared/components/Accordion"
 import Icon from "shared/components/Icon"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
-import starIcon from "shared/assets/icons/star.svg"
 import { LINKS } from "shared/constants"
+import QuestItem from "./QuestItem"
 
 export default function QuestsRewards({
   quests,
@@ -28,17 +26,7 @@ export default function QuestsRewards({
       </h3>
       <div className="rewards_quests column">
         {quests.map(({ name, description }) => (
-          <Accordion
-            key={name}
-            title={name}
-            icon={starIcon}
-            iconColor="var(--semantic-success)"
-            type="frame"
-          >
-            <div className="rewards_quests_description">
-              <Markdown>{description}</Markdown>
-            </div>
-          </Accordion>
+          <QuestItem name={name} description={description} />
         ))}
       </div>
       <style jsx>{`
