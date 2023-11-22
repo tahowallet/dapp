@@ -51,6 +51,7 @@ export default function SharedInput({
       <div className="input_box">
         <input
           type={type}
+          step="any"
           min={isTypeNumber ? "0" : undefined}
           className={classNames({ input_number: isTypeNumber })}
           value={value}

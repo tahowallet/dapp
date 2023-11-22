@@ -73,33 +73,37 @@ export function createCutoutFromPath(
   image: HTMLImageElement
 ) {
   const { x, y, w, h, paths } = realmData
-  const path = paths[0].data
+  const crops: HTMLCanvasElement[] = []
 
-  const canvas = document.createElement("canvas")
+  paths.forEach((path) => {
+    const canvas = document.createElement("canvas")
 
-  canvas.width = image.width
-  canvas.height = image.height
+    canvas.width = image.width
+    canvas.height = image.height
 
-  const ctx = canvas.getContext("2d")
+    const ctx = canvas.getContext("2d")
 
-  assert(ctx)
+    assert(ctx)
 
-  ctx.translate(x, y)
-  ctx.clip(new Path2D(path))
-  ctx.translate(-x, -y)
-  ctx.drawImage(image, 0, 0)
+    ctx.translate(x, y)
+    ctx.clip(new Path2D(path.data))
+    ctx.translate(-x, -y)
+    ctx.drawImage(image, 0, 0)
 
-  const crop = document.createElement("canvas")
-  crop.width = w
-  crop.height = h
+    const crop = document.createElement("canvas")
+    crop.width = w
+    crop.height = h
 
-  const cropCtx = crop.getContext("2d")
+    const cropCtx = crop.getContext("2d")
 
-  assert(cropCtx)
+    assert(cropCtx)
 
-  cropCtx.drawImage(canvas, -x, -y)
+    cropCtx.drawImage(canvas, -x, -y)
 
-  return crop
+    crops.push(crop)
+  })
+
+  return crops
 }
 
 export function createBackgroundMask(
@@ -173,7 +177,7 @@ export function calculatePopulationIconsPositions(
   const positions: number[] = []
 
   realmsData.forEach((realm, index) => {
-    const populationShare = realm.population / maxValue
+    const populationShare = realm.displayedPopulation / maxValue
     let iconPosition = Math.max(
       populationShare * width + POPULATION_BAR_GAP,
       POPULATION_BAR_GAP + index * POPULATION_ICON_SIZE
@@ -185,7 +189,7 @@ export function calculatePopulationIconsPositions(
     }
 
     // Realm with biggest population
-    if (realm.population === maxValue) {
+    if (realm.displayedPopulation === maxValue) {
       iconPosition = width - (POPULATION_BAR_GAP + POPULATION_ICON_SIZE)
     }
 
@@ -217,4 +221,23 @@ export function calculatePartnerLogoTranslate(text: string): number {
   const textWidth = ctx.measureText(text).width
 
   return textWidth / 2 - REALM_IMAGE_SIZE * 1.7
+}
+
+export function getPinShift(realmId: string) {
+  switch (realmId) {
+    case "4":
+      return { x: 200, y: 300 }
+    case "7":
+      return { x: 500, y: 300 }
+    case "9":
+      return { x: 500, y: 300 }
+    case "16":
+      return { x: 200, y: 600 }
+    case "19":
+      return { x: 250, y: 250 }
+    case "22":
+      return { x: 200, y: 250 }
+    default:
+      return { x: 250, y: 250 }
+  }
 }

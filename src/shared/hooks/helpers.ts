@@ -1,5 +1,12 @@
 /* eslint-disable no-console */
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
+import {
+  MutableRefObject,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { debounce } from "lodash"
 import { useSpring } from "@react-spring/web"
 import { getWindowDimensions } from "shared/utils"
@@ -248,4 +255,17 @@ export function useTrackEvents() {
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+}
+
+export function useMultiRef<T>(): [
+  MutableRefObject<(T | null)[]>,
+  (element: T | null, index: number) => void
+] {
+  const multiRef = useRef<(T | null)[]>([])
+
+  const addMultiRef = (element: T | null, index: number) => {
+    multiRef.current[index] = element
+  }
+
+  return [multiRef, addMultiRef]
 }

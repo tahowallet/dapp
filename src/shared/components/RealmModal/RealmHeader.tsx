@@ -27,7 +27,7 @@ export default function RealmHeader() {
       <div className="realm_thumb">
         <RealmCutout />
       </div>
-      <h1>{realm?.name} Realm</h1>
+      <h1>{realm?.name ?? "Test"} Realm</h1>
       <div className="realm_details_header column">
         <div className="tags row">
           <div className="tag column">
@@ -44,7 +44,7 @@ export default function RealmHeader() {
               Population
             </span>
             <span>
-              {separateThousandsByComma(realm?.population ?? 0, true)}
+              {separateThousandsByComma(realm?.displayedPopulation ?? 0, 0)}
             </span>
           </div>
           <div className="tag column">

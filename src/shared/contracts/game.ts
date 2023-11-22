@@ -25,7 +25,7 @@ export const getSeasonInfo: ReadTransactionBuilder<null, SeasonInfo> = async (
 
   const season = seasonInfo[0].toNumber()
 
-  // Season start data is accessible throught .env
+  // Season start data is accessible through .env
   // Date requires ms, whereas block.timestamp is in s
   // const seasonStartTimestamp = seasonInfo[1].toNumber() * 1000
 

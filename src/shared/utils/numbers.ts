@@ -3,14 +3,16 @@ import { FixedPointNumber } from "shared/types/stake"
 // Matches floating point numbers with optional thousands separators
 const FLOATING_POINT_REGEX = /^[^0-9]*([0-9,]+)(?:\.([0-9]*))?$/
 
-export const separateThousandsByComma = (
+export function separateThousandsByComma(
   value: number | bigint | string,
-  noDecimals: boolean = false
-): string => {
+  decimals = 2
+): string {
   const adjustedValue = typeof value === "string" ? +value : value
-
+  // @ts-expect-error - `maximumFractionDigits` wants to get number less than 21,
+  // but as the tokens have 18 decimals have, we can safely pass a parameter
   return adjustedValue.toLocaleString("en-US", {
-    minimumFractionDigits: noDecimals ? 0 : 2,
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals < 21 ? decimals : 2,
   })
 }
 
@@ -63,6 +65,11 @@ function convertFixedPointNumber(
   }
 }
 
+// Generates a random integer in min-max range (inclusively)
+export function randomInteger(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 export function userAmountToBigInt(
   amount: string,
   decimals = 18
@@ -85,7 +92,14 @@ export function bigIntToUserAmount(
   desiredDecimals = 2
 ): string {
   const desiredDecimalsAmount =
-    amount / 10n ** BigInt(Math.max(1, decimals - desiredDecimals))
+    amount / 10n ** BigInt(Math.max(0, decimals - desiredDecimals))
+
+  if (desiredDecimalsAmount > BigInt(Number.MAX_SAFE_INTEGER)) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `bigIntToUserAmount: amount ${amount} is too big to be represented as a number`
+    )
+  }
 
   return (
     Number(desiredDecimalsAmount) /
@@ -93,7 +107,28 @@ export function bigIntToUserAmount(
   ).toString()
 }
 
-// Parse token amount by moving the decimal point and separate thousands by comma
+export function bigIntToPreciseUserAmount(
+  amount: bigint,
+  decimals = 18
+): string {
+  let currentPrecision = decimals
+
+  while (currentPrecision >= 0) {
+    const desiredDecimalsAmount =
+      amount / 10n ** BigInt(Math.max(0, decimals - currentPrecision))
+
+    if (desiredDecimalsAmount <= BigInt(Number.MAX_SAFE_INTEGER)) {
+      return bigIntToUserAmount(amount, decimals, currentPrecision)
+    }
+
+    currentPrecision -= 1
+  }
+
+  return "0"
+}
+
+// Parse token amount by moving the decimal point and separate thousands by comma.
+// Gracefully handle amounts smaller than desired precision.
 export function bigIntToDisplayUserAmount(
   amount: bigint | string,
   decimals = 18,
@@ -101,7 +136,14 @@ export function bigIntToDisplayUserAmount(
 ): string {
   const amountBigInt = typeof amount === "string" ? BigInt(amount) : amount
 
-  return separateThousandsByComma(
-    bigIntToUserAmount(amountBigInt, decimals, desiredDecimals)
+  const parsed = separateThousandsByComma(
+    bigIntToUserAmount(amountBigInt, decimals, desiredDecimals),
+    desiredDecimals
   )
+
+  if (parsed === "0" && amountBigInt > 0n) {
+    return `<${1 / 10 ** desiredDecimals}`
+  }
+
+  return parsed
 }

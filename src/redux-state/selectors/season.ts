@@ -1,12 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit"
-import { RootState } from "redux-state/reducers"
 import { createIslandSelector } from "redux-state/selectors"
 import { DAY } from "shared/constants"
-import { SeasonInfo } from "shared/types"
-
-type SeasonInfoProperty = <K extends keyof SeasonInfo>(
-  value: K
-) => (state: RootState) => SeasonInfo[K] | undefined
+import { SeasonInfoProperty } from "shared/types/selectors"
 
 export const selectSeasonInfo = createIslandSelector("seasonInfo")
 

@@ -19,6 +19,7 @@ import { usePostHog } from "posthog-js/react"
 import InteractiveIsland from "./InteractiveIsland"
 import RealmDetails from "./RealmDetails"
 import Quests from "./RealmDetails/Quests"
+import IslandPresence from "./IslandPresence"
 
 function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
@@ -71,6 +72,7 @@ function IslandWrapper() {
         </style>
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
+          {process.env.DISABLE_REFLECT === "true" ? null : <IslandPresence />}
           {realmId && (
             <RealmModal onClose={handleClose}>
               {isDefaultIslandMode ? (
