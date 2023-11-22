@@ -185,7 +185,7 @@ export function useDisplayedRealms() {
   const { value: displayedRealm, updateStorage: updateDisplayedRealms } =
     useLocalStorageChange<string[]>(LOCAL_STORAGE_DISPLAYED_REALMS)
 
-  const clickedRealmUpdate = useCallback(
+  const updateDisplayedRealm = useCallback(
     (id: string) => {
       if (displayedRealm) {
         updateDisplayedRealms([...new Set([...displayedRealm, id])])
@@ -201,5 +201,5 @@ export function useDisplayedRealms() {
     [displayedRealm]
   )
 
-  return { isRealmDisplayed, clickedRealmUpdate }
+  return { isRealmDisplayed, updateDisplayedRealm }
 }
