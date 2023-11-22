@@ -2,13 +2,10 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import contactsIcon from "shared/assets/icons/m/contacts.svg"
 import { LINKS } from "shared/constants"
+import { Quest } from "shared/types"
 import QuestItem from "./QuestItem"
 
-export default function QuestsRewards({
-  quests,
-}: {
-  quests: { name: string; description: string }[]
-}) {
+export default function QuestsRewards({ quests }: { quests: Quest[] }) {
   return (
     <div>
       <h3 className="header row">
@@ -25,8 +22,8 @@ export default function QuestsRewards({
         </div>
       </h3>
       <div className="rewards_quests column">
-        {quests.map(({ name, description }) => (
-          <QuestItem name={name} description={description} />
+        {quests.map(({ name, description, isNew }) => (
+          <QuestItem name={name} description={description} isNew={isNew} />
         ))}
       </div>
       <style jsx>{`
