@@ -89,17 +89,6 @@
           "description": "The more interactions you execute with different unique contracts on Base compared to other members of this realm in a week, the more of the weekly XP drop you will get."
         }
       ]
-    },
-    {
-      "realmId": "zeke",
-      "questlineName": "Transact on zkSync",
-      "description": "",
-      "quests": [
-        {
-          "name": "Interact with unique contracts on zkSync",
-          "description": "The more interactions you execute with different unique contracts on zkSync compared to other members of this realm in a week, the more of the weekly XP drop you will get."
-        }
-      ]
     }
   ]
 }
