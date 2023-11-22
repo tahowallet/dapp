@@ -11,7 +11,8 @@
         },
         {
           "name": "Incraease your Gitcoin Passport score",
-          "description": "The more you increase your Gitcoin Passport score in a week, the more of the weekly XP drop you will get."
+          "description": "The more you increase your Gitcoin Passport score in a week, the more of the weekly XP drop you will get.",
+          "isNew": true
         }
       ]
     },
@@ -26,11 +27,13 @@
         },
         {
           "name": "Mint W3ST",
-          "description": "The more W3ST you mint, the more of the weekly XP drop you will get."
+          "description": "The more W3ST you mint, the more of the weekly XP drop you will get.",
+          "isNew": true
         },
         {
           "name": "Collect post essence",
-          "description": "The more post essence you collect, the more of the weekly XP drop you will get."
+          "description": "The more post essence you collect, the more of the weekly XP drop you will get.",
+          "isNew": true
         }
       ]
     },
@@ -45,7 +48,8 @@
         },
         {
           "name": "Earn fUSDC rewards using Fluidity",
-          "description": "The more fUSDC rewards you earn using Fluidity in a week, the more of the weekly XP drop you will get."
+          "description": "The more fUSDC rewards you earn using Fluidity in a week, the more of the weekly XP drop you will get.",
+          "isNew": true
         }
       ]
     },
@@ -60,7 +64,8 @@
         },
         {
           "name": "Mint NFTs during the week using the Galxe space station",
-          "description": "The more NFTs you mint via a Galxe [`SpaceStation` contract](https://docs.galxe.com/developer/smart-contract/contracts/spacestation/), the more of the weekly XP drop you will get."
+          "description": "The more NFTs you mint via a Galxe [`SpaceStation` contract](https://docs.galxe.com/developer/smart-contract/contracts/spacestation/), the more of the weekly XP drop you will get.",
+          "isNew": true
         }
       ]
     },
@@ -75,7 +80,8 @@
         },
         {
           "name": "Bridge tokens using FraxFerry",
-          "description": "The more unique tokens you bridge over FraxFerry, the more of the weekly XP drop you will get."
+          "description": "The more unique tokens you bridge over FraxFerry, the more of the weekly XP drop you will get.",
+          "isNew": true
         }
       ]
     },
