@@ -116,9 +116,6 @@ function Container({
               right: 0;
               width: 100vw;
               height: 100vh;
-              // display: flex;
-              // align-items: center;
-              // justify-content: center;
               overflow: hidden;
               z-index: var(--z-modal-island);
             }
@@ -239,7 +236,6 @@ function Content({
           background: #0d2120;
           filter: blur(22px);
           pointer-events: none;
-          // transform: translateY(-20px);
           position: absolute;
           bottom: -20px;
           left: 1%;
