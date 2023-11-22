@@ -23,7 +23,12 @@ export default function QuestsRewards({ quests }: { quests: Quest[] }) {
       </h3>
       <div className="rewards_quests column">
         {quests.map(({ name, description, isNew }) => (
-          <QuestItem name={name} description={description} isNew={isNew} />
+          <QuestItem
+            key={name}
+            name={name}
+            description={description}
+            isNew={isNew}
+          />
         ))}
       </div>
       <style jsx>{`
