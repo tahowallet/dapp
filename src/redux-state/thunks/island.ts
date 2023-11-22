@@ -9,7 +9,7 @@ import {
   setRealmDisplayedPopulation,
 } from "redux-state/slices/island"
 import {
-  REALMS_WITH_CONTRACT_NAME,
+  REALMS_WITH_CONTRACT_ADDRESS,
   TAHO_ADDRESS,
   getQuestlineData,
 } from "shared/constants"
@@ -60,7 +60,7 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
       const realmData =
         cachedRealmData ||
         (await transactionService.read(getAllRealmsData, {
-          realms: REALMS_WITH_CONTRACT_NAME,
+          realms: REALMS_WITH_CONTRACT_ADDRESS,
         }))
 
       if (realmData !== null) {

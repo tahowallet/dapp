@@ -55,7 +55,7 @@ export const getRealmData: ReadTransactionBuilder<
 }
 
 export const getAllRealmsData: ReadTransactionBuilder<
-  { realms: { [id: string]: { name: string } } },
+  { realms: { [id: string]: { address: string } } },
   RealmContractDataWithId[]
 > = async (provider, { realms }) => {
   const realmsWithContractData = await getRealmTokenAddresses(provider, {
