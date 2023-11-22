@@ -136,7 +136,7 @@ export function bigIntToDisplayUserAmount(
 ): string {
   const amountBigInt = typeof amount === "string" ? BigInt(amount) : amount
 
-  const parsed = separateThousandsByComma(
+  let parsed = separateThousandsByComma(
     bigIntToUserAmount(amountBigInt, decimals, desiredDecimals),
     desiredDecimals
   )
@@ -144,6 +144,9 @@ export function bigIntToDisplayUserAmount(
   if (parsed === "0" && amountBigInt > 0n) {
     return `<${1 / 10 ** desiredDecimals}`
   }
+
+  // Remove trailing zeros and the decimal point if there are no decimal values left
+  parsed = parsed.replace(/(\.0+|(?<=\.\d+?)0+)$/g, "")
 
   return parsed
 }
