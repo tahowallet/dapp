@@ -65,14 +65,14 @@ export default function Realm({
   const bubbleRef = useRef<Konva.Image>(null)
   const [pathRefs, addPathRef] = useMultiRef<Konva.Path>()
 
-  const { clickedRealmUpdate, isRealmDisplayed } = useDisplayedRealms()
+  const { updateDisplayedRealm, isRealmDisplayed } = useDisplayedRealms()
 
   const handleRealmClick = useCallback(() => {
     setIsSelected((prev) => !prev)
 
-    clickedRealmUpdate(id)
+    updateDisplayedRealm(id)
     islandContext.current.onRealmClick(id)
-  }, [clickedRealmUpdate, id, islandContext])
+  }, [updateDisplayedRealm, id, islandContext])
 
   const partnerLogoTranslate = useMemo(
     () => calculatePartnerLogoTranslate(name),
@@ -296,7 +296,6 @@ export default function Realm({
               {...blinkingProps}
             />
           ))}
-          {/* This is the "New realm" label */}
           <NewRealmLabel realmId={id} x={x} y={y} />
         </>
       )}
