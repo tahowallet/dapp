@@ -64,6 +64,9 @@ export default function TransactionsModal({
             padding: 48px;
             min-width: 500px;
             gap: 40px;
+            background: var(--background-gradient);
+            backdrop-filter: blur(26px);
+            border-radius: 16px;
           }
           .transactions_container h1 {
             font-weight: 500;

@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import React from "react"
+import React, { CSSProperties } from "react"
 import { easings, useSpring, animated } from "@react-spring/web"
 
 import Portal from "./Portal"
@@ -249,7 +249,13 @@ function Content({
 /**
  * Modal content wrapper, it uses Content component adding animation to it
  */
-function AnimatedContent({ children }: { children: React.ReactNode }) {
+function AnimatedContent({
+  children,
+  style,
+}: {
+  children: React.ReactNode
+  style?: CSSProperties
+}) {
   const [props] = useSpring(
     () => ({
       from: {
@@ -266,7 +272,9 @@ function AnimatedContent({ children }: { children: React.ReactNode }) {
 
   return (
     <animated.div style={{ ...props, transformOrigin: "bottom" }}>
-      <Content>{children}</Content>
+      <Content style={{ ...style, height: "100vh", justifyContent: "center" }}>
+        {children}
+      </Content>
     </animated.div>
   )
 }
