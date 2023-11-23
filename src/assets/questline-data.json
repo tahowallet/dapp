@@ -84,8 +84,8 @@
         },
         {
           "id": "19_2",
-          "name": "Mint NFTs during the week using the Galxe space station",
-          "description": "The more NFTs you mint via a Galxe [`SpaceStation` contract](https://docs.galxe.com/developer/smart-contract/contracts/spacestation/), the more of the weekly XP drop you will get.",
+          "name": "Claim NFTs during the week using the Galxe space station",
+          "description": "The more NFTs you claim via a Galxe [`SpaceStation` contract](https://docs.galxe.com/developer/smart-contract/contracts/spacestation/), the more of the weekly XP drop you will get.",
           "isNew": true
         }
       ]
