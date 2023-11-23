@@ -34,6 +34,9 @@ export default function CongratulationsModal({
       <style jsx>{`
         .modal {
           width: 584px;
+          background: var(--background-gradient);
+          backdrop-filter: blur(26px);
+          border-radius: 16px;
         }
         .modal_header {
           padding: 48px 48px 0;

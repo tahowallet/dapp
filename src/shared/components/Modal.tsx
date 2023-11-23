@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import React from "react"
+import React, { CSSProperties } from "react"
 import { easings, useSpring, animated } from "@react-spring/web"
 
 import Portal from "./Portal"
@@ -116,9 +116,6 @@ function Container({
               right: 0;
               width: 100vw;
               height: 100vh;
-              display: flex;
-              align-items: center;
-              justify-content: center;
               overflow: hidden;
               z-index: var(--z-modal-island);
             }
@@ -199,7 +196,9 @@ function ScrollableContainer({
             height: 100vh;
             padding-top: ${topSpacing};
             padding-bottom: ${bottomSpacing};
-            overflow: hidden auto;
+            overflow: visible auto;
+            display: flex;
+            justify-content: center;
           }
         `}
       </style>
@@ -228,19 +227,7 @@ function Content({
           display: flex;
           flex-direction: column;
           align-items: center;
-          backdrop-filter: blur(26px);
-          color: #e4eeee;
-          background: radial-gradient(
-              57.41% 54.95% at 64.58% 47.64%,
-              rgba(27, 97, 94, 0) 0%,
-              rgba(27, 97, 94, 0.2) 100%
-            ),
-            linear-gradient(
-              137deg,
-              rgba(26, 94, 91, 0.9) 0%,
-              rgba(26, 106, 103, 0) 100%
-            ),
-            rgba(6, 48, 46, 0.5);
+          align-self: flex-start;
         }
 
         .modal_shadow {
@@ -248,6 +235,7 @@ function Content({
           height: 30px;
           background: #0d2120;
           filter: blur(22px);
+          pointer-events: none;
           position: absolute;
           bottom: -20px;
           left: 1%;
@@ -261,7 +249,13 @@ function Content({
 /**
  * Modal content wrapper, it uses Content component adding animation to it
  */
-function AnimatedContent({ children }: { children: React.ReactNode }) {
+function AnimatedContent({
+  children,
+  style,
+}: {
+  children: React.ReactNode
+  style?: CSSProperties
+}) {
   const [props] = useSpring(
     () => ({
       from: {
@@ -278,7 +272,9 @@ function AnimatedContent({ children }: { children: React.ReactNode }) {
 
   return (
     <animated.div style={{ ...props, transformOrigin: "bottom" }}>
-      <Content>{children}</Content>
+      <Content style={{ ...style, height: "100vh", justifyContent: "center" }}>
+        {children}
+      </Content>
     </animated.div>
   )
 }

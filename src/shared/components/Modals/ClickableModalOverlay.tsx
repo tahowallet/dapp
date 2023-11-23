@@ -20,7 +20,7 @@ export default function ClickableModalOverlay({
           left: 0;
           right: 0;
           bottom: 0;
-          zindex: 0;
+          z-index: 0;
           cursor: default;
         }
       `}</style>

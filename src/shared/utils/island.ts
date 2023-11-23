@@ -252,3 +252,22 @@ export function getNewRealmLabelShift(realmId: string) {
       return { x: 0, y: 0 }
   }
 }
+
+export function getNewQuestLabelShift(realmId: string) {
+  switch (realmId) {
+    case "4":
+      return { x: 0, y: 200 }
+    case "7":
+      return { x: 850, y: 150 }
+    case "8":
+      return { x: 800, y: 200 }
+    case "9":
+      return { x: 850, y: 350 }
+    case "19":
+      return { x: 500, y: 350 }
+    case "22":
+      return { x: 550, y: 100 }
+    default:
+      return { x: 0, y: 0 }
+  }
+}

@@ -1,3 +1,4 @@
+import { Quest } from "./quest"
 import { XpDistributor, XpMerkleTreeItem } from "./xp"
 
 // Data from Taho Deployer contract
@@ -19,7 +20,7 @@ export type RealmContractData = {
 export type RealmQuestlineData = {
   description: string
   questlineName: string
-  quests: { name: string; description: string }[]
+  quests: Quest[]
 }
 
 export type RealmData = RealmAddressesData &
