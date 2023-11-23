@@ -18,6 +18,7 @@ export default function CursorLabel({
 
   const { name, realmName, stakingRealmColor, cursorTextColor } = userInfo
   const iconKey = realmName?.toLowerCase() as keyof typeof REALM_ICONS
+  const iconSrc = REALM_ICONS[iconKey]
 
   return (
     <>
@@ -29,18 +30,13 @@ export default function CursorLabel({
         }}
       >
         <div
-          className="elipsis"
-          style={{ whiteSpace: "nowrap", fontSize: "16px" }}
+          className="ellipsis"
+          style={{ whiteSpace: "nowrap", fontSize: "16px", maxWidth: "250px" }}
         >
           {name}
         </div>
-        {realmName && (
-          <Icon
-            src={REALM_ICONS[iconKey]}
-            type="image"
-            height="16px"
-            width="16px"
-          />
+        {realmName && iconSrc && (
+          <Icon src={iconSrc} type="image" height="16px" width="16px" />
         )}
       </div>
       <style jsx>{`

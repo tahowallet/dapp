@@ -58,7 +58,8 @@ export default function QuestsDetails({
               color="var(--primary-p1-100)"
             />
             {separateThousandsByComma(
-              /* realm?.xpAllocatable || */ WEEKLY_XP_ALLOCATION
+              /* realm?.xpAllocatable || */ WEEKLY_XP_ALLOCATION,
+              0
             )}
           </h1>
           {tokenSymbol}

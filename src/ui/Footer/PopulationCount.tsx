@@ -36,7 +36,7 @@ export default function PopulationCount() {
           <p>Population</p>
         </div>
         <p style={{ font: "var(--text-h1)" }}>
-          {separateThousandsByComma(population)}
+          {separateThousandsByComma(population, 0)}
         </p>
       </animated.div>
       <style jsx>{`
