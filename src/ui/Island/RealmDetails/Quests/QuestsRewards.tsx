@@ -22,9 +22,10 @@ export default function QuestsRewards({ quests }: { quests: Quest[] }) {
         </div>
       </h3>
       <div className="rewards_quests column">
-        {quests.map(({ name, description, isNew }) => (
+        {quests.map(({ id, name, description, isNew }) => (
           <QuestItem
-            key={name}
+            key={id}
+            id={id}
             name={name}
             description={description}
             isNew={isNew}

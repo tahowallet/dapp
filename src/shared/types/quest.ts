@@ -1,1 +1,6 @@
-export type Quest = { name: string; description: string; isNew?: boolean }
+export type Quest = {
+  id: string
+  name: string
+  description: string
+  isNew?: boolean
+}
