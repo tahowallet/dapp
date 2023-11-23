@@ -49,6 +49,7 @@ export default function NewQuestLabel({ realmId, x, y }: NewQuestLabelProps) {
       height={78 * FIGMA_FACTOR.Y}
       x={labelX}
       y={labelY}
+      listening={false}
     />
   )
 }
