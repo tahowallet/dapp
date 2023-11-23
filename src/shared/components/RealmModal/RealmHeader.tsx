@@ -60,7 +60,7 @@ export default function RealmHeader() {
               />
               Questline
             </span>
-            <span>{realm?.questlineName}</span>
+            <span style={{ maxWidth: 300 }}>{realm?.questlineName}</span>
           </div>
         </div>
         <p className="realm_description">{realm?.description}</p>

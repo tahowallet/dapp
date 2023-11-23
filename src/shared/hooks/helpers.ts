@@ -211,7 +211,7 @@ export function useLocalStorageChange<T>(key: string): {
 
     window.addEventListener("storage", handleStorageChange)
     return () => window.removeEventListener("storage", handleStorageChange)
-  })
+  }, [key])
 
   const updateStorage = (newValue: Partial<T>) => {
     try {
