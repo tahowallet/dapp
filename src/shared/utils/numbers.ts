@@ -8,9 +8,10 @@ export function separateThousandsByComma(
   decimals = 2
 ): string {
   const adjustedValue = typeof value === "string" ? +value : value
+  // @ts-expect-error - `maximumFractionDigits` wants to get number less than 21,
+  // but as the tokens have 18 decimals have, we can safely pass a parameter
   return adjustedValue.toLocaleString("en-US", {
-    // @ts-expect-error - `maximumFractionDigits` wants to get number less than 21,
-    // but as the tokens have 18 decimals have, we can safely pass a parameter
+    minimumFractionDigits: decimals,
     maximumFractionDigits: decimals < 21 ? decimals : 2,
   })
 }
@@ -135,7 +136,7 @@ export function bigIntToDisplayUserAmount(
 ): string {
   const amountBigInt = typeof amount === "string" ? BigInt(amount) : amount
 
-  const parsed = separateThousandsByComma(
+  let parsed = separateThousandsByComma(
     bigIntToUserAmount(amountBigInt, decimals, desiredDecimals),
     desiredDecimals
   )
@@ -143,6 +144,9 @@ export function bigIntToDisplayUserAmount(
   if (parsed === "0" && amountBigInt > 0n) {
     return `<${1 / 10 ** desiredDecimals}`
   }
+
+  // Remove trailing zeros and the decimal point if there are no decimal values left
+  parsed = parsed.replace(/(\.0+|(?<=\.\d+?)0+)$/g, "")
 
   return parsed
 }
