@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 // Need to pass spring props to spring abstracted components
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useMemo, useRef, useState } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 import type Konva from "konva"
 import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
@@ -11,7 +11,7 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
-import { useMultiRef } from "shared/hooks"
+import { useDisplayedRealms, useMultiRef } from "shared/hooks"
 import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
 import { selectDisplayedRealmId, useDappSelector } from "redux-state"
 import {
@@ -19,6 +19,8 @@ import {
   useIslandRealmsPaths,
   usePopulationBubble,
 } from "../../shared/hooks"
+import NewRealmLabel from "./IslandRealmsDetails/NewRealmLabel"
+import NewQuestLabel from "./IslandRealmsDetails/NewQuestLabel"
 
 type RealmProps = {
   id: string
@@ -34,6 +36,7 @@ type RealmProps = {
   labelY: number
   partnerLogo: HTMLImageElement
   populationIcon: HTMLImageElement
+  isNew?: boolean
 }
 
 export default function Realm({
@@ -50,6 +53,7 @@ export default function Realm({
   labelY,
   partnerLogo,
   populationIcon,
+  isNew,
 }: RealmProps) {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const [isHovered, setIsHovered] = useState(false)
@@ -60,13 +64,16 @@ export default function Realm({
   const textRef = useRef<Konva.Text>(null)
   const partnerLogoRef = useRef<Konva.Image>(null)
   const bubbleRef = useRef<Konva.Image>(null)
-
   const [pathRefs, addPathRef] = useMultiRef<Konva.Path>()
 
-  const handleRealmClick = () => {
+  const { updateDisplayedRealm, isRealmDisplayed } = useDisplayedRealms()
+
+  const handleRealmClick = useCallback(() => {
     setIsSelected((prev) => !prev)
+
+    updateDisplayedRealm(id)
     islandContext.current.onRealmClick(id)
-  }
+  }, [updateDisplayedRealm, id, islandContext])
 
   const partnerLogoTranslate = useMemo(
     () => calculatePartnerLogoTranslate(name),
@@ -175,6 +182,16 @@ export default function Realm({
     }
   }, [isHovered])
 
+  const [blinkingProps] = useSpring(
+    () => ({
+      from: { ...styles.default.overlay, opacity: 0.2 },
+      to: { ...styles.default.overlay, opacity: 0.8 },
+      loop: { reverse: true },
+      config: { duration: 600, easing: easings.easeOutCubic },
+    }),
+    []
+  )
+
   const [textProps] = useSpring(() => {
     const destinationStyle = isHovered
       ? styles.highlight.text
@@ -264,6 +281,26 @@ export default function Realm({
           {...pathProps}
         />
       ))}
+      {/* This path is used to create the blinking effect */}
+      {isNew && !isRealmDisplayed(id) && (
+        <>
+          {paths.map((path, index) => (
+            <animated.Path
+              key={index}
+              x={x}
+              y={y}
+              data={path}
+              width={width}
+              height={height}
+              listening={false}
+              onClick={handleRealmClick}
+              {...blinkingProps}
+            />
+          ))}
+          <NewRealmLabel realmId={id} x={x} y={y} />
+        </>
+      )}
+      <NewQuestLabel realmId={id} x={x} y={y} />
       <animated.Text
         ref={textRef}
         text={name ?? "TestRealm"} // TODO: remove conditon when name is accessible

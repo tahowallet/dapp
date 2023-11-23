@@ -28,7 +28,7 @@ export default function AssistantFirstRealm() {
           boards.
         </p>
         <p className="paragraph" style={{ marginBottom: 0 }}>
-          Survey our 5 Beta Realms and choose the one you can dominate. The more
+          Survey our 6 Beta Realms and choose the one you can dominate. The more
           $TAHO you stake, the more $XP you earn. The more Citizens in each
           Realm, the more your weekly $XP reward gets diluted.
         </p>

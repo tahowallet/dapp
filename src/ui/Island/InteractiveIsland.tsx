@@ -25,7 +25,7 @@ import {
 import Assistant from "ui/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
-import RealmPin from "./RealmPin"
+import RealmPin from "./IslandRealmsDetails/RealmPin"
 import Clouds from "./Clouds"
 
 function InteractiveIsland() {

@@ -65,6 +65,11 @@ export default function RealmModalContent({
         {`
           .modal {
             width: 755px;
+            margin-inline: auto;
+            backdrop-filter: blur(26px);
+            border-radius: 16px;
+            color: #e4eeee;
+            background: var(--background-gradient);
           }
 
           .modal_header {

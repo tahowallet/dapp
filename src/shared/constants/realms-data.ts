@@ -146,9 +146,10 @@ export const realm8 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
-  labelX: 0,
-  labelY: 0,
+  color: "#0052FF",
+  labelX: 430,
+  labelY: 430,
+  partnerIcons: partners.base,
   cursorText: "#FFF",
 }
 
