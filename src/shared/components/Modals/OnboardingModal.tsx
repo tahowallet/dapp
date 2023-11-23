@@ -21,9 +21,14 @@ export default function OnboardingModal({
             width: 428,
             height: 428,
             justifyContent: "center",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
             borderRadius: "50%",
             padding: "8px 48px",
             textAlign: "center",
+            backdropFilter: "blur(26px)",
+            background: "var(--background-gradient)",
           }}
         >
           <div className="column_center">
