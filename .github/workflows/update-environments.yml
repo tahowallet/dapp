@@ -56,11 +56,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          # Needed so that we could create PR with `THESIS_VALKYRIE_PAT`,
+          # otherwise it doesn't trigger `test-list.yml`.
+          persist-credentials: false
       - name: Open/update a PR from `main` to `stage-live`
         id: pr
         uses: tretuna/sync-branches@ea58ab6e406fd3ad016a064b31270bbb41127f41 # 1.4.0
         with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          # We couldn't use GITHUB_TOKEN here, because events triggered by this
+          # token are not triggering other workflows (and we want trigger the
+          # `test-list.yml` workflow after `sync-stage-live-to-release` creates
+          # a PR).
+          GITHUB_TOKEN: ${{secrets.THESIS_VALKYRIE_PAT}}
           FROM_BRANCH: "stage-live"
           TO_BRANCH: "release"
           PULL_REQUEST_TITLE: "🚀 [QA] Update release environment"
