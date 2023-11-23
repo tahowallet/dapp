@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import newQuestLabel from "shared/assets/new-quest-label.gif"
+import newQuestLabelImg from "shared/assets/new-quest-label.png"
 import { FIGMA_FACTOR } from "shared/constants"
 import {
   hasNewQuests,
@@ -9,7 +9,8 @@ import {
 import { RootState } from "redux-state/reducers"
 import { getNewQuestLabelShift } from "shared/utils"
 import { useDisplayedQuests } from "shared/hooks"
-import Gif from "../Gif"
+import { Image } from "react-konva"
+import useImage from "use-image"
 
 type NewQuestLabelProps = {
   realmId: string
@@ -33,6 +34,8 @@ export default function NewQuestLabel({ realmId, x, y }: NewQuestLabelProps) {
     [newQuestsForRealm.length, numberOfNewQuestsDisplayed, realmId]
   )
 
+  const [newQuestLabel] = useImage(newQuestLabelImg)
+
   if (!newQuestsAvailable || allNewQuestsDisplayed) return null
 
   const labelShift = getNewQuestLabelShift(realmId)
@@ -40,10 +43,10 @@ export default function NewQuestLabel({ realmId, x, y }: NewQuestLabelProps) {
   const labelY = y + labelShift.y
 
   return (
-    <Gif
-      src={newQuestLabel}
-      width={104 * FIGMA_FACTOR.X}
-      height={107 * FIGMA_FACTOR.Y}
+    <Image
+      image={newQuestLabel}
+      width={73 * FIGMA_FACTOR.X}
+      height={78 * FIGMA_FACTOR.Y}
       x={labelX}
       y={labelY}
     />
