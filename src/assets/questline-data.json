@@ -3,7 +3,7 @@
     {
       "realmId": "4",
       "questlineName": "Transact on PGN, human!",
-      "description": "Gitcoin is a community that focuses on incentivizing and supporting open-source development. Gitcoin aims to foster collaboration and sustainability within the open-source ecosystem by providing a marketplace for matching developers with projects and funding opportunitie and rewards for their contributions.",
+      "description": "Gitcoin is a community that focuses on incentivizing and supporting open-source development. Gitcoin aims to foster collaboration and sustainability within the open-source ecosystem by providing a marketplace for matching developers with projects and funding opportunities and rewards for their contributions.",
       "quests": [
         {
           "id": "4_1",
@@ -12,7 +12,7 @@
         },
         {
           "id": "4_2",
-          "name": "Incraease your Gitcoin Passport score",
+          "name": "Increase your Gitcoin Passport score",
           "description": "The more you increase your Gitcoin Passport score in a week, the more of the weekly XP drop you will get.",
           "isNew": true
         }
@@ -75,7 +75,7 @@
     {
       "realmId": "19",
       "questlineName": "Eat your OATs, unless they're minty NFTs",
-      "description": "Galxe is the largest web3 credential data network that is helping projects and developers to build robust decentralized products. Earn oat, NFTs, and tokens by contributing to your favorite Web3 communities.",
+      "description": "Galxe is the largest web3 credential data network that is helping projects and developers build robust decentralized products. Earn oat, NFTs, and tokens by contributing to your favorite Web3 communities.",
       "quests": [
         {
           "id": "19_1",
