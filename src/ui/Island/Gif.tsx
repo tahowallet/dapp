@@ -11,10 +11,18 @@ type GifProps = {
   x?: number
   y?: number
   scaleY?: number
+  listening?: boolean
 }
 
-function Gif(props: GifProps) {
-  const { src, x = 0, y = 0, width, height, scaleY } = props
+function Gif({
+  src,
+  x = 0,
+  y = 0,
+  width,
+  height,
+  scaleY,
+  listening = false,
+}: GifProps) {
   const imageRef = useRef<Konva.Image | null>(null)
   const canvas = useMemo(() => document.createElement("canvas"), [])
 
@@ -42,6 +50,7 @@ function Gif(props: GifProps) {
       scaleY={scaleY}
       image={canvas}
       ref={imageRef}
+      listening={listening}
     />
   )
 }

@@ -47,6 +47,7 @@ export default function IslandRealms() {
             paths={realm.paths.map((path) => path.data)}
             partnerLogo={partnerLogo}
             populationIcon={populationIcon}
+            isNew={realm.isNew}
           />
         )
       )}

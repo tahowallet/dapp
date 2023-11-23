@@ -9,6 +9,7 @@ type AccordionProps = {
   icon?: string
   iconColor?: string
   type?: "default" | "frame"
+  onClick?: () => void
 }
 
 export default function Accordion({
@@ -17,10 +18,14 @@ export default function Accordion({
   icon,
   iconColor,
   type = "default",
+  onClick,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const toggle = () => setIsOpen(!isOpen)
+  const toggle = () => {
+    setIsOpen(!isOpen)
+    if (onClick) onClick()
+  }
 
   return (
     <>
@@ -88,7 +93,7 @@ export default function Accordion({
           }
           .accordion.open .accordion_content {
             max-height: 500px;
-            padding-top: 8px;
+            padding-top: 16px;
           }
           .accordion_icon {
             transition: transform 0.3s ease-in-out;

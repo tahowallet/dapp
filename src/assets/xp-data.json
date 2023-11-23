@@ -20,6 +20,12 @@
     ],
     "leaderboard": "leaderboard.json"
   },
+  "8": {
+    "rootFolder": "/assets/xp/base",
+    "claimsFolder": "/assets/xp/base/claims",
+    "xpGlossary": [],
+    "leaderboard": null
+  },
   "9": {
     "rootFolder": "/assets/xp/arbitrum",
     "claimsFolder": "/assets/xp/arbitrum/claims",

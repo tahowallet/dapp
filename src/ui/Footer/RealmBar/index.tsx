@@ -44,7 +44,7 @@ export default function RealmsBar() {
           <div className="row_center" style={{ gap: 4 }}>
             <p style={{ color: "var(--secondary-s1-60)" }}>Total:</p>
             <p className="total_value">
-              {separateThousandsByComma(totalPopulation)}
+              {separateThousandsByComma(totalPopulation, 0)}
             </p>
           </div>
         </div>
