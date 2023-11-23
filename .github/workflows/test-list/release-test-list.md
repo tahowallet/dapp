@@ -13,6 +13,8 @@ environment 🚀**
 
 ## Manual tests
 
+*many of these tests can be combined with each other as you're testing. I suggest looking through the whole checklist first then executing tests in a way that allows you to check off multiple items at once. Some suggestions are provided.
+
 
 1. Connect to wallet that previously staked
    - [ ] you see the Portal is Open message
@@ -28,14 +30,14 @@ environment 🚀**
    - [ ] you can see the map after entering
    - [ ] you see your address connected
    - [ ] you don't see a realm name beside that
-   - [ ] you can explore realms and stake into one
+   - [ ] you can explore realms and stake into one (if you staked above, you don't have to do it again. Just make sure to test stake and unstake at least once)
 
 3. Connect to wallet that has NO $TAHO (& no $VETAHO)
    - [ ] you see the portal is closed message and the wait list button
    - [ ] wait list redirect works as expected
    - [ ] you can't see the map
 
-4. Switch connected wallet in the extension
+4. Switch connected wallet in the extension (it's easy to check these off along with the above while you're switching accounts)
    - [ ] dapp reloads and shows the portal screen
    - [ ] reloads with Connect Wallet button if you go to a wallet that's not
          connected
@@ -55,7 +57,7 @@ environment 🚀**
    - [ ] does come up properly for a user connecting for the first time and
          running through onboarding
 
-6. Population
+6. Population (this is easily tested with the above when you're staking/unstaking - verify the population changes and then you've combined these tests with that)
    - [ ] shows on each realm
    - [ ] shows on the bottom bar
    - [ ] is updated appropriately if a new account stakes
