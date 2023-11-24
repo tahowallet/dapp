@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from "react"
-import RealmModal from "shared/components/RealmModal"
+// import RealmModal from "shared/components/RealmModal"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
   useValueRef,
@@ -9,16 +9,17 @@ import {
 } from "shared/hooks"
 import {
   selectRealmNameById,
-  selectIsDefaultIslandMode,
+  // selectIsDefaultIslandMode,
   setDisplayedRealmId,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
+import RealmPanel from "shared/components/RealmPanel"
 import InteractiveIsland from "./InteractiveIsland"
-import RealmDetails from "./RealmDetails"
-import Quests from "./RealmDetails/Quests"
+// import RealmDetails from "./RealmDetails"
+// import Quests from "./RealmDetails/Quests"
 import IslandPresence from "./IslandPresence"
 
 function IslandWrapper() {
@@ -52,7 +53,7 @@ function IslandWrapper() {
     },
   }))
 
-  const isDefaultIslandMode = useDappSelector(selectIsDefaultIslandMode)
+  // const isDefaultIslandMode = useDappSelector(selectIsDefaultIslandMode)
 
   const handleClose = useCallback(() => setRealmId(null), [])
 
@@ -74,14 +75,15 @@ function IslandWrapper() {
           <InteractiveIsland />
           {process.env.DISABLE_REFLECT === "true" ? null : <IslandPresence />}
           {realmId && (
-            <RealmModal onClose={handleClose}>
-              {isDefaultIslandMode ? (
-                <RealmDetails onClose={handleClose} />
-              ) : (
-                // TODO: update if claim flow will be used
-                <Quests />
-              )}
-            </RealmModal>
+            // <RealmModal onClose={handleClose}>
+            //   {isDefaultIslandMode ? (
+            //     <RealmDetails onClose={handleClose} />
+            //   ) : (
+            //     // TODO: update if claim flow will be used
+            //     <Quests />
+            //   )}
+            // </RealmModal>
+            <RealmPanel onClose={handleClose} />
           )}
         </IslandContext.Provider>
       </div>
