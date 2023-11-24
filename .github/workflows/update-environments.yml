@@ -30,7 +30,7 @@ jobs:
             * Stage fork: https://stage-fork--taho-development.netlify.app/
 
             Read more: [Deployment to Production Flow](https://github.com/tahowallet/dapp/blob/main/docs/testing-env.md)
-          REVIEWERS: '["andreachapman"]'
+          REVIEWERS: '["michalinacienciala"]'
       - uses: studroid/label-pr-or-issue-action@ff48a93f6e1a8d8a6befdae900f54da173b17215 # v1.0.1
         with:
           pr-or-issue-number: ${{ steps.pr.outputs.PULL_REQUEST_NUMBER }}
@@ -78,7 +78,7 @@ jobs:
               * Production: https://taho-development.netlify.app/ (aka https://app.taho.xyz/)
 
               Read more: [Deployment to Production Flow](https://github.com/tahowallet/dapp/blob/main/docs/testing-env.md)
-          REVIEWERS: '["andreachapman"]'
+          REVIEWERS: '["michalinacienciala"]'
       - uses: studroid/label-pr-or-issue-action@ff48a93f6e1a8d8a6befdae900f54da173b17215 # v1.0.1
         with:
           pr-or-issue-number: ${{ steps.pr.outputs.PULL_REQUEST_NUMBER }}
