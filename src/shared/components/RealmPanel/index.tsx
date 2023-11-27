@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
-import closeIcon from "shared/assets/icons/s/close.svg"
+import closeIcon from "shared/assets/icons/s/close-black.svg"
 import Button from "../Button"
 import RealmDetailsPanel from "./RealmDetailsPanel"
 import RealmLeaderboardPanel from "./RealmLeaderboardPanel"
@@ -23,6 +23,7 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
       <RealmDetailsPanel />
       <Button
         size="medium"
+        type="close"
         iconSrc={closeIcon}
         iconPosition="left"
         onClick={onClose}
