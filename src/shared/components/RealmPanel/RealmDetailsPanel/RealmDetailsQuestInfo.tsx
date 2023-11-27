@@ -9,7 +9,7 @@ export default function RealmDetailsQuestInfo({
 }) {
   return (
     <>
-      <div className="row_center" style={{ gap: 4 }}>
+      <div className="label row_center">
         <Icon
           src={lightIcon}
           height="24px"
@@ -17,13 +17,13 @@ export default function RealmDetailsQuestInfo({
           color="var(--primary-p2-100)"
           type="image"
         />
-        <span className="label">{children}</span>
+        <span style={{ fontSize: 16 }}>{children}</span>
       </div>
       <style jsx>{`
         .label {
-          font-size: 16px;
           color: var(--secondary-s1-70);
           margin-bottom: 4px;
+          gap: 4px;
         }
       `}</style>
     </>

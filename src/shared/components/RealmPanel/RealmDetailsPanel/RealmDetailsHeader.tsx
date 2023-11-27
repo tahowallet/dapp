@@ -8,6 +8,7 @@ import {
 } from "shared/utils"
 import { WEEKLY_XP_ALLOCATION, getRealmMapData } from "shared/constants"
 import { RealmData } from "shared/types"
+import RealmDetailsSection from "./RealmDetailsSection"
 
 type RealmDetailsHeaderProps = {
   realmId: string
@@ -26,7 +27,7 @@ export default function RealmDetailsHeader({
         <h1 className="realm_header" style={{ color }}>
           {realm?.name} Realm
         </h1>
-        <div className="realm_header_content column">
+        <RealmDetailsSection>
           <div className="labels row">
             <div className="column">
               <span className="label row_center">
@@ -61,7 +62,7 @@ export default function RealmDetailsHeader({
               </div>
             </div>
           </div>
-        </div>
+        </RealmDetailsSection>
       </div>
       <style jsx>{`
         .realm_header_container {
@@ -81,21 +82,6 @@ export default function RealmDetailsHeader({
         .realm_header {
           margin-bottom: 14px;
           font: var(--text-h1);
-        }
-        .realm_header_content {
-          margin-bottom: 20px;
-          padding-bottom: 20px;
-          position: relative;
-        }
-        .realm_header_content::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 100%;
-          height: 1px;
-          background: #071111;
-          box-shadow: 0px -1px 0px 0px rgba(255, 255, 255, 0.2);
         }
         .labels {
           justify-content: space-between;

@@ -3,13 +3,14 @@ import { Quest } from "shared/types"
 import { selectWalletName, useDappSelector } from "redux-state"
 import RealmDetailsQuestItem from "./RealmDetailsQuestItem"
 import RealmDetailsQuestInfo from "./RealmDetailsQuestInfo"
+import RealmDetailsSection from "./RealmDetailsSection"
 
 export default function RealmDetalsQuests({ quests }: { quests: Quest[] }) {
   const walletName = useDappSelector(selectWalletName)
 
   return (
     <>
-      <div>
+      <RealmDetailsSection>
         <div className="quests_header">Weekly Quests</div>
         {quests.map(({ name, description }) => (
           <RealmDetailsQuestItem name={name} description={description} />
@@ -20,7 +21,7 @@ export default function RealmDetalsQuests({ quests }: { quests: Quest[] }) {
         <RealmDetailsQuestInfo>
           Quests must be completed by: {walletName}
         </RealmDetailsQuestInfo>
-      </div>
+      </RealmDetailsSection>
       <style jsx>{`
         .quests_header {
           font-size: 16px;
