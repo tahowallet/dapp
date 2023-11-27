@@ -1,27 +1,23 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import iconCommunity from "shared/assets/icons/people.svg"
-import {
-  selectDisplayedRealmId,
-  selectRealmById,
-  useDappSelector,
-} from "redux-state"
-import { RootState } from "redux-state/reducers"
 import RealmIcon from "shared/components/RealmIcon"
 import {
   getRadialGradientFromRealmColor,
   separateThousandsByComma,
 } from "shared/utils"
 import { WEEKLY_XP_ALLOCATION, getRealmMapData } from "shared/constants"
+import { RealmData } from "shared/types"
 
-export default function RealmDetailsHeader() {
-  const realmId = useDappSelector(selectDisplayedRealmId)
-  const realm = useDappSelector((state: RootState) =>
-    selectRealmById(state, realmId)
-  )
+type RealmDetailsHeaderProps = {
+  realmId: string
+  realm: RealmData
+}
 
-  if (!realmId || !realm) return null
-
+export default function RealmDetailsHeader({
+  realmId,
+  realm,
+}: RealmDetailsHeaderProps) {
   const { color } = getRealmMapData(realmId)
 
   return (
@@ -43,7 +39,7 @@ export default function RealmDetailsHeader() {
                 Population
               </span>
               <span className="label_value">
-                {separateThousandsByComma(realm?.displayedPopulation ?? 0, 0)}
+                {separateThousandsByComma(realm.displayedPopulation ?? 0, 0)}
               </span>
             </div>
             <div className="column">
@@ -57,7 +53,7 @@ export default function RealmDetailsHeader() {
                 />
                 <span className="label_value">
                   {separateThousandsByComma(
-                    /* realm?.xpAllocatable || */ WEEKLY_XP_ALLOCATION,
+                    /* realm.xpAllocatable || */ WEEKLY_XP_ALLOCATION,
                     0
                   )}{" "}
                   XP
