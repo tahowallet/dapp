@@ -68,6 +68,7 @@ export default function GlobalStyles() {
           --sans: "Segment", sans-serif;
 
           --text-h1: 500 42px/110% var(--serif);
+          --text-h2: 500 28px/114% var(--sans);
           --text-h5: 400 16px/150% var(--sans);
           --text-label: 500 16px/24px var(--sans);
           --text-label-alt: 500 12px/16px var(--sans);
