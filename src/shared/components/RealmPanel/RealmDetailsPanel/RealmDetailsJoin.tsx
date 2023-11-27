@@ -2,11 +2,12 @@ import React from "react"
 import Button from "shared/components/Button"
 import Icon from "shared/components/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
-import { selectStakingRealmId, useDappSelector } from "redux-state"
 
-export default function RealmDetailsJoin() {
-  const stakingRealmId = useDappSelector(selectStakingRealmId)
-
+export default function RealmDetailsJoin({
+  stakingRealmId,
+}: {
+  stakingRealmId: string | null
+}) {
   if (stakingRealmId) return null
 
   const handleStakeJoin = () => {} // TODO: implement logic after "Stake/Unstake" is created
