@@ -35,7 +35,7 @@ export const fetchWalletName = createDappAsyncThunk(
         updateConnectedWallet({
           address,
           ...(data.name ? { name: data.name } : {}),
-          ...(data.avatar ? { name: data.avatar } : {}),
+          ...(data.avatar ? { avatar: data.avatar } : {}),
         })
       )
 
