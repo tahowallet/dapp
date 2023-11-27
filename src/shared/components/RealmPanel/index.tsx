@@ -2,8 +2,9 @@ import React, { useEffect } from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
 import closeIcon from "shared/assets/icons/s/close.svg"
-import Panel from "../Panel"
 import Button from "../Button"
+import RealmDetailsPanel from "./RealmDetailsPanel"
+import RealmLeaderboardPanel from "./RealmLeaderboardPanel"
 
 export default function RealmPanel({ onClose }: { onClose: () => void }) {
   const { updateAssistant } = useAssistant()
@@ -19,7 +20,7 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <Panel />
+      <RealmDetailsPanel />
       <Button
         size="medium"
         iconSrc={closeIcon}
@@ -33,7 +34,7 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
       >
         Close view
       </Button>
-      <Panel />
+      <RealmLeaderboardPanel />
     </>
   )
 }
