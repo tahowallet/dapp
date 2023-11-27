@@ -1,13 +1,35 @@
 import React from "react"
 import Icon from "shared/components/Icon"
 import iconCommunity from "shared/assets/icons/people.svg"
-import { RealmCutout } from "shared/components/RealmCutout"
+import {
+  selectDisplayedRealmId,
+  selectRealmById,
+  useDappSelector,
+} from "redux-state"
+import { RootState } from "redux-state/reducers"
+import RealmIcon from "shared/components/RealmIcon"
+import {
+  getRadialGradientFromRealmColor,
+  separateThousandsByComma,
+} from "shared/utils"
+import { WEEKLY_XP_ALLOCATION, getRealmMapData } from "shared/constants"
 
 export default function RealmDetailsHeader() {
+  const realmId = useDappSelector(selectDisplayedRealmId)
+  const realm = useDappSelector((state: RootState) =>
+    selectRealmById(state, realmId)
+  )
+
+  if (!realmId || !realm) return null
+
+  const { color } = getRealmMapData(realmId)
+
   return (
     <>
       <div className="realm_header_container">
-        <h1 className="realm_header">Arbitrum Realm</h1>
+        <h1 className="realm_header" style={{ color }}>
+          {realm?.name} Realm
+        </h1>
         <div className="realm_header_content column">
           <div className="labels row">
             <div className="column">
@@ -21,15 +43,25 @@ export default function RealmDetailsHeader() {
                 Population
               </span>
               <span className="label_value">
-                {/* {separateThousandsByComma(realm?.displayedPopulation ?? 0, 0)} */}
-                34,350
+                {separateThousandsByComma(realm?.displayedPopulation ?? 0, 0)}
               </span>
             </div>
             <div className="column">
               <span className="label">This weeks reward pool</span>
               <div className="row_center" style={{ gap: 10 }}>
-                <RealmCutout />
-                <span className="label_value">1,000,000 XP</span>
+                <RealmIcon
+                  type="circle"
+                  realmId={realmId}
+                  color="var(--primary-100)"
+                  width="24px"
+                />
+                <span className="label_value">
+                  {separateThousandsByComma(
+                    /* realm?.xpAllocatable || */ WEEKLY_XP_ALLOCATION,
+                    0
+                  )}{" "}
+                  XP
+                </span>
               </div>
             </div>
           </div>
@@ -48,11 +80,7 @@ export default function RealmDetailsHeader() {
           width: 572px;
           height: 437px;
           border-radius: 572px;
-          background: radial-gradient(
-            50% 50% at 50% 50%,
-            rgba(18, 170, 255, 0.39) 0%,
-            rgba(28, 163, 238, 0) 100%
-          );
+          background: ${getRadialGradientFromRealmColor(color)};
         }
         .realm_header {
           margin-bottom: 14px;
