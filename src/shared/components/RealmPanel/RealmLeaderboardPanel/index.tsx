@@ -39,22 +39,27 @@ export default function RealmLeaderboardPanel() {
   return (
     <Panel.Container position="right">
       <Panel.Section>
-        <h2>Leaderboard</h2>
-        {SHOW_LEADERBOARD_SELECTION ? (
-          <TabPanel
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            tabs={[
-              { label: "This week", component: null },
-              { label: "Last week", component: null },
-              { label: "All time", component: <AllTimeLeaderboard /> },
-            ]}
-          />
-        ) : (
-          <AllTimeLeaderboard />
-        )}
+        <div className="leaderboard_container">
+          <h2 className="header">Leaderboard</h2>
+          {SHOW_LEADERBOARD_SELECTION ? (
+            <TabPanel
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              tabs={[
+                { label: "This week", component: null },
+                { label: "Last week", component: null },
+                { label: "All time", component: <AllTimeLeaderboard /> },
+              ]}
+            />
+          ) : (
+            <AllTimeLeaderboard />
+          )}
+        </div>
         <style jsx>{`
-          h2 {
+          .leaderboard_container {
+            width: 390px;
+          }
+          .header {
             font: var(--text-h2);
             font-weight: 500;
             margin-bottom: 30px;
