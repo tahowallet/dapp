@@ -12,8 +12,12 @@ export default function RealmDetalsQuests({ quests }: { quests: Quest[] }) {
     <>
       <RealmDetailsSection>
         <div className="quests_header">Weekly Quests</div>
-        {quests.map(({ name, description }) => (
-          <RealmDetailsQuestItem name={name} description={description} />
+        {quests.map(({ id, name, description }) => (
+          <RealmDetailsQuestItem
+            key={id}
+            name={name}
+            description={description}
+          />
         ))}
         <RealmDetailsQuestInfo>
           Quest completion determines your XP

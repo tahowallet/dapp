@@ -1,22 +1,16 @@
 import React, { useState } from "react"
 import TabPanel from "shared/components/TabPanel"
 import {
-  selectDisplayedRealmId,
   selectEligibility,
   selectHasClaimed,
-  selectIsStakingRealmDisplayed,
-  selectIsWalletConnected,
   selectStakingRealmAddress,
-  selectUnclaimedXpSumById,
   useDappSelector,
 } from "redux-state"
 import Leaderboard from "./Leaderboard"
 import Staking from "./Staking"
-import BannerConnect from "./RealmBanners/BannerConnect"
 import BannerJoin from "./RealmBanners/BannerJoin"
 import BannerClaim from "./RealmBanners/BannerClaim"
 import Quests from "./Quests"
-import BannerRewards from "./RealmBanners/BannerRewards"
 import Guardians from "./Guardians"
 
 type RealmDetailsProps = {
@@ -35,14 +29,9 @@ function RealmDetailsBanner({
   activeTab,
   setActiveTab,
 }: RealmDetailsBannerProps) {
-  const isConnected = useDappSelector(selectIsWalletConnected)
   const stakingRealmAddress = useDappSelector(selectStakingRealmAddress)
   const eligibility = useDappSelector(selectEligibility)
   const hasClaimed = useDappSelector(selectHasClaimed)
-
-  if (!isConnected) {
-    return <BannerConnect />
-  }
 
   if (!stakingRealmAddress && eligibility && !hasClaimed) {
     return <BannerClaim close={onClose} />
@@ -60,26 +49,6 @@ function RealmDetailsBanner({
   return null
 }
 
-function RewardsBannerWrapper() {
-  const displayedRealmId = useDappSelector(selectDisplayedRealmId)
-  const isStakingRealm = useDappSelector(selectIsStakingRealmDisplayed)
-  const rewardAmount = useDappSelector((state) =>
-    displayedRealmId ? selectUnclaimedXpSumById(state, displayedRealmId) : 0n
-  )
-  const [justClaimed, setJustClaimed] = useState(false) // used to keep claim rewards congrats modal open
-
-  if (
-    isStakingRealm ||
-    (!isStakingRealm && (rewardAmount > 0n || justClaimed))
-  ) {
-    return (
-      <BannerRewards amount={rewardAmount} setJustClaimed={setJustClaimed} />
-    )
-  }
-
-  return null
-}
-
 export default function RealmDetails({ onClose }: RealmDetailsProps) {
   const [activeTab, setActiveTab] = useState(0)
 
@@ -90,7 +59,6 @@ export default function RealmDetails({ onClose }: RealmDetailsProps) {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-      <RewardsBannerWrapper />
       <TabPanel
         activeTab={activeTab}
         setActiveTab={setActiveTab}

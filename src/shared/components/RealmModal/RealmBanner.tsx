@@ -38,14 +38,10 @@ export default function RealmBanner({
       <style jsx>
         {`
           .realm_banner {
-            padding: 28px 24px;
             background-color: var(--primary-p1-40);
             justify-content: space-between;
             align-items: center;
             gap: 24px;
-            margin-bottom: 36px;
-            width: 671px;
-            border-radius: 8px;
           }
 
           .realm_banner_label {
