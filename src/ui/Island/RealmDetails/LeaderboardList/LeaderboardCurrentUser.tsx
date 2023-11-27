@@ -26,7 +26,7 @@ export default function LeaderboardCurrentUser({
 
   if (!userRank) return null
 
-  const rankNumbber = separateThousandsByComma(userRank.rank, 0)
+  const rankNumber = separateThousandsByComma(userRank.rank, 0)
 
   return (
     <>
