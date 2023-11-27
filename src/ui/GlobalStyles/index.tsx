@@ -61,6 +61,7 @@ export default function GlobalStyles() {
           --close: #f66;
 
           --trading-in: #11bea9;
+          --trading-in-20: #11bea933;
           --trading-out: #ff679d;
 
           /* Typography */
@@ -68,6 +69,8 @@ export default function GlobalStyles() {
           --sans: "Segment", sans-serif;
 
           --text-h1: 500 42px/110% var(--serif);
+          --text-h2: 500 28px/114% var(--sans);
+          --text-h2-alt: 500 32px/150% var(--serif);
           --text-h5: 400 16px/150% var(--sans);
           --text-label: 500 16px/24px var(--sans);
           --text-label-alt: 500 12px/16px var(--sans);
