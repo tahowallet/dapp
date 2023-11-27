@@ -33,7 +33,7 @@ export default function LeaderboardCurrentUser({
       <div className="container row_center" style={style}>
         <div className="rank_container row_center">
           <span>Your rank</span>
-          <span className="rank">{rankNumbber}</span>
+          <span className="rank">{rankNumber}</span>
         </div>
 
         <div className="user_container column">
