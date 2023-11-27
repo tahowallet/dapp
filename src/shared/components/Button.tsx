@@ -6,7 +6,7 @@ type ButtonProps = {
   /**
    * @default "primary"
    */
-  type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject"
+  type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject" | "close"
   /**
    * @default "medium"
    */
@@ -50,6 +50,7 @@ export default function Button({
           tertiary: type === "tertiary",
           twitter: type === "twitter",
           reject: type === "reject",
+          close: type === "close",
           medium: size === "medium",
           large: size === "large",
           reversed: iconPosition === "left",
@@ -211,6 +212,29 @@ export default function Button({
             padding: 4px 0;
             color: var(--semantic-error);
             height: auto;
+          }
+
+          .close {
+            background: var(--close);
+            border-radius: 40px;
+            color: var(--primary-p1-100);
+            padding: 8px 17px 8px 14px;
+            height: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 2px 4px 0px rgba(7, 17, 17, 0.34),
+              0px 6px 8px 0px rgba(7, 17, 17, 0.24),
+              0px 16px 16px 0px rgba(7, 17, 17, 0.3);
+          }
+          .close:hover {
+            color: var(--close);
+            background: var(--primary-p1-100);
+          }
+
+          .close .icon {
+            background: var(--primary-p1-100);
+          }
+          .close:hover .icon {
+            background: var(--close);
           }
 
           .disabled,
