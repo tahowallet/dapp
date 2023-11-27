@@ -6,8 +6,10 @@ export default function RealmDetailsPanel() {
   return (
     <Panel.Container style={{ width: 481 }}>
       <RealmDetailsContent />
-      <Panel.Section>Stake/Unstake</Panel.Section>
-      <Panel.Section>Guardians (coming soon)</Panel.Section>
+      <Panel.Section style={{ padding: 32 }}>Stake/Unstake</Panel.Section>
+      <Panel.Section style={{ padding: 32 }}>
+        Guardians (coming soon)
+      </Panel.Section>
     </Panel.Container>
   )
 }

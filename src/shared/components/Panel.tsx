@@ -1,14 +1,19 @@
-import React, { CSSProperties } from "react"
+import React, { ReactNode, CSSProperties } from "react"
 import classNames from "classnames"
 import Portal from "./Portal"
 
-function Section({ children }: { children: React.ReactNode }) {
+function Section({
+  children,
+  style,
+}: {
+  children: ReactNode
+  style?: CSSProperties
+}) {
   return (
-    <div className="panel_section">
+    <div className="panel_section" style={style}>
       {children}
       <style jsx>{`
         .panel_section {
-          padding: 32px;
           background: var(--primary-p1-100);
           overflow: hidden;
         }

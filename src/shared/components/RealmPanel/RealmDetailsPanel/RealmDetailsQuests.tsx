@@ -10,7 +10,7 @@ export default function RealmDetalsQuests({ quests }: { quests: Quest[] }) {
 
   return (
     <>
-      <RealmDetailsSection>
+      <RealmDetailsSection style={{ marginBottom: 0, paddingInline: 32 }}>
         <div className="quests_header">Weekly Quests</div>
         {quests.map(({ id, name, description }) => (
           <RealmDetailsQuestItem

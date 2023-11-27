@@ -4,7 +4,7 @@ import Panel from "shared/components/Panel"
 export default function RealmDetailsPanel() {
   return (
     <Panel.Container position="right">
-      <Panel.Section>Leaderboard</Panel.Section>
+      <Panel.Section style={{ padding: 32 }}>Leaderboard</Panel.Section>
     </Panel.Container>
   )
 }

@@ -118,6 +118,7 @@ function RealmDetailsRewards({
       <style jsx>
         {`
           .rewards {
+            padding: 20px 32px 32px;
             background-color: var(--primary-p1-40);
             justify-content: space-between;
             align-items: center;

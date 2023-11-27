@@ -9,6 +9,7 @@ import {
 import RealmDetailsHeader from "./RealmDetailsHeader"
 import RealmDetailsQuests from "./RealmDetailsQuests"
 import RealmDetailsRewards from "./RealmDetailsRewards"
+import RealmDetailsJoin from "./RealmDetailsJoin"
 
 export default function RealmDetailsContent() {
   const realmId = useDappSelector(selectDisplayedRealmId)
@@ -23,6 +24,7 @@ export default function RealmDetailsContent() {
       <RealmDetailsHeader realmId={realmId} realm={realm} />
       <RealmDetailsQuests quests={realm?.quests} />
       <RealmDetailsRewards realmId={realmId} />
+      <RealmDetailsJoin />
     </Panel.Section>
   )
 }

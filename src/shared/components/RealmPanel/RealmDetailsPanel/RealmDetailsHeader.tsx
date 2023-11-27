@@ -67,6 +67,7 @@ export default function RealmDetailsHeader({
       <style jsx>{`
         .realm_header_container {
           position: relative;
+          padding: 32px 32px 0;
         }
         .realm_header_container::before {
           content: "";
