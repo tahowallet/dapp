@@ -2,12 +2,15 @@ import React, { useState } from "react"
 import Panel from "shared/components/Panel"
 import TabPanel from "shared/components/TabPanel"
 import LeaderboardList from "ui/Island/RealmDetails/LeaderboardList"
+import LeaderboardCurrentUser from "ui/Island/RealmDetails/LeaderboardList/LeaderboardCurrentUser"
 
+// TODO: remove this when we have more than one leaderboard type
 const SHOW_LEADERBOARD_SELECTION = false
 
-function AllTimeLeaderboard() {
+function AllTimeLeaderboard({ style }: { style?: React.CSSProperties }) {
   return (
-    <>
+    <div style={style}>
+      <LeaderboardCurrentUser style={{ marginBottom: "30px" }} />
       <div className="label row_center">
         <div className="label_text">Top 10</div>
       </div>
@@ -29,7 +32,7 @@ function AllTimeLeaderboard() {
           border-bottom: 1px solid var(--secondary-s1-20);
         }
       `}</style>
-    </>
+    </div>
   )
 }
 
@@ -48,7 +51,12 @@ export default function RealmLeaderboardPanel() {
               tabs={[
                 { label: "This week", component: null },
                 { label: "Last week", component: null },
-                { label: "All time", component: <AllTimeLeaderboard /> },
+                {
+                  label: "All time",
+                  component: (
+                    <AllTimeLeaderboard style={{ marginTop: "30px" }} />
+                  ),
+                },
               ]}
             />
           ) : (
@@ -57,7 +65,7 @@ export default function RealmLeaderboardPanel() {
         </div>
         <style jsx>{`
           .leaderboard_container {
-            width: 390px;
+            width: 420px;
           }
           .header {
             font: var(--text-h2);
