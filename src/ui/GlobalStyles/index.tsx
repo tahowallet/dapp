@@ -58,6 +58,8 @@ export default function GlobalStyles() {
           --semantic-info: #3cc5ee;
           --semantic-error: #ff6666;
 
+          --close: #f66;
+
           --trading-in: #11bea9;
           --trading-out: #ff679d;
 
