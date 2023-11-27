@@ -17,7 +17,7 @@ const walletsSetup = {
   }),
 }
 
-const wallets = [walletsSetup.taho]
+const wallets = [walletsSetup.taho, walletsSetup.walletConnect]
 
 const chains = [ARBITRUM_SEPOLIA]
 // TODO: decide what metadata should look like
