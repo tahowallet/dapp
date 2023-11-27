@@ -1,4 +1,4 @@
-import React from "react"
+import React, { CSSProperties } from "react"
 import classNames from "classnames"
 import Portal from "./Portal"
 
@@ -10,6 +10,7 @@ function Section({ children }: { children: React.ReactNode }) {
         .panel_section {
           padding: 32px;
           background: var(--primary-p1-100);
+          overflow: hidden;
         }
       `}</style>
     </div>
@@ -19,13 +20,15 @@ function Section({ children }: { children: React.ReactNode }) {
 function Container({
   children,
   position = "left",
+  style,
 }: {
   children: React.ReactNode
   position?: "left" | "right"
+  style?: CSSProperties
 }) {
   return (
     <Portal>
-      <div className="panel_container no_scrollbar">
+      <div className="panel_container no_scrollbar" style={style}>
         <div
           className={classNames("panel column", {
             [position]: true,
