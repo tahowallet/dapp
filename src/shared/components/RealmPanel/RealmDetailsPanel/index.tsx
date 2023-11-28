@@ -1,15 +1,15 @@
 import React from "react"
 import Panel from "shared/components/Panel"
 import RealmDetailsContent from "./RealmDetailsContent"
+import StakeUnstakeSection from "../RealmPanelAccordion/StakeUnstakeSection"
+import GuardiansSection from "../RealmPanelAccordion/GuardiansSection"
 
 export default function RealmDetailsPanel() {
   return (
     <Panel.Container style={{ width: 481 }}>
       <RealmDetailsContent />
-      <Panel.Section style={{ padding: 32 }}>Stake/Unstake</Panel.Section>
-      <Panel.Section style={{ padding: 32 }}>
-        Guardians (coming soon)
-      </Panel.Section>
+      <StakeUnstakeSection />
+      <GuardiansSection />
     </Panel.Container>
   )
 }
