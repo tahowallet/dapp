@@ -15,6 +15,7 @@ function Section({
       <style jsx>{`
         .panel_section {
           background: var(--primary-p1-100);
+          backdrop-filter: blur(26px);
           overflow: hidden;
         }
       `}</style>
