@@ -7,7 +7,7 @@ import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 export function useRealmPanelTransition(position: "left" | "right") {
   const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
 
-  const styles = useMemo(
+  const panelStyles = useMemo(
     () => ({
       base: {
         overflow: "visible auto",
@@ -23,12 +23,14 @@ export function useRealmPanelTransition(position: "left" | "right") {
     [position]
   )
 
-  const [props] = useSpring(() => {
-    const destinationStyle = realmPanelVisible ? styles.open : styles.hidden
+  const [panelTransition] = useSpring(() => {
+    const destinationStyle = realmPanelVisible
+      ? panelStyles.open
+      : panelStyles.hidden
 
     return {
-      from: { ...styles.base, ...styles.hidden },
-      to: { ...styles.base, ...destinationStyle },
+      from: { ...panelStyles.base, ...panelStyles.hidden },
+      to: { ...panelStyles.base, ...destinationStyle },
       config: {
         duration: REALM_PANEL_ANIMATION_TIME,
         easing: easings.easeOutCubic,
@@ -36,5 +38,35 @@ export function useRealmPanelTransition(position: "left" | "right") {
     }
   }, [realmPanelVisible])
 
-  return props
+  return panelTransition
+}
+
+export function useRealmCloseButtonTransition() {
+  const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
+
+  const buttonStyles = useMemo(
+    () => ({
+      base: { left: "50%", transform: "translateX(-50%)" },
+      visible: { bottom: 160 },
+      hidden: { bottom: -50 },
+    }),
+    []
+  )
+
+  const [buttonTransition] = useSpring(() => {
+    const destinationButtonStyle = realmPanelVisible
+      ? buttonStyles.visible
+      : buttonStyles.hidden
+
+    return {
+      from: { ...buttonStyles.base, ...buttonStyles.hidden },
+      to: { ...buttonStyles.base, ...destinationButtonStyle },
+      config: {
+        duration: REALM_PANEL_ANIMATION_TIME,
+        easing: easings.easeOutCubic,
+      },
+    }
+  }, [realmPanelVisible])
+
+  return buttonTransition
 }

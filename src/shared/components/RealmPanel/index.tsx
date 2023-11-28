@@ -1,14 +1,12 @@
 import React, { useEffect } from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
-import closeIcon from "shared/assets/icons/s/close-black.svg"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
-import Button from "../Button"
 import RealmDetailsPanel from "./RealmDetailsPanel"
 import RealmLeaderboardPanel from "./RealmLeaderboardPanel"
+import RealmPanelCountdown from "./RealmPanelCountdown"
+import RealmPanelCloseButton from "./RealmPanelCloseButton"
 
 export default function RealmPanel({ onClose }: { onClose: () => void }) {
-  const isRealmDisplayed = useDappSelector(selectDisplayedRealmId)
   const { updateAssistant } = useAssistant()
   const { value, updateStorage } = useLocalStorageChange<boolean>(
     LOCAL_STORAGE_VISITED_REALM
@@ -23,23 +21,9 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
   return (
     <>
       <RealmDetailsPanel />
-      {isRealmDisplayed && (
-        <Button
-          size="medium"
-          type="close"
-          iconSrc={closeIcon}
-          iconPosition="left"
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            bottom: 160,
-            left: "calc(50% - 100px)",
-          }}
-        >
-          Close view
-        </Button>
-      )}
+      <RealmPanelCloseButton onClose={onClose} />
       <RealmLeaderboardPanel />
+      <RealmPanelCountdown />
     </>
   )
 }
