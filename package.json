@@ -25,7 +25,7 @@
     "@web3-onboard/react": "^2.8.11",
     "@web3-onboard/taho": "^2.0.5",
     "@web3-onboard/trezor": "^2.4.2",
-    "@web3-onboard/walletconnect": "^2.4.4",
+    "@web3-onboard/walletconnect": "^2.5.0",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",

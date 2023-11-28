@@ -14,6 +14,7 @@ const walletsSetup = {
   walletConnect: walletConnectModule({
     projectId: process.env.WALLET_CONNECT_ID ?? "",
     requiredChains: [parseInt(ARBITRUM_SEPOLIA.id, 16)],
+    dappUrl: "https://deploy-preview-780--taho-development.netlify.app/",
   }),
 }
 
