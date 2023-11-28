@@ -9,6 +9,7 @@ import {
 import {
   selectRealmNameById,
   setDisplayedRealmId,
+  setRealmPanelVisible,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
@@ -44,12 +45,19 @@ function IslandWrapper() {
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
       setRealmId(String(id))
+      dispatch(setRealmPanelVisible(true))
+
       if (assistantVisible("welcome"))
         updateAssistant({ visible: false, type: "default" })
     },
   }))
 
-  const handleClose = useCallback(() => setRealmId(null), [])
+  const handleClose = useCallback(() => {
+    dispatch(setRealmPanelVisible(false))
+    const timeout = setTimeout(() => setRealmId(null), 600)
+
+    return () => clearTimeout(timeout)
+  }, [dispatch])
 
   return (
     <>

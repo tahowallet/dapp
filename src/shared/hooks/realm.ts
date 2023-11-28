@@ -1,10 +1,10 @@
 /* eslint-disable import/prefer-default-export */
-import { useSpring } from "@react-spring/web"
+import { easings, useSpring } from "@react-spring/web"
 import { useMemo } from "react"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import { selectRealmPanelVisible, useDappSelector } from "redux-state"
 
 export function useRealmPanelTransition(position: "left" | "right") {
-  const displayedRealm = useDappSelector(selectDisplayedRealmId)
+  const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
 
   const styles = useMemo(
     () => ({
@@ -23,13 +23,14 @@ export function useRealmPanelTransition(position: "left" | "right") {
   )
 
   const [props] = useSpring(() => {
-    const destinationStyle = displayedRealm ? styles.open : styles.hidden
+    const destinationStyle = realmPanelVisible ? styles.open : styles.hidden
 
     return {
       from: { ...styles.base, ...styles.hidden },
       to: { ...styles.base, ...destinationStyle },
+      config: { duration: 600, easing: easings.easeOutCubic },
     }
-  }, [displayedRealm])
+  }, [realmPanelVisible])
 
   return props
 }

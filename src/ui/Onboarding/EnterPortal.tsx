@@ -1,17 +1,29 @@
-import React from "react"
+import React, { useCallback } from "react"
 import OnboardingModal from "shared/components/Modals/OnboardingModal"
 import { useWalletOnboarding } from "shared/hooks"
-import { selectWalletAddress, useDappSelector } from "redux-state"
+import {
+  selectWalletAddress,
+  setRealmPanelVisible,
+  useDappDispatch,
+  useDappSelector,
+} from "redux-state"
 
 export default function EnterPortal() {
   const walletAddress = useDappSelector(selectWalletAddress)
   const { updateWalletOnboarding } = useWalletOnboarding()
 
+  const dispatch = useDappDispatch()
+
+  const handlePortalEnter = useCallback(() => {
+    updateWalletOnboarding(walletAddress)
+
+    // Close the realm panel by default - without this realm panel will stay visible when user
+    // disconnects/switches wallet and enters seeing opened panels with no data
+    dispatch(setRealmPanelVisible(false))
+  }, [dispatch, updateWalletOnboarding, walletAddress])
+
   return (
-    <OnboardingModal
-      buttonLabel="Enter Subscape"
-      onClick={() => updateWalletOnboarding(walletAddress)}
-    >
+    <OnboardingModal buttonLabel="Enter Subscape" onClick={handlePortalEnter}>
       You have been
       <br /> granted passage.
     </OnboardingModal>
