@@ -14,6 +14,7 @@ type AccordionProps = {
   onClick?: () => void
   style?: CSSProperties
   isDisabled?: boolean
+  hasInteractiveChildren?: boolean
 }
 
 function getArrowColor(type: AccordionType, isDisabled: boolean): string {
@@ -47,6 +48,7 @@ export default function Accordion({
   onClick,
   style,
   isDisabled = false,
+  hasInteractiveChildren = false,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -58,6 +60,12 @@ export default function Accordion({
   }
 
   const arrowColor = getArrowColor(type, isDisabled)
+
+  const preventToggle = (event: React.MouseEvent) => {
+    if (hasInteractiveChildren) {
+      event.stopPropagation()
+    }
+  }
 
   return (
     <>
@@ -84,7 +92,19 @@ export default function Accordion({
             <Icon src={arrowIcon} color={arrowColor} />
           </div>
         </div>
-        <div className="accordion_content">{children}</div>
+        <div
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) =>
+            e.key === "Enter" && !hasInteractiveChildren && toggle()
+          }
+          className={classNames("accordion_content", {
+            default_mouse: hasInteractiveChildren,
+          })}
+          onClick={preventToggle}
+        >
+          {children}
+        </div>
       </div>
       <style jsx>
         {`
@@ -134,6 +154,10 @@ export default function Accordion({
           }
           .quest.open .accordion_content {
             padding: 16px 24px;
+          }
+
+          .accordion_content.default_mouse {
+            cursor: auto;
           }
 
           .panel {

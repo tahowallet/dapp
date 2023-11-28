@@ -13,7 +13,12 @@ export default function RealmDetailsAccordion({
   isDisabled,
 }: RealmDetailsAccordionProps) {
   return (
-    <Accordion title={title} type="panel" isDisabled={isDisabled}>
+    <Accordion
+      title={title}
+      type="panel"
+      isDisabled={isDisabled}
+      hasInteractiveChildren
+    >
       {children}
     </Accordion>
   )
