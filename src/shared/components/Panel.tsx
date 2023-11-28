@@ -1,15 +1,22 @@
-import React from "react"
+import React, { ReactNode, CSSProperties } from "react"
 import classNames from "classnames"
 import Portal from "./Portal"
 
-function Section({ children }: { children: React.ReactNode }) {
+function Section({
+  children,
+  style,
+}: {
+  children: ReactNode
+  style?: CSSProperties
+}) {
   return (
-    <div className="panel_section">
+    <div className="panel_section" style={style}>
       {children}
       <style jsx>{`
         .panel_section {
-          padding: 32px;
           background: var(--primary-p1-100);
+          backdrop-filter: blur(26px);
+          overflow: hidden;
         }
       `}</style>
     </div>
@@ -19,13 +26,15 @@ function Section({ children }: { children: React.ReactNode }) {
 function Container({
   children,
   position = "left",
+  style,
 }: {
   children: React.ReactNode
   position?: "left" | "right"
+  style?: CSSProperties
 }) {
   return (
     <Portal>
-      <div className="panel_container no_scrollbar">
+      <div className="panel_container no_scrollbar" style={style}>
         <div
           className={classNames("panel column", {
             [position]: true,

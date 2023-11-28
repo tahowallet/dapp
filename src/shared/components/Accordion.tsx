@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import React, { useState } from "react"
+import React, { CSSProperties, useState } from "react"
 import arrowIcon from "../assets/icons/s/arrow-down.svg"
 import Icon from "./Icon"
 
@@ -8,8 +8,9 @@ type AccordionProps = {
   children: React.ReactNode
   icon?: string
   iconColor?: string
-  type?: "default" | "frame"
+  type?: "default" | "frame" | "quest"
   onClick?: () => void
+  style?: CSSProperties
 }
 
 export default function Accordion({
@@ -19,6 +20,7 @@ export default function Accordion({
   iconColor,
   type = "default",
   onClick,
+  style,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -38,6 +40,7 @@ export default function Accordion({
           [type]: true,
           open: isOpen,
         })}
+        style={style}
       >
         <div className="accordion_title row">
           <div className="title row">
@@ -47,7 +50,14 @@ export default function Accordion({
             {title}
           </div>
           <div className="accordion_icon">
-            <Icon src={arrowIcon} color="var(--secondary-s1-80)" />
+            <Icon
+              src={arrowIcon}
+              color={
+                type === "quest"
+                  ? "var(--primary-p1-100)"
+                  : "var(--secondary-s1-80)"
+              }
+            />
           </div>
         </div>
         <div className="accordion_content">{children}</div>
@@ -59,6 +69,7 @@ export default function Accordion({
             padding: 8px;
             cursor: pointer;
           }
+
           .default {
             background: var(--secondary-s1-20);
             transition: background 0.3s ease-in-out;
@@ -69,6 +80,7 @@ export default function Accordion({
           .default.open {
             background: var(--primary-p1-100);
           }
+
           .frame {
             border-radius: 8px;
             padding: 16px 20px 16px 12px;
@@ -77,6 +89,29 @@ export default function Accordion({
           .frame.open {
             border: 1px solid var(--secondary-s1-50);
           }
+
+          .quest {
+            border-radius: 8px;
+            background: var(--trading-in);
+            color: var(--primary-p1-100);
+            padding: 0;
+            border: 1px solid var(--trading-in);
+          }
+          .quest .accordion_title {
+            font-size: 18px;
+            padding: 16px 24px;
+          }
+          .quest .accordion_content {
+            border-radius: 0px 0px 8px 8px;
+            background: var(--primary-p1-100);
+            color: var(--secondary-s1-80);
+            padding: 0 24px;
+            font-size: 18px;
+          }
+          .quest.open .accordion_content {
+            padding: 16px 24px;
+          }
+
           .accordion_title {
             justify-content: space-between;
             align-items: center;

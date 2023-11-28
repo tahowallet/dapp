@@ -41,7 +41,7 @@ export default function RealmLeaderboardPanel() {
 
   return (
     <Panel.Container position="right">
-      <Panel.Section>
+      <Panel.Section style={{ padding: 32 }}>
         <div className="leaderboard_container">
           <h2 className="header">Leaderboard</h2>
           {SHOW_LEADERBOARD_SELECTION ? (

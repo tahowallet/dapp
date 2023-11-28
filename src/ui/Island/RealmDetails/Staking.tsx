@@ -9,7 +9,6 @@ import {
 import { TAHO_ADDRESS } from "shared/constants"
 
 // import BannerEarn from "./RealmBanners/BannerEarn"
-import BannerTakeToRealm from "./RealmBanners/BannerTakeToRealm"
 import UnstakeForm from "./StakingForms/UnstakeForm"
 import StakeForm from "./StakingForms/StakeForm"
 
@@ -52,14 +51,10 @@ export default function Staking() {
     isStakingRealm
   )
 
-  const shouldLinkToRealm = hasStakingRealm && !isStakingRealm
   // const shouldLinkToReferrals = !shouldLinkToRealm && tahoBalance === 0n
 
   return (
     <>
-      {shouldLinkToRealm && <BannerTakeToRealm />}
-      {/* {shouldLinkToReferrals && <BannerEarn close={close} />} */}
-
       <div className="staking">
         <StakeForm isDisabled={disabledStake} />
         <UnstakeForm isDisabled={disabledUnstake} />
