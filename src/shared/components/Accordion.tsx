@@ -3,36 +3,20 @@ import React, { CSSProperties, useState } from "react"
 import arrowIcon from "../assets/icons/s/arrow-down.svg"
 import Icon from "./Icon"
 
+type AccordionType = "default" | "frame" | "quest" | "panel"
+
 type AccordionProps = {
   title: string
   children: React.ReactNode
   icon?: string
   iconColor?: string
-  type?: "default" | "frame" | "quest" | "panel"
+  type?: AccordionType
   onClick?: () => void
   style?: CSSProperties
   isDisabled?: boolean
 }
 
-export default function Accordion({
-  children,
-  title,
-  icon,
-  iconColor,
-  type = "default",
-  onClick,
-  style,
-  isDisabled,
-}: AccordionProps) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  const toggle = () => {
-    if (isDisabled) return
-
-    setIsOpen(!isOpen)
-    if (onClick) onClick()
-  }
-
+function getArrowColor(type: AccordionType, isDisabled: boolean): string {
   let arrowColor: string
 
   switch (type) {
@@ -50,6 +34,30 @@ export default function Accordion({
   if (isDisabled) {
     arrowColor = "var(--secondary-s1-60)"
   }
+
+  return arrowColor
+}
+
+export default function Accordion({
+  children,
+  title,
+  icon,
+  iconColor,
+  type = "default",
+  onClick,
+  style,
+  isDisabled = false,
+}: AccordionProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggle = () => {
+    if (isDisabled) return
+
+    setIsOpen(!isOpen)
+    if (onClick) onClick()
+  }
+
+  const arrowColor = getArrowColor(type, isDisabled)
 
   return (
     <>
