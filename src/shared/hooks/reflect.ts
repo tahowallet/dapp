@@ -7,11 +7,18 @@ import {
   useDappSelector,
 } from "redux-state"
 import { usePresence, useSubscribe } from "@rocicorp/reflect/react"
-import { getClientState, reflectInstance } from "shared/utils"
+import {
+  ReflectInstance,
+  ReflectMutators,
+  getClientState,
+  mutators,
+} from "shared/utils"
 import { getRealmMapData } from "shared/constants"
 import { RootState } from "redux-state/reducers"
+import { Reflect } from "@rocicorp/reflect/client"
+import { nanoid } from "@reduxjs/toolkit"
 
-export function useReflect() {
+export function useReflect(initializeReflect: boolean) {
   const name = useDappSelector(selectWalletName)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
   const realmName =
@@ -21,6 +28,7 @@ export function useReflect() {
 
   const realmMapData = stakingRealmId ? getRealmMapData(stakingRealmId) : null
 
+  const [reflect, setReflect] = useState<ReflectInstance | null>(null)
   const [reflectInitialized, setReflectInitialized] = useState(false)
 
   const stakingRealmColor = realmMapData?.color ?? "#2C2C2C"
@@ -28,7 +36,21 @@ export function useReflect() {
 
   useEffect(() => {
     const initReflect = async () => {
-      if (reflectInitialized || !reflectInstance) return
+      if (!initializeReflect || reflectInitialized) return
+
+      const reflectInstance =
+        process.env.DISABLE_REFLECT === "true"
+          ? null
+          : new Reflect<ReflectMutators>({
+              userID: nanoid(),
+              roomID: "/",
+              server: process.env.REFLECT_SERVER ?? "",
+              mutators,
+            })
+
+      setReflect(reflectInstance)
+
+      if (!reflectInstance) return
 
       await reflectInstance.mutate.initClientState({
         id: reflectInstance.clientID,
@@ -46,9 +68,9 @@ export function useReflect() {
     }
 
     const updateUserInfo = async () => {
-      if (!reflectInstance) return
+      if (!reflect) return
 
-      await reflectInstance.mutate.setUserInfo({
+      await reflect.mutate.setUserInfo({
         name,
         realmName,
         stakingRealmColor,
@@ -58,21 +80,31 @@ export function useReflect() {
 
     initReflect()
     updateUserInfo()
-  }, [reflectInitialized, name, realmName, stakingRealmColor, cursorTextColor])
+  }, [
+    reflect,
+    name,
+    realmName,
+    stakingRealmColor,
+    cursorTextColor,
+    initializeReflect,
+    reflectInitialized,
+  ])
 
   useEffect(() => {
     const handleReflectCursor = async (e: MouseEvent) => {
-      if (!reflectInstance) return
+      if (!reflect) return
 
-      await reflectInstance.mutate.setCursor({ x: e.clientX, y: e.clientY })
+      await reflect.mutate.setCursor({ x: e.clientX, y: e.clientY })
     }
 
     window.addEventListener("mousemove", handleReflectCursor)
     return () => window.removeEventListener("mousemove", handleReflectCursor)
-  }, [])
+  }, [reflect])
+
+  return reflect as ReflectInstance
 }
 
-export function useReflectPresence() {
+export function useReflectPresence(reflectInstance: ReflectInstance) {
   const presentClientsdIds = usePresence(reflectInstance)
   const presentClients = useSubscribe(
     reflectInstance,
@@ -95,7 +127,7 @@ export function useReflectPresence() {
   return presentClients
 }
 
-export function useReflectCurrentUser() {
+export function useReflectCurrentUser(reflectInstance: ReflectInstance) {
   return useSubscribe(
     reflectInstance,
     async (tx) => {
@@ -107,10 +139,10 @@ export function useReflectCurrentUser() {
 }
 
 export function useReflectCursors() {
-  useReflect()
+  const reflect = useReflect(true)
 
-  const reflectClients = useReflectPresence()
-  const currentUser = useReflectCurrentUser()
+  const reflectClients = useReflectPresence(reflect)
+  const currentUser = useReflectCurrentUser(reflect)
   const realmModalOpened = useDappSelector(selectDisplayedRealmId)
 
   // Find index of current user to determine the "room" placement
@@ -137,7 +169,9 @@ export function useReflectCursors() {
   )
 
   // Hide current user cursor when the realm modal is opened
-  return !realmModalOpened
+  const visibleCursors = !realmModalOpened
     ? visibleClients
     : visibleClients.filter((client) => client.id !== currentUser?.id)
+
+  return { visibleCursors, currentUser }
 }

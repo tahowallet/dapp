@@ -3,7 +3,7 @@ import { WriteTransaction } from "@rocicorp/reflect"
 import { generate } from "@rocicorp/rails"
 import { Reflect } from "@rocicorp/reflect/client"
 import { ReflectClient, ReflectCursor, ReflectUserInfo } from "shared/types"
-import { nanoid } from "@reduxjs/toolkit"
+// import { nanoid } from "@reduxjs/toolkit"
 
 export const {
   init: initClientState,
@@ -48,16 +48,6 @@ export const mutators = {
 
 export type ReflectMutators = typeof mutators
 export type ReflectInstance = Reflect<ReflectMutators>
-
-export const reflectInstance =
-  process.env.DISABLE_REFLECT === "true"
-    ? null
-    : new Reflect<ReflectMutators>({
-        userID: nanoid(),
-        roomID: "/",
-        server: process.env.REFLECT_SERVER ?? "",
-        mutators,
-      })
 
 const makeOptions = (): ReflectServerOptions<ReflectMutators> => ({
   mutators,
