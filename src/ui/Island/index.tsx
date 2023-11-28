@@ -9,12 +9,14 @@ import {
 import {
   selectRealmNameById,
   setDisplayedRealmId,
+  setRealmPanelVisible,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
 import RealmPanel from "shared/components/RealmPanel"
+import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 import InteractiveIsland from "./InteractiveIsland"
 import IslandPresence from "./IslandPresence"
 
@@ -44,12 +46,22 @@ function IslandWrapper() {
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
       setRealmId(String(id))
+      dispatch(setRealmPanelVisible(true))
+
       if (assistantVisible("welcome"))
         updateAssistant({ visible: false, type: "default" })
     },
   }))
 
-  const handleClose = useCallback(() => setRealmId(null), [])
+  const handleClose = useCallback(() => {
+    dispatch(setRealmPanelVisible(false))
+    const timeout = setTimeout(
+      () => setRealmId(null),
+      REALM_PANEL_ANIMATION_TIME
+    )
+
+    return () => clearTimeout(timeout)
+  }, [dispatch])
 
   return (
     <>
@@ -68,7 +80,7 @@ function IslandWrapper() {
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
           {process.env.DISABLE_REFLECT === "true" ? null : <IslandPresence />}
-          {realmId && <RealmPanel onClose={handleClose} />}
+          <RealmPanel onClose={handleClose} />
         </IslandContext.Provider>
       </div>
     </>

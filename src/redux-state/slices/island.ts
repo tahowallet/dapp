@@ -21,6 +21,7 @@ export type IslandState = {
   displayedRealmId: string | null
   zoomLevel: number
   seasonInfo: SeasonInfo | null
+  realmPanelVisible: boolean
 }
 
 const initialState: IslandState = {
@@ -34,6 +35,7 @@ const initialState: IslandState = {
   displayedRealmId: null,
   zoomLevel: 1,
   seasonInfo: null,
+  realmPanelVisible: false,
 }
 
 const islandSlice = createSlice({
@@ -129,6 +131,12 @@ const islandSlice = createSlice({
     ) => {
       immerState.seasonInfo = seasonInfo
     },
+    setRealmPanelVisible: (
+      immerState,
+      { payload: realmPanelVisible }: { payload: boolean }
+    ) => {
+      immerState.realmPanelVisible = realmPanelVisible
+    },
     resetIslandDisplay: (immerState) => {
       immerState.mode = "default"
       immerState.overlay = "dark"
@@ -157,6 +165,7 @@ export const {
   setLeaderboardData,
   setUnclaimedXpData,
   setSeasonInfo,
+  setRealmPanelVisible,
 } = islandSlice.actions
 
 export default islandSlice.reducer
