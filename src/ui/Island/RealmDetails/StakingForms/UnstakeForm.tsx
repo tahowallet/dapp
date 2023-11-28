@@ -177,7 +177,7 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
       <style jsx>{`
         .stake_control {
           display: flex;
-          padding: 16px 0;
+          padding: 16px 0 32px;
           flex-direction: column;
           border-radius: 8px;
         }
