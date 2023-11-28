@@ -2,14 +2,27 @@ import type { ReflectServerOptions } from "@rocicorp/reflect/server"
 import { WriteTransaction } from "@rocicorp/reflect"
 import { generate } from "@rocicorp/rails"
 import { Reflect } from "@rocicorp/reflect/client"
-import { ReflectClient, ReflectCursor, ReflectUserInfo } from "shared/types"
-// import { nanoid } from "@reduxjs/toolkit"
+import {
+  ReflectClient,
+  ReflectCursor,
+  ReflectUserInfo,
+  reflectClientSchema,
+} from "shared/types"
+import { Schema } from "zod"
+
+// Source: https://github.com/rocicorp/reflect-draw/blob/main/src/datamodel/zod.ts
+function parseReflectState<T>(schema: Schema<T>) {
+  return process.env.NODE_ENV !== "production" ? schema.parse : (val: T) => val
+}
 
 export const {
   init: initClientState,
   get: getClientState,
   update: updateClientState,
-} = generate<ReflectClient>("client-state")
+} = generate<ReflectClient>(
+  "client-state",
+  parseReflectState(reflectClientSchema)
+)
 
 async function setCursor(
   tx: WriteTransaction,
