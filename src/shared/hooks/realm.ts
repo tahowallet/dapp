@@ -2,6 +2,7 @@
 import { easings, useSpring } from "@react-spring/web"
 import { useMemo } from "react"
 import { selectRealmPanelVisible, useDappSelector } from "redux-state"
+import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 
 export function useRealmPanelTransition(position: "left" | "right") {
   const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
@@ -28,7 +29,10 @@ export function useRealmPanelTransition(position: "left" | "right") {
     return {
       from: { ...styles.base, ...styles.hidden },
       to: { ...styles.base, ...destinationStyle },
-      config: { duration: 600, easing: easings.easeOutCubic },
+      config: {
+        duration: REALM_PANEL_ANIMATION_TIME,
+        easing: easings.easeOutCubic,
+      },
     }
   }, [realmPanelVisible])
 

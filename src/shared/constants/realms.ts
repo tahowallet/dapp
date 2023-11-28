@@ -127,6 +127,7 @@ export const REALM_FONT_SIZE = 78
 export const REALM_FONT_FAMILY = "QuincyCF"
 export const REALM_FONT_STYLE = "bold"
 export const REALM_IMAGE_SIZE = 70
+export const REALM_PANEL_ANIMATION_TIME = 600
 
 export const REALM_ICONS = {
   arbitrum,

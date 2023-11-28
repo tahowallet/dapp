@@ -16,6 +16,7 @@ import {
 import FullPageLoader from "shared/components/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
 import RealmPanel from "shared/components/RealmPanel"
+import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 import InteractiveIsland from "./InteractiveIsland"
 import IslandPresence from "./IslandPresence"
 
@@ -54,7 +55,10 @@ function IslandWrapper() {
 
   const handleClose = useCallback(() => {
     dispatch(setRealmPanelVisible(false))
-    const timeout = setTimeout(() => setRealmId(null), 600)
+    const timeout = setTimeout(
+      () => setRealmId(null),
+      REALM_PANEL_ANIMATION_TIME
+    )
 
     return () => clearTimeout(timeout)
   }, [dispatch])
