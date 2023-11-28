@@ -132,6 +132,8 @@ export default function Accordion({
             padding: 0;
             border-radius: 0 8px 8px 0;
             background: var(--primary-p1-100);
+            backdrop-filter: blur(26px);
+            transition: background 0.2s ease-in-out;
           }
           .panel .accordion_title {
             padding: 32px;
@@ -140,6 +142,9 @@ export default function Accordion({
           }
           .panel.disabled .accordion_title {
             color: var(--secondary-s1-60);
+          }
+          .panel:not(.open):not(.disabled):hover {
+            background: rgba(6, 63, 61, 0.9);
           }
 
           .accordion_title {
