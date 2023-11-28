@@ -68,7 +68,7 @@ function IslandWrapper() {
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
           {process.env.DISABLE_REFLECT === "true" ? null : <IslandPresence />}
-          {realmId && <RealmPanel onClose={handleClose} />}
+          <RealmPanel onClose={handleClose} />
         </IslandContext.Provider>
       </div>
     </>

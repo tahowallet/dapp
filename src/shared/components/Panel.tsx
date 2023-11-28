@@ -1,8 +1,14 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import classNames from "classnames"
+import { animated } from "@react-spring/web"
+import { useRealmPanelTransition } from "shared/hooks"
 import Portal from "./Portal"
 
-function Section({ children }: { children: React.ReactNode }) {
+type PanelSectionProps = {
+  children: ReactNode
+}
+
+function Section({ children }: PanelSectionProps) {
   return (
     <div className="panel_section">
       {children}
@@ -16,16 +22,17 @@ function Section({ children }: { children: React.ReactNode }) {
   )
 }
 
-function Container({
-  children,
-  position = "left",
-}: {
-  children: React.ReactNode
+type PanelContainerProps = {
+  children: ReactNode
   position?: "left" | "right"
-}) {
+}
+
+function Container({ children, position = "left" }: PanelContainerProps) {
+  const containerProps = useRealmPanelTransition(position)
+
   return (
     <Portal>
-      <div className="panel_container no_scrollbar">
+      <animated.div style={containerProps} className="no_scrollbar">
         <div
           className={classNames("panel column", {
             [position]: true,
@@ -33,17 +40,8 @@ function Container({
         >
           {children}
         </div>
-      </div>
+      </animated.div>
       <style jsx>{`
-        .panel_container {
-          overflow: visible auto;
-          position: absolute;
-          top: 0;
-          ${position}: 0;
-          padding: 180px 0;
-          height: 100vh;
-          max-width: 480px;
-        }
         .panel {
           gap: 4px;
         }
