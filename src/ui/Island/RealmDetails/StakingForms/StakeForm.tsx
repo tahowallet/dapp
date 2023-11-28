@@ -118,7 +118,6 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
         })}
       >
         <div>
-          <h3 style={{ color: "var(--trading-in)" }}>Stake</h3>
           <TokenAmountInput
             label="Wallet balance:"
             inputLabel="Stake amount"
@@ -153,12 +152,9 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
       <style jsx>{`
         .stake_control {
           display: flex;
-          min-height: 280px;
-          padding: 16px 24px 24px 24px;
+          padding: 16px 0 32px;
           flex-direction: column;
-          gap: 14px;
           border-radius: 8px;
-          background: var(--primary-p1-40);
         }
         .disabled {
           opacity: 0.5;

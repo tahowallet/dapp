@@ -139,7 +139,6 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
           })}
         >
           <div>
-            <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
             <TokenAmountInput
               label="Staked amount:"
               inputLabel="Unstake amount"
@@ -178,12 +177,9 @@ export default function UnstakeForm({ isDisabled }: { isDisabled: boolean }) {
       <style jsx>{`
         .stake_control {
           display: flex;
-          min-height: 280px;
-          padding: 16px 24px 24px 24px;
+          padding: 16px 0;
           flex-direction: column;
-          gap: 14px;
           border-radius: 8px;
-          background: var(--primary-p1-40);
         }
         .disabled {
           opacity: 0.5;

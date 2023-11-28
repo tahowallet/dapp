@@ -50,20 +50,28 @@ export default function StakeUnstakeSection() {
 
   return (
     <RealmPanelAccordion title="Stake/Unstake">
-      <TabPanel
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        tabs={[
-          {
-            label: "Stake",
-            component: <StakeForm isDisabled={disabledStake} />,
-          },
-          {
-            label: "Unstake",
-            component: <UnstakeForm isDisabled={disabledUnstake} />,
-          },
-        ]}
-      />
+      <div className="stake_container">
+        <TabPanel
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabs={[
+            {
+              label: "Stake",
+              component: <StakeForm isDisabled={disabledStake} />,
+            },
+            {
+              label: "Unstake",
+              component: <UnstakeForm isDisabled={disabledUnstake} />,
+            },
+          ]}
+        />
+      </div>
+      <style jsx>{`
+        .stake_container {
+          margin-top: -16px;
+          padding: 0 32px;
+        }
+      `}</style>
     </RealmPanelAccordion>
   )
 }
