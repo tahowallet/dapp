@@ -142,8 +142,10 @@ export default function Accordion({
           }
           .panel.disabled .accordion_title {
             color: var(--secondary-s1-60);
+            cursor: default;
           }
-          .panel:not(.open):not(.disabled):hover {
+          .panel.open,
+          .panel:not(.disabled):hover {
             background: rgba(6, 63, 61, 0.9);
           }
 
