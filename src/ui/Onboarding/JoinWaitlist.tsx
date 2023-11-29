@@ -14,7 +14,7 @@ export default function JoinWaitlist({
       <OnboardingModal
         buttonLabel={
           <>
-            Join waitlist{" "}
+            Join Beta{" "}
             <Icon src={newTab} color="#000" height="24px" width="24px" />
           </>
         }

@@ -44,8 +44,8 @@ function OnboardingModal() {
 
   return (
     <JoinWaitlist>
-      The portal
-      <br /> is closed at the <br /> moment.
+      The Portal
+      <br /> is Open
     </JoinWaitlist>
   )
 }
