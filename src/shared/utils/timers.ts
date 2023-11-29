@@ -33,7 +33,7 @@ export const getTimeRemaining = (endDate: Date): string => {
 
   let timeRemainingText = ""
 
-  if (daysLeft > 0) {
+  if (Math.floor(daysLeft) > 0) {
     timeRemainingText +=
       Math.floor(daysLeft) === 1 ? "1 day " : `${Math.floor(daysLeft)} days `
   }
@@ -56,7 +56,13 @@ export function getNextSelectedWeekDay(weekDay: number, hour: number) {
   // Convert time to CET timezone
   currentTimestamp.setUTCHours(currentTimestamp.getUTCHours() + 1)
 
-  const daysUntilSelectedDay = (weekDay - currentTimestamp.getUTCDay() + 7) % 7
+  const currentHour = currentTimestamp.getHours()
+  const daysLeft = (weekDay - currentTimestamp.getUTCDay() + 7) % 7
+
+  // If the today and selected day are the same and it is passed selected hour, then choose next closest day
+  const daysUntilSelectedDay =
+    daysLeft === 0 && currentHour >= hour ? 7 : daysLeft
+
   const nextSelectedDay = new Date(
     currentTimestamp.getUTCFullYear(),
     currentTimestamp.getUTCMonth(),
