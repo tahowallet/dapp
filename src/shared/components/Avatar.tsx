@@ -22,7 +22,6 @@ export default function Avatar({ width, style }: AvatarProps) {
         ) : (
           <video src={avatar} autoPlay muted loop />
         )}
-        <div className="avatar_image" />
       </div>
       <style jsx>{`
         .avatar {
