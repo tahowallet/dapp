@@ -112,6 +112,26 @@ export function getRealmColor(realmId: string): string {
   return color
 }
 
+export function getRealmPosition(realmId: string): {
+  x: number
+  y: number
+  width: number
+  height: number
+} {
+  const selectedRealm = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
+
+  if (!selectedRealm) {
+    throw new Error(`Missing color for realm ${realmId}`)
+  }
+
+  return {
+    x: selectedRealm.x,
+    y: selectedRealm.y,
+    width: selectedRealm.w,
+    height: selectedRealm.h,
+  }
+}
+
 export function getRealmPopulationIcon(realmId: string): string {
   const populationIcon = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
     ?.partnerIcons.population

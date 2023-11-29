@@ -4,7 +4,6 @@ import React, {
   useEffect,
   useState,
   useCallback,
-  useLayoutEffect,
   RefObject,
   SetStateAction,
   Dispatch,
@@ -16,6 +15,7 @@ import {
   useDappSelector,
   selectWalletAddress,
   selectRealms,
+  selectDisplayedRealmId,
 } from "redux-state"
 import {
   LOCAL_STORAGE_DISPLAYED_REALMS,
@@ -30,9 +30,9 @@ import {
   initRealmsDataFromContracts,
   initSeasonInfoData,
 } from "redux-state/thunks/island"
-import Konva from "konva"
 import { Path } from "konva/lib/shapes/Path"
 import { Group } from "konva/lib/Group"
+import { KonvaEventObject } from "konva/lib/Node"
 import { useArbitrumProvider } from "./wallets"
 import { useInterval, useLocalStorageChange } from "./helpers"
 
@@ -152,33 +152,46 @@ export function useStakeCooldownPeriod() {
 export function useIslandRealmsPaths(
   pathRef: MutableRefObject<(Path | null)[]>,
   groupRef: RefObject<Group>,
-  setHover: Dispatch<SetStateAction<boolean>>
+  setFocus: Dispatch<SetStateAction<boolean>>
 ) {
-  useLayoutEffect(() => {
-    const group = groupRef.current
+  const selectedRealmId = useDappSelector(selectDisplayedRealmId)
 
-    pathRef.current.forEach((ref) => {
-      const stage = ref?.getStage()
-      if (!stage || !ref || !group) return () => {}
-      const defaultZ = group.zIndex()
+  const onMouseEnter = useCallback(
+    (e: KonvaEventObject<MouseEvent>) => {
+      const stage = e.target.getStage()
 
-      const handleHover = (evt: Konva.KonvaEventObject<MouseEvent>) => {
-        if (evt.type === "mouseenter") {
-          stage.container().style.cursor = "pointer"
-          group.zIndex(REALMS_COUNT)
-          setHover(true)
-        } else if (evt.type === "mouseleave") {
-          stage.container().style.cursor = "default"
-          group.zIndex(defaultZ)
-          setHover(false)
-        }
+      stage
+        ?.container()
+        .style.setProperty("cursor", selectedRealmId ? "default" : "pointer")
+
+      groupRef?.current?.zIndex(REALMS_COUNT)
+      setFocus(true)
+    },
+    [groupRef, selectedRealmId, setFocus]
+  )
+
+  const onMouseLeave = useCallback(
+    (e: KonvaEventObject<MouseEvent>) => {
+      const stage = e.target.getStage()
+      stage?.container().style.setProperty("cursor", "default")
+      groupRef?.current?.zIndex(1)
+      setFocus(false)
+    },
+    [setFocus, groupRef]
+  )
+
+  useEffect(() => {
+    pathRef.current.forEach((ref: Path | null) => {
+      if (!ref) return () => {}
+      ref.on("mouseenter", onMouseEnter)
+      ref.on("mouseleave", onMouseLeave)
+
+      return () => {
+        ref.off("mouseenter")
+        ref.off("mouseleave")
       }
-
-      ref.on("mouseenter.hover mouseleave.hover", handleHover)
-
-      return () => ref.off(".hover")
     })
-  }, [pathRef, groupRef, setHover])
+  }, [pathRef, onMouseLeave, onMouseEnter, selectedRealmId])
 }
 
 export function useDisplayedRealms() {

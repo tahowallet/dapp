@@ -7,9 +7,9 @@ import {
   useAssets,
 } from "shared/hooks"
 import {
+  selectDisplayedRealmId,
   selectRealmNameById,
   setDisplayedRealmId,
-  setRealmPanelVisible,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
@@ -22,7 +22,7 @@ import IslandPresence from "./IslandPresence"
 
 function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
-  const [realmId, setRealmId] = useState<null | string>(null)
+  const realmId = useDappSelector(selectDisplayedRealmId)
   const realmName = useDappSelector((state) =>
     selectRealmNameById(state, realmId)
   )
@@ -39,14 +39,9 @@ function IslandWrapper() {
     }
   }, [posthog, realmName])
 
-  useEffect(() => {
-    dispatch(setDisplayedRealmId(realmId))
-  }, [dispatch, realmId])
-
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
-      setRealmId(String(id))
-      dispatch(setRealmPanelVisible(true))
+      dispatch(setDisplayedRealmId(String(id)))
 
       if (assistantVisible("welcome"))
         updateAssistant({ visible: false, type: "default" })
@@ -54,9 +49,8 @@ function IslandWrapper() {
   }))
 
   const handleClose = useCallback(() => {
-    dispatch(setRealmPanelVisible(false))
     const timeout = setTimeout(
-      () => setRealmId(null),
+      () => dispatch(setDisplayedRealmId(null)),
       REALM_PANEL_ANIMATION_TIME
     )
 

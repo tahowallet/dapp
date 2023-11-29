@@ -1,8 +1,11 @@
-import React, { memo, useCallback, useRef, useState } from "react"
+import React, { memo, useCallback, useEffect, useRef, useState } from "react"
 import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
 // import rafSchd from "raf-schd"
 import {
+  selectDisplayedRealmId,
+  selectRealmById,
+  selectRealms,
   setIslandZoomLevel,
   useDappDispatch,
   useDappSelector,
@@ -11,7 +14,12 @@ import {
   selectIslandOverlay,
   selectIslandZoomLevel,
 } from "redux-state/selectors/island"
-import { ISLAND_BOX } from "shared/constants"
+import {
+  FIGMA_FACTOR,
+  ISLAND_BOX,
+  REALMS_MAP_DATA,
+  getRealmPosition,
+} from "shared/constants"
 import { useValueRef, useBeforeFirstPaint, useOnResize } from "shared/hooks"
 import {
   getWindowDimensions,
@@ -29,6 +37,7 @@ import RealmPin from "./IslandRealmsDetails/RealmPin"
 import Clouds from "./Clouds"
 
 function InteractiveIsland() {
+  const selectedRealmId = useDappSelector(selectDisplayedRealmId)
   const settingsRef = useRef({ minScale: 0 })
   const [stageBounds, setStageDimensions] = useState(() =>
     getWindowDimensions()
@@ -132,31 +141,65 @@ function InteractiveIsland() {
   // Set initial zoom
   useBeforeFirstPaint(() => stageFns.current.resetZoom())
 
-  const restrictDragBounds = useCallback(function restrictDragging(
-    this: Konva.Node,
-    position: Konva.Vector2d
-  ) {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const stage = this
-    const scale = stage.scaleX()
-    const width = stage.width()
-    const height = stage.height()
+  const restrictDragBounds = useCallback(
+    function restrictDragging(this: Konva.Node, position: Konva.Vector2d) {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const stage = this
+      const width = stage.width()
+      const scale = stage.scaleX()
+      const height = stage.height()
 
-    const maxX = ISLAND_BOX.width - width / scale
-    const maxY = ISLAND_BOX.height - height / scale
+      let maxX
+      let maxY
 
-    const finalX = limitToBounds(position.x, -maxX * scale, 0)
-    const finalY = limitToBounds(position.y, -maxY * scale, 0)
+      if (selectedRealmId) {
+        maxX = 2 * width
+        maxY = 2 * height
+      } else {
+        maxX = -(ISLAND_BOX.width - width / scale) * scale
+        maxY = -(ISLAND_BOX.height - height / scale) * scale
+      }
 
-    return { x: finalX, y: finalY }
-  },
-  [])
+      const finalX = limitToBounds(position.x, maxX, 0)
+      const finalY = limitToBounds(position.y, maxY, 0)
+
+      return { x: finalX, y: finalY }
+    },
+    [selectedRealmId]
+  )
+
+  useEffect(() => {
+    const stage = islandRef.current
+    if (stage) {
+      const stageWidth = stage.width()
+      const stageHeight = stage.height()
+      const stageScaleX = stage.scaleX()
+      const stageScaleY = stage.scaleY()
+
+      if (selectedRealmId) {
+        const { x, y, width, height } = getRealmPosition(selectedRealmId)
+        const newPosX = stageWidth / 2 - (x + width / 2) * stageScaleX
+        const newPosY = stageHeight / 2 - (y + height / 2) * stageScaleY
+
+        stage?.to({ x: newPosX, y: newPosY })
+      } else {
+        const scale = getMinimumScale(ISLAND_BOX, {
+          width: stageBounds.width,
+          height: stageBounds.height,
+        })
+        stage.to({
+          x: -Math.abs((ISLAND_BOX.width * scale - stageBounds.width) / 2),
+          y: -Math.abs((ISLAND_BOX.height * scale - stageBounds.height) / 2),
+        })
+      }
+    }
+  }, [selectedRealmId, stageBounds])
 
   return (
     <>
       <Stage
         ref={islandRef}
-        draggable
+        draggable={!selectedRealmId}
         dragBoundFunc={restrictDragBounds}
         scale={{ x: zoomLevel, y: zoomLevel }}
         width={stageBounds.width}

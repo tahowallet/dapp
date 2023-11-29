@@ -3,7 +3,7 @@ import OnboardingModal from "shared/components/Modals/OnboardingModal"
 import { useWalletOnboarding } from "shared/hooks"
 import {
   selectWalletAddress,
-  setRealmPanelVisible,
+  setDisplayedRealmId,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
@@ -19,7 +19,7 @@ export default function EnterPortal() {
 
     // Close the realm panel by default - without this realm panel will stay visible when user
     // disconnects/switches wallet and enters seeing opened panels with no data
-    dispatch(setRealmPanelVisible(false))
+    dispatch(setDisplayedRealmId(null))
   }, [dispatch, updateWalletOnboarding, walletAddress])
 
   return (

@@ -5,7 +5,6 @@ import { IslandModeType } from "redux-state/slices/island"
 export const selectIslandMode = createIslandSelector("mode")
 export const selectIslandOverlay = createIslandSelector("overlay")
 export const selectIslandZoomLevel = createIslandSelector("zoomLevel")
-export const selectRealmPanelVisible = createIslandSelector("realmPanelVisible")
 
 const checkIslandMode = (value: IslandModeType) =>
   createSelector(selectIslandMode, (mode) => mode === value)
