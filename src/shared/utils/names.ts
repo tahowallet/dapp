@@ -5,6 +5,7 @@ import { isValidUNSDomainName, resolveAddressToUNS, resolveUNS } from "./uns"
 type WalletData = {
   name?: string
   avatar?: string
+  avatarType?: string | null
 }
 
 type NameWithProvider = WalletData & {
@@ -78,9 +79,9 @@ const resolveAddressToWalletDataWithoutCache = async (address: string) => {
   const cachedResult =
     (await resolveAddressPromiseCache[normalizedAddress]) ?? {}
 
-  const { name, avatar } = cachedResult
+  const { name, avatar, avatarType } = cachedResult
 
-  return name ? { name, avatar } : null
+  return name ? { name, avatar, avatarType } : null
 }
 
 export const resolveAddressToWalletData = async (
@@ -97,7 +98,9 @@ export const resolveAddressToWalletData = async (
 
   const data = await resolveAddressToWalletDataWithoutCache(normalizedAddress)
 
-  return data ? { name: data.name, avatar: data.avatar } : null
+  return data
+    ? { name: data.name, avatar: data.avatar, avatarType: data.avatarType }
+    : null
 }
 
 export const resolveNameToAddress = async (addressOrName: string) => {

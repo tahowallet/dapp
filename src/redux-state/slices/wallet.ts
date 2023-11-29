@@ -9,6 +9,7 @@ export type WalletState = {
   address: string
   name: string
   avatar: string
+  avatarType: string | null
   hasLoadedBalances: boolean
   balances: TokenBalances
   transactionStatus: { [id: string]: TransactionProgressStatus }
@@ -19,6 +20,7 @@ const initialState: WalletState = {
   address: "",
   name: "",
   avatar: portrait,
+  avatarType: null,
   hasLoadedBalances: false,
   balances: {
     [TAHO_ADDRESS]: {
@@ -41,12 +43,20 @@ const walletSlice = createSlice({
       immerState,
       {
         payload,
-      }: { payload: { address: string; name?: string; avatar?: string } }
+      }: {
+        payload: {
+          address: string
+          name?: string
+          avatar?: string
+          avatarType?: string | null
+        }
+      }
     ) => {
       immerState.isConnected = true
       immerState.address = payload.address || immerState.address
       immerState.name = payload.name || immerState.name || ""
       immerState.avatar = payload.avatar || immerState.avatar || portrait
+      immerState.avatarType = payload.avatarType || null
     },
     resetWalletState: () => initialState,
     updateBalances: (

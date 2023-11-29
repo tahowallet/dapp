@@ -5,7 +5,6 @@ import backgroundImg from "public/dapp_island_bg.webp"
 import {
   selectDisplayedRealmId,
   selectIsStakingRealmDisplayed,
-  selectWalletAvatar,
   useDappSelector,
 } from "redux-state"
 import RealmPin from "./RealmPin"
@@ -18,7 +17,6 @@ const CUTOUT_RATIO = CUTOUT_HEIGHT / CUTOUT_WIDTH
 export default function RealmCutout() {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const isStakedRealm = useDappSelector(selectIsStakingRealmDisplayed)
-  const walletAvatar = useDappSelector(selectWalletAvatar)
 
   if (!realmId) return null
 
@@ -31,7 +29,7 @@ export default function RealmCutout() {
     <>
       <div className="realm_cutout">
         <Bubble realmId={realmId} />
-        {isStakedRealm && <RealmPin avatar={walletAvatar} />}
+        {isStakedRealm && <RealmPin />}
         <svg
           viewBox={`0 0 ${Math.ceil(pathData.w * 0.25)} ${Math.ceil(
             pathData.h * 0.25
