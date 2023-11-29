@@ -10,6 +10,7 @@ import { TAHO_ADDRESS } from "shared/constants"
 import TabPanel from "shared/components/TabPanel"
 import StakeForm from "ui/Island/RealmDetails/StakingForms/StakeForm"
 import UnstakeForm from "ui/Island/RealmDetails/StakingForms/UnstakeForm"
+import { AccordionOutsideActions } from "shared/components/Accordion"
 import RealmPanelAccordion from "."
 
 function isFormDisabled(
@@ -20,7 +21,10 @@ function isFormDisabled(
   return balance === 0n || (hasStakingRealm && !isStakingRealm)
 }
 
-export default function StakeUnstakeSection() {
+export default function StakeUnstakeSection({
+  openedFromOutside,
+  closeOpenedFromOutside,
+}: AccordionOutsideActions) {
   const [activeTab, setActiveTab] = useState(0)
 
   const displayedRealmVeTokenAddress = useDappSelector(
@@ -49,7 +53,11 @@ export default function StakeUnstakeSection() {
   )
 
   return (
-    <RealmPanelAccordion title="Stake/Unstake">
+    <RealmPanelAccordion
+      title="Stake/Unstake"
+      openedFromOutside={openedFromOutside}
+      closeOpenedFromOutside={closeOpenedFromOutside}
+    >
       <div className="stake_container">
         <TabPanel
           activeTab={activeTab}

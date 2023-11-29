@@ -3,14 +3,16 @@ import Button from "shared/components/Button"
 import Icon from "shared/components/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 
+type RealmDetailsJoinProps = {
+  stakingRealmId: string | null
+  triggerStakeSectionOpen: () => void
+}
+
 export default function RealmDetailsJoin({
   stakingRealmId,
-}: {
-  stakingRealmId: string | null
-}) {
+  triggerStakeSectionOpen,
+}: RealmDetailsJoinProps) {
   if (stakingRealmId) return null
-
-  const handleStakeJoin = () => {} // TODO: implement logic after "Stake/Unstake" is created
 
   return (
     <>
@@ -19,7 +21,7 @@ export default function RealmDetailsJoin({
           In order to join a realm, you need to stake $TAHO
         </div>
         <div className="join_action row_center">
-          <Button size="medium" onClick={handleStakeJoin}>
+          <Button size="medium" onClick={() => triggerStakeSectionOpen()}>
             Stake to join realm
           </Button>
           <div className="row">

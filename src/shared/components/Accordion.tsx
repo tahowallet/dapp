@@ -1,19 +1,27 @@
 import classNames from "classnames"
-import React, { CSSProperties, useState } from "react"
+import React, { CSSProperties, useEffect, useState } from "react"
 import arrowIcon from "../assets/icons/s/arrow-down.svg"
 import Icon from "./Icon"
 
 type AccordionType = "default" | "frame" | "quest" | "panel"
 
-type AccordionProps = {
+export type AccordionOutsideActions = {
+  openedFromOutside?: boolean
+  closeOpenedFromOutside?: () => void
+}
+
+export type CommonAccordion = {
   title: string
   children: React.ReactNode
+  isDisabled?: boolean
+} & AccordionOutsideActions
+
+type AccordionProps = CommonAccordion & {
   icon?: string
   iconColor?: string
   type?: AccordionType
   onClick?: () => void
   style?: CSSProperties
-  isDisabled?: boolean
   hasInteractiveChildren?: boolean
 }
 
@@ -46,16 +54,26 @@ export default function Accordion({
   iconColor,
   type = "default",
   onClick,
+  openedFromOutside,
+  closeOpenedFromOutside,
   style,
   isDisabled = false,
   hasInteractiveChildren = false,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
+  useEffect(() => {
+    if (openedFromOutside) {
+      setIsOpen(true)
+    }
+  }, [openedFromOutside])
+
   const toggle = () => {
     if (isDisabled) return
 
     setIsOpen(!isOpen)
+
+    if (isOpen && closeOpenedFromOutside) closeOpenedFromOutside()
     if (onClick) onClick()
   }
 

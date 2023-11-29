@@ -13,7 +13,13 @@ import RealmDetailsRewards from "./RealmDetailsRewards"
 import RealmDetailsJoin from "./RealmDetailsJoin"
 import RealmDetailsStaked from "./RealmDetailsStaked"
 
-export default function RealmDetailsContent() {
+type RealmDetailsContentProps = {
+  triggerStakeSectionOpen: () => void
+}
+
+export default function RealmDetailsContent({
+  triggerStakeSectionOpen,
+}: RealmDetailsContentProps) {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const realm = useDappSelector((state: RootState) =>
     selectRealmById(state, realmId)
@@ -27,7 +33,10 @@ export default function RealmDetailsContent() {
       <RealmDetailsHeader realmId={realmId} realm={realm} />
       <RealmDetailsQuests quests={realm?.quests} />
       <RealmDetailsRewards realmId={realmId} />
-      <RealmDetailsJoin stakingRealmId={stakingRealmId} />
+      <RealmDetailsJoin
+        stakingRealmId={stakingRealmId}
+        triggerStakeSectionOpen={triggerStakeSectionOpen}
+      />
       <RealmDetailsStaked stakingRealmId={stakingRealmId} realmId={realmId} />
     </Panel.Section>
   )
