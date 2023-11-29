@@ -192,9 +192,25 @@ export function useConnect() {
         const walletProvider = new ethers.providers.Web3Provider(
           wallet.provider
         )
-        await walletProvider.send("wallet_switchEthereumChain", [
-          { chainId: ARBITRUM_SEPOLIA.id },
-        ])
+        try {
+          await walletProvider.send("wallet_switchEthereumChain", [
+            { chainId: ARBITRUM_SEPOLIA.id },
+          ])
+        } catch (error) {
+          await walletProvider.send("wallet_addEthereumChain", [
+            {
+              chainId: ARBITRUM_SEPOLIA.id,
+              chainName: ARBITRUM_SEPOLIA.label,
+              rpcUrls: [ARBITRUM_SEPOLIA.rpcUrl],
+              nativeCurrency: {
+                name: "Sepolia Ether",
+                symbol: "ETH",
+                decimals: 18,
+              },
+              blockExplorerUrls: ["https://sepolia-explorer.arbitrum.io"],
+            },
+          ])
+        }
       }
 
       setCorrectChain()
