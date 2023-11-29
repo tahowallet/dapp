@@ -25,7 +25,6 @@ import { Network } from "@ethersproject/networks"
 import { Logger, defineReadOnly } from "ethers/lib/utils"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
-import { useReflect } from "./reflect"
 
 class StaticJsonBatchRpcProvider extends ethers.providers.JsonRpcBatchProvider {
   override async detectNetwork(): Promise<Network> {
@@ -168,18 +167,6 @@ export function useWalletOnboarding(): {
 } {
   const { value, updateStorage } =
     useLocalStorageChange<string>(LOCAL_STORAGE_WALLET)
-
-  const reflect = useReflect(false)
-
-  useEffect(() => {
-    const updateReflectPresence = async () => {
-      if (!reflect) return
-
-      await reflect.mutate.setUserPresence(!!value)
-    }
-
-    updateReflectPresence()
-  }, [value, reflect])
 
   return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
 }

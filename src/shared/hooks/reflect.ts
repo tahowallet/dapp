@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import {
   selectDisplayedRealmId,
   selectRealmNameById,
@@ -17,8 +17,52 @@ import { getRealmMapData } from "shared/constants"
 import { RootState } from "redux-state/reducers"
 import { Reflect } from "@rocicorp/reflect/client"
 import { nanoid } from "@reduxjs/toolkit"
+import { useWalletOnboarding } from "./wallets"
 
-export function useReflect(initializeReflect: boolean) {
+export const reflectSingleton =
+  process.env.DISABLE_REFLECT === "true"
+    ? null
+    : new Reflect<ReflectMutators>({
+        userID: nanoid(),
+        roomID: "/",
+        server: process.env.REFLECT_SERVER ?? "",
+        mutators,
+      })
+
+const DEFAULT_BG_COLOR = "#2C2C2C"
+const DEFAULT_TEXT_COLOR = "#FFF"
+
+export const ReflectContext = createContext<ReflectInstance | null>(null)
+
+export function useInitializeReflect() {
+  const reflect = useContext(ReflectContext)
+  const [initialized, setInitialized] = useState(false)
+
+  useEffect(() => {
+    const initialize = async () => {
+      if (!reflect || initialized) return
+
+      setInitialized(true)
+
+      await reflect.mutate.initClientState({
+        id: reflect.clientID,
+        cursor: null,
+        userInfo: {
+          name: "",
+          realmName: null,
+          stakingRealmColor: DEFAULT_BG_COLOR,
+          cursorTextColor: DEFAULT_TEXT_COLOR,
+        },
+        isPresent: true,
+      })
+    }
+
+    initialize()
+  }, [reflect, initialized])
+}
+
+export function useReflect() {
+  const reflect = useContext(ReflectContext)
   const name = useDappSelector(selectWalletName)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
   const realmName =
@@ -26,47 +70,21 @@ export function useReflect(initializeReflect: boolean) {
       selectRealmNameById(state, stakingRealmId)
     ) ?? null
 
-  const realmMapData = stakingRealmId ? getRealmMapData(stakingRealmId) : null
+  const { walletOnboarded } = useWalletOnboarding()
 
-  const [reflect, setReflect] = useState<ReflectInstance | null>(null)
-  const [reflectInitialized, setReflectInitialized] = useState(false)
-
-  const stakingRealmColor = realmMapData?.color ?? "#2C2C2C"
-  const cursorTextColor = realmMapData?.cursorText ?? "#FFF"
+  const { color: stakingRealmColor, cursorText: cursorTextColor } =
+    useMemo(() => {
+      if (stakingRealmId) {
+        const { color, cursorText } = getRealmMapData(stakingRealmId)
+        return { color, cursorText }
+      }
+      return {
+        color: DEFAULT_BG_COLOR,
+        cursorText: DEFAULT_TEXT_COLOR,
+      }
+    }, [stakingRealmId])
 
   useEffect(() => {
-    const initReflect = async () => {
-      if (!initializeReflect || reflectInitialized) return
-
-      const reflectInstance =
-        process.env.DISABLE_REFLECT === "true"
-          ? null
-          : new Reflect<ReflectMutators>({
-              userID: nanoid(),
-              roomID: "/",
-              server: process.env.REFLECT_SERVER ?? "",
-              mutators,
-            })
-
-      setReflect(reflectInstance)
-
-      if (!reflectInstance) return
-
-      await reflectInstance.mutate.initClientState({
-        id: reflectInstance.clientID,
-        cursor: null,
-        userInfo: {
-          name,
-          realmName,
-          stakingRealmColor,
-          cursorTextColor,
-        },
-        isPresent: true,
-      })
-
-      setReflectInitialized(true)
-    }
-
     const updateUserInfo = async () => {
       if (!reflect) return
 
@@ -78,17 +96,8 @@ export function useReflect(initializeReflect: boolean) {
       })
     }
 
-    initReflect()
     updateUserInfo()
-  }, [
-    reflect,
-    name,
-    realmName,
-    stakingRealmColor,
-    cursorTextColor,
-    initializeReflect,
-    reflectInitialized,
-  ])
+  }, [reflect, name, realmName, stakingRealmColor, cursorTextColor])
 
   useEffect(() => {
     const handleReflectCursor = async (e: MouseEvent) => {
@@ -101,13 +110,22 @@ export function useReflect(initializeReflect: boolean) {
     return () => window.removeEventListener("mousemove", handleReflectCursor)
   }, [reflect])
 
-  return reflect as ReflectInstance
+  useEffect(() => {
+    const updateReflectPresence = async () => {
+      if (!reflect) return
+
+      await reflect.mutate.setUserPresence(!!walletOnboarded)
+    }
+
+    updateReflectPresence()
+  }, [walletOnboarded, reflect])
 }
 
-export function useReflectPresence(reflectInstance: ReflectInstance) {
-  const presentClientsdIds = usePresence(reflectInstance)
+export function useReflectPresence() {
+  const reflect = useContext(ReflectContext)
+  const presentClientsdIds = usePresence(reflect)
   const presentClients = useSubscribe(
-    reflectInstance,
+    reflect,
     async (tx) => {
       const clients = await Promise.all(
         presentClientsdIds.map(async (clientID) => {
@@ -127,9 +145,10 @@ export function useReflectPresence(reflectInstance: ReflectInstance) {
   return presentClients
 }
 
-export function useReflectCurrentUser(reflectInstance: ReflectInstance) {
+export function useReflectCurrentUser() {
+  const reflect = useContext(ReflectContext)
   return useSubscribe(
-    reflectInstance,
+    reflect,
     async (tx) => {
       const currentUser = await getClientState(tx, tx.clientID)
       return currentUser
@@ -139,10 +158,8 @@ export function useReflectCurrentUser(reflectInstance: ReflectInstance) {
 }
 
 export function useReflectCursors() {
-  const reflect = useReflect(true)
-
-  const reflectClients = useReflectPresence(reflect)
-  const currentUser = useReflectCurrentUser(reflect)
+  const reflectClients = useReflectPresence()
+  const currentUser = useReflectCurrentUser()
   const realmModalOpened = useDappSelector(selectDisplayedRealmId)
 
   // Find index of current user to determine the "room" placement
