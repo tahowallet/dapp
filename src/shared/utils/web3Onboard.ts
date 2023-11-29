@@ -39,7 +39,10 @@ const walletsSetup = {
   }),
 }
 
-const wallets = [walletsSetup.taho, walletsSetup.metamask]
+const wallets =
+  "taho" in window
+    ? [walletsSetup.taho]
+    : [walletsSetup.taho, walletsSetup.metamask]
 
 const web3Onboard = init({
   wallets,
