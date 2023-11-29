@@ -1,19 +1,28 @@
 import classNames from "classnames"
-import React, { CSSProperties, useState } from "react"
+import React, { CSSProperties, useEffect, useState } from "react"
 import arrowIcon from "../assets/icons/s/arrow-down.svg"
 import Icon from "./Icon"
 
 type AccordionType = "default" | "frame" | "quest" | "panel"
 
-type AccordionProps = {
+export type AccordionOutsideActions = {
+  openedFromOutside?: boolean
+  closeOpenedFromOutside?: () => void
+}
+
+export type CommonAccordion = {
   title: string
   children: React.ReactNode
+  isDisabled?: boolean
+} & AccordionOutsideActions
+
+type AccordionProps = CommonAccordion & {
   icon?: string
   iconColor?: string
   type?: AccordionType
   onClick?: () => void
   style?: CSSProperties
-  isDisabled?: boolean
+  hasInteractiveChildren?: boolean
 }
 
 function getArrowColor(type: AccordionType, isDisabled: boolean): string {
@@ -45,19 +54,36 @@ export default function Accordion({
   iconColor,
   type = "default",
   onClick,
+  openedFromOutside,
+  closeOpenedFromOutside,
   style,
   isDisabled = false,
+  hasInteractiveChildren = false,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    if (openedFromOutside) {
+      setIsOpen(true)
+    }
+  }, [openedFromOutside])
 
   const toggle = () => {
     if (isDisabled) return
 
     setIsOpen(!isOpen)
+
+    if (isOpen && closeOpenedFromOutside) closeOpenedFromOutside()
     if (onClick) onClick()
   }
 
   const arrowColor = getArrowColor(type, isDisabled)
+
+  const preventToggle = (event: React.MouseEvent) => {
+    if (hasInteractiveChildren) {
+      event.stopPropagation()
+    }
+  }
 
   return (
     <>
@@ -84,7 +110,19 @@ export default function Accordion({
             <Icon src={arrowIcon} color={arrowColor} />
           </div>
         </div>
-        <div className="accordion_content">{children}</div>
+        <div
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) =>
+            e.key === "Enter" && !hasInteractiveChildren && toggle()
+          }
+          className={classNames("accordion_content", {
+            default_mouse: hasInteractiveChildren,
+          })}
+          onClick={preventToggle}
+        >
+          {children}
+        </div>
       </div>
       <style jsx>
         {`
@@ -134,6 +172,10 @@ export default function Accordion({
           }
           .quest.open .accordion_content {
             padding: 16px 24px;
+          }
+
+          .accordion_content.default_mouse {
+            cursor: auto;
           }
 
           .panel {

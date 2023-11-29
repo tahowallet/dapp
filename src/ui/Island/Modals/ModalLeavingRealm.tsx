@@ -65,6 +65,9 @@ export default function ModalLeavingRealm({
           padding: 48px;
           width: 488px;
           box-sizing: content-box;
+          backdrop-filter: blur(26px);
+          background: var(--background-gradient);
+          border-radius: 16px;
         }
         .modal_header {
           font: var(--text-h1);
