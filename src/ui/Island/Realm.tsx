@@ -13,7 +13,11 @@ import {
 } from "shared/constants"
 import { useDisplayedRealms, useMultiRef } from "shared/hooks"
 import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import {
+  selectDisplayedRealmId,
+  selectRealmPanelVisible,
+  useDappSelector,
+} from "redux-state"
 import {
   useIslandContext,
   useIslandRealmsPaths,
@@ -62,7 +66,8 @@ export default function Realm({
   isNew,
 }: RealmProps) {
   const selectedRealmId = useDappSelector(selectDisplayedRealmId)
-  const [isFocused, setFocus] = useState(!!selectedRealmId)
+  const selectedRealmPanelVisible = useDappSelector(selectRealmPanelVisible)
+  const [isFocused, setFocus] = useState(false)
   const [, setIsSelected] = useState(false)
 
   const islandContext = useIslandContext()
@@ -151,7 +156,7 @@ export default function Realm({
 
   const [pathProps] = useSpring(() => {
     const destinationStyle =
-      isFocused || selectedRealmId
+      isFocused || selectedRealmPanelVisible
         ? styles.highlight.pathRealm
         : styles.default.pathRealm
 
@@ -159,11 +164,11 @@ export default function Realm({
       from: styles.default.pathRealm,
       to: destinationStyle,
     }
-  }, [isFocused, selectedRealmId])
+  }, [isFocused, selectedRealmPanelVisible])
 
   const [imageProps] = useSpring(() => {
     const destinationStyle =
-      isFocused || selectedRealmId
+      isFocused || selectedRealmPanelVisible
         ? styles.highlight.image
         : styles.default.image
 
@@ -171,11 +176,11 @@ export default function Realm({
       from: styles.default.image,
       to: destinationStyle,
     }
-  }, [isFocused, selectedRealmId])
+  }, [isFocused, selectedRealmPanelVisible])
 
   const [overlayProps] = useSpring(() => {
     const destinationStyle =
-      isFocused || selectedRealmId
+      isFocused || selectedRealmPanelVisible
         ? styles.highlight.overlay
         : styles.default.overlay
 
@@ -197,18 +202,20 @@ export default function Realm({
 
   const [textProps] = useSpring(() => {
     const destinationStyle =
-      isFocused || selectedRealmId ? styles.highlight.text : styles.default.text
+      isFocused || selectedRealmPanelVisible
+        ? styles.highlight.text
+        : styles.default.text
 
     return {
       from: styles.default.text,
       to: destinationStyle,
       config: transitionConfig,
     }
-  }, [isFocused, selectedRealmId])
+  }, [isFocused, selectedRealmPanelVisible])
 
   const [partnerLogoProps] = useSpring(() => {
     const destinationStyle =
-      isFocused || selectedRealmId
+      isFocused || selectedRealmPanelVisible
         ? styles.highlight.partnerLogo
         : styles.default.partnerLogo
 
@@ -217,7 +224,7 @@ export default function Realm({
       to: destinationStyle,
       config: transitionConfig,
     }
-  }, [isFocused, selectedRealmId])
+  }, [isFocused, selectedRealmPanelVisible])
 
   const { showBubble, setShowBubble } = usePopulationBubble(id)
 
@@ -242,7 +249,7 @@ export default function Realm({
         }
       },
     }
-  }, [showBubble, selectedRealmId, id])
+  }, [showBubble, selectedRealmPanelVisible, id])
 
   return (
     <Group ref={groupRef}>
