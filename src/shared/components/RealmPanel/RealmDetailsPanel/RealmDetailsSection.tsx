@@ -1,4 +1,9 @@
 import React, { CSSProperties, ReactNode } from "react"
+import {
+  selectDisplayedRealmId,
+  selectStakingRealmId,
+  useDappSelector,
+} from "redux-state"
 
 export default function RealmDetailsSection({
   children,
@@ -7,6 +12,9 @@ export default function RealmDetailsSection({
   children: ReactNode
   style?: CSSProperties
 }) {
+  const stakingRealmId = useDappSelector(selectStakingRealmId)
+  const displayedRealmId = useDappSelector(selectDisplayedRealmId)
+
   return (
     <>
       <div className="realm_details_section" style={style}>
@@ -20,6 +28,7 @@ export default function RealmDetailsSection({
         }
         .realm_details_section::after {
           content: "";
+          display: ${stakingRealmId === displayedRealmId ? "block" : "none"};
           position: absolute;
           left: 0;
           bottom: 0;
