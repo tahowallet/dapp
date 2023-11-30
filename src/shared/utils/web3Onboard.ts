@@ -39,17 +39,22 @@ const walletsSetup = {
   }),
 }
 
-const wallets =
-  "taho" in window
-    ? [walletsSetup.taho]
-    : [walletsSetup.taho, walletsSetup.metamask]
+const hasTaho = "taho" in window
+const wallets = hasTaho
+  ? [walletsSetup.taho]
+  : [walletsSetup.taho, walletsSetup.metamask]
 
 const web3Onboard = init({
   wallets,
   chains,
   appMetadata,
   connect: {
-    autoConnectLastWallet: true,
+    // TODO: web3onboard remembers last wallet that was used. If it was MM but MM becomes
+    // unavailable then web3onboard will try to auto connect to MM and will fail.
+    // So to avoid problem with attempting auto connection to the wallet
+    // that is not available on the wallet lists let's just disable autoConnect
+    // feature for Metamask for now.
+    autoConnectLastWallet: hasTaho,
     iDontHaveAWalletLink:
       "https://chrome.google.com/webstore/detail/taho/eajafomhmkipbjmfmhebemolkcicgfmd",
     removeWhereIsMyWalletWarning: true,
