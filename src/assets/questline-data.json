@@ -52,7 +52,7 @@
         {
           "id": "8_2",
           "name": "Vampire Attack: Bridge funds from Arbitrum",
-          "description": "Bridge ETH  or USDC from Arbitrum to Base using Hop Exchange. \n \nAccepted assets: [ETH](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base) and [USDC](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base&token=USDC), bridging anything else won't be counted towards XP \n \nMechanics: The more you bridge, the higher the reward.",
+          "description": "Bridge ETH or USDC from Arbitrum to Base using Hop Exchange. \n \nAccepted assets: [ETH](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base) and [USDC](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base&token=USDC), bridging anything else won't be counted towards XP \n \nMechanics: The more you bridge, the higher the reward.",
           "isNew": true,
           "isAttack": true
         }
