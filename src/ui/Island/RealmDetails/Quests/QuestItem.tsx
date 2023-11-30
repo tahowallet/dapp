@@ -3,11 +3,18 @@ import Markdown from "react-markdown"
 import Accordion from "shared/components/Accordion"
 import starIcon from "shared/assets/icons/star.svg"
 import newQuestLabel from "shared/assets/new-quest-label.svg"
+import vampireAttackLabel from "shared/assets/vampire-attack.svg"
 import Icon from "shared/components/Icon"
 import { Quest } from "shared/types"
 import { useDisplayedQuests } from "shared/hooks/quest"
 
-export default function QuestItem({ id, name, description, isNew }: Quest) {
+export default function QuestItem({
+  id,
+  name,
+  description,
+  isNew,
+  vampireAttack,
+}: Quest) {
   const { isQuestDisplayed, updateDisplayedQuest } = useDisplayedQuests()
 
   const handleQuestClick = useCallback(() => {
@@ -17,7 +24,7 @@ export default function QuestItem({ id, name, description, isNew }: Quest) {
 
   return (
     <div style={{ position: "relative" }}>
-      {isNew && !isQuestDisplayed(id) && (
+      {isNew && !vampireAttack && !isQuestDisplayed(id) && (
         <Icon
           src={newQuestLabel}
           type="image"
@@ -29,6 +36,20 @@ export default function QuestItem({ id, name, description, isNew }: Quest) {
             top: 8,
             zIndex: 2,
             pointerEvents: "none",
+          }}
+        />
+      )}
+      {vampireAttack && (
+        <Icon
+          src={vampireAttackLabel}
+          type="image"
+          height="41px"
+          width="41px"
+          style={{
+            position: "absolute",
+            left: 1,
+            top: 14,
+            zIndex: 2,
           }}
         />
       )}

@@ -51,6 +51,13 @@
           "id": "8_1",
           "name": "Interact with unique contracts on Base",
           "description": "The more interactions you execute with different unique contracts on Base compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+        },
+        {
+          "id": "8_2",
+          "name": "Vampire Attack: Bridge funds from Arbitrum",
+          "description": "Bridge ETH or USDC from Arbitrum to Base using Hop Exchange",
+          "isNew": true,
+          "vampireAttack": true
         }
       ]
     },
