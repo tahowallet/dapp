@@ -17,11 +17,7 @@ import {
   selectRealms,
   selectDisplayedRealmId,
 } from "redux-state"
-import {
-  LOCAL_STORAGE_DISPLAYED_REALMS,
-  REALMS_COUNT,
-  SECOND,
-} from "shared/constants"
+import { LOCAL_STORAGE_DISPLAYED_REALMS, SECOND } from "shared/constants"
 import {
   fetchLeaderboardData,
   fetchPopulation,
@@ -164,7 +160,7 @@ export function useIslandRealmsPaths(
         ?.container()
         .style.setProperty("cursor", selectedRealmId ? "default" : "pointer")
 
-      groupRef?.current?.zIndex(REALMS_COUNT)
+      groupRef?.current?.zIndex(2)
       setFocus(true)
     },
     [groupRef, selectedRealmId, setFocus]
