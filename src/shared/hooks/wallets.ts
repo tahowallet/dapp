@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react"
+import { useConnectWallet, useSetChain } from "@web3-onboard/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers, logger } from "ethers"
 import {
@@ -182,40 +182,36 @@ export function useWalletOnboarding(): {
   return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
 }
 
-export function useConnect() {
-  const [{ wallet }, connect, disconnect] = useConnectWallet()
-  const { updateWalletOnboarding } = useWalletOnboarding()
+export function useCorrectChain() {
+  const [{ wallet }] = useConnectWallet()
+  const [{ settingChain /* connectedChain */ }, setChain] = useSetChain()
+  const [chainSwitched, setChainSwitched] = useState(false)
 
   useEffect(() => {
     if (wallet?.provider !== undefined) {
       const setCorrectChain = async () => {
-        const walletProvider = new ethers.providers.Web3Provider(
-          wallet.provider
-        )
-        try {
-          await walletProvider.send("wallet_switchEthereumChain", [
-            { chainId: ARBITRUM_SEPOLIA.id },
-          ])
-        } catch (error) {
-          await walletProvider.send("wallet_addEthereumChain", [
-            {
-              chainId: ARBITRUM_SEPOLIA.id,
-              chainName: ARBITRUM_SEPOLIA.label,
-              rpcUrls: [ARBITRUM_SEPOLIA.rpcUrl],
-              nativeCurrency: {
-                name: "Sepolia Ether",
-                symbol: "ETH",
-                decimals: 18,
-              },
-              blockExplorerUrls: ["https://sepolia-explorer.arbitrum.io"],
-            },
-          ])
-        }
+        await setChain({
+          chainId: ARBITRUM_SEPOLIA.id,
+        })
+        setChainSwitched(true)
       }
 
-      setCorrectChain()
+      // TODO: Metamask has a bug where it does not switch to the correct chain
+      // when the user adds new chain to the wallet. `connectedChain` is not updated
+      // until user reloads the page.
+      if (
+        !settingChain &&
+        !chainSwitched /* && connectedChain?.id !== ARBITRUM_SEPOLIA.id */
+      ) {
+        setCorrectChain()
+      }
     }
-  }, [wallet?.provider])
+  }, [wallet?.provider, setChain, settingChain, chainSwitched])
+}
+
+export function useConnect() {
+  const [{ wallet }, connect, disconnect] = useConnectWallet()
+  const { updateWalletOnboarding } = useWalletOnboarding()
 
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")

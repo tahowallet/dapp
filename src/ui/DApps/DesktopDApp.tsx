@@ -3,6 +3,7 @@ import React from "react"
 import {
   useBalanceFetch,
   useConnect,
+  useCorrectChain,
   useGameDataFetch,
   useGameLoadDataFetch,
   usePopulationFetch,
@@ -24,6 +25,7 @@ export default function DesktopDApp() {
   usePopulationFetch()
   useGameDataFetch()
   useWalletChange()
+  useCorrectChain()
 
   return (
     <>
