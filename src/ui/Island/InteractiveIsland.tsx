@@ -27,6 +27,7 @@ import Background from "./Background"
 import Realms from "./IslandRealms"
 import RealmPin from "./IslandRealmsDetails/RealmPin"
 import Clouds from "./Clouds"
+import AttackLine from "./IslandRealmsDetails/AttackLine"
 
 function InteractiveIsland() {
   const settingsRef = useRef({ minScale: 0 })
@@ -167,6 +168,7 @@ function InteractiveIsland() {
           <Realms />
           <Clouds />
           <RealmPin />
+          <AttackLine />
         </Layer>
       </Stage>
       <Assistant />

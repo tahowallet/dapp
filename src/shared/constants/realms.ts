@@ -75,12 +75,13 @@ export const REALMS_WITH_CONTRACT_ADDRESS: {
 export const BASE_REALMS_MAP_DATA: RealmMapData[] = [
   realm4,
   realm7,
+  realm8,
   realm9,
   realm19,
   realm22,
 ]
 
-export const NEW_REALMS_MAP_DATA: RealmMapData[] = [realm8]
+export const NEW_REALMS_MAP_DATA: RealmMapData[] = []
 
 export const REALMS_MAP_DATA = [
   ...BASE_REALMS_MAP_DATA,
