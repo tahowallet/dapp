@@ -1,13 +1,18 @@
 import React from "react"
-import { useReflectCurrentUser, useReflectCursors } from "shared/hooks"
+import { useReflectCursors } from "shared/hooks"
 import IslandCursor from "./Cursor"
 
 export default function IslandPresence() {
-  const visibleCursors = useReflectCursors()
-  const currentUser = useReflectCurrentUser()
+  const { visibleCursors, currentUser } = useReflectCursors()
   const reflectEnabled = process.env.SHOW_REFLECT === "true"
 
-  if (!visibleCursors || !visibleCursors.length || !reflectEnabled) return null
+  if (
+    !visibleCursors ||
+    !visibleCursors.length ||
+    !currentUser ||
+    !reflectEnabled
+  )
+    return null
 
   return visibleCursors.map(({ id, cursor, userInfo }) => {
     if (!cursor) return null
@@ -17,7 +22,7 @@ export default function IslandPresence() {
         key={id}
         cursor={cursor}
         userInfo={userInfo}
-        extraCursor={id !== currentUser?.id}
+        extraCursor={id !== currentUser.id}
       />
     )
   })

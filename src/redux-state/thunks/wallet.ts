@@ -1,4 +1,5 @@
 import {
+  determineFetchedFileType,
   isClaimXpTransactionID,
   resolveAddressToWalletData,
 } from "shared/utils"
@@ -35,7 +36,10 @@ export const fetchWalletName = createDappAsyncThunk(
         updateConnectedWallet({
           address,
           ...(data.name ? { name: data.name } : {}),
-          ...(data.avatar ? { name: data.avatar } : {}),
+          ...(data.avatar ? { avatar: data.avatar } : {}),
+          avatarType: data.avatar
+            ? await determineFetchedFileType(data.avatar)
+            : null,
         })
       )
 
