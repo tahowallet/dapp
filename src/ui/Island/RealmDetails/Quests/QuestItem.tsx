@@ -7,6 +7,7 @@ import attackLabel from "shared/assets/attack.svg"
 import Icon from "shared/components/Icon"
 import { Quest } from "shared/types"
 import { useDisplayedQuests } from "shared/hooks/quest"
+import rehypeExternalLinks from "rehype-external-links"
 
 export default function QuestItem({
   id,
@@ -62,9 +63,19 @@ export default function QuestItem({
         onClick={handleQuestClick}
       >
         <div className="rewards_quests_description">
-          <Markdown>{description}</Markdown>
+          <Markdown
+            className="description"
+            rehypePlugins={[[rehypeExternalLinks, { target: "_blank" }]]}
+          >
+            {description}
+          </Markdown>
         </div>
       </Accordion>
+      <style jsx>{`
+        .description {
+          white-space: pre-wrap;
+        }
+      `}</style>
     </div>
   )
 }
