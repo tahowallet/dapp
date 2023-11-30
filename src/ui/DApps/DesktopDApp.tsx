@@ -27,7 +27,7 @@ export default function DesktopDApp() {
 
   return (
     <>
-      {!walletOnboarded && <Onboarding />}
+      {(!walletOnboarded || !isConnected) && <Onboarding />}
       {walletOnboarded && isConnected && <IslandView />}
       <PrivacyPolicy />
     </>
