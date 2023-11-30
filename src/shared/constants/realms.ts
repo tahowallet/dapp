@@ -5,6 +5,7 @@ import gitcoin from "shared/assets/partners/gitcoin.svg"
 import galxe from "shared/assets/partners/galxe.svg"
 import frax from "shared/assets/partners/frax.svg"
 import base from "shared/assets/partners/base.svg"
+import { RealmPosition } from "shared/types/realm"
 import { realm4, realm7, realm8, realm9, realm19, realm22 } from "./realms-data"
 import QUESTLINE_DATA from "../../assets/questline-data.json"
 
@@ -112,12 +113,7 @@ export function getRealmColor(realmId: string): string {
   return color
 }
 
-export function getRealmPosition(realmId: string): {
-  x: number
-  y: number
-  width: number
-  height: number
-} {
+export function getRealmPosition(realmId: string): RealmPosition {
   const selectedRealm = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
 
   if (!selectedRealm) {

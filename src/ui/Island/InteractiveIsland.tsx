@@ -4,8 +4,7 @@ import type Konva from "konva"
 // import rafSchd from "raf-schd"
 import {
   selectDisplayedRealmId,
-  selectRealmById,
-  selectRealms,
+  selectRealmPanelVisible,
   setIslandZoomLevel,
   useDappDispatch,
   useDappSelector,
@@ -14,22 +13,13 @@ import {
   selectIslandOverlay,
   selectIslandZoomLevel,
 } from "redux-state/selectors/island"
-import {
-  FIGMA_FACTOR,
-  ISLAND_BOX,
-  REALMS_MAP_DATA,
-  getRealmPosition,
-} from "shared/constants"
+import { ISLAND_BOX, getRealmPosition } from "shared/constants"
 import { useValueRef, useBeforeFirstPaint, useOnResize } from "shared/hooks"
 import {
   getWindowDimensions,
   getMinimumScale,
   limitToBounds,
-  // calculateNewIslandScale,
-  // calculateIslandPosition,
-  // getCurrentCanvasPosition,
 } from "shared/utils"
-// import Controls from "ui/Controls"
 import Assistant from "ui/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
@@ -38,6 +28,7 @@ import Clouds from "./Clouds"
 
 function InteractiveIsland() {
   const selectedRealmId = useDappSelector(selectDisplayedRealmId)
+  const selectedRealmPanelVisible = useDappSelector(selectRealmPanelVisible)
   const settingsRef = useRef({ minScale: 0 })
   const [stageBounds, setStageDimensions] = useState(() =>
     getWindowDimensions()
@@ -152,7 +143,7 @@ function InteractiveIsland() {
       let maxX
       let maxY
 
-      if (selectedRealmId) {
+      if (selectedRealmPanelVisible) {
         maxX = 2 * width
         maxY = 2 * height
       } else {
@@ -165,7 +156,7 @@ function InteractiveIsland() {
 
       return { x: finalX, y: finalY }
     },
-    [selectedRealmId]
+    [selectedRealmPanelVisible]
   )
 
   useEffect(() => {
@@ -176,13 +167,13 @@ function InteractiveIsland() {
       const stageScaleX = stage.scaleX()
       const stageScaleY = stage.scaleY()
 
-      if (selectedRealmId) {
+      if (selectedRealmId && selectedRealmPanelVisible) {
         const { x, y, width, height } = getRealmPosition(selectedRealmId)
         const newPosX = stageWidth / 2 - (x + width / 2) * stageScaleX
         const newPosY = stageHeight / 2 - (y + height / 2) * stageScaleY
 
         stage?.to({ x: newPosX, y: newPosY })
-      } else {
+      } else if (!selectedRealmPanelVisible) {
         const scale = getMinimumScale(ISLAND_BOX, {
           width: stageBounds.width,
           height: stageBounds.height,
@@ -193,7 +184,7 @@ function InteractiveIsland() {
         })
       }
     }
-  }, [selectedRealmId, stageBounds])
+  }, [selectedRealmId, selectedRealmPanelVisible, stageBounds])
 
   return (
     <>

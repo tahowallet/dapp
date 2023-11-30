@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import { easings, useSpring } from "@react-spring/web"
 import { useMemo } from "react"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import { selectRealmPanelVisible, useDappSelector } from "redux-state"
 import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 
 export function useRealmPanelTransition(position: "left" | "right") {
-  const realmPanelVisible = useDappSelector(selectDisplayedRealmId)
+  const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
 
   const styles = useMemo(
     () => ({

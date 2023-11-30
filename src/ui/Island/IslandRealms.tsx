@@ -5,6 +5,7 @@ import backgroundImg from "public/dapp_island_bg.webp"
 import { createCutoutFromPath, createImageElement } from "shared/utils"
 import {
   selectDisplayedRealmId,
+  selectRealmPanelVisible,
   selectRealms,
   useDappSelector,
 } from "redux-state"
@@ -13,13 +14,14 @@ import Realm from "./Realm"
 
 export default function IslandRealms() {
   const realms = useDappSelector(selectRealms)
+  const selectedRealmPanelVisible = useDappSelector(selectRealmPanelVisible)
   const selectedRealmId = useDappSelector(selectDisplayedRealmId)
   const [bg] = useImage(backgroundImg)
   const realmImgLayers = useMemo(() => {
     if (!bg) {
       return []
     }
-    if (selectedRealmId) {
+    if (selectedRealmId && selectedRealmPanelVisible) {
       const selectedRealm = REALMS_MAP_DATA.find(
         (realm) => realm.id === selectedRealmId
       )
@@ -53,7 +55,7 @@ export default function IslandRealms() {
         populationIcon: createImageElement(realm.partnerIcons.population),
       }
     })
-  }, [bg, realms, selectedRealmId])
+  }, [bg, realms, selectedRealmId, selectedRealmPanelVisible])
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from "react"
+import React, { memo, useCallback, useEffect } from "react"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
   useValueRef,
@@ -10,6 +10,7 @@ import {
   selectDisplayedRealmId,
   selectRealmNameById,
   setDisplayedRealmId,
+  setRealmPanelVisible,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
@@ -42,6 +43,7 @@ function IslandWrapper() {
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
       dispatch(setDisplayedRealmId(String(id)))
+      dispatch(setRealmPanelVisible(true))
 
       if (assistantVisible("welcome"))
         updateAssistant({ visible: false, type: "default" })
@@ -49,6 +51,7 @@ function IslandWrapper() {
   }))
 
   const handleClose = useCallback(() => {
+    dispatch(setRealmPanelVisible(false))
     const timeout = setTimeout(
       () => dispatch(setDisplayedRealmId(null)),
       REALM_PANEL_ANIMATION_TIME
