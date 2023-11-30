@@ -61,3 +61,13 @@ export function createImageElement(source: string) {
 
   return image
 }
+
+// Source: https://stackoverflow.com/questions/38679681/getting-a-file-type-from-url
+export async function determineFetchedFileType(
+  url: string
+): Promise<string | null> {
+  const response = await fetch(url, { method: "HEAD" })
+  const fileType = response.headers.get("Content-Type")
+
+  return fileType
+}
