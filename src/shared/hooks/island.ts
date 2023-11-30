@@ -16,6 +16,7 @@ import {
   selectWalletAddress,
   selectRealms,
   selectDisplayedRealmId,
+  selectRealmPanelVisible,
 } from "redux-state"
 import { LOCAL_STORAGE_DISPLAYED_REALMS, SECOND } from "shared/constants"
 import {
@@ -150,7 +151,7 @@ export function useIslandRealmsPaths(
   groupRef: RefObject<Group>,
   setFocus: Dispatch<SetStateAction<boolean>>
 ) {
-  const selectedRealmId = useDappSelector(selectDisplayedRealmId)
+  const selectedRealmPanelVisible = useDappSelector(selectRealmPanelVisible)
 
   const onMouseEnter = useCallback(
     (e: KonvaEventObject<MouseEvent>) => {
@@ -158,12 +159,15 @@ export function useIslandRealmsPaths(
 
       stage
         ?.container()
-        .style.setProperty("cursor", selectedRealmId ? "default" : "pointer")
+        .style.setProperty(
+          "cursor",
+          selectedRealmPanelVisible ? "default" : "pointer"
+        )
 
-      groupRef?.current?.zIndex(2)
+      groupRef?.current?.zIndex(selectedRealmPanelVisible ? 1 : 2)
       setFocus(true)
     },
-    [groupRef, selectedRealmId, setFocus]
+    [groupRef, selectedRealmPanelVisible, setFocus]
   )
 
   const onMouseLeave = useCallback(
@@ -187,7 +191,7 @@ export function useIslandRealmsPaths(
         ref.off("mouseleave")
       }
     })
-  }, [pathRef, onMouseLeave, onMouseEnter, selectedRealmId])
+  }, [pathRef, onMouseLeave, onMouseEnter])
 }
 
 export function useDisplayedRealms() {
