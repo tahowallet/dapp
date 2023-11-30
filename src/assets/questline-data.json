@@ -54,7 +54,7 @@
           "name": "Vampire Attack: Bridge funds from Arbitrum",
           "description": "Bridge ETH or USDC from Arbitrum to Base using Hop Exchange",
           "isNew": true,
-          "vampireAttack": true
+          "isAttack": true
         }
       ]
     },

@@ -27,7 +27,7 @@ import Background from "./Background"
 import Realms from "./IslandRealms"
 import RealmPin from "./IslandRealmsDetails/RealmPin"
 import Clouds from "./Clouds"
-import VampireQuest from "./IslandRealmsDetails/VampireQuest"
+import AttackLine from "./IslandRealmsDetails/AttackLine"
 
 function InteractiveIsland() {
   const settingsRef = useRef({ minScale: 0 })
@@ -168,7 +168,7 @@ function InteractiveIsland() {
           <Realms />
           <Clouds />
           <RealmPin />
-          <VampireQuest />
+          <AttackLine />
         </Layer>
       </Stage>
       <Assistant />
