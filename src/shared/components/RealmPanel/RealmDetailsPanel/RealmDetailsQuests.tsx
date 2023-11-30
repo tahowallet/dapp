@@ -24,10 +24,7 @@ export default function RealmDetalsQuests({ quests }: { quests: Quest[] }) {
             Quest completion determines your XP
           </RealmDetailsQuestInfo>
           <RealmDetailsQuestInfo>
-            Quests must be completed by:{" "}
-            <span className="ellipsis" style={{ fontSize: 16 }}>
-              {walletName}
-            </span>
+            Quests must be completed by: {walletName}
           </RealmDetailsQuestInfo>
         </RealmDetailsSection>
       </div>
