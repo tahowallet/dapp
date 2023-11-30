@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from "react"
+import React, { memo, useCallback, useEffect } from "react"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
   useValueRef,
@@ -7,6 +7,7 @@ import {
   useAssets,
 } from "shared/hooks"
 import {
+  selectDisplayedRealmId,
   selectRealmNameById,
   setDisplayedRealmId,
   setRealmPanelVisible,
@@ -22,7 +23,7 @@ import IslandPresence from "./IslandPresence"
 
 function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
-  const [realmId, setRealmId] = useState<null | string>(null)
+  const realmId = useDappSelector(selectDisplayedRealmId)
   const realmName = useDappSelector((state) =>
     selectRealmNameById(state, realmId)
   )
@@ -39,13 +40,9 @@ function IslandWrapper() {
     }
   }, [posthog, realmName])
 
-  useEffect(() => {
-    dispatch(setDisplayedRealmId(realmId))
-  }, [dispatch, realmId])
-
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
-      setRealmId(String(id))
+      dispatch(setDisplayedRealmId(String(id)))
       dispatch(setRealmPanelVisible(true))
 
       if (assistantVisible("welcome"))
@@ -56,7 +53,7 @@ function IslandWrapper() {
   const handleClose = useCallback(() => {
     dispatch(setRealmPanelVisible(false))
     const timeout = setTimeout(
-      () => setRealmId(null),
+      () => dispatch(setDisplayedRealmId(null)),
       REALM_PANEL_ANIMATION_TIME
     )
 

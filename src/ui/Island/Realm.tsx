@@ -39,6 +39,12 @@ type RealmProps = {
   isNew?: boolean
 }
 
+const transitionConfig = {
+  precision: 0.0001,
+  duration: 200,
+  easing: easings.easeOutCubic,
+}
+
 export default function Realm({
   paths,
   width,
@@ -55,8 +61,8 @@ export default function Realm({
   populationIcon,
   isNew,
 }: RealmProps) {
-  const realmId = useDappSelector(selectDisplayedRealmId)
-  const [isHovered, setIsHovered] = useState(false)
+  const selectedRealmId = useDappSelector(selectDisplayedRealmId)
+  const [isFocused, setFocus] = useState(!!selectedRealmId)
   const [, setIsSelected] = useState(false)
 
   const islandContext = useIslandContext()
@@ -80,7 +86,7 @@ export default function Realm({
     [name]
   )
 
-  useIslandRealmsPaths(pathRefs, groupRef, setIsHovered)
+  useIslandRealmsPaths(pathRefs, groupRef, setFocus)
 
   const styles = useMemo(() => {
     const variants = {
@@ -143,44 +149,41 @@ export default function Realm({
     return variants
   }, [color, labelX, labelY, x, y, partnerLogoTranslate])
 
-  const transitionConfig = {
-    precision: 0.0001,
-    duration: 200,
-    easing: easings.easeOutCubic,
-  }
-
   const [pathProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.pathRealm
-      : styles.default.pathRealm
+    const destinationStyle =
+      isFocused || selectedRealmId
+        ? styles.highlight.pathRealm
+        : styles.default.pathRealm
 
     return {
       from: styles.default.pathRealm,
       to: destinationStyle,
     }
-  }, [isHovered])
+  }, [isFocused, selectedRealmId])
 
   const [imageProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.image
-      : styles.default.image
+    const destinationStyle =
+      isFocused || selectedRealmId
+        ? styles.highlight.image
+        : styles.default.image
 
     return {
       from: styles.default.image,
       to: destinationStyle,
     }
-  }, [isHovered])
+  }, [isFocused, selectedRealmId])
 
   const [overlayProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.overlay
-      : styles.default.overlay
+    const destinationStyle =
+      isFocused || selectedRealmId
+        ? styles.highlight.overlay
+        : styles.default.overlay
 
     return {
       from: styles.default.overlay,
       to: destinationStyle,
     }
-  }, [isHovered])
+  }, [isFocused])
 
   const [blinkingProps] = useSpring(
     () => ({
@@ -193,28 +196,28 @@ export default function Realm({
   )
 
   const [textProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.text
-      : styles.default.text
+    const destinationStyle =
+      isFocused || selectedRealmId ? styles.highlight.text : styles.default.text
 
     return {
       from: styles.default.text,
       to: destinationStyle,
       config: transitionConfig,
     }
-  }, [isHovered])
+  }, [isFocused, selectedRealmId])
 
   const [partnerLogoProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.partnerLogo
-      : styles.default.partnerLogo
+    const destinationStyle =
+      isFocused || selectedRealmId
+        ? styles.highlight.partnerLogo
+        : styles.default.partnerLogo
 
     return {
       from: styles.default.partnerLogo,
       to: destinationStyle,
       config: transitionConfig,
     }
-  }, [isHovered])
+  }, [isFocused, selectedRealmId])
 
   const { showBubble, setShowBubble } = usePopulationBubble(id)
 
@@ -222,7 +225,7 @@ export default function Realm({
     // To prevent lag in animation, let's show only one bubble for the realm.
     // When a modal for the realm is open, do not show a bubble on the map.
     const destinationStyle =
-      showBubble && !(realmId === id)
+      showBubble && !(selectedRealmId === id)
         ? [styles.highlight.population, styles.finish.population]
         : { opacity: 0 }
 
@@ -239,7 +242,7 @@ export default function Realm({
         }
       },
     }
-  }, [showBubble, realmId, id])
+  }, [showBubble, selectedRealmId, id])
 
   return (
     <Group ref={groupRef}>

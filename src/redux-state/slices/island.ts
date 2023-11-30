@@ -95,6 +95,12 @@ const islandSlice = createSlice({
       immerState.realms[realmXpAllocatable.id].xpAllocatable =
         realmXpAllocatable.xpAllocatable
     },
+    setRealmPanelVisible: (
+      immerState,
+      { payload: realmPanelVisible }: { payload: boolean }
+    ) => {
+      immerState.realmPanelVisible = realmPanelVisible
+    },
     setStakingRealmId: (
       immerState,
       { payload: stakingRealmId }: { payload: string | null }
@@ -131,12 +137,6 @@ const islandSlice = createSlice({
     ) => {
       immerState.seasonInfo = seasonInfo
     },
-    setRealmPanelVisible: (
-      immerState,
-      { payload: realmPanelVisible }: { payload: boolean }
-    ) => {
-      immerState.realmPanelVisible = realmPanelVisible
-    },
     resetIslandDisplay: (immerState) => {
       immerState.mode = "default"
       immerState.overlay = "dark"
@@ -159,13 +159,13 @@ export const {
   setRealmDisplayedPopulation,
   setRealmXpAllocatable,
   setRealmsData,
+  setRealmPanelVisible,
   setDisplayedRealmId,
   setStakingRealmId,
   setStakingUnlockTime,
   setLeaderboardData,
   setUnclaimedXpData,
   setSeasonInfo,
-  setRealmPanelVisible,
 } = islandSlice.actions
 
 export default islandSlice.reducer
