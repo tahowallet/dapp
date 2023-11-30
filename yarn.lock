@@ -2359,7 +2359,7 @@
   resolved "https://registry.yarnpkg.com/@rocicorp/rails/-/rails-0.8.0.tgz#ee8f3826c640f1fc8cb4b8de97b952378098c052"
   integrity sha512-BX/Owk5ikuLcXghQxlfPgcBWou5TWoGxktSxqUQZdCrsiP0CHEjOPJVhli4TuwRbxuzqS4MaHSeHa//PuwchGQ==
 
-"@rocicorp/reflect@0.38.202311200859":
+"@rocicorp/reflect@^0.38.202311200859":
   version "0.38.202311200859"
   resolved "https://registry.yarnpkg.com/@rocicorp/reflect/-/reflect-0.38.202311200859.tgz#487a0340698d22d78febb1de7a36dd6b999adf7d"
   integrity sha512-5p5l/7RIBdLtjyMkJXkvmN2Oh35xxEAA0ZGtbpwMS9HUOWzhXj9pukETMcLlOXQEi3UH6qJYALpNFGlJ2ynG0Q==
