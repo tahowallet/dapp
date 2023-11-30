@@ -35,12 +35,12 @@ function Container({
   position = "left",
   style,
 }: PanelContainerProps) {
-  const containerProps = useRealmPanelTransition(position)
+  const containerTransitionStyles = useRealmPanelTransition(position)
 
   return (
     <Portal>
       <animated.div
-        style={{ ...style, ...containerProps }}
+        style={{ ...style, ...containerTransitionStyles }}
         className="no_scrollbar"
       >
         <div
