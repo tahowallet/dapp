@@ -5,6 +5,7 @@ import {
   reflectSingleton,
   useBalanceFetch,
   useConnect,
+  useCorrectChain,
   useGameDataFetch,
   useGameLoadDataFetch,
   useInitializeReflect,
@@ -31,10 +32,11 @@ function DesktopDAppContent() {
   usePopulationFetch()
   useGameDataFetch()
   useWalletChange()
+  useCorrectChain()
 
   return (
     <>
-      {!walletOnboarded && <Onboarding />}
+      {(!walletOnboarded || !isConnected) && <Onboarding />}
       {walletOnboarded && isConnected && <IslandView />}
       <PrivacyPolicy />
     </>
