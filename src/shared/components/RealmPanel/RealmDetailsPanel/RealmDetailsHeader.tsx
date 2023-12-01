@@ -27,7 +27,7 @@ export default function RealmDetailsHeader({
         <h1 className="realm_header" style={{ color }}>
           {realm?.name} Realm
         </h1>
-        <RealmDetailsSection>
+        <RealmDetailsSection alwaysHasBorder>
           <div className="labels row">
             <div className="column">
               <span className="label row_center">
