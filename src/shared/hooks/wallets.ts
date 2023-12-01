@@ -24,6 +24,7 @@ import {
 import { Network } from "@ethersproject/networks"
 import { Logger, defineReadOnly } from "ethers/lib/utils"
 import { reflectInstance } from "shared/utils"
+import { usePostHog } from "posthog-js/react"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
 
@@ -212,15 +213,26 @@ export function useCorrectChain() {
 export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
   const { updateWalletOnboarding } = useWalletOnboarding()
+  const posthog = usePostHog()
 
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")
     return wallet && disconnect(wallet)
   }, [wallet, disconnect, updateWalletOnboarding])
 
+  const connectBound = useCallback(async () => {
+    const [walletState] = await connect()
+
+    if (walletState) {
+      posthog?.capture("Wallet connected", {
+        wallet: walletState.label,
+      })
+    }
+  }, [connect, posthog])
+
   return {
     isConnected: process.env.IS_COMING_SOON !== "true" && !!wallet,
-    connect,
+    connect: connectBound,
     disconnect: disconnectBound,
   }
 }
