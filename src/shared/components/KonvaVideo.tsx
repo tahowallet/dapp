@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useRef } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import Konva from "konva"
 import { Image } from "react-konva"
 import { ImageConfig } from "konva/lib/shapes/Image"
-// import useImage from "use-image"
+import useImage from "use-image"
 
 type KonvaVideoProps = {
   x: number
@@ -14,25 +14,25 @@ type KonvaVideoProps = {
   videoProps?: Partial<ImageConfig>
 }
 
-// function extractFirstVideoFrame(
-//   video: HTMLVideoElement,
-//   width: number,
-//   height: number
-// ) {
-//   const canvas = document.createElement("canvas")
+function extractFirstVideoFrame(
+  video: HTMLVideoElement,
+  width: number,
+  height: number
+) {
+  const canvas = document.createElement("canvas")
 
-//   canvas.width = width
-//   canvas.height = height
+  canvas.width = width
+  canvas.height = height
 
-//   const canvasCtx = canvas.getContext("2d")
+  const canvasCtx = canvas.getContext("2d")
 
-//   canvasCtx?.drawImage(video, 0, 0, canvas.width, canvas.height)
-//   const firstFrame = canvas.toDataURL()
+  canvasCtx?.drawImage(video, 0, 0, canvas.width, canvas.height)
+  const firstFrame = canvas.toDataURL()
 
-//   canvas.remove()
+  canvas.remove()
 
-//   return firstFrame
-// }
+  return firstFrame
+}
 
 // Source: https://codesandbox.io/p/sandbox/react-konva-video-on-canvas-oygvf?file=%2Fsrc%2Findex.js%3A22%2C31
 export default function KonvaVideo({
@@ -45,45 +45,25 @@ export default function KonvaVideo({
   videoProps,
 }: KonvaVideoProps) {
   const imageRef = useRef<Konva.Image>(null)
-  // const [videoPaused, setVideoPaused] = useState(true)
-  // const [firstFrame, setFirstFrame] = useState(null)
+  const [videoPaused, setVideoPaused] = useState(true)
 
   const videoElement = useMemo(() => {
     const element = document.createElement("video")
     element.src = src
     element.loop = loop
 
-    element.focus()
-
     return element
   }, [src, loop])
-
-  // useEffect(() => {
-  //   const onLoad = () => {
-  //     const canvas = document.createElement("canvas")
-
-  //     canvas.width = width
-  //     canvas.height = height
-
-  //     videoElement.currentTime = 1
-  //     const canvasCtx = canvas.getContext("2d")
-
-  //     canvasCtx?.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
-  //     setFirstFrame(canvas)
-  //   }
-  // }, [videoElement, height, width])
 
   useEffect(() => {
     if (!imageRef.current) return () => {}
 
-    // const handleVideoPLay = () => {
-    //   videoElement.play()
-    //   // setVideoPaused(false)
-    // }
+    const handleVideoPLay = () => {
+      videoElement.play()
+      setVideoPaused(false)
+    }
 
-    videoElement.play()
-
-    // document.addEventListener("click", handleVideoPLay)
+    document.addEventListener("click", handleVideoPLay)
 
     const imageLayer = imageRef.current.getLayer()
 
@@ -92,16 +72,19 @@ export default function KonvaVideo({
     animation.start()
 
     return () => {
-      // document.removeEventListener("click", handleVideoPLay)
+      document.removeEventListener("click", handleVideoPLay)
       animation.stop()
     }
   }, [videoElement, imageRef])
 
+  const [firstFrame] = useImage(
+    extractFirstVideoFrame(videoElement, width, height)
+  )
+
   return (
     <Image
       ref={imageRef}
-      // image={videoPaused ? firstFrame : videoElement}
-      image={videoElement}
+      image={videoPaused ? firstFrame : videoElement}
       x={x}
       y={y}
       width={width}
