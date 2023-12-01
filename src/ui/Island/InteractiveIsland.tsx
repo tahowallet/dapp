@@ -23,9 +23,9 @@ import {
 import Assistant from "ui/Assistant"
 import Background from "./Background"
 import Realms from "./IslandRealms"
-import RealmPin from "./IslandRealmsDetails/RealmPin"
+import RealmPin from "./IslandDetails/RealmPin"
 import Clouds from "./Clouds"
-import AttackLine from "./IslandRealmsDetails/AttackLine"
+import AttackLine from "./IslandDetails/AttackLine"
 
 function InteractiveIsland() {
   const selectedRealmId = useDappSelector(selectDisplayedRealmId)

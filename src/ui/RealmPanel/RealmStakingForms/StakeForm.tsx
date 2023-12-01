@@ -19,7 +19,7 @@ import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import { useAssistant, useTransactionSuccessCallback } from "shared/hooks"
 import { usePostHog } from "posthog-js/react"
-import StakeCongratulationsModal from "./StakeCongratulationsModal"
+import StakeCongratulationsModal from "../../Island/Modals/StakeCongratulationsModal"
 
 const STAKE_TX_ID = "stake"
 

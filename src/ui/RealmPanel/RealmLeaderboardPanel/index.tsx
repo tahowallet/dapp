@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import Panel from "shared/components/Panel"
 import TabPanel from "shared/components/TabPanel"
-import LeaderboardList from "ui/Island/RealmDetails/LeaderboardList"
-import LeaderboardCurrentUser from "ui/Island/RealmDetails/LeaderboardList/LeaderboardCurrentUser"
+import LeaderboardList from "ui/RealmPanel/RealmLeaderboardPanel/LeaderboardList"
+import LeaderboardCurrentUser from "ui/RealmPanel/RealmLeaderboardPanel/LeaderboardCurrentUser"
 
 // TODO: remove this when we have more than one leaderboard type
 const SHOW_LEADERBOARD_SELECTION = false

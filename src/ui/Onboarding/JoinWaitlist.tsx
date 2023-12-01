@@ -1,5 +1,5 @@
 import React from "react"
-import OnboardingModal from "shared/components/Modals/OnboardingModal"
+import OnboardingModal from "ui/Island/Modals/OnboardingModal"
 import Icon from "shared/components/Icon"
 import newTab from "shared/assets/icons/m/new-tab.svg"
 import { LINKS } from "shared/constants"

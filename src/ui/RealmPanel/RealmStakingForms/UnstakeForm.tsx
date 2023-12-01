@@ -15,7 +15,7 @@ import {
 } from "redux-state"
 import { isValidInputAmount } from "shared/utils"
 import classNames from "classnames"
-import UnstakeCooldown from "shared/components/Staking/UnstakeCooldown"
+import UnstakeCooldown from "ui/RealmPanel/RealmStakingForms/UnstakeCooldown"
 import { TransactionProgressStatus } from "shared/types"
 import TransactionProgress from "shared/components/Transactions/TransactionProgress"
 import ModalLeavingRealm from "ui/Island/Modals/ModalLeavingRealm"

@@ -5,7 +5,7 @@ import {
   selectDisplayedRealmId,
 } from "redux-state"
 import Button from "shared/components/Button"
-import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
+import CongratulationsModal from "ui/Island/Modals/CongratulationsModal"
 import { RealmCutout } from "shared/components/RealmCutout"
 
 type StakeCongratulationsModalProps = {

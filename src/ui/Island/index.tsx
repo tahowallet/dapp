@@ -16,7 +16,7 @@ import {
 } from "redux-state"
 import FullPageLoader from "shared/components/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
-import RealmPanel from "shared/components/RealmPanel"
+import RealmPanel from "ui/RealmPanel"
 import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 import InteractiveIsland from "./InteractiveIsland"
 import IslandPresence from "./IslandPresence"
