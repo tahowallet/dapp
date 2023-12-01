@@ -38,10 +38,10 @@ export default function KonvaVideo({
 
     // Source: https://stackoverflow.com/a/68128950
     const handleVideoPLay = async () => {
-      const promise = videoElement.play()
+      const playPromise = videoElement.play()
 
-      if (promise !== undefined) {
-        promise.catch(() => {
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
           videoElement.muted = true
           videoElement.play()
         })
