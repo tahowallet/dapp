@@ -23,7 +23,6 @@ function RealmPinAvatar({ x, y }: RealmPinAvatarProps) {
 
   const [avatarImage] = useImage(avatar)
 
-  // TODO: implement video avatar support
   if (avatarType === "video/mp4") {
     return (
       <KonvaVideo
