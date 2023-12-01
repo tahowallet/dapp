@@ -42,16 +42,19 @@ function IslandWrapper() {
 
   const contextRef = useValueRef(() => ({
     onRealmClick: (id: string) => {
-      dispatch(setDisplayedRealmId(String(id)))
-      dispatch(setRealmPanelVisible(true))
+      if (!realmId) {
+        dispatch(setDisplayedRealmId(String(id)))
+        dispatch(setRealmPanelVisible(true))
 
-      if (assistantVisible("welcome"))
-        updateAssistant({ visible: false, type: "default" })
+        if (assistantVisible("welcome"))
+          updateAssistant({ visible: false, type: "default" })
+      }
     },
   }))
 
   const handleClose = useCallback(() => {
     dispatch(setRealmPanelVisible(false))
+
     const timeout = setTimeout(
       () => dispatch(setDisplayedRealmId(null)),
       REALM_PANEL_ANIMATION_TIME
