@@ -13,8 +13,7 @@
         {
           "id": "4_2",
           "name": "Increase your Gitcoin Passport score",
-          "description": "The more you increase your Gitcoin Passport score in a week, the more of the weekly XP drop you will get.",
-          "isNew": true
+          "description": "The more you increase your Gitcoin Passport score in a week, the more of the weekly XP drop you will get."
         }
       ]
     },
@@ -31,14 +30,12 @@
         {
           "id": "7_2",
           "name": "Mint W3ST",
-          "description": "The more W3ST you mint, the more of the weekly XP drop you will get.",
-          "isNew": true
+          "description": "The more W3ST you mint, the more of the weekly XP drop you will get."
         },
         {
           "id": "7_3",
           "name": "Collect post essence",
-          "description": "The more post essence you collect, the more of the weekly XP drop you will get.",
-          "isNew": true
+          "description": "The more post essence you collect, the more of the weekly XP drop you will get."
         }
       ]
     },
@@ -51,6 +48,13 @@
           "id": "8_1",
           "name": "Interact with unique contracts on Base",
           "description": "The more interactions you execute with different unique contracts on Base compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+        },
+        {
+          "id": "8_2",
+          "name": "Vampire Attack: Bridge funds from Arbitrum",
+          "description": "Bridge ETH or USDC from Arbitrum to Base using Hop Exchange. \n \nAccepted assets: [ETH](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base) and [USDC](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base&token=USDC), bridging anything else won't be counted towards XP \n \nMechanics: The more you bridge, the higher the reward. \n \nReward: Each 1 dollar bridged from Arbitrum to Base will be worth 10 contract interactions.",
+          "isNew": true,
+          "isAttack": true
         }
       ]
     },
@@ -67,8 +71,7 @@
         {
           "id": "9_2",
           "name": "Earn fUSDC rewards using Fluidity",
-          "description": "The more fUSDC rewards you earn using Fluidity in a week, the more of the weekly XP drop you will get.",
-          "isNew": true
+          "description": "The more fUSDC rewards you earn using Fluidity in a week, the more of the weekly XP drop you will get."
         }
       ]
     },
@@ -84,9 +87,8 @@
         },
         {
           "id": "19_2",
-          "name": "Mint NFTs during the week using the Galxe space station",
-          "description": "The more NFTs you mint via a Galxe [`SpaceStation` contract](https://docs.galxe.com/developer/smart-contract/contracts/spacestation/), the more of the weekly XP drop you will get.",
-          "isNew": true
+          "name": "Claim NFTs during the week using the Galxe space station",
+          "description": "The more NFTs you claim via a Galxe [`SpaceStation` contract](https://docs.galxe.com/developer/smart-contract/contracts/spacestation/), the more of the weekly XP drop you will get."
         }
       ]
     },
@@ -103,8 +105,7 @@
         {
           "id": "22_2",
           "name": "Bridge tokens using FraxFerry",
-          "description": "The more unique tokens you bridge over FraxFerry, the more of the weekly XP drop you will get.",
-          "isNew": true
+          "description": "The more unique tokens you bridge over FraxFerry, the more of the weekly XP drop you will get."
         }
       ]
     }

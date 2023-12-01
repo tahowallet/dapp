@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react"
+import { useConnectWallet, useSetChain } from "@web3-onboard/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers, logger } from "ethers"
 import {
@@ -23,7 +23,7 @@ import {
 } from "shared/constants"
 import { Network } from "@ethersproject/networks"
 import { Logger, defineReadOnly } from "ethers/lib/utils"
-import { reflectInstance } from "shared/utils"
+import { usePostHog } from "posthog-js/react"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
 
@@ -169,46 +169,59 @@ export function useWalletOnboarding(): {
   const { value, updateStorage } =
     useLocalStorageChange<string>(LOCAL_STORAGE_WALLET)
 
-  useEffect(() => {
-    const updateReflectPresence = async () => {
-      if (!reflectInstance) return
-
-      await reflectInstance.mutate.setUserPresence(!!value)
-    }
-
-    updateReflectPresence()
-  }, [value])
-
   return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
+}
+
+export function useCorrectChain() {
+  const [{ wallet }] = useConnectWallet()
+  const [{ settingChain /* connectedChain */ }, setChain] = useSetChain()
+  const [chainSwitched, setChainSwitched] = useState(false)
+
+  useEffect(() => {
+    if (wallet?.provider !== undefined) {
+      const setCorrectChain = async () => {
+        await setChain({
+          chainId: ARBITRUM_SEPOLIA.id,
+        })
+        setChainSwitched(true)
+      }
+
+      // TODO: Metamask has a bug where it does not switch to the correct chain
+      // when the user adds new chain to the wallet. `connectedChain` is not updated
+      // until user reloads the page.
+      if (
+        !settingChain &&
+        !chainSwitched /* && connectedChain?.id !== ARBITRUM_SEPOLIA.id */
+      ) {
+        setCorrectChain()
+      }
+    }
+  }, [wallet?.provider, setChain, settingChain, chainSwitched])
 }
 
 export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
   const { updateWalletOnboarding } = useWalletOnboarding()
-
-  useEffect(() => {
-    if (wallet?.provider !== undefined) {
-      const setCorrectChain = async () => {
-        const walletProvider = new ethers.providers.Web3Provider(
-          wallet.provider
-        )
-        await walletProvider.send("wallet_switchEthereumChain", [
-          { chainId: ARBITRUM_SEPOLIA.id },
-        ])
-      }
-
-      setCorrectChain()
-    }
-  }, [wallet?.provider])
+  const posthog = usePostHog()
 
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")
     return wallet && disconnect(wallet)
   }, [wallet, disconnect, updateWalletOnboarding])
 
+  const connectBound = useCallback(async () => {
+    const [walletState] = await connect()
+
+    if (walletState) {
+      posthog?.capture("Wallet connected", {
+        wallet: walletState.label,
+      })
+    }
+  }, [connect, posthog])
+
   return {
     isConnected: process.env.IS_COMING_SOON !== "true" && !!wallet,
-    connect,
+    connect: connectBound,
     disconnect: disconnectBound,
   }
 }

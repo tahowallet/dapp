@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react"
 import {
   useDappSelector,
-  selectWalletAvatar,
   selectWalletName,
   selectStakingRealmId,
   selectRealmById,
 } from "redux-state"
 import RealmIcon from "shared/components/RealmIcon"
 import { getRealmColor } from "shared/constants"
+import Avatar from "shared/components/Avatar"
 import AccountDropdown from "./AccountDropdown"
 
 export default function AccountInfo() {
@@ -15,7 +15,6 @@ export default function AccountInfo() {
   const dropdownTriggerRef = useRef<HTMLButtonElement>(null)
 
   const name = useDappSelector(selectWalletName)
-  const avatar = useDappSelector(selectWalletAvatar)
   const realmId = useDappSelector(selectStakingRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
   const color = realmId && getRealmColor(realmId)
@@ -43,7 +42,15 @@ export default function AccountInfo() {
         ref={dropdownTriggerRef}
       >
         <span className="account_label ellipsis">{name}</span>
-        <div className="avatar" />
+        <Avatar
+          width="42px"
+          style={{
+            marginLeft: 8,
+            transform: "scaleX(-1)",
+            border: "2px solid var(--primary-p1-100)",
+            transition: "border-color 250ms ease",
+          }}
+        />
       </button>
       <style jsx>
         {`
@@ -71,18 +78,6 @@ export default function AccountInfo() {
             color: var(--secondary-s1-80);
             max-width: 150px;
             transition: color 250ms ease;
-          }
-
-          .avatar {
-            width: 42px;
-            height: 42px;
-            margin-left: 8px;
-            background: url("${avatar}");
-            background-size: cover;
-            border-radius: 50%;
-            transform: scaleX(-1);
-            border: 2px solid var(--primary-p1-100);
-            transition: border-color 250ms ease;
           }
 
           button {
