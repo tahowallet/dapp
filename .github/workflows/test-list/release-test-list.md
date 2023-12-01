@@ -33,8 +33,8 @@ environment 🚀**
    - [ ] you can explore realms and stake into one (if you staked above, you don't have to do it again. Just make sure to test stake and unstake at least once)
 
 3. Connect to wallet that has NO $TAHO (& no $VETAHO)
-   - [ ] you see the portal is closed message and the wait list button
-   - [ ] wait list redirect works as expected
+   - [ ] you see the Portal is Open message and the Join Beta button
+   - [ ] Join Beta redirect works as expected
    - [ ] you can't see the map
 
 4. Switch connected wallet in the extension (it's easy to check these off along with the above while you're switching accounts)
@@ -45,8 +45,8 @@ environment 🚀**
          the address: if it's an eligible address, you see Access Granted &
          Enter the portal
    - [ ] reloads with that address connected if that's a connected website for
-         the address: if it's an inelligible address, you see the portal is
-         closed message and wait list button
+         the address: if it's an inelligible address, you see the Portal is Open
+         message and Join Beta button
 
 5. Helper Tool
    - [ ] doesn't pop up automatically for users who have visited before and
@@ -70,13 +70,17 @@ environment 🚀**
          portal screen
 
 9. Connect Wallet
-   - [ ] with Taho installed and default wallet
-   - [ ] with Taho installed and not default
-   - [ ] with Taho not installed and no other - should be directed to the Chrome store to download Taho & given a message in the dapp to do so
-   - [ ] with Taho not installed and MM installed - should be directed to the Chrome store to download Taho & given a message in the dapp to do so
+   - [ ] with Taho and MM installed and Taho set as a default wallet - only Taho
+         connection should be possible
+   - [ ] with Taho and MM installed and Taho not set as a default - only Taho
+         connection should be possible
+   - [ ] with Taho not installed and MM installed - should show both options -
+         Taho directs to the Chrome store, MM opens method connection screen and
+         allows connecting      
+   - [ ] with Taho not installed and no other - should be directed to the Chrome
+         store to download Taho & given a message in the dapp to do so
 
 10. XP
    - [ ] an account with XP to claim sees that under Claimable Rewards on the Realm modal (in pre-prod we can see this on stage-live but might be easiest to only test this when we're testing XP drops)
    - [ ] account can claim XP and sees the wallet balance of VETAHO change accordingly (requires that the account earned XP and hasn't claimed it yet so this could be hard to test on each release but when we're testing XP drops, we should do this)
    - [ ] leaderboard shows the top 10 earners in the realm - the connected account is shown at the top with their place on the board shown
-
