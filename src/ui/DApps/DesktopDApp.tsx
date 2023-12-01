@@ -1,12 +1,16 @@
 import React from "react"
 
 import {
+  ReflectContext,
+  reflectSingleton,
   useBalanceFetch,
   useConnect,
   useCorrectChain,
   useGameDataFetch,
   useGameLoadDataFetch,
+  useInitializeReflect,
   usePopulationFetch,
+  useReflect,
   useWallet,
   useWalletChange,
   useWalletOnboarding,
@@ -15,9 +19,12 @@ import Onboarding from "ui/Onboarding"
 import PrivacyPolicy from "../../shared/components/PrivacyPolicy"
 import IslandView from "./IslandView"
 
-export default function DesktopDApp() {
-  const { walletOnboarded } = useWalletOnboarding()
+function DesktopDAppContent() {
+  useInitializeReflect()
+  useReflect()
+
   const { isConnected } = useConnect()
+  const { walletOnboarded } = useWalletOnboarding()
 
   useWallet()
   useGameLoadDataFetch()
@@ -33,5 +40,13 @@ export default function DesktopDApp() {
       {walletOnboarded && isConnected && <IslandView />}
       <PrivacyPolicy />
     </>
+  )
+}
+
+export default function DesktopDApp() {
+  return (
+    <ReflectContext.Provider value={reflectSingleton}>
+      <DesktopDAppContent />
+    </ReflectContext.Provider>
   )
 }

@@ -5,6 +5,7 @@ import { createWalletSelector } from "redux-state/selectors"
 
 export const selectWalletAddress = createWalletSelector("address")
 export const selectWalletAvatar = createWalletSelector("avatar")
+export const selectWalletAvatarType = createWalletSelector("avatarType")
 export const selectWalletNameProperty = createWalletSelector("name")
 export const selectIsWalletConnected = createWalletSelector("isConnected")
 export const selectHasLoadedBalances = createWalletSelector("hasLoadedBalances")

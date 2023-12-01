@@ -3,11 +3,19 @@ import Markdown from "react-markdown"
 import Accordion from "shared/components/Accordion"
 import starIcon from "shared/assets/icons/star.svg"
 import newQuestLabel from "shared/assets/new-quest-label.svg"
+import attackLabel from "shared/assets/attack.svg"
 import Icon from "shared/components/Icon"
 import { Quest } from "shared/types"
 import { useDisplayedQuests } from "shared/hooks/quest"
+import rehypeExternalLinks from "rehype-external-links"
 
-export default function QuestItem({ id, name, description, isNew }: Quest) {
+export default function QuestItem({
+  id,
+  name,
+  description,
+  isNew,
+  isAttack,
+}: Quest) {
   const { isQuestDisplayed, updateDisplayedQuest } = useDisplayedQuests()
 
   const handleQuestClick = useCallback(() => {
@@ -17,7 +25,7 @@ export default function QuestItem({ id, name, description, isNew }: Quest) {
 
   return (
     <div style={{ position: "relative" }}>
-      {isNew && !isQuestDisplayed(id) && (
+      {isNew && !isAttack && !isQuestDisplayed(id) && (
         <Icon
           src={newQuestLabel}
           type="image"
@@ -32,6 +40,20 @@ export default function QuestItem({ id, name, description, isNew }: Quest) {
           }}
         />
       )}
+      {isAttack && (
+        <Icon
+          src={attackLabel}
+          type="image"
+          height="41px"
+          width="41px"
+          style={{
+            position: "absolute",
+            left: 1,
+            top: 14,
+            zIndex: 2,
+          }}
+        />
+      )}
       <Accordion
         key={name}
         title={name}
@@ -41,9 +63,19 @@ export default function QuestItem({ id, name, description, isNew }: Quest) {
         onClick={handleQuestClick}
       >
         <div className="rewards_quests_description">
-          <Markdown>{description}</Markdown>
+          <Markdown
+            className="description"
+            rehypePlugins={[[rehypeExternalLinks, { target: "_blank" }]]}
+          >
+            {description}
+          </Markdown>
         </div>
       </Accordion>
+      <style jsx>{`
+        .description {
+          white-space: pre-wrap;
+        }
+      `}</style>
     </div>
   )
 }
