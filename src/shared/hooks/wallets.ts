@@ -23,7 +23,6 @@ import {
 } from "shared/constants"
 import { Network } from "@ethersproject/networks"
 import { Logger, defineReadOnly } from "ethers/lib/utils"
-import { reflectInstance } from "shared/utils"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
 
@@ -168,16 +167,6 @@ export function useWalletOnboarding(): {
 } {
   const { value, updateStorage } =
     useLocalStorageChange<string>(LOCAL_STORAGE_WALLET)
-
-  useEffect(() => {
-    const updateReflectPresence = async () => {
-      if (!reflectInstance) return
-
-      await reflectInstance.mutate.setUserPresence(!!value)
-    }
-
-    updateReflectPresence()
-  }, [value])
 
   return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
 }
