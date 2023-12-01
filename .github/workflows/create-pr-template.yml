@@ -17,7 +17,7 @@ jobs:
         run: |
           TEMPLATE=$(<.github/pull_request_template.md)
           PR_BODY=$(echo "TEMPLATE" | sed -e 's/^/  /')
-          jq -n --arg body "$PR_BODY" '{body: $body}' > pr_body.json
+          echo "{\"body\": \"$PR_BODY\"}" > pr_body.json
       - name: Apply PR Body
         uses: actions/github-script@v6
         with:
