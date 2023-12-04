@@ -10,25 +10,24 @@ export default function RealmDetalsQuests({ quests }: { quests: Quest[] }) {
 
   return (
     <>
-      <RealmDetailsSection style={{ marginBottom: 0, paddingInline: 32 }}>
-        <div className="quests_header">Weekly Quests</div>
-        {quests.map(({ id, name, description }) => (
-          <RealmDetailsQuestItem
-            key={id}
-            name={name}
-            description={description}
-          />
-        ))}
-        <RealmDetailsQuestInfo>
-          Quest completion determines your XP
-        </RealmDetailsQuestInfo>
-        <RealmDetailsQuestInfo>
-          Quests must be completed by:{" "}
-          <span className="ellipsis" style={{ fontSize: 16 }}>
-            {walletName}
-          </span>
-        </RealmDetailsQuestInfo>
-      </RealmDetailsSection>
+      <div style={{ paddingInline: 32 }}>
+        <RealmDetailsSection style={{ marginBottom: 0 }}>
+          <div className="quests_header">Weekly Quests</div>
+          {quests.map(({ id, name, description }) => (
+            <RealmDetailsQuestItem
+              key={id}
+              name={name}
+              description={description}
+            />
+          ))}
+          <RealmDetailsQuestInfo>
+            Quest completion determines your XP
+          </RealmDetailsQuestInfo>
+          <RealmDetailsQuestInfo>
+            Quests must be completed by: {walletName}
+          </RealmDetailsQuestInfo>
+        </RealmDetailsSection>
+      </div>
       <style jsx>{`
         .quests_header {
           font-size: 16px;

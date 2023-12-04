@@ -1,12 +1,26 @@
 import React, { CSSProperties, ReactNode } from "react"
+import {
+  selectDisplayedRealmId,
+  selectStakingRealmId,
+  useDappSelector,
+} from "redux-state"
+
+type RealmDetailsSectionProps = {
+  children: ReactNode
+  alwaysHasBorder?: boolean
+  style?: CSSProperties
+}
 
 export default function RealmDetailsSection({
   children,
+  alwaysHasBorder,
   style,
-}: {
-  children: ReactNode
-  style?: CSSProperties
-}) {
+}: RealmDetailsSectionProps) {
+  const stakingRealmId = useDappSelector(selectStakingRealmId)
+  const displayedRealmId = useDappSelector(selectDisplayedRealmId)
+
+  const isStakingRealm = stakingRealmId === displayedRealmId
+
   return (
     <>
       <div className="realm_details_section" style={style}>
@@ -20,6 +34,7 @@ export default function RealmDetailsSection({
         }
         .realm_details_section::after {
           content: "";
+          display: ${isStakingRealm || alwaysHasBorder ? "block" : "none"};
           position: absolute;
           left: 0;
           bottom: 0;
