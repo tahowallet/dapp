@@ -11,6 +11,7 @@ Please include a summary of the changes
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Code refactoring / code cleanup
+- [ ] DevOps
 - [ ] Other
 
 If type is "other" make sure to explicitly define the solved problem in the PR description
