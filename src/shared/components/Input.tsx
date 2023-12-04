@@ -48,6 +48,8 @@ export default function SharedInput({
 
   const handleInputChange = useCallback(
     (inputValue: string) => {
+      if (inputValue === "") onChange?.("")
+
       const isNumberInput = NUMBER_INPUT_REGEX.test(inputValue)
 
       // If we don't accept accept letters, entering letter won't update input value
