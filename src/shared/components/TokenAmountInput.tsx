@@ -34,15 +34,6 @@ function handleValidate(
     return { error: AmountErrors.NOT_ENOUGH_FUNDS }
   }
 
-  // if (parsed !== undefined) {
-  //   if (parsed < 0n) {
-  //     return { error: AmountErrors.INVALID_VALUE }
-  //   }
-  //   if (parsed > balance) {
-  //     return { error: AmountErrors.NOT_ENOUGH_FUNDS }
-  //   }
-  // }
-
   return { value: parsed }
 }
 
