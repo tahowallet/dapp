@@ -15,11 +15,11 @@ const getOverlay = (overlay: OverlayType) => {
     return (
       <>
         <Rect
-          opacity={1}
           fill="#1F3D3B"
           width={ISLAND_BOX.width}
           height={ISLAND_BOX.height}
           globalCompositeOperation="color"
+          stroke="#1C2D2D"
         />
         <Rect
           opacity={0.4}
@@ -27,7 +27,6 @@ const getOverlay = (overlay: OverlayType) => {
           width={ISLAND_BOX.width}
           height={ISLAND_BOX.height}
           globalCompositeOperation="hard-light"
-          stroke="#172828"
         />
         <Rect
           opacity={0.4}
@@ -107,9 +106,7 @@ export default function Background({ overlay }: { overlay: OverlayType }) {
   return (
     <Group listening={false}>
       <KonvaImage image={mask} />
-      <Group opacity={0} ref={overlayRef}>
-        {currentOverlay}
-      </Group>
+      <Group ref={overlayRef}>{currentOverlay}</Group>
     </Group>
   )
 }
