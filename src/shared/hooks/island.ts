@@ -15,7 +15,6 @@ import {
   useDappSelector,
   selectWalletAddress,
   selectRealms,
-  selectDisplayedRealmId,
   selectRealmPanelVisible,
 } from "redux-state"
 import { LOCAL_STORAGE_DISPLAYED_REALMS, SECOND } from "shared/constants"
