@@ -1,5 +1,19 @@
 import classNames from "classnames"
 import React, { useCallback, useEffect, useState } from "react"
+import { NUMBER_INPUT_REGEX } from "shared/constants"
+
+type SharedInputProps = {
+  label: string
+  type?: "text" | "number"
+  disabled?: boolean
+  value: string
+  placeholder?: string
+  onChange?: (value: string) => void
+  validate?: (value: string) => { value: unknown } | { error: string }
+  rightComponent?: React.ReactNode
+  style?: React.CSSProperties & Record<string, string>
+  acceptLetters?: boolean
+}
 
 export default function SharedInput({
   onChange,
@@ -11,17 +25,8 @@ export default function SharedInput({
   disabled = false,
   rightComponent = null,
   style = {},
-}: {
-  label: string
-  type?: "text" | "number"
-  disabled?: boolean
-  value: string
-  placeholder?: string
-  onChange?: (value: string) => void
-  validate?: (value: string) => { value: unknown } | { error: string }
-  rightComponent?: React.ReactNode
-  style?: React.CSSProperties & Record<string, string>
-}) {
+  acceptLetters = true, // if we need text input for specific case, but we only want to user to input numbers
+}: SharedInputProps) {
   const [error, setError] = useState("")
 
   const handleError = useCallback(
@@ -41,6 +46,18 @@ export default function SharedInput({
     handleError(value)
   }, [handleError, value])
 
+  const handleInputChange = useCallback(
+    (inputValue: string) => {
+      const isNumberInput = NUMBER_INPUT_REGEX.test(inputValue)
+
+      // If we don't accept accept letters, entering letter won't update input value
+      if (!isNumberInput && !acceptLetters) return
+
+      onChange?.(inputValue)
+    },
+    [onChange, acceptLetters]
+  )
+
   const isTypeNumber = type === "number"
 
   return (
@@ -57,7 +74,7 @@ export default function SharedInput({
           value={value}
           placeholder={placeholder}
           disabled={disabled}
-          onChange={(e) => onChange?.(e.target.value)}
+          onChange={(e) => handleInputChange(e.target.value)}
         />
         <span className="input_label">{label}</span>
         <div role="presentation" className="input_notch">

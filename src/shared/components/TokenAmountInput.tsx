@@ -23,14 +23,25 @@ function handleValidate(
 ): { value: bigint | undefined } | { error: string } {
   const parsed = userAmountToBigInt(value)
 
-  if (parsed !== undefined) {
-    if (parsed < 0n) {
-      return { error: AmountErrors.INVALID_VALUE }
-    }
-    if (parsed > balance) {
-      return { error: AmountErrors.NOT_ENOUGH_FUNDS }
-    }
+  if (
+    (parsed === undefined && value) ||
+    (parsed !== undefined && parsed < 0n)
+  ) {
+    return { error: AmountErrors.INVALID_VALUE }
   }
+
+  if (parsed !== undefined && parsed > balance) {
+    return { error: AmountErrors.NOT_ENOUGH_FUNDS }
+  }
+
+  // if (parsed !== undefined) {
+  //   if (parsed < 0n) {
+  //     return { error: AmountErrors.INVALID_VALUE }
+  //   }
+  //   if (parsed > balance) {
+  //     return { error: AmountErrors.NOT_ENOUGH_FUNDS }
+  //   }
+  // }
 
   return { value: parsed }
 }
@@ -107,12 +118,12 @@ export default function TokenAmountInput({
         <div className="label">{`${label} ${parsedBalance} ${symbol}`}</div>
       )}
       <SharedInput
-        type="number"
         label={inputLabel}
         value={textAmount}
         disabled={disabled}
         onChange={setTextAmount}
         validate={validate}
+        acceptLetters={false}
         rightComponent={
           <Button
             type="tertiary"
