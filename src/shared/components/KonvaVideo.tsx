@@ -33,13 +33,25 @@ export default function KonvaVideo({
     return element
   }, [src, loop])
 
-  // use Konva.Animation to redraw a layer
   useEffect(() => {
     if (!imageRef.current) return () => {}
 
-    videoElement.play()
+    // Source: https://stackoverflow.com/a/68128950
+    const handleVideoPLay = async () => {
+      const playPromise = videoElement.play()
+
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          videoElement.muted = true
+          videoElement.play()
+        })
+      }
+    }
+
+    handleVideoPLay()
     const imageLayer = imageRef.current.getLayer()
 
+    // use Konva.Animation to redraw a layer
     const animation = new Konva.Animation(() => {}, imageLayer)
     animation.start()
 

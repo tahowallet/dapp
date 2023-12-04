@@ -12,8 +12,7 @@ import {
 } from "redux-state"
 import { FIGMA_FACTOR, getRealmMapData } from "shared/constants"
 import { getPinShift } from "shared/utils"
-// import KonvaVideo from "shared/components/KonvaVideo"
-import portraitImg from "shared/assets/portrait.png"
+import KonvaVideo from "shared/components/KonvaVideo"
 
 type RealmPinAvatarProps = {
   x: number
@@ -25,25 +24,23 @@ function RealmPinAvatar({ x, y }: RealmPinAvatarProps) {
   const avatarType = useDappSelector(selectWalletAvatarType)
 
   const [avatarImage] = useImage(avatar)
-  const [portrait] = useImage(portraitImg)
 
-  // TODO: implement video avatar support
-  // if (avatarType === "video/mp4") {
-  //   return (
-  //     <KonvaVideo
-  //       src={avatar}
-  //       x={x + 32}
-  //       y={y + 28}
-  //       height={58 * FIGMA_FACTOR.Y}
-  //       width={58 * FIGMA_FACTOR.X}
-  //       videoProps={{ cornerRadius: 100 }}
-  //     />
-  //   )
-  // }
+  if (avatarType === "video/mp4") {
+    return (
+      <KonvaVideo
+        src={avatar}
+        x={x + 32}
+        y={y + 28}
+        height={58 * FIGMA_FACTOR.Y}
+        width={58 * FIGMA_FACTOR.X}
+        videoProps={{ cornerRadius: 100 }}
+      />
+    )
+  }
 
   return (
     <Image
-      image={avatarType === "video/mp4" ? portrait : avatarImage}
+      image={avatarImage}
       x={x + 32}
       y={y + 28}
       height={58 * FIGMA_FACTOR.Y}
