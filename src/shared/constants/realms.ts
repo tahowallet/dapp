@@ -70,6 +70,10 @@ export const REALMS_WITH_CONTRACT_ADDRESS: {
     // Arbitrum
     address: "0x42a0b5cab976d7a2a0038138dd1279b96b73f029",
   },
+  "15": {
+    // zkSync
+    address: "0x26770639eB1262cfA47A4C3Aa27902fa8FCA3465",
+  },
   "19": {
     // Galxe
     address: "0x6a3d1d9a7eb615be82b5c50bba8c6ecc7606afe6",

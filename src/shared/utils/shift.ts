@@ -42,6 +42,8 @@ export function getNewQuestLabelShift(realmId: string) {
       return { x: 850, y: 300 }
     case "9":
       return { x: 850, y: 350 }
+    case "15":
+      return { x: 880, y: 110 }
     case "19":
       return { x: 250, y: 600 }
     case "22":
