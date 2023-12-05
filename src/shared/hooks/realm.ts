@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { easings, useSpring } from "@react-spring/web"
 import { useMemo } from "react"
 import { selectRealmPanelVisible, useDappSelector } from "redux-state"
@@ -69,34 +68,4 @@ export function useRealmCloseButtonTransition() {
   }, [realmPanelVisible])
 
   return buttonTransition
-}
-
-export function useRealmPanelCountdownTransition() {
-  const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
-
-  const countdownStyles = useMemo(
-    () => ({
-      base: { top: 104 },
-      hidden: { right: -300 },
-      visible: { right: 32 },
-    }),
-    []
-  )
-
-  const [countdownTransition] = useSpring(() => {
-    const destinationStyle = realmPanelVisible
-      ? countdownStyles.visible
-      : countdownStyles.hidden
-
-    return {
-      from: { ...countdownStyles.base, ...countdownStyles.hidden },
-      to: { ...countdownStyles.base, ...destinationStyle },
-      config: {
-        duration: REALM_PANEL_ANIMATION_TIME,
-        easing: easings.easeOutCubic,
-      },
-    }
-  }, [realmPanelVisible])
-
-  return countdownTransition
 }
