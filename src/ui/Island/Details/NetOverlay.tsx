@@ -2,7 +2,7 @@ import React, { memo } from "react"
 import { Group } from "react-konva"
 import netGif from "shared/assets/island-overlay-net.gif"
 import { FIGMA_FACTOR } from "shared/constants"
-import Gif from "./Gif"
+import Gif from "../../../shared/components/Gif"
 
 function NetOverlay() {
   return (

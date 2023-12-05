@@ -13,7 +13,7 @@ import Tooltip from "shared/components/Tooltip"
 import { LINKS } from "shared/constants"
 import { bigIntToDisplayUserAmount } from "shared/utils"
 import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
-import XpClaimModal from "ui/Island/RealmDetails/XpClaim/XpClaimModal"
+import XpClaimModal from "ui/Island/Modals/XpClaimModal"
 
 function RealmDetailsRewards({
   amount,

@@ -8,8 +8,8 @@ import {
 } from "redux-state"
 import { TAHO_ADDRESS } from "shared/constants"
 import TabPanel from "shared/components/TabPanel"
-import StakeForm from "ui/Island/RealmDetails/StakingForms/StakeForm"
-import UnstakeForm from "ui/Island/RealmDetails/StakingForms/UnstakeForm"
+import StakeForm from "ui/Island/Staking/StakeForm"
+import UnstakeForm from "ui/Island/Staking/UnstakeForm"
 import { AccordionOutsideActions } from "shared/components/Accordion"
 import RealmPanelAccordion from "."
 

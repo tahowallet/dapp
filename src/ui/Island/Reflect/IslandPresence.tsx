@@ -1,6 +1,6 @@
 import React from "react"
 import { useReflectCursors } from "shared/hooks"
-import IslandCursor from "./Cursor"
+import IslandCursor from "./IslandCursor"
 
 export default function IslandPresence() {
   const { visibleCursors, currentUser } = useReflectCursors()

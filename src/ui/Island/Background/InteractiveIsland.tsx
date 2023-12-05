@@ -21,11 +21,11 @@ import {
   limitToBounds,
 } from "shared/utils"
 import Assistant from "ui/Assistant"
-import Background from "./Background"
-import Realms from "./IslandRealms"
-import RealmPin from "./IslandRealmsDetails/RealmPin"
-import Clouds from "./Clouds"
-import AttackLine from "./IslandRealmsDetails/AttackLine"
+import IslandBackground from "./IslandBackground"
+import Realms from "../Realms/IslandRealms"
+import RealmPin from "../Details/RealmPin"
+import Clouds from "../Details/Clouds"
+import AttackLine from "../Details/AttackLine"
 
 function InteractiveIsland() {
   const selectedRealmId = useDappSelector(selectDisplayedRealmId)
@@ -198,7 +198,7 @@ function InteractiveIsland() {
         height={stageBounds.height}
       >
         <Layer>
-          <Background overlay={overlay} />
+          <IslandBackground overlay={overlay} />
           <Realms />
           <Clouds />
           <RealmPin />

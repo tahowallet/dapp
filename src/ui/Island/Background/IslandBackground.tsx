@@ -59,7 +59,11 @@ const getOverlay = (overlay: OverlayType) => {
   return null
 }
 
-export default function Background({ overlay }: { overlay: OverlayType }) {
+export default function IslandBackground({
+  overlay,
+}: {
+  overlay: OverlayType
+}) {
   const [islandImage] = useImage(backgroundImg)
   // const overlayRef = useRef<Konva.Group | null>(null)
   // const [currentOverlay, setCurrentOverlay] = useState<JSX.Element | null>(null)

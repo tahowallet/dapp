@@ -22,9 +22,9 @@ import {
   useIslandContext,
   useIslandRealmsPaths,
   usePopulationBubble,
-} from "../../shared/hooks"
-import NewRealmLabel from "./IslandRealmsDetails/NewRealmLabel"
-import NewQuestLabel from "./IslandRealmsDetails/NewQuestLabel"
+} from "../../../shared/hooks"
+import NewRealmLabel from "../Details/NewRealmLabel"
+import NewQuestLabel from "../Details/NewQuestLabel"
 
 type RealmProps = {
   id: string

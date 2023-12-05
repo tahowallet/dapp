@@ -18,8 +18,8 @@ import FullPageLoader from "shared/components/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
 import RealmPanel from "shared/components/RealmPanel"
 import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
-import InteractiveIsland from "./InteractiveIsland"
-import IslandPresence from "./IslandPresence"
+import InteractiveIsland from "./Background/InteractiveIsland"
+import IslandPresence from "./Reflect/IslandPresence"
 
 function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
