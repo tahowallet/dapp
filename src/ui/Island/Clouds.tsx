@@ -3,7 +3,6 @@ import { Group, Image as KonvaImage } from "react-konva"
 import Konva from "konva"
 import useImage from "use-image"
 
-import cloudBottomLeft from "shared/assets/clouds/cloud-bottom-left.png"
 import cloudBottomRight from "shared/assets/clouds/cloud-bottom-right.png"
 import cloudTopLeft from "shared/assets/clouds/cloud-top-left.png"
 import cloudTopRight from "shared/assets/clouds/cloud-top-right.png"
@@ -14,12 +13,10 @@ const PERIOD = 20000
 
 function Clouds() {
   const [cloudTopLeftImage] = useImage(cloudTopLeft)
-  const [cloudBottomLeftImage] = useImage(cloudBottomLeft)
   const [cloudTopRightImage] = useImage(cloudTopRight)
   const [cloudBottomRightImage] = useImage(cloudBottomRight)
 
   const cloudTopLeftRef = useRef<Konva.Image>(null)
-  const cloudBottomLeftRef = useRef<Konva.Image>(null)
   const cloudTopRightRef = useRef<Konva.Image>(null)
   const cloudBottomRightRef = useRef<Konva.Image>(null)
 
@@ -33,11 +30,6 @@ function Clouds() {
       cloudTopLeftRef.current?.position({
         x: 27 * FIGMA_FACTOR.X + posY,
         y: 85 * FIGMA_FACTOR.Y + posX,
-      })
-
-      cloudBottomLeftRef.current?.position({
-        x: 70 * FIGMA_FACTOR.X + posY,
-        y: 495 * FIGMA_FACTOR.Y + posX,
       })
 
       cloudTopRightRef.current?.position({
@@ -63,14 +55,6 @@ function Clouds() {
         width={642 * FIGMA_FACTOR.X}
         height={204 * FIGMA_FACTOR.Y}
         image={cloudTopLeftImage}
-      />
-      <KonvaImage
-        ref={cloudBottomLeftRef}
-        x={70 * FIGMA_FACTOR.X}
-        y={495 * FIGMA_FACTOR.Y}
-        width={698 * FIGMA_FACTOR.X}
-        height={393 * FIGMA_FACTOR.Y}
-        image={cloudBottomLeftImage}
       />
       <KonvaImage
         ref={cloudTopRightRef}

@@ -8,6 +8,8 @@ export function getPinShift(realmId: string) {
       return { x: 700, y: 450 }
     case "9":
       return { x: 500, y: 300 }
+    case "15":
+      return { x: 600, y: 300 }
     case "16":
       return { x: 200, y: 600 }
     case "19":
@@ -23,6 +25,8 @@ export function getNewRealmLabelShift(realmId: string) {
   switch (realmId) {
     case "8":
       return { x: 20, y: 170 }
+    case "15":
+      return { x: 40, y: 290 }
     default:
       return { x: 0, y: 0 }
   }
