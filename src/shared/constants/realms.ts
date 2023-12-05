@@ -5,7 +5,15 @@ import gitcoin from "shared/assets/partners/gitcoin.svg"
 import galxe from "shared/assets/partners/galxe.svg"
 import frax from "shared/assets/partners/frax.svg"
 import base from "shared/assets/partners/base.svg"
-import { realm4, realm7, realm8, realm9, realm19, realm22 } from "./realms-data"
+import {
+  realm4,
+  realm7,
+  realm8,
+  realm9,
+  realm19,
+  realm22,
+  realm15,
+} from "./realms-data"
 import QUESTLINE_DATA from "../../assets/questline-data.json"
 
 // TODO: read the correct questline data for realms
@@ -81,7 +89,7 @@ export const BASE_REALMS_MAP_DATA: RealmMapData[] = [
   realm22,
 ]
 
-export const NEW_REALMS_MAP_DATA: RealmMapData[] = []
+export const NEW_REALMS_MAP_DATA: RealmMapData[] = [realm15]
 
 export const REALMS_MAP_DATA = [
   ...BASE_REALMS_MAP_DATA,
