@@ -18,13 +18,7 @@ export function getQuestlineData(id: string): RealmQuestlineData {
     ({ realmId }) => realmId === id
   )
 
-  if (!realmWithQuestline) {
-    return {
-      description: "",
-      questlineName: "",
-      quests: [],
-    }
-  }
+  if (!realmWithQuestline) return { quests: [] }
 
   return realmWithQuestline
 }

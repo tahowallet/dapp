@@ -2,8 +2,6 @@
   "realms": [
     {
       "realmId": "4",
-      "questlineName": "Transact on PGN, human!",
-      "description": "Gitcoin is a community that focuses on incentivizing and supporting open-source development. Gitcoin aims to foster collaboration and sustainability within the open-source ecosystem by providing a marketplace for matching developers with projects and funding opportunities and rewards for their contributions.",
       "quests": [
         {
           "id": "4_1",
@@ -19,8 +17,6 @@
     },
     {
       "realmId": "7",
-      "questlineName": "Use your CyberWallet, collect essence, and mint W3ST",
-      "description": "Cyberconnect is a Web3 social ecosystem that goes beyond likes and shares. It allows developers to create social applications where users have complete control over their digital identity, content, and connections ",
       "quests": [
         {
           "id": "7_1",
@@ -41,8 +37,6 @@
     },
     {
       "realmId": "8",
-      "questlineName": "Transact on Base",
-      "description": "Base is a secure, low-cost, builder-friendly Ethereum L2 built to bring the next billion users onchain. Base is incubated within Coinbase and plans to progressively decentralize in the years ahead. The Base Realm believes that decentralization is critical to creating an open, global cryptoeconomy that is accessible to everyone.",
       "quests": [
         {
           "id": "8_1",
@@ -60,8 +54,6 @@
     },
     {
       "realmId": "9",
-      "questlineName": "Transact on Arbitrum---especially on Fluidity",
-      "description": "Arbitrum DAO is a decentralized autonomous organization (DAO) built on the Ethereum blockchain. At its core, the Arbitrum DAO is a community-driven governance mechanism that allows $ARB token holders to propose and vote on changes to the organization and the technologies it governs.",
       "quests": [
         {
           "id": "9_1",
@@ -77,8 +69,6 @@
     },
     {
       "realmId": "19",
-      "questlineName": "Eat your OATs, unless they're minty NFTs",
-      "description": "Galxe is the largest web3 credential data network that is helping projects and developers build robust decentralized products. Earn oat, NFTs, and tokens by contributing to your favorite Web3 communities.",
       "quests": [
         {
           "id": "19_1",
@@ -94,8 +84,6 @@
     },
     {
       "realmId": "22",
-      "questlineName": "The bribes must flow, over the FraxFerry and far away",
-      "description": "Frax Finance is a protocol that issues decentralized stablecoins and the subprotocols to support them, creating a unique self-sufficient DeFi ecosystem",
       "quests": [
         {
           "id": "22_1",
