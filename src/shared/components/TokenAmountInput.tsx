@@ -53,6 +53,7 @@ export default function TokenAmountInput({
   onValidate?: (value: boolean) => void
 }) {
   const [textAmount, setTextAmount] = useState("")
+  const [labelHeight, setLabelHeight] = useState<number | null>(null)
 
   const balance = useDappSelector((state) =>
     selectTokenBalanceByAddress(state, tokenAddress)
@@ -99,12 +100,31 @@ export default function TokenAmountInput({
     }
   }, [amount])
 
+  // Set equal height if there is big amount of TAHO and breaks to second line
+  useEffect(() => {
+    const amountLabels = document.querySelectorAll(".token_amount_label")
+
+    amountLabels.forEach((amountLabel) => {
+      const { height } = amountLabel.getBoundingClientRect()
+
+      setLabelHeight((prevHeight) =>
+        prevHeight ? Math.max(prevHeight, height) : height
+      )
+    })
+  }, [])
+
   const parsedBalance = bigIntToDisplayUserAmount(balance, 18, 4)
 
   return (
     <div>
       {label && (
-        <div className="label">{`${label} ${parsedBalance} ${symbol}`}</div>
+        <div
+          className="token_amount_label"
+          style={{ height: labelHeight ?? "auto" }}
+        >
+          {label}{" "}
+          <span className="token_amount">{`${parsedBalance} ${symbol}`}</span>
+        </div>
       )}
       <SharedInput
         type="number"
@@ -130,9 +150,13 @@ export default function TokenAmountInput({
       />
 
       <style jsx>{`
-        .label {
+        .token_amount_label,
+        .token_amount {
           font: var(--text-label);
           color: var(--secondary-s1-70);
+        }
+        .token_amount {
+          white-space: nowrap;
         }
       `}</style>
     </div>
