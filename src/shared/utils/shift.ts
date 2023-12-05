@@ -28,7 +28,7 @@ export function getNewRealmLabelShift(realmId: string) {
   }
 }
 
-export function getNewQuestLabelShift(realmId: string) {
+export function getNewChallengeLabelShift(realmId: string) {
   switch (realmId) {
     case "4":
       return { x: 100, y: 250 }

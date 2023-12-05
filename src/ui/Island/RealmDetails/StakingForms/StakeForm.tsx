@@ -86,7 +86,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
     setStakeAmount(null)
     dispatch(stopTrackingTransactionStatus(STAKE_TX_ID))
     if (!stakingRealmId) {
-      updateAssistant({ visible: true, type: "quests" })
+      updateAssistant({ visible: true, type: "challenges" })
     }
   }, [posthog, displayedRealmName, dispatch, stakingRealmId, updateAssistant])
 

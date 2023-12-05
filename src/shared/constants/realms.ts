@@ -1,4 +1,4 @@
-import { RealmQuestlineData, RealmMapData } from "shared/types"
+import { RealmChallengesData, RealmMapData } from "shared/types"
 import arbitrum from "shared/assets/partners/arbitrum.svg"
 import cyberconnect from "shared/assets/partners/cyberconnect.svg"
 import gitcoin from "shared/assets/partners/gitcoin.svg"
@@ -7,26 +7,20 @@ import frax from "shared/assets/partners/frax.svg"
 import base from "shared/assets/partners/base.svg"
 import { RealmPosition } from "shared/types/realm"
 import { realm4, realm7, realm8, realm9, realm19, realm22 } from "./realms-data"
-import QUESTLINE_DATA from "../../assets/questline-data.json"
+import CHALLENGES_DATA from "../../assets/challenges-data.json"
 
-// TODO: read the correct questline data for realms
-// The questline data should be read from a JSON file.
+// TODO: read the correct challenge data for realms
+// The challenge data should be read from a JSON file.
 // Currently, the structure of the file isn't yet known and should be updated later.
 // The data is not yet ready, so it has been mocked.
-export function getQuestlineData(id: string): RealmQuestlineData {
-  const realmWithQuestline = QUESTLINE_DATA.realms.find(
+export function getChallengesData(id: string): RealmChallengesData {
+  const realmWithChallenges = CHALLENGES_DATA.realms.find(
     ({ realmId }) => realmId === id
   )
 
-  if (!realmWithQuestline) {
-    return {
-      description: "",
-      questlineName: "",
-      quests: [],
-    }
-  }
+  if (!realmWithChallenges) return { challenges: [] }
 
-  return realmWithQuestline
+  return realmWithChallenges
 }
 // ISLAND_BOX is size of the island image: public/dapp_sland_bg.webp
 export const ISLAND_BOX = {

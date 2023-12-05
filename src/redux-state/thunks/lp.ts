@@ -57,7 +57,7 @@ export const joinTahoPool = createDappAsyncThunk(
 
     const userData = await encodeUserData(lpTokenSupply, maxAmountsIn)
 
-    const joinRequest = {
+    const joinRechallenge = {
       assets: [TAHO_ADDRESS, ETH_ADDRESS],
       maxAmountsIn,
       userData,
@@ -68,7 +68,7 @@ export const joinTahoPool = createDappAsyncThunk(
     }
 
     const receipt = transactionService.send(id, joinPool, {
-      joinRequest,
+      joinRechallenge,
       overrides,
     })
 

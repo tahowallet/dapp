@@ -2,14 +2,14 @@ import React, { ReactNode } from "react"
 import Icon from "shared/components/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 
-export default function RealmDetailsQuestInfo({
+export default function RealmDetailsChallengeInfo({
   children,
 }: {
   children: ReactNode
 }) {
   return (
     <>
-      <div className="quest_info row_center">
+      <div className="challenge_info row_center">
         <Icon
           src={lightIcon}
           height="24px"
@@ -18,15 +18,15 @@ export default function RealmDetailsQuestInfo({
           type="image"
           style={{ minWidth: 24 }}
         />
-        <span className="quest_info_content ellipsis">{children}</span>
+        <span className="challenge_info_content ellipsis">{children}</span>
       </div>
       <style jsx>{`
-        .quest_info {
+        .challenge_info {
           color: var(--secondary-s1-70);
           margin-bottom: 4px;
           gap: 4px;
         }
-        .quest_info_content {
+        .challenge_info_content {
           font-size: 16px;
           flex: 1;
         }
