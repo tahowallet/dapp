@@ -19,7 +19,7 @@ export default function RealmDetailsAccordion({
       hasInteractiveChildren
       openedFromOutside={openedFromOutside}
       closeOpenedFromOutside={closeOpenedFromOutside}
-      additionalTrigger={realmPanelVisible}
+      extraExpand={realmPanelVisible}
     >
       {children}
     </Accordion>
