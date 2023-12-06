@@ -17,11 +17,13 @@ export default function RealmDetalsChallenges({
       <div style={{ paddingInline: 32 }}>
         <RealmDetailsSection style={{ marginBottom: 0 }}>
           <div className="challenges_header">Weekly Challenges</div>
-          {challenges.map(({ id, name, description }) => (
+          {challenges.map(({ id, name, description, isNew }) => (
             <RealmDetailsChallengeItem
               key={id}
+              id={id}
               name={name}
               description={description}
+              isNew={isNew}
             />
           ))}
           <RealmDetailsChallengeInfo>
