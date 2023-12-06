@@ -45,6 +45,12 @@
     ],
     "leaderboard": "leaderboard.json"
   },
+  "15": {
+    "rootFolder": "/assets/xp/zksync",
+    "claimsFolder": "/assets/xp/zksync/claims",
+    "xpGlossary": [],
+    "leaderboard": null
+  },
   "19": {
     "rootFolder": "/assets/xp/galxe",
     "claimsFolder": "/assets/xp/galxe/claims",

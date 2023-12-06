@@ -25,7 +25,7 @@ export default function TabPanel({
           </li>
         ))}
       </ul>
-      <div className="content">{tabs[activeTab]?.component}</div>
+      <div>{tabs[activeTab]?.component}</div>
       <style jsx>{`
         ul {
           display: flex;
@@ -59,9 +59,6 @@ export default function TabPanel({
           right: 0;
           left: 0;
           margin: 0 auto;
-        }
-        .content {
-          min-height: 200px;
         }
       `}</style>
     </div>

@@ -4,7 +4,7 @@ import assistantImage from "shared/assets/assistant.png"
 import Portal from "shared/components/Portal"
 import { useAssistant } from "shared/hooks"
 import AssistantWelcome from "./AssistantContent/AssistantWelcome"
-import AssistantQuests from "./AssistantContent/AssistantQuests"
+import AssistantChallenges from "./AssistantContent/AssistantChallenges"
 import AssistantJoin from "./AssistantContent/AssistantJoin"
 import AssistantFirstRealm from "./AssistantContent/AssistantFirstRealm"
 
@@ -37,7 +37,7 @@ export default function Assistant() {
             />
           </div>
           <AssistantWelcome />
-          <AssistantQuests />
+          <AssistantChallenges />
           <AssistantJoin />
           <AssistantFirstRealm />
         </div>
