@@ -183,6 +183,10 @@ export default function GlobalStyles() {
           font-size: 16px;
         }
 
+        body.overlay {
+          background: #1c2928;
+        }
+
         p,
         span,
         div,
