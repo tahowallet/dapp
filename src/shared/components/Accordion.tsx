@@ -77,12 +77,15 @@ export default function Accordion({
     }
   }, [isOpen, extraExpand])
 
+  useEffect(() => {
+    if (!isOpen) closeOpenedFromOutside?.()
+  }, [isOpen, closeOpenedFromOutside])
+
   const toggle = () => {
     if (isDisabled) return
 
     setIsOpen(!isOpen)
 
-    if (isOpen && closeOpenedFromOutside) closeOpenedFromOutside()
     if (onClick) onClick()
   }
 
