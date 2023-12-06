@@ -44,3 +44,8 @@ export const selectDisplayedRealmAddress = selectDisplayedRealmProperty(
 export const selectDisplayedRealmVeTokenAddress = selectDisplayedRealmProperty(
   "veTokenContractAddress"
 )
+
+export const selectNumberOfRealms = createSelector(
+  selectRealms,
+  (realms) => Object.entries(realms ?? {}).length
+)

@@ -2,10 +2,12 @@ import React from "react"
 import Icon from "shared/components/Icon"
 import realmPointer from "shared/assets/realm-pointer.png"
 import { useAssistant } from "shared/hooks"
+import { selectNumberOfRealms, useDappSelector } from "redux-state"
 import AssistantContent from "."
 
 export default function AssistantWelcome() {
   const { updateAssistant, assistantVisible } = useAssistant()
+  const numberOfRealms = useDappSelector(selectNumberOfRealms)
 
   return (
     <>
@@ -23,7 +25,9 @@ export default function AssistantWelcome() {
         <div className="hint row_center">
           <Icon src={realmPointer} type="image" height="37px" width="30px" />
           <p>
-            <strong>Start exploring by hovering over our 6 Beta Realms</strong>
+            <strong>
+              Start exploring by hovering over our {numberOfRealms} Beta Realms
+            </strong>
           </p>
         </div>
       </AssistantContent>

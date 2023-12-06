@@ -16,6 +16,9 @@ import galxePopulation from "shared/assets/partners/galxe-population.svg"
 import gitcoin from "shared/assets/partners/gitcoin.svg"
 import gitcoinShadow from "shared/assets/partners/gitcoin-shadow.svg"
 import gitcoinPopulation from "shared/assets/partners/gitcoin-population.svg"
+import zksync from "shared/assets/partners/zksync.svg"
+import zksyncShadow from "shared/assets/partners/zksync-shadow.svg"
+import zksyncPopulation from "shared/assets/partners/zksync-population.svg"
 
 export default {
   arbitrum: {
@@ -43,5 +46,10 @@ export default {
     default: gitcoin,
     shadow: gitcoinShadow,
     population: gitcoinPopulation,
+  },
+  zksync: {
+    default: zksync,
+    shadow: zksyncShadow,
+    population: zksyncPopulation,
   },
 }
