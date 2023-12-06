@@ -1,7 +1,5 @@
+import { FLOATING_POINT_REGEX } from "shared/constants"
 import { FixedPointNumber } from "shared/types/stake"
-
-// Matches floating point numbers with optional thousands separators
-const FLOATING_POINT_REGEX = /^[^0-9]*([0-9,]+)(?:\.([0-9]*))?$/
 
 export function separateThousandsByComma(
   value: number | bigint | string,
