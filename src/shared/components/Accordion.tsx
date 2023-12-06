@@ -3,7 +3,7 @@ import React, { CSSProperties, useEffect, useState } from "react"
 import arrowIcon from "../assets/icons/s/arrow-down.svg"
 import Icon from "./Icon"
 
-type AccordionType = "default" | "frame" | "quest" | "panel"
+type AccordionType = "default" | "frame" | "challenge" | "panel"
 
 export type AccordionOutsideActions = {
   openedFromOutside?: boolean
@@ -30,7 +30,7 @@ function getArrowColor(type: AccordionType, isDisabled: boolean): string {
   let arrowColor: string
 
   switch (type) {
-    case "quest":
+    case "challenge":
       arrowColor = "var(--primary-p1-100)"
       break
     case "panel":
@@ -161,25 +161,25 @@ export default function Accordion({
             border: 1px solid var(--secondary-s1-50);
           }
 
-          .quest {
+          .challenge {
             border-radius: 8px;
             background: var(--trading-in);
             color: var(--primary-p1-100);
             padding: 0;
             border: 1px solid var(--trading-in);
           }
-          .quest .accordion_title {
+          .challenge .accordion_title {
             font-size: 18px;
             padding: 16px 24px;
           }
-          .quest .accordion_content {
+          .challenge .accordion_content {
             border-radius: 0px 0px 8px 8px;
             background: var(--primary-p1-100);
             color: var(--secondary-s1-80);
             padding: 0 24px;
             font-size: 18px;
           }
-          .quest.open .accordion_content {
+          .challenge.open .accordion_content {
             padding: 16px 24px;
           }
 

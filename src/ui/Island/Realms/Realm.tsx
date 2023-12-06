@@ -11,20 +11,21 @@ import {
   REALM_FONT_FAMILY,
   REALM_FONT_STYLE,
 } from "shared/constants"
-import { useDisplayedRealms, useMultiRef } from "shared/hooks"
+import {
+  useDisplayedRealms,
+  useMultiRef,
+  useIslandContext,
+  useIslandRealmsPaths,
+  usePopulationBubble,
+} from "shared/hooks"
 import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
 import {
   selectDisplayedRealmId,
   selectRealmPanelVisible,
   useDappSelector,
 } from "redux-state"
-import {
-  useIslandContext,
-  useIslandRealmsPaths,
-  usePopulationBubble,
-} from "../../../shared/hooks"
 import NewRealmLabel from "../Details/NewRealmLabel"
-import NewQuestLabel from "../Details/NewQuestLabel"
+import NewChallengeLabel from "../Details/NewChallengeLabel"
 
 type RealmProps = {
   id: string
@@ -310,7 +311,7 @@ export default function Realm({
           <NewRealmLabel realmId={id} x={x} y={y} />
         </>
       )}
-      <NewQuestLabel realmId={id} x={x} y={y} />
+      <NewChallengeLabel realmId={id} x={x} y={y} />
       <animated.Text
         ref={textRef}
         text={name ?? "TestRealm"} // TODO: remove conditon when name is accessible
