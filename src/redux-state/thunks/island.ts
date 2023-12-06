@@ -11,7 +11,7 @@ import {
 import {
   REALMS_WITH_CONTRACT_ADDRESS,
   TAHO_ADDRESS,
-  getQuestlineData,
+  getChallengesData,
 } from "shared/constants"
 import {
   getAllRealmsData,
@@ -67,11 +67,11 @@ export const initRealmsDataFromContracts = createDappAsyncThunk(
         storageService.setData("getAllRealmsData", realmData)
 
         const updatedRealms = realmData.map(({ id, data }) => {
-          const questlineData = getQuestlineData(id)
+          const challengesData = getChallengesData(id)
           return {
             id,
             data: {
-              ...questlineData,
+              ...challengesData,
               ...data,
             },
           }

@@ -13,14 +13,18 @@ import {
 } from "shared/constants"
 import { useDisplayedRealms, useMultiRef } from "shared/hooks"
 import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
-import { selectDisplayedRealmId, useDappSelector } from "redux-state"
+import {
+  selectDisplayedRealmId,
+  selectRealmPanelVisible,
+  useDappSelector,
+} from "redux-state"
 import {
   useIslandContext,
   useIslandRealmsPaths,
   usePopulationBubble,
 } from "../../shared/hooks"
 import NewRealmLabel from "./IslandRealmsDetails/NewRealmLabel"
-import NewQuestLabel from "./IslandRealmsDetails/NewQuestLabel"
+import NewChallengeLabel from "./IslandRealmsDetails/NewChallengeLabel"
 
 type RealmProps = {
   id: string
@@ -39,6 +43,12 @@ type RealmProps = {
   isNew?: boolean
 }
 
+const transitionConfig = {
+  precision: 0.0001,
+  duration: 200,
+  easing: easings.easeOutCubic,
+}
+
 export default function Realm({
   paths,
   width,
@@ -55,8 +65,9 @@ export default function Realm({
   populationIcon,
   isNew,
 }: RealmProps) {
-  const realmId = useDappSelector(selectDisplayedRealmId)
-  const [isHovered, setIsHovered] = useState(false)
+  const selectedRealmId = useDappSelector(selectDisplayedRealmId)
+  const selectedRealmPanelVisible = useDappSelector(selectRealmPanelVisible)
+  const [isFocused, setFocus] = useState(false)
   const [, setIsSelected] = useState(false)
 
   const islandContext = useIslandContext()
@@ -80,7 +91,7 @@ export default function Realm({
     [name]
   )
 
-  useIslandRealmsPaths(pathRefs, groupRef, setIsHovered)
+  useIslandRealmsPaths(pathRefs, groupRef, setFocus)
 
   const styles = useMemo(() => {
     const variants = {
@@ -143,44 +154,41 @@ export default function Realm({
     return variants
   }, [color, labelX, labelY, x, y, partnerLogoTranslate])
 
-  const transitionConfig = {
-    precision: 0.0001,
-    duration: 200,
-    easing: easings.easeOutCubic,
-  }
-
   const [pathProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.pathRealm
-      : styles.default.pathRealm
+    const destinationStyle =
+      isFocused || selectedRealmPanelVisible
+        ? styles.highlight.pathRealm
+        : styles.default.pathRealm
 
     return {
       from: styles.default.pathRealm,
       to: destinationStyle,
     }
-  }, [isHovered])
+  }, [isFocused, selectedRealmPanelVisible])
 
   const [imageProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.image
-      : styles.default.image
+    const destinationStyle =
+      isFocused || selectedRealmPanelVisible
+        ? styles.highlight.image
+        : styles.default.image
 
     return {
       from: styles.default.image,
       to: destinationStyle,
     }
-  }, [isHovered])
+  }, [isFocused, selectedRealmPanelVisible])
 
   const [overlayProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.overlay
-      : styles.default.overlay
+    const destinationStyle =
+      isFocused || selectedRealmPanelVisible
+        ? styles.highlight.overlay
+        : styles.default.overlay
 
     return {
       from: styles.default.overlay,
       to: destinationStyle,
     }
-  }, [isHovered])
+  }, [isFocused])
 
   const [blinkingProps] = useSpring(
     () => ({
@@ -193,28 +201,30 @@ export default function Realm({
   )
 
   const [textProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.text
-      : styles.default.text
+    const destinationStyle =
+      isFocused || selectedRealmPanelVisible
+        ? styles.highlight.text
+        : styles.default.text
 
     return {
       from: styles.default.text,
       to: destinationStyle,
       config: transitionConfig,
     }
-  }, [isHovered])
+  }, [isFocused, selectedRealmPanelVisible])
 
   const [partnerLogoProps] = useSpring(() => {
-    const destinationStyle = isHovered
-      ? styles.highlight.partnerLogo
-      : styles.default.partnerLogo
+    const destinationStyle =
+      isFocused || selectedRealmPanelVisible
+        ? styles.highlight.partnerLogo
+        : styles.default.partnerLogo
 
     return {
       from: styles.default.partnerLogo,
       to: destinationStyle,
       config: transitionConfig,
     }
-  }, [isHovered])
+  }, [isFocused, selectedRealmPanelVisible])
 
   const { showBubble, setShowBubble } = usePopulationBubble(id)
 
@@ -222,7 +232,7 @@ export default function Realm({
     // To prevent lag in animation, let's show only one bubble for the realm.
     // When a modal for the realm is open, do not show a bubble on the map.
     const destinationStyle =
-      showBubble && !(realmId === id)
+      showBubble && !(selectedRealmId === id)
         ? [styles.highlight.population, styles.finish.population]
         : { opacity: 0 }
 
@@ -239,12 +249,13 @@ export default function Realm({
         }
       },
     }
-  }, [showBubble, realmId, id])
+  }, [showBubble, selectedRealmPanelVisible, id])
 
   return (
     <Group ref={groupRef}>
       {imageLayers.map((imageLayer, index) => (
-        // @ts-expect-error FIXME: @react-spring-types
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore FIXME: @react-spring-types
         <animated.Image
           key={index}
           listening={false}
@@ -300,7 +311,7 @@ export default function Realm({
           <NewRealmLabel realmId={id} x={x} y={y} />
         </>
       )}
-      <NewQuestLabel realmId={id} x={x} y={y} />
+      <NewChallengeLabel realmId={id} x={x} y={y} />
       <animated.Text
         ref={textRef}
         text={name ?? "TestRealm"} // TODO: remove conditon when name is accessible

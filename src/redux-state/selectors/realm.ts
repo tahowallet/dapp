@@ -5,6 +5,7 @@ import { isSameAddress } from "shared/utils"
 
 export const selectRealms = createIslandSelector("realms")
 export const selectDisplayedRealmId = createIslandSelector("displayedRealmId")
+export const selectRealmPanelVisible = createIslandSelector("realmPanelVisible")
 
 const selectDisplayedRealmProperty: DisplayedRealmProperty = (value) =>
   createSelector(selectRealms, selectDisplayedRealmId, (realms, realmId) =>
@@ -43,4 +44,9 @@ export const selectDisplayedRealmAddress = selectDisplayedRealmProperty(
 
 export const selectDisplayedRealmVeTokenAddress = selectDisplayedRealmProperty(
   "veTokenContractAddress"
+)
+
+export const selectNumberOfRealms = createSelector(
+  selectRealms,
+  (realms) => Object.entries(realms ?? {}).length
 )

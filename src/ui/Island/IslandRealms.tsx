@@ -3,15 +3,44 @@ import useImage from "use-image"
 
 import backgroundImg from "public/dapp_island_bg.webp"
 import { createCutoutFromPath, createImageElement } from "shared/utils"
-import { selectRealms, useDappSelector } from "redux-state"
+import {
+  selectDisplayedRealmId,
+  selectRealmPanelVisible,
+  selectRealms,
+  useDappSelector,
+} from "redux-state"
 import { REALMS_MAP_DATA } from "shared/constants"
 import Realm from "./Realm"
 
 export default function IslandRealms() {
   const realms = useDappSelector(selectRealms)
+  const selectedRealmPanelVisible = useDappSelector(selectRealmPanelVisible)
+  const selectedRealmId = useDappSelector(selectDisplayedRealmId)
   const [bg] = useImage(backgroundImg)
   const realmImgLayers = useMemo(() => {
     if (!bg) {
+      return []
+    }
+    if (selectedRealmId && selectedRealmPanelVisible) {
+      const selectedRealm = REALMS_MAP_DATA.find(
+        (realm) => realm.id === selectedRealmId
+      )
+      if (selectedRealm) {
+        const updatedRealm = {
+          ...selectedRealm,
+          name: realms[selectedRealmId].name,
+        }
+        return [
+          {
+            realm: updatedRealm,
+            layers: createCutoutFromPath(selectedRealm, bg),
+            partnerLogo: createImageElement(selectedRealm.partnerIcons.shadow),
+            populationIcon: createImageElement(
+              selectedRealm.partnerIcons.population
+            ),
+          },
+        ]
+      }
       return []
     }
     return REALMS_MAP_DATA.map((realm) => {
@@ -26,7 +55,7 @@ export default function IslandRealms() {
         populationIcon: createImageElement(realm.partnerIcons.population),
       }
     })
-  }, [bg, realms])
+  }, [bg, realms, selectedRealmId, selectedRealmPanelVisible])
 
   return (
     <>

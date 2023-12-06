@@ -12,7 +12,7 @@ export default function RealmDetailsPlaceholder({
   return (
     <>
       <div className="placeholder_container center">
-        <img src={imageSrc} alt="placeholder" />
+        <img className="placeholder_image" src={imageSrc} alt="placeholder" />
         <h1 className="placeholder_title">{title}</h1>
       </div>
       <style jsx>{`

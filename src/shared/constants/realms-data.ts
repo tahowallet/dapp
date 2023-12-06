@@ -280,9 +280,11 @@ export const realm15 = {
     },
   ],
   realmType: "realm",
-  color: "#000",
-  labelX: 0,
-  labelY: 0,
+  color: "#8C8DFC",
+  labelX: 580,
+  labelY: 450,
+  partnerIcons: partners.zksync,
+  cursorText: "#FFF",
 }
 
 export const realm16 = {
