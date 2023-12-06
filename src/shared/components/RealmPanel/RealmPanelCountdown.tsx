@@ -31,7 +31,7 @@ export default function RealmPanelCountdown() {
       <style jsx>{`
         .countdown {
           position: absolute;
-          textalign: right;
+          text-align: right;
           top: 104px;
           right: 32px;
         }
