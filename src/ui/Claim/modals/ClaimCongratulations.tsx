@@ -1,7 +1,7 @@
 import React from "react"
 import { selectRealmById, useDappSelector } from "redux-state"
 import Button from "shared/components/Button"
-import CongratulationsModal from "shared/components/Modals/CongratulationsModal"
+import CongratulationsModal from "ui/Island/Modals/CongratulationsModal"
 import RealmIcon from "shared/components/RealmIcon"
 
 type ClaimCongratulationsProps = {

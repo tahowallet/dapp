@@ -1,8 +1,8 @@
 import React from "react"
 import { useVisibilityTransition } from "shared/hooks"
 import { animated } from "@react-spring/web"
-import GoldenCircleSpinner from "./Loaders/GoldenCircleSpinner"
-import LoadingText from "./Loaders/LoadingText"
+import GoldenCircleSpinner from "./GoldenCircleSpinner"
+import LoadingText from "./LoadingText"
 
 export default function FullPageLoader({ loaded }: { loaded: boolean }) {
   const transition = useVisibilityTransition(!loaded)

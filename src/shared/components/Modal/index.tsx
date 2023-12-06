@@ -2,9 +2,9 @@ import classNames from "classnames"
 import React, { CSSProperties } from "react"
 import { easings, useSpring, animated } from "@react-spring/web"
 
-import Portal from "./Portal"
-import { noop } from "../utils"
-import ClickableModalOverlay from "./Modals/ClickableModalOverlay"
+import Portal from "../Portal"
+import { noop } from "../../utils"
+import ClickableModalOverlay from "./ClickableModalOverlay"
 
 function CloseBtn({ onClick, style }: React.SVGProps<SVGSVGElement>) {
   return (

@@ -14,7 +14,7 @@ import {
   selectIslandMode,
   useDappSelector,
 } from "redux-state"
-import FullPageLoader from "shared/components/FullPageLoader"
+import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import { Route, Switch } from "react-router-dom"
 import { useDisplayedPopulation } from "shared/hooks"
 

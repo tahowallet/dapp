@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import OnboardingModal from "shared/components/Modals/OnboardingModal"
+import OnboardingModal from "ui/Island/Modals/OnboardingModal"
 import { useWalletOnboarding } from "shared/hooks"
 import {
   selectWalletAddress,

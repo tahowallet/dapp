@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react"
-import Modal from "../Modal"
-import Button from "../Button"
+import Modal from "../../../shared/components/Modal"
+import Button from "../../../shared/components/Button"
 
 type CongratulationsModalProps = {
   children: string | ReactNode

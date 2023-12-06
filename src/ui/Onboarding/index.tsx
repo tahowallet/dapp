@@ -5,7 +5,7 @@ import {
   selectHasRelevantTokens,
   selectHasLoadedBalances,
 } from "redux-state"
-import FullPageLoader from "shared/components/FullPageLoader"
+import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import Nav from "ui/Nav"
 import portalBackground from "shared/assets/portal-background.mp4"
 import Version from "shared/components/Version"

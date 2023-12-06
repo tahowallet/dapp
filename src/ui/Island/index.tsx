@@ -14,9 +14,9 @@ import {
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import FullPageLoader from "shared/components/FullPageLoader"
+import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
-import RealmPanel from "shared/components/RealmPanel"
+import RealmPanel from "ui/Island/RealmPanel"
 import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 import InteractiveIsland from "./Background/InteractiveIsland"
 import IslandPresence from "./Reflect/IslandPresence"
