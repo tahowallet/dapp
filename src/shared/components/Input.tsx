@@ -1,5 +1,11 @@
 import classNames from "classnames"
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import { NUMBER_INPUT_REGEX } from "shared/constants"
 
 type SharedInputProps = {
@@ -46,7 +52,8 @@ export default function SharedInput({
   }, [handleError, value])
 
   const handleInputChange = useCallback(
-    (inputValue: string) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const inputValue = event.target.value
       if (inputValue === "") onChange?.("")
 
       const isNumberInput = NUMBER_INPUT_REGEX.test(inputValue)
@@ -74,7 +81,7 @@ export default function SharedInput({
           value={value}
           placeholder={placeholder}
           disabled={disabled}
-          onChange={(e) => handleInputChange(e.target.value)}
+          onChange={handleInputChange}
         />
         <span className="input_label">{label}</span>
         <div role="presentation" className="input_notch">
