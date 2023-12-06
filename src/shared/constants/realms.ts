@@ -5,6 +5,7 @@ import gitcoin from "shared/assets/partners/gitcoin.svg"
 import galxe from "shared/assets/partners/galxe.svg"
 import frax from "shared/assets/partners/frax.svg"
 import base from "shared/assets/partners/base.svg"
+import zksync from "shared/assets/partners/zksync.svg"
 import {
   realm4,
   realm7,
@@ -148,4 +149,5 @@ export const REALM_ICONS = {
   galxe,
   frax,
   base,
+  zksync,
 }
