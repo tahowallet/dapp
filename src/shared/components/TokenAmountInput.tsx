@@ -111,12 +111,12 @@ export default function TokenAmountInput({
         <div className="label">{`${label} ${parsedBalance} ${symbol}`}</div>
       )}
       <SharedInput
+        type="number"
         label={inputLabel}
         value={textAmount}
         disabled={disabled}
         onChange={setTextAmount}
         validate={validate}
-        acceptLetters={false}
         rightComponent={
           <Button
             type="tertiary"

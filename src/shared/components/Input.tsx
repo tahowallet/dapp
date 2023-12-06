@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { NUMBER_INPUT_REGEX } from "shared/constants"
 
 type SharedInputProps = {
@@ -12,7 +12,6 @@ type SharedInputProps = {
   validate?: (value: string) => { value: unknown } | { error: string }
   rightComponent?: React.ReactNode
   style?: React.CSSProperties & Record<string, string>
-  acceptLetters?: boolean
 }
 
 export default function SharedInput({
@@ -25,9 +24,9 @@ export default function SharedInput({
   disabled = false,
   rightComponent = null,
   style = {},
-  acceptLetters = true, // if we need text input for specific case, but we only want to user to input numbers
 }: SharedInputProps) {
   const [error, setError] = useState("")
+  const isTypeNumber = useMemo(() => type === "number", [type])
 
   const handleError = useCallback(
     (newValue: string) => {
@@ -52,15 +51,13 @@ export default function SharedInput({
 
       const isNumberInput = NUMBER_INPUT_REGEX.test(inputValue)
 
-      // If we don't accept accept letters, entering letter won't update input value
-      if (!isNumberInput && !acceptLetters) return
+      // If we have number input, entering letter won't update input value
+      if (!isNumberInput && isTypeNumber) return
 
       onChange?.(inputValue)
     },
-    [onChange, acceptLetters]
+    [onChange, isTypeNumber]
   )
-
-  const isTypeNumber = type === "number"
 
   return (
     <div
@@ -69,7 +66,8 @@ export default function SharedInput({
     >
       <div className="input_box">
         <input
-          type={type}
+          type="text" // always have "text" input to solve double "-" char problem occuring in "number" input
+          inputMode={isTypeNumber ? "numeric" : "text"} // solving numeric keyboard on mobile devices
           step="any"
           min={isTypeNumber ? "0" : undefined}
           className={classNames({ input_number: isTypeNumber })}
