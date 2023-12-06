@@ -24,39 +24,40 @@ export default function UnstakeCooldown({
     <>
       <div className="unstake_cooldown">
         <div className="unstake_cooldown_header">
-          <h3 style={{ color: "var(--trading-out)" }}>Unstake</h3>
           <div className="amount">Staked amount: {veTahoUserAmount} TAHO</div>
         </div>
         <div className="unstake_cooldown_period">
-          <div className="unstake_cooldown_period_header">Cooldown period</div>
+          <div className="unstake_cooldown_period_header row_center">
+            <div>Cooldown period</div>
+            <div className="unstake_cooldown_period_time row">
+              <p style={{ color: "var(--secondary-s1-80)", fontSize: "16px" }}>
+                Time remaining:
+              </p>
+              <div className="unstake_cooldown_period_time_counter">
+                {formatTime(timeRemaining)}
+              </div>
+            </div>
+          </div>
           <p className="unstake_cooldown_period_info">
             You can&apos;t <span>leave / unstake</span> for the first 1 hour
             since your last stake to the realm
           </p>
-          <div className="unstake_cooldown_period_time">
-            <p style={{ color: "var(--secondary-s1-80)" }}>Time remaining:</p>
-            <div className="unstake_cooldown_period_time_counter">
-              {formatTime(timeRemaining)}
-            </div>
-          </div>
         </div>
       </div>
       <style jsx>
         {`
           .unstake_cooldown {
-            min-height: 280px;
             gap: 14px;
             border-radius: 8px;
-            background: var(--primary-p1-40);
           }
 
           .unstake_cooldown_header {
-            padding: 16px 24px 9px;
+            padding: 16px 0 9px;
           }
 
           .unstake_cooldown_period {
-            width: 320px;
-            padding: 16px 24px 24px;
+            margin: 0 -32px;
+            padding: 16px 32px;
             background: var(--primary-p1-100);
             border-radius: 8px;
             flex: 1;
@@ -69,6 +70,7 @@ export default function UnstakeCooldown({
             font-weight: 600;
             line-height: 32px;
             margin-bottom: 11px;
+            justify-content: space-between;
           }
 
           .unstake_cooldown_period_info {
@@ -83,10 +85,8 @@ export default function UnstakeCooldown({
           }
 
           .unstake_cooldown_period_time {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            justify-content: space-between;
+            gap: 5px;
+            align-items: baseline;
           }
 
           .unstake_cooldown_period_time_counter {

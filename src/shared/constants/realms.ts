@@ -1,4 +1,4 @@
-import { RealmQuestlineData, RealmMapData } from "shared/types"
+import { RealmChallengesData, RealmMapData } from "shared/types"
 import arbitrum from "shared/assets/partners/arbitrum.svg"
 import cyberconnect from "shared/assets/partners/cyberconnect.svg"
 import gitcoin from "shared/assets/partners/gitcoin.svg"
@@ -6,6 +6,7 @@ import galxe from "shared/assets/partners/galxe.svg"
 import frax from "shared/assets/partners/frax.svg"
 import base from "shared/assets/partners/base.svg"
 import zksync from "shared/assets/partners/zksync.svg"
+import { RealmPosition } from "shared/types/realm"
 import {
   realm4,
   realm7,
@@ -13,28 +14,22 @@ import {
   realm9,
   realm19,
   realm22,
-  realm15,
+  // realm15,
 } from "./realms-data"
-import QUESTLINE_DATA from "../../assets/questline-data.json"
+import CHALLENGES_DATA from "../../assets/challenges-data.json"
 
-// TODO: read the correct questline data for realms
-// The questline data should be read from a JSON file.
+// TODO: read the correct challenge data for realms
+// The challenge data should be read from a JSON file.
 // Currently, the structure of the file isn't yet known and should be updated later.
 // The data is not yet ready, so it has been mocked.
-export function getQuestlineData(id: string): RealmQuestlineData {
-  const realmWithQuestline = QUESTLINE_DATA.realms.find(
+export function getChallengesData(id: string): RealmChallengesData {
+  const realmWithChallenges = CHALLENGES_DATA.realms.find(
     ({ realmId }) => realmId === id
   )
 
-  if (!realmWithQuestline) {
-    return {
-      description: "",
-      questlineName: "",
-      quests: [],
-    }
-  }
+  if (!realmWithChallenges) return { challenges: [] }
 
-  return realmWithQuestline
+  return realmWithChallenges
 }
 // ISLAND_BOX is size of the island image: public/dapp_sland_bg.webp
 export const ISLAND_BOX = {
@@ -71,10 +66,10 @@ export const REALMS_WITH_CONTRACT_ADDRESS: {
     // Arbitrum
     address: "0x42a0b5cab976d7a2a0038138dd1279b96b73f029",
   },
-  "15": {
-    // zkSync
-    address: "0x26770639eB1262cfA47A4C3Aa27902fa8FCA3465",
-  },
+  // "15": {
+  //   // zkSync
+  //   address: "0x26770639eB1262cfA47A4C3Aa27902fa8FCA3465",
+  // },
   "19": {
     // Galxe
     address: "0x6a3d1d9a7eb615be82b5c50bba8c6ecc7606afe6",
@@ -94,7 +89,8 @@ export const BASE_REALMS_MAP_DATA: RealmMapData[] = [
   realm22,
 ]
 
-export const NEW_REALMS_MAP_DATA: RealmMapData[] = [realm15]
+// export const NEW_REALMS_MAP_DATA: RealmMapData[] = [realm15]
+export const NEW_REALMS_MAP_DATA: RealmMapData[] = []
 
 export const REALMS_MAP_DATA = [
   ...BASE_REALMS_MAP_DATA,
@@ -126,6 +122,21 @@ export function getRealmColor(realmId: string): string {
   return color
 }
 
+export function getRealmPosition(realmId: string): RealmPosition {
+  const selectedRealm = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
+
+  if (!selectedRealm) {
+    throw new Error(`Missing color for realm ${realmId}`)
+  }
+
+  return {
+    x: selectedRealm.x,
+    y: selectedRealm.y,
+    width: selectedRealm.w,
+    height: selectedRealm.h,
+  }
+}
+
 export function getRealmPopulationIcon(realmId: string): string {
   const populationIcon = REALMS_MAP_DATA.find((realm) => realm.id === realmId)
     ?.partnerIcons.population
@@ -141,6 +152,7 @@ export const REALM_FONT_SIZE = 78
 export const REALM_FONT_FAMILY = "QuincyCF"
 export const REALM_FONT_STYLE = "bold"
 export const REALM_IMAGE_SIZE = 70
+export const REALM_PANEL_ANIMATION_TIME = 400
 
 export const REALM_ICONS = {
   arbitrum,

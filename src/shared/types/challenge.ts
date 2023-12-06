@@ -1,4 +1,4 @@
-export type Quest = {
+export type Challenge = {
   id: string
   name: string
   description: string

@@ -2,9 +2,7 @@
   "realms": [
     {
       "realmId": "4",
-      "questlineName": "Transact on PGN, human!",
-      "description": "Gitcoin is a community that focuses on incentivizing and supporting open-source development. Gitcoin aims to foster collaboration and sustainability within the open-source ecosystem by providing a marketplace for matching developers with projects and funding opportunities and rewards for their contributions.",
-      "quests": [
+      "challenges": [
         {
           "id": "4_1",
           "name": "Spend gas on PGN (Public Goods Network)—more gas is better!",
@@ -19,9 +17,7 @@
     },
     {
       "realmId": "7",
-      "questlineName": "Use your CyberWallet, collect essence, and mint W3ST",
-      "description": "Cyberconnect is a Web3 social ecosystem that goes beyond likes and shares. It allows developers to create social applications where users have complete control over their digital identity, content, and connections ",
-      "quests": [
+      "challenges": [
         {
           "id": "7_1",
           "name": "Spend gas using the CyberWallet associated with your address",
@@ -41,9 +37,7 @@
     },
     {
       "realmId": "8",
-      "questlineName": "Transact on Base",
-      "description": "Base is a secure, low-cost, builder-friendly Ethereum L2 built to bring the next billion users onchain. Base is incubated within Coinbase and plans to progressively decentralize in the years ahead. The Base Realm believes that decentralization is critical to creating an open, global cryptoeconomy that is accessible to everyone.",
-      "quests": [
+      "challenges": [
         {
           "id": "8_1",
           "name": "Interact with unique contracts on Base",
@@ -53,16 +47,13 @@
           "id": "8_2",
           "name": "Vampire Attack: Bridge funds from Arbitrum",
           "description": "Bridge ETH or USDC from Arbitrum to Base using Hop Exchange. \n \nAccepted assets: [ETH](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base) and [USDC](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base&token=USDC), bridging anything else won't be counted towards XP \n \nMechanics: The more you bridge, the higher the reward. \n \nReward: Each 1 dollar bridged from Arbitrum to Base will be worth 10 contract interactions.",
-          "isNew": true,
           "isAttack": true
         }
       ]
     },
     {
       "realmId": "9",
-      "questlineName": "Transact on Arbitrum---especially on Fluidity",
-      "description": "Arbitrum DAO is a decentralized autonomous organization (DAO) built on the Ethereum blockchain. At its core, the Arbitrum DAO is a community-driven governance mechanism that allows $ARB token holders to propose and vote on changes to the organization and the technologies it governs.",
-      "quests": [
+      "challenges": [
         {
           "id": "9_1",
           "name": "Interact with unique contracts on Arbitrum",
@@ -76,10 +67,18 @@
       ]
     },
     {
+      "realmId": "15",
+      "challenges": [
+        {
+          "id": "15_1",
+          "name": "Interact with unique contracts on zkSync",
+          "description": "The more interactions you execute with different unique contracts on zkSync compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+        }
+      ]
+    },
+    {
       "realmId": "19",
-      "questlineName": "Eat your OATs, unless they're minty NFTs",
-      "description": "Galxe is the largest web3 credential data network that is helping projects and developers build robust decentralized products. Earn oat, NFTs, and tokens by contributing to your favorite Web3 communities.",
-      "quests": [
+      "challenges": [
         {
           "id": "19_1",
           "name": "Claim OATs during the week",
@@ -94,9 +93,7 @@
     },
     {
       "realmId": "22",
-      "questlineName": "The bribes must flow, over the FraxFerry and far away",
-      "description": "Frax Finance is a protocol that issues decentralized stablecoins and the subprotocols to support them, creating a unique self-sufficient DeFi ecosystem",
-      "quests": [
+      "challenges": [
         {
           "id": "22_1",
           "name": "Claim bribes on Votemarket",

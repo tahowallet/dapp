@@ -3,6 +3,8 @@ import { Group, Image } from "react-konva"
 import useImage from "use-image"
 import pin from "shared/assets/realm-pin.svg"
 import {
+  selectDisplayedRealmId,
+  selectRealmPanelVisible,
   selectStakingRealmId,
   selectWalletAvatar,
   selectWalletAvatarType,
@@ -49,6 +51,8 @@ function RealmPinAvatar({ x, y }: RealmPinAvatarProps) {
 }
 
 export default function RealmPin() {
+  const selectedRealmPanelVisible = useDappSelector(selectRealmPanelVisible)
+  const selectedRealmId = useDappSelector(selectDisplayedRealmId)
   const stakingRealmId = useDappSelector(selectStakingRealmId)
 
   const [pinImage] = useImage(pin)
@@ -56,7 +60,12 @@ export default function RealmPin() {
   const stakingRealm = stakingRealmId && getRealmMapData(stakingRealmId)
 
   if (!stakingRealmId || !stakingRealm) return null
-
+  if (
+    selectedRealmPanelVisible &&
+    selectedRealmId &&
+    stakingRealmId !== selectedRealmId
+  )
+    return null
   const pinShift = getPinShift(stakingRealmId)
   const pinX = stakingRealm.x + stakingRealm.w * 0.75 - pinShift.x
   const pinY = stakingRealm.y + stakingRealm.h / 2 - pinShift.y

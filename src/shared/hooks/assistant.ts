@@ -2,7 +2,7 @@ import { LOCAL_STORAGE_ASSISTANT } from "shared/constants"
 import { selectStakingRealmId, useDappSelector } from "redux-state"
 import { useLocalStorageChange } from "./helpers"
 
-type AssistantType = "welcome" | "quests" | "default" | "first-realm"
+type AssistantType = "welcome" | "challenges" | "default" | "first-realm"
 
 type Assistant = {
   type: AssistantType
