@@ -1,4 +1,4 @@
-import { Quest } from "./quest"
+import { Challenge } from "./challenge"
 import { XpDistributor, XpMerkleTreeItem } from "./xp"
 
 // Data from Taho Deployer contract
@@ -16,16 +16,14 @@ export type RealmContractData = {
   xpToken: { name: string; symbol: string; contractAddress: string }
 }
 
-// Questline data from JSON file
-export type RealmQuestlineData = {
-  description: string
-  questlineName: string
-  quests: Quest[]
+// Challenges data from JSON file
+export type RealmChallengesData = {
+  challenges: Challenge[]
 }
 
 export type RealmData = RealmAddressesData &
   RealmContractData &
-  RealmQuestlineData
+  RealmChallengesData
 
 export type RealmDataWithId = { id: string; data: RealmData }
 

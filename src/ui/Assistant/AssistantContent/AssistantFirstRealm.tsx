@@ -22,7 +22,7 @@ export default function AssistantFirstRealm() {
       >
         <div className="header">Why join a Realm?</div>
         <p className="paragraph">
-          Realm Citizens can complete <strong>Quests</strong>, earn{" "}
+          Realm Citizens can complete <strong>Challenges</strong>, earn{" "}
           <strong>$XP</strong>, and rank on the Realm&apos;s{" "}
           <strong>Leaderboard</strong>. Prizes await Citizens that top the
           boards.

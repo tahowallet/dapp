@@ -1,3 +1,3 @@
 /* eslint-disable import/prefer-default-export */
-export const getRealmIdFromQuestInLocalStorage = (id: string) =>
+export const getRealmIdFromChallengeInLocalStorage = (id: string) =>
   id.split("_")[0]

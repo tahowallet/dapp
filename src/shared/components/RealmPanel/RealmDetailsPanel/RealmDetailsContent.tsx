@@ -8,7 +8,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import RealmDetailsHeader from "./RealmDetailsHeader"
-import RealmDetailsQuests from "./RealmDetailsQuests"
+import RealmDetailsChallenges from "./RealmDetailsChallenges"
 import RealmDetailsRewards from "./RealmDetailsRewards"
 import RealmDetailsJoin from "./RealmDetailsJoin"
 import RealmDetailsStaked from "./RealmDetailsStaked"
@@ -31,7 +31,7 @@ export default function RealmDetailsContent({
   return (
     <Panel.Section>
       <RealmDetailsHeader realmId={realmId} realm={realm} />
-      <RealmDetailsQuests quests={realm?.quests} />
+      <RealmDetailsChallenges challenges={realm?.challenges} />
       <RealmDetailsRewards realmId={realmId} />
       <RealmDetailsJoin
         stakingRealmId={stakingRealmId}

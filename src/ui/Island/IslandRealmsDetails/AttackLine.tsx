@@ -4,7 +4,7 @@ import attackLineImg from "shared/assets/attack-line.svg"
 import { FIGMA_FACTOR } from "shared/constants"
 import useImage from "use-image"
 
-export default function VampireQuest() {
+export default function VampireChallenge() {
   const [attackLine] = useImage(attackLineImg)
 
   return (
