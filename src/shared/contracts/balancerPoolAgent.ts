@@ -32,14 +32,14 @@ export const getBalancerPoolAgentContract: ReadTransactionBuilder<
 }
 
 export const joinPool: WriteTransactionBuilder<{
-  joinRechallenge: LiquidityPoolRequest
+  joinRequest: LiquidityPoolRequest
   overrides: { value: bigint }
-}> = async (provider, account, { joinRechallenge, overrides }) => {
+}> = async (provider, account, { joinRequest, overrides }) => {
   const balancerPoolAgent = await getBalancerPoolAgentContract(provider, null)
 
   return balancerPoolAgent.populateTransaction.joinPool(
     account,
-    joinRechallenge,
+    joinRequest,
     overrides
   )
 }
