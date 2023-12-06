@@ -40,40 +40,36 @@ export default function RealmLeaderboardPanel() {
   const [activeTab, setActiveTab] = useState(2)
 
   return (
-    <Panel.Container position="right">
-      <Panel.Section style={{ padding: 32 }}>
-        <div className="leaderboard_container">
-          <h2 className="header">Leaderboard</h2>
-          {SHOW_LEADERBOARD_SELECTION ? (
-            <TabPanel
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              tabs={[
-                { label: "This week", component: null },
-                { label: "Last week", component: null },
-                {
-                  label: "All time",
-                  component: (
-                    <AllTimeLeaderboard style={{ marginTop: "30px" }} />
-                  ),
-                },
-              ]}
-            />
-          ) : (
-            <AllTimeLeaderboard />
-          )}
-        </div>
-        <style jsx>{`
-          .leaderboard_container {
-            width: 420px;
-          }
-          .header {
-            font: var(--text-h2);
-            font-weight: 500;
-            margin-bottom: 30px;
-          }
-        `}</style>
-      </Panel.Section>
-    </Panel.Container>
+    <Panel.Section style={{ padding: 32 }}>
+      <div className="leaderboard_container">
+        <h2 className="header">Leaderboard</h2>
+        {SHOW_LEADERBOARD_SELECTION ? (
+          <TabPanel
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            tabs={[
+              { label: "This week", component: null },
+              { label: "Last week", component: null },
+              {
+                label: "All time",
+                component: <AllTimeLeaderboard style={{ marginTop: "30px" }} />,
+              },
+            ]}
+          />
+        ) : (
+          <AllTimeLeaderboard />
+        )}
+      </div>
+      <style jsx>{`
+        .leaderboard_container {
+          width: 420px;
+        }
+        .header {
+          font: var(--text-h2);
+          font-weight: 500;
+          margin-bottom: 30px;
+        }
+      `}</style>
+    </Panel.Section>
   )
 }

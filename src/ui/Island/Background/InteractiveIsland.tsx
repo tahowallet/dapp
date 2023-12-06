@@ -14,7 +14,12 @@ import {
   selectIslandZoomLevel,
 } from "redux-state/selectors/island"
 import { ISLAND_BOX, getRealmPosition } from "shared/constants"
-import { useValueRef, useBeforeFirstPaint, useOnResize } from "shared/hooks"
+import {
+  useValueRef,
+  useBeforeFirstPaint,
+  useOnResize,
+  useTabletScreen,
+} from "shared/hooks"
 import {
   getWindowDimensions,
   getMinimumScale,
@@ -30,6 +35,7 @@ import AttackLine from "../Details/AttackLine"
 function InteractiveIsland() {
   const selectedRealmId = useDappSelector(selectDisplayedRealmId)
   const selectedRealmPanelVisible = useDappSelector(selectRealmPanelVisible)
+  const isTablet = useTabletScreen()
   const settingsRef = useRef({ minScale: 0 })
   const [stageBounds, setStageDimensions] = useState(() =>
     getWindowDimensions()
@@ -170,7 +176,9 @@ function InteractiveIsland() {
 
       if (selectedRealmId && selectedRealmPanelVisible) {
         const { x, y, width, height } = getRealmPosition(selectedRealmId)
-        const newPosX = stageWidth / 2 - (x + width / 2) * stageScaleX
+        const newPosX = isTablet
+          ? stageWidth / 1.33 - (x + width / 2) * stageScaleX
+          : stageWidth / 2 - (x + width / 2) * stageScaleX
         const newPosY = stageHeight / 2 - (y + height / 2) * stageScaleY
 
         stage?.to({ x: newPosX, y: newPosY })
@@ -185,7 +193,7 @@ function InteractiveIsland() {
         })
       }
     }
-  }, [selectedRealmId, selectedRealmPanelVisible, stageBounds])
+  }, [selectedRealmId, selectedRealmPanelVisible, stageBounds, isTablet])
 
   return (
     <>
