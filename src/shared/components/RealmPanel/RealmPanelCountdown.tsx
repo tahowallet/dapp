@@ -1,4 +1,3 @@
-import { animated } from "@react-spring/web"
 import React from "react"
 import {
   selectSeasonDurationInWeeks,
@@ -6,15 +5,12 @@ import {
   selectWeekEndDate,
   useDappSelector,
 } from "redux-state"
-import { useRealmPanelCountdownTransition } from "shared/hooks"
 import { getNextSelectedWeekDay, getTimeRemaining } from "shared/utils"
 
 export default function RealmPanelCountdown() {
   const seasonWeek = useDappSelector(selectSeasonWeek)
   const seasonDuration = useDappSelector(selectSeasonDurationInWeeks)
   const weekEndDate = useDappSelector(selectWeekEndDate)
-
-  const countdownTransition = useRealmPanelCountdownTransition()
 
   if (!weekEndDate) return null
 
@@ -23,13 +19,7 @@ export default function RealmPanelCountdown() {
 
   return (
     <>
-      <animated.div
-        style={{
-          ...countdownTransition,
-          position: "absolute",
-          textAlign: "right",
-        }}
-      >
+      <div className="countdown">
         <div className="week">
           Week {seasonWeek}{" "}
           <span style={{ fontSize: 16, color: "var(--secondary-s1-50)" }}>
@@ -37,8 +27,14 @@ export default function RealmPanelCountdown() {
           </span>
         </div>
         <div className="time_remaining">{timeRemaining}</div>
-      </animated.div>
+      </div>
       <style jsx>{`
+        .countdown {
+          position: absolute;
+          textalign: right;
+          top: 104px;
+          right: 32px;
+        }
         .week {
           font-size: 16px;
           color: var(--secondary-s1-80);

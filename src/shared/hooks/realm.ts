@@ -1,8 +1,8 @@
-/* eslint-disable import/prefer-default-export */
 import { easings, useSpring } from "@react-spring/web"
 import { useMemo } from "react"
 import { selectRealmPanelVisible, useDappSelector } from "redux-state"
 import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
+import { useTabletScreen } from "./helpers"
 
 export function useRealmPanelTransition(position: "left" | "right") {
   const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
@@ -43,14 +43,15 @@ export function useRealmPanelTransition(position: "left" | "right") {
 
 export function useRealmCloseButtonTransition() {
   const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
+  const isTablet = useTabletScreen()
 
   const buttonStyles = useMemo(
     () => ({
-      base: { left: "50%", transform: "translateX(-50%)" },
+      base: { left: isTablet ? "75%" : "50%", transform: "translateX(-50%)" },
       visible: { bottom: 160 },
       hidden: { bottom: -50 },
     }),
-    []
+    [isTablet]
   )
 
   const [buttonTransition] = useSpring(() => {
@@ -66,37 +67,7 @@ export function useRealmCloseButtonTransition() {
         easing: easings.easeOutCubic,
       },
     }
-  }, [realmPanelVisible])
+  }, [realmPanelVisible, isTablet])
 
   return buttonTransition
-}
-
-export function useRealmPanelCountdownTransition() {
-  const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
-
-  const countdownStyles = useMemo(
-    () => ({
-      base: { top: 104 },
-      hidden: { right: -300 },
-      visible: { right: 32 },
-    }),
-    []
-  )
-
-  const [countdownTransition] = useSpring(() => {
-    const destinationStyle = realmPanelVisible
-      ? countdownStyles.visible
-      : countdownStyles.hidden
-
-    return {
-      from: { ...countdownStyles.base, ...countdownStyles.hidden },
-      to: { ...countdownStyles.base, ...destinationStyle },
-      config: {
-        duration: REALM_PANEL_ANIMATION_TIME,
-        easing: easings.easeOutCubic,
-      },
-    }
-  }, [realmPanelVisible])
-
-  return countdownTransition
 }

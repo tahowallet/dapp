@@ -8,6 +8,7 @@ type AccordionType = "default" | "frame" | "challenge" | "panel"
 export type AccordionOutsideActions = {
   openedFromOutside?: boolean
   closeOpenedFromOutside?: () => void
+  extraExpand?: boolean // close / open accordion based on another action
 }
 
 export type CommonAccordion = {
@@ -59,6 +60,7 @@ export default function Accordion({
   style,
   isDisabled = false,
   hasInteractiveChildren = false,
+  extraExpand,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -67,6 +69,13 @@ export default function Accordion({
       setIsOpen(true)
     }
   }, [openedFromOutside])
+
+  useEffect(() => {
+    // If accordion is opened and there is additional trigger is false, close the accordion
+    if (isOpen && extraExpand === false) {
+      setIsOpen(false)
+    }
+  }, [isOpen, extraExpand])
 
   const toggle = () => {
     if (isDisabled) return

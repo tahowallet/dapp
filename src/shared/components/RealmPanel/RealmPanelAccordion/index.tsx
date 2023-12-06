@@ -1,4 +1,5 @@
 import React from "react"
+import { selectRealmPanelVisible, useDappSelector } from "redux-state"
 import Accordion, { CommonAccordion } from "shared/components/Accordion"
 
 export default function RealmDetailsAccordion({
@@ -8,6 +9,8 @@ export default function RealmDetailsAccordion({
   openedFromOutside,
   closeOpenedFromOutside,
 }: CommonAccordion) {
+  const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
+
   return (
     <Accordion
       title={title}
@@ -16,6 +19,7 @@ export default function RealmDetailsAccordion({
       hasInteractiveChildren
       openedFromOutside={openedFromOutside}
       closeOpenedFromOutside={closeOpenedFromOutside}
+      extraExpand={realmPanelVisible}
     >
       {children}
     </Accordion>
