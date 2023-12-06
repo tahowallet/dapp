@@ -1,4 +1,5 @@
-const STORAGE_SERVICE_VERSION = 3 // Update to add zkSync realm
+// const STORAGE_SERVICE_VERSION = 3 // Update to add zkSync realm
+const STORAGE_SERVICE_VERSION = 2 // Update to add Base realm
 const STORAGE_SERVICE_KEY = "taho.storage"
 
 type Storage = {
