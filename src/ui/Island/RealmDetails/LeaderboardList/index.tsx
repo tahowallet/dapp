@@ -9,7 +9,7 @@ import {
 import LeaderboardItem from "./LeaderboardItem"
 import RealmDetailsPlaceholder from "../Placeholder"
 
-const leaderboardDateAvailable = "Nov 30"
+const leaderboardDateAvailable = "Dec 14"
 
 export default function LeaderboardList() {
   const realmId = useDappSelector(selectDisplayedRealmId)
