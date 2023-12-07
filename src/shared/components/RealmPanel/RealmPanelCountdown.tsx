@@ -6,6 +6,8 @@ import {
   useDappSelector,
 } from "redux-state"
 import { getNextSelectedWeekDay, getTimeRemaining } from "shared/utils"
+import xpBoostIcon from "shared/assets/icons/xp-boost.svg"
+import Icon from "../Icon"
 
 export default function RealmPanelCountdown() {
   const seasonWeek = useDappSelector(selectSeasonWeek)
@@ -19,14 +21,23 @@ export default function RealmPanelCountdown() {
 
   return (
     <>
-      <div className="countdown">
-        <div className="week">
-          Week {seasonWeek}{" "}
-          <span style={{ fontSize: 16, color: "var(--secondary-s1-50)" }}>
-            / {seasonDuration}
-          </span>
+      <div className="countdown row">
+        <Icon
+          type="image"
+          src={xpBoostIcon}
+          width="125px"
+          height="64px"
+          style={{ marginTop: "10px" }}
+        />
+        <div className="column">
+          <div className="week">
+            Week {seasonWeek}{" "}
+            <span style={{ fontSize: 16, color: "var(--secondary-s1-50)" }}>
+              / {seasonDuration}
+            </span>
+          </div>
+          <div className="time_remaining">{timeRemaining}</div>
         </div>
-        <div className="time_remaining">{timeRemaining}</div>
       </div>
       <style jsx>{`
         .countdown {
