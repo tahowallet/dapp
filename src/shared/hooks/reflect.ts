@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import {
-  selectDisplayedRealmId,
   selectRealmNameById,
   selectStakingRealmId,
   selectWalletName,
@@ -160,7 +159,6 @@ export function useReflectCurrentUser() {
 export function useReflectCursors() {
   const reflectClients = useReflectPresence()
   const currentUser = useReflectCurrentUser()
-  const realmModalOpened = useDappSelector(selectDisplayedRealmId)
 
   // Find index of current user to determine the "room" placement
   const currentUserIndex = reflectClients.findIndex(
@@ -180,15 +178,10 @@ export function useReflectCursors() {
   // We want users to always have a chance to interact with each other so we split them
   // into "rooms" based on their index in the reflectClients array. This way map stays interactive
   // while still being not overcrowded.
-  const visibleClients = reflectClients.slice(
+  const visibleCursors = reflectClients.slice(
     currentRoomValue,
     currentRoomValue + maxNumberOfVisibleCursors
   )
-
-  // Hide current user cursor when the realm modal is opened
-  const visibleCursors = !realmModalOpened
-    ? visibleClients
-    : visibleClients.filter((client) => client.id !== currentUser?.id)
 
   return { visibleCursors, currentUser }
 }
