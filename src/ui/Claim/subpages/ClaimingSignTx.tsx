@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Icon from "shared/components/Media/Icon"
-import Button from "shared/components/DOMElements/Button"
+import Button from "shared/components/Interface/Button"
 import lockIcon from "shared/assets/icons/s/lock.svg"
 import ClaimingTransactions from "./ClaimingTransactions"
 

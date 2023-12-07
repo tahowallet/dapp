@@ -2,7 +2,7 @@ import React, { ReactNode, CSSProperties } from "react"
 import classNames from "classnames"
 import { animated } from "@react-spring/web"
 import { useRealmPanelTransition } from "shared/hooks"
-import Portal from "./DOMElements/Portal"
+import Portal from "../Interface/Portal"
 
 type PortalSectionProps = {
   children: ReactNode

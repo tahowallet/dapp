@@ -4,7 +4,7 @@ import iconNotifWrong from "shared/assets/icons/m/notif-wrong.svg"
 import { TransactionProgressStatus } from "shared/types"
 import classNames from "classnames"
 import { isTransactionPending } from "shared/utils"
-import Button from "../DOMElements/Button"
+import Button from "../Interface/Button"
 import Ripple from "../Loaders/Ripple"
 import Icon from "../Media/Icon"
 

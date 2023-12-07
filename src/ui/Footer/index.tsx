@@ -1,6 +1,6 @@
 import React from "react"
 // import ClaimProgressBar from "./ClaimProgressBar" // not used at the moment
-import Version from "shared/components/Version"
+import Version from "shared/components/Misc/Version"
 import RealmsBar from "./RealmBar"
 import FooterLinks from "./FooterLinks"
 import FooterWrapper from "./FooterWrapper"

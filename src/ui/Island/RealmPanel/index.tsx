@@ -9,7 +9,7 @@ import RealmDetailsPanel from "./RealmDetailsPanel"
 import RealmLeaderboardPanel from "./RealmLeaderboardPanel"
 import RealmPanelCountdown from "./RealmPanelCountdown"
 import RealmPanelCloseButton from "./RealmPanelCloseButton"
-import Panel from "../../../shared/components/Panel"
+import Panel from "../../../shared/components/Dialogs/Panel"
 
 export default function RealmPanel({ onClose }: { onClose: () => void }) {
   const { updateAssistant } = useAssistant()

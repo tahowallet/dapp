@@ -1,5 +1,5 @@
 import React from "react"
-import Panel from "shared/components/Panel"
+import Panel from "shared/components/Dialogs/Panel"
 import { RootState } from "redux-state/reducers"
 import {
   selectDisplayedRealmId,

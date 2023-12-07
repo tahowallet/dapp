@@ -5,7 +5,7 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import classNames from "classnames"
-import Button from "shared/components/DOMElements/Button"
+import Button from "shared/components/Interface/Button"
 import Icon from "shared/components/Media/Icon"
 import iconNotifCorrect from "shared/assets/icons/s/notif-correct.svg"
 import iconSearch from "shared/assets/icons/m/search.svg"

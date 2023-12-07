@@ -18,7 +18,7 @@ import {
   useIslandRealmsPaths,
   usePopulationBubble,
 } from "shared/hooks"
-import { BUBBLE_CONFIG } from "shared/components/RealmCutout/Bubble"
+import { BUBBLE_CONFIG } from "shared/components/Realm/Bubble"
 import {
   selectDisplayedRealmId,
   selectRealmPanelVisible,

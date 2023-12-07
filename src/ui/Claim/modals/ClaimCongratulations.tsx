@@ -1,6 +1,6 @@
 import React from "react"
 import { selectRealmById, useDappSelector } from "redux-state"
-import Button from "shared/components/DOMElements/Button"
+import Button from "shared/components/Interface/Button"
 import CongratulationsModal from "ui/Island/Modals/CongratulationsModal"
 import RealmIcon from "ui/Island/Realms/RealmIcon"
 

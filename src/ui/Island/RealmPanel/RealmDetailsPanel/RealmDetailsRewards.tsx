@@ -7,7 +7,7 @@ import {
   selectUnclaimedXpSumById,
   useDappSelector,
 } from "redux-state"
-import Button from "shared/components/DOMElements/Button"
+import Button from "shared/components/Interface/Button"
 import RealmIcon from "ui/Island/Realms/RealmIcon"
 import Tooltip from "shared/components/Dialogs/Tooltip"
 import { LINKS } from "shared/constants"

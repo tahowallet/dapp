@@ -4,8 +4,8 @@ import cookiesIcon from "shared/assets/icons/cookies.svg"
 import newTabIcon from "shared/assets/icons/s/new-tab.svg"
 import { LINKS, LOCAL_STORAGE_COOKIES } from "shared/constants"
 import { useLocalStorageChange } from "shared/hooks"
-import Icon from "./Media/Icon"
-import Button from "./DOMElements/Button"
+import Icon from "../Media/Icon"
+import Button from "../Interface/Button"
 
 export default function PrivacyPolicy() {
   const { value, updateStorage } = useLocalStorageChange<boolean>(

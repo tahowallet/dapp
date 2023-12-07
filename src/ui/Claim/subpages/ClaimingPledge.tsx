@@ -1,6 +1,6 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Button from "shared/components/DOMElements/Button"
+import Button from "shared/components/Interface/Button"
 import Icon from "shared/components/Media/Icon"
 import earthIcon from "shared/assets/icons/earth.svg"
 import communityIcon from "shared/assets/icons/community.svg"

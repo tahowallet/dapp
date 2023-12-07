@@ -1,5 +1,5 @@
 import React from "react"
-import Button from "shared/components/DOMElements/Button"
+import Button from "shared/components/Interface/Button"
 import logoIcon from "shared/assets/nav_logo.svg"
 import walletIcon from "shared/assets/icons/wallet.svg"
 import { useConnect, useResetTenderlyFork } from "shared/hooks"

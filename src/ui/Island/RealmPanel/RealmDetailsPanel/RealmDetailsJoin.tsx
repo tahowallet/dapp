@@ -1,5 +1,5 @@
 import React from "react"
-import Button from "shared/components/DOMElements/Button"
+import Button from "shared/components/Interface/Button"
 import Icon from "shared/components/Media/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 

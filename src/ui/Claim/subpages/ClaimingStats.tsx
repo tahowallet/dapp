@@ -1,11 +1,11 @@
 import React from "react"
-import TahoAmount from "shared/components/TahoAmount"
-import Modal from "shared/components/Modal"
+import TahoAmount from "shared/components/Interface/TahoAmount"
+import Modal from "shared/components/Dialogs/Modal"
 import Icon from "shared/components/Media/Icon"
 import infoIcon from "shared/assets/icons/m/info.svg"
-import Accordion from "shared/components/DOMElements/Accordion"
+import Accordion from "shared/components/Interface/Accordion"
 import { useDappSelector, selectEligibility } from "redux-state"
-import { RealmCutout } from "shared/components/RealmCutout"
+import { RealmCutout } from "shared/components/Realm"
 import ClaimCheckRules from "../components/ClaimCheckRules"
 
 const MOCK_REALM = {

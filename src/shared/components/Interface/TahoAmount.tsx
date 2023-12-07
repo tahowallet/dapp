@@ -1,9 +1,9 @@
 import classNames from "classnames"
 import React from "react"
-import { parseTahoAmount, separateThousandsByComma } from "../utils"
-import Icon from "./Media/Icon"
-import lockIcon from "../assets/icons/s/lock.svg"
-import coinIcon from "../assets/taho-coin.svg"
+import lockIcon from "shared/assets/icons/s/lock.svg"
+import coinIcon from "shared/assets/taho-coin.svg"
+import { parseTahoAmount, separateThousandsByComma } from "../../utils"
+import Icon from "../Media/Icon"
 
 type TahoAmountProps = {
   amount?: bigint

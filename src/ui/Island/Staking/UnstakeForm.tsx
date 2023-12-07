@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import TokenAmountInput from "shared/components/DOMElements/TokenAmountInput"
+import TokenAmountInput from "shared/components/Interface/TokenAmountInput"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import {
   useDappDispatch,

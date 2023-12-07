@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import Panel from "shared/components/Panel"
-import TabPanel from "shared/components/DOMElements/TabPanel"
+import Panel from "shared/components/Dialogs/Panel"
+import TabPanel from "shared/components/Interface/TabPanel"
 import LeaderboardList from "ui/Island/Leaderboard"
 import LeaderboardCurrentUser from "ui/Island/Leaderboard/LeaderboardCurrentUser"
 

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react"
 import Markdown from "react-markdown"
-import Accordion from "shared/components/DOMElements/Accordion"
+import Accordion from "shared/components/Interface/Accordion"
 import { useDisplayedChallenges } from "shared/hooks"
 
 type RealmDetailsChallengeItemProps = {

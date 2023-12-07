@@ -2,7 +2,7 @@ import React from "react"
 import { selectRealmPanelVisible, useDappSelector } from "redux-state"
 import Accordion, {
   CommonAccordion,
-} from "shared/components/DOMElements/Accordion"
+} from "shared/components/Interface/Accordion"
 
 export default function RealmDetailsAccordion({
   title,
