@@ -6,7 +6,11 @@ import {
   getRadialGradientFromRealmColor,
   separateThousandsByComma,
 } from "shared/utils"
-import { WEEKLY_XP_ALLOCATION, getRealmMapData } from "shared/constants"
+import {
+  WEEKLY_XP_ALLOCATION,
+  WEEKLY_XP_BOOST,
+  getRealmMapData,
+} from "shared/constants"
 import { RealmData } from "shared/types"
 import RealmDetailsSection from "./RealmDetailsSection"
 
@@ -54,7 +58,8 @@ export default function RealmDetailsHeader({
                 />
                 <span className="label_value">
                   {separateThousandsByComma(
-                    /* realm.xpAllocatable || */ WEEKLY_XP_ALLOCATION,
+                    /* realm.xpAllocatable || */ WEEKLY_XP_ALLOCATION *
+                      WEEKLY_XP_BOOST,
                     0
                   )}{" "}
                   XP
