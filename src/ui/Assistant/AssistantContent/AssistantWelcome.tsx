@@ -1,5 +1,5 @@
 import React from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import realmPointer from "shared/assets/realm-pointer.png"
 import { useAssistant } from "shared/hooks"
 import { selectNumberOfRealms, useDappSelector } from "redux-state"

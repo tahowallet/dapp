@@ -2,7 +2,7 @@ import React, { CSSProperties, ReactNode, useState } from "react"
 import infoIcon from "shared/assets/icons/m/info.svg"
 import { animated } from "@react-spring/web"
 import { useVisibilityTransition } from "shared/hooks"
-import Icon from "./Icon"
+import Icon from "../Media/Icon"
 
 type TooltipProps = {
   children: ReactNode

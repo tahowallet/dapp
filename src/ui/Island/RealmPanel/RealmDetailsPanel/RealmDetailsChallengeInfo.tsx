@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 
 export default function RealmDetailsChallengeInfo({

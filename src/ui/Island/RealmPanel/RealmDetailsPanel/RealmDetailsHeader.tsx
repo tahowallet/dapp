@@ -1,7 +1,7 @@
 import React from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import iconCommunity from "shared/assets/icons/people.svg"
-import RealmIcon from "shared/components/RealmIcon"
+import RealmIcon from "ui/Island/Realms/RealmIcon"
 import {
   getRadialGradientFromRealmColor,
   separateThousandsByComma,

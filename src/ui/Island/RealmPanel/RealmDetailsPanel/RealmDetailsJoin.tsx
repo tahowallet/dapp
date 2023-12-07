@@ -1,6 +1,6 @@
 import React from "react"
-import Button from "shared/components/Button"
-import Icon from "shared/components/Icon"
+import Button from "shared/components/DOMElements/Button"
+import Icon from "shared/components/Media/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
 
 type RealmDetailsJoinProps = {

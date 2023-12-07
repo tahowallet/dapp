@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import { animated } from "@react-spring/web"
 import { useVisibilityTransition } from "shared/hooks"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import closeIcon from "shared/assets/icons/s/close.svg"
 
 export type PopupProps = {

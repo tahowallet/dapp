@@ -1,5 +1,5 @@
 import React, { CSSProperties, ReactNode } from "react"
-import Popup from "shared/components/Popup"
+import Popup from "shared/components/Dialogs/Popup"
 
 type AssistantContentProps = {
   children: ReactNode

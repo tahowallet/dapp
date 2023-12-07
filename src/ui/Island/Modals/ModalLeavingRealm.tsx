@@ -1,8 +1,8 @@
 import React from "react"
 import Modal from "shared/components/Modal"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
-import Button from "shared/components/Button"
+import Button from "shared/components/DOMElements/Button"
 
 import TransactionProgress, {
   TransactionProgressProps,

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react"
 import { useConnect } from "shared/hooks"
-import Button from "shared/components/Button"
+import Button from "shared/components/DOMElements/Button"
 import { useDappSelector, selectWalletName } from "redux-state"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import disconnectIcon from "shared/assets/icons/m/disconnect.svg"
 import arbitrumIcon from "shared/assets/partners/arbitrum.svg"
 

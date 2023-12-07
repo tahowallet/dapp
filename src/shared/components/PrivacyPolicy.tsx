@@ -1,11 +1,11 @@
 import React from "react"
-import Popup from "shared/components/Popup"
+import Popup from "shared/components/Dialogs/Popup"
 import cookiesIcon from "shared/assets/icons/cookies.svg"
 import newTabIcon from "shared/assets/icons/s/new-tab.svg"
 import { LINKS, LOCAL_STORAGE_COOKIES } from "shared/constants"
 import { useLocalStorageChange } from "shared/hooks"
-import Icon from "./Icon"
-import Button from "./Button"
+import Icon from "./Media/Icon"
+import Button from "./DOMElements/Button"
 
 export default function PrivacyPolicy() {
   const { value, updateStorage } = useLocalStorageChange<boolean>(

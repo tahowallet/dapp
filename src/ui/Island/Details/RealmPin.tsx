@@ -12,7 +12,7 @@ import {
 } from "redux-state"
 import { FIGMA_FACTOR, getRealmMapData } from "shared/constants"
 import { getPinShift } from "shared/utils"
-import KonvaVideo from "shared/components/KonvaVideo"
+import KonvaVideo from "shared/components/Media/KonvaVideo"
 
 type RealmPinAvatarProps = {
   x: number

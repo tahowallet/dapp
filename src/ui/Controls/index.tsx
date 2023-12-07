@@ -1,5 +1,5 @@
 import React from "react"
-import Portal from "shared/components/Portal"
+import Portal from "shared/components/DOMElements/Portal"
 import { Stage } from "konva/lib/Stage"
 import ZoomControls from "./ZoomControls"
 import IslandControl from "./IslandControl"

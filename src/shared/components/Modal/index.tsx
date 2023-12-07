@@ -2,7 +2,7 @@ import classNames from "classnames"
 import React, { CSSProperties } from "react"
 import { easings, useSpring, animated } from "@react-spring/web"
 
-import Portal from "../Portal"
+import Portal from "../DOMElements/Portal"
 import { noop } from "../../utils"
 import ClickableModalOverlay from "./ClickableModalOverlay"
 

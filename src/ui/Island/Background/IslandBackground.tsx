@@ -19,7 +19,7 @@ import {
 import { usePrevious, useBeforeFirstPaint, useTimeout } from "shared/hooks"
 import { createBackgroundMask } from "shared/utils"
 import { OverlayType } from "shared/types"
-import BackgroundOverlay from "ui/Background/BackgroundOverlay"
+import BackgroundOverlay from "ui/Island/Background/BackgroundOverlay"
 import { selectRealmPanelVisible, useDappSelector } from "redux-state"
 
 const getOverlay = (overlay: OverlayType) => {

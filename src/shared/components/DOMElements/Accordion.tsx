@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import React, { CSSProperties, useEffect, useState } from "react"
-import arrowIcon from "../assets/icons/s/arrow-down.svg"
-import Icon from "./Icon"
+import arrowIcon from "shared/assets/icons/s/arrow-down.svg"
+import Icon from "../Media/Icon"
 
 type AccordionType = "default" | "frame" | "challenge" | "panel"
 

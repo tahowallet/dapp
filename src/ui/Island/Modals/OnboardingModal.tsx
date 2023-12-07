@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import Modal from "../../../shared/components/Modal"
-import Button from "../../../shared/components/Button"
+import Button from "../../../shared/components/DOMElements/Button"
 
 type OnboardingModalProps = {
   children: ReactNode

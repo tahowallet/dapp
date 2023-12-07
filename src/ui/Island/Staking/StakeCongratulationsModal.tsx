@@ -4,7 +4,7 @@ import {
   useDappSelector,
   selectDisplayedRealmId,
 } from "redux-state"
-import Button from "shared/components/Button"
+import Button from "shared/components/DOMElements/Button"
 import CongratulationsModal from "ui/Island/Modals/CongratulationsModal"
 import { RealmCutout } from "shared/components/RealmCutout"
 

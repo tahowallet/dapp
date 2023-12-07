@@ -7,10 +7,10 @@ import {
   useDappSelector,
 } from "redux-state"
 import { TAHO_ADDRESS } from "shared/constants"
-import TabPanel from "shared/components/TabPanel"
+import TabPanel from "shared/components/DOMElements/TabPanel"
 import StakeForm from "ui/Island/Staking/StakeForm"
 import UnstakeForm from "ui/Island/Staking/UnstakeForm"
-import { AccordionOutsideActions } from "shared/components/Accordion"
+import { AccordionOutsideActions } from "shared/components/DOMElements/Accordion"
 import RealmPanelAccordion from "."
 
 function isFormDisabled(

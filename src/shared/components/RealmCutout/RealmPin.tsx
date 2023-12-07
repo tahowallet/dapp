@@ -1,6 +1,6 @@
 import React from "react"
 import realmPin from "shared/assets/realm-pin.svg"
-import Avatar from "../Avatar"
+import Avatar from "../Media/Avatar"
 
 export default function RealmPin() {
   return (

@@ -7,7 +7,7 @@ import {
   useDappSelector,
 } from "redux-state"
 import LeaderboardItem from "./LeaderboardItem"
-import RealmDetailsPlaceholder from "../../../shared/components/Placeholder"
+import RealmDetailsPlaceholder from "../../../shared/components/Media/Placeholder"
 
 const leaderboardDateAvailable = "Nov 30"
 

@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom"
 import Modal from "shared/components/Modal"
 import TahoAmount from "shared/components/TahoAmount"
 import iconConnected from "shared/assets/icons/s/connected.svg"
-import Button from "shared/components/Button"
+import Button from "shared/components/DOMElements/Button"
 import { useConnect } from "shared/hooks"
 import {
   useDappSelector,

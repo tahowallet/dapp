@@ -1,6 +1,6 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Button from "shared/components/Button"
+import Button from "shared/components/DOMElements/Button"
 import Modal from "shared/components/Modal"
 import TahoAmount from "shared/components/TahoAmount"
 import { useDappSelector, selectEligibility } from "redux-state"

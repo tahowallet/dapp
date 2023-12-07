@@ -6,7 +6,7 @@ import {
   selectWalletName,
   useDappSelector,
 } from "redux-state"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import {
   bigIntToDisplayUserAmount,
   separateThousandsByComma,
