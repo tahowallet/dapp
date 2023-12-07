@@ -27,7 +27,7 @@ export const getTimeRemaining = (endDate: Date): string => {
   const hoursLeft = timeRemainingTimestamp / HOUR - Math.floor(daysLeft) * 24
 
   // If less than 1 hour left, display "coming soon"
-  if (hoursLeft < 1) {
+  if (Math.floor(daysLeft) === 0 && hoursLeft < 1) {
     return XP_COMING_SOON_TEXT
   }
 

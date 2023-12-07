@@ -11,10 +11,16 @@ import { Easings } from "konva/lib/Tween"
 import useImage from "use-image"
 
 import backgroundImg from "public/dapp_island_bg_bw.webp"
-import { ISLAND_BOX, REALMS_MAP_DATA } from "shared/constants"
-import { usePrevious, useBeforeFirstPaint } from "shared/hooks"
+import {
+  ISLAND_BOX,
+  REALMS_MAP_DATA,
+  REALM_PANEL_ANIMATION_TIME,
+} from "shared/constants"
+import { usePrevious, useBeforeFirstPaint, useTimeout } from "shared/hooks"
 import { createBackgroundMask } from "shared/utils"
 import { OverlayType } from "shared/types"
+import BackgroundOverlay from "ui/Background/BackgroundOverlay"
+import { selectRealmPanelVisible, useDappSelector } from "redux-state"
 
 const getOverlay = (overlay: OverlayType) => {
   if (overlay === "dark") {
@@ -105,6 +111,22 @@ export default function IslandBackground({
   //   }
   // }, [isMounted, overlay, previousOverlay])
 
+  const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
+
+  // Handles extended canvas background color change
+  useEffect(() => {
+    if (realmPanelVisible) {
+      return document.body.classList.add("overlay")
+    }
+
+    const timeout = setTimeout(
+      () => document.body.classList.remove("overlay"),
+      REALM_PANEL_ANIMATION_TIME
+    )
+
+    return () => clearTimeout(timeout)
+  }, [realmPanelVisible])
+
   const mask = useMemo(() => {
     if (!islandImage) {
       return undefined
@@ -115,7 +137,12 @@ export default function IslandBackground({
 
   return (
     <Group listening={false}>
-      <KonvaImage image={mask} />
+      <KonvaImage
+        image={mask}
+        stroke="#1c2928"
+        strokeWidth={realmPanelVisible ? 5 : 0}
+      />
+      <BackgroundOverlay />
       {/* <Group ref={overlayRef}>{currentOverlay}</Group> */}
     </Group>
   )

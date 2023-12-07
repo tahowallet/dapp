@@ -255,7 +255,8 @@ export default function Realm({
   return (
     <Group ref={groupRef}>
       {imageLayers.map((imageLayer, index) => (
-        // @ts-expect-error FIXME: @react-spring-types
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore FIXME: @react-spring-types
         <animated.Image
           key={index}
           listening={false}

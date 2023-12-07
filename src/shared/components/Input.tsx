@@ -1,5 +1,24 @@
 import classNames from "classnames"
-import React, { useCallback, useEffect, useState } from "react"
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
+import { NUMBER_INPUT_REGEX } from "shared/constants"
+
+type SharedInputProps = {
+  label: string
+  type?: "text" | "number"
+  disabled?: boolean
+  value: string
+  placeholder?: string
+  onChange?: (value: string) => void
+  validate?: (value: string) => { value: unknown } | { error: string }
+  rightComponent?: React.ReactNode
+  style?: React.CSSProperties & Record<string, string>
+}
 
 export default function SharedInput({
   onChange,
@@ -11,18 +30,9 @@ export default function SharedInput({
   disabled = false,
   rightComponent = null,
   style = {},
-}: {
-  label: string
-  type?: "text" | "number"
-  disabled?: boolean
-  value: string
-  placeholder?: string
-  onChange?: (value: string) => void
-  validate?: (value: string) => { value: unknown } | { error: string }
-  rightComponent?: React.ReactNode
-  style?: React.CSSProperties & Record<string, string>
-}) {
+}: SharedInputProps) {
   const [error, setError] = useState("")
+  const isTypeNumber = useMemo(() => type === "number", [type])
 
   const handleError = useCallback(
     (newValue: string) => {
@@ -41,7 +51,20 @@ export default function SharedInput({
     handleError(value)
   }, [handleError, value])
 
-  const isTypeNumber = type === "number"
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const inputValue = event.target.value
+      if (inputValue === "") onChange?.("")
+
+      const isNumberInput = NUMBER_INPUT_REGEX.test(inputValue)
+
+      // If we have number input, entering letter won't update input value
+      if (!isNumberInput && isTypeNumber) return
+
+      onChange?.(inputValue)
+    },
+    [onChange, isTypeNumber]
+  )
 
   return (
     <div
@@ -50,14 +73,15 @@ export default function SharedInput({
     >
       <div className="input_box">
         <input
-          type={type}
+          type="text" // always have "text" input to solve double "-" char problem occuring in "number" input
+          inputMode={isTypeNumber ? "numeric" : "text"} // solving numeric keyboard on mobile devices
           step="any"
           min={isTypeNumber ? "0" : undefined}
           className={classNames({ input_number: isTypeNumber })}
           value={value}
           placeholder={placeholder}
           disabled={disabled}
-          onChange={(e) => onChange?.(e.target.value)}
+          onChange={handleInputChange}
         />
         <span className="input_label">{label}</span>
         <div role="presentation" className="input_notch">
