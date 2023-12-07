@@ -1,5 +1,5 @@
 import React from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import { separateThousandsByComma } from "shared/utils"
 import populationIcon from "shared/assets/icons/people.svg"
 import { selectTotalPopulation, useDappSelector } from "redux-state"

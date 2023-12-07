@@ -1,5 +1,5 @@
 import React from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import starIcon from "shared/assets/icons/star-2.svg"
 import { useAssistant } from "shared/hooks"
 import AssistantContent from "."

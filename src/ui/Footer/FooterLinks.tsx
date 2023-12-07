@@ -1,5 +1,5 @@
 import React from "react"
-import IconLink from "shared/components/IconLink"
+import IconLink from "shared/components/Media/IconLink"
 import { LINKS } from "shared/constants"
 import discordIcon from "shared/assets/icons/discord.svg"
 import twitterIcon from "shared/assets/icons/twitter.svg"

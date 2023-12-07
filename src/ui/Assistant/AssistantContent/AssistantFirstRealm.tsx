@@ -1,6 +1,7 @@
 import React from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
+import { selectNumberOfRealms, useDappSelector } from "redux-state"
 import AssistantContent from "."
 
 export default function AssistantFirstRealm() {
@@ -8,6 +9,8 @@ export default function AssistantFirstRealm() {
   const { updateStorage } = useLocalStorageChange<boolean>(
     LOCAL_STORAGE_VISITED_REALM
   )
+
+  const numberOfRealms = useDappSelector(selectNumberOfRealms)
 
   const closeAssistant = () => {
     updateStorage(true)
@@ -28,9 +31,9 @@ export default function AssistantFirstRealm() {
           boards.
         </p>
         <p className="paragraph" style={{ marginBottom: 0 }}>
-          Survey our 6 Beta Realms and choose the one you can dominate. The more
-          $TAHO you stake, the more $XP you earn. The more Citizens in each
-          Realm, the more your weekly $XP reward gets diluted.
+          Survey our {numberOfRealms} Beta Realms and choose the one you can
+          dominate. The more $TAHO you stake, the more $XP you earn. The more
+          Citizens in each Realm, the more your weekly $XP reward gets diluted.
         </p>
       </AssistantContent>
       <style jsx>{`

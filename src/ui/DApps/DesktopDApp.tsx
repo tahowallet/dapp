@@ -16,7 +16,7 @@ import {
   useWalletOnboarding,
 } from "shared/hooks"
 import Onboarding from "ui/Onboarding"
-import PrivacyPolicy from "../../shared/components/PrivacyPolicy"
+import PrivacyPolicy from "../../shared/components/Misc/PrivacyPolicy"
 import IslandView from "./IslandView"
 
 function DesktopDAppContent() {
