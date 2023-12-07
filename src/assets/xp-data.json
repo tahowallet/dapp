@@ -20,7 +20,8 @@
       "0x69ae5cf6269775e9d3184fe2736959f34a767c123ab0dc3f7625bc304db07c4d.json",
       "0x8d8d6aaa553ce296e549498b65eb0ffd110ce9f0331c86b61467e98d4e0f3f20.json",
       "0xa6afaeddbc0bd9b92335b3b1801b7a423cf2718cc3b549fbff0ddf0464db2822.json",
-      "0xa7ad40989687164c965d79ffb18adf3cf1407be7ebf3fcead2b4ede274a16023.json"
+      "0xa7ad40989687164c965d79ffb18adf3cf1407be7ebf3fcead2b4ede274a16023.json",
+      "0x4df9093ec49037fefc4910675333098cd6d9ed4c0d4d96e901491855e6991092.json"
     ],
     "leaderboard": "leaderboard.json"
   },
@@ -28,7 +29,8 @@
     "rootFolder": "/assets/xp/base",
     "claimsFolder": "/assets/xp/base/claims",
     "xpGlossary": [
-      "0x30526f77636c083e3f46edba765a251e71573cda0b6e46a119889176cd44d2c0.json"
+      "0x30526f77636c083e3f46edba765a251e71573cda0b6e46a119889176cd44d2c0.json",
+      "0xe7b23477717cd2b34f7692eb0a52cfb21ba57b029fc9d31a2d6a253052ae58be.json"
     ],
     "leaderboard": "leaderboard.json"
   },
@@ -41,7 +43,8 @@
       "0x1b387cacb27052e3e5576848ce71979e0177e140466481134a01f3877f67838e.json",
       "0x96709300b725c2c6984500e0d402f8d2f33f19674bbea087cf27831aedf779cb.json",
       "0xa10c4a87f440a95bab49afeb20ec16456d7e35139d9e282c77dce1b1d5b12b28.json",
-      "0xf2b1fea752bb6c36312debe1dee1f465a795dd6f5cd727b8fa931eecef37b0e5.json"
+      "0xf2b1fea752bb6c36312debe1dee1f465a795dd6f5cd727b8fa931eecef37b0e5.json",
+      "0x96b7f979ed3f979c3813f04bed7be4b367482f548df10cb24258c568682c5fc6.json"
     ],
     "leaderboard": "leaderboard.json"
   },
@@ -60,7 +63,8 @@
       "0x4c98014763abc933133f49e4ce1146d79311dcfc1c28628a287b4658a86293d2.json",
       "0x7e9b018d9798647a667e725a310b74f66b2ab94987631e585428b9bec792ae3b.json",
       "0xbef2ffee70783c1629f072ed03f516e87c9cd19d5a6fa6821f989caf60dda1be.json",
-      "0x21b7623437ea79f48c3c0426da39a017a098e73528dfdb4c7f88c20695886bba.json"
+      "0x21b7623437ea79f48c3c0426da39a017a098e73528dfdb4c7f88c20695886bba.json",
+      "0x4eb1856d4fc591b1f7ac86bd06202319435e5436411645de8834d12cf659cd1f.json"
     ],
     "leaderboard": "leaderboard.json"
   },
@@ -72,7 +76,8 @@
       "0xbb96bd7e3d3c87bd3f9aef6fc5d27096732ea1e24336ad5be140232bfadfac64.json",
       "0xb8a8f2bd05d37aeb0ceadaa013adbd2741bd3ee1f2fcb202b4dbad0240df420b.json",
       "0x0c7f2ad42f1dead5694eae4ce96d9a42fadfb7befbd68cf0bb13e89dab7378b2.json",
-      "0x67328b06fc69199159db504f68e4d039ba2bbeeb6e2cb95d97a0bda6e5ed1b74.json"
+      "0x67328b06fc69199159db504f68e4d039ba2bbeeb6e2cb95d97a0bda6e5ed1b74.json",
+      "0xcf2faf3aef54e0a6545558bb2ce6adbc8f073c96addef4cf672fd4f2646012a3.json"
     ],
     "leaderboard": "leaderboard.json"
   }
