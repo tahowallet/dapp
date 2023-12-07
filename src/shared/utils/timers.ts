@@ -16,10 +16,19 @@ export const formatDate = (date: Date): string =>
     })
     .toUpperCase()
 
+export const convertDateToCETTimezone = () => {
+  const currentDate = new Date()
+  currentDate.setUTCHours(currentDate.getUTCHours() + 1)
+
+  return currentDate
+}
+
 // This function calculates time remaining in the format: X days Y minutes remaining
 export const getTimeRemaining = (endDate: Date): string => {
-  const currentTimestamp = Date.now()
+  const currentDate = convertDateToCETTimezone()
   const endDateTimestamp = endDate.getTime()
+
+  const currentTimestamp = currentDate.getTime()
 
   const timeRemainingTimestamp = endDateTimestamp - currentTimestamp
 
@@ -51,10 +60,7 @@ export const getTimeRemaining = (endDate: Date): string => {
  * @returns timestamp of next selected day
  */
 export function getNextSelectedWeekDay(weekDay: number, hour: number) {
-  const currentTimestamp = new Date()
-
-  // Convert time to CET timezone
-  currentTimestamp.setUTCHours(currentTimestamp.getUTCHours() + 1)
+  const currentTimestamp = convertDateToCETTimezone()
 
   const currentHour = currentTimestamp.getHours()
   const daysLeft = (weekDay - currentTimestamp.getUTCDay() + 7) % 7
