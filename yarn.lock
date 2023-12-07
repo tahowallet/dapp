@@ -2777,6 +2777,11 @@
   resolved "https://registry.yarnpkg.com/@rocicorp/rails/-/rails-0.8.0.tgz#ee8f3826c640f1fc8cb4b8de97b952378098c052"
   integrity sha512-BX/Owk5ikuLcXghQxlfPgcBWou5TWoGxktSxqUQZdCrsiP0CHEjOPJVhli4TuwRbxuzqS4MaHSeHa//PuwchGQ==
 
+"@rocicorp/rails@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@rocicorp/rails/-/rails-0.8.1.tgz#f78a9017b7cd5587eecb04e5b6e74911cc52dfe9"
+  integrity sha512-+NwaJtKyAP0W5KK84nVqlpl03aJXsEhiQg3FZYj08jTPYYdp2zfzc8dpzXcpC8GcfFST8vgqj/fMlgNU9Zvnsw==
+
 "@rocicorp/reflect@^0.38.202311200859":
   version "0.38.202311200859"
   resolved "https://registry.yarnpkg.com/@rocicorp/reflect/-/reflect-0.38.202311200859.tgz#487a0340698d22d78febb1de7a36dd6b999adf7d"
@@ -9403,6 +9408,15 @@ redux@^4.2.1:
   integrity sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==
   dependencies:
     "@babel/runtime" "^7.9.2"
+
+reflect-orchestrator@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/reflect-orchestrator/-/reflect-orchestrator-0.0.2.tgz#6a50f45e1187514ee44d112cdb7d436cf4a058bc"
+  integrity sha512-5BgNFIkvbUIWh3r9iYx1qjJ/rBKMwpTS7ZYES/CPunQhm2nSgAl8Zrm/DZPVFFIpnVTgixsumql6Tq9gCwr8Uw==
+  dependencies:
+    "@badrap/valita" "^0.3.0"
+    "@rocicorp/rails" "^0.8.1"
+    "@rocicorp/reflect" "^0.38.202311200859"
 
 reflect.getprototypeof@^1.0.3:
   version "1.0.3"

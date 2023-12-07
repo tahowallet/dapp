@@ -9,10 +9,19 @@ import {
   reflectClientSchema,
 } from "shared/types"
 import { Schema } from "zod"
+import {
+  OrchestrationOptions,
+  createOrchestrationMutators,
+} from "reflect-orchestrator"
 
 // Source: https://github.com/rocicorp/reflect-draw/blob/main/src/datamodel/zod.ts
 function parseReflectState<T>(schema: Schema<T>) {
   return process.env.NODE_ENV !== "production" ? schema.parse : (val: T) => val
+}
+
+// Set max room capacity to 50, still displaying 5 at one time
+const orchestrationOptions: OrchestrationOptions = {
+  maxClientsPerRoom: 50,
 }
 
 export const {
@@ -57,6 +66,7 @@ export const mutators = {
   setCursor,
   setUserInfo,
   setUserPresence,
+  ...createOrchestrationMutators(orchestrationOptions),
 }
 
 export type ReflectMutators = typeof mutators
