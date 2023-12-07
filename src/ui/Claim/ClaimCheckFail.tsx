@@ -1,7 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import Button from "shared/components/Button"
-import Modal from "shared/components/Modal"
+import Button from "shared/components/Interface/Button"
+import Modal from "shared/components/Dialogs/Modal"
 import {
   useDappDispatch,
   useDappSelector,

@@ -1,6 +1,6 @@
 import React from "react"
 // import { isTransactionPending } from "shared/utils"
-import Modal from "../Modal"
+import Modal from "../Dialogs/Modal"
 import TransactionProgress, {
   TransactionProgressProps,
 } from "./TransactionProgress"
