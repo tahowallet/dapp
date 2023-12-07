@@ -7,7 +7,7 @@ import {
 } from "redux-state"
 import { getNextSelectedWeekDay, getTimeRemaining } from "shared/utils"
 import xpBoostIcon from "shared/assets/icons/xp-boost.svg"
-import Icon from "../Icon"
+import Icon from "shared/components/Media/Icon"
 
 export default function RealmPanelCountdown() {
   const seasonWeek = useDappSelector(selectSeasonWeek)
