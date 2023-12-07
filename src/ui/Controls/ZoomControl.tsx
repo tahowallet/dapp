@@ -1,5 +1,5 @@
 import React from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 
 type ZoomControlProps = {
   icon: string

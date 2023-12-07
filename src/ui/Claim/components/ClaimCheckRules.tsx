@@ -1,6 +1,6 @@
 import React from "react"
 import classNames from "classnames"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import iconNotifCorrect from "shared/assets/icons/s/notif-correct.svg"
 import iconNorifWrong from "shared/assets/icons/s/notif-wrong.svg"
 import { separateThousandsByComma } from "shared/utils"

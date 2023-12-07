@@ -9,9 +9,9 @@ import {
 } from "redux-state"
 import { isValidInputAmount } from "shared/utils"
 import { useArbitrumProvider } from "shared/hooks"
-import Button from "shared/components/Button"
-import Modal from "shared/components/Modal"
-import TokenAmountInput from "shared/components/TokenAmountInput"
+import Button from "shared/components/Interface/Button"
+import Modal from "shared/components/Dialogs/Modal"
+import TokenAmountInput from "shared/components/Interface/TokenAmountInput"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 
 const LP_TX_ID = "joinLP"

@@ -4,9 +4,9 @@ import iconNotifWrong from "shared/assets/icons/m/notif-wrong.svg"
 import { TransactionProgressStatus } from "shared/types"
 import classNames from "classnames"
 import { isTransactionPending } from "shared/utils"
-import Button from "../Button"
+import Button from "../Interface/Button"
 import Ripple from "../Loaders/Ripple"
-import Icon from "../Icon"
+import Icon from "../Media/Icon"
 
 export type TransactionProgressProps = {
   title?: string
