@@ -16,7 +16,7 @@ export default function RealmPanelCountdown() {
 
   if (!weekEndDate) return null
 
-  const nextDropTimestamp = getNextSelectedWeekDay(4, 18)
+  const nextDropTimestamp = getNextSelectedWeekDay(4, 17) // 17:00 UTC time
   const timeRemaining = getTimeRemaining(nextDropTimestamp)
 
   return (
