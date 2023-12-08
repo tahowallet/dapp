@@ -2,9 +2,12 @@ import React, { useEffect } from "react"
 import {
   useAssistant,
   useLocalStorageChange,
+  usePanelRealmClose,
   useTabletScreen,
 } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
+import { selectRealmPanelVisible, useDappSelector } from "redux-state"
+import ClickableModalOverlay from "shared/components/Dialogs/ClickableModalOverlay"
 import RealmDetailsPanel from "./RealmDetailsPanel"
 import RealmLeaderboardPanel from "./RealmLeaderboardPanel"
 import RealmPanelCountdown from "./RealmPanelCountdown"
@@ -17,6 +20,9 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
   const { value, updateStorage } = useLocalStorageChange<boolean>(
     LOCAL_STORAGE_VISITED_REALM
   )
+
+  const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
+  const handlePanelClose = usePanelRealmClose()
 
   useEffect(() => {
     if (value) return
@@ -37,6 +43,7 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
         </Panel.Container>
       )}
       <RealmPanelCountdown />
+      {realmPanelVisible && <ClickableModalOverlay close={handlePanelClose} />}
     </>
   )
 }
