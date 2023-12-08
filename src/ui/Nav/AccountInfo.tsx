@@ -5,9 +5,9 @@ import {
   selectStakingRealmId,
   selectRealmById,
 } from "redux-state"
-import RealmIcon from "shared/components/RealmIcon"
+import RealmIcon from "ui/Island/Realms/RealmIcon"
 import { getRealmColor } from "shared/constants"
-import Avatar from "shared/components/Avatar"
+import Avatar from "shared/components/Media/Avatar"
 import AccountDropdown from "./AccountDropdown"
 
 export default function AccountInfo() {

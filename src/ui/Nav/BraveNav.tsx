@@ -1,5 +1,5 @@
 import React from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import braveIcon from "shared/assets/brave.png"
 import { LINKS, LOCAL_STORAGE_BRAVE } from "shared/constants"
 import closeIcon from "shared/assets/icons/s/close-black.svg"

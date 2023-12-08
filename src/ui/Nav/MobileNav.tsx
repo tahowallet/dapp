@@ -1,6 +1,6 @@
 import React from "react"
 import logoIcon from "shared/assets/nav_logo.svg"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import { useResetTenderlyFork } from "shared/hooks"
 import NavContainer from "./NavContainer"
 
