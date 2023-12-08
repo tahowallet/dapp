@@ -1,6 +1,12 @@
 import { easings, useSpring } from "@react-spring/web"
-import { useMemo } from "react"
-import { selectRealmPanelVisible, useDappSelector } from "redux-state"
+import { useCallback, useMemo } from "react"
+import {
+  selectRealmPanelVisible,
+  setDisplayedRealmId,
+  setRealmPanelVisible,
+  useDappDispatch,
+  useDappSelector,
+} from "redux-state"
 import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 import { useTabletScreen } from "./helpers"
 
@@ -70,4 +76,21 @@ export function useRealmCloseButtonTransition() {
   }, [realmPanelVisible, isTablet])
 
   return buttonTransition
+}
+
+export function usePanelRealmClose() {
+  const dispatch = useDappDispatch()
+
+  const handleClickOutside = useCallback(() => {
+    dispatch(setRealmPanelVisible(false))
+
+    const timeout = setTimeout(
+      () => dispatch(setDisplayedRealmId(null)),
+      REALM_PANEL_ANIMATION_TIME
+    )
+
+    return () => clearTimeout(timeout)
+  }, [dispatch])
+
+  return handleClickOutside
 }
