@@ -1,10 +1,11 @@
-import React, { memo, useCallback, useEffect } from "react"
+import React, { memo, useEffect } from "react"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
   useValueRef,
   IslandContext,
   useAssistant,
   useAssets,
+  usePanelRealmClose,
 } from "shared/hooks"
 import {
   selectDisplayedRealmId,
@@ -17,7 +18,6 @@ import {
 import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
 import RealmPanel from "ui/Island/RealmPanel"
-import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
 import InteractiveIsland from "./Background/InteractiveIsland"
 import IslandPresence from "./Reflect/IslandPresence"
 
@@ -52,16 +52,7 @@ function IslandWrapper() {
     },
   }))
 
-  const handleClose = useCallback(() => {
-    dispatch(setRealmPanelVisible(false))
-
-    const timeout = setTimeout(
-      () => dispatch(setDisplayedRealmId(null)),
-      REALM_PANEL_ANIMATION_TIME
-    )
-
-    return () => clearTimeout(timeout)
-  }, [dispatch])
+  const handlePanelClose = usePanelRealmClose()
 
   return (
     <>
@@ -80,7 +71,7 @@ function IslandWrapper() {
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
           {process.env.DISABLE_REFLECT === "true" ? null : <IslandPresence />}
-          <RealmPanel onClose={handleClose} />
+          <RealmPanel onClose={handlePanelClose} />
         </IslandContext.Provider>
       </div>
     </>

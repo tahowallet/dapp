@@ -1,6 +1,6 @@
 import React from "react"
 import {
-  selectSeasonDurationInWeeks,
+  // selectSeasonDurationInWeeks,
   selectSeasonWeek,
   selectWeekEndDate,
   useDappSelector,
@@ -11,12 +11,13 @@ import Icon from "shared/components/Media/Icon"
 
 export default function RealmPanelCountdown() {
   const seasonWeek = useDappSelector(selectSeasonWeek)
-  const seasonDuration = useDappSelector(selectSeasonDurationInWeeks)
+  // TODO: for now we are hardcoding the season duration to 7 weeks to get better UX
+  const seasonDuration = 7 // useDappSelector(selectSeasonDurationInWeeks)
   const weekEndDate = useDappSelector(selectWeekEndDate)
 
   if (!weekEndDate) return null
 
-  const nextDropTimestamp = getNextSelectedWeekDay(4, 18)
+  const nextDropTimestamp = getNextSelectedWeekDay(4, 17) // 17:00 UTC time
   const timeRemaining = getTimeRemaining(nextDropTimestamp)
 
   return (
