@@ -1,7 +1,7 @@
 import React, { ReactNode, CSSProperties } from "react"
 import classNames from "classnames"
 import { animated } from "@react-spring/web"
-import { useRealmPanelTransition } from "shared/hooks"
+import { usePanelRealmClose, useRealmPanelTransition } from "shared/hooks"
 import Portal from "../Interface/Portal"
 
 type PortalSectionProps = {
@@ -36,12 +36,17 @@ function Container({
   style,
 }: PanelContainerProps) {
   const containerTransitionStyles = useRealmPanelTransition(position)
+  const closePanel = usePanelRealmClose()
 
   return (
     <Portal>
       <animated.div
         style={{ ...style, ...containerTransitionStyles }}
         className="no_scrollbar"
+        onClick={(e) => {
+          if (e.target !== e.currentTarget) return
+          closePanel()
+        }}
       >
         <div
           className={classNames("panel column", {
