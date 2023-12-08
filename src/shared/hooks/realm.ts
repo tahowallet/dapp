@@ -1,14 +1,19 @@
 import { easings, useSpring } from "@react-spring/web"
 import { useCallback, useMemo } from "react"
 import {
+  selectDisplayedRealmId,
   selectRealmPanelVisible,
   setDisplayedRealmId,
   setRealmPanelVisible,
   useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import { REALM_PANEL_ANIMATION_TIME } from "shared/constants"
-import { useTabletScreen } from "./helpers"
+import {
+  LOCAL_STORAGE_VISITED_REALM,
+  REALM_PANEL_ANIMATION_TIME,
+} from "shared/constants"
+import { useLocalStorageChange, useTabletScreen } from "./helpers"
+import { useAssistant } from "./assistant"
 
 export function useRealmPanelTransition(position: "left" | "right") {
   const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
@@ -93,4 +98,30 @@ export function usePanelRealmClose() {
   }, [dispatch])
 
   return handlePanelClose
+}
+
+export function useOnRealmClick() {
+  const realmId = useDappSelector(selectDisplayedRealmId)
+  const dispatch = useDappDispatch()
+  const { updateAssistant, assistantVisible } = useAssistant()
+
+  const { value: visitedRealm, updateStorage: updateVisitedRealm } =
+    useLocalStorageChange<boolean>(LOCAL_STORAGE_VISITED_REALM)
+
+  const onRealmClick = (id: string) => {
+    if (!realmId) {
+      dispatch(setDisplayedRealmId(String(id)))
+      dispatch(setRealmPanelVisible(true))
+
+      if (assistantVisible("welcome"))
+        updateAssistant({ visible: false, type: "default" })
+
+      if (!visitedRealm) {
+        updateVisitedRealm(true)
+        updateAssistant({ visible: true, type: "first-realm" })
+      }
+    }
+  }
+
+  return onRealmClick
 }
