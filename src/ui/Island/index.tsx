@@ -52,7 +52,7 @@ function IslandWrapper() {
     },
   }))
 
-  const handleClose = usePanelRealmClose()
+  const handlePanelClose = usePanelRealmClose()
 
   return (
     <>
@@ -71,7 +71,7 @@ function IslandWrapper() {
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
           {process.env.DISABLE_REFLECT === "true" ? null : <IslandPresence />}
-          <RealmPanel onClose={handleClose} />
+          <RealmPanel onClose={handlePanelClose} />
         </IslandContext.Provider>
       </div>
     </>

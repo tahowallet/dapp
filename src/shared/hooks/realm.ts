@@ -81,7 +81,7 @@ export function useRealmCloseButtonTransition() {
 export function usePanelRealmClose() {
   const dispatch = useDappDispatch()
 
-  const handleClickOutside = useCallback(() => {
+  const handlePanelClose = useCallback(() => {
     dispatch(setRealmPanelVisible(false))
 
     const timeout = setTimeout(
@@ -92,5 +92,5 @@ export function usePanelRealmClose() {
     return () => clearTimeout(timeout)
   }, [dispatch])
 
-  return handleClickOutside
+  return handlePanelClose
 }

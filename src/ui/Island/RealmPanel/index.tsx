@@ -22,7 +22,7 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
   )
 
   const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
-  const handleClickOutside = usePanelRealmClose()
+  const handlePanelClose = usePanelRealmClose()
 
   useEffect(() => {
     if (value) return
@@ -43,9 +43,7 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
         </Panel.Container>
       )}
       <RealmPanelCountdown />
-      {realmPanelVisible && (
-        <ClickableModalOverlay close={handleClickOutside} />
-      )}
+      {realmPanelVisible && <ClickableModalOverlay close={handlePanelClose} />}
     </>
   )
 }
