@@ -254,6 +254,20 @@ export function useMobileScreen() {
   return width < MOBILE_BREAKPOINT
 }
 
+export function useUnLoad() {
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    const onUnload = () => {
+      posthog?.capture("$pageleave")
+    }
+    window.addEventListener("beforeunload", onUnload)
+    return () => {
+      window.removeEventListener("beforeunload", onUnload)
+    }
+  }, [posthog])
+}
+
 export function useTrackEvents() {
   const location = useLocation()
   const posthog = usePostHog()
