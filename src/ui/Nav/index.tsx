@@ -28,7 +28,7 @@ export default function Nav(): JSX.Element {
           <NavItems />
         </div>
         <div className="rhs_container row">
-          {!process.env.IS_BETA_CLOSED && (
+          {process.env.IS_PORTAL_CLOSED === "false" && (
             <div className="connect_wallet_btn">
               {isConnected ? (
                 <AccountInfo />
