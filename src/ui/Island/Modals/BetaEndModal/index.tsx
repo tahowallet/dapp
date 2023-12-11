@@ -2,6 +2,7 @@ import React, { ReactNode } from "react"
 import Modal from "shared/components/Dialogs/Modal"
 import GetUpdates from "./GetUpdates"
 import ClaimYourNFT from "./ClaimYourNFT"
+import BetaEndCloseButton from "./BetaEndCloseButton"
 
 type BetaEndModalProps = {
   header: ReactNode
@@ -18,7 +19,7 @@ export default function BetaEndModal({
         type="island-without-overlay"
         topSpacing="150px"
       >
-        <Modal.Content style={{ width: 860 }}>
+        <Modal.Content style={{ width: 860, position: "relative" }}>
           <div className="modal_header_container">
             <h1 className="modal_header">{header}</h1>
             <p style={{ paddingInline: 24 }}>{description}</p>
@@ -27,6 +28,7 @@ export default function BetaEndModal({
             <ClaimYourNFT />
             <GetUpdates />
           </div>
+          <BetaEndCloseButton />
         </Modal.Content>
       </Modal.ScrollableContainer>
       <style jsx>{`

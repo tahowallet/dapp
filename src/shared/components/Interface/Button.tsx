@@ -2,7 +2,7 @@ import React, { CSSProperties, ReactNode } from "react"
 import classnames from "classnames"
 
 type ButtonProps = {
-  children: ReactNode
+  children?: ReactNode
   /**
    * @default "primary"
    */
