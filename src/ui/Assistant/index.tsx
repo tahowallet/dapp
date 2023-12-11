@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import Icon from "shared/components/Media/Icon"
 import assistantImage from "shared/assets/assistant.png"
 import Portal from "shared/components/Interface/Portal"
@@ -10,10 +10,6 @@ import AssistantFirstRealm from "./AssistantContent/AssistantFirstRealm"
 
 export default function Assistant() {
   const { assistant, updateAssistant } = useAssistant()
-
-  useEffect(() => {
-    if (!assistant) updateAssistant({ visible: true, type: "welcome" })
-  }, [assistant, updateAssistant])
 
   if (!assistant) return null
 
