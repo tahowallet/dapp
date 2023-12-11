@@ -13,7 +13,14 @@ export default function ClaimYourNFT() {
           Each participants receives an NFT
           <br /> as proof of participations.
         </p>
-        <Button>Claim NFT on Galxe</Button>
+        <Button
+          onClick={(e) => {
+            e.preventDefault()
+            window.open("/", "_blank")
+          }}
+        >
+          Claim NFT on Galxe
+        </Button>
       </div>
       <style jsx>{`
         .modal_actions_column {

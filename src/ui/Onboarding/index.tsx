@@ -10,6 +10,7 @@ import Nav from "ui/Nav"
 import portalBackground from "shared/assets/portal-background.mp4"
 import Version from "shared/components/Misc/Version"
 import OnboardingFooter from "ui/Footer/OnboardingFooter"
+import BetaEndModal from "ui/Island/Modals/BetaEndModal"
 import ConnectWallet from "./ConnectWallet"
 import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
@@ -57,7 +58,15 @@ export default function Onboarding() {
     <>
       <FullPageLoader loaded={assetsLoaded} />
       <div className="onboarding">
-        <OnboardingModal />
+        {process.env.IS_BETA_CLOSED ? (
+          <BetaEndModal
+            header="Portal is closed, see you in S1"
+            description="Thanks for participating in our Beta, we hope you had fun and got ot explore many new realms and opportunities."
+            topSpacing="365px"
+          />
+        ) : (
+          <OnboardingModal />
+        )}
         <video className="onboarding_video" autoPlay muted loop playsInline>
           <source src={portalBackground} />
         </video>
