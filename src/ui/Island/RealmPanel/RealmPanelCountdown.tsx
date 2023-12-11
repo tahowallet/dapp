@@ -23,13 +23,15 @@ export default function RealmPanelCountdown() {
   return (
     <>
       <div className="countdown row">
-        <Icon
-          type="image"
-          src={xpBoostIcon}
-          width="125px"
-          height="64px"
-          style={{ marginTop: "10px" }}
-        />
+        {process.env.IS_BETA_CLOSED === "true" || (
+          <Icon
+            type="image"
+            src={xpBoostIcon}
+            width="125px"
+            height="64px"
+            style={{ marginTop: "10px" }}
+          />
+        )}
         <div className="column">
           <div className="week">
             Week {seasonWeek}{" "}
@@ -37,7 +39,12 @@ export default function RealmPanelCountdown() {
               / {seasonDuration}
             </span>
           </div>
-          <div className="time_remaining">{timeRemaining}</div>
+
+          <div className="time_remaining">
+            {process.env.IS_BETA_CLOSED === "true"
+              ? "Beta is over, claim xp till Dec 18 2023"
+              : timeRemaining}
+          </div>
         </div>
       </div>
       <style jsx>{`
