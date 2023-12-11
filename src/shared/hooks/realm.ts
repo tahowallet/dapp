@@ -108,20 +108,30 @@ export function useOnRealmClick() {
   const { value: visitedRealm, updateStorage: updateVisitedRealm } =
     useLocalStorageChange<boolean>(LOCAL_STORAGE_VISITED_REALM)
 
-  const onRealmClick = (id: string) => {
-    if (!realmId) {
-      dispatch(setDisplayedRealmId(String(id)))
-      dispatch(setRealmPanelVisible(true))
+  const onRealmClick = useCallback(
+    (id: string) => {
+      if (!realmId) {
+        dispatch(setDisplayedRealmId(String(id)))
+        dispatch(setRealmPanelVisible(true))
 
-      if (assistantVisible("welcome"))
-        updateAssistant({ visible: false, type: "default" })
+        if (assistantVisible("welcome"))
+          updateAssistant({ visible: false, type: "default" })
 
-      if (!visitedRealm) {
-        updateVisitedRealm(true)
-        updateAssistant({ visible: true, type: "first-realm" })
+        if (!visitedRealm) {
+          updateVisitedRealm(true)
+          updateAssistant({ visible: true, type: "first-realm" })
+        }
       }
-    }
-  }
+    },
+    [
+      assistantVisible,
+      dispatch,
+      realmId,
+      updateAssistant,
+      updateVisitedRealm,
+      visitedRealm,
+    ]
+  )
 
   return onRealmClick
 }
