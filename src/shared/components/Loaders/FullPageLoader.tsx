@@ -1,5 +1,9 @@
 import React from "react"
-import { useVisibilityTransition } from "shared/hooks"
+import {
+  useConnect,
+  useVisibilityTransition,
+  useWalletOnboarding,
+} from "shared/hooks"
 import { animated } from "@react-spring/web"
 import {
   LoaderType,
@@ -9,7 +13,9 @@ import {
 import GoldenCircleSpinner from "./GoldenCircleSpinner"
 import LoadingText from "./LoadingText"
 
-function getLoadingText(loaderType: LoaderType) {
+function getLoadingText(loaderType: LoaderType, loading: boolean) {
+  if (!loading) return ""
+
   let loadingText = ""
 
   switch (loaderType) {
@@ -30,6 +36,8 @@ function getLoadingText(loaderType: LoaderType) {
 export default function FullPageLoader({ loaded }: { loaded: boolean }) {
   const transition = useVisibilityTransition(!loaded)
   const loaderType = useDappSelector(selectIslandLoaderType)
+  const { walletOnboarded } = useWalletOnboarding()
+  const { isConnected } = useConnect()
 
   return (
     <>
@@ -52,7 +60,13 @@ export default function FullPageLoader({ loaded }: { loaded: boolean }) {
       >
         <GoldenCircleSpinner />
         <LoadingText>
-          <p>Loading your experience... {getLoadingText(loaderType)}</p>
+          <p>
+            Loading your experience...{" "}
+            {getLoadingText(
+              loaderType,
+              walletOnboarded !== null && isConnected
+            )}
+          </p>
         </LoadingText>
       </animated.div>
       <style jsx>
