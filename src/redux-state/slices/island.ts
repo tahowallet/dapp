@@ -7,8 +7,10 @@ import {
   SeasonInfo,
   RealmDataById,
 } from "shared/types"
+import extraReducers from "redux-state/extraReducers"
 
 export type IslandModeType = "default" | "join-realm"
+export type LoaderType = "realms" | "population" | null
 
 export type IslandState = {
   mode: IslandModeType
@@ -22,6 +24,7 @@ export type IslandState = {
   zoomLevel: number
   seasonInfo: SeasonInfo | null
   realmPanelVisible: boolean
+  loaderType: LoaderType
 }
 
 const initialState: IslandState = {
@@ -36,6 +39,7 @@ const initialState: IslandState = {
   zoomLevel: 1,
   seasonInfo: null,
   realmPanelVisible: false,
+  loaderType: null,
 }
 
 const islandSlice = createSlice({
@@ -147,6 +151,7 @@ const islandSlice = createSlice({
       immerState.unclaimedXp = {}
     },
   },
+  extraReducers,
 })
 
 export const {
