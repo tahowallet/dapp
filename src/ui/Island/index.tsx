@@ -3,16 +3,13 @@ import backgroundImg from "public/dapp_island_bg.webp"
 import {
   useValueRef,
   IslandContext,
-  useAssistant,
   useAssets,
   usePanelRealmClose,
+  useOnRealmClick,
 } from "shared/hooks"
 import {
   selectDisplayedRealmId,
   selectRealmNameById,
-  setDisplayedRealmId,
-  setRealmPanelVisible,
-  useDappDispatch,
   useDappSelector,
 } from "redux-state"
 import FullPageLoader from "shared/components/Loaders/FullPageLoader"
@@ -28,11 +25,9 @@ function IslandWrapper() {
     selectRealmNameById(state, realmId)
   )
 
-  const dispatch = useDappDispatch()
-
-  const { updateAssistant, assistantVisible } = useAssistant()
-
   const posthog = usePostHog()
+  const onRealmClick = useOnRealmClick()
+  const handlePanelClose = usePanelRealmClose()
 
   useEffect(() => {
     if (realmName) {
@@ -40,19 +35,7 @@ function IslandWrapper() {
     }
   }, [posthog, realmName])
 
-  const contextRef = useValueRef(() => ({
-    onRealmClick: (id: string) => {
-      if (!realmId) {
-        dispatch(setDisplayedRealmId(String(id)))
-        dispatch(setRealmPanelVisible(true))
-
-        if (assistantVisible("welcome"))
-          updateAssistant({ visible: false, type: "default" })
-      }
-    },
-  }))
-
-  const handlePanelClose = usePanelRealmClose()
+  const contextRef = useValueRef(() => ({ onRealmClick }))
 
   return (
     <>

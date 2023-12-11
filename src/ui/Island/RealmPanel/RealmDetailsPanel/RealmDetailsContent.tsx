@@ -31,13 +31,22 @@ export default function RealmDetailsContent({
   return (
     <Panel.Section>
       <RealmDetailsHeader realmId={realmId} realm={realm} />
-      <RealmDetailsChallenges challenges={realm?.challenges} />
+      {process.env.IS_BETA_CLOSED === "true" || (
+        <RealmDetailsChallenges challenges={realm?.challenges} />
+      )}
       <RealmDetailsRewards realmId={realmId} />
-      <RealmDetailsJoin
-        stakingRealmId={stakingRealmId}
-        triggerStakeSectionOpen={triggerStakeSectionOpen}
-      />
-      <RealmDetailsStaked stakingRealmId={stakingRealmId} realmId={realmId} />
+      {process.env.IS_BETA_CLOSED === "true" || (
+        <>
+          <RealmDetailsJoin
+            stakingRealmId={stakingRealmId}
+            triggerStakeSectionOpen={triggerStakeSectionOpen}
+          />
+          <RealmDetailsStaked
+            stakingRealmId={stakingRealmId}
+            realmId={realmId}
+          />
+        </>
+      )}
     </Panel.Section>
   )
 }

@@ -5,7 +5,9 @@ import {
   selectWeekEndDate,
   useDappSelector,
 } from "redux-state"
-// import { getNextSelectedWeekDay, getTimeRemaining } from "shared/utils"
+import Icon from "shared/components/Media/Icon"
+import { getNextSelectedWeekDay, getTimeRemaining } from "shared/utils"
+import xpBoostIcon from "shared/assets/icons/xp-boost.svg"
 
 export default function RealmPanelCountdown() {
   const seasonWeek = useDappSelector(selectSeasonWeek)
@@ -15,12 +17,21 @@ export default function RealmPanelCountdown() {
 
   if (!weekEndDate) return null
 
-  // const nextDropTimestamp = getNextSelectedWeekDay(4, 17) // 17:00 UTC time
-  // const timeRemaining = getTimeRemaining(nextDropTimestamp)
+  const nextDropTimestamp = getNextSelectedWeekDay(4, 17) // 17:00 UTC time
+  const timeRemaining = getTimeRemaining(nextDropTimestamp)
 
   return (
     <>
       <div className="countdown row">
+        {process.env.IS_BETA_CLOSED === "true" || (
+          <Icon
+            type="image"
+            src={xpBoostIcon}
+            width="125px"
+            height="64px"
+            style={{ marginTop: "10px" }}
+          />
+        )}
         <div className="column">
           <div className="week">
             Week {seasonWeek}{" "}
@@ -28,9 +39,11 @@ export default function RealmPanelCountdown() {
               / {seasonDuration}
             </span>
           </div>
-          {/* <div className="time_remaining">{timeRemaining}</div> */}
+
           <div className="time_remaining">
-            Beta is over, claim XP till Dec 18 2023
+            {process.env.IS_BETA_CLOSED === "true"
+              ? "Beta is over, claim xp till Dec 18 2023"
+              : timeRemaining}
           </div>
         </div>
       </div>
