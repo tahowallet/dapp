@@ -6,6 +6,7 @@ type ButtonProps = {
   /**
    * @default "primary"
    */
+  buttonType?: "button" | "submit"
   type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject" | "close"
   /**
    * @default "medium"
@@ -26,6 +27,7 @@ type ButtonProps = {
 
 export default function Button({
   children,
+  buttonType = "button",
   type = "primary",
   size = "medium",
   isDisabled = false,
@@ -40,7 +42,8 @@ export default function Button({
   return (
     <>
       <button
-        type="button"
+        // eslint-disable-next-line react/button-has-type
+        type={buttonType}
         onClick={onClick}
         onMouseDown={onMouseDown}
         className={classnames({

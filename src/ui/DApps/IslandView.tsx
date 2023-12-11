@@ -17,6 +17,7 @@ import {
 import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import { Route, Switch } from "react-router-dom"
 import { useDisplayedPopulation } from "shared/hooks"
+import BetaEndModal from "ui/Island/Modals/BetaEndModal"
 
 export default function IslandView() {
   const islandMode = useDappSelector(selectIslandMode)
@@ -30,6 +31,10 @@ export default function IslandView() {
     <>
       <FullPageLoader
         loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
+      />
+      <BetaEndModal
+        header="Beta is over, see you in Season 1"
+        description="Thanks for participating in our Beta, we hope you had fun and got ot explore many new realms and opportunities. You can still claim your XP until Dec 18 2023."
       />
       <IslandComponent />
       <TestingPanel />
