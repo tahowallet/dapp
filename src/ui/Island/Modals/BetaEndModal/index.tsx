@@ -7,30 +7,33 @@ import BetaEndCloseButton from "./BetaEndCloseButton"
 type BetaEndModalProps = {
   header: ReactNode
   description: ReactNode
+  onClose: () => void
 }
 
 export default function BetaEndModal({
   header,
   description,
+  onClose,
 }: BetaEndModalProps) {
   return (
     <>
-      <Modal.ScrollableContainer
-        type="island-without-overlay"
-        topSpacing="150px"
-      >
-        <Modal.Content style={{ width: 860, position: "relative" }}>
-          <div className="modal_header_container">
-            <h1 className="modal_header">{header}</h1>
-            <p style={{ paddingInline: 24 }}>{description}</p>
+      <Modal.Container type="island-without-overlay">
+        <Modal.Content
+          style={{ top: 150, display: "flex", justifyContent: "center" }}
+        >
+          <div style={{ width: 860, position: "relative" }}>
+            <div className="modal_header_container">
+              <h1 className="modal_header">{header}</h1>
+              <p style={{ paddingInline: 24 }}>{description}</p>
+            </div>
+            <div className="modal_actions row">
+              <ClaimYourNFT />
+              <GetUpdates />
+            </div>
+            <BetaEndCloseButton onClose={onClose} />
           </div>
-          <div className="modal_actions row">
-            <ClaimYourNFT />
-            <GetUpdates />
-          </div>
-          <BetaEndCloseButton />
         </Modal.Content>
-      </Modal.ScrollableContainer>
+      </Modal.Container>
       <style jsx>{`
         .modal_header_container {
           background: var(--background-gradient);

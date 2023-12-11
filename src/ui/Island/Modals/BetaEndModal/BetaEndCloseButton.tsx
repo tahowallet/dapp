@@ -2,11 +2,16 @@ import React from "react"
 import Button from "shared/components/Interface/Button"
 import closeIcon from "shared/assets/icons/s/close-black.svg"
 
-export default function BetaEndCloseButton() {
+export default function BetaEndCloseButton({
+  onClose,
+}: {
+  onClose: () => void
+}) {
   return (
     <Button
       type="close"
       iconSrc={closeIcon}
+      onClick={onClose}
       style={{
         padding: 12,
         position: "absolute",

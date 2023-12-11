@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import IslandComponent from "ui/Island"
 import TestingPanel from "testing/components/TestingPanel"
 import Nav from "ui/Nav"
@@ -27,15 +27,20 @@ export default function IslandView() {
 
   useDisplayedPopulation()
 
+  const [betaEndModalVisible, setBetaEndModalVisible] = useState(true)
+
   return (
     <>
       <FullPageLoader
         loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
       />
-      <BetaEndModal
-        header="Beta is over, see you in Season 1"
-        description="Thanks for participating in our Beta, we hope you had fun and got ot explore many new realms and opportunities. You can still claim your XP until Dec 18 2023."
-      />
+      {process.env.IS_BETA_CLOSED && betaEndModalVisible && (
+        <BetaEndModal
+          header="Beta is over, see you in Season 1"
+          description="Thanks for participating in our Beta, we hope you had fun and got ot explore many new realms and opportunities. You can still claim your XP until Dec 18 2023."
+          onClose={() => setBetaEndModalVisible(false)}
+        />
+      )}
       <IslandComponent />
       <TestingPanel />
       {islandMode === "default" && <Nav />}
