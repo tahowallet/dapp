@@ -14,6 +14,7 @@ import { LINKS } from "shared/constants"
 import { bigIntToDisplayUserAmount } from "shared/utils"
 import ClaimCongratulations from "ui/Claim/modals/ClaimCongratulations"
 import XpClaimModal from "ui/Island/Modals/XpClaimModal"
+import RealmDetailsChallengeInfo from "./RealmDetailsChallengeInfo"
 
 function RealmDetailsRewards({
   amount,
@@ -97,6 +98,13 @@ function RealmDetailsRewards({
         >
           Claim XP
         </Button>
+        {process.env.IS_BETA_CLOSED === "true" && (
+          <div style={{ marginTop: "10px" }}>
+            <RealmDetailsChallengeInfo>
+              Claiming will be live till Dec 18 2023
+            </RealmDetailsChallengeInfo>
+          </div>
+        )}
       </div>
       <XpClaimModal
         isOpen={isClaimTransactionModalOpen}
@@ -122,7 +130,7 @@ function RealmDetailsRewards({
             background-color: var(--primary-p1-40);
             justify-content: space-between;
             align-items: center;
-            gap: 24px;
+            flex-wrap: wrap;
           }
           .xp_banner {
             gap: 8px;
