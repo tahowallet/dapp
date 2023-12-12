@@ -27,7 +27,7 @@ export default function BetaEndModal({
           <div style={{ width: 860, position: "relative" }}>
             <div className="modal_header_container">
               <h1 className="modal_header">{header}</h1>
-              <p style={{ paddingInline: 24 }}>{description}</p>
+              <p style={{ paddingInline: 20 }}>{description}</p>
             </div>
             <div className="modal_actions row">
               <ClaimYourNFT />

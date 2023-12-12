@@ -36,8 +36,8 @@ export default function IslandView() {
       />
       {process.env.IS_BETA_CLOSED && betaEndModalVisible && (
         <BetaEndModal
-          header="Beta is over, see you in Season 1"
-          description="Thanks for participating in our Beta, we hope you had fun and got ot explore many new realms and opportunities. You can still claim your XP until Dec 18 2023."
+          header="Beta has ended"
+          description="Thanks for participating in our Beta, we hope you had fun andTo see you in Season 1. You can still claim your XP until Dec 21 2023."
           onClose={() => setBetaEndModalVisible(false)}
         />
       )}

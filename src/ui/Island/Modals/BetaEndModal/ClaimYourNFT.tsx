@@ -10,8 +10,9 @@ export default function ClaimYourNFT() {
       >
         <h2 className="modal_actions_header">Claim your NFT</h2>
         <p className="modal_actions_description">
-          Each participants receives an NFT
-          <br /> as proof of participations.
+          participate in the beta? See if you are
+          <br />
+          eligible to claim the NFT awards.
         </p>
         <Button
           onClick={(e) => {
