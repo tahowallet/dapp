@@ -37,7 +37,7 @@ function DesktopDAppContent() {
   return (
     <>
       {(!walletOnboarded || !isConnected) && <Onboarding />}
-      {process.env.IS_PORTAL_CLOSED === "false" &&
+      {process.env.IS_PORTAL_CLOSED !== "true" &&
         walletOnboarded &&
         isConnected && <IslandView />}
       <PrivacyPolicy />

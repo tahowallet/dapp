@@ -36,7 +36,7 @@ export default function IslandView() {
       <FullPageLoader
         loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
       />
-      {process.env.IS_BETA_CLOSED && betaEndModalVisible && (
+      {process.env.IS_BETA_CLOSED === "true" && betaEndModalVisible && (
         <BetaEndModal
           header="Beta has ended"
           onClose={() => setBetaEndModalVisible(false)}

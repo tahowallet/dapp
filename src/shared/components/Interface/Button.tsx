@@ -3,20 +3,11 @@ import classnames from "classnames"
 
 type ButtonProps = {
   children?: ReactNode
-  /**
-   * @default "primary"
-   */
-  buttonType?: "button" | "submit"
   type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject" | "close"
-  /**
-   * @default "medium"
-   */
+  buttonType?: "button" | "submit"
   size?: "medium" | "large"
   isDisabled?: boolean
   isInactive?: boolean
-  /**
-   * @default "right"
-   */
   iconPosition?: "left" | "right"
   iconSize?: "medium" | "large"
   iconSrc?: string
@@ -27,8 +18,8 @@ type ButtonProps = {
 
 export default function Button({
   children,
-  buttonType = "button",
   type = "primary",
+  buttonType = "button",
   size = "medium",
   isDisabled = false,
   isInactive = false,

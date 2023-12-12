@@ -1,5 +1,6 @@
 import React from "react"
 import Button from "shared/components/Interface/Button"
+import { LINKS } from "shared/constants"
 
 export default function ClaimYourNFT() {
   return (
@@ -17,7 +18,7 @@ export default function ClaimYourNFT() {
         <Button
           onClick={(e) => {
             e.preventDefault()
-            window.open("/", "_blank")
+            window.open(LINKS.GALXE_NFT, "_blank")
           }}
         >
           Check eligibility on Galxe
