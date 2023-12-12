@@ -20,7 +20,7 @@ export default function ClaimYourNFT() {
             window.open("/", "_blank")
           }}
         >
-          Claim NFT on Galxe
+          Check eligibility on Galxe
         </Button>
       </div>
       <style jsx>{`

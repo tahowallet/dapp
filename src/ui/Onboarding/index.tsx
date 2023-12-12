@@ -59,11 +59,10 @@ export default function Onboarding() {
       <FullPageLoader loaded={assetsLoaded} />
       <div className="onboarding">
         {process.env.IS_PORTAL_CLOSED === "true" ? (
-          <BetaEndModal
-            header="Portal is closed"
-            description="Thanks for participating in our Beta, we hope you had fun andTo see you in Season 1. You can still claim your XP until Dec 21 2023."
-            topSpacing="365px"
-          />
+          <BetaEndModal header="Portal is closed">
+            Thanks for participating in our Beta, we hope you had fun
+            <br /> and see you in Season 1.
+          </BetaEndModal>
         ) : (
           <OnboardingModal />
         )}

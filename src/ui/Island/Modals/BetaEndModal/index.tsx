@@ -6,28 +6,26 @@ import BetaEndCloseButton from "./BetaEndCloseButton"
 
 type BetaEndModalProps = {
   header: ReactNode
-  description: ReactNode
+  children: ReactNode
   onClose?: () => void
-  topSpacing?: string
 }
 
 export default function BetaEndModal({
   header,
-  description,
+  children,
   onClose,
-  topSpacing = "150px",
 }: BetaEndModalProps) {
   return (
     <>
       <Modal.ScrollableContainer
         type="island-without-overlay"
-        topSpacing={topSpacing}
+        topSpacing="150px"
       >
         <Modal.Content style={{ display: "flex", justifyContent: "center" }}>
           <div style={{ width: 860, position: "relative" }}>
             <div className="modal_header_container">
               <h1 className="modal_header">{header}</h1>
-              <p style={{ paddingInline: 20 }}>{description}</p>
+              <div style={{ paddingInline: 20 }}>{children}</div>
             </div>
             <div className="modal_actions row">
               <ClaimYourNFT />
