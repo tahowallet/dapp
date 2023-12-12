@@ -33,22 +33,24 @@ export default function Nav(): JSX.Element {
           <NavItems />
         </div>
         <div className="rhs_container row">
-          <div className="connect_wallet_btn">
-            {isConnected ? (
-              <AccountInfo accountName={accountName} />
-            ) : (
-              <Button
-                type="tertiary"
-                iconPosition="left"
-                iconSize="large"
-                iconSrc={walletIcon}
-                onClick={() => connect()}
-                isDisabled={process.env.IS_COMING_SOON === "true"}
-              >
-                Connect wallet
-              </Button>
-            )}
-          </div>
+          {process.env.IS_PORTAL_CLOSED === "false" && (
+            <div className="connect_wallet_btn">
+              {isConnected ? (
+                <AccountInfo accountName={accountName} />
+              ) : (
+                <Button
+                  type="tertiary"
+                  iconPosition="left"
+                  iconSize="large"
+                  iconSrc={walletIcon}
+                  onClick={() => connect()}
+                  isDisabled={process.env.IS_COMING_SOON === "true"}
+                >
+                  Connect wallet
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </NavContainer>
       <BraveNav />
