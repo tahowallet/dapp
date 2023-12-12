@@ -10,7 +10,11 @@ import { getRealmColor } from "shared/constants"
 import Avatar from "shared/components/Media/Avatar"
 import AccountDropdown from "./AccountDropdown"
 
-export default function AccountInfo() {
+type AccountInfoProps = {
+  accountName: string | null
+}
+
+export default function AccountInfo({ accountName }: AccountInfoProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownTriggerRef = useRef<HTMLButtonElement>(null)
 
@@ -41,7 +45,7 @@ export default function AccountInfo() {
         onClick={() => setIsDropdownOpen((prev) => !prev)}
         ref={dropdownTriggerRef}
       >
-        <span className="account_label ellipsis">{name}</span>
+        <span className="account_label ellipsis">{accountName ?? name}</span>
         <Avatar
           width="42px"
           style={{

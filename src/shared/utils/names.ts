@@ -42,6 +42,7 @@ const addCachedName = ({ name, avatar, address, type }: NameWithProvider) => {
   })
 
   localStorage.setItem(NAMES_CACHE_STRORAGE_KEY, newCache)
+  window.dispatchEvent(new Event("storage"))
 }
 
 const resolveENSPromise = (address: string) =>
