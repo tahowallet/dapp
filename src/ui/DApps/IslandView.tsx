@@ -27,7 +27,9 @@ export default function IslandView() {
 
   useDisplayedPopulation()
 
-  const [betaEndModalVisible, setBetaEndModalVisible] = useState(true)
+  const [betaEndModalVisible, setBetaEndModalVisible] = useState(
+    process.env.IS_BETA_CLOSED === "true"
+  )
 
   return (
     <>
