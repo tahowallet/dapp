@@ -1,40 +1,22 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import Button from "shared/components/Interface/Button"
 import logoIcon from "shared/assets/nav_logo.svg"
 import walletIcon from "shared/assets/icons/wallet.svg"
-import { useConnect, useResetTenderlyFork } from "shared/hooks"
+import {
+  useCachedWalletName,
+  useConnect,
+  useResetTenderlyFork,
+} from "shared/hooks"
 import Icon from "shared/components/Media/Icon"
-import { selectWalletAddress, useDappSelector } from "redux-state"
 import AccountInfo from "./AccountInfo"
 import NavItems from "./NavItems"
 import NavContainer from "./NavContainer"
 import BraveNav from "./BraveNav"
 
-type CachedNames = {
-  [key: string]: { ens?: { name: string }; uns?: { name: string } }
-}
-
 export default function Nav(): JSX.Element {
   const { isConnected, connect } = useConnect()
   const resetTenderlyFork = useResetTenderlyFork()
-
-  const [accountName, setAccountName] = useState<string | null>(null)
-  const walletAddress = useDappSelector(selectWalletAddress)
-
-  useEffect(() => {
-    window.addEventListener("storage", () => {
-      if (!walletAddress) return
-
-      const cachedNames = localStorage.getItem("taho.cachedNames")
-      if (!cachedNames) return
-
-      const parsedCachedNames: CachedNames = JSON.parse(cachedNames)
-      const { ens, uns } = parsedCachedNames[walletAddress]
-
-      if (ens) setAccountName(ens.name)
-      if (uns) setAccountName(uns.name)
-    })
-  }, [walletAddress])
+  const accountName = useCachedWalletName()
 
   return (
     <>

@@ -18,6 +18,7 @@ import {
   ARBITRUM_SEPOLIA,
   ARBITRUM_SEPOLIA_RPC_FALLBACK,
   BALANCE_UPDATE_INTERVAL,
+  LOCAL_STORAGE_CACHED_NAMES,
   LOCAL_STORAGE_WALLET,
   POPULATION_FETCH_INTERVAL,
 } from "shared/constants"
@@ -26,6 +27,10 @@ import { Logger, defineReadOnly } from "ethers/lib/utils"
 import { usePostHog } from "posthog-js/react"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
+
+type CachedNames = {
+  [key: string]: { ens?: { name: string }; uns?: { name: string } }
+}
 
 class StaticJsonBatchRpcProvider extends ethers.providers.JsonRpcBatchProvider {
   override async detectNetwork(): Promise<Network> {
@@ -262,4 +267,30 @@ export function useWalletChange() {
     assistant,
     isStaked,
   ])
+}
+
+export function useCachedWalletName() {
+  const [accountName, setAccountName] = useState<string | null>(null)
+  const walletAddress = useDappSelector(selectWalletAddress)
+
+  useEffect(() => {
+    const handleCachedNamesUpdate = () => {
+      if (!walletAddress) return
+
+      const cachedNames = localStorage.getItem(LOCAL_STORAGE_CACHED_NAMES)
+      if (!cachedNames) return
+
+      const parsedCachedNames: CachedNames = JSON.parse(cachedNames)
+      const { ens, uns } = parsedCachedNames[walletAddress]
+
+      if (ens) setAccountName(ens.name)
+      if (uns) setAccountName(uns.name)
+    }
+
+    window.addEventListener("storage", handleCachedNamesUpdate)
+
+    return () => window.removeEventListener("storage", handleCachedNamesUpdate)
+  }, [walletAddress])
+
+  return accountName
 }
