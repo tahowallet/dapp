@@ -56,6 +56,18 @@ export default function BetaEndModal({
           padding: 36px 0 40px;
           width: 100%;
           border-radius: 0 0 16px 16px;
+          position: relative;
+        }
+        .modal_actions::after {
+          content: "";
+          opacity: 0.4;
+          background: #557473;
+          width: 1px;
+          height: 152px;
+          position: absolute;
+          left: 50%;
+          top: 45px;
+          transform: translateX(-50%);
         }
       `}</style>
     </>
