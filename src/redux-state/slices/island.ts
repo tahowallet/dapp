@@ -158,8 +158,14 @@ const islandSlice = createSlice({
     builder.addCase(initRealmsDataFromContracts.pending, (immerState) => {
       immerState.loaderType = "realms"
     })
+    builder.addCase(initRealmsDataFromContracts.fulfilled, (immerState) => {
+      immerState.loaderType = null
+    })
     builder.addCase(fetchPopulation.pending, (immerState) => {
       immerState.loaderType = "population"
+    })
+    builder.addCase(fetchPopulation.fulfilled, (immerState) => {
+      immerState.loaderType = null
     })
   },
 })
