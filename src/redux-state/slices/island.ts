@@ -7,7 +7,10 @@ import {
   SeasonInfo,
   RealmDataById,
 } from "shared/types"
-import extraReducers from "redux-state/extraReducers"
+import {
+  fetchPopulation,
+  initRealmsDataFromContracts,
+} from "redux-state/thunks/island"
 
 export type IslandModeType = "default" | "join-realm"
 export type LoaderType = "realms" | "population" | null
@@ -151,7 +154,14 @@ const islandSlice = createSlice({
       immerState.unclaimedXp = {}
     },
   },
-  extraReducers,
+  extraReducers: (builder) => {
+    builder.addCase(initRealmsDataFromContracts.pending, (immerState) => {
+      immerState.loaderType = "realms"
+    })
+    builder.addCase(fetchPopulation.pending, (immerState) => {
+      immerState.loaderType = "population"
+    })
+  },
 })
 
 export const {
