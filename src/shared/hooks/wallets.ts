@@ -169,6 +169,13 @@ export function useWalletOnboarding(): {
   const { value, updateStorage } =
     useLocalStorageChange<string>(LOCAL_STORAGE_WALLET)
 
+  // Automatically clear the onboarded wallet if portal is closed
+  useEffect(() => {
+    if (value && process.env.IS_PORTAL_CLOSED === "true") {
+      updateStorage("")
+    }
+  }, [value, updateStorage])
+
   return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
 }
 
