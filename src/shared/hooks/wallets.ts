@@ -13,6 +13,7 @@ import {
   selectDisplayedRealmId,
   connectArbitrumProviderFallback,
   fetchPopulation,
+  updateConnectedWallet,
 } from "redux-state"
 import {
   ARBITRUM_SEPOLIA,
@@ -277,8 +278,8 @@ export function useWalletChange() {
 }
 
 export function useCachedWalletName() {
-  const [accountName, setAccountName] = useState<string | null>(null)
   const walletAddress = useDappSelector(selectWalletAddress)
+  const dispatch = useDappDispatch()
 
   useEffect(() => {
     const handleCachedNamesUpdate = () => {
@@ -290,14 +291,20 @@ export function useCachedWalletName() {
       const parsedCachedNames: CachedNames = JSON.parse(cachedNames)
       const { ens, uns } = parsedCachedNames[walletAddress]
 
-      if (ens) setAccountName(ens.name)
-      if (uns) setAccountName(uns.name)
+      if (uns)
+        dispatch(
+          updateConnectedWallet({ address: walletAddress, name: uns.name })
+        )
+
+      if (ens)
+        dispatch(
+          updateConnectedWallet({ address: walletAddress, name: ens.name })
+        )
     }
 
+    handleCachedNamesUpdate()
     window.addEventListener("storage", handleCachedNamesUpdate)
 
     return () => window.removeEventListener("storage", handleCachedNamesUpdate)
-  }, [walletAddress])
-
-  return accountName
+  }, [walletAddress, dispatch])
 }

@@ -16,7 +16,8 @@ import BraveNav from "./BraveNav"
 export default function Nav(): JSX.Element {
   const { isConnected, connect } = useConnect()
   const resetTenderlyFork = useResetTenderlyFork()
-  const accountName = useCachedWalletName()
+
+  useCachedWalletName()
 
   return (
     <>
@@ -36,7 +37,7 @@ export default function Nav(): JSX.Element {
           {process.env.IS_PORTAL_CLOSED === "false" && (
             <div className="connect_wallet_btn">
               {isConnected ? (
-                <AccountInfo accountName={accountName} />
+                <AccountInfo />
               ) : (
                 <Button
                   type="tertiary"
