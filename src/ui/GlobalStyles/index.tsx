@@ -124,6 +124,7 @@ export default function GlobalStyles() {
           src: url(${QuincyCFMedium}) format("woff2");
           font-weight: 500;
           font-style: normal;
+          font-display: swap;
         }
 
         @font-face {
@@ -131,6 +132,7 @@ export default function GlobalStyles() {
           src: url(${QuincyCF}) format("woff2");
           font-weight: 400;
           font-style: normal;
+          font-display: swap;
         }
 
         @font-face {
@@ -138,6 +140,7 @@ export default function GlobalStyles() {
           src: url(${QuincyCFBold}) format("woff2");
           font-weight: 700;
           font-style: normal;
+          font-display: swap;
         }
 
         @font-face {
@@ -145,6 +148,7 @@ export default function GlobalStyles() {
           src: url(${SegmentRegular}) format("woff2");
           font-weight: 400;
           font-style: normal;
+          font-display: swap;
         }
 
         @font-face {
@@ -152,6 +156,7 @@ export default function GlobalStyles() {
           src: url(${SegmentMedium}) format("woff2");
           font-weight: 500;
           font-style: normal;
+          font-display: swap;
         }
 
         @font-face {
@@ -159,12 +164,14 @@ export default function GlobalStyles() {
           src: url(${SegmentSemiBold}) format("woff2");
           font-weight: 600;
           font-style: normal;
+          font-display: swap;
         }
         @font-face {
           font-family: "Segment";
           src: url(${SegmentBold}) format("woff2");
           font-weight: 700;
           font-style: normal;
+          font-display: swap;
         }
 
         html,

@@ -1,7 +1,6 @@
 import React from "react"
 import Icon from "shared/components/Media/Icon"
-import assistantImage from "shared/assets/assistant.png"
-import Portal from "shared/components/Interface/Portal"
+import assistantImage from "shared/assets/assistant.webp"
 import { useAssistant } from "shared/hooks"
 import AssistantWelcome from "./AssistantContent/AssistantWelcome"
 import AssistantChallenges from "./AssistantContent/AssistantChallenges"
@@ -15,29 +14,28 @@ export default function Assistant() {
 
   return (
     <>
-      <Portal>
-        <div className="assistant">
-          <div className="assistant_trigger">
-            <Icon
-              src={assistantImage}
-              width="62px"
-              height="62px"
-              type="image"
-              color="currentColor"
-              onClick={() =>
-                updateAssistant({
-                  visible: !assistant.visible,
-                  type: "default",
-                })
-              }
-            />
-          </div>
-          <AssistantWelcome />
-          <AssistantChallenges />
-          <AssistantJoin />
-          <AssistantFirstRealm />
+      <div className="assistant">
+        <div className="assistant_trigger">
+          <Icon
+            src={assistantImage}
+            width="62px"
+            height="62px"
+            type="image"
+            color="currentColor"
+            ariaLabel="Assistant"
+            onClick={() =>
+              updateAssistant({
+                visible: !assistant.visible,
+                type: "default",
+              })
+            }
+          />
         </div>
-      </Portal>
+        <AssistantWelcome />
+        <AssistantChallenges />
+        <AssistantJoin />
+        <AssistantFirstRealm />
+      </div>
       <style jsx>{`
         .assistant {
           position: absolute;

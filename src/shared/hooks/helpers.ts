@@ -1,20 +1,8 @@
 /* eslint-disable no-console */
-import {
-  MutableRefObject,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
-import { debounce } from "lodash"
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
+import debounce from "lodash/debounce"
 import { useSpring } from "@react-spring/web"
-import { getWindowDimensions } from "shared/utils"
-import { MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from "shared/constants"
-import { usePostHog } from "posthog-js/react"
-import { useLocation } from "react-router-dom"
-
-type VoidFn = () => unknown
+import { VoidFn } from "shared/types/utils"
 
 export const useDebounce = <T>(initial: T, wait = 300): [T, (v: T) => void] => {
   const [state, setState] = useState(initial)
@@ -25,35 +13,6 @@ export const useDebounce = <T>(initial: T, wait = 300): [T, (v: T) => void] => {
   )
 
   return [state, debounceCallback]
-}
-
-export function useLocalStorage(
-  key: string,
-  initialValue: string
-): [string, React.Dispatch<React.SetStateAction<string>>] {
-  const [value, setValue] = useState(
-    () => localStorage.getItem(key) || initialValue
-  )
-
-  useEffect(() => {
-    localStorage.setItem(key, value)
-  }, [key, value])
-
-  return [value, setValue]
-}
-
-/**
- * Returns a ref that holds updated values & references
- */
-export function useValueRef<T>(value: T) {
-  const val = typeof value === "function" ? value() : value
-  const ref = useRef<T extends () => infer P ? P : T>(val)
-
-  useLayoutEffect(() => {
-    ref.current = val
-  })
-
-  return ref
 }
 
 /**
@@ -82,17 +41,6 @@ export function usePrevious<T>(value: T) {
   })
 
   return ref.current
-}
-
-/**
- * Subscribes an event listener to the window resize event
- */
-export function useOnResize<T extends VoidFn>(callback: T): void {
-  useBeforeFirstPaint(() => {
-    window.addEventListener("resize", callback)
-
-    return () => window.removeEventListener("resize", callback)
-  })
 }
 
 // Source: https://usehooks-ts.com/react-hook/use-interval
@@ -178,119 +126,4 @@ export function useAssets(assets: string[]) {
   }, [])
 
   return assetsLoaded
-}
-
-// Source: https://sabesh.hashnode.dev/update-components-based-on-localstorage-change-in-react-hooks
-export function useLocalStorageChange<T>(key: string): {
-  value: T | null
-  updateStorage: (newValue: Partial<T>) => void
-} {
-  const getInitialValue = () => {
-    try {
-      return localStorage.getItem(key)
-        ? JSON.parse(localStorage.getItem(key)!)
-        : null
-    } catch (err) {
-      console.error(err)
-      return null
-    }
-  }
-
-  const [value, setValue] = useState(getInitialValue())
-
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key !== key) return
-      try {
-        setValue(e.newValue ? JSON.parse(e.newValue) : null)
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-      }
-    }
-
-    window.addEventListener("storage", handleStorageChange)
-    return () => window.removeEventListener("storage", handleStorageChange)
-  }, [key])
-
-  const updateStorage = (newValue: Partial<T>) => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(newValue))
-
-      const event = new StorageEvent("storage", {
-        key,
-        newValue: JSON.stringify(newValue),
-      })
-
-      window.dispatchEvent(event)
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err)
-    }
-  }
-
-  return { value, updateStorage }
-}
-
-export function useTabletScreen() {
-  const [width, setWidth] = useState(window.innerWidth)
-
-  useOnResize(() => {
-    const windowSize = getWindowDimensions()
-    setWidth(windowSize.width)
-  })
-
-  return width < TABLET_BREAKPOINT
-}
-
-export function useMobileScreen() {
-  const [width, setWidth] = useState(window.innerWidth)
-
-  useOnResize(() => {
-    const windowSize = getWindowDimensions()
-    setWidth(windowSize.width)
-  })
-
-  return width < MOBILE_BREAKPOINT
-}
-
-export function useUnLoad() {
-  const posthog = usePostHog()
-
-  useEffect(() => {
-    const onUnload = () => {
-      posthog?.capture("$pageleave")
-    }
-    window.addEventListener("beforeunload", onUnload)
-    return () => {
-      window.removeEventListener("beforeunload", onUnload)
-    }
-  }, [posthog])
-}
-
-export function useTrackEvents() {
-  const location = useLocation()
-  const posthog = usePostHog()
-  const isMobile = useMobileScreen()
-
-  useEffect(() => {
-    posthog?.capture("$pageview", {
-      url: location.pathname,
-      data: { isMobile },
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-}
-
-export function useMultiRef<T>(): [
-  MutableRefObject<(T | null)[]>,
-  (element: T | null, index: number) => void
-] {
-  const multiRef = useRef<(T | null)[]>([])
-
-  const addMultiRef = (element: T | null, index: number) => {
-    multiRef.current[index] = element
-  }
-
-  return [multiRef, addMultiRef]
 }

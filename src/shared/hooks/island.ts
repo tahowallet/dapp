@@ -1,6 +1,5 @@
 import React, {
   MutableRefObject,
-  useContext,
   useEffect,
   useState,
   useCallback,
@@ -16,6 +15,8 @@ import {
   selectWalletAddress,
   selectRealms,
   selectRealmPanelVisible,
+  selectHasLoadedRealmData,
+  selectHasLoadedSeasonInfo,
 } from "redux-state"
 import { LOCAL_STORAGE_DISPLAYED_REALMS, SECOND } from "shared/constants"
 import {
@@ -29,24 +30,10 @@ import {
 import { Path } from "konva/lib/shapes/Path"
 import { Group } from "konva/lib/Group"
 import { KonvaEventObject } from "konva/lib/Node"
+import backgroundImg from "public/dapp_island_bg.webp"
 import { useArbitrumProvider } from "./wallets"
-import { useInterval, useLocalStorageChange } from "./helpers"
-
-export const IslandContext = React.createContext<
-  MutableRefObject<IslandContextType>
->({
-  current: {
-    onRealmClick: () => {},
-  },
-})
-
-export type IslandContextType = {
-  onRealmClick: (id: string) => void
-}
-
-export function useIslandContext() {
-  return useContext(IslandContext)
-}
+import { useAssets, useInterval } from "./helpers"
+import { useLocalStorageChange } from "./storage"
 
 // Used to fetch all necessary data for the game to load
 export function useGameLoadDataFetch() {
@@ -214,4 +201,13 @@ export function useDisplayedRealms() {
   )
 
   return { isRealmDisplayed, updateDisplayedRealm }
+}
+
+export function useIslandLoaded() {
+  const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
+  const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
+  const isRealmDataLoaded = hasLoadedRealmData || hasLoadedSeasonInfo
+  const assetsLoaded = useAssets([backgroundImg])
+
+  return isRealmDataLoaded && assetsLoaded
 }

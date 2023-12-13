@@ -23,7 +23,7 @@ export const getArbitrumRpcUrl = () => {
     if (process.env.ARBITRUM_SEPOLIA_ALCHEMY_KEY) {
       return `https://arb-sepolia.g.alchemy.com/v2/${process.env.ARBITRUM_SEPOLIA_ALCHEMY_KEY}`
     }
-    return process.env.ARBITRUM_RPC_URL
+    return "https://sepolia.drpc.org" // process.env.ARBITRUM_RPC_URL
   }
 
   throw Error("Invalid RPC URL configuration, check env variables")

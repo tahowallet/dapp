@@ -1,5 +1,4 @@
 import React from "react"
-import Portal from "shared/components/Interface/Portal"
 import { Stage } from "konva/lib/Stage"
 import ZoomControls from "./ZoomControls"
 import IslandControl from "./IslandControl"
@@ -14,12 +13,10 @@ export default function Controls({ stage, minScale }: ControlsProps) {
 
   return (
     <>
-      <Portal>
-        <div className="controls column_center">
-          <ZoomControls stage={stage} minScale={minScale} />
-          <IslandControl />
-        </div>
-      </Portal>
+      <div className="controls column_center">
+        <ZoomControls stage={stage} minScale={minScale} />
+        <IslandControl />
+      </div>
       <style jsx>
         {`
           .controls {

@@ -16,7 +16,7 @@ export default function FooterWrapper({ children, style }: FooterWrapperProps) {
           display: flex;
           align-items: center;
           gap: 32px;
-          z-index: var(--z-navigation);
+          z-index: 0;
           padding: 63px 41px 0;
           height: 114px;
           width: 100%;

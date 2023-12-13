@@ -1,7 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 // Need to pass spring props to spring abstracted components
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useMemo, useRef, useState } from "react"
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import type Konva from "konva"
 import { Group } from "react-konva"
 import { animated, easings, useSpring } from "@react-spring/konva"
@@ -13,10 +19,9 @@ import {
 } from "shared/constants"
 import {
   useDisplayedRealms,
-  useMultiRef,
-  useIslandContext,
   useIslandRealmsPaths,
   usePopulationBubble,
+  useMultiRef,
 } from "shared/hooks"
 import { BUBBLE_CONFIG } from "shared/components/Realm/Bubble"
 import {
@@ -24,6 +29,7 @@ import {
   selectRealmPanelVisible,
   useDappSelector,
 } from "redux-state"
+import { IslandContext } from "shared/context"
 import NewRealmLabel from "../Details/NewRealmLabel"
 import NewChallengeLabel from "../Details/NewChallengeLabel"
 
@@ -71,7 +77,7 @@ export default function Realm({
   const [isFocused, setFocus] = useState(false)
   const [, setIsSelected] = useState(false)
 
-  const islandContext = useIslandContext()
+  const islandContext = useContext(IslandContext)
   const groupRef = useRef<Konva.Group>(null)
   const textRef = useRef<Konva.Text>(null)
   const partnerLogoRef = useRef<Konva.Image>(null)

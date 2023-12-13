@@ -3,7 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Enter the Subscape!">
     <title>Subscape</title>
+    <style>
+      body {
+        background: #142D2B;
+      }
+    </style>
+    <link rel="preconnect" href="https://networkcheck.reflect-server.net" />
+    <link rel="preconnect" href="https://rpc.tenderly.co" />
+    <link rel="preconnect" href="https://track.customer.io" />
+    <link rel="preconnect" href="https://featureflags.netlify.com" />
+  </head>
+  <body>
+    <div id="root"></div>
     <!-- Script for sending data to customer.io -->
     <script type="text/javascript">
       var _cio = _cio || [];
@@ -21,13 +34,5 @@
       })();
     </script>
     <!-- Script for sending data to customer.io -->
-    <style>
-      body {
-        background: #142D2B;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
   </body>
 </html>

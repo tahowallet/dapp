@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { memo, useState } from "react"
 import IslandComponent from "ui/Island"
 import TestingPanel from "testing/components/TestingPanel"
 import Nav from "ui/Nav"
@@ -7,23 +7,24 @@ import Claim from "ui/Claim"
 import Referrals from "ui/Referrals"
 import LiquidityPool from "ui/LiquidityPool"
 import Footer from "ui/Footer"
-import {
-  selectHasLoadedBalances,
-  selectHasLoadedRealmData,
-  selectHasLoadedSeasonInfo,
-  selectIslandMode,
-  useDappSelector,
-} from "redux-state"
+import { selectIslandMode, useDappSelector } from "redux-state"
 import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import { Route, Switch } from "react-router-dom"
-import { useDisplayedPopulation } from "shared/hooks"
+import {
+  reflectSingleton,
+  useDisplayedPopulation,
+  useInitializeReflect,
+  useIslandLoaded,
+  useReflect,
+} from "shared/hooks"
 import BetaEndModal from "ui/Island/Modals/BetaEndModal"
+import { ReflectContext } from "shared/context"
 
-export default function IslandView() {
+function IslandView() {
+  const isIslandLoaded = useIslandLoaded()
+  useInitializeReflect()
+  useReflect()
   const islandMode = useDappSelector(selectIslandMode)
-  const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
-  const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
-  const hasBalances = useDappSelector(selectHasLoadedBalances)
 
   useDisplayedPopulation()
 
@@ -31,11 +32,10 @@ export default function IslandView() {
     process.env.IS_BETA_CLOSED === "true"
   )
 
-  return (
-    <>
-      <FullPageLoader
-        loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
-      />
+  return !isIslandLoaded ? (
+    <FullPageLoader loaded={isIslandLoaded} />
+  ) : (
+    <ReflectContext.Provider value={reflectSingleton}>
       {process.env.IS_BETA_CLOSED === "true" && betaEndModalVisible && (
         <BetaEndModal
           header="Beta has ended"
@@ -61,6 +61,7 @@ export default function IslandView() {
         </Route>
       </Switch>
       <Footer />
-    </>
+    </ReflectContext.Provider>
   )
 }
+export default memo(IslandView)

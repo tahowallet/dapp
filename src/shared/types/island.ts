@@ -85,3 +85,7 @@ export type RealmMapData = {
   isNew?: boolean
   cursorText: string
 }
+
+export type IslandContextType = {
+  onRealmClick: (id: string) => void
+}

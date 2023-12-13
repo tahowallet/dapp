@@ -15,6 +15,7 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
 
   return (
     <>
+      {realmPanelVisible && <ClickableModalOverlay close={handlePanelClose} />}
       <Panel.Container style={{ width: 481 }}>
         <RealmDetailsPanel />
         {isTablet && <RealmLeaderboardPanel />}
@@ -26,7 +27,6 @@ export default function RealmPanel({ onClose }: { onClose: () => void }) {
         </Panel.Container>
       )}
       <RealmPanelCountdown />
-      {realmPanelVisible && <ClickableModalOverlay close={handlePanelClose} />}
     </>
   )
 }

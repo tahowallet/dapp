@@ -81,6 +81,7 @@ export default function SharedInput({
           value={value}
           placeholder={placeholder}
           disabled={disabled}
+          aria-label="Input value"
           onChange={handleInputChange}
         />
         <span className="input_label">{label}</span>

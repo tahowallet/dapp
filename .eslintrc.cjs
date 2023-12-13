@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
   extends: ["@thesis-co"],
+  plugins: ["unused-imports"],
   settings: {
     "import/core-modules": ["styled-jsx/css"],
     "import/resolver": {
@@ -23,6 +24,16 @@ module.exports = {
       2,
       {
         ignore: ["jsx", "global"],
+      },
+    ],
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        vars: "all",
+        varsIgnorePattern: "^_",
+        args: "after-used",
+        argsIgnorePattern: "^_",
       },
     ],
   },

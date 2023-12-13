@@ -24,6 +24,7 @@ export default function Nav(): JSX.Element {
             width="154px"
             onClick={resetTenderlyFork}
             style={{ marginRight: 70 }}
+            ariaLabel="Subscape"
           />
           <NavItems />
         </div>
@@ -40,6 +41,7 @@ export default function Nav(): JSX.Element {
                   iconSrc={walletIcon}
                   onClick={() => connect()}
                   isDisabled={process.env.IS_COMING_SOON === "true"}
+                  aria-label="Connect wallet"
                 >
                   Connect wallet
                 </Button>

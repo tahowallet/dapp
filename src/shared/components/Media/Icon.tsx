@@ -21,7 +21,7 @@ export default function Icon({
   src,
   color = "var(--off-white)",
   style,
-  ariaLabel,
+  ariaLabel = "Icon",
   onClick,
 }: IconProps) {
   const isButton = !!onClick

@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from "react"
 import { Layer, Stage } from "react-konva"
 import type Konva from "konva"
-// import rafSchd from "raf-schd"
 import {
   selectDisplayedRealmId,
   selectRealmPanelVisible,
@@ -15,17 +14,16 @@ import {
 } from "redux-state/selectors/island"
 import { ISLAND_BOX, getRealmPosition } from "shared/constants"
 import {
-  useValueRef,
   useBeforeFirstPaint,
   useOnResize,
   useTabletScreen,
+  useValueRef,
 } from "shared/hooks"
 import {
   getWindowDimensions,
   getMinimumScale,
   limitToBounds,
 } from "shared/utils"
-import Assistant from "ui/Assistant"
 import IslandBackground from "./IslandBackground"
 import Realms from "../Realms/IslandRealms"
 import RealmPin from "../Details/RealmPin"
@@ -213,7 +211,6 @@ function InteractiveIsland() {
           <AttackLine />
         </Layer>
       </Stage>
-      <Assistant />
       {/* <Controls
         stage={islandRef.current}
         minScale={settingsRef.current.minScale}
