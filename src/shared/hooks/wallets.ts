@@ -14,6 +14,7 @@ import {
   connectArbitrumProviderFallback,
   fetchPopulation,
   updateConnectedWallet,
+  selectWalletName,
 } from "redux-state"
 import {
   ARBITRUM_SEPOLIA,
@@ -278,33 +279,33 @@ export function useWalletChange() {
 }
 
 export function useCachedWalletName() {
-  const walletAddress = useDappSelector(selectWalletAddress)
+  const address = useDappSelector(selectWalletAddress)
+  const walletName = useDappSelector(selectWalletName)
   const dispatch = useDappDispatch()
 
   useEffect(() => {
     const handleCachedNamesUpdate = () => {
-      if (!walletAddress) return
+      if (!address) return
 
       const cachedNames = localStorage.getItem(LOCAL_STORAGE_CACHED_NAMES)
       if (!cachedNames) return
 
       const parsedCachedNames: CachedNames = JSON.parse(cachedNames)
-      const { ens, uns } = parsedCachedNames[walletAddress]
+      const { ens, uns } = parsedCachedNames[address]
 
-      if (uns)
-        dispatch(
-          updateConnectedWallet({ address: walletAddress, name: uns.name })
-        )
+      if (ens || uns) {
+        // If cached name and redux wallet name are the same do not dispatch wallet update action
+        if (walletName === ens?.name || walletName === uns?.name) return
 
-      if (ens)
         dispatch(
-          updateConnectedWallet({ address: walletAddress, name: ens.name })
+          updateConnectedWallet({ address, name: ens?.name ?? uns?.name })
         )
+      }
     }
 
     handleCachedNamesUpdate()
     window.addEventListener("storage", handleCachedNamesUpdate)
 
     return () => window.removeEventListener("storage", handleCachedNamesUpdate)
-  }, [walletAddress, dispatch])
+  }, [address, walletName, dispatch])
 }
