@@ -1,0 +1,13 @@
+diff --git a/node_modules/@web3-onboard/core/dist/i18n/en.json b/node_modules/@web3-onboard/core/dist/i18n/en.json
+index a36ccf0..7a3f568 100644
+--- a/node_modules/@web3-onboard/core/dist/i18n/en.json
++++ b/node_modules/@web3-onboard/core/dist/i18n/en.json
+@@ -27,7 +27,7 @@
+         "paragraph": "Please approve the connection in your wallet and authorize access to continue."
+       },
+       "mainText": "Connecting...",
+-      "paragraph": "Make sure to select all accounts that you want to grant access to.",
++      "paragraph": "Granting access to your account.",
+       "previousConnection": "{wallet} already has a pending connection request, please open the {wallet} app to login and connect.",
+       "rejectedText": "Connection Rejected!",
+       "rejectedCTA": "Click here to try again",
