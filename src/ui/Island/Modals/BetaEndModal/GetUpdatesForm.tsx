@@ -1,14 +1,14 @@
-import React, { FormEvent, useEffect, useState } from "react"
+import React, { FormEvent, useState } from "react"
 import Button from "shared/components/Interface/Button"
 import { EMAIL_REGEX } from "shared/constants"
 import iconSuccess from "shared/assets/icons/m/notif-correct.svg"
 import iconFail from "shared/assets/icons/m/notif-wrong.svg"
 import Icon from "shared/components/Media/Icon"
+import { useTimeout } from "shared/hooks"
 
 enum SignUpMessage {
   SUCCESS = "Sign up successful",
-  INVALID_MAIL = "Invalid email address",
-  FAIL = "Something went wrong",
+  FAIL = "Invalid email address",
 }
 
 export default function GetUpdatesForm() {
@@ -22,24 +22,26 @@ export default function GetUpdatesForm() {
     const isEmail = EMAIL_REGEX.test(trimmedEmailAddress)
 
     if (trimmedEmailAddress === "" || !isEmail) {
-      setSignUpMessage(SignUpMessage.INVALID_MAIL)
+      setSignUpMessage(SignUpMessage.FAIL)
       return
     }
 
-    // TODO: logic for sending form
+    // eslint-disable-next-line no-underscore-dangle
+    window._cio.identify({
+      id: emailAddress,
+      email: emailAddress,
+      created_at: Math.floor(new Date().getTime() / 1000),
+    })
+
     setEmailAddress("")
     setSignUpMessage(SignUpMessage.SUCCESS)
   }
 
   // Clear sign up message after 3 seconds
-  useEffect(() => {
-    if (signUpMessage) {
-      const timeout = setTimeout(() => setSignUpMessage(null), 3000)
-      return () => clearTimeout(timeout)
-    }
-
-    return () => {}
-  }, [signUpMessage])
+  useTimeout(() => {
+    if (!signUpMessage) return
+    setSignUpMessage(null)
+  }, 300)
 
   return (
     <>
