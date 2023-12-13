@@ -7,9 +7,9 @@ export default function GetUpdates() {
       <div className="modal_actions_column">
         <h2 className="modal_actions_header">Get Updates</h2>
         <p className="modal_actions_description">
-          Sign up for updates bellow to learn
+          Sign up for updates below to learn
           <br />
-          when Season 1 is starting
+          when Season 1 is starting.
         </p>{" "}
         <GetUpdatesForm />
       </div>
