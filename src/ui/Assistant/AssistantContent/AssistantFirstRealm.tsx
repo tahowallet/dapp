@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { useAssistant, useLocalStorageChange } from "shared/hooks"
 import { LOCAL_STORAGE_VISITED_REALM } from "shared/constants"
 import { selectNumberOfRealms, useDappSelector } from "redux-state"
@@ -12,17 +12,16 @@ export default function AssistantFirstRealm() {
 
   const numberOfRealms = useDappSelector(selectNumberOfRealms)
 
-  const closeAssistant = () => {
+  const closeAssistant = useCallback(() => {
     updateStorage(true)
     updateAssistant({ visible: false, type: "default" })
-  }
+  }, [updateStorage, updateAssistant])
+
+  const isVisible = assistantVisible("first-realm")
 
   return (
     <>
-      <AssistantContent
-        isVisible={assistantVisible("first-realm")}
-        close={closeAssistant}
-      >
+      <AssistantContent isVisible={isVisible} close={closeAssistant}>
         <div className="header">Why join a Realm?</div>
         <p className="paragraph">
           Realm Citizens can complete <strong>Challenges</strong>, earn{" "}

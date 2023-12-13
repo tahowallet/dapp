@@ -1,13 +1,13 @@
 import React from "react"
-import placeholderLeaderboard from "shared/assets/placeholder-leaderboard.png"
+import placeholderLeaderboard from "shared/assets/placeholder-leaderboard.webp"
 
 import {
   selectDisplayedRealmId,
   selectLeaderboardById,
   useDappSelector,
 } from "redux-state"
+import RealmDetailsPlaceholder from "shared/components/Media/Placeholder"
 import LeaderboardItem from "./LeaderboardItem"
-import RealmDetailsPlaceholder from "../../../shared/components/Media/Placeholder"
 
 const leaderboardDateAvailable = "Dec 14"
 

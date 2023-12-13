@@ -5,15 +5,23 @@ export default function IconLink({
   iconWidth,
   iconHeight,
   iconSrc,
+  label,
 }: {
   href: string
   iconWidth: string
   iconHeight: string
   iconSrc: string
+  label?: string
 }) {
   return (
     <>
-      <a href={href} target="_blank" className="link" rel="noreferrer">
+      <a
+        href={href}
+        target="_blank"
+        className="link"
+        rel="noreferrer"
+        aria-label={label}
+      >
         <div className="link_icon" />
       </a>
       <style jsx>{`

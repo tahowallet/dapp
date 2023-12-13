@@ -2,8 +2,8 @@ import React from "react"
 import closeIcon from "shared/assets/icons/s/close-black.svg"
 import { animated } from "@react-spring/web"
 import { useRealmCloseButtonTransition } from "shared/hooks"
-import Button from "../../../shared/components/Interface/Button"
 import Portal from "shared/components/Interface/Portal"
+import Button from "shared/components/Interface/Button"
 
 export default function RealmPanelCloseButton({
   onClose,

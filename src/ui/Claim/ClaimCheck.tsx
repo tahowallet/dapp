@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import classNames from "classnames"
 import { Redirect } from "react-router-dom"
-import { useDebounce } from "shared/hooks/helpers"
+import { useDebounce } from "shared/hooks"
 import Button from "shared/components/Interface/Button"
 import Modal from "shared/components/Dialogs/Modal"
 import Spinner from "shared/components/Loaders/Spinner"

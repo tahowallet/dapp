@@ -9,7 +9,7 @@ import {
 } from "redux-state"
 import TransactionsModal from "shared/components/Transactions/TransactionsModal"
 import { ROUTES } from "shared/constants"
-import { useTransactionSuccessCallback } from "shared/hooks/transactions"
+import { useTransactionSuccessCallback } from "shared/hooks"
 
 const CLAIM_TX_ID = "claim"
 

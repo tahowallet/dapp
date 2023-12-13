@@ -40,6 +40,7 @@ export default function Nav(): JSX.Element {
                   iconSrc={walletIcon}
                   onClick={() => connect()}
                   isDisabled={process.env.IS_COMING_SOON === "true"}
+                  aria-label="Connect wallet"
                 >
                   Connect wallet
                 </Button>

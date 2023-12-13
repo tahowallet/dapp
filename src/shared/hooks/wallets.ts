@@ -25,7 +25,8 @@ import { Network } from "@ethersproject/networks"
 import { Logger, defineReadOnly } from "ethers/lib/utils"
 import { usePostHog } from "posthog-js/react"
 import { useAssistant } from "./assistant"
-import { useInterval, useLocalStorageChange } from "./helpers"
+import { useInterval } from "./helpers"
+import { useLocalStorageChange } from "./storage"
 
 class StaticJsonBatchRpcProvider extends ethers.providers.JsonRpcBatchProvider {
   override async detectNetwork(): Promise<Network> {
