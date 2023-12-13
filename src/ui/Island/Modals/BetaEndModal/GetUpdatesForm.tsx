@@ -1,10 +1,9 @@
-import React, { FormEvent, useState } from "react"
+import React, { ChangeEvent, FormEvent, useState } from "react"
 import Button from "shared/components/Interface/Button"
 import { EMAIL_REGEX } from "shared/constants"
 import iconSuccess from "shared/assets/icons/m/notif-correct.svg"
 import iconFail from "shared/assets/icons/m/notif-wrong.svg"
 import Icon from "shared/components/Media/Icon"
-import { useTimeout } from "shared/hooks"
 
 enum SignUpMessage {
   SUCCESS = "Sign up successful",
@@ -37,11 +36,10 @@ export default function GetUpdatesForm() {
     setSignUpMessage(SignUpMessage.SUCCESS)
   }
 
-  // Clear sign up message after 3 seconds
-  useTimeout(() => {
-    if (!signUpMessage) return
+  const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmailAddress(e.target.value)
     setSignUpMessage(null)
-  }, 300)
+  }
 
   return (
     <>
@@ -51,7 +49,7 @@ export default function GetUpdatesForm() {
             tabIndex={0}
             placeholder="Email address"
             value={emailAddress}
-            onChange={(e) => setEmailAddress(e.target.value)}
+            onChange={handleEmailInputChange}
             className="modal_actions_input"
           />
           {signUpMessage && (
