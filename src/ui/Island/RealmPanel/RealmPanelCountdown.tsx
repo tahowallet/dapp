@@ -34,7 +34,10 @@ export default function RealmPanelCountdown() {
         )}
         <div className="column">
           <div className="week">
-            Week {seasonWeek}{" "}
+            Week{" "}
+            {process.env.IS_BETA_CLOSED === "true"
+              ? seasonDuration
+              : seasonWeek}{" "}
             <span style={{ fontSize: 16, color: "var(--secondary-s1-50)" }}>
               / {seasonDuration}
             </span>
