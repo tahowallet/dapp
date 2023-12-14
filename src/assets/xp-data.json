@@ -31,7 +31,8 @@
     "claimsFolder": "/assets/xp/base/claims",
     "xpGlossary": [
       "0x30526f77636c083e3f46edba765a251e71573cda0b6e46a119889176cd44d2c0.json",
-      "0xe7b23477717cd2b34f7692eb0a52cfb21ba57b029fc9d31a2d6a253052ae58be.json"
+      "0xe7b23477717cd2b34f7692eb0a52cfb21ba57b029fc9d31a2d6a253052ae58be.json",
+      "0xc7edd12921b34b574a009d67e7dd59cbe1c20f0a27652ffe2228ee675afddaef.json"
     ],
     "leaderboard": "leaderboard.json"
   },
@@ -65,7 +66,8 @@
       "0x7e9b018d9798647a667e725a310b74f66b2ab94987631e585428b9bec792ae3b.json",
       "0xbef2ffee70783c1629f072ed03f516e87c9cd19d5a6fa6821f989caf60dda1be.json",
       "0x21b7623437ea79f48c3c0426da39a017a098e73528dfdb4c7f88c20695886bba.json",
-      "0x4eb1856d4fc591b1f7ac86bd06202319435e5436411645de8834d12cf659cd1f.json"
+      "0x4eb1856d4fc591b1f7ac86bd06202319435e5436411645de8834d12cf659cd1f.json",
+      "0x66d99018e039381299b5d96fc6ca2cc1c9976dc9d4cafd9a468144a652531081.json"
     ],
     "leaderboard": "leaderboard.json"
   },
