@@ -1,3 +1,4 @@
+import { LOCAL_STORAGE_CACHED_NAMES } from "shared/constants"
 import { isProbablyEVMAddress, normalizeAddress } from "./address"
 import { isValidENSDomainName, resolveENS, resolveAddressToENS } from "./ens"
 import { isValidUNSDomainName, resolveAddressToUNS, resolveUNS } from "./uns"
@@ -13,7 +14,6 @@ type NameWithProvider = WalletData & {
   type: "ens" | "uns"
 }
 
-const NAMES_CACHE_STRORAGE_KEY = "taho.cachedNames"
 const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 7 // 1 week
 
 const resolveAddressPromiseCache: {
@@ -22,7 +22,7 @@ const resolveAddressPromiseCache: {
 
 const getCachedNames = () => {
   const cachedNamesUnparsed =
-    localStorage.getItem(NAMES_CACHE_STRORAGE_KEY) ?? "{}"
+    localStorage.getItem(LOCAL_STORAGE_CACHED_NAMES) ?? "{}"
 
   return JSON.parse(cachedNamesUnparsed)
 }
@@ -41,7 +41,8 @@ const addCachedName = ({ name, avatar, address, type }: NameWithProvider) => {
     },
   })
 
-  localStorage.setItem(NAMES_CACHE_STRORAGE_KEY, newCache)
+  localStorage.setItem(LOCAL_STORAGE_CACHED_NAMES, newCache)
+  window.dispatchEvent(new Event("storage"))
 }
 
 const resolveENSPromise = (address: string) =>

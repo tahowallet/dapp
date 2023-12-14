@@ -13,11 +13,14 @@ import {
   selectDisplayedRealmId,
   connectArbitrumProviderFallback,
   fetchPopulation,
+  updateConnectedWallet,
+  selectWalletName,
 } from "redux-state"
 import {
   ARBITRUM_SEPOLIA,
   ARBITRUM_SEPOLIA_RPC_FALLBACK,
   BALANCE_UPDATE_INTERVAL,
+  LOCAL_STORAGE_CACHED_NAMES,
   LOCAL_STORAGE_WALLET,
   POPULATION_FETCH_INTERVAL,
 } from "shared/constants"
@@ -26,6 +29,10 @@ import { Logger, defineReadOnly } from "ethers/lib/utils"
 import { usePostHog } from "posthog-js/react"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
+
+type CachedNames = {
+  [key: string]: { ens?: { name: string }; uns?: { name: string } }
+}
 
 class StaticJsonBatchRpcProvider extends ethers.providers.JsonRpcBatchProvider {
   override async detectNetwork(): Promise<Network> {
@@ -169,6 +176,13 @@ export function useWalletOnboarding(): {
   const { value, updateStorage } =
     useLocalStorageChange<string>(LOCAL_STORAGE_WALLET)
 
+  // Automatically clear the onboarded wallet if portal is closed
+  useEffect(() => {
+    if (value && process.env.IS_PORTAL_CLOSED === "true") {
+      updateStorage("")
+    }
+  }, [value, updateStorage])
+
   return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
 }
 
@@ -262,4 +276,41 @@ export function useWalletChange() {
     assistant,
     isStaked,
   ])
+}
+
+export function useCachedWalletName() {
+  const address = useDappSelector(selectWalletAddress)
+  const walletName = useDappSelector(selectWalletName)
+  const dispatch = useDappDispatch()
+
+  useEffect(() => {
+    const handleCachedNamesUpdate = () => {
+      try {
+        if (!address) return
+
+        const cachedNames = localStorage.getItem(LOCAL_STORAGE_CACHED_NAMES)
+        if (!cachedNames) return
+
+        const parsedCachedNames: CachedNames = JSON.parse(cachedNames)
+        const { ens, uns } = parsedCachedNames[address] ?? {}
+
+        if (ens || uns) {
+          // If cached name and redux wallet name are the same do not dispatch wallet update action
+          if (walletName === ens?.name || walletName === uns?.name) return
+
+          dispatch(
+            updateConnectedWallet({ address, name: ens?.name ?? uns?.name })
+          )
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+      }
+    }
+
+    handleCachedNamesUpdate()
+    window.addEventListener("storage", handleCachedNamesUpdate)
+
+    return () => window.removeEventListener("storage", handleCachedNamesUpdate)
+  }, [address, walletName, dispatch])
 }

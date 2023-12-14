@@ -83,11 +83,11 @@ environment 🚀**
    - [ ] with Taho and MM installed and Taho not set as a default - only Taho
          connection should be possible
    - [ ] with Taho not installed and MM installed - should show both options -
-         Taho directs to the Chrome store, MM opens method connection screen and
-         allows connecting
-   - [ ] with Taho not installed and no other - should be directed to the Chrome
-         store to download Taho & given a message in the dapp to do so
-
+         Taho directs to the Chrome store, MM opens the connection method screen
+         and allows connecting
+   - [ ] with Taho not installed and no other - should show both options - Taho
+         directs to the Chrome store, MM opens the connection method screen and
+         directs to the Chrome store
 10. XP
 
 - [ ] an account with XP to claim sees that under Claimable Rewards on the Realm modal (in pre-prod we can see this on stage-live but might be easiest to only test this when we're testing XP drops)

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react"
 import {
   useDappSelector,
-  selectWalletName,
   selectStakingRealmId,
   selectRealmById,
+  selectWalletName,
 } from "redux-state"
 import RealmIcon from "ui/Island/Realms/RealmIcon"
 import { getRealmColor } from "shared/constants"
@@ -14,7 +14,7 @@ export default function AccountInfo() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownTriggerRef = useRef<HTMLButtonElement>(null)
 
-  const name = useDappSelector(selectWalletName)
+  const walletName = useDappSelector(selectWalletName)
   const realmId = useDappSelector(selectStakingRealmId)
   const realm = useDappSelector((state) => selectRealmById(state, realmId))
   const color = realmId && getRealmColor(realmId)
@@ -41,7 +41,7 @@ export default function AccountInfo() {
         onClick={() => setIsDropdownOpen((prev) => !prev)}
         ref={dropdownTriggerRef}
       >
-        <span className="account_label ellipsis">{name}</span>
+        <span className="account_label ellipsis">{walletName}</span>
         <Avatar
           width="42px"
           style={{

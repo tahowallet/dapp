@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import IslandComponent from "ui/Island"
 import TestingPanel from "testing/components/TestingPanel"
 import Nav from "ui/Nav"
@@ -17,6 +17,7 @@ import {
 import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import { Route, Switch } from "react-router-dom"
 import { useDisplayedPopulation } from "shared/hooks"
+import BetaEndModal from "ui/Island/Modals/BetaEndModal"
 
 export default function IslandView() {
   const islandMode = useDappSelector(selectIslandMode)
@@ -26,11 +27,24 @@ export default function IslandView() {
 
   useDisplayedPopulation()
 
+  const [betaEndModalVisible, setBetaEndModalVisible] = useState(
+    process.env.IS_BETA_CLOSED === "true"
+  )
+
   return (
     <>
       <FullPageLoader
         loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
       />
+      {process.env.IS_BETA_CLOSED === "true" && betaEndModalVisible && (
+        <BetaEndModal
+          header="Beta has ended"
+          onClose={() => setBetaEndModalVisible(false)}
+        >
+          Thanks for participating in our Beta, we hope you had fun and see you
+          in Season 1. You can still claim your XP until Dec 21 2023.
+        </BetaEndModal>
+      )}
       <IslandComponent />
       <TestingPanel />
       {islandMode === "default" && <Nav />}

@@ -31,7 +31,9 @@ export default function RealmDetailsHeader({
         <h1 className="realm_header" style={{ color }}>
           {realm?.name} Realm
         </h1>
-        <RealmDetailsSection alwaysHasBorder>
+        <RealmDetailsSection
+          alwaysHasBorder={process.env.IS_BETA_CLOSED !== "true"}
+        >
           <div className="labels row">
             <div className="column">
               <span className="label row_center">
@@ -49,7 +51,10 @@ export default function RealmDetailsHeader({
             </div>
             <div className="column">
               <span className="label">This weeks reward pool</span>
-              <div className="row_center" style={{ gap: 10 }}>
+              <div
+                className="row_center"
+                style={{ gap: 10, justifyContent: "end" }}
+              >
                 <RealmIcon
                   type="circle"
                   realmId={realmId}

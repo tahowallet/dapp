@@ -10,7 +10,7 @@ export default function PopulationCount() {
   const population = useDappSelector(selectTotalPopulation)
   const transition = useVisibilityTransition(population > 0)
 
-  if (!population) return null
+  if (!population || process.env.IS_PORTAL_CLOSED === "true") return null
 
   return (
     <>

@@ -133,6 +133,7 @@ export default function StakeForm({ isDisabled }: { isDisabled: boolean }) {
           buttonSize="medium"
           status={stakeTransactionStatus}
           disabled={
+            process.env.IS_BETA_CLOSED === "true" ||
             isDisabled ||
             !isStakeAmountValid ||
             !isValidInputAmount(stakeAmount)

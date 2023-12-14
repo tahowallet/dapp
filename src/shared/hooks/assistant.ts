@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { LOCAL_STORAGE_ASSISTANT } from "shared/constants"
 import { selectStakingRealmId, useDappSelector } from "redux-state"
 import { useLocalStorageChange } from "./helpers"
@@ -17,15 +18,30 @@ export function useAssistant(): {
 } {
   const isStakedInRealm = useDappSelector(selectStakingRealmId)
 
-  const { value, updateStorage } = useLocalStorageChange<Assistant>(
-    LOCAL_STORAGE_ASSISTANT
-  )
+  const { value: assistantState, updateStorage: updateAssistantState } =
+    useLocalStorageChange<Assistant>(LOCAL_STORAGE_ASSISTANT)
+
+  useEffect(() => {
+    if (!assistantState) {
+      // if (!isStakedInRealm) {
+      //   updateAssistantState({ visible: true, type: "welcome" })
+      // } else {
+      updateAssistantState({ visible: false, type: "default" })
+      // }
+    }
+  }, [assistantState, updateAssistantState, isStakedInRealm])
 
   const assistantVisible = (type: AssistantType): boolean => {
     if ((type === "welcome" || type === "first-realm") && isStakedInRealm)
       return false
-    return value ? value.visible && value.type === type : false
+    return assistantState
+      ? assistantState.visible && assistantState.type === type
+      : false
   }
 
-  return { assistant: value, updateAssistant: updateStorage, assistantVisible }
+  return {
+    assistant: assistantState,
+    updateAssistant: updateAssistantState,
+    assistantVisible,
+  }
 }

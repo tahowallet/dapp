@@ -86,6 +86,13 @@ const web3Onboard = init({
     "--w3o-border-radius": "16px",
     "--w3o-font-family": "var(--sans)",
   },
+  i18n: {
+    en: {
+      connect: {
+        connectingWallet: { paragraph: "Granting access to your account." },
+      },
+    },
+  },
 })
 
 export default web3Onboard
