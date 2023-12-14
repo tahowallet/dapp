@@ -2,20 +2,12 @@ import React, { CSSProperties, ReactNode } from "react"
 import classnames from "classnames"
 
 type ButtonProps = {
-  children: ReactNode
-  /**
-   * @default "primary"
-   */
+  children?: ReactNode
   type?: "primary" | "secondary" | "tertiary" | "twitter" | "reject" | "close"
-  /**
-   * @default "medium"
-   */
+  buttonType?: "button" | "submit"
   size?: "medium" | "large"
   isDisabled?: boolean
   isInactive?: boolean
-  /**
-   * @default "right"
-   */
   iconPosition?: "left" | "right"
   iconSize?: "medium" | "large"
   iconSrc?: string
@@ -27,6 +19,7 @@ type ButtonProps = {
 export default function Button({
   children,
   type = "primary",
+  buttonType = "button",
   size = "medium",
   isDisabled = false,
   isInactive = false,
@@ -40,7 +33,8 @@ export default function Button({
   return (
     <>
       <button
-        type="button"
+        // eslint-disable-next-line react/button-has-type
+        type={buttonType}
         onClick={onClick}
         onMouseDown={onMouseDown}
         className={classnames({

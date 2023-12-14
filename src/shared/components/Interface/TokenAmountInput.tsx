@@ -76,24 +76,28 @@ export default function TokenAmountInput({
     [balance, onValidate]
   )
 
-  useEffect(() => {
-    const textToBigIntAmount =
-      textAmount === "" ? null : userAmountToBigInt(textAmount) ?? 0n
+  const internalOnChange = useCallback(
+    (newValue: string) => {
+      setTextAmount(newValue)
 
-    const bigIntToTextAmount = bigIntToPreciseUserAmount(balance)
+      const newValueBigIntAmount =
+        newValue === "" ? null : userAmountToBigInt(newValue) ?? 0n
 
-    // As we may be loosing some precision, we need to compare the values.
-    // Clicking "Max" button may result in bigint that is too big to be
-    // represented as a float number. In this case we need to compare values to
-    // not override the external value that stores the bigint using greater precision.
-    if (textToBigIntAmount !== amount && textAmount !== bigIntToTextAmount) {
-      onChange(textToBigIntAmount)
-    }
+      const balanceTextAmount = bigIntToPreciseUserAmount(balance)
 
-    // Make sure this is working only one way:
-    // from the text provided by input to the parent component
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [textAmount, onChange])
+      // As we may be loosing some precision, we need to compare the values.
+      // Clicking "Max" button may result in bigint that is too big to be
+      // represented as a float number. In this case we need to compare values to
+      // not override the external value that stores the bigint using greater precision.
+      if (
+        newValueBigIntAmount !== amount &&
+        (newValue !== balanceTextAmount || newValueBigIntAmount === balance)
+      ) {
+        onChange(newValueBigIntAmount)
+      }
+    },
+    [amount, balance, onChange]
+  )
 
   useEffect(() => {
     // Allow clearing the input from parent componentthis should be the only case
@@ -115,7 +119,7 @@ export default function TokenAmountInput({
         label={inputLabel}
         value={textAmount}
         disabled={disabled}
-        onChange={setTextAmount}
+        onChange={internalOnChange}
         validate={validate}
         rightComponent={
           <Button

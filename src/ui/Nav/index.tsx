@@ -2,7 +2,11 @@ import React from "react"
 import Button from "shared/components/Interface/Button"
 import logoIcon from "shared/assets/nav_logo.svg"
 import walletIcon from "shared/assets/icons/wallet.svg"
-import { useConnect, useResetTenderlyFork } from "shared/hooks"
+import {
+  useCachedWalletName,
+  useConnect,
+  useResetTenderlyFork,
+} from "shared/hooks"
 import Icon from "shared/components/Media/Icon"
 import AccountInfo from "./AccountInfo"
 import NavItems from "./NavItems"
@@ -12,6 +16,8 @@ import BraveNav from "./BraveNav"
 export default function Nav(): JSX.Element {
   const { isConnected, connect } = useConnect()
   const resetTenderlyFork = useResetTenderlyFork()
+
+  useCachedWalletName()
 
   return (
     <>
@@ -28,22 +34,24 @@ export default function Nav(): JSX.Element {
           <NavItems />
         </div>
         <div className="rhs_container row">
-          <div className="connect_wallet_btn">
-            {isConnected ? (
-              <AccountInfo />
-            ) : (
-              <Button
-                type="tertiary"
-                iconPosition="left"
-                iconSize="large"
-                iconSrc={walletIcon}
-                onClick={() => connect()}
-                isDisabled={process.env.IS_COMING_SOON === "true"}
-              >
-                Connect wallet
-              </Button>
-            )}
-          </div>
+          {process.env.IS_PORTAL_CLOSED === "false" && (
+            <div className="connect_wallet_btn">
+              {isConnected ? (
+                <AccountInfo />
+              ) : (
+                <Button
+                  type="tertiary"
+                  iconPosition="left"
+                  iconSize="large"
+                  iconSrc={walletIcon}
+                  onClick={() => connect()}
+                  isDisabled={process.env.IS_COMING_SOON === "true"}
+                >
+                  Connect wallet
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </NavContainer>
       <BraveNav />

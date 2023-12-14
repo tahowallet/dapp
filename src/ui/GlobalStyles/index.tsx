@@ -52,6 +52,7 @@ export default function GlobalStyles() {
 
           --green-5: #d6eae9;
           --green-40: #588382;
+          --green-60: #315a5a;
 
           --semantic-success: #20c580;
           --semantic-attention: #f2b824;
