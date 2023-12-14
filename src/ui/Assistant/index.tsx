@@ -3,10 +3,10 @@ import Icon from "shared/components/Media/Icon"
 import assistantImage from "shared/assets/assistant.png"
 import Portal from "shared/components/Interface/Portal"
 import { useAssistant } from "shared/hooks"
-import AssistantWelcome from "./AssistantContent/AssistantWelcome"
-import AssistantChallenges from "./AssistantContent/AssistantChallenges"
+// import AssistantWelcome from "./AssistantContent/AssistantWelcome"
+// import AssistantChallenges from "./AssistantContent/AssistantChallenges"
 import AssistantJoin from "./AssistantContent/AssistantJoin"
-import AssistantFirstRealm from "./AssistantContent/AssistantFirstRealm"
+// import AssistantFirstRealm from "./AssistantContent/AssistantFirstRealm"
 
 export default function Assistant() {
   const { assistant, updateAssistant } = useAssistant()
@@ -32,10 +32,10 @@ export default function Assistant() {
               }
             />
           </div>
-          <AssistantWelcome />
-          <AssistantChallenges />
+          {/* <AssistantWelcome /> */}
+          {/* <AssistantChallenges /> */}
           <AssistantJoin />
-          <AssistantFirstRealm />
+          {/* <AssistantFirstRealm /> */}
         </div>
       </Portal>
       <style jsx>{`
