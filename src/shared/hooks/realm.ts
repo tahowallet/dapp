@@ -13,7 +13,7 @@ import {
   REALM_PANEL_ANIMATION_TIME,
 } from "shared/constants"
 import { useLocalStorageChange, useTabletScreen } from "./helpers"
-import { useAssistant } from "./assistant"
+// import { useAssistant } from "./assistant"
 
 export function useRealmPanelTransition(position: "left" | "right") {
   const realmPanelVisible = useDappSelector(selectRealmPanelVisible)
@@ -103,7 +103,7 @@ export function usePanelRealmClose() {
 export function useOnRealmClick() {
   const realmId = useDappSelector(selectDisplayedRealmId)
   const dispatch = useDappDispatch()
-  const { updateAssistant, assistantVisible } = useAssistant()
+  // const { updateAssistant, assistantVisible } = useAssistant()
 
   const { value: visitedRealm, updateStorage: updateVisitedRealm } =
     useLocalStorageChange<boolean>(LOCAL_STORAGE_VISITED_REALM)
@@ -114,20 +114,20 @@ export function useOnRealmClick() {
         dispatch(setDisplayedRealmId(String(id)))
         dispatch(setRealmPanelVisible(true))
 
-        if (assistantVisible("welcome"))
-          updateAssistant({ visible: false, type: "default" })
+        // if (assistantVisible("welcome"))
+        //   updateAssistant({ visible: false, type: "default" })
 
         if (!visitedRealm) {
           updateVisitedRealm(true)
-          updateAssistant({ visible: true, type: "first-realm" })
+          // updateAssistant({ visible: true, type: "first-realm" })
         }
       }
     },
     [
-      assistantVisible,
+      // assistantVisible,
       dispatch,
       realmId,
-      updateAssistant,
+      // updateAssistant,
       updateVisitedRealm,
       visitedRealm,
     ]
