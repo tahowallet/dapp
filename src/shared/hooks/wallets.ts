@@ -285,21 +285,26 @@ export function useCachedWalletName() {
 
   useEffect(() => {
     const handleCachedNamesUpdate = () => {
-      if (!address) return
+      try {
+        if (!address) return
 
-      const cachedNames = localStorage.getItem(LOCAL_STORAGE_CACHED_NAMES)
-      if (!cachedNames) return
+        const cachedNames = localStorage.getItem(LOCAL_STORAGE_CACHED_NAMES)
+        if (!cachedNames) return
 
-      const parsedCachedNames: CachedNames = JSON.parse(cachedNames)
-      const { ens, uns } = parsedCachedNames[address]
+        const parsedCachedNames: CachedNames = JSON.parse(cachedNames)
+        const { ens, uns } = parsedCachedNames[address] ?? {}
 
-      if (ens || uns) {
-        // If cached name and redux wallet name are the same do not dispatch wallet update action
-        if (walletName === ens?.name || walletName === uns?.name) return
+        if (ens || uns) {
+          // If cached name and redux wallet name are the same do not dispatch wallet update action
+          if (walletName === ens?.name || walletName === uns?.name) return
 
-        dispatch(
-          updateConnectedWallet({ address, name: ens?.name ?? uns?.name })
-        )
+          dispatch(
+            updateConnectedWallet({ address, name: ens?.name ?? uns?.name })
+          )
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
       }
     }
 
