@@ -4,7 +4,7 @@ import mobileCircle from "shared/assets/mobile/mobile-circle.png"
 import mobileScreen from "shared/assets/mobile/mobile-screen.png"
 import MobileNav from "ui/Nav/MobileNav"
 
-export default function MobileScreen() {
+export default function DAppMobile() {
   return (
     <>
       <div className="mobile-container">

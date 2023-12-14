@@ -1,14 +1,8 @@
 import { useEffect } from "react"
 import { LOCAL_STORAGE_ASSISTANT } from "shared/constants"
 import { selectStakingRealmId, useDappSelector } from "redux-state"
-import { useLocalStorageChange } from "./helpers"
-
-type AssistantType = "welcome" | "challenges" | "default" | "first-realm"
-
-type Assistant = {
-  type: AssistantType
-  visible: boolean
-}
+import { Assistant, AssistantType } from "shared/types"
+import { useLocalStorageChange } from "./storage"
 
 // eslint-disable-next-line import/prefer-default-export
 export function useAssistant(): {

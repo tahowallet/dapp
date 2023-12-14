@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import portrait from "shared/assets/portrait.png"
+import portrait from "shared/assets/portrait.webp"
 import { ETH_ADDRESS, TAHO_ADDRESS } from "shared/constants"
 import { TokenBalances, TransactionProgressStatus } from "shared/types"
 import { getAllowanceTransactionID } from "shared/utils"

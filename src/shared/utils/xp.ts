@@ -5,10 +5,8 @@ import {
   XpMerkleTreeGlossary,
 } from "shared/types/xp"
 import { isSameAddress, normalizeAddress } from "shared/utils/address"
-import XP_DATA from "../../assets/xp-data.json"
 
-// eslint-disable-next-line prefer-destructuring
-const XP_HOSTING_BASE_URL = process.env.XP_HOSTING_BASE_URL
+const { XP_HOSTING_BASE_URL } = process.env
 
 type XpDataType = {
   [realmId: string]: {
@@ -45,7 +43,8 @@ export async function getRealmLeaderboardData(
     throw new Error("Missing realm id")
   }
 
-  const xpData = (XP_DATA as XpDataType)[realmId]
+  const XP_DATA: XpDataType = (await import("assets/xp-data.json")).default
+  const xpData = XP_DATA[realmId]
 
   if (!xpData) {
     throw new Error("Missing data in xp-data.json")
@@ -82,7 +81,8 @@ export async function getXpDataForRealmId(
   const targetAddress = BigInt(normalizedAddress)
   let claimsData: (null | XpMerkleTree)[] = []
 
-  const xpData = (XP_DATA as XpDataType)[realmId]
+  const XP_DATA: XpDataType = (await import("assets/xp-data.json")).default
+  const xpData = XP_DATA[realmId]
 
   try {
     const { rootFolder, claimsFolder, xpGlossary } = xpData

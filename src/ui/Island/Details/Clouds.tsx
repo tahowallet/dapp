@@ -3,9 +3,9 @@ import { Group, Image as KonvaImage } from "react-konva"
 import Konva from "konva"
 import useImage from "use-image"
 
-import cloudBottomRight from "shared/assets/clouds/cloud-bottom-right.png"
-import cloudTopLeft from "shared/assets/clouds/cloud-top-left.png"
-import cloudTopRight from "shared/assets/clouds/cloud-top-right.png"
+import cloudBottomRight from "shared/assets/clouds/cloud-bottom-right.webp"
+import cloudTopLeft from "shared/assets/clouds/cloud-top-left.webp"
+import cloudTopRight from "shared/assets/clouds/cloud-top-right.webp"
 import { FIGMA_FACTOR } from "shared/constants"
 
 const AMPLITUDE = 15

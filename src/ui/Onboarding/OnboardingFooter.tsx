@@ -1,7 +1,7 @@
 import React from "react"
-import FooterWrapper from "./FooterWrapper"
-import FooterLinks from "./FooterLinks"
-import PopulationCount from "./PopulationCount"
+import FooterWrapper from "../Footer/FooterWrapper"
+import FooterLinks from "../Footer/FooterLinks"
+import PopulationCount from "../Footer/PopulationCount"
 
 export default function OnboardingFooter() {
   return (

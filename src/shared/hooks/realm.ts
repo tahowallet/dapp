@@ -12,8 +12,9 @@ import {
   LOCAL_STORAGE_VISITED_REALM,
   REALM_PANEL_ANIMATION_TIME,
 } from "shared/constants"
-import { useLocalStorageChange, useTabletScreen } from "./helpers"
 import { useAssistant } from "./assistant"
+import { useTabletScreen } from "./screen"
+import { useLocalStorageChange } from "./storage"
 
 export function useRealmPanelTransition(position: "left" | "right") {
   const realmPanelVisible = useDappSelector(selectRealmPanelVisible)

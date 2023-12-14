@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import newChallengeLabelImg from "shared/assets/new-challenge-label.png"
+import newChallengeLabelImg from "shared/assets/new-challenge-label.webp"
 import { FIGMA_FACTOR } from "shared/constants"
 import {
   hasNewChallenges,

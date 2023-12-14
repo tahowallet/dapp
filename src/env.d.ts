@@ -30,6 +30,9 @@ declare module "*.mp4" {
   export = value
 }
 
+declare module "webpack-bundle-analyzer"
+declare module "uglifyjs-webpack-plugin"
+
 declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: "production" | "development" | "test"

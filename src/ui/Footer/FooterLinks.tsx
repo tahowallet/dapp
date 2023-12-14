@@ -16,18 +16,21 @@ export default function FooterLinks() {
           iconWidth={ICON_SIZE}
           iconHeight={ICON_SIZE}
           iconSrc={discordIcon}
+          label="discord"
         />
         <IconLink
           href={LINKS.TWITTER}
           iconWidth={ICON_SIZE}
           iconHeight={ICON_SIZE}
           iconSrc={twitterIcon}
+          label="twitter"
         />
         <IconLink
           href={LINKS.GITHUB}
           iconWidth={ICON_SIZE}
           iconHeight={ICON_SIZE}
           iconSrc={githubIcon}
+          label="github"
         />
       </div>
       <a href={LINKS.RULEBOOK} target="_blank" rel="noreferrer">

@@ -8,7 +8,6 @@ import Referrals from "ui/Referrals"
 import LiquidityPool from "ui/LiquidityPool"
 import Footer from "ui/Footer"
 import {
-  selectHasLoadedBalances,
   selectHasLoadedRealmData,
   selectHasLoadedSeasonInfo,
   selectIslandMode,
@@ -23,7 +22,6 @@ export default function IslandView() {
   const islandMode = useDappSelector(selectIslandMode)
   const hasLoadedRealmData = useDappSelector(selectHasLoadedRealmData)
   const hasLoadedSeasonInfo = useDappSelector(selectHasLoadedSeasonInfo)
-  const hasBalances = useDappSelector(selectHasLoadedBalances)
 
   useDisplayedPopulation()
 
@@ -33,9 +31,7 @@ export default function IslandView() {
 
   return (
     <>
-      <FullPageLoader
-        loaded={hasLoadedRealmData && hasLoadedSeasonInfo && hasBalances}
-      />
+      <FullPageLoader loaded={hasLoadedRealmData && hasLoadedSeasonInfo} />
       {process.env.IS_BETA_CLOSED === "true" && betaEndModalVisible && (
         <BetaEndModal
           header="Beta has ended"

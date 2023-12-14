@@ -2,7 +2,6 @@ import React, { memo, useEffect } from "react"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
   useValueRef,
-  IslandContext,
   useAssets,
   usePanelRealmClose,
   useOnRealmClick,
@@ -15,6 +14,7 @@ import {
 import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
 import RealmPanel from "ui/Island/RealmPanel"
+import { IslandContext } from "shared/context"
 import InteractiveIsland from "./Background/InteractiveIsland"
 import IslandPresence from "./Reflect/IslandPresence"
 

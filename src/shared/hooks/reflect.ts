@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import {
   selectDisplayedRealmId,
   selectRealmNameById,
@@ -7,16 +7,12 @@ import {
   useDappSelector,
 } from "redux-state"
 import { usePresence, useSubscribe } from "@rocicorp/reflect/react"
-import {
-  ReflectInstance,
-  ReflectMutators,
-  getClientState,
-  mutators,
-} from "shared/utils"
+import { ReflectMutators, getClientState, mutators } from "shared/utils"
 import { getRealmMapData } from "shared/constants"
 import { RootState } from "redux-state/reducers"
 import { Reflect } from "@rocicorp/reflect/client"
 import { nanoid } from "@reduxjs/toolkit"
+import { ReflectContext } from "shared/context"
 import { useWalletOnboarding } from "./wallets"
 
 export const reflectSingleton =
@@ -31,8 +27,6 @@ export const reflectSingleton =
 
 const DEFAULT_BG_COLOR = "#2C2C2C"
 const DEFAULT_TEXT_COLOR = "#FFF"
-
-export const ReflectContext = createContext<ReflectInstance | null>(null)
 
 export function useInitializeReflect() {
   const reflect = useContext(ReflectContext)

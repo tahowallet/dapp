@@ -7,6 +7,7 @@ import frax from "shared/assets/partners/frax.svg"
 import base from "shared/assets/partners/base.svg"
 import zksync from "shared/assets/partners/zksync.svg"
 import { RealmPosition } from "shared/types/realm"
+import CHALLENGES_DATA from "assets/challenges-data.json"
 import {
   realm4,
   realm7,
@@ -17,7 +18,6 @@ import {
   realm22,
   // realm15,
 } from "./realms-data"
-import CHALLENGES_DATA from "../../assets/challenges-data.json"
 
 // TODO: read the correct challenge data for realms
 // The challenge data should be read from a JSON file.

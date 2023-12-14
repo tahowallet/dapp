@@ -28,7 +28,8 @@ import { Network } from "@ethersproject/networks"
 import { Logger, defineReadOnly } from "ethers/lib/utils"
 import { usePostHog } from "posthog-js/react"
 import { useAssistant } from "./assistant"
-import { useInterval, useLocalStorageChange } from "./helpers"
+import { useInterval } from "./helpers"
+import { useLocalStorageChange } from "./storage"
 
 type CachedNames = {
   [key: string]: { ens?: { name: string }; uns?: { name: string } }

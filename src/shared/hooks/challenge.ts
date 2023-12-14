@@ -2,7 +2,7 @@
 import { useCallback } from "react"
 import { LOCAL_STORAGE_DISPLAYED_CHALLENGES } from "shared/constants"
 import { getRealmIdFromChallengeInLocalStorage } from "shared/utils"
-import { useLocalStorageChange } from "./helpers"
+import { useLocalStorageChange } from "./storage"
 
 export function useDisplayedChallenges(): {
   isChallengeDisplayed: (id: string) => string | false
