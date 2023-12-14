@@ -23,11 +23,11 @@ export function useAssistant(): {
 
   useEffect(() => {
     if (!assistantState) {
-      if (!isStakedInRealm) {
-        updateAssistantState({ visible: true, type: "welcome" })
-      } else {
-        updateAssistantState({ visible: false, type: "default" })
-      }
+      // if (!isStakedInRealm) {
+      //   updateAssistantState({ visible: true, type: "welcome" })
+      // } else {
+      updateAssistantState({ visible: false, type: "default" })
+      // }
     }
   }, [assistantState, updateAssistantState, isStakedInRealm])
 
