@@ -2230,6 +2230,13 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@playwright/test@^1.40.0":
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.40.0.tgz#d06c506977dd7863aa16e07f2136351ecc1be6ed"
+  integrity sha512-PdW+kn4eV99iP5gxWNSDQCbhMaDVej+RXL5xr6t04nbKLCBwYtA046t7ofoczHOm8u6c+45hpDKQVZqtqwkeQg==
+  dependencies:
+    playwright "1.40.0"
+
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz#9b8b0cc663d669a7d8f6f5d0893a14d348f30fbf"
@@ -2873,6 +2880,13 @@
   version "20.5.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.5.7.tgz#4b8ecac87fbefbc92f431d09c30e176fc0a7c377"
   integrity sha512-dP7f3LdZIysZnmvP3ANJYTSwg+wLLl8p7RqniVlV7j+oXSXAbt9h0WIBFmJy5inWZoX9wZN6eXx+YXd9Rh3RBA==
+
+"@types/node@^20.10.0":
+  version "20.10.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.10.0.tgz#16ddf9c0a72b832ec4fcce35b8249cf149214617"
+  integrity sha512-D0WfRmU9TQ8I9PFx9Yc+EBHw+vSpIub4IDvQivcp26PtPrdMGAq5SDcpXEo/epqa/DXotVpekHiLNTg3iaKXBQ==
+  dependencies:
+    undici-types "~5.26.4"
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -6219,6 +6233,11 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
 
+fsevents@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
+
 fsevents@~2.3.2:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
@@ -8373,6 +8392,20 @@ pkg-dir@^7.0.0:
   dependencies:
     find-up "^6.3.0"
 
+playwright-core@1.40.0:
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.40.0.tgz#82f61e5504cb3097803b6f8bbd98190dd34bdf14"
+  integrity sha512-fvKewVJpGeca8t0ipM56jkVSU6Eo0RmFvQ/MaCQNDYm+sdvKkMBBWTE1FdeMqIdumRaXXjZChWHvIzCGM/tA/Q==
+
+playwright@1.40.0:
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.40.0.tgz#2a1824b9fe5c4fe52ed53db9ea68003543a99df0"
+  integrity sha512-gyHAgQjiDf1m34Xpwzaqb76KgfzYrhK7iih+2IzcOCoZWr/8ZqmdBw+t0RU85ZmfJMgtgAiNtBQ/KS2325INXw==
+  dependencies:
+    playwright-core "1.40.0"
+  optionalDependencies:
+    fsevents "2.3.2"
+
 pngjs@^3.3.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.4.0.tgz#99ca7d725965fb655814eaf65f38f12bbdbf555f"
@@ -9924,6 +9957,11 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+undici-types@~5.26.4:
+  version "5.26.5"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
+  integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
 undici@^5.22.1:
   version "5.27.2"
