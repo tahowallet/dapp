@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import populationIcon from "shared/assets/icons/people.svg"
-import Icon from "shared/components/Icon"
-import Tooltip from "shared/components/Tooltip"
+import Icon from "shared/components/Media/Icon"
+import Tooltip from "shared/components/Dialogs/Tooltip"
 import { separateThousandsByComma } from "shared/utils"
 import {
   selectSortedDisplayedPopulation,

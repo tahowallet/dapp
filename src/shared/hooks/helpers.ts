@@ -10,7 +10,7 @@ import {
 import { debounce } from "lodash"
 import { useSpring } from "@react-spring/web"
 import { getWindowDimensions } from "shared/utils"
-import { MOBILE_BREAKPOINT } from "shared/constants"
+import { MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from "shared/constants"
 import { usePostHog } from "posthog-js/react"
 import { useLocation } from "react-router-dom"
 
@@ -232,6 +232,17 @@ export function useLocalStorageChange<T>(key: string): {
   return { value, updateStorage }
 }
 
+export function useTabletScreen() {
+  const [width, setWidth] = useState(window.innerWidth)
+
+  useOnResize(() => {
+    const windowSize = getWindowDimensions()
+    setWidth(windowSize.width)
+  })
+
+  return width < TABLET_BREAKPOINT
+}
+
 export function useMobileScreen() {
   const [width, setWidth] = useState(window.innerWidth)
 
@@ -241,6 +252,20 @@ export function useMobileScreen() {
   })
 
   return width < MOBILE_BREAKPOINT
+}
+
+export function useUnLoad() {
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    const onUnload = () => {
+      posthog?.capture("$pageleave")
+    }
+    window.addEventListener("beforeunload", onUnload)
+    return () => {
+      window.removeEventListener("beforeunload", onUnload)
+    }
+  }, [posthog])
 }
 
 export function useTrackEvents() {

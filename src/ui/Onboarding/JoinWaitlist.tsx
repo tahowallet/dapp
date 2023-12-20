@@ -1,6 +1,6 @@
 import React from "react"
-import OnboardingModal from "shared/components/Modals/OnboardingModal"
-import Icon from "shared/components/Icon"
+import OnboardingModal from "ui/Island/Modals/OnboardingModal"
+import Icon from "shared/components/Media/Icon"
 import newTab from "shared/assets/icons/m/new-tab.svg"
 import { LINKS } from "shared/constants"
 
@@ -14,7 +14,7 @@ export default function JoinWaitlist({
       <OnboardingModal
         buttonLabel={
           <>
-            Join waitlist{" "}
+            Join Beta{" "}
             <Icon src={newTab} color="#000" height="24px" width="24px" />
           </>
         }

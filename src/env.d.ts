@@ -43,3 +43,17 @@ declare namespace NodeJS {
 interface Navigator {
   brave?: { isBrave: () => boolean }
 }
+
+interface Window {
+  _cio: {
+    identify: ({
+      id,
+      email,
+      created_at,
+    }: {
+      id: string
+      email: string
+      created_at: number
+    }) => void
+  }
+}

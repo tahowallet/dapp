@@ -1,8 +1,8 @@
 import React from "react"
-import Modal from "shared/components/Modal"
-import Icon from "shared/components/Icon"
+import Modal from "shared/components/Dialogs/Modal"
+import Icon from "shared/components/Media/Icon"
 import lightIcon from "shared/assets/icons/m/light.svg"
-import Button from "shared/components/Button"
+import Button from "shared/components/Interface/Button"
 
 import TransactionProgress, {
   TransactionProgressProps,
@@ -65,6 +65,9 @@ export default function ModalLeavingRealm({
           padding: 48px;
           width: 488px;
           box-sizing: content-box;
+          backdrop-filter: blur(26px);
+          background: var(--background-gradient);
+          border-radius: 16px;
         }
         .modal_header {
           font: var(--text-h1);

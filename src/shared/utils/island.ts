@@ -123,7 +123,6 @@ export function createBackgroundMask(
     ctx.fillStyle = "#000"
     ctx.strokeStyle = "#000"
     ctx.lineWidth = 3
-    ctx.fill(new Path2D(paths[0].data))
     ctx.stroke(new Path2D(paths[0].data))
     ctx.restore()
   })

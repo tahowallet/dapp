@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react"
+import { useConnectWallet, useSetChain } from "@web3-onboard/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { ethers, logger } from "ethers"
 import {
@@ -13,19 +13,26 @@ import {
   selectDisplayedRealmId,
   connectArbitrumProviderFallback,
   fetchPopulation,
+  updateConnectedWallet,
+  selectWalletName,
 } from "redux-state"
 import {
   ARBITRUM_SEPOLIA,
   ARBITRUM_SEPOLIA_RPC_FALLBACK,
   BALANCE_UPDATE_INTERVAL,
+  LOCAL_STORAGE_CACHED_NAMES,
   LOCAL_STORAGE_WALLET,
   POPULATION_FETCH_INTERVAL,
 } from "shared/constants"
 import { Network } from "@ethersproject/networks"
 import { Logger, defineReadOnly } from "ethers/lib/utils"
-import { reflectInstance } from "shared/utils"
+import { usePostHog } from "posthog-js/react"
 import { useAssistant } from "./assistant"
 import { useInterval, useLocalStorageChange } from "./helpers"
+
+type CachedNames = {
+  [key: string]: { ens?: { name: string }; uns?: { name: string } }
+}
 
 class StaticJsonBatchRpcProvider extends ethers.providers.JsonRpcBatchProvider {
   override async detectNetwork(): Promise<Network> {
@@ -169,46 +176,66 @@ export function useWalletOnboarding(): {
   const { value, updateStorage } =
     useLocalStorageChange<string>(LOCAL_STORAGE_WALLET)
 
+  // Automatically clear the onboarded wallet if portal is closed
   useEffect(() => {
-    const updateReflectPresence = async () => {
-      if (!reflectInstance) return
-
-      await reflectInstance.mutate.setUserPresence(!!value)
+    if (value && process.env.IS_PORTAL_CLOSED === "true") {
+      updateStorage("")
     }
-
-    updateReflectPresence()
-  }, [value])
+  }, [value, updateStorage])
 
   return { walletOnboarded: value, updateWalletOnboarding: updateStorage }
+}
+
+export function useCorrectChain() {
+  const [{ wallet }] = useConnectWallet()
+  const [{ settingChain /* connectedChain */ }, setChain] = useSetChain()
+  const [chainSwitched, setChainSwitched] = useState(false)
+
+  useEffect(() => {
+    if (wallet?.provider !== undefined) {
+      const setCorrectChain = async () => {
+        await setChain({
+          chainId: ARBITRUM_SEPOLIA.id,
+        })
+        setChainSwitched(true)
+      }
+
+      // TODO: Metamask has a bug where it does not switch to the correct chain
+      // when the user adds new chain to the wallet. `connectedChain` is not updated
+      // until user reloads the page.
+      if (
+        !settingChain &&
+        !chainSwitched /* && connectedChain?.id !== ARBITRUM_SEPOLIA.id */
+      ) {
+        setCorrectChain()
+      }
+    }
+  }, [wallet?.provider, setChain, settingChain, chainSwitched])
 }
 
 export function useConnect() {
   const [{ wallet }, connect, disconnect] = useConnectWallet()
   const { updateWalletOnboarding } = useWalletOnboarding()
-
-  useEffect(() => {
-    if (wallet?.provider !== undefined) {
-      const setCorrectChain = async () => {
-        const walletProvider = new ethers.providers.Web3Provider(
-          wallet.provider
-        )
-        await walletProvider.send("wallet_switchEthereumChain", [
-          { chainId: ARBITRUM_SEPOLIA.id },
-        ])
-      }
-
-      setCorrectChain()
-    }
-  }, [wallet?.provider])
+  const posthog = usePostHog()
 
   const disconnectBound = useCallback(() => {
     updateWalletOnboarding("")
     return wallet && disconnect(wallet)
   }, [wallet, disconnect, updateWalletOnboarding])
 
+  const connectBound = useCallback(async () => {
+    const [walletState] = await connect()
+
+    if (walletState) {
+      posthog?.capture("Wallet connected", {
+        wallet: walletState.label,
+      })
+    }
+  }, [connect, posthog])
+
   return {
     isConnected: process.env.IS_COMING_SOON !== "true" && !!wallet,
-    connect,
+    connect: connectBound,
     disconnect: disconnectBound,
   }
 }
@@ -249,4 +276,41 @@ export function useWalletChange() {
     assistant,
     isStaked,
   ])
+}
+
+export function useCachedWalletName() {
+  const address = useDappSelector(selectWalletAddress)
+  const walletName = useDappSelector(selectWalletName)
+  const dispatch = useDappDispatch()
+
+  useEffect(() => {
+    const handleCachedNamesUpdate = () => {
+      try {
+        if (!address) return
+
+        const cachedNames = localStorage.getItem(LOCAL_STORAGE_CACHED_NAMES)
+        if (!cachedNames) return
+
+        const parsedCachedNames: CachedNames = JSON.parse(cachedNames)
+        const { ens, uns } = parsedCachedNames[address] ?? {}
+
+        if (ens || uns) {
+          // If cached name and redux wallet name are the same do not dispatch wallet update action
+          if (walletName === ens?.name || walletName === uns?.name) return
+
+          dispatch(
+            updateConnectedWallet({ address, name: ens?.name ?? uns?.name })
+          )
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+      }
+    }
+
+    handleCachedNamesUpdate()
+    window.addEventListener("storage", handleCachedNamesUpdate)
+
+    return () => window.removeEventListener("storage", handleCachedNamesUpdate)
+  }, [address, walletName, dispatch])
 }

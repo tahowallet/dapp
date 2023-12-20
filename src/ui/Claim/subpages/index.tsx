@@ -1,5 +1,5 @@
 import React from "react"
-import Modal from "shared/components/Modal"
+import Modal from "shared/components/Dialogs/Modal"
 import { selectIsJoinRealmIslandMode } from "redux-state/selectors/island"
 import { useDappSelector } from "redux-state"
 import ClaimingStats from "./ClaimingStats"

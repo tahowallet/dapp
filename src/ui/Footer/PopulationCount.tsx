@@ -1,5 +1,5 @@
 import React from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import { separateThousandsByComma } from "shared/utils"
 import populationIcon from "shared/assets/icons/people.svg"
 import { selectTotalPopulation, useDappSelector } from "redux-state"
@@ -10,7 +10,7 @@ export default function PopulationCount() {
   const population = useDappSelector(selectTotalPopulation)
   const transition = useVisibilityTransition(population > 0)
 
-  if (!population) return null
+  if (!population || process.env.IS_PORTAL_CLOSED === "true") return null
 
   return (
     <>

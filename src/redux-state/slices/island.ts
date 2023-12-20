@@ -21,6 +21,7 @@ export type IslandState = {
   displayedRealmId: string | null
   zoomLevel: number
   seasonInfo: SeasonInfo | null
+  realmPanelVisible: boolean
 }
 
 const initialState: IslandState = {
@@ -34,6 +35,7 @@ const initialState: IslandState = {
   displayedRealmId: null,
   zoomLevel: 1,
   seasonInfo: null,
+  realmPanelVisible: false,
 }
 
 const islandSlice = createSlice({
@@ -93,6 +95,12 @@ const islandSlice = createSlice({
       immerState.realms[realmXpAllocatable.id].xpAllocatable =
         realmXpAllocatable.xpAllocatable
     },
+    setRealmPanelVisible: (
+      immerState,
+      { payload: realmPanelVisible }: { payload: boolean }
+    ) => {
+      immerState.realmPanelVisible = realmPanelVisible
+    },
     setStakingRealmId: (
       immerState,
       { payload: stakingRealmId }: { payload: string | null }
@@ -151,6 +159,7 @@ export const {
   setRealmDisplayedPopulation,
   setRealmXpAllocatable,
   setRealmsData,
+  setRealmPanelVisible,
   setDisplayedRealmId,
   setStakingRealmId,
   setStakingUnlockTime,

@@ -1,0 +1,110 @@
+{
+  "realms": [
+    {
+      "realmId": "4",
+      "challenges": [
+        {
+          "id": "4_1",
+          "name": "Spend gas on PGN (Public Goods Network)—more gas is better!",
+          "description": "The more gas you use on PGN compared to other members of this realm in a week, the more of the weekly XP drop you will get. This means you can still get more XP if you execute fewer bigger transactions!"
+        },
+        {
+          "id": "4_2",
+          "name": "Increase your Gitcoin Passport score",
+          "description": "The more you increase your Gitcoin Passport score in a week, the more of the weekly XP drop you will get."
+        }
+      ]
+    },
+    {
+      "realmId": "7",
+      "challenges": [
+        {
+          "id": "7_1",
+          "name": "Spend gas using the CyberWallet associated with your address",
+          "description": "The more gas you use with your CyberWallet across networks compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+        },
+        {
+          "id": "7_2",
+          "name": "Mint W3ST",
+          "description": "The more W3ST you mint, the more of the weekly XP drop you will get."
+        },
+        {
+          "id": "7_3",
+          "name": "Collect post essence",
+          "description": "The more post essence you collect, the more of the weekly XP drop you will get."
+        }
+      ]
+    },
+    {
+      "realmId": "8",
+      "challenges": [
+        {
+          "id": "8_1",
+          "name": "Interact with unique contracts on Base",
+          "description": "The more interactions you execute with different unique contracts on Base compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+        },
+        {
+          "id": "8_2",
+          "name": "Vampire Attack: Bridge funds from Arbitrum",
+          "description": "Bridge ETH or USDC from Arbitrum to Base using Hop Exchange. \n \nAccepted assets: [ETH](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base) and [USDC](https://app.hop.exchange/#/send?sourceNetwork=arbitrum&destNetwork=base&token=USDC), bridging anything else won't be counted towards XP \n \nMechanics: The more you bridge, the higher the reward. \n \nReward: Each 1 dollar bridged from Arbitrum to Base will be worth 10 contract interactions.",
+          "isAttack": true
+        }
+      ]
+    },
+    {
+      "realmId": "9",
+      "challenges": [
+        {
+          "id": "9_1",
+          "name": "Interact with unique contracts on Arbitrum",
+          "description": "The more interactions you execute with different unique contracts on Arbitrum compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+        },
+        {
+          "id": "9_2",
+          "name": "Earn fUSDC rewards using Fluidity",
+          "description": "The more fUSDC rewards you earn using Fluidity in a week, the more of the weekly XP drop you will get."
+        }
+      ]
+    },
+    {
+      "realmId": "15",
+      "challenges": [
+        {
+          "id": "15_1",
+          "name": "Interact with unique contracts on zkSync",
+          "description": "The more interactions you execute with different unique contracts on zkSync compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+        }
+      ]
+    },
+    {
+      "realmId": "19",
+      "challenges": [
+        {
+          "id": "19_1",
+          "name": "Claim OATs during the week",
+          "description": "The more OATs you claim across networks compared to other members of this realm in a week, the more of the weekly XP drop you will get."
+        },
+        {
+          "id": "19_2",
+          "name": "Claim NFTs during the week using the Galxe space station",
+          "description": "The more NFTs you claim via a Galxe [`SpaceStation` contract](https://docs.galxe.com/developer/smart-contract/contracts/spacestation/), the more of the weekly XP drop you will get."
+        }
+      ]
+    },
+    {
+      "realmId": "22",
+      "challenges": [
+        {
+          "id": "22_1",
+          "name": "Claim bribes on Votemarket",
+          "description": "Earn $XP by voting for gauges and claiming bribes if available."
+        },
+        {
+          "id": "22_2",
+          "name": "Bridge tokens using FraxFerry",
+          "description": "The more unique tokens you bridge over FraxFerry, the more of the weekly XP drop you will get."
+        }
+      ]
+    }
+  ]
+}

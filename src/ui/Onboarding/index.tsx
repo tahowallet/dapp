@@ -5,11 +5,12 @@ import {
   selectHasRelevantTokens,
   selectHasLoadedBalances,
 } from "redux-state"
-import FullPageLoader from "shared/components/FullPageLoader"
+import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import Nav from "ui/Nav"
 import portalBackground from "shared/assets/portal-background.mp4"
-import Version from "shared/components/Version"
+import Version from "shared/components/Misc/Version"
 import OnboardingFooter from "ui/Footer/OnboardingFooter"
+import BetaEndModal from "ui/Island/Modals/BetaEndModal"
 import ConnectWallet from "./ConnectWallet"
 import JoinWaitlist from "./JoinWaitlist"
 import EnterPortal from "./EnterPortal"
@@ -44,8 +45,8 @@ function OnboardingModal() {
 
   return (
     <JoinWaitlist>
-      The portal
-      <br /> is closed at the <br /> moment.
+      The Portal
+      <br /> is Open
     </JoinWaitlist>
   )
 }
@@ -57,7 +58,14 @@ export default function Onboarding() {
     <>
       <FullPageLoader loaded={assetsLoaded} />
       <div className="onboarding">
-        <OnboardingModal />
+        {process.env.IS_PORTAL_CLOSED === "true" ? (
+          <BetaEndModal header="Portal is closed">
+            Thanks for participating in our Beta, we hope you had fun
+            <br /> and see you in Season 1.
+          </BetaEndModal>
+        ) : (
+          <OnboardingModal />
+        )}
         <video className="onboarding_video" autoPlay muted loop playsInline>
           <source src={portalBackground} />
         </video>

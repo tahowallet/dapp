@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import Icon from "shared/components/Icon"
+import Icon from "shared/components/Media/Icon"
 import { getRealmMapData } from "shared/constants"
 import { animated, easings, useSpring } from "@react-spring/web"
 import RealmBarTooltip from "./RealmBarTooltip"

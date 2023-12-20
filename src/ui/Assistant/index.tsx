@@ -1,19 +1,15 @@
-import React, { useEffect } from "react"
-import Icon from "shared/components/Icon"
+import React from "react"
+import Icon from "shared/components/Media/Icon"
 import assistantImage from "shared/assets/assistant.png"
-import Portal from "shared/components/Portal"
+import Portal from "shared/components/Interface/Portal"
 import { useAssistant } from "shared/hooks"
-import AssistantWelcome from "./AssistantContent/AssistantWelcome"
-import AssistantQuests from "./AssistantContent/AssistantQuests"
+// import AssistantWelcome from "./AssistantContent/AssistantWelcome"
+// import AssistantChallenges from "./AssistantContent/AssistantChallenges"
 import AssistantJoin from "./AssistantContent/AssistantJoin"
-import AssistantFirstRealm from "./AssistantContent/AssistantFirstRealm"
+// import AssistantFirstRealm from "./AssistantContent/AssistantFirstRealm"
 
 export default function Assistant() {
   const { assistant, updateAssistant } = useAssistant()
-
-  useEffect(() => {
-    if (!assistant) updateAssistant({ visible: true, type: "welcome" })
-  }, [assistant, updateAssistant])
 
   if (!assistant) return null
 
@@ -36,10 +32,10 @@ export default function Assistant() {
               }
             />
           </div>
-          <AssistantWelcome />
-          <AssistantQuests />
+          {/* <AssistantWelcome /> */}
+          {/* <AssistantChallenges /> */}
           <AssistantJoin />
-          <AssistantFirstRealm />
+          {/* <AssistantFirstRealm /> */}
         </div>
       </Portal>
       <style jsx>{`

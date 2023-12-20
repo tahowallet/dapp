@@ -1,38 +1,33 @@
-import React, { memo, useCallback, useEffect, useState } from "react"
-import RealmModal from "shared/components/RealmModal"
+import React, { memo, useEffect } from "react"
 import backgroundImg from "public/dapp_island_bg.webp"
 import {
   useValueRef,
   IslandContext,
-  useAssistant,
   useAssets,
+  usePanelRealmClose,
+  useOnRealmClick,
 } from "shared/hooks"
 import {
+  selectDisplayedRealmId,
   selectRealmNameById,
-  selectIsDefaultIslandMode,
-  setDisplayedRealmId,
-  useDappDispatch,
   useDappSelector,
 } from "redux-state"
-import FullPageLoader from "shared/components/FullPageLoader"
+import FullPageLoader from "shared/components/Loaders/FullPageLoader"
 import { usePostHog } from "posthog-js/react"
-import InteractiveIsland from "./InteractiveIsland"
-import RealmDetails from "./RealmDetails"
-import Quests from "./RealmDetails/Quests"
-import IslandPresence from "./IslandPresence"
+import RealmPanel from "ui/Island/RealmPanel"
+import InteractiveIsland from "./Background/InteractiveIsland"
+import IslandPresence from "./Reflect/IslandPresence"
 
 function IslandWrapper() {
   const assetsLoaded = useAssets([backgroundImg])
-  const [realmId, setRealmId] = useState<null | string>(null)
+  const realmId = useDappSelector(selectDisplayedRealmId)
   const realmName = useDappSelector((state) =>
     selectRealmNameById(state, realmId)
   )
 
-  const dispatch = useDappDispatch()
-
-  const { updateAssistant, assistantVisible } = useAssistant()
-
   const posthog = usePostHog()
+  const onRealmClick = useOnRealmClick()
+  const handlePanelClose = usePanelRealmClose()
 
   useEffect(() => {
     if (realmName) {
@@ -40,21 +35,7 @@ function IslandWrapper() {
     }
   }, [posthog, realmName])
 
-  useEffect(() => {
-    dispatch(setDisplayedRealmId(realmId))
-  }, [dispatch, realmId])
-
-  const contextRef = useValueRef(() => ({
-    onRealmClick: (id: string) => {
-      setRealmId(String(id))
-      if (assistantVisible("welcome"))
-        updateAssistant({ visible: false, type: "default" })
-    },
-  }))
-
-  const isDefaultIslandMode = useDappSelector(selectIsDefaultIslandMode)
-
-  const handleClose = useCallback(() => setRealmId(null), [])
+  const contextRef = useValueRef(() => ({ onRealmClick }))
 
   return (
     <>
@@ -73,16 +54,7 @@ function IslandWrapper() {
         <IslandContext.Provider value={contextRef}>
           <InteractiveIsland />
           {process.env.DISABLE_REFLECT === "true" ? null : <IslandPresence />}
-          {realmId && (
-            <RealmModal onClose={handleClose}>
-              {isDefaultIslandMode ? (
-                <RealmDetails onClose={handleClose} />
-              ) : (
-                // TODO: update if claim flow will be used
-                <Quests />
-              )}
-            </RealmModal>
-          )}
+          <RealmPanel onClose={handlePanelClose} />
         </IslandContext.Provider>
       </div>
     </>
