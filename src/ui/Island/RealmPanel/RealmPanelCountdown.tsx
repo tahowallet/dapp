@@ -45,7 +45,7 @@ export default function RealmPanelCountdown() {
 
           <div className="time_remaining">
             {process.env.IS_BETA_CLOSED === "true"
-              ? "Beta is over, claim XP till Dec 21 2023"
+              ? "Beta is over, claim XP till Jan 15 2024"
               : timeRemaining}
           </div>
         </div>
