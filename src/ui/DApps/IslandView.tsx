@@ -42,7 +42,7 @@ export default function IslandView() {
           onClose={() => setBetaEndModalVisible(false)}
         >
           Thanks for participating in our Beta, we hope you had fun and see you
-          in Season 1. You can still claim your XP until Dec 21 2023.
+          in Season 1. You can still claim your XP until Jan 15 2024.
         </BetaEndModal>
       )}
       <IslandComponent />
