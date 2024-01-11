@@ -101,7 +101,7 @@ function RealmDetailsRewards({
         {process.env.IS_BETA_CLOSED === "true" && (
           <div style={{ marginTop: "10px" }}>
             <RealmDetailsChallengeInfo>
-              Claiming will be live till Jan 15 2024
+              Claiming will be live till Jan 28 2024
             </RealmDetailsChallengeInfo>
           </div>
         )}
